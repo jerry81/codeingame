@@ -20,14 +20,17 @@ while (TRUE)
     fscanf(STDIN, "%d", $remainingTurns);
     if ($curx < $lightX) {
         echo "E\n";
-        
+        $curx += 1;
     } else if ($curx > $lightX) {
         echo "W\n";
+        $curx -= 1;
     } else {
         if ($cury < $lightY) {
             echo "S\n";
+            $cury += 1;
         } else {
             echo "N\n";
+            $cury -= 1;
         }
     }
     // Write an action using echo(). DON'T FORGET THE TRAILING \n
