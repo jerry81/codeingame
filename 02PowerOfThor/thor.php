@@ -19,20 +19,48 @@ while (TRUE)
     // $remainingTurns: The remaining amount of turns Thor can move. Do not remove this line.
     fscanf(STDIN, "%d", $remainingTurns);
     if ($curx < $lightX) {
-        echo "E\n";
-        $curx += 1;
-    } else if ($curx > $lightX) {
-        echo "W\n";
-        $curx -= 1;
-    } else {
+        if ($cury == $lightY) {
+            echo "E\n";
+            $curx += 1;
+            continue;
+        }
         if ($cury < $lightY) {
+            echo "SE\n";
+            $curx += 1;
+            $cury += 1;
+            continue;
+        }
+        echo "NE\n";
+        $curx +=1;
+        $cury -=1;
+        continue;
+    }
+    if ($curx > $lightX) {
+        if ($cury == $lightY) {
+            echo "W\n";
+            $curx -= 1;
+            continue;
+        }
+        if ($cury < $lightY) {
+            echo "SW\n";
+            $curx -= 1;
+            $cury += 1;
+            continue;
+        }
+        echo "NW\n";
+        $curx -= 1;
+        $cury -= 1;
+        continue;
+    }
+
+    if ($cury < $lightY) {
             echo "S\n";
             $cury += 1;
-        } else {
-            echo "N\n";
-            $cury -= 1;
+            continue;
         }
-    }
+    echo "N\n";
+    $cury -= 1;
+     
     // Write an action using echo(). DON'T FORGET THE TRAILING \n
     // To debug: error_log(var_export($var, true)); (equivalent to var_dump)
 
