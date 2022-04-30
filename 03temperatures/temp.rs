@@ -21,9 +21,15 @@ fn main() {
         let minabs = min.abs();
         if abs < minabs {
             min = t;
+        } else if abs == minabs {
+            if t > 0 {
+                min = t
+            }
         }
     }
-
+    if min > 10000 {
+        min = 0
+    }
     // Write an answer using println!("message...");
     // To debug: eprintln!("Debug message...");
     println!("{}", min)
