@@ -21,43 +21,52 @@ fn main() {
         name_in_binary += &format!("0{:b} ", character);
     }
 
-    name_in_binary.retain(|c| !c.is_whitespace());
-    let mut one_count: u32 = 0;
-    let mut zero_count: u32 = 0;
-    let mut cur: i8 = 2; // 2 unset, 1 if currently 1, 0 if currently 0
+    //  name_in_binary.retain(|c| !c.is_whitespace());
+    
+    let st_ar = name_in_binary.split(" ");
+    
+    
     let mut answer = String::new();
-    for c in name_in_binary.chars() {
-        if cur == 2 {
-          
-          // print a "first" block
-          // set cur 
-          // start the count 
-          answer += "0";
-          if c == '1' {
-              answer += " 0";
-              cur = 1;
-              one_count += 1;
-          } else {
-              answer += "0 0";
-              cur = 0;
-              zero_count += 1;
-          }
-        } else if cur == 1 {
-            if c == '1' {
-              answer += "0"
-            } else {
-              cur = 0;
-              answer += " 00 0"
+    for st in st_ar {
+        let mut cur: i8 = 2; // 2 unset, 1 if currently 1, 0 if currently 0
+        let mut first: bool = true;
+        if st.len() == 7 {
+            first = false;
+        }
+        for c in st.chars() {
+            if first {
+                first = false;
+                continue;
             }
-        } else {
-            if c == '0' {
-              answer += "0"
+            if cur == 2 {
+              // print a "first" block
+              // set cur 
+              // start the count 
+              if c == '1' {
+                  answer += "0 0";
+                  cur = 1;
+              } else {
+                  answer += "00 0";
+                  cur = 0;
+              }
+            } else if cur == 1 {
+                if c == '1' {
+                  answer += "0"
+                } else {
+                  cur = 0;
+                  answer += " 00 0"
+                }
             } else {
-              cur = 1;
-              answer += " 0 0"
+                if c == '0' {
+                  answer += "0"
+                } else {
+                  cur = 1;
+                  answer += " 0 0"
+                }
             }
         }
     }
+   
     eprintln!("in binary {}", name_in_binary);
     println!("{}", answer);
 }
