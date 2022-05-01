@@ -26,7 +26,12 @@ fn main() {
         lookup[i] = row;
     }
     let mut answers = [(); 5].map(|_| String::new());
-
+    for c in t.bytes() { 
+        // do something with `c`
+        eprintln!("{:?}", c)
+        // convert byte to position
+        
+    }
     // Write an answer using println!("message...");
     // To debug: eprintln!("Debug message...");
     eprintln!("lookup is {}", lookup[0]);
