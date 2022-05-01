@@ -58,10 +58,18 @@
      let midx = (baseX + closestThreat.x) / 2 
      let midy = (baseY + closestThreat.y) / 2 
      if (!midx) {
-         midx = 500
+         if (baseX == 0) {
+           midx = 500
+         } else {
+             console.log("MOVE 17000 8500")
+         }
      } 
      if (!midy) {
-         midy = 500
+         if (baseX == 0) {
+           midy = 500
+         } else {
+             console.log("MOVE 17000 8500")
+         }
      }
      for (let i = 0; i < heroesPerPlayer; i++) {
          if (i == 0) {
