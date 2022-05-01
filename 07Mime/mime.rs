@@ -22,11 +22,14 @@ fn main() {
         io::stdin().read_line(&mut input_line).unwrap();
         let inputs = input_line.split(" ").collect::<Vec<_>>();
         let ext = inputs[0].trim().to_string(); // file extension
+        let extcopy = ext.to_lowercase();
         let mt = inputs[1].trim().to_string(); // MIME type.
-        eprintln!("added {} and {}", ext, mt);
-        lookup.insert(ext, mt);
-        eprintln!("getting {:?}", lookup["html"]);
+        let mt2 = mt.clone();
+        // eprintln!("extcopy is {}", extcopy);
+        // lookup.insert(ext, mt);
+        lookup.insert(extcopy, mt2);
     }
+    let mut answers = [(); 10000].map(|_| String::new());
     for i in 0..q as usize {
         let mut input_line = String::new();
         io::stdin().read_line(&mut input_line).unwrap();
@@ -41,12 +44,21 @@ fn main() {
          }
          ext = i;
         }
+        
         eprintln!("fname is {}", ext);
-        if lookup.contains_key(ext) {
-          println!("{:?}", lookup[ext]);
+        let convertedExt = ext.to_string().to_lowercase();
+        eprintln!("converted {}", convertedExt);
+        if lookup.contains_key(&convertedExt) {
+          eprintln!("answer {}", lookup[&convertedExt].to_string());
+          answers[i] = lookup[&convertedExt].to_string();
+        } else {
+            eprintln!("UNKNOWN");
+            answers[i] = "UNKNOWN".to_string();
         }
     }
-
+    for i in 0..q {
+        println!("{}", answers[i as usize])
+    }
     // Write an answer using println!("message...");
     // To debug: eprintln!("Debug message...");
 
