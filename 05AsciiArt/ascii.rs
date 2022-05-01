@@ -26,11 +26,22 @@ fn main() {
         lookup[i] = row;
     }
     let mut answers = [(); 5].map(|_| String::new());
+    let mut index: u32 = 0;
     for c in t.bytes() { 
         // do something with `c`
-        eprintln!("{:?}", c)
+        eprintln!("{:?}", c);
         // convert byte to position
-        
+        // 65 - 90 A-Z
+        // 97 - 122 a-z 
+        if c >= 65 && c <= 90 {
+          // slice out [((c - 65) * l), (c-64)*l] 
+          continue;
+        }
+        if c >= 97 && c <= 122 {
+          continue;
+        }
+        // use the ?
+
     }
     // Write an answer using println!("message...");
     // To debug: eprintln!("Debug message...");
