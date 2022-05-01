@@ -84,7 +84,7 @@
              if (baseX == 0) {
                console.log('MOVE 500 500')
              } else {
-                 console.log("MOVE 17000 8500")
+                 console.log("MOVE 17130 8500")
              }
          }
          
