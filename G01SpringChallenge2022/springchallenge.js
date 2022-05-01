@@ -61,14 +61,14 @@
          if (baseX == 0) {
            midx = 500
          } else {
-             console.log("MOVE 17000 8500")
+             midx = 17000
          }
      } 
      if (!midy) {
          if (baseX == 0) {
            midy = 500
          } else {
-             console.log("MOVE 17000 8500")
+             midy = 8500
          }
      }
      for (let i = 0; i < heroesPerPlayer; i++) {
