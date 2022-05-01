@@ -31,9 +31,9 @@ fn main() {
     }
     let mut answers = [(); 5].map(|_| String::new());
     let mut index: u32 = 0;
+    eprintln!("height is {}", h);
     for c in t.bytes() { 
         // do something with `c`
-        eprintln!("{:?}", c);
         // convert byte to position
         // 65 - 90 A-Z
         // 97 - 122 a-z 
@@ -41,13 +41,12 @@ fn main() {
         let mut endIndex = l;
         if c >= 65 && c <= 90 {
           // slice out [((c - 65) * l), (c-64)*l] 
-          eprintln!("will work with {}", c);
           startIndex = (c as i32 - 65) * l;
           endIndex = startIndex + l;
           // todo: ugly
           for i in 0..5 {
             let slice = &lookupslices[i][startIndex as usize..(endIndex) as usize];
-            eprintln!("slice is {}", slice);
+            answers[i] += slice;
           }
           continue;
         }
@@ -58,19 +57,21 @@ fn main() {
           // todo: ugly 
           for i in 0..5 {
             let slice = &lookupslices[i][startIndex as usize..(endIndex) as usize];
-            eprintln!("slice is {}", slice);
+            answers[i] += slice;
           }
           continue;
         }
-        
+        for i in 0..5 {
+            let slice = &lookupslices[i][(26*l) as usize..];
+            answers[i] += slice;
+        }
         // use the ?
         // index, 27 * l
     }
     // Write an answer using println!("message...");
     // To debug: eprintln!("Debug message...");
-    println!("{}", answers[0]);
-    println!("{}", answers[1]);
-    println!("{}", answers[2]);
-    println!("{}", answers[3]);
-    println!("{}", answers[4]);
+    for i in 0..5 {
+        println!("{}", answers[i]);
+    }
+    
 }
