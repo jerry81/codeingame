@@ -7,7 +7,7 @@
  const baseX = parseInt(inputs[0]); // The corner of the map representing your base
  const baseY = parseInt(inputs[1]);
  const heroesPerPlayer = parseInt(readline()); // Always 3
- console.error('basex and y are', baseX, baseY)
+ 
  
  // game loop
  while (true) {
@@ -46,7 +46,7 @@
      let closest = Number.MAX_SAFE_INTEGER
      for (let threat of threats) {
          console.error('threat is ', threat)
-       let dist = threat.x^2 + threat.y^2
+       let dist = (baseX - threat.x)^2 + (baseY - threat.y)^2
        console.error('dist is ', dist)
        console.error('closest is ', closest)
        if (dist < closest) {
@@ -55,8 +55,8 @@
        }
      }
      console.error('closest is ', closestThreat.id)
-     let midx = closestThreat.x / 2 
-     let midy = closestThreat.y / 2 
+     let midx = (baseX + closestThreat.x) / 2 
+     let midy = (baseY + closestThreat.y) / 2 
      if (!midx) {
          midx = 500
      } 
@@ -67,9 +67,17 @@
          if (i == 0) {
              console.log('MOVE ' + Math.round(midx) + " " + Math.round(midy))
          } else if (i==1) {
-             console.log('MOVE 500 500')
+             if (baseX == 0) {
+               console.log('MOVE 500 500')
+             } else {
+                 console.log('MOVE 17000 8500')
+             }
          } else {
-             console.log('MOVE 500 500')
+             if (baseX == 0) {
+               console.log('MOVE 500 500')
+             } else {
+                 console.log("MOVE 17000 8500")
+             }
          }
          
          // 0 and 1 will be defenders, 2 will attack 
