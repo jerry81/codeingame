@@ -21,7 +21,9 @@ fn main() {
         name_in_binary += &format!("0{:b} ", character);
     }
     name_in_binary.retain(|c| !c.is_whitespace());
-    
+    for c in name_in_binary.chars() {
+        eprintln!("c is {}", c)
+    }
     eprintln!("in binary {}", name_in_binary);
     println!("answer");
 }
