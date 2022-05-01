@@ -15,6 +15,12 @@ fn main() {
 
     // Write an answer using println!("message...");
     // To debug: eprintln!("Debug message...");
+    let mut name_in_binary = "".to_string();
 
+    for character in message.clone().into_bytes() {
+        name_in_binary += &format!("0{:b} ", character);
+    }
+    
+    eprintln!("in binary {}", name_in_binary);
     println!("answer");
 }
