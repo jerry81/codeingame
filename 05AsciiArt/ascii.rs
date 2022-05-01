@@ -18,15 +18,25 @@ fn main() {
     let mut input_line = String::new();
     io::stdin().read_line(&mut input_line).unwrap();
     let t = input_line.trim_matches('\n').to_string();
-    
+    let mut lookup = [(); 5].map(|_| String::new());
     for i in 0..h as usize {
         let mut input_line = String::new();
         io::stdin().read_line(&mut input_line).unwrap();
         let row = input_line.trim_matches('\n').to_string();
+        lookup[i] = row;
     }
+    let mut answers = [(); 5].map(|_| String::new());
 
     // Write an answer using println!("message...");
     // To debug: eprintln!("Debug message...");
-
-    println!("answer");
+    eprintln!("lookup is {}", lookup[0]);
+    eprintln!("lookup is {}", lookup[1]);
+    eprintln!("lookup is {}", lookup[2]);
+    eprintln!("lookup is {}", lookup[3]);
+    eprintln!("lookup is {}", lookup[4]);
+    println!("{}", answers[0]);
+    println!("{}", answers[1]);
+    println!("{}", answers[2]);
+    println!("{}", answers[3]);
+    println!("{}", answers[4]);
 }
