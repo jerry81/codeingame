@@ -35,13 +35,26 @@ fn main() {
         // 97 - 122 a-z 
         if c >= 65 && c <= 90 {
           // slice out [((c - 65) * l), (c-64)*l] 
+          eprintln!("will work with {}", c);
+          eprintln!("starting index is {}", (c as i32 - 65) * l);
+          let slice = &(lookup[0])[0..4];
+          let slice2 = &(lookup[1])[0..4];
+          let slice3 = &(lookup[2])[0..4];
+          let slice4 = &(lookup[3])[0..4];
+          let slice5 = &(lookup[4])[0..4];
+          eprintln!("slice is {}", slice);
+          eprintln!("slice is {}", slice2);
+          eprintln!("slice is {}", slice3);
+          eprintln!("slice is {}", slice4);
+          eprintln!("slice is {}", slice5);
           continue;
         }
         if c >= 97 && c <= 122 {
+         // slice out [((c - 97) * l), (c-96)*l] 
           continue;
         }
         // use the ?
-
+        // index, 27 * l
     }
     // Write an answer using println!("message...");
     // To debug: eprintln!("Debug message...");
