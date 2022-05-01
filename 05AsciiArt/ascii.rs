@@ -19,11 +19,15 @@ fn main() {
     io::stdin().read_line(&mut input_line).unwrap();
     let t = input_line.trim_matches('\n').to_string();
     let mut lookup = [(); 5].map(|_| String::new());
+    let mut lookupslices = [(); 5].map(|_| "");
     for i in 0..h as usize {
         let mut input_line = String::new();
         io::stdin().read_line(&mut input_line).unwrap();
         let row = input_line.trim_matches('\n').to_string();
         lookup[i] = row;
+    }
+    for i in 0..5 {
+        lookupslices[i] = &lookup[i].as_str()
     }
     let mut answers = [(); 5].map(|_| String::new());
     let mut index: u32 = 0;
@@ -33,36 +37,37 @@ fn main() {
         // convert byte to position
         // 65 - 90 A-Z
         // 97 - 122 a-z 
+        let mut startIndex = 0;
+        let mut endIndex = l;
         if c >= 65 && c <= 90 {
           // slice out [((c - 65) * l), (c-64)*l] 
           eprintln!("will work with {}", c);
-          eprintln!("starting index is {}", (c as i32 - 65) * l);
-          let slice = &(lookup[0])[0..4];
-          let slice2 = &(lookup[1])[0..4];
-          let slice3 = &(lookup[2])[0..4];
-          let slice4 = &(lookup[3])[0..4];
-          let slice5 = &(lookup[4])[0..4];
-          eprintln!("slice is {}", slice);
-          eprintln!("slice is {}", slice2);
-          eprintln!("slice is {}", slice3);
-          eprintln!("slice is {}", slice4);
-          eprintln!("slice is {}", slice5);
+          startIndex = (c as i32 - 65) * l;
+          endIndex = startIndex + l;
+          // todo: ugly
+          for i in 0..5 {
+            let slice = &lookupslices[i][startIndex as usize..(endIndex) as usize];
+            eprintln!("slice is {}", slice);
+          }
           continue;
         }
         if c >= 97 && c <= 122 {
          // slice out [((c - 97) * l), (c-96)*l] 
+          startIndex = (c as i32 - 97) * l;
+          endIndex = startIndex + l;
+          // todo: ugly 
+          for i in 0..5 {
+            let slice = &lookupslices[i][startIndex as usize..(endIndex) as usize];
+            eprintln!("slice is {}", slice);
+          }
           continue;
         }
+        
         // use the ?
         // index, 27 * l
     }
     // Write an answer using println!("message...");
     // To debug: eprintln!("Debug message...");
-    eprintln!("lookup is {}", lookup[0]);
-    eprintln!("lookup is {}", lookup[1]);
-    eprintln!("lookup is {}", lookup[2]);
-    eprintln!("lookup is {}", lookup[3]);
-    eprintln!("lookup is {}", lookup[4]);
     println!("{}", answers[0]);
     println!("{}", answers[1]);
     println!("{}", answers[2]);
