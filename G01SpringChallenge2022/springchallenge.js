@@ -31,19 +31,21 @@
          const vy = parseInt(inputs[8]);
          const nearBase = parseInt(inputs[9]); // 0=monster with no target yet, 1=monster targeting a base
          const threatFor = parseInt(inputs[10]); // Given this monster's trajectory, is it a threat to 1=your base, 2=your opponent's base, 0=neither
-         if (threatFor == 2) {
+         if (type == 0 && threatFor == 1 && nearBase == 1) {
              threats.push({
                  x,
                  y,
                  vx,
-                 vy
+                 vy,
+                 id
              })
          }
      }
      
      let closestThreat = {}
      let closest = Number.MAX_SAFE_INTEGER
-     for (let threat in threats) {
+     for (let threat of threats) {
+         console.error('threat is ', threat)
        let dist = threat.x^2 + threat.y^2
        console.error('dist is ', dist)
        console.error('closest is ', closest)
@@ -52,7 +54,7 @@
            closestThreat = threat
        }
      }
-     console.error('closest is ', closestThreat)
+     console.error('closest is ', closestThreat.id)
      let midx = closestThreat.x / 2 
      let midy = closestThreat.y / 2 
      if (!midx) {
@@ -62,8 +64,13 @@
          midy = 500
      }
      for (let i = 0; i < heroesPerPlayer; i++) {
-         
-             console.log('MOVE ' + midx + " " + midy)
+         if (i == 0) {
+             console.log('MOVE ' + Math.round(midx) + " " + Math.round(midy))
+         } else if (i==1) {
+             console.log('MOVE 500 500')
+         } else {
+             console.log('MOVE 500 500')
+         }
          
          // 0 and 1 will be defenders, 2 will attack 
  
