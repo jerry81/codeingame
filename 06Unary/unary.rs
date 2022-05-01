@@ -20,6 +20,7 @@ fn main() {
     for character in message.clone().into_bytes() {
         name_in_binary += &format!("0{:b} ", character);
     }
+    name_in_binary.retain(|c| !c.is_whitespace());
     
     eprintln!("in binary {}", name_in_binary);
     println!("answer");
