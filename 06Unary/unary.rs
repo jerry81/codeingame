@@ -24,11 +24,11 @@ fn main() {
     //  name_in_binary.retain(|c| !c.is_whitespace());
     
     let st_ar = name_in_binary.split(" ");
-    
+   
     
     let mut answer = String::new();
+    let mut cur: i8 = 2; // 2 unset, 1 if currently 1, 0 if currently 0
     for st in st_ar {
-        let mut cur: i8 = 2; // 2 unset, 1 if currently 1, 0 if currently 0
         let mut first: bool = true;
         if st.len() == 7 {
             first = false;
