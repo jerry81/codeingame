@@ -23,14 +23,27 @@ fn main() {
         let inputs = input_line.split(" ").collect::<Vec<_>>();
         let ext = inputs[0].trim().to_string(); // file extension
         let mt = inputs[1].trim().to_string(); // MIME type.
+        eprintln!("added {} and {}", ext, mt);
         lookup.insert(ext, mt);
+        eprintln!("getting {:?}", lookup["html"]);
     }
     for i in 0..q as usize {
         let mut input_line = String::new();
         io::stdin().read_line(&mut input_line).unwrap();
         let fname = input_line.trim_matches('\n').to_string(); // One file name per line.
-        if lookup.contains_key(&fname) {
-          println!(lookup.get(&fname))
+        let iter = fname.split(".");
+        let mut ext = "";
+        let mut flag = true;
+        for i in iter {
+         if flag {
+             flag = false;
+             continue;
+         }
+         ext = i;
+        }
+        eprintln!("fname is {}", ext);
+        if lookup.contains_key(ext) {
+          println!("{:?}", lookup[ext]);
         }
     }
 
@@ -39,5 +52,5 @@ fn main() {
 
 
     // For each of the Q filenames, display on a line the corresponding MIME type. If there is no corresponding type, then display UNKNOWN.
-    println!("UNKNOWN");
+    // println!("UNKNOWN");
 }
