@@ -18,18 +18,18 @@ fn main() {
     let mut input_line = String::new();
     io::stdin().read_line(&mut input_line).unwrap();
     let t = input_line.trim_matches('\n').to_string();
-    let mut lookup = [(); 5].map(|_| String::new());
-    let mut lookupslices = [(); 5].map(|_| "");
+    let mut lookup = [(); 30].map(|_| String::new());
+    let mut lookupslices = [(); 30].map(|_| "");
     for i in 0..h as usize {
         let mut input_line = String::new();
         io::stdin().read_line(&mut input_line).unwrap();
         let row = input_line.trim_matches('\n').to_string();
         lookup[i] = row;
     }
-    for i in 0..5 {
+    for i in 0..h as usize {
         lookupslices[i] = &lookup[i].as_str()
     }
-    let mut answers = [(); 5].map(|_| String::new());
+    let mut answers = [(); 30].map(|_| String::new());
     let mut index: u32 = 0;
     eprintln!("height is {}", h);
     for c in t.bytes() { 
@@ -44,7 +44,7 @@ fn main() {
           startIndex = (c as i32 - 65) * l;
           endIndex = startIndex + l;
           // todo: ugly
-          for i in 0..5 {
+          for i in 0..h as usize {
             let slice = &lookupslices[i][startIndex as usize..(endIndex) as usize];
             answers[i] += slice;
           }
@@ -55,13 +55,13 @@ fn main() {
           startIndex = (c as i32 - 97) * l;
           endIndex = startIndex + l;
           // todo: ugly 
-          for i in 0..5 {
+          for i in 0..h as usize {
             let slice = &lookupslices[i][startIndex as usize..(endIndex) as usize];
             answers[i] += slice;
           }
           continue;
         }
-        for i in 0..5 {
+        for i in 0..h as usize {
             let slice = &lookupslices[i][(26*l) as usize..];
             answers[i] += slice;
         }
@@ -70,7 +70,7 @@ fn main() {
     }
     // Write an answer using println!("message...");
     // To debug: eprintln!("Debug message...");
-    for i in 0..5 {
+    for i in 0..h as usize {
         println!("{}", answers[i]);
     }
     
