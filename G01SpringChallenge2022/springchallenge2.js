@@ -20,7 +20,10 @@
      }
      const entityCount = parseInt(readline()); // Amount of heros and monsters you can see
      let threats = []
+     let allMonsters = []
      let hero1 = {}
+     let hero2 = {}
+     let hero3 = {}
      for (let i = 0; i < entityCount; i++) {
          var inputs = readline().split(' ');
          const id = parseInt(inputs[0]); // Unique identifier
@@ -34,6 +37,9 @@
          const vy = parseInt(inputs[8]);
          const nearBase = parseInt(inputs[9]); // 0=monster with no target yet, 1=monster targeting a base
          const threatFor = parseInt(inputs[10]); // Given this monster's trajectory, is it a threat to 1=your base, 2=your opponent's base, 0=neither
+         if (type == 0) {
+             allMonsters.push({x,y})
+         }
          if (type == 0 && threatFor == 1 && nearBase == 1) {
              threats.push({
                  x,
@@ -49,6 +55,18 @@
                y
            }
          }
+         if (type == 1 && id == 1) {
+             hero2 = {
+                 x,
+                 y
+             }
+         }
+         if (type == 1 && id == 2) {
+             hero3 = {
+                 x,
+                 y
+             }
+         }
      }
      console.error('hero 1 is ', hero1)
      let closestThreat = {}
@@ -63,11 +81,11 @@
            closestThreat = threat
        }
      }
-     console.error('closest is ', closestThreat.id)
+     console.error('closest id is ', closestThreat.id)
      let midx = (baseX + closestThreat.x) / 2 
      let midy = (baseY + closestThreat.y) / 2 
-     const Hero1BasePosition = baseX == 0 ? "4000 2000" : "13500 7000"
-     const Hero2BasePosition = baseX == 0 ? "2000 3000" : "15500 6000"
+     const Hero1BasePosition = baseX == 0 ? "4000 1500" : "13500 7000"
+     const Hero2BasePosition = baseX == 0 ? "2000 1500" : "15500 6000"
      const Hero3BasePosition = baseX == 0 ? "1000 1000" : "16500 8000"
      let hero1Pos = Hero1BasePosition
      let hero2Pos = Hero2BasePosition
@@ -82,9 +100,11 @@
      
      let closestToHero = Math.sqrt((closestThreat.x - hero1.x)^2 + (closestThreat.y - hero1.y)^2)
      console.error('closestToHero is ', closestToHero)
+     console.error('turnssinceused', turnsSinceWindUsed)
+     console.error('curMana is ', curMana)
      for (let i = 0; i < heroesPerPlayer; i++) {
          if (i == 0) {
-             if (curMana > 10 && closestToHero < 1000 && closest && turnsSinceWindUsed > 2) {
+             if (curMana > 10 && closestToHero < 800 && closestThreat.id && turnsSinceWindUsed > 2) {
                  // always away from base
                  // when enemy is in range (1280 units)
                  // console.log('WIND ' )
