@@ -7,7 +7,7 @@ import math
 def dist(lona, lonb, lata, latb):
     x = (lonb - lona) * math.cos(((lata + latb) / 2.0))
     y = latb - lata
-    return math.sqrt((x**2 + y**2) * 6371)
+    return math.sqrt((x**2 + y**2)) * 6371
 
 lon = input() # ulon
 lat = input() # ulat
@@ -25,7 +25,7 @@ for i in range(n):
     latD = arr[5]
     lonDf = ".".join(lonD.split(','))
     latDf = ".".join(latD.split(','))
-    distToUser = dist(float(lonF), float(latF), float(lonDf), float(latDf))
+    distToUser = dist(float(lonF), float(lonDf), float(latF), float(latDf))
    
     if (smallestDist == None) or (smallestDist > distToUser):
         smallestDist = distToUser
