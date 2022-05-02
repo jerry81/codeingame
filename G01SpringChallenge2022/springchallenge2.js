@@ -8,7 +8,7 @@
  const baseY = parseInt(inputs[1]);
  const heroesPerPlayer = parseInt(readline()); // Always 3
  
- 
+ let turnsSinceWindUsed = 0;
  // game loop
  while (true) {
      let curMana = 0
@@ -66,36 +66,39 @@
      console.error('closest is ', closestThreat.id)
      let midx = (baseX + closestThreat.x) / 2 
      let midy = (baseY + closestThreat.y) / 2 
-     if (!midx) {
-         if (baseX == 0) {
-           midx = 500
-         } else {
-             midx = 17000
-         }
+     const Hero1BasePosition = baseX == 0 ? "4000 2000" : "13500 7000"
+     const Hero2BasePosition = baseX == 0 ? "2000 3000" : "15500 6000"
+     const Hero3BasePosition = baseX == 0 ? "1000 1000" : "16500 8000"
+     let hero1Pos = Hero1BasePosition
+     let hero2Pos = Hero2BasePosition
+     let hero3Pos = Hero3BasePosition
+     if (midx) {
+         hero1Pos = `${Math.round(midx)} ${Math.round(midy)}`
+         hero2Pos = `${Math.round(midx)} ${Math.round(midy)}`
+         hero3Pos = `${Math.round(midx)} ${Math.round(midy)}`
      } 
-     if (!midy) {
-         if (baseX == 0) {
-           midy = 500
-         } else {
-             midy = 8500
-         }
-     }
+     turnsSinceWindUsed++;
+     // leave at least one defender back 
+     
      let closestToHero = Math.sqrt((closestThreat.x - hero1.x)^2 + (closestThreat.y - hero1.y)^2)
+     console.error('closestToHero is ', closestToHero)
      for (let i = 0; i < heroesPerPlayer; i++) {
          if (i == 0) {
-             if (curMana > 10 && closestToHero < 1280) {
+             if (curMana > 10 && closestToHero < 1000 && closest && turnsSinceWindUsed > 2) {
                  // always away from base
                  // when enemy is in range (1280 units)
                  // console.log('WIND ' )
+                 // throttle this 
                  const windCoordinates = baseX == 0 ? "17630 9000" : "0 0"
+                 turnsSinceWindUsed = 0;
                  console.log('SPELL WIND ' + windCoordinates)
              } else {
-                 console.log('MOVE ' + Math.round(midx) + " " + Math.round(midy))
+                 console.log('MOVE ' + hero1Pos)
              }
          } else if (i==1) {
-             console.log('MOVE ' + Math.round(midx) + " " + Math.round(midy))
+             console.log('MOVE ' + hero2Pos)
          } else {
-             console.log('MOVE ' + Math.round(midx) + " " + Math.round(midy))
+             console.log('MOVE ' + hero3Pos)
          }
          
          // 0 and 1 will be defenders, 2 will attack 
