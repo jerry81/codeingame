@@ -57,6 +57,7 @@
    }
  }
  let turnsSinceWind = 0;
+ let turnsSinceWind2 = 0;
  let turnsSinceShield = 0;
  let turnsSinceControl = 0;
  function getClosestToHero(distsToHero) {
@@ -93,8 +94,8 @@
    // wander zone - no bounds 
  // if threat on base, all heroes fall back to intercept 
  // 
-   const hero1ThreshX = inUL ? 1500 : 17630 - 1500 
-   const hero1ThreshY = inUL ? 1500 : 7500
+   const hero1ThreshX = inUL ? 1250 : 17630 - 1250 
+   const hero1ThreshY = inUL ? 1250 : 7750
    const hero2ThreshX = inUL ? 2000 : 17630 - 2000
    const hero2ThreshY = inUL ? 2000 : 6000
    
@@ -116,13 +117,13 @@
        if (midX) {
            inThreshold1 = inUL ? (midX < hero1ThreshX && midY < hero1ThreshY) : (midX > hero1ThreshX && midY > hero1ThreshY)
        }
-       if (closestD && curMana > 10 && closestD < 800 && turnsSinceWind > 5 && !closest.isControlled && !closest.shieldLife) {
-         turnsSinceWind = 0
+       if (closestD && curMana > 10 && closestD < 800 && turnsSinceWind2 > 3 && !closest.isControlled && !closest.shieldLife) {
+         turnsSinceWind2 = 0
          console.log(`SPELL WIND ${inUL ? "17630 9000" : "0 0"}`)
        } else if (midX && inThreshold1) {
            console.log(`MOVE ${midX} ${midY}`)
        } else {
-         console.log(`MOVE ${500} ${500}`)
+         console.log(`MOVE ${hero1ThreshX} ${hero1ThreshY}`)
        }
    }
    if (heroId == 1) {
@@ -135,9 +136,13 @@
      if (closest) {
      midX = Math.round(baseX + closest.x / 2)
      midY = Math.round(baseY + closest.y / 2)
-     } */
-     
-     if (closest) {
+     } 
+     */
+     if (closestD && curMana > 50 && closestD < 800 && turnsSinceWind > 5) {
+         turnsSinceWind = 0
+         console.log(`SPELL WIND ${inUL ? "17630 9000" : "0 0"}`)
+       }
+     else if (closest) {
          console.log(`MOVE ${closest.x} ${closest.y}`)
       
      } else {
@@ -145,7 +150,7 @@
         console.log(`MOVE ${hero2ThreshX} ${hero2ThreshY}`)
      }
      
-   }
+   } 
    if (heroId == 2) {
      const distsToHero = calcTable.distToHeroes[2].monsters
      let closestObj = getClosestToHero(distsToHero)
@@ -155,14 +160,14 @@
        if (closest) {
          furtherFromBaseThanHero = inUL ? ((closest.x + closest.y) > (masterTable.heroes[2].y + masterTable.heroes[2].x)) : (((closest.x + closest.y) < (masterTable.heroes[2].y + masterTable.heroes[2].x)))
        } 
-       if (curMana > 20 && turnsSinceControl > 5 && closestD < 1800 && furtherFromBaseThanHero) {
+       if (curMana > 20 && turnsSinceControl > 2 && closestD < 1800 && furtherFromBaseThanHero) {
          turnsSinceControl = 0
          console.log(`SPELL CONTROL ${closest.id} ${inUL ? "17630 9000" : "0 0"}`)
      }
      else if (closest) {
          console.log(`MOVE ${closest.x} ${closest.y}`)
      } else {
-         console.log(`MOVE ${randomizeMovement(5000, 3000)}`)
+         console.log(`MOVE ${randomizeMovement(inUL? 5000 : 12500, inUL ? 3000: 6000)}`)
      }
    }
  }
@@ -234,6 +239,7 @@
      let closestThreat = false 
      closestThreat = getClosestThreat(calcTable) 
      turnsSinceWind++
+     turnsSinceWind2++
      turnsSinceShield++
      turnsSinceControl++
      for (let i = 0; i < heroesPerPlayer; i++) {
