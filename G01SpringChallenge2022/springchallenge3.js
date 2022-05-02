@@ -108,7 +108,7 @@
    // wander zone - no bounds 
  // if threat on base, all heroes fall back to intercept 
  // 
-   const hero1ThreshX = inUL ? 1000 : 17630 - 1000 
+   const hero1ThreshX = inUL ? 1000 : 16500
    const hero1ThreshY = inUL ? 1000 : 8000
    const hero2ThreshX = inUL ? 2500 : 17630 - 2500
    const hero2ThreshY = inUL ? 2500 : 5500
@@ -135,7 +135,7 @@
          turnsSinceWind2 = 0
          curMana -= 10
          console.log(`SPELL WIND ${inUL ? "17630 9000" : "0 0"}`)
-       } else if (midX && !lookupControl[closest.id]) {
+       } else if (midX) {
            console.log(`MOVE ${closest.x} ${closest.y}`)
        } else {
          console.log(`MOVE ${hero1ThreshX} ${hero1ThreshY}`)
@@ -161,7 +161,7 @@
          curMana -= 10
          console.log(`SPELL WIND ${inUL ? "17630 9000" : "0 0"}`)
        }
-     else if (closest && !lookupControl[closest.id]) {
+     else if (closest) {
          console.log(`MOVE ${closest.x} ${closest.y}`)
      } else {
         // console.log(`MOVE ${randomizeMovement(hero2ThreshX, hero2ThreshY)}`)
@@ -175,13 +175,12 @@
        let closestD = closestObj.closestD
        let closest = closestObj.closest
        let furtherFromBaseThanHero 
-       let midX, midY
      
        
        if (closest) {
          furtherFromBaseThanHero = inUL ? ((closest.x + closest.y) > (masterTable.heroes[2].y + masterTable.heroes[2].x)) : (((closest.x + closest.y) < (masterTable.heroes[2].y + masterTable.heroes[2].x)))
-       } 
-     if (curMana > 50 && turnsSinceControl > 2 && closestD < 1200 && furtherFromBaseThanHero && !lookupControl[closest.id]) {
+       } /*
+     if (curMana >  && turnsSinceControl > 2 && closestD < 1200 && furtherFromBaseThanHero && !lookupControl[closest.id]) {
          turnsSinceControl = 0
          curMana -= 10
          lookupControl[closest.id] = closest
@@ -191,24 +190,26 @@
          turnsSinceShield = 0
          lookupShield[closest.id] = true
          console.log(`SPELL SHIELD ${closest.id}`)
-     } else if (closestThreat && !lookupControl[closestThreat.id]) {
+     
+     } */
+      if (closestThreat) {
                console.log(`MOVE ${closestThreat.x} ${closestThreat.y}`)
                return
              
      }
-     else if (closest && !lookupControl[closest.id]) {
+     else if (closest) {
          console.log(`MOVE ${closest.x} ${closest.y}`)
      } else {
          const b1 = inUL? 4000 : 13500 
          const b2 = inUL ? 2000: 7000
          const randomX = (Math.random() * b1) + (b1)
          const randomY = (Math.random() * b2) + (b2)
-         const midX = (randomX + b1) / 2
-         const midY = (randomY + b2) / 2
+         const midX = 17630/2
+         const midY = 9000/2
          const limitedX = Math.min(16000, Math.max(500, midX))
          const limitedY = Math.min(8000, Math.max(1000, midY))
          
-         console.log(`MOVE ${Math.round(limitedX)} ${Math.round(limitedY)}`)
+         console.log(`MOVE ${Math.round(midX)} ${Math.round(midY)}`)
      }
    }
  }
