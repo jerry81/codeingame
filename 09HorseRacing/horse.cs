@@ -20,19 +20,15 @@ class Solution
         {
             int pi = int.Parse(Console.ReadLine());
             numbers[i] = pi;
-            if (i == 1) {
-                smallest = Math.Abs(pi - numbers[0]);
-                Console.Error.WriteLine("smallest is " + smallest);
-            } else {
-                for (int j = 0; j < i; j++) {
-                    int newSmallest = Math.Abs(numbers[j] - pi);
-                    if (smallest > newSmallest) {
-                      smallest = newSmallest;
-                    }
-                }
-            }
         }
-
+        Array.Sort(numbers);
+        for (int i = 0; i < N-1; i++) {
+          int a = numbers[i];
+          int b = numbers[i+1];
+          if (Math.Abs(a-b) < smallest) {
+              smallest = Math.Abs(a-b);
+          }
+        }
         // Write an answer using Console.WriteLine()
         // To debug: Console.Error.WriteLine("Debug messages...");
 
