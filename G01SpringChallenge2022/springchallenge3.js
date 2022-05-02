@@ -33,12 +33,13 @@
  }
  
  function dist(obj1, obj2) {
-     return Math.sqrt((obj2.x - obj1.x) ^ 2 + (obj2.y - obj1.y) ^ 2)
+     return Math.sqrt(((obj2.x - obj1.x) ^ 2) + ((obj2.y - obj1.y) ^ 2))
  }
  function buildCalcTable(masterTable, calcTable) {
    const monsters = masterTable.monsters
    const heroes = masterTable.heroes
    const opponents = masterTable.opponents
+   const threats = masterTable.threats
  
    for (const h of heroes) {
          let hid = h.id
@@ -47,8 +48,6 @@
          }
          for (const m of monsters) {
            const distToHero = dist(h, m)
-           console.error('building table', calcTable)
-           console.error('h.id is ', hid)
            calcTable["distToHeroes"][hid]["monsters"].push({monster:m, distToHero}) 
        }
        for (const o of opponents) {
@@ -60,6 +59,15 @@
        base = inUL ? { x: 0, y: 0 } : { x: 17630, y: 9000 }
        const distToBase = dist(base, m)
        calcTable["distToBase"].push({ monster: m, distToBase })
+   }
+ 
+   for (const t of threats) {
+       base = base = inUL ? { x: 0, y: 0 } : { x: 17630, y: 9000 }
+       const distToBase = dist(base, t)
+       console.error("dist is ", distToBase)
+       console.error('t is ', t)
+       console.error(' base is ', base)
+       calcTable["threats"].push({ threat: t, distToBase})
    }
  }
  let turnsSinceWind = 0;
@@ -102,8 +110,8 @@
    // wander zone - no bounds 
  // if threat on base, all heroes fall back to intercept 
  // 
-   const hero1ThreshX = inUL ? 1000 : 17630 - 1000 
-   const hero1ThreshY = inUL ? 1000 : 8000
+   const hero1ThreshX = inUL ? 1500 : 17630 - 1500 
+   const hero1ThreshY = inUL ? 1500 : 7500
    const hero2ThreshX = inUL ? 2500 : 17630 - 2500
    const hero2ThreshY = inUL ? 2500 : 5500
    
@@ -125,10 +133,11 @@
        if (midX) {
            inThreshold1 = inUL ? (midX < hero1ThreshX && midY < hero1ThreshY) : (midX > hero1ThreshX && midY > hero1ThreshY)
        }
-       if (closestD && curMana > 10 && closestD < 800 && turnsSinceWind2 > 3 && !closest.isControlled && !closest.shieldLife) {
+       if (closestD && curMana > 10 && closestD < 800 && turnsSinceWind2 > 3) {
          turnsSinceWind2 = 0
+         curMana -= 10
          console.log(`SPELL WIND ${inUL ? "17630 9000" : "0 0"}`)
-       } else if (midX && inThreshold1) {
+       } else if (midX) {
            console.log(`MOVE ${midX} ${midY}`)
        } else {
          console.log(`MOVE ${hero1ThreshX} ${hero1ThreshY}`)
@@ -150,15 +159,17 @@
      if (midX) {
          inThreshold2 = inUL ? (midX < hero2ThreshX && midY < hero2ThreshY) : (midX > hero2ThreshX && midY > hero2ThreshY)
      }
-     if (closest && curMana > 60 && closestD < 1500 && turnsSinceControl2 > 4) {
+     if (closest && curMana > 60 && closestD < 1000 && turnsSinceControl2 > 4) {
        turnsSinceControl2 = 0
+       curMana -= 10
        console.log(`SPELL CONTROL ${closest.id} ${inUL ? "17630 9000" : "0 0"}`)
      }
      else if (closestD && curMana > 50 && closestD < 800 && turnsSinceWind > 5) {
          turnsSinceWind = 0
+         curMana -= 10
          console.log(`SPELL WIND ${inUL ? "17630 9000" : "0 0"}`)
        }
-     else if (closest && inThreshold2) {
+     else if (closest) {
          console.log(`MOVE ${midX} ${midY}`)
       
      } else {
@@ -176,8 +187,9 @@
        if (closest) {
          furtherFromBaseThanHero = inUL ? ((closest.x + closest.y) > (masterTable.heroes[2].y + masterTable.heroes[2].x)) : (((closest.x + closest.y) < (masterTable.heroes[2].y + masterTable.heroes[2].x)))
        } 
-       if (curMana > 20 && turnsSinceControl > 2 && closestD < 1800 && furtherFromBaseThanHero) {
+       if (curMana > 20 && turnsSinceControl > 2 && closestD < 1200 && furtherFromBaseThanHero) {
          turnsSinceControl = 0
+         curMana -= 10
          console.log(`SPELL CONTROL ${closest.id} ${inUL ? "17630 9000" : "0 0"}`)
      }
      else if (closest) {
@@ -200,6 +212,21 @@
              closestDist = m.distToBase
          }
      }
+     return closest ? closest : false
+ }
+ 
+ function getClosestReal(calcTable) {
+     const threats = calcTable.threats 
+     let closest, closestDist
+     closestDist = Number.MAX_SAFE_INTEGER
+     for (t of threats) {
+         if (closestDist > m.distToBase) {
+             closest = t.threat
+             closestDist = t.distToBase
+         }
+     }
+     console.error('all threats are ', threats)
+     console.error('real threat is at ', closest)
      return closest ? closest : false
  }
  
@@ -234,7 +261,8 @@
                  opponents: []
              }
          },
-         distToBase: []
+         distToBase: [],
+         threats: []
      }
      for (let i = 0; i < entityCount; i++) {
          var inputs = readline().split(' ');
@@ -254,6 +282,8 @@
      buildCalcTable(masterTable, calcTable)
      let closestThreat = false 
      closestThreat = getClosestThreat(calcTable) 
+     let closestReal = false 
+     closestReal = getClosestReal(calcTable)
      turnsSinceWind++
      turnsSinceWind2++
      turnsSinceShield++
