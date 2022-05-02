@@ -47,16 +47,60 @@
        }
        for (const o of opponents) {
            const distToHero = dist(h,o)
-           calcTable["distToHeroes"][h.id]["opponents"].push(opponent:o, distToHero)
+           calcTable["distToHeroes"][h.id]["opponents"].push({opponent:o, distToHero})
        }
    }
+   for (const m of monsters) {
+       base = inUL ? { x: 0, y: 0 } : { x: 17630, y: 9000 }
+       const distToBase = dist(base, m)
+       calcTable["distToBase"].push({ monster: m, distToBase })
+   }
  }
+ 
+ function heroDo(calcTable, heroId) {
+ // hero initialization 
+ // hero 1 - defender
+   // wander zone - base + 1000
+ // hero 2 - midrange
+   // wander zone - base + 3000
+ // hero 3 - attacker 
+   // wander zone - no bounds 
+ // if threat on base, all heroes fall back to intercept 
+ // 
+   if (heroId == 0) {
+ 
+   }
+   if (heroId == 1) {
+ 
+   }
+   if (heroId == 2) {
+       
+   }
+ }
+ 
+ 
+ 
+ function getClosestThreat(calcTable) {
+     const monsters = calcTable.distToBase
+     let closest, closestDist
+     closestDist = Number.MAX_SAFE_INTEGER
+     for (m of monsters) {
+         if (closestDist > m.distToBase) {
+             closest = m.monster
+             closestDist = m.distToBase
+         }
+     }
+     return closest ? closest : false
+ }
+ 
  // game loop
  while (true) {
+    let curMana
      for (let i = 0; i < 2; i++) {
          var inputs = readline().split(' ');
          const health = parseInt(inputs[0]); // Each player's base health
          const mana = parseInt(inputs[1]); // Ignore in the first league; Spend ten mana to cast a spell
+         curMana = mana
      }
      const entityCount = parseInt(readline()); // Amount of heros and monsters you can see
      let masterTable = {
@@ -98,15 +142,16 @@
          buildTable(id,type,x,y,shieldLife,isControlled,health,vx,vy,nearBase,threatFor, masterTable)
      }
      buildCalcTable(masterTable, calcTable)
-     console.error('masterTable is ', masterTable)
+     let closestThreat = false 
+     closestThreat = getClosestThreat(calcTable) 
      for (let i = 0; i < heroesPerPlayer; i++) {
- 
+         heroDo(calcTable, heroId, closestThreat, curMana)
          // Write an action using console.log()
          // To debug: console.error('Debug messages...');
  
  
          // In the first league: MOVE <x> <y> | WAIT; In later leagues: | SPELL <spellParams>;
-         console.log('MOVE 500 500');
+ 
      }
  }
  
