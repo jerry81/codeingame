@@ -81,7 +81,9 @@
               )))
      return `${randomizedX} ${randomizedY}`
  }
- function heroDo(calcTable, heroId, closestThreat, curMana) {
+ 
+ let lookupControl = {}
+ function heroDo(calcTable, heroId, closestThreat, curMana, masterTable) {
  // hero initialization 
  // hero 1 - defender
    // wander zone - base + 1000
@@ -91,10 +93,10 @@
    // wander zone - no bounds 
  // if threat on base, all heroes fall back to intercept 
  // 
-   const hero1ThreshX = inUL ? 2000 : 17630 - 2000 
-   const hero1ThreshY = inUL ? 2000 : 7000
-   const hero2ThreshX = inUL ? 3000 : 17630 - 3000
-   const hero2ThreshY = inUL ? 3000 : 5000
+   const hero1ThreshX = inUL ? 1500 : 17630 - 1500 
+   const hero1ThreshY = inUL ? 1500 : 7500
+   const hero2ThreshX = inUL ? 2000 : 17630 - 2000
+   const hero2ThreshY = inUL ? 2000 : 6000
    
    if (heroId == 0) {
        // if enemy within range - 
@@ -109,17 +111,18 @@
        midX = Math.round(baseX + closest.x / 2)
        midY = Math.round(baseY + closest.y / 2)
        }
+       // issue - wind is being cast with no monsters in range 
        let inThreshold1
        if (midX) {
            inThreshold1 = inUL ? (midX < hero1ThreshX && midY < hero1ThreshY) : (midX > hero1ThreshX && midY > hero1ThreshY)
        }
-       if (closestD && curMana > 10 && closestD < 1200 && turnsSinceWind > 2 && !closest.isControlled && !closest.shieldLife) {
+       if (closestD && curMana > 10 && closestD < 800 && turnsSinceWind > 5 && !closest.isControlled && !closest.shieldLife) {
          turnsSinceWind = 0
          console.log(`SPELL WIND ${inUL ? "17630 9000" : "0 0"}`)
        } else if (midX && inThreshold1) {
            console.log(`MOVE ${midX} ${midY}`)
        } else {
-         console.log(`MOVE ${hero1ThreshX} ${hero1ThreshY}`)
+         console.log(`MOVE ${500} ${500}`)
        }
    }
    if (heroId == 1) {
@@ -144,7 +147,7 @@
              console.log(`MOVE ${hero2ThreshX} ${hero2ThreshY}`)
          }
      } else {
-         console.log(`MOVE ${hero2ThreshX} ${hero2ThreshY}`)
+         console.log(`MOVE ${randomizeMovement(hero2ThreshX, hero2ThreshY)}`)
      }
      
    }
@@ -153,11 +156,15 @@
      let closestObj = getClosestToHero(distsToHero)
        let closestD = closestObj.closestD
        let closest = closestObj.closest
-       
-     if (closest) {
+       let furtherFromBaseThanHero = inUL ? ((closestObj.x + closestObj.y) > (masterTable.heroes[2].y + masterTable.heroes[2].x)) : (((closestObj.x + closestObj.y) < (masterTable.heroes[2].y + masterTable.heroes[2].x)))
+     if (curMana > 20 && turnsSinceControl > 5 && closestD < 1800 && furtherFromBaseThanHero) {
+         turnsSinceControl = 0
+         console.log(`SPELL CONTROL ${closest.id} ${inUL ? "17630 9000" : "0 0"}`)
+     }
+     else if (closest) {
          console.log(`MOVE ${closest.x} ${closest.y}`)
      } else {
-         console.log(`MOVE ${randomizeMovement(4000, 2000)}`)
+         console.log(`MOVE ${randomizeMovement(5000, 3000)}`)
      }
    }
  }
@@ -232,7 +239,7 @@
      turnsSinceShield++
      turnsSinceControl++
      for (let i = 0; i < heroesPerPlayer; i++) {
-         heroDo(calcTable, i, closestThreat, curMana)
+         heroDo(calcTable, i, closestThreat, curMana, masterTable)
          // Write an action using console.log()
          // To debug: console.error('Debug messages...');
  
