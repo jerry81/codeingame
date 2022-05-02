@@ -41,13 +41,19 @@
    const opponents = masterTable.opponents
  
    for (const h of heroes) {
+         let hid = h.id
+         if (!inUL) {
+           hid -= 3
+         }
          for (const m of monsters) {
            const distToHero = dist(h, m)
-           calcTable["distToHeroes"][h.id]["monsters"].push({monster:m, distToHero}) 
+           console.error('building table', calcTable)
+           console.error('h.id is ', hid)
+           calcTable["distToHeroes"][hid]["monsters"].push({monster:m, distToHero}) 
        }
        for (const o of opponents) {
            const distToHero = dist(h,o)
-           calcTable["distToHeroes"][h.id]["opponents"].push({opponent:o, distToHero})
+           calcTable["distToHeroes"][hid]["opponents"].push({opponent:o, distToHero})
        }
    }
    for (const m of monsters) {
@@ -60,6 +66,8 @@
  let turnsSinceWind2 = 0;
  let turnsSinceShield = 0;
  let turnsSinceControl = 0;
+ let turnsSinceControl2 = 0;
+ let turnsSinceControl3 = 0;
  function getClosestToHero(distsToHero) {
      if (!distsToHero) return false
      let closestD = Number.MAX_SAFE_INTEGER
@@ -94,10 +102,10 @@
    // wander zone - no bounds 
  // if threat on base, all heroes fall back to intercept 
  // 
-   const hero1ThreshX = inUL ? 1250 : 17630 - 1250 
-   const hero1ThreshY = inUL ? 1250 : 7750
-   const hero2ThreshX = inUL ? 2000 : 17630 - 2000
-   const hero2ThreshY = inUL ? 2000 : 6000
+   const hero1ThreshX = inUL ? 1000 : 17630 - 1000 
+   const hero1ThreshY = inUL ? 1000 : 8000
+   const hero2ThreshX = inUL ? 2500 : 17630 - 2500
+   const hero2ThreshY = inUL ? 2500 : 5500
    
    if (heroId == 0) {
        // if enemy within range - 
@@ -109,8 +117,8 @@
        if (closestThreat) closest = closestThreat
        let midX, midY
        if (closest) {
-       midX = Math.round(baseX + closest.x / 2)
-       midY = Math.round(baseY + closest.y / 2)
+       midX = Math.round((baseX + closest.x) / 2)
+       midY = Math.round((baseY + closest.y) / 2)
        }
        // issue - wind is being cast with no monsters in range 
        let inThreshold1
@@ -132,18 +140,26 @@
        let closestD = closestObj.closestD
        let closest = closestObj.closest
      if (closestThreat) closest = closestThreat
-     /* let midX, midY
+     let midX, midY
+     let furtherFromBaseThanHero 
      if (closest) {
-     midX = Math.round(baseX + closest.x / 2)
-     midY = Math.round(baseY + closest.y / 2)
+     midX = Math.round((baseX + closest.x) / 2)
+     midY = Math.round((baseY + closest.y) / 2)
+       furtherFromBaseThanHero = inUL ? ((closest.x + closest.y) > (masterTable.heroes[1].y + masterTable.heroes[1].x)) : (((closest.x + closest.y) < (masterTable.heroes[1].y + masterTable.heroes[1].x)))
      } 
-     */
-     if (closestD && curMana > 50 && closestD < 800 && turnsSinceWind > 5) {
+     if (midX) {
+         inThreshold2 = inUL ? (midX < hero2ThreshX && midY < hero2ThreshY) : (midX > hero2ThreshX && midY > hero2ThreshY)
+     }
+     if (closest && curMana > 60 && closestD < 1500 && turnsSinceControl2 > 4) {
+       turnsSinceControl2 = 0
+       console.log(`SPELL CONTROL ${closest.id} ${inUL ? "17630 9000" : "0 0"}`)
+     }
+     else if (closestD && curMana > 50 && closestD < 800 && turnsSinceWind > 5) {
          turnsSinceWind = 0
          console.log(`SPELL WIND ${inUL ? "17630 9000" : "0 0"}`)
        }
-     else if (closest) {
-         console.log(`MOVE ${closest.x} ${closest.y}`)
+     else if (closest && inThreshold2) {
+         console.log(`MOVE ${midX} ${midY}`)
       
      } else {
         // console.log(`MOVE ${randomizeMovement(hero2ThreshX, hero2ThreshY)}`)
@@ -167,7 +183,7 @@
      else if (closest) {
          console.log(`MOVE ${closest.x} ${closest.y}`)
      } else {
-         console.log(`MOVE ${randomizeMovement(inUL? 5000 : 12500, inUL ? 3000: 6000)}`)
+         console.log(`MOVE ${inUL? 5000 : 12500} ${inUL ? 3000: 6000}`)
      }
    }
  }
@@ -242,6 +258,8 @@
      turnsSinceWind2++
      turnsSinceShield++
      turnsSinceControl++
+     turnsSinceControl2++
+     turnsSinceControl3++
      for (let i = 0; i < heroesPerPlayer; i++) {
          heroDo(calcTable, i, closestThreat, curMana, masterTable)
          // Write an action using console.log()
