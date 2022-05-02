@@ -109,9 +109,14 @@
        midX = Math.round(baseX + closest.x / 2)
        midY = Math.round(baseY + closest.y / 2)
        }
-       const inThreshold1 = inUL ? (midX < hero1ThreshX && midY < hero1ThreshY) : (midX > hero1ThreshX && midY > hero1ThreshY)
-       
-       if (midX && inThreshold1) {
+       let inThreshold1
+       if (midX) {
+           inThreshold1 = inUL ? (midX < hero1ThreshX && midY < hero1ThreshY) : (midX > hero1ThreshX && midY > hero1ThreshY)
+       }
+       if (closestD && curMana > 10 && closestD < 1200 && turnsSinceWind > 2 && !closest.isControlled && !closest.shieldLife) {
+         turnsSinceWind = 0
+         console.log(`SPELL WIND ${inUL ? "17630 9000" : "0 0"}`)
+       } else if (midX && inThreshold1) {
            console.log(`MOVE ${midX} ${midY}`)
        } else {
          console.log(`MOVE ${hero1ThreshX} ${hero1ThreshY}`)
