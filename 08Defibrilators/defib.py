@@ -5,12 +5,15 @@ import math
 # the standard input according to the problem statement.
 
 def dist(lona, lonb, lata, latb):
-    x = (lonb - lona) * math.cos(((lata + latb) / 2))
+    x = (lonb - lona) * math.cos(((lata + latb) / 2.0))
     y = latb - lata
     return math.sqrt((x**2 + y**2) * 6371)
 
 lon = input() # ulon
 lat = input() # ulat
+lonF = ".".join(lon.split(','))
+latF = ".".join(lat.split(','))
+print("lonF is ", lonF , file=sys.stderr, flush=True)
 smallestDist = None
 smallestName = ""
 n = int(input())
@@ -18,8 +21,11 @@ defibmap = {}
 for i in range(n):
     defib = input()
     arr = defib.split(';')
-    defibmap[arr[1]] = { lon: arr[4], lat: arr[5] }
-    distToUser = dist(lon, lat, arr[4], arr[5])
+    lonD = arr[4]
+    latD = arr[5]
+    lonDf = ".".join(lonD.split(','))
+    latDf = ".".join(latD.split(','))
+    distToUser = dist(float(lonF), float(latF), float(lonDf), float(latDf))
    
     if (smallestDist == None) or (smallestDist > distToUser):
         smallestDist = distToUser
