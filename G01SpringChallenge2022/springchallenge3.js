@@ -138,16 +138,11 @@
      } */
      
      if (closest) {
-         const inThreshold2 = inUL ? (closest.x < hero2ThreshX && closest.y < hero2ThreshY) : (closest.x > hero2ThreshX && closest.y > hero2ThreshY)
-         if (inThreshold2) {
- 
-         
          console.log(`MOVE ${closest.x} ${closest.y}`)
-         } else {
-             console.log(`MOVE ${hero2ThreshX} ${hero2ThreshY}`)
-         }
+      
      } else {
-         console.log(`MOVE ${randomizeMovement(hero2ThreshX, hero2ThreshY)}`)
+        // console.log(`MOVE ${randomizeMovement(hero2ThreshX, hero2ThreshY)}`)
+        console.log(`MOVE ${hero2ThreshX} ${hero2ThreshY}`)
      }
      
    }
@@ -156,8 +151,11 @@
      let closestObj = getClosestToHero(distsToHero)
        let closestD = closestObj.closestD
        let closest = closestObj.closest
-       let furtherFromBaseThanHero = inUL ? ((closestObj.x + closestObj.y) > (masterTable.heroes[2].y + masterTable.heroes[2].x)) : (((closestObj.x + closestObj.y) < (masterTable.heroes[2].y + masterTable.heroes[2].x)))
-     if (curMana > 20 && turnsSinceControl > 5 && closestD < 1800 && furtherFromBaseThanHero) {
+       let furtherFromBaseThanHero 
+       if (closest) {
+         furtherFromBaseThanHero = inUL ? ((closest.x + closest.y) > (masterTable.heroes[2].y + masterTable.heroes[2].x)) : (((closest.x + closest.y) < (masterTable.heroes[2].y + masterTable.heroes[2].x)))
+       } 
+       if (curMana > 20 && turnsSinceControl > 5 && closestD < 1800 && furtherFromBaseThanHero) {
          turnsSinceControl = 0
          console.log(`SPELL CONTROL ${closest.id} ${inUL ? "17630 9000" : "0 0"}`)
      }
