@@ -7,6 +7,10 @@ STDOUT.sync = true # DO NOT REMOVE
 w, h = gets.split(" ").collect { |x| x.to_i }
 n = gets.to_i # maximum number of turns before game over.
 x0, y0 = gets.split(" ").collect { |x| x.to_i }
+lbound = 0
+ubound = 0
+rbound = w-1
+dbound = h-1
 # game loop
 loop do
   bomb_dir = gets.chomp # the direction of the bombs from batman's current location (U, UR, R, DR, D, DL, L or UL)
@@ -16,25 +20,37 @@ loop do
   # To debug: STDERR.puts "Debug messages..."
   case bomb_dir
   when "U"
-    y0 -= 1
+    dbound = y0 + 1
+    y0 = (ubound + dbound) / 2
   when "UR"
-    y0-=1
-    x0+=1
+    dbound = y0 + 1
+    y0 = (ubound + dbound) / 2
+    lbound = x0 + 1
+    x0 = (lbound + rbound) / 2
   when "R"
-    x0+=1
+    lbound = x0 + 1
+    x0 = (lbound + rbound) / 2
   when "DR"
-    y0+=1
-    x0+=1
+    ubound = y0 - 1
+    y0 = (ubound + dbound) / 2
+    lbound = x0 + 1
+    x0 = (lbound + rbound) / 2
   when "D"
-    y0+=1
+    ubound = y0 - 1
+    y0 = (ubound + dbound) / 2
   when "DL"
-    y0+=1
-    x0-=1
+    ubound = y0 - 1
+    y0 = (ubound + dbound) / 2
+    rbound = x0 - 1
+    x0 = (lbound + rbound) / 2
   when "L"
-    x0-=1
+    rbound = x0 - 1
+    x0 = (lbound + rbound) / 2
   else
-    y0-=1
-    x0-=1
+    dbound = y0 + 1
+    y0 = (ubound + dbound) / 2
+    rbound = x0 - 1
+    x0 = (lbound + rbound) / 2
   end
   puts "#{x0} #{y0}"
   # the location of the next window Batman should jump to.
