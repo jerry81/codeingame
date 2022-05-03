@@ -34,14 +34,14 @@ nodes.each do | node |
     downX = y < height - 1 ? x : -1
     downY = y < height - 1 ? y+1 : -1
     if rightX > 0 
-        right = grid[rightX, rightY]
+        right = grid[rightY][rightX]
         if right == '.'
             rightX = -1
             rightY = -1
         end
     end
     if downY > 0
-        down = grid[rightX, rightY]
+        down = grid[downY][downX]
         if down == '.'
            downX = -1
            downY = -1
