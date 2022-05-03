@@ -26,15 +26,13 @@ loop do
     humans.each do |h|
       dx = (h[:x] - z[:x]).abs
       dy = (h[:y] - z[:y]).abs
-      midx = (h[:x] + z[:x] / 2)
-      midy = (h[:y] + h[:y] / 2)
+      midx = ((h[:x] + z[:x]) / 2)
+      midy = ((h[:y] + z[:y]) / 2)
       dist = Math.sqrt((dx ** 2) + (dy ** 2))
       if closestD.nil? || closestD > dist
         closestD = dist
         closestMidX = midx
         closestMidY = midy
-        closestD = dist
-        next
       end
     end
   end
