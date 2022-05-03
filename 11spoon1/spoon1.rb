@@ -26,26 +26,33 @@ STDERR.puts "grid #{grid} nodes #{nodes}"
 
 # Three coordinates: a node, its right neighbor, its bottom neighbor
 
-nodes.each do | node |
+nodes.each do |node|
     x = node[:x]
+    STDERR.puts "x is #{x}"
     y = node[:y]
-    rightX = x < width - 1 ? x+1 : -1
-    rightY = x < width - 1 ? y : -1
-    downX = y < height - 1 ? x : -1
-    downY = y < height - 1 ? y+1 : -1
-    if rightX > 0 
-        right = grid[rightY][rightX]
-        if right == '.'
-            rightX = -1
-            rightY = -1
+    rx = -1
+    ry = -1
+    dx = -1
+    dy = -1 
+    cx = x + 1
+    cy = y + 1
+    while cx < width do
+        cn = grid[y][cx]
+        if cn == '0'
+            rx = cx
+            ry = y
+            break
         end
+        cx += 1
     end
-    if downY > 0
-        down = grid[downY][downX]
-        if down == '.'
-           downX = -1
-           downY = -1
+    while cy < height do
+        cn = grid[cy][x]
+        if cn == '0'
+           dy = cy
+           dx = x
+           break
         end
+        cy += 1
     end
-    puts "#{x} #{y} #{rightX} #{rightY} #{downX} #{downY}"
+    puts "#{x} #{y} #{rx} #{ry} #{dx} #{dy}"
 end
