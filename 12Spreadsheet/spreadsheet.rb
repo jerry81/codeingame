@@ -4,6 +4,9 @@
 n = gets.to_i
 lines = []
 count = 0
+# tests did not pass because i did not consider backwards dependencies
+# we cannot resolve all dependencies with a single pass thru while reading in the lines for the first time.
+
 n.times do
   operation, arg_1, arg_2 = gets.split(" ")
   asInt = 0
