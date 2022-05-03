@@ -62,22 +62,29 @@ n.times do
   count += 1
 end
 STDERR.puts " original #{original}"
-STDERR.puts " dep #{dependencies}"
+STDERR.puts "dep after no rounds #{dependencies}"
 STDERR.puts " lines #{lines}"
 
 def recalcDependency(dependencies, lines, original)
   dependencies.each do |k,v|
-    STDERR.puts "k #{k} v #{v}"
     v.each do |d|
         if lines[d]
             oline = original[k]
             newVal = getValue(oline[0], oline[1], oline[2], lines, k, dependencies)
+            STDERR.puts "trying to delete dep k #{k} v #{v}"
+            dependencies[k].delete(d)
+            STDERR.puts "dependencies k is #{dependencies[v]}"
+            STDERR.puts "dependencies is now #{dependencies}"
         end
+    end
+    if dependencies[k].length == 0
+        dependencies.delete(k)
     end
   end
 end
 
 recalcDependency(dependencies, lines, original)
+STDERR.puts "dep after one round #{dependencies}"
 
 count = 0
 n.times do
