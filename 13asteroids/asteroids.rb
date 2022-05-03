@@ -28,17 +28,17 @@ def findObjects(p)
     # returns map of objects and their positions
     returned = {}
     p.each_with_index do |l,idx|
-       
         STDERR.puts "line is #{l}"
         for i in 0..l.length-1
             ch = l[i]
             if ch != '.'
-                if returned[ch].isNil
+                if returned[ch].nil?
                     returned[ch] = { :x => i, :y => idx}
                 end
             end
         end
     end
+    returned
 end
 
 res = findObjects p1
