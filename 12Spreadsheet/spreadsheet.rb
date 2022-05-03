@@ -6,27 +6,33 @@ lines = []
 count = 0
 n.times do
   operation, arg_1, arg_2 = gets.split(" ")
+  asInt = 0
+  asInt2 = 0
+  if arg_1[0] == '$'
+      rem = arg_1[1..]
+      idx = rem.to_i
+      asInt = lines[idx]
+  else 
+     asInt = arg_1.to_i
+  end
+  if arg_2[0] == '$'
+    rem = arg_2[1..]
+    idx = rem.to_i
+    asInt2 = lines[idx]
+  elsif arg_2[0] == '_'
+    asInt2 = 0
+  else 
+    asInt2 = arg_2.to_i
+  end
   case operation
   when "VALUE"
-    if arg_1[0] == '$'
-        STDERR.puts "var hit"
-    end
-    lines[count] = arg_1
+    lines[count] = asInt
   when "ADD"
-    if arg_1[0] == '$'
-        STDERR.puts "var hit"
-    end
-    lines[count] = arg_1 + arg_2
+    lines[count] = asInt + asInt2
   when "SUB"
-    if arg_1[0] == '$'
-        STDERR.puts "var hit"
-    end
-    lines[count] = arg_1 - arg_2
+    lines[count] = asInt - asInt2
   when "MULT"
-    if arg_1[0] == '$'
-        STDERR.puts "var hit"
-    end
-    lines[count] = arg_1 * arg2
+    lines[count] = asInt * asInt2
   end
   count += 1
 end
