@@ -20,10 +20,10 @@ loop do
   # To debug: STDERR.puts "Debug messages..."
   case bomb_dir
   when "U"
-    dbound = y0 + 1
+    dbound = y0 - 1
     y0 = (ubound + dbound) / 2
   when "UR"
-    dbound = y0 + 1
+    dbound = y0 - 1
     y0 = (ubound + dbound) / 2
     lbound = x0 + 1
     x0 = (lbound + rbound) / 2
@@ -36,10 +36,11 @@ loop do
     lbound = x0 + 1
     x0 = (lbound + rbound) / 2
   when "D"
-    ubound = y0 - 1
+    STDERR.puts "ubound is #{ubound}"
+    ubound = y0 + 1
     y0 = (ubound + dbound) / 2
   when "DL"
-    ubound = y0 - 1
+    ubound = y0 + 1
     y0 = (ubound + dbound) / 2
     rbound = x0 - 1
     x0 = (lbound + rbound) / 2
@@ -47,7 +48,7 @@ loop do
     rbound = x0 - 1
     x0 = (lbound + rbound) / 2
   else
-    dbound = y0 + 1
+    dbound = y0 - 1
     y0 = (ubound + dbound) / 2
     rbound = x0 - 1
     x0 = (lbound + rbound) / 2
