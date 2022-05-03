@@ -15,7 +15,7 @@ loop do
   zombie_count = gets.to_i
   zombie_count.times do
     zombie_id, zombie_x, zombie_y, zombie_xnext, zombie_ynext = gets.split(" ").collect { |x| x.to_i }
-    zombies << { :id => zombie_id, :x => zombie_x, :y => zombie_y }
+    zombies << { :id => zombie_id, :x => zombie_x, :y => zombie_y, :xn => zombie_xnext, :yn => zombie_ynext}
   end
   STDERR.puts "humans #{humans} and zombies #{zombies}"
   # find closest zombie to human
@@ -31,8 +31,8 @@ loop do
       dist = Math.sqrt((dx ** 2) + (dy ** 2))
       if closestD.nil? || closestD > dist
         closestD = dist
-        closestMidX = midx
-        closestMidY = midy
+        closestMidX = z[:xn]
+        closestMidY = z[:yn]
       end
     end
   end
