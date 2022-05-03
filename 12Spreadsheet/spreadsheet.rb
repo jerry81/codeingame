@@ -29,7 +29,10 @@ def getValue(operation, arg_1, arg_2, lines, count, dependencies)
     idx = rem.to_i
     asInt2 = lines[idx]
     if asInt2.nil?
-      dependencies << { :ct => count, :idx => idx }
+        if dependencies[count].nil?
+            dependencies[count] = []
+        end
+        dependencies[count] << idx
     end
   elsif arg_2[0] == '_'
     asInt2 = 0
