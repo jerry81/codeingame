@@ -1,49 +1,50 @@
+package main
+
+import (
+	"fmt"
+	"os"
+)
+
 /**
  * Auto-generated code below aims at helping you parse
  * the standard input according to the problem statement.
  **/
 
-
-// game loop
-let checkpointsX = []
-let checkpointsY = []
-let curCX, curCY
-while (true) {
-    var inputs = readline().split(' ');
-    const x = parseInt(inputs[0]);
-    const y = parseInt(inputs[1]);
-    const nextCheckpointX = parseInt(inputs[2]); // x position of the next check point
-    const nextCheckpointY = parseInt(inputs[3]); // y position of the next check point
-    if (checkpointsX.length == 0) {
-        checkpointsX.push(nextCheckpointX)
-        checkpointsY.push(nextCheckpointY)
-        curCX = nextCheckpointX
-        curCY = nextCheckpointY
+func main() {
+	var boosted bool = false
+    for {
+		
+        // nextCheckpointX: x position of the next check point
+        // nextCheckpointY: y position of the next check point
+        // nextCheckpointDist: distance to the next checkpoint
+        // nextCheckpointAngle: angle between your pod orientation and the direction of the next checkpoint
+        var x, y, nextCheckpointX, nextCheckpointY, nextCheckpointDist, nextCheckpointAngle int
+        fmt.Scan(&x, &y, &nextCheckpointX, &nextCheckpointY, &nextCheckpointDist, &nextCheckpointAngle)
+        
+        var opponentX, opponentY int
+        fmt.Scan(&opponentX, &opponentY)
+        
+        
+        // You have to output the target position
+        // followed by the power (0 <= thrust <= 100)
+        // i.e.: "x y thrust"
+		fmt.Fprintln(os.Stderr, "nextCheckpointDist is ", nextCheckpointDist)
+        var thrust = "100";
+        if (nextCheckpointAngle > 90 || nextCheckpointAngle < -90) {
+            thrust = "0"
+        }
+		if (nextCheckpointDist < 2000) {
+			thrust = "75"
+		}
+		if (nextCheckpointDist < 1000) {
+			thrust = "50"
+		}
+		if (nextCheckpointDist > 10000 && nextCheckpointAngle == 0 && !boosted) {
+			thrust = "BOOST";
+			boosted = true
+		}
+		// boost on last straightaway 
+		
+        fmt.Printf("%d %d %s\n", nextCheckpointX, nextCheckpointY, thrust)
     }
-    let iX = checkpointsX.indexOf(nextCheckpointX) 
-    console.error('nextCheckpointX', nextCheckpointX)
-    console.error('checkpointsX', checkpointsX)
-    if (iX < 0) {
-        checkpointsX.push(nextCheckpointX)
-        checkpointsY.push(nextCheckpointY)
-    }
-    if (iX == 0 && checkpointsY.indexOf(nextCheckpointY) == 0) {
-        console.error('lapped')
-    }
-    const nextCheckpointDist = parseInt(inputs[4]); // distance to the next checkpoint
-    const nextCheckpointAngle = parseInt(inputs[5]); // angle between your pod orientation and the direction of the next checkpoint
-    var inputs = readline().split(' ');
-    const opponentX = parseInt(inputs[0]);
-    const opponentY = parseInt(inputs[1]);
-
-    // Write an action using console.log()
-    // To debug: console.error('Debug messages...');
-    let thrust = '100'
-    if (nextCheckpointAngle > 90 || nextCheckpointAngle < -90) {
-        thrust = "0"
-    }
-    // You have to output the target position
-    // followed by the power (0 <= thrust <= 100) or "BOOST"
-    // i.e.: "x y thrust"
-    console.log(nextCheckpointX + ' ' + nextCheckpointY + ' ' + thrust);
 }
