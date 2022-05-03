@@ -26,16 +26,23 @@ STDERR.puts "p2 #{p2}"
 def findObjects(p)
     # step thru
     # returns map of objects and their positions
-    p.each_with_index do |l,i|
+    returned = {}
+    p.each_with_index do |l,idx|
+       
         STDERR.puts "line is #{l}"
         for i in 0..l.length-1
-            if l[i] != '.'
-                STDERR.puts "l[i] is #{l[i]}"
+            ch = l[i]
+            if ch != '.'
+                if returned[ch].isNil
+                    returned[ch] = { :x => i, :y => idx}
+                end
             end
         end
     end
 end
 
-findObjects p1
+res = findObjects p1
+
+STDERR.puts "res is #{res}"
 
 puts "answer"
