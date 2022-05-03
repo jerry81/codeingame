@@ -83,8 +83,10 @@ def recalcDependency(dependencies, lines, original)
   end
 end
 
-recalcDependency(dependencies, lines, original)
-STDERR.puts "dep after one round #{dependencies}"
+while !dependencies.empty?
+  recalcDependency(dependencies, lines, original)
+end
+# STDERR.puts "dep after one round #{dependencies}"
 
 count = 0
 n.times do
