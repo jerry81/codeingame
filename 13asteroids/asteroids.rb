@@ -41,8 +41,8 @@ def findObjects(p)
     returned
 end
 
-res = findObjects p1
-
-STDERR.puts "res is #{res}"
-
+objs1 = findObjects p1
+objs2 = findObjects p2
+STDERR.puts "objs1 is #{objs1}"
+STDERR.puts "objs2 is #{objs2}"
 puts "answer"
