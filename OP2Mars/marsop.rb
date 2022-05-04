@@ -62,7 +62,13 @@ loop do
   angle = 0
   case get_target(x,longestx1, longestx2)
   when 'T'
-    angle = 0
+   if hs > 0
+       angle = 45
+   elsif hs < 0
+       angle = -45
+   else
+       angle = 0
+   end
   when 'R'
     angle = -45
   else
