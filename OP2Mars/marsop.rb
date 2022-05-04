@@ -60,6 +60,7 @@ loop do
   # Write an action using puts
   # To debug: STDERR.puts "Debug messages..."
   angle = 0
+  distToLanding = y - longesty
   case get_target(x,longestx1, longestx2)
   when 'T'
    if hs > 0
@@ -74,7 +75,9 @@ loop do
   else
     angle = 45
   end
-  
+  if distToLanding < 100
+    angle = 0
+  end
   # R P. R is the desired rotation angle. P is the desired thrust power.
   puts "#{angle} 3"
 end
