@@ -84,7 +84,7 @@ def limitt(vs, close)
     if vs < -40 && close
         ret = 4
     end
-    if vs > 37 && close
+    if vs > -37 && close
         ret = 3
     end
     ret
