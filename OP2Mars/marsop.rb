@@ -40,14 +40,15 @@ end
 def get_target(x,lx,lx2) 
     # returns L, T, or R
     if x < lx
-        return 'L'
+        return 'R'
     end
     if x > lx2
-        return 'R'
+        return 'L'
     end
     return 'T'
 end
 
+# step 1 - handle angle 
 loop do
   # hs: the horizontal speed (in m/s), can be negative.
   # vs: the vertical speed (in m/s), can be negative.
@@ -58,8 +59,16 @@ loop do
   STDERR.puts "gettarget #{get_target(x,longestx1, longestx2)}"
   # Write an action using puts
   # To debug: STDERR.puts "Debug messages..."
-
-
+  angle = 0
+  case get_target(x,longestx1, longestx2)
+  when 'T'
+    angle = 0
+  when 'R'
+    angle = -45
+  else
+    angle = 45
+  end
+  
   # R P. R is the desired rotation angle. P is the desired thrust power.
-  puts "-20 3"
+  puts "#{angle} 3"
 end
