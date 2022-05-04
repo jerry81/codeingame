@@ -64,24 +64,30 @@ loop do
   case get_target(x,longestx1, longestx2)
   when 'T'
    if hs > 0
-       angle = 80
+       angle = 50
    elsif hs < 0
-       angle = -80
+       angle = -50
    else
        angle = 0
    end
   when 'R'
-    angle = hs > 40 ? 0 : -80
+    angle = hs > 40 ? 0 : -50
   else
-    angle = hs < 40 ? 0 : 80
+    angle = hs < 40 ? 0 : 50
   end
   thrust = 3 
   STDERR.puts "distToLanding #{distToLanding}"
   if distToLanding < 1000
     angle = 0
-    if vs < -38 && r == 0
+    if vs < -35 && r == 0
         thrust = 4
     end
+  end
+
+
+  if distToLanding < 2500 && vs < -40 
+    angle = 0 
+    thrust = 4
   end
   # R P. R is the desired rotation angle. P is the desired thrust power.
   puts "#{angle} #{thrust}"
