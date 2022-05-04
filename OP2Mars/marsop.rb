@@ -63,6 +63,11 @@ def limiths(hs, t, close)
         angle = -45
       end
     end
+    if hs > 50
+        angle = 45
+    elsif hs < -50
+        angle = -45
+    end
     angle 
 end
 
@@ -71,9 +76,17 @@ def limitv(originalAngle, vs, close)
     if vs < -50 && close
         ret = 0
     end
-    ret 
 end
 
+def limitt(angle, vs, close)
+    ret 3
+    if vs < -40 && close
+        ret = 4
+    end
+    if vs > 37 && close 
+        ret = 3
+    ret
+end
 # step 1 - handle angle 
 loop do
   # hs: the horizontal speed (in m/s), can be negative.
@@ -95,6 +108,7 @@ loop do
   angle = limiths(hs, t, close)
 
   angle = limitv(angle, vs, close)
+  thrust = limitt(angle, vs, close)
   STDERR.puts "angle is #{angle}"
   
   # most important guards go at the bottom 
