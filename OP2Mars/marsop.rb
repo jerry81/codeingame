@@ -49,6 +49,8 @@ def get_target(x,lx,lx2)
 end
 
 # step 1 - handle angle 
+prevAngle = 0
+prevThrust = 3
 loop do
   # hs: the horizontal speed (in m/s), can be negative.
   # vs: the vertical speed (in m/s), can be negative.
@@ -59,36 +61,18 @@ loop do
   STDERR.puts "gettarget #{get_target(x,longestx1, longestx2)}"
   # Write an action using puts
   # To debug: STDERR.puts "Debug messages..."
-  angle = 0
+  
   distToLanding = y - longesty
   case get_target(x,longestx1, longestx2)
   when 'T'
-   if hs > 0
-       angle = 50
-   elsif hs < 0
-       angle = -50
-   else
-       angle = 0
-   end
+   # in target zone 
   when 'R'
-    angle = hs > 40 ? 0 : -50
+   # target to right
   else
-    angle = hs < 40 ? 0 : 50
+   # target to left 
   end
-  thrust = 3 
-  STDERR.puts "distToLanding #{distToLanding}"
-  if distToLanding < 1000
-    angle = 0
-    if vs < -35 && r == 0
-        thrust = 4
-    end
-  end
-
-
-  if distToLanding < 2500 && vs < -40 
-    angle = 0 
-    thrust = 4
-  end
+  
+  # most important guards go at the bottom 
   # R P. R is the desired rotation angle. P is the desired thrust power.
   puts "#{angle} #{thrust}"
 end
