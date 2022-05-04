@@ -79,7 +79,7 @@ loop do
   STDERR.puts "distToLanding #{distToLanding}"
   if distToLanding < 1000
     angle = 0
-    if vspeed > 40 && r == 0
+    if vs < -38 && r == 0
         thrust = 4
     end
   end
