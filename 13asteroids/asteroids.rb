@@ -55,7 +55,10 @@ def makeNewMap(o1,o2,dt,dt2, h, w)
         dy = ((y2 - y1) / dt.to_f) * dt2
         newx = dx + x2
         newy = dy + y2
-        if newx < w && newx > -1 && newy > -1 && newy < h
+        if k == 'V' 
+            STDERR.puts "moving v x2 is #{x2} y2 #{y2} dx #{dx} #{dy} newx #{newx} newy #{newy}"
+        end
+        if newx < w && newx >= 0 && newy >= 0 && newy < h
           returned[k] = {:x => newx, :y => newy }
         end
     end
