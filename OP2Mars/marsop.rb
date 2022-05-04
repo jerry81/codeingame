@@ -5,37 +5,32 @@ STDOUT.sync = true # DO NOT REMOVE
 n = gets.to_i # the number of points used to draw the surface of Mars.
 
 # first find flat land
-longestFlatX = 0
-longestFlatY = 0
 longest = 0
-curLen = 0
-curX = -1
-curY = -1
-curFX = 0
-curFY=0
+longestx1 = nil
+longestx2 = nil
+longesty = nil
+prevx = nil
+prevy = nil
 n.times do
   # land_x: X coordinate of a surface point. (0 to 6999)
   # land_y: Y coordinate of a surface point. By linking all the points together in a sequential fashion, you form the surface of Mars.
   land_x, land_y = gets.split(" ").collect { |x| x.to_i }
-  if curX == -1
-    curX = land_x
-    curY = land_y
-  else
-    if curY == land_y
-        curLen += 1
-        if curLen > longest
-            longestFlatY = longestFlatY
-            longestFlatX = curFX
+  if !prevx.nil? 
+    if land_y == prevy 
+        len = land_x - prevx 
+        if len > longest
+            longest = len 
+            longestx1 = prevx 
+            longestx2 = land_x
+            longesty = land_y
         end
-    else
-        curFX = land_x 
-        curFY = land_y
     end
-    curX = land_x 
-    curY = land_y
   end
+  prevx = land_x 
+  prevy = land_y
 end
 
+STDERR.puts "longest is #{longest} x is #{longestx1} x2 is #{longestx2} y is #{longesty}"
 # game loop
 loop do
   # hs: the horizontal speed (in m/s), can be negative.
