@@ -79,12 +79,13 @@ def limitv(originalAngle, vs, close)
 end
 
 def limitt(angle, vs, close)
-    ret 3
-    if vs < -40 && close
+    ret 4
+    if vs < -40 && close && angle == 0
         ret = 4
     end
-    if vs > 37 && close 
+    if vs > 37 && close && angle == 0
         ret = 3
+    end
     ret
 end
 # step 1 - handle angle 
