@@ -69,7 +69,8 @@ newMap = makeNewMap(objs1,objs2,dt,dt2)
 
 def buildNewArray(newMap, h, w)
     # init array 
-    ret = Array.new(h, Array.new(w, '.'))
+    # ret = Array.new(h, Array.new(w, '.') # same array 
+    ret = Array.new(h) { Array.new(w, '.') } # seperate arrays
     newMap.each do |k,v|
         STDERR.puts "iterating"
         x = v[:x]
