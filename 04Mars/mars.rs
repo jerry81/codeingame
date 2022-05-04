@@ -49,8 +49,10 @@ fn main() {
         if v_speed > -5 && thrust > 0 {
             thrust -=1;
         } */
-        if dist < 2135 {
-            thrust = 4
+        if v_speed < -39 {
+          thrust = 4
+        } else {
+            thrust = 0
         }
         output = "0 ".to_string();
        //  let ch = char::from_digit(thrust, 10);
