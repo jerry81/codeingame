@@ -48,17 +48,17 @@ def limiths(hs, t, close)
     angle = 0
     case t 
     when 'L' 
-        angle = 60
+        angle = 45
     when 'R'
-        angle = -60
+        angle = -45
     end
     if close 
-      if hs > 45 
-        angle = 90
+      if hs > 45
+        angle = 45
       elsif hs > 25 
         angle = 45
       elsif hs < -45
-        angle = -90
+        angle = -45
       elsif hs < -25
         angle = -45
       end
