@@ -94,7 +94,7 @@ loop do
   close = distToLanding < 2000
   angle = limiths(hs, t, close)
 
-  angle = limitv(originalAngle, vs, close)
+  angle = limitv(angle, vs, close)
   STDERR.puts "angle is #{angle}"
   
   # most important guards go at the bottom 
