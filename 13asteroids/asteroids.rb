@@ -46,14 +46,12 @@ def makeNewMap(o1,o2,dt,dt2)
     # objs2 is {"A"=>{:x=>1, :y=>0}}
     # return {"A"=> {;dx=>1 :dy=>0 }}
     returned = {}
-    STDERR.puts "o1 is  #{o1}" # expect 1
     o1.each do |k,v|
         x1 = v[:x]
         y1 = v[:y]
         o = o2[k]
         x2 = o[:x]
         y2 = o[:y]
-        STDERR.puts "x2, x1 is #{x2} #{x1}" # expect 1
         dx = ((x2 - x1) / dt) * dt2
         dy = ((y2 - y1) / dt) * dt2
         newx = dx + x2
@@ -68,8 +66,18 @@ objs2 = findObjects p2
 dt = t2 - t1
 dt2 = t3 - t2
 newMap = makeNewMap(objs1,objs2,dt,dt2)
+
+def buildNewArray(newMap)
+    # init array 
+    ret = Array.new(h, Array.new(w, '.'))
+    STDERR.puts("ret is #{ret}")
+end
+
 STDERR.puts "objs1 is #{objs1}"
 STDERR.puts "objs2 is #{objs2}"
 STDERR.puts "dt is #{dt}"
 STDERR.puts "changemap is #{newMap}"
+
+newArr = buildNewArray(newMap)
+
 puts "answer"
