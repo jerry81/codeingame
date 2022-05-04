@@ -66,6 +66,14 @@ def limiths(hs, t, close)
     angle 
 end
 
+def limitv(originalAngle, vs, close)
+    ret = originalAngle 
+    if vs < -50 && close
+        ret = 0
+    end
+    ret 
+end
+
 # step 1 - handle angle 
 loop do
   # hs: the horizontal speed (in m/s), can be negative.
@@ -82,9 +90,11 @@ loop do
   STDERR.puts "gettarget #{t}"
   
   angle = 0
-  thrust = 3 
+  thrust = 4
   close = distToLanding < 2000
   angle = limiths(hs, t, close)
+
+  angle = limitv(originalAngle, vs, close)
   STDERR.puts "angle is #{angle}"
   
   # most important guards go at the bottom 
