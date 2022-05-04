@@ -71,13 +71,18 @@ loop do
        angle = 0
    end
   when 'R'
-    angle = -45
+    angle = hs > 40 ? 0 : -45
   else
-    angle = 45
+    angle = hs < 40 ? 0 : 45
   end
-  if distToLanding < 100
+  thrust = 3 
+  STDERR.puts "distToLanding #{distToLanding}"
+  if distToLanding < 1000
     angle = 0
+    if vspeed > 40 && r == 0
+        thrust = 4
+    end
   end
   # R P. R is the desired rotation angle. P is the desired thrust power.
-  puts "#{angle} 3"
+  puts "#{angle} #{thrust}"
 end
