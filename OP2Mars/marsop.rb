@@ -76,14 +76,15 @@ def limitv(originalAngle, vs, close)
     if vs < -50 && close
         ret = 0
     end
+    ret
 end
 
-def limitt(angle, vs, close)
-    ret 4
-    if vs < -40 && close && angle == 0
+def limitt(vs, close)
+    ret = 4
+    if vs < -40 && close
         ret = 4
     end
-    if vs > 37 && close && angle == 0
+    if vs > 37 && close
         ret = 3
     end
     ret
@@ -109,7 +110,7 @@ loop do
   angle = limiths(hs, t, close)
 
   angle = limitv(angle, vs, close)
-  thrust = limitt(angle, vs, close)
+  thrust = limitt(vs, close)
   STDERR.puts "angle is #{angle}"
   
   # most important guards go at the bottom 
