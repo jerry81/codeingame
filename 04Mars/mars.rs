@@ -37,6 +37,8 @@ fn main() {
         // To debug: eprintln!("Debug message...");
 
         let mut output = String::new();
+        let mut speedgained = 4.0 - 3.711;
+        eprintln!("gained {}", speedgained);
         
         if v_speed < -30 && thrust < 4 {
           thrust += 1;
