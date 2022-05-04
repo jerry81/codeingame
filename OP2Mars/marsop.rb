@@ -45,7 +45,8 @@ def get_target(x,lx,lx2)
 end
 
 STABLE_ANGLE = 30
-EXTREME_ANGLE = 40
+AGRESSIVE_ANGLE = 40
+EXTREME_ANGLE = 50
 # step 1 - handle angle 
 loop do
   # hs: the horizontal speed (in m/s), can be negative.
@@ -57,22 +58,34 @@ loop do
   # Write an action using puts
   # To debug: STDERR.puts "Debug messages..."
   distToLanding = y - longesty
+
   t = get_target(x, longestx1, longestx2)
-  
   angle = 0
   thrust = 4
-  close = distToLanding < 2000
-  
+  distToL = (x - longestx1).abs
+  distToR = (x - longestx2).abs
+  STDERR.puts "distToL #{distToL}"
+  STDERR.puts "distToR #{distToR}"
+  STDERR.puts "T is #{t}"
+  STDERR.puts "r is #{r}"
   # step 1 - get in range
   if t == 'L'
-    if hs < -STABLE_ANGLE
-      angle = 0
+    if hs < -50
+      if distToR < 1000
+        angle = -STABLE_ANGLE
+      else
+        angle = 0
+      end
     else 
         angle = STABLE_ANGLE
     end
   elsif t == 'R'
-    if hs > 40
-      angle = 0
+    if hs > 50
+        if distToL < 1000
+            angle = STABLE_ANGLE
+        else
+            angle = 0
+        end
     else 
         angle = -STABLE_ANGLE 
     end
