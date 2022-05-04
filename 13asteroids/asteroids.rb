@@ -84,7 +84,8 @@ STDERR.puts "objs2 is #{objs2}"
 STDERR.puts "dt is #{dt}"
 STDERR.puts "d2 is #{dt2}"
 STDERR.puts "changemap is #{newMap}"
-
+newMap = newMap.sort.reverse.to_h # this sorts the hash by keys 
+STDERR.puts "reverse sorted is #{newMap}"
 newArr = buildNewArray(newMap, h, w)
 
 STDERR.puts "newpict is  is #{newArr}"
