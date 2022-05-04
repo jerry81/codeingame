@@ -40,7 +40,7 @@ def findObjects(p)
     returned
 end
 
-def makeNewMap(o1,o2,dt,dt2)
+def makeNewMap(o1,o2,dt,dt2, h, w)
     # given objs1 is {"A"=>{:x=>0, :y=>0}}
     # objs2 is {"A"=>{:x=>1, :y=>0}}
     # return {"A"=> {;dx=>1 :dy=>0 }}
@@ -55,7 +55,9 @@ def makeNewMap(o1,o2,dt,dt2)
         dy = ((y2 - y1) / dt.to_f) * dt2
         newx = dx + x2
         newy = dy + y2
-        returned[k] = {:x => newx, :y => newy }
+        if newx < w && newx > -1 && newy > -1 && newy < h
+          returned[k] = {:x => newx, :y => newy }
+        end
     end
     returned
 end
@@ -64,7 +66,7 @@ objs1 = findObjects p1
 objs2 = findObjects p2
 dt = t2 - t1
 dt2 = t3 - t2
-newMap = makeNewMap(objs1,objs2,dt,dt2)
+newMap = makeNewMap(objs1,objs2,dt,dt2, h, w)
 
 def buildNewArray(newMap, h, w)
     # init array 
