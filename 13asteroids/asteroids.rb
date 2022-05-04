@@ -69,8 +69,8 @@ newMap = makeNewMap(objs1,objs2,dt,dt2)
 
 def buildNewArray(newMap, h, w)
     # init array 
-    # ret = Array.new(h, Array.new(w, '.') # same array 
-    ret = Array.new(h) { Array.new(w, '.') } # seperate arrays
+    ret = Array.new(h) { Array.new(w, '.') }
+
     newMap.each do |k,v|
         STDERR.puts "iterating"
         x = v[:x]
@@ -90,4 +90,6 @@ newArr = buildNewArray(newMap, h, w)
 
 STDERR.puts "newpict is  is #{newArr}"
 
-puts "answer"
+newArr.each do |line|
+    puts "#{line.join('')}"
+end
