@@ -33,8 +33,19 @@ end
 STDERR.puts "longest is #{longest} x is #{longestx1} x2 is #{longestx2} y is #{longesty}"
 # game loop
 
-def inRange(x,lx,lx2)
+def in_range(x,lx,lx2) # not super useful for making decisions
     return x > lx && x < lx2
+end
+
+def get_target(x,lx,lx2) 
+    # returns L, T, or R
+    if x < lx
+        return 'L'
+    end
+    if x > lx2
+        return 'R'
+    end
+    return 'T'
 end
 
 loop do
@@ -44,7 +55,7 @@ loop do
   # r: the rotation angle in degrees (-90 to 90).
   # p: the thrust power (0 to 4).
   x, y, hs, vs, f, r, p = gets.split(" ").collect { |x| x.to_i }
-  STDERR.puts "in range #{inRange(x,longestx1, longestx2)}"
+  STDERR.puts "gettarget #{get_target(x,longestx1, longestx2)}"
   # Write an action using puts
   # To debug: STDERR.puts "Debug messages..."
 
