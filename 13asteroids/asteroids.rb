@@ -67,7 +67,7 @@ dt = t2 - t1
 dt2 = t3 - t2
 newMap = makeNewMap(objs1,objs2,dt,dt2)
 
-def buildNewArray(newMap)
+def buildNewArray(newMap, h, w)
     # init array 
     ret = Array.new(h, Array.new(w, '.'))
     STDERR.puts("ret is #{ret}")
@@ -78,6 +78,6 @@ STDERR.puts "objs2 is #{objs2}"
 STDERR.puts "dt is #{dt}"
 STDERR.puts "changemap is #{newMap}"
 
-newArr = buildNewArray(newMap)
+newArr = buildNewArray(newMap, h, w)
 
 puts "answer"
