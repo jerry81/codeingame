@@ -44,64 +44,8 @@ def get_target(x,lx,lx2)
     return 'T'
 end
 
-def limiths(hs, t, close)
-    angle = 0
-    case t 
-    when 'L' 
-        angle = 45
-    when 'R'
-        angle = -45
-    end
-    if close 
-      if hs > 45
-        angle = 45
-      elsif hs > 25 
-        angle = 45
-      elsif hs < -45
-        angle = -45
-      elsif hs < -25
-        angle = -45
-      end
-    end
-    if hs > 50
-        angle = 45
-    elsif hs < -50
-        angle = -45
-    end
-    angle 
-end
-
-def limitv(originalAngle, vs, close, hs)
-    ret = originalAngle 
-    if !close 
-        return ret
-    end
-    if vs < -50 && hs.abs < 20 
-        ret = 0
-    elsif hs > 20
-        ret = 30
-    elsif hs < -20 
-        ret = -30
-    end
-    ret
-end
-
-def limitt(angle, vs, close)
-    ret = 4
-    if close 
-        if vs < -40
-          ret = 4
-      end
-      if vs > -37
-          ret = 3
-      end
-    else  
-        if vs < -40 && angle == 0
-            ret = 2
-        end
-    end
-    ret
-end
+STABLE_ANGLE = 30
+EXTREME_ANGLE = 40
 # step 1 - handle angle 
 loop do
   # hs: the horizontal speed (in m/s), can be negative.
@@ -110,22 +54,42 @@ loop do
   # r: the rotation angle in degrees (-90 to 90).
   # p: the thrust power (0 to 4).
   x, y, hs, vs, f, r, p = gets.split(" ").collect { |x| x.to_i }
-  STDERR.puts "gettarget"
   # Write an action using puts
   # To debug: STDERR.puts "Debug messages..."
   distToLanding = y - longesty
   t = get_target(x, longestx1, longestx2)
-  STDERR.puts "gettarget #{t}"
   
   angle = 0
   thrust = 4
   close = distToLanding < 2000
-  angle = limiths(hs, t, close)
-
-  angle = limitv(angle, vs, close, hs)
-  thrust = limitt(angle, vs, close)
-  STDERR.puts "angle is #{angle}"
   
+  # step 1 - get in range
+  if t == 'L'
+    if hs < -STABLE_ANGLE
+      angle = 0
+    else 
+        angle = STABLE_ANGLE
+    end
+  elsif t == 'R'
+    if hs > 40
+      angle = 0
+    else 
+        angle = -STABLE_ANGLE 
+    end
+  else
+    # step 2 - make hs 0 
+    if hs > 5
+      angle = EXTREME_ANGLE
+    elsif hs < -5
+        angle = -EXTREME_ANGLE
+    else 
+        angle = 0
+        # step 3 - freefall/keep speed above -39 
+        thrust = vs > -39 ? 0 : 4
+    end
+  
+  
+  end
   # most important guards go at the bottom 
   # R P. R is the desired rotation angle. P is the desired thrust power.
   puts "#{angle} #{thrust}"
