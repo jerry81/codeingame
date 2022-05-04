@@ -28,7 +28,6 @@ def findObjects(p)
     # returns map of objects and their positions
     returned = {}
     p.each_with_index do |l,idx|
-        STDERR.puts "line is #{l}"
         for i in 0..l.length-1
             ch = l[i]
             if ch != '.'
@@ -52,8 +51,8 @@ def makeNewMap(o1,o2,dt,dt2)
         o = o2[k]
         x2 = o[:x]
         y2 = o[:y]
-        dx = ((x2 - x1) / dt) * dt2
-        dy = ((y2 - y1) / dt) * dt2
+        dx = ((x2 - x1) / dt.to_f) * dt2
+        dy = ((y2 - y1) / dt.to_f) * dt2
         newx = dx + x2
         newy = dy + y2
         returned[k] = {:x => newx, :y => newy }
@@ -72,7 +71,6 @@ def buildNewArray(newMap, h, w)
     ret = Array.new(h) { Array.new(w, '.') }
 
     newMap.each do |k,v|
-        STDERR.puts "iterating"
         x = v[:x]
         y = v[:y]
         STDERR.puts "iterating #{x} #{y}"
@@ -84,6 +82,7 @@ end
 STDERR.puts "objs1 is #{objs1}"
 STDERR.puts "objs2 is #{objs2}"
 STDERR.puts "dt is #{dt}"
+STDERR.puts "d2 is #{dt2}"
 STDERR.puts "changemap is #{newMap}"
 
 newArr = buildNewArray(newMap, h, w)
