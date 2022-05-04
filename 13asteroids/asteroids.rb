@@ -41,10 +41,11 @@ def findObjects(p)
     returned
 end
 
-def makeChangeMap(o1,o2,dt)
+def makeChangeMap(o1,o2,dt,dt2)
     # given objs1 is {"A"=>{:x=>0, :y=>0}}
     # objs2 is {"A"=>{:x=>1, :y=>0}}
     # return {"A"=> {;dx=>1 :dy=>0 }}
+    dt2 = t3 - 
     returned = {}
     o1.each do |k,v|
         x1 = v[:x]
@@ -52,14 +53,18 @@ def makeChangeMap(o1,o2,dt)
         o = o2[k]
         x2 = o[:x]
         y2 = o[:y]
-        returned[k] = {:dx => ((x2 - x1) / dt), :dy => ((y2 - y1) / dt) }
+        dx = ((x2 - x1) / dt) * dt2
+        dy = ((y2 - y1) / dt) * dt2
+
+        returned[k] = {:dx => dx, :dy => dy }
     end
 end
 
 objs1 = findObjects p1
 objs2 = findObjects p2
 dt = t2 - t1
-changeMap = makeChangeMap(objs1,objs2,dt)
+dt2 = t3 - t2
+changeMap = makeChangeMap(objs1,objs2,dt,dt2)
 STDERR.puts "objs1 is #{objs1}"
 STDERR.puts "objs2 is #{objs2}"
 STDERR.puts "dt is #{dt}"
