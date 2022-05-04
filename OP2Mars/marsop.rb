@@ -75,19 +75,25 @@ loop do
         angle = -STABLE_ANGLE
       else
         angle = 0
+        if vs >= 0 
+            thrust = 0
+        end
       end
     else 
         angle = STABLE_ANGLE
     end
   elsif t == 'R'
     if hs > 50
-        if distToL < 1000
+        if distToL < 2000
             angle = STABLE_ANGLE
         else
             angle = 0
+            if vs >= 0 
+                thrust = 0
+            end
         end
     else 
-        angle = -STABLE_ANGLE 
+        angle = -STABLE_ANGLE
     end
   else
     # step 2 - make hs 0 
