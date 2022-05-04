@@ -71,21 +71,34 @@ def limiths(hs, t, close)
     angle 
 end
 
-def limitv(originalAngle, vs, close)
+def limitv(originalAngle, vs, close, hs)
     ret = originalAngle 
-    if vs < -50 && close
+    if !close 
+        return ret
+    end
+    if vs < -50 && hs.abs < 20 
         ret = 0
+    elsif hs > 20
+        ret = 30
+    elsif hs < -20 
+        ret = -30
     end
     ret
 end
 
-def limitt(vs, close)
+def limitt(angle, vs, close)
     ret = 4
-    if vs < -40 && close
-        ret = 4
-    end
-    if vs > -37 && close
-        ret = 3
+    if close 
+        if vs < -40
+          ret = 4
+      end
+      if vs > -37
+          ret = 3
+      end
+    else  
+        if vs < -40 && angle == 0
+            ret = 2
+        end
     end
     ret
 end
@@ -109,8 +122,8 @@ loop do
   close = distToLanding < 2000
   angle = limiths(hs, t, close)
 
-  angle = limitv(angle, vs, close)
-  thrust = limitt(vs, close)
+  angle = limitv(angle, vs, close, hs)
+  thrust = limitt(angle, vs, close)
   STDERR.puts "angle is #{angle}"
   
   # most important guards go at the bottom 
