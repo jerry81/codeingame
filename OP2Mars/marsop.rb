@@ -33,10 +33,6 @@ end
 STDERR.puts "longest is #{longest} x is #{longestx1} x2 is #{longestx2} y is #{longesty}"
 # game loop
 
-def in_range(x,lx,lx2) # not super useful for making decisions
-    return x > lx && x < lx2
-end
-
 def get_target(x,lx,lx2) 
     # returns L, T, or R
     if x < lx
@@ -48,9 +44,29 @@ def get_target(x,lx,lx2)
     return 'T'
 end
 
+def limiths(hs, t, close)
+    angle = 0
+    case t 
+    when 'L' 
+        angle = 60
+    when 'R'
+        angle = -60
+    end
+    if close 
+      if hs > 45 
+        angle = 90
+      elsif hs > 25 
+        angle = 45
+      elsif hs < -45
+        angle = -90
+      elsif hs < -25
+        angle = -45
+      end
+    end
+    angle 
+end
+
 # step 1 - handle angle 
-prevAngle = 0
-prevThrust = 3
 loop do
   # hs: the horizontal speed (in m/s), can be negative.
   # vs: the vertical speed (in m/s), can be negative.
@@ -58,19 +74,18 @@ loop do
   # r: the rotation angle in degrees (-90 to 90).
   # p: the thrust power (0 to 4).
   x, y, hs, vs, f, r, p = gets.split(" ").collect { |x| x.to_i }
-  STDERR.puts "gettarget #{get_target(x,longestx1, longestx2)}"
+  STDERR.puts "gettarget"
   # Write an action using puts
   # To debug: STDERR.puts "Debug messages..."
-  
   distToLanding = y - longesty
-  case get_target(x,longestx1, longestx2)
-  when 'T'
-   # in target zone 
-  when 'R'
-   # target to right
-  else
-   # target to left 
-  end
+  t = get_target(x, longestx1, longestx2)
+  STDERR.puts "gettarget #{t}"
+  
+  angle = 0
+  thrust = 3 
+  close = distToLanding < 2000
+  angle = limiths(hs, t, close)
+  STDERR.puts "angle is #{angle}"
   
   # most important guards go at the bottom 
   # R P. R is the desired rotation angle. P is the desired thrust power.
