@@ -98,13 +98,13 @@ loop do
   else
     # step 2 - make hs 0 
     if hs > 5
-      angle = EXTREME_ANGLE
+      angle = AGRESSIVE_ANGLE
     elsif hs < -5
-        angle = -EXTREME_ANGLE
+        angle = -AGRESSIVE_ANGLE
     else 
         angle = 0
         # step 3 - freefall/keep speed above -39 
-        thrust = vs > -39 ? 0 : 4
+        thrust = vs > -35 ? 0 : 4
     end
   
   
