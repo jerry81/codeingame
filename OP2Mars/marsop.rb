@@ -64,16 +64,16 @@ loop do
   case get_target(x,longestx1, longestx2)
   when 'T'
    if hs > 0
-       angle = 45
+       angle = 80
    elsif hs < 0
-       angle = -45
+       angle = -80
    else
        angle = 0
    end
   when 'R'
-    angle = hs > 40 ? 0 : -45
+    angle = hs > 40 ? 0 : -80
   else
-    angle = hs < 40 ? 0 : 45
+    angle = hs < 40 ? 0 : 80
   end
   thrust = 3 
   STDERR.puts "distToLanding #{distToLanding}"
