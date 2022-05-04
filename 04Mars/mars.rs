@@ -18,8 +18,9 @@ fn main() {
         let inputs = input_line.split(" ").collect::<Vec<_>>();
         let land_x = parse_input!(inputs[0], i32); // X coordinate of a surface point. (0 to 6999)
         let land_y = parse_input!(inputs[1], i32); // Y coordinate of a surface point. By linking all the points together in a sequential fashion, you form the surface of Mars.
+        eprintln!("{}", land_y)
     }
-    let mut thrust = 2;
+    let mut thrust = 0;
     // game loop
     loop {
         let mut input_line = String::new();
@@ -38,13 +39,18 @@ fn main() {
 
         let mut output = String::new();
         let mut speedgained = 4.0 - 3.711;
+        let mut dist = y - 100;
         eprintln!("gained {}", speedgained);
+        eprintln!("dist is {}", dist);
         
-        if v_speed < -30 && thrust < 4 {
+        /* if v_speed < -30 && thrust < 4 {
           thrust += 1;
         }
         if v_speed > -5 && thrust > 0 {
             thrust -=1;
+        } */
+        if dist < 2135 {
+            thrust = 4
         }
         output = "0 ".to_string();
        //  let ch = char::from_digit(thrust, 10);
