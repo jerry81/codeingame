@@ -70,7 +70,14 @@ newMap = makeNewMap(objs1,objs2,dt,dt2)
 def buildNewArray(newMap, h, w)
     # init array 
     ret = Array.new(h, Array.new(w, '.'))
-    STDERR.puts("ret is #{ret}")
+    newMap.each do |k,v|
+        STDERR.puts "iterating"
+        x = v[:x]
+        y = v[:y]
+        STDERR.puts "iterating #{x} #{y}"
+        ret[v[:y]][v[:x]] = k
+    end
+    ret
 end
 
 STDERR.puts "objs1 is #{objs1}"
@@ -79,5 +86,7 @@ STDERR.puts "dt is #{dt}"
 STDERR.puts "changemap is #{newMap}"
 
 newArr = buildNewArray(newMap, h, w)
+
+STDERR.puts "newpict is  is #{newArr}"
 
 puts "answer"
