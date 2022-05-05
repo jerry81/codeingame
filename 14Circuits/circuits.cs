@@ -68,6 +68,17 @@ class Solution
           [,AV+BV,(
           etc..
         */
+
+        /* complex case
+( Alfa [ Charlie Delta ( Bravo [ Echo ( Foxtrot Golf ) ] ) ] )
+(, Alfa, [, Charlie, Delta, (, Bravo, [, Echo, (, Foxtrot, Golf
+) - pop until ( 
+(, Alfa, [, Charlie, Delta, (, Bravo, [, Echo, Foxtrot+Golf
+], - pop until [     -> foxtrot+golf, echo - evaluates into 1/((1/Echo)+(1/(Foxtrot+Golf))
+
+super complex case
+
+        */
         // Write an answer using Console.WriteLine()
         // To debug: Console.Error.WriteLine("Debug messages...");
 
