@@ -20,10 +20,16 @@ public class Helper {
     public void PrintArr(string[] arr) {
         foreach (string i in arr) {
             //textBox3.Text += ("Key = {0}, Value = {1}", kvp.Key, kvp.Value);
-            Console.Error.WriteLine("item is {0}", i);
+            Console.Error.WriteLine("item in arr is {0}", i);
         }
     }
+
+    public void PrintStack( IEnumerable myCollection )  {
+      foreach ( Object obj in myCollection )
+         Console.Error.WriteLine( "item in stack is {0}", obj );
+    }
 }
+
 class Solution
 {
 
@@ -51,7 +57,16 @@ class Solution
         string circuit = Console.ReadLine();
         string[] arr = circuit.Split(' ');
         h.PrintArr(arr);
-        
+        Stack stack = new Stack();
+        foreach (string item in arr) {
+            string[] keywords = {"[", "(", ")", "]"};
+            if (keywords.Contains(item)) {
+                stack.Push(item);
+            } else {
+                stack.Push(resistance[item]);
+            }
+        }
+        h.PrintStack(stack);
         // identify series and parallels
         // simple nesting example
         // [ ( A B ) [ C A ] ]
