@@ -59,14 +59,26 @@ class Solution
         h.PrintArr(arr);
         Stack stack = new Stack();
         foreach (string item in arr) {
-            string[] keywords = {"[", "(", ")", "]"};
+            string[] keywords = {"[", "("};
             if (keywords.Contains(item)) {
                 stack.Push(item);
+            } else if (item == ")") {
+                List<int> operators = new List<int>();
+                var popped = stack.Pop();
+                if (popped is string && popped as string == "(") {
+                    Console.Error.WriteLine("end condition");
+                } else if (popped is int asInt) {
+                    operators.Add(asInt);
+                }
+
+            } else if (item == "]") {
+
             } else {
                 stack.Push(resistance[item]);
             }
         }
         h.PrintStack(stack);
+
         // identify series and parallels
         // simple nesting example
         // [ ( A B ) [ C A ] ]
