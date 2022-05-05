@@ -51,6 +51,7 @@ class Solution
         string circuit = Console.ReadLine();
         string[] arr = circuit.Split(' ');
         h.PrintArr(arr);
+        
         // identify series and parallels
         // simple nesting example
         // [ ( A B ) [ C A ] ]
@@ -58,20 +59,14 @@ class Solution
         // stacks
         /*
          [
-         (
-           A
-           B
-          ) - can evaluate value
-          left with 
-          [
-            val 
-           (
-           C
-           A
-           ) - evaluate value 2
-           remaining [ val value2 
-           ]
-           evaluate 
+         [,(
+         [,(,AV,
+         [,(,AV,BV
+         [,(,AV,BV
+         ) so pop until ( 
+         [,AV+BV
+          [,AV+BV,(
+          etc..
         */
         // Write an answer using Console.WriteLine()
         // To debug: Console.Error.WriteLine("Debug messages...");
