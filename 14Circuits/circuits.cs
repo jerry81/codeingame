@@ -16,6 +16,13 @@ public class Helper {
             Console.Error.WriteLine("Key = {0}, Value = {1}", kvp.Key, kvp.Value);
         }
     }
+
+    public void PrintArr(string[] arr) {
+        foreach (string i in arr) {
+            //textBox3.Text += ("Key = {0}, Value = {1}", kvp.Key, kvp.Value);
+            Console.Error.WriteLine("item is {0}", i);
+        }
+    }
 }
 class Solution
 {
@@ -42,6 +49,8 @@ class Solution
         Helper h = new Helper();
         h.PrintDict(resistance);
         string circuit = Console.ReadLine();
+        string[] arr = circuit.Split(' ');
+        h.PrintArr(arr);
         // identify series and parallels
         // simple nesting example
         // [ ( A B ) [ C A ] ]
