@@ -9,8 +9,18 @@ using System.Collections.Generic;
  * Auto-generated code below aims at helping you parse
  * the standard input according to the problem statement.
  **/
+public class Helper {
+    public void PrintDict(Dictionary<string, int> dictionary) {
+        foreach (KeyValuePair<string, int> kvp in dictionary) {
+            //textBox3.Text += ("Key = {0}, Value = {1}", kvp.Key, kvp.Value);
+            Console.Error.WriteLine("Key = {0}, Value = {1}", kvp.Key, kvp.Value);
+        }
+    }
+}
 class Solution
 {
+
+    
     static void Main(string[] args)
     {
         // make dict of circuits 
@@ -29,7 +39,8 @@ class Solution
             int R = int.Parse(inputs[1]);
             resistance.Add(name, R);
         }
-        Console.Error.WriteLine("Debug messages...", resistance);
+        Helper h = new Helper();
+        h.PrintDict(resistance);
         string circuit = Console.ReadLine();
         // identify series and parallels
         // simple nesting example
