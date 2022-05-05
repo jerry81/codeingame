@@ -64,13 +64,21 @@ class Solution
                 stack.Push(item);
             } else if (item == ")") {
                 List<int> operators = new List<int>();
-                var popped = stack.Pop();
-                if (popped is string && popped as string == "(") {
-                    Console.Error.WriteLine("end condition");
-                } else if (popped is int asInt) {
-                    operators.Add(asInt);
+                while (true) {
+                    var popped = stack.Pop();
+                    if (popped is string && popped as string == "(") {
+                        Console.Error.WriteLine("end condition");
+                        int sum = 0;
+                        foreach (int j in operators) {
+                            sum += j;
+                        }
+                         Console.Error.WriteLine("sum is {0}", sum);
+                         stack.Push(sum);
+                        break;
+                    } else if (popped is int asInt) {
+                        operators.Add(asInt);
+                    }
                 }
-
             } else if (item == "]") {
 
             } else {
@@ -108,7 +116,8 @@ super complex case
         */
         // Write an answer using Console.WriteLine()
         // To debug: Console.Error.WriteLine("Debug messages...");
-
-        Console.WriteLine("Equivalent Resistance");
+  /* TODO: convert ints to floats when working on stack */
+  /* also print the float rounded to 1 decimal pt */
+        Console.WriteLine("{0}", stack.Pop());
     }
 }
