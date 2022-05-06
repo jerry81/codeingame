@@ -29,7 +29,7 @@ def getNextPos(ci,cj,direction):
     return ni,nj
     
 
-def getNextDir(hi, hj):
+def getNextDir(hi, hj, preclude = None):
     direction = ""
     hri = hi
     hrj = hj + 1
@@ -41,19 +41,19 @@ def getNextDir(hi, hj):
     hdj = hj
     if hrj < j:
         item = strArr[hri][hrj]
-        if item == '-':
+        if item == '-' and preclude != 'R':
             direction = 'R'
     if hlj >= 0:
         item = strArr[hli][hlj]
-        if item == '-':
+        if item == '-' and preclude != 'L':
             direction = 'L'
     if hui >= 0:
         item = strArr[hui][huj]
-        if item == '|':
-            direction = 'D'
+        if item == '|' and preclude != 'U':
+            direction = 'U'
     if hdi < i:
         item = strArr[hdi][hdj]
-        if item == '|':
+        if item == '|' and preclude != 'D':
             direction = 'D'
     return direction
 
@@ -70,7 +70,8 @@ for h in heads:
 
     while nextItem not in enders:
       if nextItem in turners:
-        direction = getNextDir(hi, hj)
+        preclude = direction if nextItem == '*' else None
+        direction = getNextDir(hi, hj, preclude)
       hi, hj = getNextPos(hi,hj,direction)
       nextItem = strArr[hi][hj] 
       length += 1
