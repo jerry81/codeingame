@@ -15,6 +15,20 @@ for i in range(n):
         if t[j] == 'o':
             heads.append({"i":i, "j":j})
 
+def getNextPos(ci,cj,direction):
+    ni = ci 
+    nj = cj 
+    if direction == 'L':
+        nj -= 1
+    elif direction == 'R':
+        nj += 1
+    elif direction == 'U':
+        ni -= 1
+    else:
+        ni += 1
+    return ni,nj
+    
+
 def getNextDir(hi, hj):
     direction = ""
     hri = hi
@@ -43,14 +57,27 @@ def getNextDir(hi, hj):
             direction = 'D'
     return direction
 
+enders = ['<', '>', '^', 'v']
+turners = ['o', '*']
+longestLen = 1
 for h in heads: 
     direction = ""
-    length = 0
+    length = 1
+    nextItem = 'o'
     hi = h["i"]
     hj = h["j"]
-    direction = getNextDir(hi, hj)
-    print("direction is ", direction, file=sys.stderr, flush=True)
-    
+
+    while nextItem not in enders:
+      if nextItem in turners:
+        direction = getNextDir(hi, hj)
+      ni, nj = getNextPos(hi,hj,direction)
+      nextItem = strArr[ni][nj] 
+      length += 1
+    if length > longestLen:
+        longestLen = length
+
+    print("ni is ", ni, file=sys.stderr, flush=True)
+    print("nj is ", nj, file=sys.stderr, flush=True)
 
 print("strArr is ", strArr, file=sys.stderr, flush=True)
 print("heads is ", heads, file=sys.stderr, flush=True)
@@ -71,7 +98,7 @@ print("heads after delete ", heads, file=sys.stderr, flush=True)
 # 3.  keep going in the direction until a * or a tail depending on the direction 
 
 
-print("Answer")
+print(longestLen)
 
 
 """ 
