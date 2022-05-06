@@ -68,7 +68,7 @@ class Solution
                     var popped = stack.Pop();
                     if (popped is string && popped as string == "(") {
                         Console.Error.WriteLine("end condition");
-                        float sum = 0.0;
+                        float sum = 0.0F;
                         foreach (int j in operators) {
                             sum += (float)j;
                         }
@@ -118,6 +118,6 @@ super complex case
         // To debug: Console.Error.WriteLine("Debug messages...");
   /* TODO: convert ints to floats when working on stack */
   /* also print the float rounded to 1 decimal pt */
-        Console.WriteLine("{0}", stack.Pop());
+        Console.WriteLine("{0:0.0}", stack.Pop());
     }
 }
