@@ -1,0 +1,1 @@
+let a,b;for(i=readline().split(" "),w=+i[2]-+i[0],h=+i[3]-+i[1];;)w?w>0?(a="W",w--):(a="E",w++):a="",h?h>0?(b="N",h--):(b="S",h++):b="",console.log(b+a);
