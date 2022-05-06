@@ -63,16 +63,16 @@ class Solution
             if (keywords.Contains(item)) {
                 stack.Push(item);
             } else if (item == ")") {
-                List<int> operators = new List<int>();
+                List<float> operators = new List<float>();
                 while (true) {
                     var popped = stack.Pop();
                     if (popped is string && popped as string == "(") {
                         Console.Error.WriteLine("end condition");
-                        int sum = 0;
+                        float sum = 0.0;
                         foreach (int j in operators) {
-                            sum += j;
+                            sum += (float)j;
                         }
-                         Console.Error.WriteLine("sum is {0}", sum);
+                         Console.Error.WriteLine("sum is {0:0.0}", sum);
                          stack.Push(sum);
                         break;
                     } else if (popped is int asInt) {
