@@ -80,7 +80,22 @@ class Solution
                     }
                 }
             } else if (item == "]") {
-
+                List<float> operands = new List<float>();
+                while (true) {
+                    var popped = stack.Pop();
+                    if (popped is string asStr && asStr == "[") {
+                      float psum = 0.0F;
+                      foreach (float k in operands) {
+                          float res = 1/k;
+                          psum += res;
+                      }
+                      float quo = 1/psum;
+                      stack.Push(quo);
+                      break;
+                    } else if (popped is float asFloat) {
+                        operands.Add(asFloat);
+                    }
+                }
             } else {
                 stack.Push(resistance[item]);
             }
