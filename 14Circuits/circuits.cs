@@ -10,8 +10,8 @@ using System.Collections.Generic;
  * the standard input according to the problem statement.
  **/
 public class Helper {
-    public void PrintDict(Dictionary<string, int> dictionary) {
-        foreach (KeyValuePair<string, int> kvp in dictionary) {
+    public void PrintDict(Dictionary<string, float> dictionary) {
+        foreach (KeyValuePair<string, float> kvp in dictionary) {
             //textBox3.Text += ("Key = {0}, Value = {1}", kvp.Key, kvp.Value);
             Console.Error.WriteLine("Key = {0}, Value = {1}", kvp.Key, kvp.Value);
         }
@@ -38,8 +38,8 @@ class Solution
     {
         // make dict of circuits 
         // Create a new dictionary of strings, with string keys.
-        Dictionary<string, int> resistance =
-          new Dictionary<string, int>();
+        Dictionary<string, float> resistance =
+          new Dictionary<string, float>();
 
         // Add some elements to the dictionary. There are no
          // duplicate keys, but some of the values are duplicates.
@@ -50,7 +50,7 @@ class Solution
             string[] inputs = Console.ReadLine().Split(' ');
             string name = inputs[0];
             int R = int.Parse(inputs[1]);
-            resistance.Add(name, R);
+            resistance.Add(name, (float)R);
         }
         Helper h = new Helper();
         h.PrintDict(resistance);
@@ -63,20 +63,20 @@ class Solution
             if (keywords.Contains(item)) {
                 stack.Push(item);
             } else if (item == ")") {
-                List<float> operators = new List<float>();
+                List<float> operands = new List<float>();
                 while (true) {
                     var popped = stack.Pop();
                     if (popped is string && popped as string == "(") {
                         Console.Error.WriteLine("end condition");
                         float sum = 0.0F;
-                        foreach (int j in operators) {
-                            sum += (float)j;
+                        foreach (float j in operands) {
+                            sum += j;
                         }
                          Console.Error.WriteLine("sum is {0:0.0}", sum);
                          stack.Push(sum);
                         break;
-                    } else if (popped is int asInt) {
-                        operators.Add(asInt);
+                    } else if (popped is float asFloat) {
+                        operands.Add(asFloat);
                     }
                 }
             } else if (item == "]") {
