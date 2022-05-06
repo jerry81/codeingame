@@ -13,7 +13,44 @@ for i in range(n):
     strArr.append(t)
     for j in range(m):
         if t[j] == 'o':
-            heads.append({i:i, j:j})
+            heads.append({"i":i, "j":j})
+
+def getNextDir(hi, hj):
+    direction = ""
+    hri = hi
+    hrj = hj + 1
+    hli = hi
+    hlj = hj - 1
+    hui = hi - 1
+    hdi = hi + 1
+    huj = hj
+    hdj = hj
+    if hrj < j:
+        item = strArr[hri][hrj]
+        if item == '-':
+            direction = 'R'
+    if hlj >= 0:
+        item = strArr[hli][hlj]
+        if item == '-':
+            direction = 'L'
+    if hui >= 0:
+        item = strArr[hui][huj]
+        if item == '|':
+            direction = 'D'
+    if hdi < i:
+        item = strArr[hdi][hdj]
+        if item == '|':
+            direction = 'D'
+    return direction
+
+for h in heads: 
+    direction = ""
+    length = 0
+    hi = h["i"]
+    hj = h["j"]
+    direction = getNextDir(hi, hj)
+    print("direction is ", direction, file=sys.stderr, flush=True)
+    
 
 print("strArr is ", strArr, file=sys.stderr, flush=True)
 print("heads is ", heads, file=sys.stderr, flush=True)
