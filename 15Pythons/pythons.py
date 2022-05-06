@@ -41,19 +41,19 @@ def getNextDir(hi, hj, preclude = None):
     hdj = hj
     if hrj < j:
         item = strArr[hri][hrj]
-        if item == '-' and preclude != 'R':
+        if item == '-' and preclude != 'L':
             direction = 'R'
     if hlj >= 0:
         item = strArr[hli][hlj]
-        if item == '-' and preclude != 'L':
+        if item == '-' and preclude != 'R':
             direction = 'L'
     if hui >= 0:
         item = strArr[hui][huj]
-        if item == '|' and preclude != 'U':
+        if item == '|' and preclude != 'D':
             direction = 'U'
     if hdi < i:
         item = strArr[hdi][hdj]
-        if item == '|' and preclude != 'D':
+        if item == '|' and preclude != 'U':
             direction = 'D'
     return direction
 
