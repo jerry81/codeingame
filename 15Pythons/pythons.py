@@ -19,14 +19,19 @@ print("strArr is ", strArr, file=sys.stderr, flush=True)
 print("heads is ", heads, file=sys.stderr, flush=True)
 
 # test removing a head
-
+"""
 item = heads[0]
 heads.remove(item)
 print("heads after delete ", heads, file=sys.stderr, flush=True)
+"""
 # Write an answer using print
 # To debug: print("Debug messages...", file=sys.stderr, flush=True)
 
-
+# next steps:
+# 1.  for each head
+# 2.  find the initial direction by checking left cell and right cell (considering bounds) and seeing if there is a '-'
+#  also check above and below for '|"
+# 3.  keep going in the direction until a * or a tail depending on the direction 
 
 
 print("Answer")
