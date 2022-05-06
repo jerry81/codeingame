@@ -4,9 +4,14 @@ import math
 # Auto-generated code below aims at helping you parse
 # the standard input according to the problem statement.
 
+
+strArr = []
 n, m = [int(i) for i in input().split()]
 for i in range(n):
     t = input()
+    strArr.append(t)
+
+print("strArr is ", strArr, file=sys.stderr, flush=True)
 
 # Write an answer using print
 # To debug: print("Debug messages...", file=sys.stderr, flush=True)
