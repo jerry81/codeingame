@@ -60,6 +60,7 @@ def getNextDir(hi, hj):
 enders = ['<', '>', '^', 'v']
 turners = ['o', '*']
 longestLen = 1
+longestCount = 1
 for h in heads: 
     direction = ""
     length = 1
@@ -75,6 +76,9 @@ for h in heads:
       length += 1
     if length > longestLen:
         longestLen = length
+        longestCount = 1
+    elif length == longestLen:
+        longestCount += 1
 
 print("strArr is ", strArr, file=sys.stderr, flush=True)
 print("heads is ", heads, file=sys.stderr, flush=True)
@@ -96,6 +100,8 @@ print("heads after delete ", heads, file=sys.stderr, flush=True)
 
 
 print(longestLen)
+print(longestCount)
+
 
 
 """ 
