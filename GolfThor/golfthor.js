@@ -1,1 +1,1 @@
-var i=readline().split(' ');let w=+i[2]-+i[0];let h = +i[3] - +i[1];let a,b;while(1){if(!w){a='';}else if(w>0){a="W";w--}else{a="E";w++};if(!h){b='';}else if(h>0){b="N";h--;}else{b="S";h++};console.log(`${b}${a}`);}
+i=readline().split(' ');w=+i[2]-+i[0];h=+i[3]-+i[1];let a,b;while(1){if(!w){a='';}else if(w>0){a="W";w--}else{a="E";w++};if(!h){b='';}else if(h>0){b="N";h--;}else{b="S";h++};console.log(`${b}${a}`);}
