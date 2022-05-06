@@ -70,14 +70,11 @@ for h in heads:
     while nextItem not in enders:
       if nextItem in turners:
         direction = getNextDir(hi, hj)
-      ni, nj = getNextPos(hi,hj,direction)
-      nextItem = strArr[ni][nj] 
+      hi, hj = getNextPos(hi,hj,direction)
+      nextItem = strArr[hi][hj] 
       length += 1
     if length > longestLen:
         longestLen = length
-
-    print("ni is ", ni, file=sys.stderr, flush=True)
-    print("nj is ", nj, file=sys.stderr, flush=True)
 
 print("strArr is ", strArr, file=sys.stderr, flush=True)
 print("heads is ", heads, file=sys.stderr, flush=True)
