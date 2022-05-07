@@ -58,11 +58,18 @@ while (TRUE)
     if (count($gateways) == 1) {
         $g = $gateways[0];
         $ns = $neighbors[$g];
-        echo($g." ".$ns[0]."\n");
         if (count($ns) == 1) {
+            echo($g." ".$ns[0]."\n");
             $newNeighbors = popNeighbor($g, $ns[0], $neighbors);
             error_log(print_r("neighbors is now\n", true));
             error_log(print_r($newNeighbors, true));
+        } else {
+            $idx = array_search($SI, $ns);
+            if ($idx === false) {
+                $idx = 0;
+            }
+            echo($g." ".$ns[$idx]."\n");
+            $newNeighbors = popNeighbor($g, $ns[$idx], $neighbors);
         }
     }
     // Write an action using echo(). DON'T FORGET THE TRAILING \n
