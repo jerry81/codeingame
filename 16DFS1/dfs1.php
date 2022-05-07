@@ -8,6 +8,11 @@
 // $L: the number of links
 // $E: the number of exit gateways
 fscanf(STDIN, "%d %d %d", $N, $L, $E);
+
+error_log(var_export("expect 3 $N expect 2 $L expect 1 $E", true));
+/*
+first example 3 nodes
+*/
 for ($i = 0; $i < $L; $i++)
 {
     // $N1: N1 and N2 defines a link between these nodes
