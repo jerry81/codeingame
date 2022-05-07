@@ -65,11 +65,44 @@ while (TRUE)
             error_log(print_r($newNeighbors, true));
         } else {
             $idx = array_search($SI, $ns);
+            error_log(print_r("idx is now\n", true));
+            error_log(print_r($idx, true));
             if ($idx === false) {
                 $idx = 0;
             }
             echo($g." ".$ns[$idx]."\n");
             $newNeighbors = popNeighbor($g, $ns[$idx], $neighbors);
+        }
+    } else {
+        // for each gateway 
+        $found = false;
+        for ($i = 0; $i < count($gateways); $i++) {
+            // find if one of the gateways's neihbors has the bot.
+            // if not, just remove the first item u see
+            $g = $gateways[$i];
+            $ns = $neighbors[$g];
+            $idx = array_search($SI, $ns);
+            error_log(print_r("idx is now\n", true));
+            error_log(print_r($idx, true));
+            if ($idx !== false) {
+                echo($g." ".$ns[$idx]."\n");
+                $newNeighbors = popNeighbor($g, $ns[$idx], $neighbors);
+                $found = true;
+                break;
+            }
+        }
+        if ($found) break;
+        // after one full round
+        for ($i = 0; $i < count($gateways); $i++) {
+            // find if one of the gateways's neihbors has the bot.
+            // if not, just remove the first item u see
+            $g = $gateways[$i];
+            $ns = $neighbors[$g];
+            echo($g." ".$ns[0]."\n");
+            if (count($ns) > 0) {
+              $newNeighbors = popNeighbor($g, $ns[0], $neighbors);
+              break;
+            }
         }
     }
     // Write an action using echo(). DON'T FORGET THE TRAILING \n
