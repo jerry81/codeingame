@@ -9,7 +9,12 @@
 // $E: the number of exit gateways
 fscanf(STDIN, "%d %d %d", $N, $L, $E);
 
-error_log(var_export("expect 3 $N expect 2 $L expect 1 $E", true));
+
+$neighbors = [];
+for ($i = 0; $i < $N; $i++)
+{
+    array_push($neighbors, []);
+}
 /*
 first example 3 nodes
 */
@@ -19,6 +24,8 @@ for ($i = 0; $i < $L; $i++)
     // $N1: N1 and N2 defines a link between these nodes
     fscanf(STDIN, "%d %d", $N1, $N2);
     array_push($edges, [$N1, $N2]);
+    array_push($neighbors[$N1], $N2);
+    array_push($neighbors[$N2], $N1);
 }
 error_log(print_r($edges, true));
 $gateways = [];
@@ -31,11 +38,7 @@ for ($i = 0; $i < $E; $i++)
 
 error_log(print_r($gateways, true));
 
-$neighbors = [];
-for ($i = 0; $i < $N; $i++)
-{
-    array_push($neighbors, []);
-}
+
 
 error_log(print_r("neighbors", true));
 error_log(print_r($neighbors, true));
