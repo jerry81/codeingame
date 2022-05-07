@@ -56,9 +56,9 @@ while (TRUE)
         $g = $gateways[0];
         $ns = $neighbors[$g];
         echo($g." ".$ns[0]."\n");
-        unset($ns[0]);
-        error_log(print_r("gateways is now\n", true));
-        error_log(print_r($gateways, true));
+        unset($neighbors[$g][0]);
+        error_log(print_r("neighbors is now\n", true));
+        error_log(print_r($neighbors, true));
     }
     // Write an action using echo(). DON'T FORGET THE TRAILING \n
     // To debug: error_log(var_export($var, true)); (equivalent to var_dump)
