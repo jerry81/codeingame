@@ -27,7 +27,6 @@ for ($i = 0; $i < $L; $i++)
     array_push($neighbors[$N1], $N2);
     array_push($neighbors[$N2], $N1);
 }
-error_log(print_r($edges, true));
 $gateways = [];
 for ($i = 0; $i < $E; $i++)
 {
@@ -36,10 +35,6 @@ for ($i = 0; $i < $E; $i++)
     array_push($gateways,$EI);
 }
 
-error_log(print_r($gateways, true));
-
-error_log(print_r("neighbors", true));
-error_log(print_r($neighbors, true));
 
 // build map of neighbors 
 // init the map 
@@ -54,6 +49,8 @@ while (TRUE)
 {
     // $SI: The index of the node on which the Bobnet agent is positioned this turn
     fscanf(STDIN, "%d", $SI);
+    error_log(print_r("SI is \n", true));
+    error_log(print_r("$SI", true));
     // first handle single gateway case
     if (count($gateways) == 1) {
         $g = $gateways[0];
@@ -91,15 +88,16 @@ while (TRUE)
                 break;
             }
         }
-        if ($found) break;
+        if ($found) continue;
         // after one full round
+        error_log(print_r("no immediate threat\n", true));
         for ($i = 0; $i < count($gateways); $i++) {
             // find if one of the gateways's neihbors has the bot.
             // if not, just remove the first item u see
             $g = $gateways[$i];
             $ns = $neighbors[$g];
-            echo($g." ".$ns[0]."\n");
             if (count($ns) > 0) {
+              echo($g." ".$ns[0]."\n");
               $newNeighbors = popNeighbor($g, $ns[0], $neighbors);
               break;
             }
