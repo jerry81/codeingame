@@ -38,14 +38,17 @@ for ($i = 0; $i < $E; $i++)
 
 error_log(print_r($gateways, true));
 
-
-
 error_log(print_r("neighbors", true));
 error_log(print_r($neighbors, true));
 
 // build map of neighbors 
 // init the map 
 
+function popNeighbor($a,$b, $neighbors) {
+  unset($neighbors[$a][array_search($b, $neighbors[$a])]);
+  unset($neighbors[$b][array_search($a, $neighbors[$b])]);
+  return $neighbors;
+}
 // game loop
 while (TRUE)
 {
@@ -56,9 +59,9 @@ while (TRUE)
         $g = $gateways[0];
         $ns = $neighbors[$g];
         echo($g." ".$ns[0]."\n");
-        unset($neighbors[$g][0]);
+        $newNeighbors = popNeighbor($g, $ns[0], $neighbors);
         error_log(print_r("neighbors is now\n", true));
-        error_log(print_r($neighbors, true));
+        error_log(print_r($newNeighbors, true));
     }
     // Write an action using echo(). DON'T FORGET THE TRAILING \n
     // To debug: error_log(var_export($var, true)); (equivalent to var_dump)
