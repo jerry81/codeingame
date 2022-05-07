@@ -59,9 +59,11 @@ while (TRUE)
         $g = $gateways[0];
         $ns = $neighbors[$g];
         echo($g." ".$ns[0]."\n");
-        $newNeighbors = popNeighbor($g, $ns[0], $neighbors);
-        error_log(print_r("neighbors is now\n", true));
-        error_log(print_r($newNeighbors, true));
+        if (count($ns) == 1) {
+            $newNeighbors = popNeighbor($g, $ns[0], $neighbors);
+            error_log(print_r("neighbors is now\n", true));
+            error_log(print_r($newNeighbors, true));
+        }
     }
     // Write an action using echo(). DON'T FORGET THE TRAILING \n
     // To debug: error_log(var_export($var, true)); (equivalent to var_dump)
