@@ -17,7 +17,7 @@ class Solution
             Console.Error.WriteLine("item in arr is {0}", i);
         }
     } 
-    private char findEnd(char start) {
+    private char findEnd(char start, string[] lines) {
       Console.Error.WriteLine("start is {0}", start);
       return '1';
     }
@@ -35,13 +35,20 @@ class Solution
             lines[i] = line;
         }
 
-        s.PrintArr(lines);
-        char start = 'A';
-        char end = s.findEnd(start);
+        for (int i = 0; i < W; i+=3) {
+            Console.Error.WriteLine("i is {0}", i);
+            char start = lines[0][i];
+            char end = s.findEnd(start, lines);
+
+        // Write an answer using Console.WriteLine()
+        // To debug: Console.Error.WriteLine("Debug messages...");
+            Console.Error.WriteLine("end is {0}", end);
+            // Console.WriteLine("{0}{1}",start,end);
+        }
 
         // Write an answer using Console.WriteLine()
         // To debug: Console.Error.WriteLine("Debug messages...");
 
-        Console.WriteLine("{0}{1}",start,end);
+       //  Console.WriteLine("{0}{1}",start,end);
     }
 }
