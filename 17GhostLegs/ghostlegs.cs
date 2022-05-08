@@ -18,10 +18,12 @@ class Solution
         }
     } 
     private char findEnd(char start, string[] lines, int startIdx, int w) {
+      Console.Error.WriteLine("start is {0}", start);
       int curX = startIdx;
       int curY = 1;
       char curChar = lines[curY][curX];
       while (curChar == '|') {
+           Console.Error.WriteLine("cur char is {0}", curChar);
         int lx = curX - 1;
         int rx = curX + 1;
         if (lx > 1) {
@@ -29,20 +31,22 @@ class Solution
           if (leftC == '-') {
               curX -= 3;
               curY += 1;
+              curChar = lines[curY][curX];
               continue;
           }
         }
-        if (rx > (w - 3)) {
+        if (rx < (w - 3)) {
           char rightC = lines[curY][rx];
           if (rightC == '-') {
               curX += 3;
               curY += 1;
+              curChar = lines[curY][curX];
               continue;
           }
         }
         curY += 1;
+        curChar = lines[curY][curX];
       }
-      Console.Error.WriteLine("start is {0}", start);
       return curChar;
     }
 
