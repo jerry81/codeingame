@@ -23,24 +23,25 @@ class Solution
       int curY = 1;
       char curChar = lines[curY][curX];
       while (curChar == '|') {
-        Console.Error.WriteLine("y,x {0}{1}", curY, curX);
+        Console.Error.WriteLine("y,x {0},{1}", curY, curX);
         Console.Error.WriteLine("cur char is {0}", curChar);
         int lx = curX - 1;
         int rx = curX + 1;
         if (lx > 1) {
           char leftC = lines[curY][lx];
           if (leftC == '-') {
-              Console.Error.WriteLine("moving left");
+              // Console.Error.WriteLine("moving left");
               curX -= 3;
               curY += 1;
               curChar = lines[curY][curX];
               continue;
           }
         }
-        if (rx < (w - 3)) {
+        if (rx < (w - 2)) {
           char rightC = lines[curY][rx];
+          // Console.Error.WriteLine("rightc {0}, curY {1}, rx {2}", rightC, curY, rx);
           if (rightC == '-') {
-              Console.Error.WriteLine("moving right");
+              // Console.Error.WriteLine("moving right");
               curX += 3;
               curY += 1;
               curChar = lines[curY][curX];
