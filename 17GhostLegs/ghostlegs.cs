@@ -17,9 +17,33 @@ class Solution
             Console.Error.WriteLine("item in arr is {0}", i);
         }
     } 
-    private char findEnd(char start, string[] lines) {
+    private char findEnd(char start, string[] lines, int startIdx, int w) {
+      int curX = startIdx;
+      int curY = 1;
+      int curChar = lines[curY][curX];
+      while (curChar != '|') {
+        int lx = curX - 1;
+        int rx = curX + 1;
+        if (lx > 1) {
+          leftC = lines[curY][lx];
+          if (leftC == '-') {
+              curX -= 3;
+              curY += 1;
+              continue;
+          }
+        }
+        if (rx > (w - 3)) {
+          rightC = lines[curY][rx];
+          if (rightC == '-') {
+              curX += 3;
+              curY += 1;
+              continue;
+          }
+        }
+        curY += 1;
+      }
       Console.Error.WriteLine("start is {0}", start);
-      return '1';
+      return curChar;
     }
 
     static void Main(string[] args)
@@ -38,7 +62,7 @@ class Solution
         for (int i = 0; i < W; i+=3) {
             Console.Error.WriteLine("i is {0}", i);
             char start = lines[0][i];
-            char end = s.findEnd(start, lines);
+            char end = s.findEnd(start, lines, i, W);
 
         // Write an answer using Console.WriteLine()
         // To debug: Console.Error.WriteLine("Debug messages...");
