@@ -22,7 +22,9 @@ startPositions = []
 # step 5: change the first step to saturate the center column with towers
 # 5a.  helper to check if a column is saturated
 # b.  helper to build a string to output 
+# c.  helper to build output array saturate a column (or just convert isSaturated)
 towers = {}
+
 def findStartPosition(sp, h, l)
     pos = sp[0]
     x = pos[:x]
@@ -56,7 +58,8 @@ def find_paths(x, lines)
     returned
 end
 
-def isSaturated(x, paths, lines, towers)
+def getUnsaturated(x, paths, lines, towers)
+    locations = []
     l = [0, x-1].max 
     r = [16, x+1].min
     paths.each do |y|
@@ -72,14 +75,20 @@ def isSaturated(x, paths, lines, towers)
         rio = ((ri == '#') && towers.dig(r,y).nil?)
         uio = ((ui == '#') && towers.dig(x,u).nil?)
         dio = ((di == '#') && towers.dig(x,d).nil?)
-        STDERR.puts "towers x,d #{towers.dig(x,d)} di is #{di} "
-        STDERR.puts "towers x,d dig nil check #{towers.dig(x,d).nil?.to_s}"
-        STDERR.puts "lio, rio, uio, dio are #{lio.to_s}, #{rio.to_s}, #{uio.to_s}, #{dio.to_s}"
-        if (lio or rio or uio or dio)
-            return false
+        if lio
+            locations << { :x => l, :y => y }
+        end
+        if rio 
+            locations << { :x => r, :y => y }
+        end 
+        if uio
+            locations << { :x => x, :y => u }
+        end
+        if dio
+            locations << { :x => x, :y => d }
         end
     end
-    true
+    locations
 end
 
 def build_output(arr) 
@@ -93,6 +102,7 @@ end
 def in_bounds(x,y)
     return x >= 0 && x < 17 && y >= 0 && x < 17
 end
+outputarr = []
 counter = 0
 # game loop
 loop do
@@ -143,6 +153,8 @@ loop do
   # round 1 grab the center
   center = 8
   paths = find_paths(center, lines)
+  locs = getUnsaturated(center,paths, lines, towers)
+  STDERR.puts "locs is #{locs}"
   if startPositionFound
     nx = startPositions[0][:x]
     ny = startPositions[0][:y]
