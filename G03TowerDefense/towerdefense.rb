@@ -21,6 +21,7 @@ startPositions = []
 # step 4: add helper - find paths in a given column - done
 # step 5: change the first step to saturate the center column with towers
 # 5a.  helper to check if a column is saturated
+# b.  helper to build a string to output 
 towers = {}
 def findStartPosition(sp, h, l)
     pos = sp[0]
@@ -81,6 +82,14 @@ def isSaturated(x, paths, lines, towers)
     true
 end
 
+def build_output(arr) 
+    str = "PASS;"
+    arr.each do |i|
+        str += "BUILD #{i[:x]} #{i[:y]} GUNTOWER;"
+    end
+    return str
+end
+
 def in_bounds(x,y)
     return x >= 0 && x < 17 && y >= 0 && x < 17
 end
@@ -131,18 +140,13 @@ loop do
 
   offset = counter % 4
   counter += 1
-  STDERR.puts "offset is #{offset}"
   # round 1 grab the center
   center = 8
   paths = find_paths(center, lines)
-  STDERR.puts "paths is #{paths}"
   if startPositionFound
     nx = startPositions[0][:x]
     ny = startPositions[0][:y]
     paths = find_paths(nx, lines)
-    STDERR.puts "ny before is #{ny}"
-    STDERR.puts "nx before is #{nx}"
-    STDERR.puts "isSaturated #{isSaturated(nx, paths, lines, towers)}"
     case offset
     when 0
       if ny < 17
@@ -162,7 +166,9 @@ loop do
       end
     end
     if (lines[ny][nx] == '#')
-      puts "BUILD #{nx} #{ny} GUNTOWER"
+      # puts "BUILD #{nx} #{ny} GUNTOWER"
+      str = build_output([{:x => nx, :y => ny}])
+      puts str
       towers = add_tower(towers, nx, ny)
     else 
       puts "PASS"
@@ -170,10 +176,6 @@ loop do
   else
     puts "PASS"
   end
-  # Write an action using puts
-  # To debug: STDERR.puts "Debug messages..."
-  # step 2: build a fortress around start position
-  # we expect 2 towers to be built
 end
 
 
