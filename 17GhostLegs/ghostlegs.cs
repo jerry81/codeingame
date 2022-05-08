@@ -20,12 +20,12 @@ class Solution
     private char findEnd(char start, string[] lines, int startIdx, int w) {
       int curX = startIdx;
       int curY = 1;
-      int curChar = lines[curY][curX];
-      while (curChar != '|') {
+      char curChar = lines[curY][curX];
+      while (curChar == '|') {
         int lx = curX - 1;
         int rx = curX + 1;
         if (lx > 1) {
-          leftC = lines[curY][lx];
+          char leftC = lines[curY][lx];
           if (leftC == '-') {
               curX -= 3;
               curY += 1;
@@ -33,7 +33,7 @@ class Solution
           }
         }
         if (rx > (w - 3)) {
-          rightC = lines[curY][rx];
+          char rightC = lines[curY][rx];
           if (rightC == '-') {
               curX += 3;
               curY += 1;
