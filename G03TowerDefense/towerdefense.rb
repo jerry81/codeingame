@@ -9,7 +9,7 @@ height.times do
   line = gets.chomp
   lines << line
 end
-STDERR.puts(lines)
+
 # step 1: get your own location simple case - 1 starting point 
 startPositionFound = false
 startPositions = []
@@ -23,6 +23,7 @@ startPositions = []
 # 5a.  helper to check if a column is saturated
 # b.  helper to build a string to output 
 # c.  helper to build output array saturate a column (or just convert isSaturated)
+# d.  replace first step with saturating the middle 
 towers = {}
 
 def findStartPosition(sp, h, l)
@@ -152,9 +153,7 @@ loop do
   counter += 1
   # round 1 grab the center
   center = 8
-  paths = find_paths(center, lines)
-  locs = getUnsaturated(center,paths, lines, towers)
-  STDERR.puts "locs is #{locs}"
+  
   if startPositionFound
     nx = startPositions[0][:x]
     ny = startPositions[0][:y]
@@ -186,7 +185,13 @@ loop do
       puts "PASS"
     end
   else
-    puts "PASS"
+    paths = find_paths(center, lines)
+    locs = getUnsaturated(center,paths, lines, towers)
+    locs.each do |l|
+        towers = add_tower(towers, l[:x], l[:y])
+    end
+    str = build_output(locs)
+    puts str
   end
 end
 
