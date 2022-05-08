@@ -1,0 +1,7 @@
+- step 1: get your own location simple case - 1 starting point 
+- step 2: find multiple locations - done 
+- step 3: keep track of towers built 
+- goal: build a map like the following
+- towers = { 0 => { 0 => true }, 3 => { 1 => true, 12 => true } } 
+- this means (0,0) (3,1) and (3,12) all have towers 
+- step 4: add helper - find paths in a given column - done

@@ -9,16 +9,9 @@ height.times do
   line = gets.chomp
   lines << line
 end
-
-# step 1: get your own location simple case - 1 starting point 
 startPositionFound = false
 startPositions = []
-# step 2: find multiple locations - done 
-# step 3: keep track of towers built 
-# goal: build a map like the following
-# towers = { 0 => { 0 => true }, 3 => { 1 => true, 12 => true } } 
-# this means (0,0) (3,1) and (3,12) all have towers 
-# step 4: add helper - find paths in a given column - done
+
 # step 5: change the first step to saturate the center column with towers
 # 5a.  helper to check if a column is saturated
 # b.  helper to build a string to output 
