@@ -13,21 +13,32 @@ STDERR.puts(lines)
 # step 1: get your own location simple case - 1 starting point 
 startPositionFound = false
 startPositions = []
-# step 2: find multiple locations 
-
+# step 2: find multiple locations - done 
+# step 3: keep track of towers built 
+# goal: build a map like the following
+# towers = { 0 => { 0 => true }, 3 => { 1 => true, 12 => true } } 
+# this means (0,0) (3,1) and (3,12) all have towers 
+towers = {}
 def findStartPosition(sp, h, l)
     pos = sp[0]
-    STDERR.puts "pos is #{pos}"
     x = pos[:x]
     y = pos[:y]
     for i in 0..h-1
-        STDERR.puts "x is #{x}"
-        STDERR.puts "li is #{l[i]}"
         if l[i][x] == '.' and i != y
-          sp << { :x=>x, :y=>i}
+          sp << { :x=>x, :y=>i }
         end
     end
     sp
+end
+
+def add_tower(towers, x, y)
+    if towers[x].nil?
+        towers[x]={}
+    end
+    if towers[x][y].nil? 
+        towers[x][y] = true
+    end
+    towers
 end
 
 def in_bounds(x,y)
@@ -41,6 +52,9 @@ loop do
   tower_count = gets.to_i
   tower_count.times do
     tower_type, tower_id, owner, x, y, damage, attack_range, reload, cool_down = gets.split(" ")
+    if owner.to_s == player_id.to_s
+        STDERR.puts "tower id is #{tower_id}"
+    end
     tower_id = tower_id.to_i
     owner = owner.to_i
     x = x.to_i
@@ -102,6 +116,8 @@ loop do
       end
     end
     puts "BUILD #{nx} #{ny} GUNTOWER"
+    towers = add_tower(towers, nx, ny)
+    STDERR.puts "towers is now #{towers}"
   else
     puts "PASS"
   end
@@ -110,3 +126,7 @@ loop do
   # step 2: build a fortress around start position
   # we expect 2 towers to be built
 end
+
+
+# # # # # # # # # # # # # # # # #
+# 0 1 2 3 4 5 6 7 8 7 6 5 4 3 2 1 0 x == 8 is midpoint 
