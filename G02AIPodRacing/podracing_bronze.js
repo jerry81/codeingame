@@ -56,7 +56,6 @@ while (true) {
        // i.e.: "x y thrust"
        console.log(nextCheckpointX + ' ' + nextCheckpointY + ' ' + thrust);
    }
-   = readline().split(' ');
     const x = parseInt(inputs[0]); // x position of your pod
     const y = parseInt(inputs[1]); // y position of your pod
     const nextCheckpointX = parseInt(inputs[2]); // x position of the next check point
