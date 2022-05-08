@@ -8,7 +8,10 @@ height.times do
 end
 
 # step 1: get your own location 
-
+startPositionFound = false
+startPositions = []
+def findStartPosition()
+end
 # game loop
 loop do
   my_money, my_lives = gets.split(" ").collect { |x| x.to_i }
@@ -29,6 +32,10 @@ loop do
   attacker_count.times do
     attacker_id, owner, x, y, hit_points, max_hit_points, current_speed, max_speed, slow_time, bounty = gets.split(" ")
     attacker_id = attacker_id.to_i
+    STDERR.puts "player_id is  #{player_id}, owner is #{owner}"
+    if (owner.to_s == player_id.to_s)
+        STDERR.puts "my soldier is at #{x}, #{y}"
+    end
     owner = owner.to_i
     x = x.to_f
     y = y.to_f
