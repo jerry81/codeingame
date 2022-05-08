@@ -115,9 +115,13 @@ loop do
         ny -= 1
       end
     end
-    puts "BUILD #{nx} #{ny} GUNTOWER"
-    towers = add_tower(towers, nx, ny)
-    STDERR.puts "towers is now #{towers}"
+    if (lines[ny][nx] == '#')
+      puts "BUILD #{nx} #{ny} GUNTOWER"
+      towers = add_tower(towers, nx, ny)
+      STDERR.puts "towers is now #{towers}"
+    else 
+      puts "PASS"
+    end
   else
     puts "PASS"
   end
