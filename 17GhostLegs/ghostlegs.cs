@@ -75,7 +75,7 @@ class Solution
         // Write an answer using Console.WriteLine()
         // To debug: Console.Error.WriteLine("Debug messages...");
             Console.Error.WriteLine("end is {0}", end);
-            // Console.WriteLine("{0}{1}",start,end);
+            Console.WriteLine("{0}{1}",start,end);
         }
 
         // Write an answer using Console.WriteLine()
