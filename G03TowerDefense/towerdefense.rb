@@ -4,15 +4,30 @@ STDOUT.sync = true # DO NOT REMOVE
 # startx is either 0 or 17?
 player_id = gets.to_i
 width, height = gets.split(" ").collect { |x| x.to_i }
+lines = []
 height.times do
   line = gets.chomp
+  lines << line
 end
-
+STDERR.puts(lines)
 # step 1: get your own location simple case - 1 starting point 
 startPositionFound = false
 startPositions = []
+# step 2: find multiple locations 
 
-def findStartPosition()
+def findStartPosition(sp, h, l)
+    pos = sp[0]
+    STDERR.puts "pos is #{pos}"
+    x = pos[:x]
+    y = pos[:y]
+    for i in 0..h-1
+        STDERR.puts "x is #{x}"
+        STDERR.puts "li is #{l[i]}"
+        if l[i][x] == '.' and i != y
+          sp << { :x=>x, :y=>i}
+        end
+    end
+    sp
 end
 
 def in_bounds(x,y)
@@ -45,6 +60,8 @@ loop do
         if in_bounds(xf,yf)
           startPositions << { :x => xf, :y => yf }
           startPositionFound = true
+          newStartPositions = findStartPosition(startPositions, height, lines)
+          STDERR.puts "found all start positions #{newStartPositions}"
         end
     end
     owner = owner.to_i
