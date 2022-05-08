@@ -18,7 +18,9 @@ startPositions = []
 # goal: build a map like the following
 # towers = { 0 => { 0 => true }, 3 => { 1 => true, 12 => true } } 
 # this means (0,0) (3,1) and (3,12) all have towers 
-# step 4: add helper - find paths in a given column
+# step 4: add helper - find paths in a given column - done
+# step 5: change the first step to saturate the center column with towers
+# 5a.  helper to check if a column is saturated
 towers = {}
 def findStartPosition(sp, h, l)
     pos = sp[0]
@@ -51,6 +53,28 @@ def find_paths(x, lines)
         end
     end
     returned
+end
+
+def isSaturated(x, paths, lines, towers)
+    l = [0, x-1].max 
+    r = [16, x+1].min
+    paths.each do |y|
+        u = [y-1, 0].max
+        d = [y+1, 16].min
+        li = lines[y][l]
+        ri = lines[y][r]
+        ui = lines[u][x]
+        di = lines[d][x]
+        # check if any spot is open 
+        lio = li == '#' and !towers[l]&[y]&
+        rio = ri == '#' and !towers[r]&[y]&
+        uio = ui == '#' and !towers[x]&[u]&
+        dio = di == '#' and !towers[x]&[d]&
+        if !(lio and rio and uio and dio)
+            return false
+        end
+    end
+    true
 end
 
 def in_bounds(x,y)
@@ -113,6 +137,7 @@ loop do
     ny = startPositions[0][:y]
     STDERR.puts "ny before is #{ny}"
     STDERR.puts "nx before is #{nx}"
+    STDERR.puts "isSaturated #{isSaturated(nx, paths, lines, towers)}"
     case offset
     when 0
       if ny < 17
@@ -132,6 +157,7 @@ loop do
       end
     end
     if (lines[ny][nx] == '#')
+      puts "BUILD #{nx} #{ny} GUNTOWER"
       towers = add_tower(towers, nx, ny)
     else 
       puts "PASS"
