@@ -18,6 +18,7 @@ startPositions = []
 # goal: build a map like the following
 # towers = { 0 => { 0 => true }, 3 => { 1 => true, 12 => true } } 
 # this means (0,0) (3,1) and (3,12) all have towers 
+# step 4: add helper - find paths in a given column
 towers = {}
 def findStartPosition(sp, h, l)
     pos = sp[0]
@@ -39,6 +40,17 @@ def add_tower(towers, x, y)
         towers[x][y] = true
     end
     towers
+end
+
+def find_paths(x, lines) 
+    returned = []
+    for i in 0..16
+        item = lines[i][x]
+        if item == '.'
+            returned << i 
+        end
+    end
+    returned
 end
 
 def in_bounds(x,y)
@@ -92,6 +104,10 @@ loop do
   offset = counter % 4
   counter += 1
   STDERR.puts "offset is #{offset}"
+  # round 1 grab the center
+  center = 8
+  paths = find_paths(center, lines)
+  STDERR.puts "paths is #{paths}"
   if startPositionFound
     nx = startPositions[0][:x]
     ny = startPositions[0][:y]
@@ -116,9 +132,7 @@ loop do
       end
     end
     if (lines[ny][nx] == '#')
-      puts "BUILD #{nx} #{ny} GUNTOWER"
       towers = add_tower(towers, nx, ny)
-      STDERR.puts "towers is now #{towers}"
     else 
       puts "PASS"
     end
