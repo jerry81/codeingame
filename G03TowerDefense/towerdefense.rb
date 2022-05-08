@@ -27,7 +27,7 @@ def findStartPosition(sp, h, l)
     x = pos[:x]
     y = pos[:y]
     for i in 0..h-1
-        if l[i][x] == '.' and i != y
+        if l[i][x] == '.' && i != y
           sp << { :x=>x, :y=>i }
         end
     end
@@ -66,11 +66,15 @@ def isSaturated(x, paths, lines, towers)
         ui = lines[u][x]
         di = lines[d][x]
         # check if any spot is open 
-        lio = li == '#' and !towers[l]&[y]&
-        rio = ri == '#' and !towers[r]&[y]&
-        uio = ui == '#' and !towers[x]&[u]&
-        dio = di == '#' and !towers[x]&[d]&
-        if !(lio and rio and uio and dio)
+        towerAtL = towers.dig(x,u)
+        lio = ((li == '#') && towers.dig(l,y).nil?)
+        rio = ((ri == '#') && towers.dig(r,y).nil?)
+        uio = ((ui == '#') && towers.dig(x,u).nil?)
+        dio = ((di == '#') && towers.dig(x,d).nil?)
+        STDERR.puts "towers x,d #{towers.dig(x,d)} di is #{di} "
+        STDERR.puts "towers x,d dig nil check #{towers.dig(x,d).nil?.to_s}"
+        STDERR.puts "lio, rio, uio, dio are #{lio.to_s}, #{rio.to_s}, #{uio.to_s}, #{dio.to_s}"
+        if (lio or rio or uio or dio)
             return false
         end
     end
@@ -104,7 +108,7 @@ loop do
   attacker_count.times do
     attacker_id, owner, x, y, hit_points, max_hit_points, current_speed, max_speed, slow_time, bounty = gets.split(" ")
     attacker_id = attacker_id.to_i
-    if (owner.to_s == player_id.to_s and !startPositionFound)
+    if (owner.to_s == player_id.to_s && !startPositionFound)
         xf = x.to_f.round
         yf = y.to_f.round
         if in_bounds(xf,yf)
@@ -135,6 +139,7 @@ loop do
   if startPositionFound
     nx = startPositions[0][:x]
     ny = startPositions[0][:y]
+    paths = find_paths(nx, lines)
     STDERR.puts "ny before is #{ny}"
     STDERR.puts "nx before is #{nx}"
     STDERR.puts "isSaturated #{isSaturated(nx, paths, lines, towers)}"
