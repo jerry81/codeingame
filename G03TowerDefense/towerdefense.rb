@@ -126,6 +126,15 @@ def build_output(arr, curCount, noGlues, towers, first)
         str << "UPGRADE #{k} #{type};"
       end
     end
+    if first && arr.count > 2
+      STDERR.puts "first step and large array"
+      gons = ["GLUETOWER", "FIRETOWER", "GUNTOWER"]
+      for i in 0..2
+        loc = arr[i]
+        str << "BUILD #{loc[:x]} #{loc[:y]} #{gons[i]};"
+      end
+      return str
+    end
     arr.each do |i|
         guns = ["GUNTOWER", "FIRETOWER", "HEALTOWER"]
         for _ in 0..5 
