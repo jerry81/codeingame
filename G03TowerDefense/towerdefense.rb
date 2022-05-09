@@ -24,6 +24,7 @@ startPositions = []
 
 
 # new strat - centralize y when building in center 
+# start mixing in glue towers 
 
 my_towers = {} # ids of towers (for upgrading)
 
@@ -103,10 +104,12 @@ end
 
 find_starts(lines)
 
-def build_output(arr) 
+def build_output(arr, curCount) 
     str = "PASS;"
     arr.each do |i|
-        str += "BUILD #{i[:x]} #{i[:y]} GUNTOWER;"
+        gun = (curCount % 2) == 0 ? "GUNTOWER" : (curCount % 3 == 0) ? "GLUETOWER" : "FIRETOWER"
+        curCount += 1
+        str += "BUILD #{i[:x]} #{i[:y]} #{gun};"
     end
     return str
 end
@@ -161,7 +164,8 @@ loop do
     bounty = bounty.to_i
   end
 
-  offset = counter % 6
+  offset = counter % 5
+  gunCounter = counter % 10 
   counter += 1
   # round 1 grab the center
   center = 8
@@ -181,12 +185,12 @@ loop do
     end
     paths = find_paths(nextCol, lines)
     locs = getUnsaturated(nextCol,paths, lines)
-    str = build_output(locs)
+    str = build_output(locs, gunCounter)
     puts str
   else
     paths = find_paths(center, lines)
     locs = getUnsaturated(center,paths, lines)
-    str = build_output(locs)
+    str = build_output(locs, gunCounter)
     puts str
   end
 end
