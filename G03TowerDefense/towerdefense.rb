@@ -103,11 +103,13 @@ def find_starts(lines)
 end
 
 find_starts(lines)
+# limit to 1 glue tower 
 
-def build_output(arr, curCount) 
+def build_output(arr, curCount, noGlues) 
     str = "PASS;"
+    glueStr = noGlues ?  "HEALTOWER" : "GLUETOWER"
     arr.each do |i|
-        gun = (curCount % 2) == 0 ? "GUNTOWER" : (curCount % 3 == 0) ? "GLUETOWER" : "FIRETOWER"
+        gun = (curCount % 9) == 0 ? glueStr : (curCount % 7 == 0) ? "FIRETOWER" : "GUNTOWER"
         curCount += 1
         str += "BUILD #{i[:x]} #{i[:y]} #{gun};"
     end
@@ -119,11 +121,15 @@ def in_bounds(x,y)
 end
 outputarr = []
 counter = 0
+glueFlag = false 
 # game loop
 loop do
   my_money, my_lives = gets.split(" ").collect { |x| x.to_i }
   opponent_money, opponent_lives = gets.split(" ").collect { |x| x.to_i }
   tower_count = gets.to_i
+  if my_money < 70
+    glueFlag = true
+  end
   tower_count.times do
     tower_type, tower_id, owner, x, y, damage, attack_range, reload, cool_down = gets.split(" ")
     if owner.to_s == player_id.to_s
@@ -167,6 +173,9 @@ loop do
   offset = counter % 5
   gunCounter = counter % 10 
   counter += 1
+  if counter % 15 == 0 
+    glueFlag = false
+  end
   # round 1 grab the center
   center = 8
   lines.each do |l|
@@ -185,12 +194,12 @@ loop do
     end
     paths = find_paths(nextCol, lines)
     locs = getUnsaturated(nextCol,paths, lines)
-    str = build_output(locs, gunCounter)
+    str = build_output(locs, gunCounter, glueFlag)
     puts str
   else
     paths = find_paths(center, lines)
     locs = getUnsaturated(center,paths, lines)
-    str = build_output(locs, gunCounter)
+    str = build_output(locs, gunCounter, glueFlag)
     puts str
   end
 end
