@@ -142,41 +142,26 @@ loop do
     bounty = bounty.to_i
   end
 
-  offset = counter % 4
+  offset = counter % 6
   counter += 1
   # round 1 grab the center
   center = 8
-  
   if startPositionFound
-    nx = startPositions[0][:x]
-    ny = startPositions[0][:y]
-    paths = find_paths(nx, lines)
-    case offset
-    when 0
-      if ny < 17
-        ny += 1
-      end
-    when 1
-      if nx < 17
-        nx += 1
-      end
-    when 2
-      if nx > 0
-        nx -= 1
-      end
-    else
-      if ny > 0
-        ny -= 1
-      end
-    end
-    if (lines[ny][nx] == '#')
-      # puts "BUILD #{nx} #{ny} GUNTOWER"
-      str = build_output([{:x => nx, :y => ny}])
-      puts str
-      towers = add_tower(towers, nx, ny)
+    nextCol = 8
+    if startPositions[0][:x] < center
+      nextCol = center - offset 
+      STDERR.puts "nextCol is #{nextCol}"
     else 
-      puts "PASS"
+      nextCol = center + offset
+      STDERR.puts "nextCol is #{nextCol}"
     end
+    paths = find_paths(nextCol, lines)
+    locs = getUnsaturated(nextCol,paths, lines, towers)
+    locs.each do |l|
+        towers = add_tower(towers, l[:x], l[:y])
+    end
+    str = build_output(locs)
+    puts str
   else
     paths = find_paths(center, lines)
     locs = getUnsaturated(center,paths, lines, towers)
