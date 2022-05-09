@@ -22,6 +22,7 @@ startPositions = []
   # easy - build one at each entrance 
 # multi entrance 
 
+# fix - the map updating code is not correct
 
 my_towers = {} # ids of towers (for upgrading)
 
@@ -128,7 +129,7 @@ loop do
     attack_range = attack_range.to_f
     reload = reload.to_i
     cool_down = cool_down.to_i
-    lines[x][y] = tower_id.to_s
+    lines[y][x] = tower_id.to_s
   end
   attacker_count = gets.to_i
   attacker_count.times do
@@ -159,7 +160,10 @@ loop do
   counter += 1
   # round 1 grab the center
   center = 8
-  STDERR.puts "lines is #{lines}"
+  lines.each do |l|
+    STDERR.puts "line is #{l}"
+  end
+  
   STDERR.puts "my towers are #{my_towers}"
   if startPositionFound
     nextCol = 8
