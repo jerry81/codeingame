@@ -9,6 +9,39 @@ height.times do
   line = gets.chomp
   lines << line
 end
+heatmap = {}
+
+def dist_from_cent(x,y)
+  return (x-8)**2 + (y-8)**2
+end
+
+def count_neighbors(lines,x,y)
+end
+
+def build_heat_map(lines, height, width) 
+  # { 0: { 0: { :adjacent_paths => 1, :dist_from_center => 7.33 }}}
+  map = {}
+  for y in 0..height-1 do
+    for x in 0..width-1 do 
+      c = lines[y][x]
+      if c=="#"
+        if map[y].nil?
+          map[y] = {}
+          map[y][x] = {}
+        end
+        if map[y][x].nil?
+          map[y][x] = {}
+        end
+        dist = dist_from_cent(x,y)
+        map[y][x][:dist] = dist
+      end
+    end
+  end
+  map 
+end 
+
+STDERR.puts "heatmap is #{build_heat_map(lines, height, width)}"
+
 startPositionFound = false
 startPositions = []
 
@@ -108,7 +141,16 @@ end
 
 find_starts(lines)
 # limit to 1 glue tower 
+# next step - further optimize tower distribution - 
+# spread out the glues 
+# ensure glues are followed by guns
+# wherever there is a canyon with more than  paths surrounding it, place a firetower 
 
+# OR grab the squares with 8 surrounding paths first and put fire towers there.
+
+# i lose to players that greedily take all bendy paths (most adjacent paths)
+# it also seems placing near own base and opponents base doesn't matter as much 
+# build a heatmap of all canyons (#) and the number of adjacent paths each has 
 def build_output(arr, curCount, noGlues, towers, first) 
     str = "PASS;"
     glueStr = noGlues ?  "HEALTOWER" : "GLUETOWER"
