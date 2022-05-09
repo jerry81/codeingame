@@ -17,7 +17,10 @@ startPositions = []
 # b.  helper to build a string to output 
 # c.  helper to build output array saturate a column (or just convert isSaturated)
 # d.  replace first step with saturating the middle 
-towers = {}
+
+# fix - towers update the map itself from the towers game loop 
+
+my_towers = [] # ids of towers (for upgrading)
 
 def findStartPosition(sp, h, l)
     pos = sp[0]
@@ -31,15 +34,6 @@ def findStartPosition(sp, h, l)
     sp
 end
 
-def add_tower(towers, x, y)
-    if towers[x].nil?
-        towers[x]={}
-    end
-    if towers[x][y].nil? 
-        towers[x][y] = true
-    end
-    towers
-end
 
 def find_paths(x, lines) 
     returned = []
@@ -52,7 +46,7 @@ def find_paths(x, lines)
     returned
 end
 
-def getUnsaturated(x, paths, lines, towers)
+def getUnsaturated(x, paths, lines)
     locations = []
     l = [0, x-1].max 
     r = [16, x+1].min
@@ -64,11 +58,10 @@ def getUnsaturated(x, paths, lines, towers)
         ui = lines[u][x]
         di = lines[d][x]
         # check if any spot is open 
-        towerAtL = towers.dig(x,u)
-        lio = ((li == '#') && towers.dig(l,y).nil?)
-        rio = ((ri == '#') && towers.dig(r,y).nil?)
-        uio = ((ui == '#') && towers.dig(x,u).nil?)
-        dio = ((di == '#') && towers.dig(x,d).nil?)
+        lio = li == '#'
+        rio = ri == '#'
+        uio = ui == '#'
+        dio = di == '#'
         if lio
             locations << { :x => l, :y => y }
         end
@@ -106,7 +99,7 @@ loop do
   tower_count.times do
     tower_type, tower_id, owner, x, y, damage, attack_range, reload, cool_down = gets.split(" ")
     if owner.to_s == player_id.to_s
-        STDERR.puts "tower id is #{tower_id}"
+        my_towers << tower_id
     end
     tower_id = tower_id.to_i
     owner = owner.to_i
@@ -116,6 +109,7 @@ loop do
     attack_range = attack_range.to_f
     reload = reload.to_i
     cool_down = cool_down.to_i
+    lines[x][y] = tower_id.to_s
   end
   attacker_count = gets.to_i
   attacker_count.times do
@@ -146,6 +140,8 @@ loop do
   counter += 1
   # round 1 grab the center
   center = 8
+  STDERR.puts "lines is #{lines}"
+  STDERR.puts "my towers are #{my_towers}"
   if startPositionFound
     nextCol = 8
     if startPositions[0][:x] < center
@@ -156,18 +152,12 @@ loop do
       STDERR.puts "nextCol is #{nextCol}"
     end
     paths = find_paths(nextCol, lines)
-    locs = getUnsaturated(nextCol,paths, lines, towers)
-    locs.each do |l|
-        towers = add_tower(towers, l[:x], l[:y])
-    end
+    locs = getUnsaturated(nextCol,paths, lines)
     str = build_output(locs)
     puts str
   else
     paths = find_paths(center, lines)
-    locs = getUnsaturated(center,paths, lines, towers)
-    locs.each do |l|
-        towers = add_tower(towers, l[:x], l[:y])
-    end
+    locs = getUnsaturated(center,paths, lines)
     str = build_output(locs)
     puts str
   end
