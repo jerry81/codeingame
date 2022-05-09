@@ -26,6 +26,9 @@ startPositions = []
 # new strat - centralize y when building in center 
 # start mixing in glue towers 
 
+# introduce upgrade logic
+# if no more no more items to saturate, then upgrade
+
 my_towers = {} # ids of towers (for upgrading)
 
 def add_tower(towers,id)
@@ -105,9 +108,16 @@ end
 find_starts(lines)
 # limit to 1 glue tower 
 
-def build_output(arr, curCount, noGlues) 
+def build_output(arr, curCount, noGlues, towers) 
     str = "PASS;"
     glueStr = noGlues ?  "HEALTOWER" : "GLUETOWER"
+    if arr.isEmpty?
+      towers.each |t| {
+        i = rand(3)
+        type = ['DAMAGE', 'RANGE', 'RELOAD'][i]
+        str << "UPGRADE #{t} #{type}"
+      }
+    end
     arr.each do |i|
         gun = (curCount % 9) == 0 ? glueStr : (curCount % 7 == 0) ? "FIRETOWER" : "GUNTOWER"
         curCount += 1
@@ -194,12 +204,12 @@ loop do
     end
     paths = find_paths(nextCol, lines)
     locs = getUnsaturated(nextCol,paths, lines)
-    str = build_output(locs, gunCounter, glueFlag)
+    str = build_output(locs, gunCounter, glueFlag, my_towers)
     puts str
   else
     paths = find_paths(center, lines)
     locs = getUnsaturated(center,paths, lines)
-    str = build_output(locs, gunCounter, glueFlag)
+    str = build_output(locs, gunCounter, glueFlag, my_towers)
     puts str
   end
 end
