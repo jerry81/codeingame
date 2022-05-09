@@ -70,3 +70,11 @@ Constraints
 ... contains between 1 and 500 characters.
 
 Allotted response time for per turn is ≤ 50 ms (1000 ms for the first turn).
+
+
+- fix - towers update the map itself from the towers game loop - done
+- step 5: change the first step to saturate the center column with towers
+- 5a.  helper to check if a column is saturated
+- b.  helper to build a string to output 
+- c.  helper to build output array saturate a column (or just convert isSaturated)
+- d.  replace first step with saturating the middle 

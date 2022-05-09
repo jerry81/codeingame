@@ -12,15 +12,25 @@ end
 startPositionFound = false
 startPositions = []
 
-# step 5: change the first step to saturate the center column with towers
-# 5a.  helper to check if a column is saturated
-# b.  helper to build a string to output 
-# c.  helper to build output array saturate a column (or just convert isSaturated)
-# d.  replace first step with saturating the middle 
+# unfortunately a path that is very high or low y on the map performs terribly as i will always try to
+# place from the top down 
 
-# fix - towers update the map itself from the towers game loop 
+# next step - pre-game path analysis 
+# from the start - identify all exit locations and as a first step build one at each exit location 
+# different map types 
+# single entrance 
+  # easy - build one at each entrance 
+# multi entrance 
 
-my_towers = [] # ids of towers (for upgrading)
+
+my_towers = {} # ids of towers (for upgrading)
+
+def add_tower(towers,id)
+  if towers[id].nil?
+      towers[id]=true
+  end
+  towers
+end
 
 def findStartPosition(sp, h, l)
     pos = sp[0]
@@ -33,6 +43,7 @@ def findStartPosition(sp, h, l)
     end
     sp
 end
+
 
 
 def find_paths(x, lines) 
@@ -78,6 +89,14 @@ def getUnsaturated(x, paths, lines)
     locations
 end
 
+def find_starts(lines)
+  l = find_paths(0, lines)
+  r = find_paths(16, lines)
+  STDERR.puts "l is #{l} and r is #{r}"
+end
+
+find_starts(lines)
+
 def build_output(arr) 
     str = "PASS;"
     arr.each do |i|
@@ -99,7 +118,7 @@ loop do
   tower_count.times do
     tower_type, tower_id, owner, x, y, damage, attack_range, reload, cool_down = gets.split(" ")
     if owner.to_s == player_id.to_s
-        my_towers << tower_id
+        my_towers = add_tower(my_towers, tower_id)
     end
     tower_id = tower_id.to_i
     owner = owner.to_i
