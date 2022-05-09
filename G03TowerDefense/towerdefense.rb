@@ -40,7 +40,11 @@ def build_heat_map(lines, height, width)
   map 
 end 
 
-STDERR.puts "heatmap is #{build_heat_map(lines, height, width)}"
+heatmap = build_heat_map(lines, height, width)
+
+heatmap.each do |i| 
+  STDERR.puts "item is #{i}"
+end
 
 startPositionFound = false
 startPositions = []
