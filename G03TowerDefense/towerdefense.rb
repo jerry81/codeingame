@@ -173,7 +173,7 @@ loop do
   offset = counter % 5
   gunCounter = counter % 10 
   counter += 1
-  if counter % 15 == 0 
+  if counter % 25 == 0 
     glueFlag = false
   end
   # round 1 grab the center
