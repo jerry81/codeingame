@@ -31,9 +31,10 @@ startPositions = []
 
 my_towers = {} # ids of towers (for upgrading)
 
-def add_tower(towers,id)
+
+def add_tower(towers,id,type)
   if towers[id].nil?
-      towers[id]=true
+      towers[id]={:type => type}
   end
   towers
 end
@@ -108,19 +109,37 @@ end
 find_starts(lines)
 # limit to 1 glue tower 
 
-def build_output(arr, curCount, noGlues, towers) 
+def build_output(arr, curCount, noGlues, towers, first) 
     str = "PASS;"
     glueStr = noGlues ?  "HEALTOWER" : "GLUETOWER"
-    if arr.isEmpty?
-      towers.each |t| {
-        i = rand(3)
-        type = ['DAMAGE', 'RANGE', 'RELOAD'][i]
-        str << "UPGRADE #{t} #{type}"
-      }
+    if arr.empty?
+      towers.each do |k,t| 
+        type = 'RELOAD'
+        STDERR.puts "type is #{t}"
+        if t[:type] == "GLUETOWER" || t[:type] == "HEALTOWER"
+          i = rand(1)
+          type = ['RANGE', 'RELOAD'][i]
+        else 
+          i = rand(2)
+          type = ['DAMAGE', 'RANGE', 'RELOAD'][i]
+        end
+        str << "UPGRADE #{k} #{type};"
+      end
     end
     arr.each do |i|
-        gun = (curCount % 9) == 0 ? glueStr : (curCount % 7 == 0) ? "FIRETOWER" : "GUNTOWER"
-        curCount += 1
+        guns = ["GUNTOWER", "FIRETOWER", "HEALTOWER"]
+        for _ in 0..5 
+          guns << "GUNTOWER"
+        end
+        for _ in 0..2
+          guns << "FIRETOWER"
+        end
+        c = rand(12)
+        gun = guns[c]
+        if first
+          gun = "GLUETOWER"
+          first = false
+        end
         str += "BUILD #{i[:x]} #{i[:y]} #{gun};"
     end
     return str
@@ -143,7 +162,7 @@ loop do
   tower_count.times do
     tower_type, tower_id, owner, x, y, damage, attack_range, reload, cool_down = gets.split(" ")
     if owner.to_s == player_id.to_s
-        my_towers = add_tower(my_towers, tower_id)
+        my_towers = add_tower(my_towers, tower_id, tower_type)
     end
     tower_id = tower_id.to_i
     owner = owner.to_i
@@ -180,7 +199,7 @@ loop do
     bounty = bounty.to_i
   end
 
-  offset = counter % 5
+  offset = counter % 3
   gunCounter = counter % 10 
   counter += 1
   if counter % 25 == 0 
@@ -204,12 +223,12 @@ loop do
     end
     paths = find_paths(nextCol, lines)
     locs = getUnsaturated(nextCol,paths, lines)
-    str = build_output(locs, gunCounter, glueFlag, my_towers)
+    str = build_output(locs, gunCounter, glueFlag, my_towers, false)
     puts str
   else
     paths = find_paths(center, lines)
     locs = getUnsaturated(center,paths, lines)
-    str = build_output(locs, gunCounter, glueFlag, my_towers)
+    str = build_output(locs, gunCounter, glueFlag, my_towers, true)
     puts str
   end
 end
