@@ -22,7 +22,8 @@ startPositions = []
   # easy - build one at each entrance 
 # multi entrance 
 
-# fix - the map updating code is not correct
+
+# new strat - centralize y when building in center 
 
 my_towers = {} # ids of towers (for upgrading)
 
@@ -62,7 +63,11 @@ def getUnsaturated(x, paths, lines)
     locations = []
     l = [0, x-1].max 
     r = [16, x+1].min
-    paths.each do |y|
+    sortedPaths = paths.sort {
+      |a,b| (8-a).abs() <=> (8-b).abs()
+    }
+    STDERR.puts "sortedPaths is #{sortedPaths}"
+    sortedPaths.each do |y|
         u = [y-1, 0].max
         d = [y+1, 16].min
         li = lines[y][l]

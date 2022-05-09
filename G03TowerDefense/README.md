@@ -78,3 +78,7 @@ Allotted response time for per turn is ≤ 50 ms (1000 ms for the first turn).
 - b.  helper to build a string to output 
 - c.  helper to build output array saturate a column (or just convert isSaturated)
 - d.  replace first step with saturating the middle 
+
+
+-  fix - the map updating code is not correct
+
