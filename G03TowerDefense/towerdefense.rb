@@ -71,11 +71,24 @@ heatmap.each do |i|
   STDERR.puts "item is #{i}"
 end
 
+# while the current heat map makes it easy to lookup by location, it is not suited to sort.
+# flatten the heat map to store x and y as props 
+# sort the heat map by neighbor count and by distance 
+# next step - further optimize tower distribution - 
+# spread out the glues 
+# ensure glues are followed by guns
+# wherever there is a canyon with more than x paths surrounding it, place a firetower 
+
+# OR grab the squares with 8 surrounding paths first and put fire towers there.
+
+# i lose to players that greedily take all bendy paths (most adjacent paths)
+# it also seems placing near own base and opponents base doesn't matter as much 
+# build a heatmap of all canyons (#) and the number of adjacent paths each has 
+
 startPositionFound = false
 startPositions = []
 
-# unfortunately a path that is very high or low y on the map performs terribly as i will always try to
-# place from the top down 
+
 
 # next step - pre-game path analysis 
 # from the start - identify all exit locations and as a first step build one at each exit location 
@@ -84,12 +97,6 @@ startPositions = []
   # easy - build one at each entrance 
 # multi entrance 
 
-
-# new strat - centralize y when building in center 
-# start mixing in glue towers 
-
-# introduce upgrade logic
-# if no more no more items to saturate, then upgrade
 
 my_towers = {} # ids of towers (for upgrading)
 
@@ -169,17 +176,8 @@ def find_starts(lines)
 end
 
 find_starts(lines)
-# limit to 1 glue tower 
-# next step - further optimize tower distribution - 
-# spread out the glues 
-# ensure glues are followed by guns
-# wherever there is a canyon with more than  paths surrounding it, place a firetower 
 
-# OR grab the squares with 8 surrounding paths first and put fire towers there.
 
-# i lose to players that greedily take all bendy paths (most adjacent paths)
-# it also seems placing near own base and opponents base doesn't matter as much 
-# build a heatmap of all canyons (#) and the number of adjacent paths each has 
 def build_output(arr, curCount, noGlues, towers, first) 
     str = "PASS;"
     glueStr = noGlues ?  "HEALTOWER" : "GLUETOWER"
