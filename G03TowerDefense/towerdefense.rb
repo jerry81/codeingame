@@ -16,6 +16,29 @@ def dist_from_cent(x,y)
 end
 
 def count_neighbors(lines,x,y)
+  count = 0
+  [-1, 0, 1].each do |o1|
+    [-1,0,1].each do |o2|
+      if o1 == 0 && o2 == 0 
+        next
+      end
+      
+      newx = x + o1 
+      newy = y + o2 
+      if newx < 0 || newx > 16 
+        next
+      end
+
+      if newy < 0 || newy > 16
+        next
+      end
+
+      if lines[newy][newx] == '.'
+        count += 1
+      end
+    end
+  end
+  count 
 end
 
 def build_heat_map(lines, height, width) 
@@ -33,7 +56,9 @@ def build_heat_map(lines, height, width)
           map[y][x] = {}
         end
         dist = dist_from_cent(x,y)
+        nc = count_neighbors(lines,x,y)
         map[y][x][:dist] = dist
+        map[y][x][:nc] = nc
       end
     end
   end
