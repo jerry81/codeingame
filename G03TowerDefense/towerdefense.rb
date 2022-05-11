@@ -70,12 +70,16 @@ sorted = heatmap.sort_by { |item| [item[:nc], item[:dist]] }
 sorted.reverse.each do |i| 
   STDERR.puts "sorted is #{i}"
 end
+
+# on first step - 
+# grab the squares with 6+ surrounding paths first and put fire towers there.
+
 # next step - further optimize tower distribution - 
 # spread out the glues 
 # ensure glues are followed by guns
 # wherever there is a canyon with more than x paths surrounding it, place a firetower 
 
-# OR grab the squares with 8 surrounding paths first and put fire towers there.
+# OR
 
 # i lose to players that greedily take all bendy paths (most adjacent paths)
 # it also seems placing near own base and opponents base doesn't matter as much 
@@ -281,11 +285,17 @@ loop do
   end
   # round 1 grab the center
   center = 8
-  lines.each do |l|
-    STDERR.puts "line is #{l}"
-  end
   
   STDERR.puts "my towers are #{my_towers}"
+  # test first step logic - build fire tower at hottest spots
+  
+  filtered = sorted.select { |i| i[:nc] > 5 } # like filter
+  sfil = filtered.sort_by { |j| [j[:nc], j[:dist]] }.reverse
+  STDERR.puts "sfil is #{sfil}"
+  sfil.each do |i|
+    STDERR.puts "filtered are #{i}"
+  end
+ # next
   if startPositionFound
     nextCol = 8
     if startPositions[0][:x] < center
