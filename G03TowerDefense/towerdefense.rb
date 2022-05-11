@@ -45,12 +45,12 @@ def build_heat_map(lines, height, width)
   # { 0: { 0: { :adjacent_paths => 1, :dist_from_center => 7.33 }}}
   ar = []
   for y in 0..height-1 do
-    for x in 0..width-1 do 
+    for x in 0..width-1 do
       c = lines[y][x]
       if c=="#"
         dist = dist_from_cent(x,y)
         nc = count_neighbors(lines,x,y)
-        ar << { :x => x, :y => y, :dist => dist, :nc => nc }
+        ar << { :x => x, :y => y, :dist => -dist, :nc => nc }
       end
     end
   end
@@ -59,13 +59,17 @@ end
 
 heatmap = build_heat_map(lines, height, width)
 
-heatmap.each do |i| 
-  STDERR.puts "item is #{i}"
-end
+# heatmap.each do |i|
+#   STDERR.puts "item is #{i}"
+# end
 
-# while the current heat map makes it easy to lookup by location, it is not suited to sort.
-# flatten the heat map to store x and y as props 
 # sort the heat map by neighbor count and by distance 
+
+sorted = heatmap.sort_by { |item| [item[:nc], item[:dist]] }
+
+sorted.reverse.each do |i| 
+  STDERR.puts "sorted is #{i}"
+end
 # next step - further optimize tower distribution - 
 # spread out the glues 
 # ensure glues are followed by guns

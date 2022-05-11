@@ -31,3 +31,5 @@
 - limit to 1 glue tower 
 
 - build a heatmap of all canyons (#) and the number of adjacent paths each has 
+- while the current heat map makes it easy to lookup by location, it is not suited to sort.
+- flatten the heat map to store x and y as props 
