@@ -9,7 +9,7 @@ height.times do
   line = gets.chomp
   lines << line
 end
-heatmap = {}
+heatmap = []
 
 def dist_from_cent(x,y)
   return (x-8)**2 + (y-8)**2
@@ -43,26 +43,18 @@ end
 
 def build_heat_map(lines, height, width) 
   # { 0: { 0: { :adjacent_paths => 1, :dist_from_center => 7.33 }}}
-  map = {}
+  ar = []
   for y in 0..height-1 do
     for x in 0..width-1 do 
       c = lines[y][x]
       if c=="#"
-        if map[y].nil?
-          map[y] = {}
-          map[y][x] = {}
-        end
-        if map[y][x].nil?
-          map[y][x] = {}
-        end
         dist = dist_from_cent(x,y)
         nc = count_neighbors(lines,x,y)
-        map[y][x][:dist] = dist
-        map[y][x][:nc] = nc
+        ar << { :x => x, :y => y, :dist => dist, :nc => nc }
       end
     end
   end
-  map 
+  ar 
 end 
 
 heatmap = build_heat_map(lines, height, width)
@@ -83,7 +75,7 @@ end
 
 # i lose to players that greedily take all bendy paths (most adjacent paths)
 # it also seems placing near own base and opponents base doesn't matter as much 
-# build a heatmap of all canyons (#) and the number of adjacent paths each has 
+
 
 startPositionFound = false
 startPositions = []
