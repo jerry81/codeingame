@@ -28,6 +28,10 @@
 - place from the top down - fixed this by centralizing building priority 
 
 
+- on first step - 
+- grab the squares with 6+ surrounding paths first and put fire towers there.
+
+
 - limit to 1 glue tower 
 
 - build a heatmap of all canyons (#) and the number of adjacent paths each has 

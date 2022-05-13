@@ -59,43 +59,7 @@ end
 
 heatmap = build_heat_map(lines, height, width)
 
-# heatmap.each do |i|
-#   STDERR.puts "item is #{i}"
-# end
-
-# sort the heat map by neighbor count and by distance 
-
 sorted = heatmap.sort_by { |item| [item[:nc], item[:dist]] }
-
-# sorted.reverse.each do |i| 
-#   STDERR.puts "sorted is #{i}"
-# end
-
-# on first step - 
-# grab the squares with 6+ surrounding paths first and put fire towers there.
-
-# next step - further optimize tower distribution - 
-# spread out the glues 
-# ensure glues are followed by guns
-# wherever there is a canyon with more than x paths surrounding it, place a firetower 
-
-# OR
-
-# i lose to players that greedily take all bendy paths (most adjacent paths)
-# it also seems placing near own base and opponents base doesn't matter as much 
-
-
-startPositionFound = false
-startPositions = []
-
-
-
-# next step - pre-game path analysis 
-# from the start - identify all exit locations and as a first step build one at each exit location 
-# different map types 
-# single entrance 
-  # easy - build one at each entrance 
-# multi entrance 
 
 
 my_towers = {} # ids of towers (for upgrading)
@@ -112,73 +76,6 @@ def get_my_towers_count(towers, type)
   STDERR.puts "towers are #{towers}"
   return towers.select { |k,v| v[:type] == type }.count
 end
-
-def findStartPosition(sp, h, l)
-    pos = sp[0]
-    x = pos[:x]
-    y = pos[:y]
-    for i in 0..h-1
-        if l[i][x] == '.' && i != y
-          sp << { :x=>x, :y=>i }
-        end
-    end
-    sp
-end
-
-def find_paths(x, lines) 
-    returned = []
-    for i in 0..16
-        item = lines[i][x]
-        if item == '.'
-            returned << i 
-        end
-    end
-    returned
-end
-
-def getUnsaturated(x, paths, lines)
-    locations = []
-    l = [0, x-1].max 
-    r = [16, x+1].min
-    sortedPaths = paths.sort {
-      |a,b| (8-a).abs() <=> (8-b).abs()
-    }
-    STDERR.puts "sortedPaths is #{sortedPaths}"
-    sortedPaths.each do |y|
-        u = [y-1, 0].max
-        d = [y+1, 16].min
-        li = lines[y][l]
-        ri = lines[y][r]
-        ui = lines[u][x]
-        di = lines[d][x]
-        # check if any spot is open 
-        lio = li == '#'
-        rio = ri == '#'
-        uio = ui == '#'
-        dio = di == '#'
-        if lio
-            locations << { :x => l, :y => y }
-        end
-        if rio 
-            locations << { :x => r, :y => y }
-        end 
-        if uio
-            locations << { :x => x, :y => u }
-        end
-        if dio
-            locations << { :x => x, :y => d }
-        end
-    end
-    locations
-end
-
-def find_starts(lines)
-  l = find_paths(0, lines)
-  r = find_paths(16, lines)
-  STDERR.puts "l is #{l} and r is #{r}"
-end
-
-find_starts(lines)
 
 
 def build_output(arr, curCount, noGlues, towers, first) 
@@ -226,12 +123,6 @@ def build_output(arr, curCount, noGlues, towers, first)
     return str
 end
 
-def in_bounds(x,y)
-    return x >= 0 && x < 17 && y >= 0 && x < 17
-end
-outputarr = []
-counter = 0
-glueFlag = false 
 
 def get_spot_for_glue(lines, x, y, my_t)
   # check if glue is within 2 squares, if nearby return nil 
@@ -293,9 +184,6 @@ loop do
   my_money, my_lives = gets.split(" ").collect { |x| x.to_i }
   opponent_money, opponent_lives = gets.split(" ").collect { |x| x.to_i }
   tower_count = gets.to_i
-  if my_money < 70
-    glueFlag = true
-  end
   tower_count.times do
     tower_type, tower_id, owner, x, y, damage, attack_range, reload, cool_down = gets.split(" ")
     if owner.to_s == player_id.to_s
@@ -315,16 +203,6 @@ loop do
   attacker_count.times do
     attacker_id, owner, x, y, hit_points, max_hit_points, current_speed, max_speed, slow_time, bounty = gets.split(" ")
     attacker_id = attacker_id.to_i
-    if (owner.to_s == player_id.to_s && !startPositionFound)
-        xf = x.to_f.round
-        yf = y.to_f.round
-        if in_bounds(xf,yf)
-          startPositions << { :x => xf, :y => yf }
-          startPositionFound = true
-          newStartPositions = findStartPosition(startPositions, height, lines)
-          STDERR.puts "found all start positions #{newStartPositions}"
-        end
-    end
     owner = owner.to_i
     x = x.to_f
     y = y.to_f
@@ -336,13 +214,6 @@ loop do
     bounty = bounty.to_i
   end
 
-  offset = counter % 3
-  gunCounter = counter % 10
-  counter += 1
-  if counter % 25 == 0
-    glueFlag = false
-  end
-  center = 8
   
   # now we need a strategy to optimally stick some glue towers in
   # right now, in an infinite loop, we build flames and guns
@@ -388,26 +259,6 @@ loop do
     first_output << "BUILD #{x} #{y} #{gun};"
   end
   puts first_output
-  next
-  if startPositionFound
-    nextCol = 8
-    if startPositions[0][:x] < center
-      nextCol = center - offset 
-      STDERR.puts "nextCol is #{nextCol}"
-    else 
-      nextCol = center + offset
-      STDERR.puts "nextCol is #{nextCol}"
-    end
-    paths = find_paths(nextCol, lines)
-    locs = getUnsaturated(nextCol,paths, lines)
-    str = build_output(locs, gunCounter, glueFlag, my_towers, false)
-    puts str
-  else
-    paths = find_paths(center, lines)
-    locs = getUnsaturated(center,paths, lines)
-    str = build_output(locs, gunCounter, glueFlag, my_towers, true)
-    puts str
-  end
 end
 
 
