@@ -233,8 +233,25 @@ outputarr = []
 counter = 0
 glueFlag = false 
 
+def get_spot_for_glue(lines, x, y)
+  # check if glue is within 2 squares, if nearby return nil 
+  # else return { x: gluex, y: gluey }
+  offsets = *(-2..2) # splat to create array from number range 
+  STDERR.puts "offsets are #{offsets}"
+end
+# in the order of the filtered canyon hotspots, find if there is a glue tower "nearby" (within )
 def find_spot_for_glue(lines, sfil) # sfil = sorted and filtered canyons
-  STDERR.puts "should find a spot for a glue now"
+  sfil.each do |canyon|
+    map_item = lines[canyon[:y]][canyon[:x]]
+    if map_item != '#'
+      spot = get_spot_for_glue(lines, canyon[:x], canyon[:y])
+      if spot.nil?
+        next
+      end
+      return spot
+    end
+  end
+  nil 
 end
 
 # game loop
@@ -296,10 +313,9 @@ loop do
   # now we need a strategy to optimally stick some glue towers in
   # right now, in an infinite loop, we build flames and guns
   # we can count number of towers of each type
-  # when attack towers double glue towers, add a glue, limit 2
+  
+  
 
-
-  # for every 2 attack towers, we build one glue tower
   # should make a method to clean up the sorted table 
 
   STDERR.puts "gun towers count #{get_my_towers_count(my_towers, "GUNTOWER")}"

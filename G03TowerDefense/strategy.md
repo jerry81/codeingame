@@ -41,3 +41,5 @@
 
 - for very hot spots, build flame towers 
 - tower counting on each turn 
+
+- when attack towers double glue towers, add a glue, limit 2
