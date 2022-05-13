@@ -258,10 +258,15 @@ def get_spot_for_glue(lines, x, y)
   nil 
 end
 # in the order of the filtered canyon hotspots, find if there is a glue tower "nearby" (within )
-def find_spot_for_glue(lines, sfil) # sfil = sorted and filtered canyons
+def find_spot_for_glue(lines, sfil, my_t) # sfil = sorted and filtered canyons
   sfil.each do |canyon|
     map_item = lines[canyon[:y]][canyon[:x]]
+
     if map_item != '#'
+      if my_t[map_item].nil? 
+        next
+      end
+
       spot = get_spot_for_glue(lines, canyon[:x], canyon[:y])
       if spot.nil?
         next
@@ -351,8 +356,12 @@ loop do
   sfil = filtered.sort_by { |j| [j[:nc], j[:dist]] }.reverse
   if glue_c < 2 && atk_c > 1
     if atk_c > (glue_c * 2)
-      spot = find_spot_for_glue(lines, sfil)
+      spot = find_spot_for_glue(lines, sfil, my_towers)
       STDERR.puts "spot is #{spot}"
+      if !spot.nil?
+        puts "BUILD #{spot[:x]} #{spot[:y]} GLUETOWER"
+        next
+      end
     end
   end
   STDERR.puts "sfil is #{sfil}"
