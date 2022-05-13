@@ -63,7 +63,7 @@ sorted = heatmap.sort_by { |item| [item[:nc], item[:dist]] }
 
 
 my_towers = {} # ids of towers (for upgrading)
-
+overflow = {} # lookup table for tower ids 
 
 def add_tower(towers,id,type)
   if towers[id].nil?
@@ -200,6 +200,17 @@ loop do
     cool_down = cool_down.to_i
     new_id = tower_id.to_i < 10 ? tower_id.to_i : 'T'
     lines[y][x] = new_id.to_s # the entire map is updated every turn with new towers
+    # but now we need a an overflow lookup table 
+    if new_id == 'T' 
+      if overflow[y].nil?
+        overflow[y] = {}
+      end
+      
+      if overflow[y][x].nil?
+        overflow[y][x] = {}
+      end
+      overflow[y][x][:id] = tower_id.to_s
+    end
   end
   attacker_count = gets.to_i
   attacker_count.times do
@@ -241,6 +252,11 @@ loop do
   lines.each do |l| 
     STDERR.puts "line is #{l}"
   end
+
+  overflow.each do |k,v|
+    STDERR.puts "k is #{k} v is #{v}"
+  end
+
   if upgrade_phase 
     lines.each do |l| 
       STDERR.puts "line is #{l}"
