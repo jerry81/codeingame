@@ -108,6 +108,11 @@ def add_tower(towers,id,type)
   towers
 end
 
+def get_my_towers_count(towers, type)
+  STDERR.puts "towers are #{towers}"
+  return towers.select { |k,v| v[:type] == type }.count
+end
+
 def findStartPosition(sp, h, l)
     pos = sp[0]
     x = pos[:x]
@@ -119,8 +124,6 @@ def findStartPosition(sp, h, l)
     end
     sp
 end
-
-
 
 def find_paths(x, lines) 
     returned = []
@@ -229,7 +232,7 @@ end
 outputarr = []
 counter = 0
 glueFlag = false 
-initial = true
+
 # game loop
 loop do
   my_money, my_lives = gets.split(" ").collect { |x| x.to_i }
@@ -251,7 +254,7 @@ loop do
     attack_range = attack_range.to_f
     reload = reload.to_i
     cool_down = cool_down.to_i
-    lines[y][x] = tower_id.to_s
+    lines[y][x] = tower_id.to_s # the entire map is updated every turn with new towers 
   end
   attacker_count = gets.to_i
   attacker_count.times do
@@ -279,16 +282,28 @@ loop do
   end
 
   offset = counter % 3
-  gunCounter = counter % 10 
+  gunCounter = counter % 10
   counter += 1
-  if counter % 25 == 0 
+  if counter % 25 == 0
     glueFlag = false
   end
   center = 8
   
+  # now we need a strategy to optimally stick some glue towers in
+  # right now, in an infinite loop, we build flames and guns
+  # we can count number of towers of each type
+  # for every 2 attack towers, we build one glue tower
+  # the clusters should be atk atk glue
   
+  # should make a method to clean up the sorted table 
+
+  STDERR.puts "gun towers count #{get_my_towers_count(my_towers, "GUNTOWER")}"
+
+  STDERR.puts "fire towers count #{get_my_towers_count(my_towers, "FIRETOWER")}"
+
+  STDERR.puts "glue towers count #{get_my_towers_count(my_towers, "GLUETOWER")}"
   
-  filtered = sorted.select { |i| i[:nc] > 2 } # like filter
+  filtered = sorted.select { |i| i[:nc] > 3 } # like filter
   sfil = filtered.sort_by { |j| [j[:nc], j[:dist]] }.reverse
   STDERR.puts "sfil is #{sfil}"
   first_output = "PASS;"

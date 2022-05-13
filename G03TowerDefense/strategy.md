@@ -40,3 +40,4 @@
   - on every step - try to grab the hottest spots and put guntowers there
 
 - for very hot spots, build flame towers 
+- tower counting on each turn 
