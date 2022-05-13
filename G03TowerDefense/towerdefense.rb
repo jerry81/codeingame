@@ -233,16 +233,26 @@ outputarr = []
 counter = 0
 glueFlag = false 
 
-def get_spot_for_glue(lines, x, y)
+def get_spot_for_glue(lines, x, y, my_t)
   # check if glue is within 2 squares, if nearby return nil 
   # else return { x: gluex, y: gluey }
   offsets = *(-2..2) # splat to create array from number range 
+
+  spot = nil
   offsets.each do |xoff| 
     offsets.each do |yoff|
       cur_x = xoff + x 
       cur_y = yoff + y 
       lines_item = lines[cur_y][cur_x]
+      
       if lines_item != '#' 
+        STDERR.puts "lines_item is #{lines_item}"
+        type = my_t.dig(lines_item, :type)
+        STDERR.puts "type is #{type}"
+        if type == "GLUETOWER"
+          return nil 
+        end
+
         next
       end
 
@@ -252,12 +262,12 @@ def get_spot_for_glue(lines, x, y)
       end
       
       STDERR.puts "found spot for #{x}, #{y}"
-      return { :x => cur_x, :y => cur_y }
+      spot = { :x => cur_x, :y => cur_y }
     end
   end
-  nil 
+  spot 
 end
-# in the order of the filtered canyon hotspots, find if there is a glue tower "nearby" (within )
+# in the order of the filtered canyon hotspots, find if there is a glue tower "nearby"
 def find_spot_for_glue(lines, sfil, my_t) # sfil = sorted and filtered canyons
   sfil.each do |canyon|
     map_item = lines[canyon[:y]][canyon[:x]]
@@ -267,7 +277,7 @@ def find_spot_for_glue(lines, sfil, my_t) # sfil = sorted and filtered canyons
         next
       end
 
-      spot = get_spot_for_glue(lines, canyon[:x], canyon[:y])
+      spot = get_spot_for_glue(lines, canyon[:x], canyon[:y], my_t)
       if spot.nil?
         next
       end
