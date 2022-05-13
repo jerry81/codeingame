@@ -73,7 +73,6 @@ def add_tower(towers,id,type)
 end
 
 def get_my_towers_count(towers, type)
-  STDERR.puts "towers are #{towers}"
   return towers.select { |k,v| v[:type] == type }.count
 end
 
@@ -179,6 +178,8 @@ def find_spot_for_glue(lines, sfil, my_t) # sfil = sorted and filtered canyons
 end
 
 prev_tower_count = 0
+upgrade_phase = false 
+turn_count = 0
 # game loop
 loop do
   my_money, my_lives = gets.split(" ").collect { |x| x.to_i }
@@ -197,7 +198,8 @@ loop do
     attack_range = attack_range.to_f
     reload = reload.to_i
     cool_down = cool_down.to_i
-    lines[y][x] = tower_id.to_s # the entire map is updated every turn with new towers 
+    new_id = tower_id.to_i < 10 ? tower_id.to_i : 'T'
+    lines[y][x] = new_id.to_s # the entire map is updated every turn with new towers
   end
   attacker_count = gets.to_i
   attacker_count.times do
@@ -214,13 +216,6 @@ loop do
     bounty = bounty.to_i
   end
 
-  
-  # now we need a strategy to optimally stick some glue towers in
-  # right now, in an infinite loop, we build flames and guns
-  # we can count number of towers of each type
-  
-  
-
   # should make a method to clean up the sorted table 
 
   STDERR.puts "gun towers count #{get_my_towers_count(my_towers, "GUNTOWER")}"
@@ -231,17 +226,35 @@ loop do
 
   atk_c = get_my_towers_count(my_towers, "GUNTOWER") + get_my_towers_count(my_towers, "FIRETOWER")
   glue_c = get_my_towers_count(my_towers, "GLUETOWER")
-
+  turn_count += 1
   total_c = atk_c + glue_c 
-  stagnating = total_c == prev_tower_count && my_money > 200 
+  stagnating = (total_c == prev_tower_count) && (my_money > 200) && (turn_count > 50)
   if total_c > 7 || stagnating 
-    upgradePhase = true 
+    upgrade_phase = true 
   end
 
   prev_tower_count = total_c
   
   filtered = sorted.select { |i| i[:nc] > 3 } # like filter
   sfil = filtered.sort_by { |j| [j[:nc], j[:dist]] }.reverse
+
+  lines.each do |l| 
+    STDERR.puts "line is #{l}"
+  end
+  if upgrade_phase 
+    lines.each do |l| 
+      STDERR.puts "line is #{l}"
+    end
+    # upgrade logic goes here 
+    # upgrade priority goes by the sfil list 
+    # focus on the top 3 towers 
+    # we need to find id by location 
+    top_ids = sfil.map do |item| 
+      lines[item[:y]][item[:x]]
+    end
+    STDERR.puts "top 3 ids upgrade are #{top_ids}"
+  end
+
   if glue_c < 2 && atk_c > 1
     if atk_c > (glue_c * 2)
       spot = find_spot_for_glue(lines, sfil, my_towers)

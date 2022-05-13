@@ -52,3 +52,8 @@
 - also let's limit our total tower count to - 
 - currently, a lot of money is wasted because we stopped building towers at some point
 - find out when we stop building towers 
+
+
+- now we need a strategy to optimally stick some glue towers in
+- right now, in an infinite loop, we build flames and guns
+- we can count number of towers of each type
