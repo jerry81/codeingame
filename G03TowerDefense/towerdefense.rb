@@ -233,6 +233,10 @@ outputarr = []
 counter = 0
 glueFlag = false 
 
+def find_spot_for_glue(lines, sfil) # sfil = sorted and filtered canyons
+  STDERR.puts "should find a spot for a glue now"
+end
+
 # game loop
 loop do
   my_money, my_lives = gets.split(" ").collect { |x| x.to_i }
@@ -292,9 +296,10 @@ loop do
   # now we need a strategy to optimally stick some glue towers in
   # right now, in an infinite loop, we build flames and guns
   # we can count number of towers of each type
+  # when attack towers double glue towers, add a glue, limit 2
+
+
   # for every 2 attack towers, we build one glue tower
-  # the clusters should be atk atk glue
-  
   # should make a method to clean up the sorted table 
 
   STDERR.puts "gun towers count #{get_my_towers_count(my_towers, "GUNTOWER")}"
@@ -302,9 +307,19 @@ loop do
   STDERR.puts "fire towers count #{get_my_towers_count(my_towers, "FIRETOWER")}"
 
   STDERR.puts "glue towers count #{get_my_towers_count(my_towers, "GLUETOWER")}"
+
+  atk_c = get_my_towers_count(my_towers, "GUNTOWER") + get_my_towers_count(my_towers, "FIRETOWER")
+  glue_c = get_my_towers_count(my_towers, "GLUETOWER")
+
+  
   
   filtered = sorted.select { |i| i[:nc] > 3 } # like filter
   sfil = filtered.sort_by { |j| [j[:nc], j[:dist]] }.reverse
+  if glue_c < 2 && atk_c > 1
+    if atk_c > (glue_c * 2)
+      find_spot_for_glue(lines, sfil)
+    end
+  end
   STDERR.puts "sfil is #{sfil}"
   first_output = "PASS;"
   sfil.each do |i|
