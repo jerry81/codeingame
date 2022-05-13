@@ -287,23 +287,20 @@ loop do
   # round 1 grab the center
   center = 8
   
-  STDERR.puts "my towers are #{my_towers}"
-  # test first step logic - build fire tower at hottest spots
+  # next, adapt the first step into general strategy
+  # on every step - try to grab the hottest spots and put guntowers there
   
-  filtered = sorted.select { |i| i[:nc] == 8 } # like filter
+  filtered = sorted.select { |i| i[:nc] > 2 } # like filter
   sfil = filtered.sort_by { |j| [j[:nc], j[:dist]] }.reverse
   STDERR.puts "sfil is #{sfil}"
   first_output = "PASS;"
   sfil.each do |i|
     x = i[:x] 
     y = i[:y]
-    first_output << "BUILD #{x} #{y} FIRETOWER;"
+    first_output << "BUILD #{x} #{y} GUNTOWER;"
   end
-  if initial
-    initial = false 
-    puts first_output
-    next
-  end
+  puts first_output
+  next
   if startPositionFound
     nextCol = 8
     if startPositions[0][:x] < center
