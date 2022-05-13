@@ -284,11 +284,9 @@ loop do
   if counter % 25 == 0 
     glueFlag = false
   end
-  # round 1 grab the center
   center = 8
   
-  # next, adapt the first step into general strategy
-  # on every step - try to grab the hottest spots and put guntowers there
+  
   
   filtered = sorted.select { |i| i[:nc] > 2 } # like filter
   sfil = filtered.sort_by { |j| [j[:nc], j[:dist]] }.reverse
@@ -297,7 +295,8 @@ loop do
   sfil.each do |i|
     x = i[:x] 
     y = i[:y]
-    first_output << "BUILD #{x} #{y} GUNTOWER;"
+    gun = i[:nc] > 7 ? "FIRETOWER" : "GUNTOWER"
+    first_output << "BUILD #{x} #{y} #{gun};"
   end
   puts first_output
   next

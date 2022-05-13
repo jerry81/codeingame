@@ -35,3 +35,8 @@
 - flatten the heat map to store x and y as props 
 
 - test first step logic - build fire tower at hottest spots
+
+- next, adapt the first step into general strategy
+  - on every step - try to grab the hottest spots and put guntowers there
+
+- for very hot spots, build flame towers 
