@@ -63,7 +63,7 @@ sorted = heatmap.sort_by { |item| [item[:nc], item[:dist]] }
 
 
 my_towers = {} # ids of towers (for upgrading)
-overflow = {} # lookup table for tower ids 
+$overflow = {} # lookup table for tower ids 
 
 def add_tower(towers,id,type)
   if towers[id].nil?
@@ -134,6 +134,7 @@ def get_spot_for_glue(lines, x, y, my_t)
       cur_x = xoff + x 
       cur_y = yoff + y 
       lines_item = lines[cur_y][cur_x]
+      STDERR.puts "im in function using global overflow #{$overflow}"
       
       if lines_item != '#' 
         STDERR.puts "lines_item is #{lines_item}"
@@ -202,14 +203,14 @@ loop do
     lines[y][x] = new_id.to_s # the entire map is updated every turn with new towers
     # but now we need a an overflow lookup table 
     if new_id == 'T' 
-      if overflow[y].nil?
-        overflow[y] = {}
+      if $overflow[y].nil?
+        $overflow[y] = {}
       end
       
-      if overflow[y][x].nil?
-        overflow[y][x] = {}
+      if $overflow[y][x].nil?
+        $overflow[y][x] = {}
       end
-      overflow[y][x][:id] = tower_id.to_s
+      $overflow[y][x][:id] = tower_id.to_s
     end
   end
   attacker_count = gets.to_i
@@ -253,7 +254,7 @@ loop do
     STDERR.puts "line is #{l}"
   end
 
-  overflow.each do |k,v|
+  $overflow.each do |k,v|
     STDERR.puts "k is #{k} v is #{v}"
   end
 
