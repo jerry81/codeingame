@@ -43,3 +43,8 @@
 - tower counting on each turn 
 
 - when attack towers double glue towers, add a glue, limit 2
+
+- put more limits on tower building and 
+- also let's limit our total tower count to - 
+- currently, a lot of money is wasted because we stopped building towers at some point
+- find out when we stop building towers 

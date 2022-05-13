@@ -287,6 +287,7 @@ def find_spot_for_glue(lines, sfil, my_t) # sfil = sorted and filtered canyons
   nil 
 end
 
+prev_tower_count = 0
 # game loop
 loop do
   my_money, my_lives = gets.split(" ").collect { |x| x.to_i }
@@ -360,21 +361,25 @@ loop do
   atk_c = get_my_towers_count(my_towers, "GUNTOWER") + get_my_towers_count(my_towers, "FIRETOWER")
   glue_c = get_my_towers_count(my_towers, "GLUETOWER")
 
-  
+  total_c = atk_c + glue_c 
+  stagnating = total_c == prev_tower_count && my_money > 200 
+  if total_c > 7 || stagnating 
+    upgradePhase = true 
+  end
+
+  prev_tower_count = total_c
   
   filtered = sorted.select { |i| i[:nc] > 3 } # like filter
   sfil = filtered.sort_by { |j| [j[:nc], j[:dist]] }.reverse
   if glue_c < 2 && atk_c > 1
     if atk_c > (glue_c * 2)
       spot = find_spot_for_glue(lines, sfil, my_towers)
-      STDERR.puts "spot is #{spot}"
       if !spot.nil?
         puts "BUILD #{spot[:x]} #{spot[:y]} GLUETOWER"
         next
       end
     end
   end
-  STDERR.puts "sfil is #{sfil}"
   first_output = "PASS;"
   sfil.each do |i|
     x = i[:x] 
