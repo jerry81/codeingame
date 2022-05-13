@@ -67,9 +67,9 @@ heatmap = build_heat_map(lines, height, width)
 
 sorted = heatmap.sort_by { |item| [item[:nc], item[:dist]] }
 
-sorted.reverse.each do |i| 
-  STDERR.puts "sorted is #{i}"
-end
+# sorted.reverse.each do |i| 
+#   STDERR.puts "sorted is #{i}"
+# end
 
 # on first step - 
 # grab the squares with 6+ surrounding paths first and put fire towers there.
@@ -229,6 +229,7 @@ end
 outputarr = []
 counter = 0
 glueFlag = false 
+initial = true
 # game loop
 loop do
   my_money, my_lives = gets.split(" ").collect { |x| x.to_i }
@@ -289,13 +290,20 @@ loop do
   STDERR.puts "my towers are #{my_towers}"
   # test first step logic - build fire tower at hottest spots
   
-  filtered = sorted.select { |i| i[:nc] > 5 } # like filter
+  filtered = sorted.select { |i| i[:nc] == 8 } # like filter
   sfil = filtered.sort_by { |j| [j[:nc], j[:dist]] }.reverse
   STDERR.puts "sfil is #{sfil}"
+  first_output = "PASS;"
   sfil.each do |i|
-    STDERR.puts "filtered are #{i}"
+    x = i[:x] 
+    y = i[:y]
+    first_output << "BUILD #{x} #{y} FIRETOWER;"
   end
- # next
+  if initial
+    initial = false 
+    puts first_output
+    next
+  end
   if startPositionFound
     nextCol = 8
     if startPositions[0][:x] < center
