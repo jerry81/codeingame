@@ -228,14 +228,14 @@ loop do
     my_ids = top_ids.select do |id|
       !my_towers[id].nil?
     end
-    top_4 = my_ids.first(4)
+    top_2 = my_ids.first(2)
     out_s = "PASS;"
-    top_4.each do |id|
+    top_2.each do |id|
       if my_towers[id][:type] == "FIRETOWER"
-        i = rand(1)
+        i = rand(2)
         type = ['DAMAGE', 'RELOAD'][i]
       else
-        i = rand(2)
+        i = rand(3)
         type = ['DAMAGE', 'RANGE', 'RELOAD'][i]
       end
       out_s << "UPGRADE #{id} #{type};"
