@@ -109,3 +109,5 @@
 - fork happens when a path nsew neighbors > 2 
 
 - another big issue, when the convergence is in the center of the board, it doesn't build anything at all 
+
+- money not being spent because the upgrade candidates list is too filtered 

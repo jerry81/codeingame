@@ -287,6 +287,7 @@ loop do
 
 
   if upgrade_phase 
+    STDERR.puts "sfil are #{sfil}"
     top_ids = sfil.map do |item| 
       li = lines[item[:y]][item[:x]]
       li = li == 'T' ? $overflow.dig(item[:y], item[:x], :id) : li
@@ -297,7 +298,11 @@ loop do
     end
     count = my_money > 300 ? 10 : 3
     top_2 = my_ids.first(count)
+    if my_money > 400 
+        top_2 = my_towers.keys
+    end
     out_s = "PASS;"
+    STDERR.puts "top 2 are #{top_2}"
     top_2.each do |id|
       if my_towers[id][:type] == "FIRETOWER"
         i = rand(2)
