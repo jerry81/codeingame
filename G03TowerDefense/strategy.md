@@ -111,3 +111,9 @@
 - another big issue, when the convergence is in the center of the board, it doesn't build anything at all 
 
 - money not being spent because the upgrade candidates list is too filtered 
+
+- another weakness discovered
+
+- one exit, early fork, but then the the fork splits far away and we built at one of the far ends b/c it has lots of neighbors 
+
+- next try - follow paths and find where they converge 
