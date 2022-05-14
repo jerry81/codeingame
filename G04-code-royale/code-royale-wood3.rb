@@ -80,7 +80,7 @@ loop do
   train_action = "TRAIN"
   if can_build
     queen_action = "BUILD #{touched_site} #{$barracks[:archer]}"
-  else
+  elsif open_sites.count > 0
     # find next site 
     qx = q_loc[:x]
     qy = q_loc[:y]
@@ -95,9 +95,12 @@ loop do
     closest = sorted_d.first
     queen_action = "MOVE #{closest[:x]} #{closest[:y]}"
     STDERR.puts "sorted_d are #{sorted_d}"
+  else
+    
   end
 
-  my_sites.each do |x|
+  lim = gold / 100
+  my_sites.first(lim).each do |x|
     train_action << " #{x[:id].to_i}"
   end
   # First line: A valid queen action
