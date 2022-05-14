@@ -267,10 +267,13 @@ loop do
     top_ids = sfil.map do |item| 
       li = lines[item[:y]][item[:x]]
       li = li == 'T' ? $overflow.dig(item[:y], item[:x], :id) : li
-      STDERR.puts "item is  #{li}"
       li
     end
-    STDERR.puts "top 3 ids upgrade are #{top_ids}"
+    my_ids = top_ids.select do |id|
+      !my_towers[id].nil?
+    end
+    top_3 = my_ids.first(3)
+    STDERR.puts "top 3 ids upgrade are #{top_3}"
   end
 
   if glue_c < 2 && atk_c > 1
