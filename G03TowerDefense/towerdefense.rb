@@ -134,10 +134,12 @@ def get_spot_for_glue(lines, x, y, my_t)
       cur_x = xoff + x 
       cur_y = yoff + y 
       lines_item = lines[cur_y][cur_x]
-      STDERR.puts "im in function using global overflow #{$overflow}"
-      
+
       if lines_item != '#' 
-        STDERR.puts "lines_item is #{lines_item}"
+        if lines_item == 'T'
+          lines_item = $overflow.dig(curx, cury)
+          STDERR.puts "im in function using global overflow #{$overflow}"
+        end
         type = my_t.dig(lines_item, :type)
         STDERR.puts "type is #{type}"
         if type == "GLUETOWER"
@@ -164,6 +166,10 @@ def find_spot_for_glue(lines, sfil, my_t) # sfil = sorted and filtered canyons
     map_item = lines[canyon[:y]][canyon[:x]]
 
     if map_item != '#'
+      if map_item == 'T'
+        map_item = $overflow.dig(canyon[:y], canyon[:x])
+      end
+
       if my_t[map_item].nil? 
         next
       end
