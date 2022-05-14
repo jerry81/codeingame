@@ -77,52 +77,6 @@ def get_my_towers_count(towers, type)
 end
 
 
-def build_output(arr, curCount, noGlues, towers, first) 
-    str = "PASS;"
-    glueStr = noGlues ?  "HEALTOWER" : "GLUETOWER"
-    if arr.empty?
-      towers.each do |k,t| 
-        type = 'RELOAD'
-        STDERR.puts "type is #{t}"
-        if t[:type] == "GLUETOWER" || t[:type] == "HEALTOWER"
-          i = rand(1)
-          type = ['RANGE', 'RELOAD'][i]
-        else 
-          i = rand(2)
-          type = ['DAMAGE', 'RANGE', 'RELOAD'][i]
-        end
-        str << "UPGRADE #{k} #{type};"
-      end
-    end
-    if first && arr.count > 2
-      STDERR.puts "first step and large array"
-      gons = ["GLUETOWER", "FIRETOWER", "GUNTOWER"]
-      for i in 0..2
-        loc = arr[i]
-        str << "BUILD #{loc[:x]} #{loc[:y]} #{gons[i]};"
-      end
-      return str
-    end
-    arr.each do |i|
-        guns = ["GUNTOWER", "FIRETOWER", "HEALTOWER"]
-        for _ in 0..5 
-          guns << "GUNTOWER"
-        end
-        for _ in 0..2
-          guns << "FIRETOWER"
-        end
-        c = rand(12)
-        gun = guns[c]
-        if first
-          gun = "GLUETOWER"
-          first = false
-        end
-        str += "BUILD #{i[:x]} #{i[:y]} #{gun};"
-    end
-    return str
-end
-
-
 def get_spot_for_glue(lines, x, y, my_t)
   # check if glue is within 2 squares, if nearby return nil 
   # else return { x: gluex, y: gluey }
@@ -272,8 +226,25 @@ loop do
     my_ids = top_ids.select do |id|
       !my_towers[id].nil?
     end
-    top_3 = my_ids.first(3)
-    STDERR.puts "top 3 ids upgrade are #{top_3}"
+    top_5 = my_ids.first(5)
+    out_s = "PASS;"
+    top_5.each do |id| 
+      t = my_towers[id]
+      type = 'RELOAD'
+      if t[:type] == "GLUETOWER"
+        i = rand(1)
+        type = ['RANGE', 'RELOAD'][i]
+      elsif t[:type] == "GUNTOWER"
+        i = rand(2)
+        type = ['DAMAGE', 'RANGE', 'RELOAD'][i]
+      else 
+        i = rand(1)
+        type = ['DAMAGE', 'RELOAD'][i]
+      end
+      out_s << "UPGRADE #{id} #{type};"
+    end
+    puts out_s
+    next
   end
 
   if glue_c < 2 && atk_c > 1
