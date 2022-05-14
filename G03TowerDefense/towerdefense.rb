@@ -62,7 +62,6 @@ end
 $fork_offset = [$fork_offset, 6].min
 
 STDERR.puts "fork offset is #{$fork_offset}"
-STDERR.puts "no_clear_convergence is #{$no_clear_convergence}"
 
 
 
@@ -135,15 +134,24 @@ end
 def get_spot_for_glue(lines, x, y, my_t)
   # check if glue is within 2 squares, if nearby return nil 
   # else return { x: gluex, y: gluey }
-  offsets = *(-2..2) # splat to create array from number range 
-
+  # offsets = *(-2..2) # splat to create array from number range 
+  STDERR.puts "offsets y greater? #{y >= 8}"
+  offsets_x = x >= 8 ? [0,-1,-2] : [0,1,2,-1,-2]
+  offsets_y = y >= 8 ? [0,-1,-2,1,2] : [0,1,2,-1,-2]
+  STDERR.puts "y  is #{y}"
+  STDERR.puts "offsets y is #{offsets_y}"
   spot = nil
-  offsets.each do |xoff| 
-    offsets.each do |yoff|
+  offsets_x.each do |xoff| 
+    offsets_y.each do |yoff|
       cur_x = xoff + x 
       cur_y = yoff + y 
+     
       if cur_x > (16 - $fork_offset) || cur_y > 15 || cur_x < $fork_offset || cur_y < 1 
         next
+      end
+
+      if cur_x == 2 && cur_y == 10 
+        STDERR.puts "past first gate"
       end
       
       lines_item = lines[cur_y][cur_x]
@@ -165,11 +173,14 @@ def get_spot_for_glue(lines, x, y, my_t)
         next
       end
 
-      
+      if cur_x == 2 && cur_y == 10 
+        STDERR.puts "past second gate"
+      end
+
       spot = { :x => cur_x, :y => cur_y }
+      return spot 
     end
-  end
-  spot 
+  end 
 end
 # in the order of the filtered canyon hotspots, find if there is a glue tower "nearby"
 def find_spot_for_glue(lines, sfil, my_t) # sfil = sorted and filtered canyons
@@ -314,8 +325,10 @@ loop do
     spot = nil 
     gx = $glue[:x].to_i
     gy = $glue[:y].to_i
-    for ii in -2..2
-      for jj in -2..2
+    offsets_x =  gx >= 8 ? [0,-1,-2,1,2] : [0,1,2,-1,-2]
+    offsets_y = gy >= 8 ? [0,-1,-2,1,2] : [0,1,2,-1,-2]
+    offsets_x.each do |ii|
+      offsets_y.each do |jj|
         cx = gx + ii 
         cy = gy + jj
         if cx < $fork_offset || cy < 1 || cx > (16-$fork_offset) || cy > 15
