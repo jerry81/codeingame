@@ -67,11 +67,10 @@ end
 
 heatmap = build_heat_map(lines, height, width)
 
-heatmap.each do |x|
-  STDERR.puts "x is #{x}"
-end
 
-sorted = heatmap.sort_by { |item| [item[:nc], item[:dist]] }
+sorted = heatmap.sort_by { |item| [item[:nc], item[:diste]] }
+
+sorted.reverse!
 
 
 my_towers = {} # ids of towers (for upgrading)
