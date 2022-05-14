@@ -31,6 +31,7 @@ def make_distances_map(q_loc, open_sites)
     distances 
 end
 
+$build_knight = false
 loop do
   # touched_site: -1 if none - this is the building i am touching 
   gold, touched_site = gets.split(" ").collect { |x| x.to_i }
@@ -92,7 +93,9 @@ loop do
   queen_action = "WAIT"
   train_action = "TRAIN"
   if can_build
-    queen_action = "BUILD #{touched_site} #{$barracks[:archer]}"
+    build_sym = $build_knight ? :knight : :archer
+    $build_knight = !$build_knight
+    queen_action = "BUILD #{touched_site} #{$barracks[build_sym]}"
   elsif open_sites.count > 0
     # find next site 
     qx = q_loc[:x]
@@ -111,7 +114,6 @@ loop do
   end
   dists = make_distances_map(q_loc, site_ids)
   sorted_barracks = dists.sort_by { |x| x[:dist] }
-  STDERR.puts "dists in training is #{dists}"
   sorted_barracks.first(lim).each do |x|
     train_action << " #{x[:id].to_i}"
   end

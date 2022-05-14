@@ -3,5 +3,6 @@
   - get distances of queen from each open site and sort them - done 
 2.  limit number of build attempts depending on gold available - done 
   - modify train output to limit to only what we can build 
-3.  build from site closest to queen 
-  - 
+3.  build from site closest to queen - done
+4.  incorporate knights 
+  - alternate knights/archers for barracks building 
