@@ -228,7 +228,7 @@ loop do
     my_ids = top_ids.select do |id|
       !my_towers[id].nil?
     end
-    top_2 = my_ids.first(2)
+    top_2 = my_ids.first(3)
     out_s = "PASS;"
     top_2.each do |id|
       if my_towers[id][:type] == "FIRETOWER"
@@ -244,16 +244,17 @@ loop do
     next
   end
 
-  if glue_c < 1 && atk_c > 1
-    if atk_c > (glue_c * 2)
-      spot = find_spot_for_glue(lines, sfil, my_towers)
-      if !spot.nil?
-        puts "BUILD #{spot[:x]} #{spot[:y]} GLUETOWER"
-        next
-      end
+  if glue_c < 1 && atk_c > 0
+    spot = find_spot_for_glue(lines, sfil, my_towers)
+    if !spot.nil?
+      puts "BUILD #{spot[:x]} #{spot[:y]} GLUETOWER"
+      next
     end
   end
   first_output = "PASS;"
+  if turn_count < 10 
+    sfil = sfil.first(1)
+  end
   sfil.each do |i|
     x = i[:x] 
     y = i[:y]
