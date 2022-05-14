@@ -59,6 +59,9 @@ if start_counts > 1
   end
 end
 
+if start_counts > 1 && $fork_offset < 2 
+  $fork_offset = 6
+end
 $fork_offset = [$fork_offset, 6].min
 
 STDERR.puts "fork offset is #{$fork_offset}"
