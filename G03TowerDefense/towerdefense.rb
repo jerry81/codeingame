@@ -6,6 +6,7 @@ player_id = gets.to_i
 $player_id = player_id
 width, height = gets.split(" ").collect { |x| x.to_i }
 lines = []
+$fork_offset = 0
 height.times do
   line = gets.chomp
   lines << line
@@ -22,10 +23,10 @@ end
 
 # detect split path 
 
+
 def find_start_y(lines)
   output = []
   lines.each_with_index do |x, idx|
-    STDERR.puts "idx, x #{idx} #{x}"
     if x[0] == '.'
       output << idx
     end
@@ -33,7 +34,26 @@ def find_start_y(lines)
   output
 end
 
-STDERR.puts "expect 2 #{find_start_y(lines).count}"
+start_counts = find_start_y(lines).count
+if start_counts > 1
+  # find forked offset 
+  path_counts = []
+  for i in 0..width-1
+    path_counts[i] = 0
+  end
+  
+  for i in 0..height-1
+    for j in 0..width-1
+      ch = lines[i][j]
+      if ch == '.'
+        path_counts[j]+=1
+      end
+    end
+  end
+  STDERR.puts "path_counts is #{path_counts}"
+end
+
+
 
 def count_neighbors(lines,x,y)
   count = 0
