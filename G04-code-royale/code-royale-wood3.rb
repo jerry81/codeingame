@@ -106,12 +106,13 @@ loop do
   end
 
   lim = gold / 100
-  my_sites.first(lim).each do |x|
-    site_ids = my_sites.map do |y| 
-        y[:id]
-    end
-    dists = make_distances_map(q_loc, site_ids)
-    STDERR.puts "dists in training is #{dists}"
+  site_ids = my_sites.map do |y| 
+    y[:id]
+  end
+  dists = make_distances_map(q_loc, site_ids)
+  sorted_barracks = dists.sort_by { |x| x[:dist] }
+  STDERR.puts "dists in training is #{dists}"
+  sorted_barracks.first(lim).each do |x|
     train_action << " #{x[:id].to_i}"
   end
   # First line: A valid queen action
