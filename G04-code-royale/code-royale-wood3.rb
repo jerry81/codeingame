@@ -80,6 +80,20 @@ loop do
   train_action = "TRAIN"
   if can_build
     queen_action = "BUILD #{touched_site} #{$barracks[:archer]}"
+  else
+    # find next site 
+    qx = q_loc[:x]
+    qy = q_loc[:y]
+    distances = open_sites.map do |id|
+        site_loc = $sites[id]
+        sx = site_loc[:x]
+        sy = site_loc[:y]
+        dist = (sx-qx)**2 + (sy-qy)**2 
+        {:id=>id, :dist=>dist, :x=>sx, :y=>sy}
+    end
+    sorted_d = distances.sort_by { |x| x[:dist] }
+    sorted_d.reverse!
+    STDERR.puts "sorted_d are #{sorted_d}"
   end
 
   my_sites.each do |x|
