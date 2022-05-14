@@ -57,3 +57,18 @@
 - now we need a strategy to optimally stick some glue towers in
 - right now, in an infinite loop, we build flames and guns
 - we can count number of towers of each type
+
+-  upgrade logic goes here 
+
+-  upgrade priority goes by the sfil list 
+
+-  focus on the top 3 towers 
+
+-  we need to find id by location 
+
+- lost to a player who just spammed gun towers everywhere 
+- i ended up with no firetowers 
+
+- lost to another guntower spammer 
+- he spams, never upgrades, and tries to centralize a bit 
+- we could filter out the ends of the map 

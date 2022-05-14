@@ -91,11 +91,9 @@ def get_spot_for_glue(lines, x, y, my_t)
 
       if lines_item != '#' 
         if lines_item == 'T'
-          lines_item = $overflow.dig(curx, cury,:id)
-          STDERR.puts "im in function using global overflow #{$overflow}"
+          lines_item = $overflow.dig(cur_x, cur_y,:id)
         end
         type = my_t.dig(lines_item, :type)
-        STDERR.puts "type is #{type}"
         if type == "GLUETOWER"
           return nil 
         end
@@ -108,7 +106,6 @@ def get_spot_for_glue(lines, x, y, my_t)
         next
       end
       
-      STDERR.puts "found spot for #{x}, #{y}"
       spot = { :x => cur_x, :y => cur_y }
     end
   end
@@ -190,18 +187,13 @@ loop do
 
   # should make a method to clean up the sorted table 
 
-  STDERR.puts "gun towers count #{get_my_towers_count(my_towers, "GUNTOWER")}"
-
-  STDERR.puts "fire towers count #{get_my_towers_count(my_towers, "FIRETOWER")}"
-
-  STDERR.puts "glue towers count #{get_my_towers_count(my_towers, "GLUETOWER")}"
 
   atk_c = get_my_towers_count(my_towers, "GUNTOWER") + get_my_towers_count(my_towers, "FIRETOWER")
   glue_c = get_my_towers_count(my_towers, "GLUETOWER")
   turn_count += 1
   total_c = atk_c + glue_c 
   stagnating = (total_c == prev_tower_count) && (my_money > 200) && (turn_count > 50)
-  if total_c > 7 || stagnating 
+  if total_c > 10 || stagnating 
     upgrade_phase = true 
   end
 
@@ -211,13 +203,6 @@ loop do
   sfil = filtered.sort_by { |j| [j[:nc], j[:dist]] }.reverse
 
   if upgrade_phase 
-    lines.each do |l| 
-      STDERR.puts "line is #{l}"
-    end
-    # upgrade logic goes here 
-    # upgrade priority goes by the sfil list 
-    # focus on the top 3 towers 
-    # we need to find id by location 
     top_ids = sfil.map do |item| 
       li = lines[item[:y]][item[:x]]
       li = li == 'T' ? $overflow.dig(item[:y], item[:x], :id) : li
@@ -226,9 +211,9 @@ loop do
     my_ids = top_ids.select do |id|
       !my_towers[id].nil?
     end
-    top_5 = my_ids.first(5)
+    top_4 = my_ids.first(4)
     out_s = "PASS;"
-    top_5.each do |id| 
+    top_4.each do |id| 
       t = my_towers[id]
       type = 'RELOAD'
       if t[:type] == "GLUETOWER"
