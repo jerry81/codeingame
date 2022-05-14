@@ -10,24 +10,35 @@ $sites = {}
 num_sites = gets.to_i
 num_sites.times do
   site_id, x, y, radius = gets.split(" ").collect { |x| x.to_i }
-  sites[side_id] = {
+  $sites[site_id] = {
       :x => x,
       :y => y,
       :radius => radius
     }
 end
-STDERR.puts "sites are #{sites}"
 # game loop
+
 loop do
   # touched_site: -1 if none - this is the building i am touching 
   gold, touched_site = gets.split(" ").collect { |x| x.to_i }
+  open_sites = []
+  my_sites = []
   num_sites.times do
     # ignore_1: used in future leagues
     # ignore_2: used in future leagues
     # structure_type: -1 = No structure, 2 = Barracks
     # owner: -1 = No structure, 0 = Friendly, 1 = Enemy
     site_id, ignore_1, ignore_2, structure_type, owner, param_1, param_2 = gets.split(" ").collect { |x| x.to_i }
+    if owner == -1 
+        open_sites << site_id
+    end
+    
+    if owner == 0 
+        my_sites << site_id
+    end
   end
+  STDERR.puts "open sites are #{open_sites}"
+  STDERR.puts "my sites are #{my_sites}"
   num_units = gets.to_i
   num_units.times do
     # unit_type: -1 = QUEEN, 0 = KNIGHT, 1 = ARCHER
