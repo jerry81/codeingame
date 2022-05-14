@@ -137,7 +137,7 @@ def get_spot_for_glue(lines, x, y, my_t)
 
       if lines_item != '#' 
         if lines_item == 'T'
-          lines_item = $overflow.dig(curx, cury)
+          lines_item = $overflow.dig(curx, cury,:id)
           STDERR.puts "im in function using global overflow #{$overflow}"
         end
         type = my_t.dig(lines_item, :type)
@@ -167,7 +167,7 @@ def find_spot_for_glue(lines, sfil, my_t) # sfil = sorted and filtered canyons
 
     if map_item != '#'
       if map_item == 'T'
-        map_item = $overflow.dig(canyon[:y], canyon[:x])
+        map_item = $overflow.dig(canyon[:y], canyon[:x], :id)
       end
 
       if my_t[map_item].nil? 
@@ -266,8 +266,9 @@ loop do
     # we need to find id by location 
     top_ids = sfil.map do |item| 
       li = lines[item[:y]][item[:x]]
-      li == 'T' ? $overflow.dig(item[:y], item[:x]) : li
+      li = li == 'T' ? $overflow.dig(item[:y], item[:x], :id) : li
       STDERR.puts "item is  #{li}"
+      li
     end
     STDERR.puts "top 3 ids upgrade are #{top_ids}"
   end
