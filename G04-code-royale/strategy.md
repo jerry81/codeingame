@@ -4,3 +4,4 @@
 2.  limit number of build attempts depending on gold available - done 
   - modify train output to limit to only what we can build 
 3.  build from site closest to queen 
+  - 

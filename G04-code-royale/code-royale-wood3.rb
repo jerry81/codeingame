@@ -18,6 +18,19 @@ num_sites.times do
 end
 # game loop
 
+def make_distances_map(q_loc, open_sites)
+    qx = q_loc[:x]
+    qy = q_loc[:y]
+    distances = open_sites.map do |id|
+        site_loc = $sites[id]
+        sx = site_loc[:x]
+        sy = site_loc[:y]
+        dist = (sx-qx)**2 + (sy-qy)**2 
+        {:id=>id, :dist=>dist, :x=>sx, :y=>sy}
+    end
+    distances 
+end
+
 loop do
   # touched_site: -1 if none - this is the building i am touching 
   gold, touched_site = gets.split(" ").collect { |x| x.to_i }
@@ -84,23 +97,21 @@ loop do
     # find next site 
     qx = q_loc[:x]
     qy = q_loc[:y]
-    distances = open_sites.map do |id|
-        site_loc = $sites[id]
-        sx = site_loc[:x]
-        sy = site_loc[:y]
-        dist = (sx-qx)**2 + (sy-qy)**2 
-        {:id=>id, :dist=>dist, :x=>sx, :y=>sy}
-    end
+    distances = make_distances_map(q_loc, open_sites)
     sorted_d = distances.sort_by { |x| x[:dist] }
     closest = sorted_d.first
     queen_action = "MOVE #{closest[:x]} #{closest[:y]}"
-    STDERR.puts "sorted_d are #{sorted_d}"
   else
-    
+
   end
 
   lim = gold / 100
   my_sites.first(lim).each do |x|
+    site_ids = my_sites.map do |y| 
+        y[:id]
+    end
+    dists = make_distances_map(q_loc, site_ids)
+    STDERR.puts "dists in training is #{dists}"
     train_action << " #{x[:id].to_i}"
   end
   # First line: A valid queen action
