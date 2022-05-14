@@ -5,4 +5,7 @@
   - modify train output to limit to only what we can build 
 3.  build from site closest to queen - done
 4.  incorporate knights 
-  - alternate knights/archers for barracks building 
+  - alternate knights/archers for barracks building  - done 
+5.  training logic 
+  - if there are enemy knights, then build archers 
+  - else build knights 
