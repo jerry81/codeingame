@@ -35,17 +35,44 @@ loop do
     end
     
     if owner == 0 
-        my_sites << site_id
+        my_sites << {:id => site_id, :type => param_2}
     end
   end
   STDERR.puts "open sites are #{open_sites}"
   STDERR.puts "my sites are #{my_sites}"
   num_units = gets.to_i
+  q_loc = {}
+  my_archers = []
+  my_knights = []
+  enemy_archers = []
+  enemy_knights = []
   num_units.times do
     # unit_type: -1 = QUEEN, 0 = KNIGHT, 1 = ARCHER
     x, y, owner, unit_type, health = gets.split(" ").collect { |x| x.to_i }
+    if unit_type == -1 && owner == 0
+        q_loc = {:x=>x, :y=>y}
+    end
+    if unit_type == 0 
+        case owner 
+        when 0
+            my_knights << {:x=>x,:y=>y}
+        when 1
+            enemy_knights << {:x=>x,:y=>y}
+        end
+    end
+    if unit_type == 1 
+        case owner 
+        when 0
+            my_archers << {:x=>x,:y=>y}
+        when 1
+            enemy_archers << {:x=>x,:y=>y}
+        end
+    end
   end
 
+  STDERR.puts "myknights #{my_knights} my archers #{my_archers}"
+  STDERR.puts "enemeyk #{enemy_knights} enemy archers #{enemy_archers}"
+  STDERR.puts "queen loc is #{q_loc}"
   # Write an action using puts
   # To debug: STDERR.puts "Debug messages..."
   can_build = touched_site > -1 && open_sites.include?(touched_site)
@@ -56,7 +83,7 @@ loop do
   end
 
   my_sites.each do |x|
-    train_action << " #{x.to_i}"
+    train_action << " #{x[:id].to_i}"
   end
   # First line: A valid queen action
   # Second line: A set of training instructions
