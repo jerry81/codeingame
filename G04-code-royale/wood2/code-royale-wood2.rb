@@ -4,7 +4,7 @@ STDOUT.sync = true # DO NOT REMOVE
 # 1920x1000
 # queen size 30 units (r)
 # movement - 60 units 
-$barracks = {:knight => "BARRACKS-KNIGHT", :archer => "BARRACKS-ARCHER"}
+$barracks = {:knight => "BARRACKS-KNIGHT", :archer => "BARRACKS-ARCHER", :giant => "BARRACKS-GIANT"}
 
 $sites = {}
 num_sites = gets.to_i
@@ -38,6 +38,7 @@ loop do
   STDERR.puts "touched_site is #{touched_site}"
   open_sites = []
   my_sites = []
+  my_site_types = {}
   num_sites.times do
     # ignore_1: used in future leagues
     # ignore_2: used in future leagues
@@ -50,6 +51,7 @@ loop do
     
     if owner == 0 
         my_sites << {:id => site_id, :type => param_2}
+        my_site_types[site_id] = param_2
     end
   end
   STDERR.puts "open sites are #{open_sites}"
@@ -116,8 +118,19 @@ loop do
   sorted_barracks = dists.sort_by { |x| x[:dist] }
   STDERR.puts "my k count is #{my_knights.count} enemy k count is #{enemy_knights.count}"
   STDERR.puts "my a count is #{my_archers.count} enemy a count is #{enemy_archers.count}"
-  
-  sorted_barracks.first(lim).each do |x|
+  filtered_barracks = []
+  if enemy_knights.count == 0 || my_archers.count > 4
+    # build knights 
+    filtered_barracks = sorted_barracks.select do |x| 
+      my_site_types[x[:id]] == 0
+    end
+  else 
+    # build archers 
+    filtered_barracks = sorted_barracks.select do |x| 
+      my_site_types[x[:id]] == 1
+    end
+  end
+  filtered_barracks.first(lim).each do |x|
     train_action << " #{x[:id].to_i}"
   end
   # First line: A valid queen action
