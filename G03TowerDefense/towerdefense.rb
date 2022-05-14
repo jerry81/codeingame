@@ -256,14 +256,6 @@ loop do
   filtered = sorted.select { |i| i[:nc] > 3 } # like filter
   sfil = filtered.sort_by { |j| [j[:nc], j[:dist]] }.reverse
 
-  lines.each do |l| 
-    STDERR.puts "line is #{l}"
-  end
-
-  $overflow.each do |k,v|
-    STDERR.puts "k is #{k} v is #{v}"
-  end
-
   if upgrade_phase 
     lines.each do |l| 
       STDERR.puts "line is #{l}"
@@ -273,7 +265,9 @@ loop do
     # focus on the top 3 towers 
     # we need to find id by location 
     top_ids = sfil.map do |item| 
-      lines[item[:y]][item[:x]]
+      li = lines[item[:y]][item[:x]]
+      li == 'T' ? $overflow.dig(item[:y], item[:x]) : li
+      STDERR.puts "item is  #{li}"
     end
     STDERR.puts "top 3 ids upgrade are #{top_ids}"
   end
