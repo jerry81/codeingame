@@ -219,6 +219,7 @@ loop do
     x[:diste].abs < 64 && x[:x] > 0 && x[:x] < 16 && x[:y] > 0 && x[:y] < 16
   end
 
+
   if upgrade_phase 
     top_ids = sfil.map do |item| 
       li = lines[item[:y]][item[:x]]
@@ -228,12 +229,16 @@ loop do
     my_ids = top_ids.select do |id|
       !my_towers[id].nil?
     end
-    top_2 = my_ids.first(3)
+    count = my_money > 300 ? 10 : 3
+    top_2 = my_ids.first(count)
     out_s = "PASS;"
     top_2.each do |id|
       if my_towers[id][:type] == "FIRETOWER"
         i = rand(2)
         type = ['DAMAGE', 'RELOAD'][i]
+      elsif my_towers[id][:type] == "GLUETOWER"
+        i = rand(2)
+        type = ['RELOAD', 'RANGE'][i]
       else
         i = rand(3)
         type = ['DAMAGE', 'RANGE', 'RELOAD'][i]
