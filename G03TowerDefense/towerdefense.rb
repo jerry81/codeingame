@@ -3,6 +3,8 @@ STDOUT.sync = true # DO NOT REMOVE
 # map is 17x17 
 # startx is either 0 or 17?
 player_id = gets.to_i
+$player_id = player_id
+STDERR.puts "player_id #{player_id}"
 width, height = gets.split(" ").collect { |x| x.to_i }
 lines = []
 height.times do
@@ -14,6 +16,11 @@ heatmap = []
 def dist_from_cent(x,y)
   return (x-8)**2 + (y-8)**2
 end
+
+def dist_from_enemy(x)
+  $player_id == 0 ? (x-16)**2 : (x-0)**2 
+end
+
 
 def count_neighbors(lines,x,y)
   count = 0
@@ -138,8 +145,10 @@ end
 prev_tower_count = 0
 upgrade_phase = false 
 turn_count = 0
+
 # game loop
 loop do
+  
   my_money, my_lives = gets.split(" ").collect { |x| x.to_i }
   opponent_money, opponent_lives = gets.split(" ").collect { |x| x.to_i }
   tower_count = gets.to_i
@@ -186,8 +195,6 @@ loop do
   end
 
   # should make a method to clean up the sorted table 
-
-
   atk_c = get_my_towers_count(my_towers, "GUNTOWER") + get_my_towers_count(my_towers, "FIRETOWER")
   glue_c = get_my_towers_count(my_towers, "GLUETOWER")
   turn_count += 1
@@ -198,7 +205,7 @@ loop do
   end
 
   prev_tower_count = total_c
-  
+
   filtered = sorted.select { |i| i[:nc] > 3 } # like filter
   sfil = filtered.sort_by { |j| [j[:nc], j[:dist]] }.reverse
 
