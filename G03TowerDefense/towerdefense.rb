@@ -6,7 +6,7 @@ player_id = gets.to_i
 $player_id = player_id
 width, height = gets.split(" ").collect { |x| x.to_i }
 lines = []
-$fork_offset = 0
+$fork_offset = 1
 height.times do
   line = gets.chomp
   lines << line
@@ -50,8 +50,16 @@ if start_counts > 1
       end
     end
   end
-  STDERR.puts "path_counts is #{path_counts}"
+  
+  path_counts.each_with_index do |c,i|
+    if c < start_counts 
+      $fork_offset = i 
+      break
+    end
+  end
 end
+
+STDERR.puts "fork offset is #{$fork_offset}"
 
 
 
@@ -131,7 +139,7 @@ def get_spot_for_glue(lines, x, y, my_t)
     offsets.each do |yoff|
       cur_x = xoff + x 
       cur_y = yoff + y 
-      if cur_x > 15 || cur_y > 15 || cur_x < 1 || cur_y < 1 
+      if cur_x > (16 - $fork_offset) || cur_y > 15 || cur_x < $fork_offset || cur_y < 1 
         next
       end
       
@@ -257,7 +265,7 @@ loop do
   prev_tower_count = total_c
 
   sfil = sorted.select do |x| 
-    x[:diste].abs < 64 && x[:x] > 0 && x[:x] < 16 && x[:y] > 0 && x[:y] < 16
+    x[:diste].abs < 64 && x[:x] > $fork_offset && x[:x] < (16 - $fork_offset) && x[:y] > 0 && x[:y] < 16
   end
 
 
@@ -307,7 +315,7 @@ loop do
       for jj in -2..2
         cx = gx + ii 
         cy = gy + jj
-        if cx < 1 || cy < 1 || cx > 15 || cy > 15
+        if cx < $fork_offset || cy < 1 || cx > (16-$fork_offset) || cy > 15
           next
         end
 
