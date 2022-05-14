@@ -210,8 +210,9 @@ loop do
 
   prev_tower_count = total_c
 
-  filtered = sorted.select { |i| i[:nc] > 3 } # like filter
-  sfil = filtered.sort_by { |j| [j[:nc], j[:dist]] }.reverse
+  sfil = sorted.select do |x| 
+    x[:diste].abs < 64
+  end
 
   if upgrade_phase 
     top_ids = sfil.map do |item| 

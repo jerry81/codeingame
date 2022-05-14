@@ -93,4 +93,7 @@
 - build off of existing towers 
 - can have a strategy for specific towers
   - first tower - fire, hottest spot near enemy base 
-  
+
+
+- now we have a sorted list of spots for the first tower based on neighbors and distance from the enemy
+- next build the first fire tower 
