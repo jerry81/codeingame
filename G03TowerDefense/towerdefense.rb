@@ -98,6 +98,10 @@ def get_spot_for_glue(lines, x, y, my_t)
     offsets.each do |yoff|
       cur_x = xoff + x 
       cur_y = yoff + y 
+      if cur_x > 15 || cur_y > 15 || cur_x < 1 || cur_y < 1 
+        next
+      end
+      
       lines_item = lines[cur_y][cur_x]
 
       if lines_item != '#' 
@@ -116,6 +120,7 @@ def get_spot_for_glue(lines, x, y, my_t)
       if nc < 3 
         next
       end
+
       
       spot = { :x => cur_x, :y => cur_y }
     end
@@ -204,14 +209,14 @@ loop do
   turn_count += 1
   total_c = atk_c + glue_c 
   stagnating = (total_c == prev_tower_count) && (my_money > 200) && (turn_count > 50)
-  if total_c > 10 || stagnating 
+  if total_c > 5 || stagnating 
     upgrade_phase = true 
   end
 
   prev_tower_count = total_c
 
   sfil = sorted.select do |x| 
-    x[:diste].abs < 64
+    x[:diste].abs < 64 && x[:x] > 0 && x[:x] < 16 && x[:y] > 0 && x[:y] < 16
   end
 
   if upgrade_phase 
@@ -225,18 +230,13 @@ loop do
     end
     top_4 = my_ids.first(4)
     out_s = "PASS;"
-    top_4.each do |id| 
-      t = my_towers[id]
-      type = 'RELOAD'
-      if t[:type] == "GLUETOWER"
-        i = rand(1)
-        type = ['RANGE', 'RELOAD'][i]
-      elsif t[:type] == "GUNTOWER"
-        i = rand(2)
-        type = ['DAMAGE', 'RANGE', 'RELOAD'][i]
-      else 
+    top_4.each do |id|
+      if my_towers[id][:type] == "FIRETOWER"
         i = rand(1)
         type = ['DAMAGE', 'RELOAD'][i]
+      else
+        i = rand(2)
+        type = ['DAMAGE', 'RANGE', 'RELOAD'][i]
       end
       out_s << "UPGRADE #{id} #{type};"
     end
@@ -244,7 +244,7 @@ loop do
     next
   end
 
-  if glue_c < 2 && atk_c > 1
+  if glue_c < 1 && atk_c > 1
     if atk_c > (glue_c * 2)
       spot = find_spot_for_glue(lines, sfil, my_towers)
       if !spot.nil?
