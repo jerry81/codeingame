@@ -4,7 +4,7 @@ STDOUT.sync = true # DO NOT REMOVE
 # 1920x1000
 # queen size 30 units (r)
 # movement - 60 units 
-barracks = {:knight => "BARRACKS-KNIGHT", :archer => "BARRACKS-ARCHER"}
+$barracks = {:knight => "BARRACKS-KNIGHT", :archer => "BARRACKS-ARCHER"}
 
 $sites = {}
 num_sites = gets.to_i
@@ -21,6 +21,7 @@ end
 loop do
   # touched_site: -1 if none - this is the building i am touching 
   gold, touched_site = gets.split(" ").collect { |x| x.to_i }
+  STDERR.puts "touched_site is #{touched_site}"
   open_sites = []
   my_sites = []
   num_sites.times do
@@ -47,10 +48,18 @@ loop do
 
   # Write an action using puts
   # To debug: STDERR.puts "Debug messages..."
+  can_build = touched_site > -1 && open_sites.include?(touched_site)
+  queen_action = "WAIT"
+  train_action = "TRAIN"
+  if can_build
+    queen_action = "BUILD #{touched_site} #{$barracks[:archer]}"
+  end
 
-
+  my_sites.each do |x|
+    train_action << " #{x.to_i}"
+  end
   # First line: A valid queen action
   # Second line: A set of training instructions
-  puts "WAIT"
-  puts "TRAIN"
+  puts queen_action
+  puts train_action
 end
