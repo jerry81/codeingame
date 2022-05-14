@@ -59,7 +59,10 @@ if start_counts > 1
   end
 end
 
+$fork_offset = [$fork_offset, 6].min
+
 STDERR.puts "fork offset is #{$fork_offset}"
+STDERR.puts "no_clear_convergence is #{$no_clear_convergence}"
 
 
 
@@ -108,8 +111,8 @@ end
 
 heatmap = build_heat_map(lines, height, width)
 
-
-sorted = heatmap.sort_by { |item| [item[:nc], item[:diste]] }
+sort_symb = $no_clear_convergence ? :dist : :diste
+sorted = heatmap.sort_by { |item| [item[:nc], item[:sort_symb]] }
 
 sorted.reverse!
 

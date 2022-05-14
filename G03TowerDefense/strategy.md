@@ -100,3 +100,12 @@
 
 - major weakness found with my plan
   - if there is a split path, i may end up building on one of the split paths 
+
+- thought i fixed the weakness but then encountered another bad case: 
+- the convergence was never found 
+
+- convergence logic wrong
+- instead should follow each path and look for the fork 
+- fork happens when a path nsew neighbors > 2 
+
+- another big issue, when the convergence is in the center of the board, it doesn't build anything at all 
