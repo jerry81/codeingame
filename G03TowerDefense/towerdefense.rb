@@ -129,6 +129,7 @@ def get_spot_for_glue(lines, x, y, my_t)
 end
 # in the order of the filtered canyon hotspots, find if there is a glue tower "nearby"
 def find_spot_for_glue(lines, sfil, my_t) # sfil = sorted and filtered canyons
+
   sfil.each do |canyon|
     map_item = lines[canyon[:y]][canyon[:x]]
 
@@ -154,7 +155,7 @@ end
 prev_tower_count = 0
 upgrade_phase = false 
 turn_count = 0
-
+$glue = {}
 # game loop
 loop do
   
@@ -165,6 +166,13 @@ loop do
     tower_type, tower_id, owner, x, y, damage, attack_range, reload, cool_down = gets.split(" ")
     if owner.to_s == player_id.to_s
         my_towers = add_tower(my_towers, tower_id, tower_type)
+        if tower_type == "GLUETOWER"
+          $glue = {
+            :id => tower_id,
+            :x => x,
+            :y => y,
+          }
+        end
     end
     tower_id = tower_id.to_i
     owner = owner.to_i
@@ -257,13 +265,46 @@ loop do
     end
   end
   first_output = "PASS;"
+  if glue_c > 0 
+    # build close to glue
+    spot = nil 
+    gx = $glue[:x].to_i
+    gy = $glue[:y].to_i
+    for ii in -2..2
+      for jj in -2..2
+        cx = gx + ii 
+        cy = gy + jj
+        if cx < 1 || cy < 1 || cx > 15 || cy > 15
+          next
+        end
+
+        if lines[cy][cx] != '#'
+          next
+        end
+
+        nc = count_neighbors(lines, cx, cy)
+        if nc < 3 
+          next
+        end
+        
+        spot = {:x => cx, :y => cy}
+      end
+    end
+    if !spot.nil? 
+      x = spot[:x] 
+      y = spot[:y]
+      gun = "GUNTOWER"
+      puts "BUILD #{x} #{y} #{gun}"
+      next
+    end
+  end
   if turn_count < 10 
     sfil = sfil.first(1)
   end
   sfil.each do |i|
     x = i[:x] 
     y = i[:y]
-    gun = i[:nc] > 7 ? "FIRETOWER" : "GUNTOWER"
+    gun = i[:nc] > 6 ? "FIRETOWER" : "GUNTOWER"
     first_output << "BUILD #{x} #{y} #{gun};"
   end
   puts first_output
