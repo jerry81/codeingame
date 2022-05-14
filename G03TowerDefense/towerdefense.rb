@@ -56,8 +56,9 @@ def build_heat_map(lines, height, width)
       c = lines[y][x]
       if c=="#"
         dist = dist_from_cent(x,y)
+        dist_enemy = dist_from_enemy(x)
         nc = count_neighbors(lines,x,y)
-        ar << { :x => x, :y => y, :dist => -dist, :nc => nc }
+        ar << { :x => x, :y => y, :dist => -dist, :nc => nc, :diste => -dist_enemy }
       end
     end
   end
@@ -65,6 +66,10 @@ def build_heat_map(lines, height, width)
 end 
 
 heatmap = build_heat_map(lines, height, width)
+
+heatmap.each do |x|
+  STDERR.puts "x is #{x}"
+end
 
 sorted = heatmap.sort_by { |item| [item[:nc], item[:dist]] }
 
