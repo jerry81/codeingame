@@ -97,3 +97,6 @@
 
 - now we have a sorted list of spots for the first tower based on neighbors and distance from the enemy
 - next build the first fire tower 
+
+- major weakness found with my plan
+  - if there is a split path, i may end up building on one of the split paths 

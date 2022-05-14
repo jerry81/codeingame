@@ -4,7 +4,6 @@ STDOUT.sync = true # DO NOT REMOVE
 # startx is either 0 or 17?
 player_id = gets.to_i
 $player_id = player_id
-STDERR.puts "player_id #{player_id}"
 width, height = gets.split(" ").collect { |x| x.to_i }
 lines = []
 height.times do
@@ -21,6 +20,20 @@ def dist_from_enemy(x)
   $player_id == 0 ? (x-16)**2 : (x-0)**2 
 end
 
+# detect split path 
+
+def find_start_y(lines)
+  output = []
+  lines.each_with_index do |x, idx|
+    STDERR.puts "idx, x #{idx} #{x}"
+    if x[0] == '.'
+      output << idx
+    end
+  end
+  output
+end
+
+STDERR.puts "expect 2 #{find_start_y(lines).count}"
 
 def count_neighbors(lines,x,y)
   count = 0
