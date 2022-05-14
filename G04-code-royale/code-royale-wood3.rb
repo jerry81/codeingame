@@ -92,7 +92,8 @@ loop do
         {:id=>id, :dist=>dist, :x=>sx, :y=>sy}
     end
     sorted_d = distances.sort_by { |x| x[:dist] }
-    sorted_d.reverse!
+    closest = sorted_d.first
+    queen_action = "MOVE #{closest[:x]} #{closest[:y]}"
     STDERR.puts "sorted_d are #{sorted_d}"
   end
 
