@@ -345,6 +345,7 @@ loop do
         end
         
         spot = {:x => cx, :y => cy}
+        break
       end
     end
     if !spot.nil? 
