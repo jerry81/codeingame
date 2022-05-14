@@ -72,3 +72,25 @@
 - lost to another guntower spammer 
 - he spams, never upgrades, and tries to centralize a bit 
 - we could filter out the ends of the map 
+
+- played the top ranked opponent 
+- he starts with a flame, glue, and 2 guns at my base 
+- his towers are much more consolidated - 3 towers for the entire game
+
+- on first turn he tries to build firetower on the hottest square on my side since it fails,
+- next turn he builds fire tower on my side in the next hottest square 
+- he then builds a glue tower next to the fire tower
+- then he builds a gun tower next to it
+- he then upgrades damage on the firetower 
+- he then spams upgrade on the top two towers 
+
+- in a different run
+- he builds the fire+glue combo upgrading the fire
+- it seems like he patches guns whenever an attacker leaks thru in order to never miss gold 
+
+- reintroduce the starting position logic 
+- build from enemy base 
+- build off of existing towers 
+- can have a strategy for specific towers
+  - first tower - fire, hottest spot near enemy base 
+  
