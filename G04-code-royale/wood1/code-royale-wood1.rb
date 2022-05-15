@@ -56,13 +56,14 @@ loop do
   my_archer_sites = []
   my_giant_sites = []
   my_tower_sites = []
+  my_mines = []
   enemy_towers = []
   num_sites.times do
     # ignore_1: used in future leagues
     # ignore_2: used in future leagues
     # structure_type: -1 = No structure, 2 = Barracks
     # owner: -1 = No structure, 0 = Friendly, 1 = Enemy
-    site_id, ignore_1, ignore_2, structure_type, owner, param_1, param_2 = gets.split(" ").collect { |x| x.to_i }
+    site_id, gold, max_mine_size, structure_type, owner, param_1, param_2 = gets.split(" ").collect { |x| x.to_i }
     site = $sites[site_id]
 
     if owner == -1 
@@ -86,14 +87,16 @@ loop do
             my_giant_sites << { :id => site_id, :x => site[:x], :y => site[:y]}
           end
         end
+
+        if structure_type == 0 
+          my_mines << { :id => site_id, :x => site[:x], :y => site[:y], :rate => param_1, :max => max_mine_size }
+        end
     end
 
     if owner == 1
       enemy_sites << site_id 
     end
   end
-  STDERR.puts "open sites are #{open_sites}"
-  STDERR.puts "my sites are #{my_sites}"
   num_units = gets.to_i
   q_loc = {}
   my_archers = []
@@ -129,6 +132,7 @@ loop do
   STDERR.puts "my_knight_sites #{my_knight_sites}"
   STDERR.puts "my_archer_sites #{my_archer_sites}"
   STDERR.puts "my_giant_sites #{my_giant_sites}"
+  STDERR.puts "my_mines are #{my_mines}"
   STDERR.puts "myknights #{my_knights} my archers #{my_archers}"
   STDERR.puts "enemeyk #{enemy_knights} enemy archers #{enemy_archers}"
   STDERR.puts "queen loc is #{q_loc}"
