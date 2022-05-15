@@ -63,7 +63,7 @@ loop do
     # ignore_2: used in future leagues
     # structure_type: -1 = No structure, 2 = Barracks
     # owner: -1 = No structure, 0 = Friendly, 1 = Enemy
-    site_id, gold, max_mine_size, structure_type, owner, param_1, param_2 = gets.split(" ").collect { |x| x.to_i }
+    site_id, gold_at_site, max_mine_size, structure_type, owner, param_1, param_2 = gets.split(" ").collect { |x| x.to_i }
     site = $sites[site_id]
 
     if owner == -1 
@@ -156,10 +156,10 @@ loop do
   else 
     if can_build
       build_sym = nil
-      if need_mines
-        build_sym = :mine 
-      elsif need_archer_rax
-        build_sym = :archer
+      if need_archer_rax
+        build_sym = :archer 
+      elsif need_mines
+        build_sym = :mine
       elsif need_knight_rax
         build_sym = :knight
       elsif need_giant_rax
@@ -205,8 +205,12 @@ loop do
       my_site_types[x[:id]] == 1
     end
   end
-  filtered_barracks.first(lim).each do |x|
-    train_action << " #{x[:id].to_i}"
+  STDERR.puts "queen action is #{queen_action}"
+  STDERR.puts "filtered_barracks are #{filtered_barracks}"
+  if !filtered_barracks.empty?
+    filtered_barracks.first(lim).each do |x|
+      train_action << " #{x[:id].to_i}"
+    end
   end
   # First line: A valid queen action
   # Second line: A set of training instructions
