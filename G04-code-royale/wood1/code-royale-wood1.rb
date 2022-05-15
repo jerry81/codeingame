@@ -138,10 +138,11 @@ loop do
   STDERR.puts "queen loc is #{q_loc}"
   can_build = touched_site > -1 && open_sites.include?(touched_site)
   need_archer_rax = my_archer_sites.size == 0 
+  need_mines = my_mines.size < 2 
   need_knight_rax = my_knight_sites.size == 0 
   need_giant_rax = my_giant_sites.size == 0
   need_tower = my_tower_sites.size == 0 # wow are towers free??
-  need_something = need_archer_rax || need_knight_rax || need_giant_rax || need_tower
+  need_something = need_archer_rax || need_knight_rax || need_giant_rax || need_tower || need_mines
   queen_action = "WAIT"
   train_action = "TRAIN"
   if !need_something
@@ -155,7 +156,9 @@ loop do
   else 
     if can_build
       build_sym = nil
-      if need_archer_rax
+      if need_mines
+        build_sym = :mine 
+      elsif need_archer_rax
         build_sym = :archer
       elsif need_knight_rax
         build_sym = :knight
@@ -164,7 +167,9 @@ loop do
       elsif need_tower
         build_sym = :tower
       end
-      if build_sym == :tower 
+      if build_sym == :mine 
+        queen_action = "BUILD #{touched_site} MINE"
+      elsif build_sym == :tower 
         queen_action = "BUILD #{touched_site} TOWER"
       else 
         queen_action = "BUILD #{touched_site} #{$barracks[build_sym]}"
