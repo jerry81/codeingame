@@ -5,7 +5,7 @@ STDOUT.sync = true # DO NOT REMOVE
 # queen size 30 units (r)
 # movement - 60 units 
 $barracks = {:knight => "BARRACKS-KNIGHT", :archer => "BARRACKS-ARCHER", :giant => "BARRACKS-GIANT"}
-
+$start = nil 
 $sites = {}
 num_sites = gets.to_i
 num_sites.times do
@@ -125,6 +125,9 @@ loop do
     x, y, owner, unit_type, health = gets.split(" ").collect { |x| x.to_i }
     if unit_type == -1 && owner == 0
         q_loc = {:x=>x, :y=>y}
+        if $start.nil?
+          $start = {:x => x, :y => y}
+        end
     end
     if unit_type == 0 
         case owner 
@@ -164,7 +167,7 @@ loop do
   need_archer_rax = my_archer_sites.size == 0 
   need_knight_rax = my_knight_sites.size == 0 
   need_giant_rax = my_giant_sites.size == 0
-  need_tower = my_tower_sites.size < 2 # wow are towers free??
+  need_tower = my_tower_sites.size < 1 # wow are towers free??
   need_mines = my_mines.size < 2 || (!need_tower && !need_archer_rax && my_mines.size < 4)
   mine_needs_upgrade = my_mines.select do |x| 
     x[:max] > x[:rate]
@@ -173,7 +176,7 @@ loop do
   ek_dists = new_add_distances(q_loc, enemy_knights)
   ek_dists.sort_by! { |ek| ek[:dist] }
   queen_in_danger = false
-  if !ek_dists.empty? && ek_dists.first[:dist] < 40000
+  if !ek_dists.empty? && ek_dists.first[:dist] < 50000
     queen_in_danger = true 
   end
   STDERR.puts "queen in danger #{queen_in_danger}"
@@ -209,14 +212,15 @@ loop do
     if can_build
       build_sym = nil
       site_details = $sites[touched_site]
-      if need_knight_rax
-        build_sym = :knight
-      elsif (need_mines || mine_needs_upgrade.count > 0)
+      
+      if (need_mines || mine_needs_upgrade.count > 0)
         build_sym = site_details[:r_g] > 0 ? :mine : :tower
       elsif need_tower
         build_sym = :tower
       elsif need_archer_rax
         build_sym = :archer 
+      elsif need_knight_rax
+        build_sym = :knight
       elsif need_knight_rax
           build_sym = :knight
       elsif need_giant_rax
@@ -258,7 +262,7 @@ loop do
   filtered_barracks = []
   if need_giant 
     train_action << " #{my_giant_sites.first[:id]}"
-  elsif enemy_knights.count <= my_archers.count
+  elsif enemy_knights.count < my_archers.count
     # build knights 
     filtered_barracks = sorted_barracks.select do |x| 
       my_site_types[x[:id]] == 0

@@ -31,6 +31,6 @@ Queen starts with less health (lowered to 55)
 
 5.  more refactoring
 
-- knight rush on first turn worked well
-
+- knight rush on first turn worked well - reinstated knight rush 
+- slight tweak - run to far-side of tower 
 
