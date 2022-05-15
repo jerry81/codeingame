@@ -195,6 +195,9 @@ loop do
     elsif !touched_mine.nil? && (touched_mine[:max] > touched_mine[:rate])
       # if touched site is my_mine
       queen_action = "BUILD #{touched_site} MINE"
+    elsif mine_needs_upgrade.size > 0
+      m = mine_needs_upgrade.first 
+      queen_action = "MOVE #{m[:x]} #{m[:y]}"
     elsif open_sites.count > 0 
       # find next site 
       qx = q_loc[:x]

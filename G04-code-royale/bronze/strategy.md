@@ -9,7 +9,7 @@ Queen starts with less health (lowered to 55)
 
 - trial run with existing code 
 
-1.  fix issue - if the queen doesn't detect that the mine she just built is touching she skips away 
+1.  fix issue - if the queen doesn't detect that the mine she just built is touching she skips away - done 
 
 
 - lost to someone who spammed mines 
