@@ -173,7 +173,7 @@ loop do
   ek_dists = new_add_distances(q_loc, enemy_knights)
   ek_dists.sort_by! { |ek| ek[:dist] }
   queen_in_danger = false
-  if !ek_dists.empty? && ek_dists.first[:dist] < 10000
+  if !ek_dists.empty? && ek_dists.first[:dist] < 40000
     queen_in_danger = true 
   end
   STDERR.puts "queen in danger #{queen_in_danger}"
