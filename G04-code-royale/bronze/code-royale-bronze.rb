@@ -107,6 +107,9 @@ loop do
 
     if owner == 1
       enemy_sites << site_id 
+      if structure_type == 1
+        enemy_towers << { :id => site_id, :x => site[:x], :y => site[:y] }
+      end
     end
   end
   num_units = gets.to_i
@@ -139,6 +142,14 @@ loop do
             enemy_archers << {:x=>x,:y=>y}
         end
     end
+    if unit_type == 2
+      case owner 
+      when 0
+          my_giants << {:x=>x,:y=>y}
+      when 1
+          enemy_giants << {:x=>x,:y=>y}
+      end
+    end
   end
   STDERR.puts "my_towers #{my_tower_sites}"
   STDERR.puts "my_knight_sites #{my_knight_sites}"
@@ -148,6 +159,7 @@ loop do
   STDERR.puts "myknights #{my_knights} my archers #{my_archers}"
   STDERR.puts "enemeyk #{enemy_knights} enemy archers #{enemy_archers}"
   STDERR.puts "queen loc is #{q_loc}"
+  STDERR.puts "enemy towers count is #{enemy_towers.count}"
   can_build = touched_site > -1 && open_sites.include?(touched_site)
   need_archer_rax = my_archer_sites.size == 0 
   need_mines = my_mines.size < 3
@@ -214,12 +226,15 @@ loop do
   site_ids = my_sites.map do |y| 
     y[:id]
   end
+  need_giant = enemy_towers.count > 1 && my_archers.count >= enemy_knights.count && my_giants.count < 1 && my_giant_sites.count > 0
   dists = make_distances_map(q_loc, site_ids)
   new_dists = new_add_distances(q_loc, my_archer_sites)
   STDERR.puts "archerdistances are #{new_dists}"
   sorted_barracks = dists.sort_by { |x| x[:dist] }
   filtered_barracks = []
-  if enemy_knights.count < my_archers.count
+  if need_giant 
+    train_action << " #{my_giant_sites.first[:id]}"
+  elsif enemy_knights.count <= my_archers.count
     # build knights 
     filtered_barracks = sorted_barracks.select do |x| 
       my_site_types[x[:id]] == 0
