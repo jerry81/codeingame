@@ -44,6 +44,17 @@ def new_add_distances(from_loc, sites)
   distances 
 end
 
+def site_is_my_mine(site, mines) 
+  filtered = mines.select do |x| 
+    site == x[:id]
+  end
+  if filtered.size > 0 
+    return filtered[0]
+  else 
+    return nil 
+  end
+end
+
 loop do
   # touched_site: -1 if none - this is the building i am touching 
   gold, touched_site = gets.split(" ").collect { |x| x.to_i }
@@ -154,6 +165,7 @@ loop do
       queen_action = "MOVE #{tower_site[:x]} #{tower_site[:y]}"
     end
   else 
+    touched_mine = site_is_my_mine(touched_site, my_mines)
     if can_build
       build_sym = nil
       if need_archer_rax
@@ -174,6 +186,9 @@ loop do
       else 
         queen_action = "BUILD #{touched_site} #{$barracks[build_sym]}"
       end
+    elsif !touched_mine.nil?
+      # if touched site is my_mine
+      STDERR.puts "im touching #{touched_mine}"
     elsif open_sites.count > 0 
       # find next site 
       qx = q_loc[:x]

@@ -12,6 +12,6 @@ new structure_type 0 -> gold mine
 - trial run with existing code 
 
 1.  incorporate mines 
-  - setup the data structures 
-  - build order - 2 mines, archer, mine, tower, knight 
+  - setup the data structures - done 
+  - build order - archer, 2 mines, knight, tower, 1 mine 
   - test how long it takes to upgrade a mine fully 
