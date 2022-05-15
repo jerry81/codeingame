@@ -51,6 +51,8 @@ loop do
     # structure_type: -1 = No structure, 2 = Barracks
     # owner: -1 = No structure, 0 = Friendly, 1 = Enemy
     site_id, ignore_1, ignore_2, structure_type, owner, param_1, param_2 = gets.split(" ").collect { |x| x.to_i }
+    site = $sites[site_id]
+
     if owner == -1 
         open_sites << site_id
     end
@@ -58,9 +60,19 @@ loop do
     if owner == 0 
         my_sites << {:id => site_id, :type => param_2}
         my_site_types[site_id] = param_2
-        if param_2 == 1
-          site = $sites[site_id]
+        if structureType == 1
           my_tower_sites << { :id => site_id, :x => site[:x], :y => site[:y] }
+        end
+
+        if structureType == 2 
+          case param_2
+          when 0
+            my_knight_sites << { :id => site_id, :x => site[:x], :y => site[:y]}
+          when 1
+            my_archer_sites << { :id => site_id, :x => site[:x], :y => site[:y]}
+          else 
+            my_giant_sites << { :id => site_id, :x => site[:x], :y => site[:y]}
+          end
         end
     end
 
@@ -102,6 +114,9 @@ loop do
     end
   end
   STDERR.puts "my_towers #{my_tower_sites}"
+  STDERR.puts "my_knight_sites #{my_knight_sites}"
+  STDERR.puts "my_archer_sites #{my_archer_sites}"
+  STDERR.puts "my_giant_sites #{my_giant_sites}"
   STDERR.puts "myknights #{my_knights} my archers #{my_archers}"
   STDERR.puts "enemeyk #{enemy_knights} enemy archers #{enemy_archers}"
   STDERR.puts "queen loc is #{q_loc}"
