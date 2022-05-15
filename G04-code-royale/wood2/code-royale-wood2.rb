@@ -101,7 +101,7 @@ loop do
         end
     end
   end
-
+  STDERR.puts "my_towers #{my_tower_sites}"
   STDERR.puts "myknights #{my_knights} my archers #{my_archers}"
   STDERR.puts "enemeyk #{enemy_knights} enemy archers #{enemy_archers}"
   STDERR.puts "queen loc is #{q_loc}"
