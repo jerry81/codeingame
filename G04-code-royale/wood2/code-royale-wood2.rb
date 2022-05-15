@@ -38,7 +38,13 @@ loop do
   STDERR.puts "touched_site is #{touched_site}"
   open_sites = []
   my_sites = []
+  enemy_sites = []
   my_site_types = {}
+  my_knight_sites = []
+  my_archer_sites = []
+  my_giant_sites = []
+  my_tower_sites = []
+  enemy_towers = []
   num_sites.times do
     # ignore_1: used in future leagues
     # ignore_2: used in future leagues
@@ -52,6 +58,14 @@ loop do
     if owner == 0 
         my_sites << {:id => site_id, :type => param_2}
         my_site_types[site_id] = param_2
+        if param_2 == 1
+          site = $sites[site_id]
+          my_tower_sites << { :id => site_id, :x => site[:x], :y => site[:y] }
+        end
+    end
+
+    if owner == 1
+      enemy_sites << site_id 
     end
   end
   STDERR.puts "open sites are #{open_sites}"
@@ -60,8 +74,10 @@ loop do
   q_loc = {}
   my_archers = []
   my_knights = []
+  my_giants = []
   enemy_archers = []
   enemy_knights = []
+  enemy_giants = []
   num_units.times do
     # unit_type: -1 = QUEEN, 0 = KNIGHT, 1 = ARCHER
     x, y, owner, unit_type, health = gets.split(" ").collect { |x| x.to_i }
@@ -116,8 +132,6 @@ loop do
   end
   dists = make_distances_map(q_loc, site_ids)
   sorted_barracks = dists.sort_by { |x| x[:dist] }
-  STDERR.puts "my k count is #{my_knights.count} enemy k count is #{enemy_knights.count}"
-  STDERR.puts "my a count is #{my_archers.count} enemy a count is #{enemy_archers.count}"
   filtered_barracks = []
   if enemy_knights.count == 0 || my_archers.count > 4
     # build knights 

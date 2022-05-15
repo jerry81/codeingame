@@ -4,5 +4,7 @@
   - if no enemy knights on board - build knight - done 
   - if enemy knights on board, build archer - done 
 
-2.  limit the buildings to one of each type - first build knight tower then archer tower 
-3.  when idle, have the queen stay behind archers (keep archers between closest enemy knight and closest archer) 
+2.  limit the buildings to one of each type - first build knight rax then archer rax then tower 
+  - refactor - build seperate arrays for each building type 
+
+3.  when idle, have the queen stay behind towers 
