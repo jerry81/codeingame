@@ -211,7 +211,7 @@ loop do
   STDERR.puts "archerdistances are #{new_dists}"
   sorted_barracks = dists.sort_by { |x| x[:dist] }
   filtered_barracks = []
-  if enemy_knights.count < my_archers.count
+  if enemy_knights.count <= my_archers.count
     # build knights 
     filtered_barracks = sorted_barracks.select do |x| 
       my_site_types[x[:id]] == 0
