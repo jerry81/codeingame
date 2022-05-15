@@ -14,3 +14,5 @@
 - new strategy works great but did lose to one person 
   - he agressively built barracks everywhere including into my base 
   - make the archer threshold higher - allow archers to outnumber enemy knights 
+
+- observation - if the enemy rushes knights at the beginning, while building the first tower, i lose lots of health 
