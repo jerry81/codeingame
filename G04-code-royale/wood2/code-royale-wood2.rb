@@ -60,11 +60,11 @@ loop do
     if owner == 0 
         my_sites << {:id => site_id, :type => param_2}
         my_site_types[site_id] = param_2
-        if structureType == 1
+        if structure_type == 1
           my_tower_sites << { :id => site_id, :x => site[:x], :y => site[:y] }
         end
 
-        if structureType == 2 
+        if structure_type == 2 
           case param_2
           when 0
             my_knight_sites << { :id => site_id, :x => site[:x], :y => site[:y]}
