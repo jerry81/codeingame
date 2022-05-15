@@ -75,6 +75,7 @@ loop do
     # structure_type: -1 = No structure, 2 = Barracks
     # owner: -1 = No structure, 0 = Friendly, 1 = Enemy
     site_id, gold_at_site, max_mine_size, structure_type, owner, param_1, param_2 = gets.split(" ").collect { |x| x.to_i }
+    $sites[site_id][:r_g] = gold_at_site
     site = $sites[site_id]
 
     if owner == -1 
@@ -168,10 +169,11 @@ loop do
     touched_mine = site_is_my_mine(touched_site, my_mines)
     if can_build
       build_sym = nil
+      site_details = $sites[touched_site]
       if need_archer_rax
         build_sym = :archer 
       elsif need_mines
-        build_sym = :mine
+        build_sym = site_details[:r_g] > 0 ? :mine : :tower
       elsif need_knight_rax
         build_sym = :knight
       elsif need_giant_rax
