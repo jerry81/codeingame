@@ -165,7 +165,7 @@ loop do
   need_mines = my_mines.size < 3
   need_knight_rax = my_knight_sites.size == 0 
   need_giant_rax = my_giant_sites.size == 0
-  need_tower = my_tower_sites.size == 0 # wow are towers free??
+  need_tower = my_tower_sites.size < 3 # wow are towers free??
   mine_needs_upgrade = my_mines.select do |x| 
     x[:max] > x[:rate]
   end
@@ -191,12 +191,12 @@ loop do
         build_sym = :archer 
       elsif (need_mines || mine_needs_upgrade.count > 0)
         build_sym = site_details[:r_g] > 0 ? :mine : :tower
+      elsif need_tower
+        build_sym = :tower
       elsif need_knight_rax
         build_sym = :knight
       elsif need_giant_rax
         build_sym = :giant
-      elsif need_tower
-        build_sym = :tower
       end
       if build_sym == :mine 
         queen_action = "BUILD #{touched_site} MINE"

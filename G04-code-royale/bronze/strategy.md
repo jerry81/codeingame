@@ -20,3 +20,9 @@ Queen starts with less health (lowered to 55)
 - definitely should expand more and adapt to opponent strategies 
 - another opponent built mines with towers first and then waited until much later to build a rush of swords 
 - an opponent turtles with towers
+
+- someone spammed knights
+
+3.  how to deal with spammed knights 
+- don't build giant until there are 3 towers
+- maintain towers by walking between them 
