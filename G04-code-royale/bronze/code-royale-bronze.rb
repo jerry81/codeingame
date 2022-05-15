@@ -169,6 +169,14 @@ loop do
   mine_needs_upgrade = my_mines.select do |x| 
     x[:max] > x[:rate]
   end
+
+  ek_dists = new_add_distances(q_loc, enemy_knights)
+  ek_dists.sort_by! { |ek| ek[:dist] }
+  queen_in_danger = false
+  if !ek_dists.empty? && ek_dists.first[:dist] < 10000
+    queen_in_danger = true 
+  end
+  STDERR.puts "queen in danger #{queen_in_danger}"
   need_something = need_archer_rax || need_knight_rax || need_giant_rax || need_tower || need_mines || mine_needs_upgrade.count > 0
   queen_action = "WAIT"
   train_action = "TRAIN"

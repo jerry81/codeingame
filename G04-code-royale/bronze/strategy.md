@@ -24,5 +24,8 @@ Queen starts with less health (lowered to 55)
 - someone spammed knights
 
 3.  how to deal with spammed knights 
-- don't build giant until there are 3 towers
-- maintain towers by walking between them 
+- don't build giant until there are 3 towers - done 
+- maintain towers by walking between them  - TODO
+
+4.  evasive queen action 
+
