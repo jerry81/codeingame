@@ -242,7 +242,7 @@ loop do
   filtered_barracks = []
   if need_giant 
     train_action << " #{my_giant_sites.first[:id]}"
-  elsif enemy_knights.count < my_archers.count
+  elsif enemy_knights.count <= my_archers.count
     # build knights 
     filtered_barracks = sorted_barracks.select do |x| 
       my_site_types[x[:id]] == 0
