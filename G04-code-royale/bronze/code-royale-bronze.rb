@@ -162,10 +162,10 @@ loop do
   STDERR.puts "enemy towers count is #{enemy_towers.count}"
   can_build = touched_site > -1 && open_sites.include?(touched_site)
   need_archer_rax = my_archer_sites.size == 0 
-  need_mines = my_mines.size < 2 || (my_tower_sites.size >= 3 && my_mines.size < 4)
+  need_mines = my_mines.size < 2 || (my_tower_sites.size >= 1 && my_mines.size < 3)
   need_knight_rax = my_knight_sites.size == 0 
   need_giant_rax = my_giant_sites.size == 0
-  need_tower = my_tower_sites.size < 3 # wow are towers free??
+  need_tower = my_tower_sites.size < 1 # wow are towers free??
   mine_needs_upgrade = my_mines.select do |x| 
     x[:max] > x[:rate]
   end
