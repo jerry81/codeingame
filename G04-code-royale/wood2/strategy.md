@@ -4,9 +4,13 @@
   - if no enemy knights on board - build knight - done 
   - if enemy knights on board, build archer - done 
 
-2.  limit the buildings to one of each type - first build knight rax then archer rax then tower 
+2.  limit the buildings to one of each type - first build knight rax then archer rax then tower  - done 
   - refactor - build seperate arrays for each building type - done
   - change game loop logic - build archer tower if it doesn't exist
   - build knight tower if it doesn't exist 
 
-3.  when idle, have the queen stay behind towers 
+3.  when idle, have the queen stay behind towers - done
+
+- new strategy works great but did lose to one person 
+  - he agressively built barracks everywhere including into my base 
+  - make the archer threshold higher - allow archers to outnumber enemy knights 
