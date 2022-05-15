@@ -5,6 +5,8 @@
   - if enemy knights on board, build archer - done 
 
 2.  limit the buildings to one of each type - first build knight rax then archer rax then tower 
-  - refactor - build seperate arrays for each building type 
+  - refactor - build seperate arrays for each building type - done
+  - change game loop logic - build archer tower if it doesn't exist
+  - build knight tower if it doesn't exist 
 
 3.  when idle, have the queen stay behind towers 

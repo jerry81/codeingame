@@ -31,7 +31,19 @@ def make_distances_map(q_loc, open_sites)
     distances 
 end
 
-$build_knight = true
+def new_add_distances(from_loc, sites)
+  fx = from_loc[:x]
+  fy = from_loc[:y]
+  distances = sites.map do |site|
+      sx = site[:x]
+      sy = site[:y]
+      dist = (sx-fx)**2 + (sy-fy)**2 
+      site[:dist] = dist 
+      site
+  end
+  distances 
+end
+
 loop do
   # touched_site: -1 if none - this is the building i am touching 
   gold, touched_site = gets.split(" ").collect { |x| x.to_i }
@@ -120,25 +132,48 @@ loop do
   STDERR.puts "myknights #{my_knights} my archers #{my_archers}"
   STDERR.puts "enemeyk #{enemy_knights} enemy archers #{enemy_archers}"
   STDERR.puts "queen loc is #{q_loc}"
-  # Write an action using puts
-  # To debug: STDERR.puts "Debug messages..."
   can_build = touched_site > -1 && open_sites.include?(touched_site)
+  need_archer_rax = my_archer_sites.size == 0 
+  need_knight_rax = my_knight_sites.size == 0 
+  need_giant_rax = my_giant_sites.size == 0
+  need_tower = my_tower_sites.size == 0 # wow are towers free??
+  need_something = need_archer_rax || need_knight_rax || need_giant_rax || need_tower
   queen_action = "WAIT"
   train_action = "TRAIN"
-  if can_build
-    build_sym = $build_knight ? :knight : :archer
-    $build_knight = !$build_knight
-    queen_action = "BUILD #{touched_site} #{$barracks[build_sym]}"
-  elsif open_sites.count > 0
-    # find next site 
-    qx = q_loc[:x]
-    qy = q_loc[:y]
-    distances = make_distances_map(q_loc, open_sites)
-    sorted_d = distances.sort_by { |x| x[:dist] }
-    closest = sorted_d.first
-    queen_action = "MOVE #{closest[:x]} #{closest[:y]}"
-  else
-
+  if !need_something
+    # go to the tower and build a tower there 
+    tower_site = my_tower_sites.first
+    if touched_site == tower_site[:id]
+      queen_action = "BUILD #{tower_site[:id]} TOWER"
+    else 
+      queen_action = "MOVE #{tower_site[:x]} #{tower_site[:y]}"
+    end
+  else 
+    if can_build
+      build_sym = nil
+      if need_archer_rax
+        build_sym = :archer
+      elsif need_knight_rax
+        build_sym = :knight
+      elsif need_giant_rax
+        build_sym = :giant
+      elsif need_tower
+        build_sym = :tower
+      end
+      if build_sym == :tower 
+        queen_action = "BUILD #{touched_site} TOWER"
+      else 
+        queen_action = "BUILD #{touched_site} #{$barracks[build_sym]}"
+      end
+    elsif open_sites.count > 0 
+      # find next site 
+      qx = q_loc[:x]
+      qy = q_loc[:y]
+      distances = make_distances_map(q_loc, open_sites)
+      sorted_d = distances.sort_by { |x| x[:dist] }
+      closest = sorted_d.first
+      queen_action = "MOVE #{closest[:x]} #{closest[:y]}"
+    end
   end
 
   lim = gold / 100
@@ -146,6 +181,8 @@ loop do
     y[:id]
   end
   dists = make_distances_map(q_loc, site_ids)
+  new_dists = new_add_distances(q_loc, my_archer_sites)
+  STDERR.puts "archerdistances are #{new_dists}"
   sorted_barracks = dists.sort_by { |x| x[:dist] }
   filtered_barracks = []
   if enemy_knights.count == 0 || my_archers.count > 4
