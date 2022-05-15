@@ -162,10 +162,10 @@ loop do
   STDERR.puts "enemy towers count is #{enemy_towers.count}"
   can_build = touched_site > -1 && open_sites.include?(touched_site)
   need_archer_rax = my_archer_sites.size == 0 
-  need_mines = my_mines.size < 2 || (my_tower_sites.size >= 1 && my_mines.size < 3)
   need_knight_rax = my_knight_sites.size == 0 
   need_giant_rax = my_giant_sites.size == 0
-  need_tower = my_tower_sites.size < 1 # wow are towers free??
+  need_tower = my_tower_sites.size < 2 # wow are towers free??
+  need_mines = my_mines.size < 2 || (!need_tower && !need_archer_rax && my_mines.size < 4)
   mine_needs_upgrade = my_mines.select do |x| 
     x[:max] > x[:rate]
   end
@@ -209,7 +209,9 @@ loop do
     if can_build
       build_sym = nil
       site_details = $sites[touched_site]
-      if (need_mines || mine_needs_upgrade.count > 0)
+      if need_knight_rax
+        build_sym = :knight
+      elsif (need_mines || mine_needs_upgrade.count > 0)
         build_sym = site_details[:r_g] > 0 ? :mine : :tower
       elsif need_tower
         build_sym = :tower
@@ -256,7 +258,7 @@ loop do
   filtered_barracks = []
   if need_giant 
     train_action << " #{my_giant_sites.first[:id]}"
-  elsif enemy_knights.count < my_archers.count
+  elsif enemy_knights.count <= my_archers.count
     # build knights 
     filtered_barracks = sorted_barracks.select do |x| 
       my_site_types[x[:id]] == 0

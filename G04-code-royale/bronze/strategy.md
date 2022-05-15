@@ -27,5 +27,10 @@ Queen starts with less health (lowered to 55)
 - don't build giant until there are 3 towers - done 
 - maintain towers by walking between them  - TODO
 
-4.  evasive queen action 
+4.  evasive queen action - done
+
+5.  more refactoring
+
+- knight rush on first turn worked well
+
 
