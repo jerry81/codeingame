@@ -150,13 +150,17 @@ loop do
   STDERR.puts "queen loc is #{q_loc}"
   can_build = touched_site > -1 && open_sites.include?(touched_site)
   need_archer_rax = my_archer_sites.size == 0 
-  need_mines = my_mines.size < 2 
+  need_mines = my_mines.size < 5
   need_knight_rax = my_knight_sites.size == 0 
   need_giant_rax = my_giant_sites.size == 0
   need_tower = my_tower_sites.size == 0 # wow are towers free??
   need_something = need_archer_rax || need_knight_rax || need_giant_rax || need_tower || need_mines
   queen_action = "WAIT"
   train_action = "TRAIN"
+  mine_needs_upgrade = my_mines.select do |x| 
+    x[:max] > x[:rate]
+  end
+  STDERR.puts "mine needs upgrade is #{mine_needs_upgrade}"
   if !need_something
     # go to the tower and build a tower there 
     tower_site = my_tower_sites.first
