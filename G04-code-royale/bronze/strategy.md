@@ -10,7 +10,7 @@ Queen starts with less health (lowered to 55)
 - trial run with existing code 
 
 1.  fix issue - if the queen doesn't detect that the mine she just built is touching she skips away - done 
-
+2.  think about building a giant 
 
 - lost to someone who spammed mines 
 
@@ -19,3 +19,4 @@ Queen starts with less health (lowered to 55)
 - may need to completely rework the strategy 
 - definitely should expand more and adapt to opponent strategies 
 - another opponent built mines with towers first and then waited until much later to build a rush of swords 
+- an opponent turtles with towers

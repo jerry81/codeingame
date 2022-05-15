@@ -154,12 +154,13 @@ loop do
   need_knight_rax = my_knight_sites.size == 0 
   need_giant_rax = my_giant_sites.size == 0
   need_tower = my_tower_sites.size == 0 # wow are towers free??
-  need_something = need_archer_rax || need_knight_rax || need_giant_rax || need_tower || need_mines
-  queen_action = "WAIT"
-  train_action = "TRAIN"
   mine_needs_upgrade = my_mines.select do |x| 
     x[:max] > x[:rate]
   end
+  need_something = need_archer_rax || need_knight_rax || need_giant_rax || need_tower || need_mines || mine_needs_upgrade.count > 0
+  queen_action = "WAIT"
+  train_action = "TRAIN"
+ 
   STDERR.puts "mine needs upgrade is #{mine_needs_upgrade}"
   if !need_something
     # go to the tower and build a tower there 
@@ -176,7 +177,7 @@ loop do
       site_details = $sites[touched_site]
       if need_archer_rax
         build_sym = :archer 
-      elsif need_mines
+      elsif (need_mines || mine_needs_upgrade.count > 0)
         build_sym = site_details[:r_g] > 0 ? :mine : :tower
       elsif need_knight_rax
         build_sym = :knight
