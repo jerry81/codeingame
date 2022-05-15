@@ -182,7 +182,21 @@ loop do
   train_action = "TRAIN"
  
   STDERR.puts "mine needs upgrade is #{mine_needs_upgrade}"
-  if !need_something
+  if queen_in_danger
+    # find safe spot for queen 
+    dists_to_tower = new_add_distances(q_loc, my_tower_sites)
+    dists_to_tower.sort_by! { |t| t[:dist] }
+    closest_t = nil 
+    if !dists_to_tower.empty?
+      closest_t = dists_to_tower.first 
+    end
+    STDERR.puts "queen in danger and closest tower is #{closest_t}"
+    if !closest_t.nil?
+      # move or build
+      build = touched_site == closest_t[:id]
+      queen_action = build ? "BUILD #{closest_t[:id]} TOWER" : "MOVE #{closest_t[:x]} #{closest_t[:y]}"
+    end
+  elsif !need_something
     # go to the tower and build a tower there 
     tower_site = my_tower_sites.first
     if touched_site == tower_site[:id]
@@ -195,14 +209,14 @@ loop do
     if can_build
       build_sym = nil
       site_details = $sites[touched_site]
-      if need_knight_rax
-        build_sym = :knight
-      elsif (need_mines || mine_needs_upgrade.count > 0)
+      if (need_mines || mine_needs_upgrade.count > 0)
         build_sym = site_details[:r_g] > 0 ? :mine : :tower
-      elsif need_archer_rax
-        build_sym = :archer 
       elsif need_tower
         build_sym = :tower
+      elsif need_archer_rax
+        build_sym = :archer 
+      elsif need_knight_rax
+          build_sym = :knight
       elsif need_giant_rax
         build_sym = :giant
       end
@@ -242,7 +256,7 @@ loop do
   filtered_barracks = []
   if need_giant 
     train_action << " #{my_giant_sites.first[:id]}"
-  elsif enemy_knights.count <= my_archers.count
+  elsif enemy_knights.count < my_archers.count
     # build knights 
     filtered_barracks = sorted_barracks.select do |x| 
       my_site_types[x[:id]] == 0
