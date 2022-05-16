@@ -18,10 +18,26 @@ STDERR.puts "last is (expect 5) #{st.last}"
 st.pop
 st.pop 
 STDERR.puts "stack should be [0] #{st}"
+str="hello"
+str << 'o'
+# str only has push, no pop 
+arr = str.split('')
+arr.pop
+arr.pop
+STDERR.puts "arr should be hell #{arr}"
 # Write an answer using puts
 # To debug: STDERR.puts "Debug messages..."
 
-puts "answer"
+def solve(l)
+end
+
+lines.each do |l|
+    outputs << solve(l)
+end
+
+outputs.each do |o|
+  puts o
+end
 
 
 # A - one single stack
