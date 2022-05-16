@@ -13,7 +13,7 @@ total_size = 0
 for i in range(h):
     a,b = input().split()
     a = int(a)
-    b = int(b[0:len(b)-1])
+    b = int(b[0:len(b)-1]) # this removes the trailing %
     sizes.append(a)
     total_size += a*b/100
 
