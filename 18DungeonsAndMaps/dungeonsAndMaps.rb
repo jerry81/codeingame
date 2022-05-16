@@ -17,13 +17,16 @@ $sy = start_row
 $sx = start_col
 STDERR.puts "maps are #{maps}"
 
-def find_path_len(m) 
-  cx = $sy
-  cy = $sx
+def find_path_len(m)
+  cx = $sx
+  cy = $sy
   next_pos = m[cy][cx]
   count = 0
+  STDERR.puts "m is #{m}"
+  STDERR.puts "starting at #{next_pos}"
+  STDERR.puts "cx, cy #{cx} #{cy}"
   while ['>', '^', 'v', '<'].include?(next_pos)
-    case next_pos 
+    case next_pos
     when '>'
       cx += 1
     when '^'
@@ -31,7 +34,7 @@ def find_path_len(m)
     when 'v'
       cy += 1
     when '<'
-      cx -=1 
+      cx -=1
     end
     count += 1
     next_pos = m[cy][cx]
