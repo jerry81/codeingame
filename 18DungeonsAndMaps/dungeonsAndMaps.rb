@@ -25,7 +25,8 @@ def find_path_len(m)
   STDERR.puts "m is #{m}"
   STDERR.puts "starting at #{next_pos}"
   STDERR.puts "cx, cy #{cx} #{cy}"
-  while ['>', '^', 'v', '<'].include?(next_pos)
+  # look for loop 
+  while ['>', '^', 'v', '<'].include?(next_pos) && !(count > 0 && cx == $sx && cy == $sy)
     case next_pos
     when '>'
       cx += 1
