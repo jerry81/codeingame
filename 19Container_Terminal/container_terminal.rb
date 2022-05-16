@@ -2,10 +2,22 @@
 # the standard input according to the problem statement.
 
 n = gets.to_i
+lines = []
 n.times do
   line = gets.chomp
+  lines << line 
 end
 
+outputs = []
+
+# stack test
+st = [0,1]
+st << 5
+STDERR.puts "stack should be [0,1,5] #{st}"
+STDERR.puts "last is (expect 5) #{st.last}"
+st.pop
+st.pop 
+STDERR.puts "stack should be [0] #{st}"
 # Write an answer using puts
 # To debug: STDERR.puts "Debug messages..."
 
@@ -15,6 +27,20 @@ puts "answer"
 # A - one single stack
 
 # CBACBACBACBA -> 
+# CBA
+# C -> pop off CBA
+# CB 
+# A
+# C
+# CBB
+# A
+# C
+# CBB
+# AA
+# C
+# CBBB
+# AAA
+# CC
 
 # CCCBBBAAA - already stacked perfectly for us
 # CCCBBB
@@ -22,9 +48,8 @@ puts "answer"
 
 # BDNIDPD
 # B
-# DDD
-# NI
-# P
+# DD
+# NI  # D - why not straight here?
 
 # CODINGAME
 # CA
