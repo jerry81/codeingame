@@ -10,3 +10,31 @@ end
 # To debug: STDERR.puts "Debug messages..."
 
 puts "answer"
+
+
+# A - one single stack
+
+# CBACBACBACBA -> 
+
+# CCCBBBAAA - already stacked perfectly for us
+# CCCBBB
+# AAA
+
+# BDNIDPD
+# B
+# DDD
+# NI
+# P
+
+# CODINGAME
+# CA
+# OI
+# NG
+# ME
+
+
+# HIBERNATE
+# HBA
+# IEE
+# RN
+# T
