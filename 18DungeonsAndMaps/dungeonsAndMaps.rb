@@ -18,14 +18,38 @@ $sx = start_col
 STDERR.puts "maps are #{maps}"
 
 def find_path_len(m) 
-  start_pos = m[$sy][$sx]
-  STDERR.puts "start are #{start_pos}"
+  cx = $sy
+  cy = $sx
+  next_pos = m[cy][cx]
+  count = 0
+  while ['>', '^', 'v', '<'].include?(next_pos)
+    case next_pos 
+    when '>'
+      cx += 1
+    when '^'
+      cy -= 1
+    when 'v'
+      cy += 1
+    when '<'
+      cx -=1 
+    end
+    count += 1
+    next_pos = m[cy][cx]
+  end
+  next_pos == 'T' ? count : nil 
 end
 
-maps.each do |x| 
-  find_path_len(x)
+m_c = 400
+output = 'TRAP'
+maps.each_with_index do |x, i| 
+  count = find_path_len(x)
+  STDERR.puts "count is #{count} idx is #{i}"
+  if !count.nil? && count < m_c 
+    m_c = count
+    output = i.to_s
+  end
 end
 # Write an answer using puts
 # To debug: STDERR.puts "Debug messages..."
 
-puts "mapIndex"
+puts output
