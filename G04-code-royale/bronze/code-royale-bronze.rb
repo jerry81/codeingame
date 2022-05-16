@@ -168,7 +168,7 @@ loop do
   need_knight_rax = my_knight_sites.size == 0 
   need_giant_rax = my_giant_sites.size == 0
   need_tower = my_tower_sites.size < 1 # wow are towers free??
-  need_mines = my_mines.size < 2 || (!need_tower && !need_archer_rax && my_mines.size < 4)
+  need_mines = my_mines.size < 2 || (!need_tower && !need_archer_rax && my_mines.size < 5)
   mine_needs_upgrade = my_mines.select do |x| 
     x[:max] > x[:rate]
   end
