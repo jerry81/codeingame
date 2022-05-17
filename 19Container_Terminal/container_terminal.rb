@@ -46,19 +46,25 @@ def solve(l)
     cur_stack = []
     idx_to_delete = []
     max_search_start = 0
+    # first find the first occurence of the max in the string
+    # 
     while max_found do 
       max_found = false
-      STDERR.puts "remaining before is now #{remaining}"
       remaining.each_with_index do |x,i|
         if x >= max_in_remaining
+          if max_found
+            break 
+          end
+
           max_in_remaining = x 
           idx_to_delete << i
           max_search_start = i + 1
           max_found = true 
         end
       end
-      
-      cur_stack << max_in_remaining.chr
+      if max_found 
+        cur_stack << max_in_remaining.chr
+      end
       STDERR.puts "curstack is #{cur_stack}"
       remaining = remaining[max_search_start..]
       STDERR.puts "remaining is now #{remaining}"
