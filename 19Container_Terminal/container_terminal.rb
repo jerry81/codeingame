@@ -41,11 +41,15 @@ def solve(l)
     last_idx = as_ord.size - 1
     start_idx = 0
     remaining = as_ord[start_idx..last_idx]
-    STDERR.puts "remaining is #{remaining}"
-    remaining.each do |x|
-
-    
+    max_in_remaining = -1 
+    cur_stack = []
+    remaining.each_with_index do |x,i|
+      if x > max_in_remaining
+        max_in_remaining = x 
+        start_idx = i + 1
+      end
     end
+    STDERR.puts "max is #{max_in_remaining} as ch is #{max_in_remaining.chr}"
     2
 end
 
