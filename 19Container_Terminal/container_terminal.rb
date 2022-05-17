@@ -48,14 +48,13 @@ def solve(l)
       cur_stack = []
       idx_to_delete = []
       max_search_start = 0
-      # first find the first occurence of the max in the string
-      # 
-  
       while max_found do 
+        # currently the loop will add to the stack if the encountered item is greater than or equal to the found max 
         max_found = false
         for i in max_search_start..last_idx do
           x = original[i]
           if x >= max_in_remaining
+            # TODO bug here - always stops after the first max has been found 
             if max_found
               break 
             end
