@@ -40,7 +40,7 @@ def solve(l)
     stacks = []
     last_idx = as_ord.size - 1
     start_idx = 0
-    remaining = as_ord[start_idx..]
+    original = as_ord[start_idx..]
     max_in_remaining = -1 
     max_found = true
     cur_stack = []
@@ -48,9 +48,11 @@ def solve(l)
     max_search_start = 0
     # first find the first occurence of the max in the string
     # 
+
     while max_found do 
       max_found = false
-      remaining.each_with_index do |x,i|
+      for i in max_search_start..last_idx-1 do
+        x = original[i]
         if x >= max_in_remaining
           if max_found
             break 
@@ -65,11 +67,11 @@ def solve(l)
       if max_found 
         cur_stack << max_in_remaining.chr
       end
-      STDERR.puts "curstack is #{cur_stack}"
-      remaining = remaining[max_search_start..]
-      STDERR.puts "remaining is now #{remaining}"
     end
-    STDERR.puts "max is #{max_in_remaining} as ch is #{max_in_remaining.chr}"
+    stacks << cur_stack
+    STDERR.puts("about to delete #{idx_to_delete}")
+    original.delete_if.with_index{|_, i| idx_to_delete.include?(i) }
+    STDERR.puts "original is now #{original}"
     2
 end
 
