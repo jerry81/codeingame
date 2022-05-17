@@ -40,14 +40,28 @@ def solve(l)
     stacks = []
     last_idx = as_ord.size - 1
     start_idx = 0
-    remaining = as_ord[start_idx..last_idx]
+    remaining = as_ord[start_idx..]
     max_in_remaining = -1 
+    max_found = true
     cur_stack = []
-    remaining.each_with_index do |x,i|
-      if x > max_in_remaining
-        max_in_remaining = x 
-        start_idx = i + 1
+    idx_to_delete = []
+    max_search_start = 0
+    while max_found do 
+      max_found = false
+      STDERR.puts "remaining before is now #{remaining}"
+      remaining.each_with_index do |x,i|
+        if x >= max_in_remaining
+          max_in_remaining = x 
+          idx_to_delete << i
+          max_search_start = i + 1
+          max_found = true 
+        end
       end
+      
+      cur_stack << max_in_remaining.chr
+      STDERR.puts "curstack is #{cur_stack}"
+      remaining = remaining[max_search_start..]
+      STDERR.puts "remaining is now #{remaining}"
     end
     STDERR.puts "max is #{max_in_remaining} as ch is #{max_in_remaining.chr}"
     2
