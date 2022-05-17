@@ -41,38 +41,43 @@ def solve(l)
     last_idx = as_ord.size - 1
     start_idx = 0
     original = as_ord[start_idx..]
-    max_in_remaining = -1 
-    max_found = true
-    cur_stack = []
-    idx_to_delete = []
-    max_search_start = 0
-    # first find the first occurence of the max in the string
-    # 
 
-    while max_found do 
-      max_found = false
-      for i in max_search_start..last_idx-1 do
-        x = original[i]
-        if x >= max_in_remaining
-          if max_found
-            break 
+    while original.size > 0
+      max_in_remaining = -1 
+      max_found = true
+      cur_stack = []
+      idx_to_delete = []
+      max_search_start = 0
+      # first find the first occurence of the max in the string
+      # 
+  
+      while max_found do 
+        max_found = false
+        for i in max_search_start..last_idx do
+          x = original[i]
+          if x >= max_in_remaining
+            if max_found
+              break 
+            end
+  
+            max_in_remaining = x 
+            idx_to_delete << i
+            max_search_start = i + 1
+            max_found = true 
           end
-
-          max_in_remaining = x 
-          idx_to_delete << i
-          max_search_start = i + 1
-          max_found = true 
+        end
+        if max_found 
+          cur_stack << max_in_remaining.chr
         end
       end
-      if max_found 
-        cur_stack << max_in_remaining.chr
-      end
+      stacks << cur_stack
+      STDERR.puts("about to delete #{idx_to_delete}")
+      original.delete_if.with_index{|_, i| idx_to_delete.include?(i) } # it handles the resizing of array
+      STDERR.puts "original is now #{original}"
+      STDERR.puts "stacks is now #{stacks}"
+      last_idx = original.size - 1
     end
-    stacks << cur_stack
-    STDERR.puts("about to delete #{idx_to_delete}")
-    original.delete_if.with_index{|_, i| idx_to_delete.include?(i) }
-    STDERR.puts "original is now #{original}"
-    2
+    stacks.size
 end
 
 lines.each do |l|
