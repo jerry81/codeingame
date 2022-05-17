@@ -29,6 +29,24 @@ STDERR.puts "arr should be hell #{arr}"
 # To debug: STDERR.puts "Debug messages..."
 
 def solve(l)
+    arr = l.split('')
+    if arr.size == 1
+        return 1
+    end
+
+    as_ord = arr.map do |x| 
+        x.ord 
+    end
+    stacks = []
+    last_idx = as_ord.size - 1
+    start_idx = 0
+    remaining = as_ord[start_idx..last_idx]
+    STDERR.puts "remaining is #{remaining}"
+    remaining.each do |x|
+
+    
+    end
+    2
 end
 
 lines.each do |l|
@@ -42,40 +60,34 @@ end
 
 # A - one single stack
 
-# CBACBACBACBA -> 
+# CBACBACBACBA -> 3
+# if there is stack whose last is is equal or greater use that
+# else start a new stack 
 # CBA
-# C -> pop off CBA
-# CB 
-# A
-# C
-# CBB
-# A
-# C
-# CBB
-# AA
-# C
-# CBBB
-# AAA
-# CC
+# CBA
+# CBA
+# attempt consolidation
+# pop smallest 
 
-# CCCBBBAAA - already stacked perfectly for us
-# CCCBBB
+
+# CCCBBBAAA - already stacked perfectly for us - 1
+# CCC
+# BBB
 # AAA
 
-# BDNIDPD
+
+# BDNIDPD - 4
 # B
-# DD
-# NI  # D - why not straight here?
+# D
+# NID
+# PD
 
-# CODINGAME
-# CA
-# OI
-# NG
+# CODINGAME - 4 
+# C
+# OD
+# I
+# NGA
 # ME
 
 
-# HIBERNATE
-# HBA
-# IEE
-# RN
-# T
+# HIBERNATE - 4
