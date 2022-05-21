@@ -84,14 +84,14 @@ loop do
   time_till_burnt = tree_fire_duration - urgent_fire[:v] 
   x = urgent_fire[:x]
   y = urgent_fire[:y]
-  if time_till_burnt > tree_treatment_duration
+  possibilities = []
+  if time_till_burnt > tree_treatment_duration # TODO: cut ahead of time 
     # cut a neighbor - TODO: optimize by cutting neighbor between fire and closest house 
     # check neighbors 
     uy = y-1 
     dy = y+1 
     rx = x+1 
     lx = x-1
-    possibilities = []
     # u, r, d, l 
     if uy > -1
         usq = fire_progress_grid[uy][x] # TODO: DRY 
@@ -119,9 +119,10 @@ loop do
     end
   end
   # WAIT if your intervention cooldown is not zero, else position [x] [y] of your intervention.
-  if cooldown > 0 && !possibilities.empty?
+  if cooldown > 0 || possibilities.empty?
     puts "WAIT"
   else 
+    STDERR.puts "possibilities are #{possibilities}"
     cut = possibilities.first
     puts "#{cut[:x]} #{cut[:y]}"
   end
