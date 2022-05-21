@@ -5,6 +5,7 @@ STDOUT.sync = true # DO NOT REMOVE
 # tree_fire_duration: number of turns for the fire to propagate on adjacent cells from a "tree" cell
 # tree_value: value lost if a "tree" cell is burnt or cut
 tree_treatment_duration, tree_fire_duration, tree_value = gets.split(" ").collect { |x| x.to_i }
+STDERR.puts "tree_treatment_duration, tree_fire_duration, tree_value #{tree_treatment_duration} #{tree_fire_duration} #{tree_value}"
 # house_treatment_duration: cooldown for cutting a "house" cell
 # house_fire_duration: number of turns for the fire to propagate on adjacent cells from a "house" cell
 # house_value: value lost if a "house" cell is burnt or cut
@@ -15,7 +16,7 @@ width, height = gets.split(" ").collect { |x| x.to_i }
 # fire_start_x: column where the fire starts
 # fire_start_y: row where the fire starts
 fire_start_x, fire_start_y = gets.split(" ").collect { |x| x.to_i }
-
+STDERR.puts "house_treatment_duration, house_fire_duration, house_value #{house_treatment_duration} #{house_fire_duration} #{house_value}"
 # step 1 build grid 
 grid = []
 houses = []
@@ -43,6 +44,7 @@ houses.each do |h|
 loop do
   cooldown = gets.to_i # number of turns remaining before you can cut a new cell
   fire_progress_grid = []
+  cuttable = []
   y = 0
   fires = []
   height.times do
@@ -54,6 +56,9 @@ loop do
       if fire_progress >= 0 
         fires << {:x => j, :y => y}
       end
+      if fire_progress == -1 
+        cuttable << {:x => j, :y => y}
+      end
       fire_progress_grid[y][j] = fire_progress
     end
     y+=1
@@ -62,13 +67,20 @@ loop do
   fires.each do |f|
     STDERR.puts "f is #{f}"
   end
-  # Write an action using puts
-  # To debug: STDERR.puts "Debug messages..."
 
+  cuttable.each do |c|
+    STDERR.puts "c is #{c}"
+  end
+
+  
 
   # WAIT if your intervention cooldown is not zero, else position [x] [y] of your intervention.
   if cooldown > 0 
     puts "WAIT"
   else 
+    puts "WAIT"
   end
+
+  # fires always spread n,s,e,w when the fire_condition reaches the limit 
+
 end
