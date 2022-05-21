@@ -29,6 +29,7 @@ STDERR.puts "arr should be hell #{arr}"
 # To debug: STDERR.puts "Debug messages..."
 
 def solve(l)
+    STDERR.puts "processing #{l}"
     arr = l.split('')
     if arr.size == 1
         return 1
@@ -52,7 +53,6 @@ def solve(l)
       while max_found do # build a stack
         # currently the loop will add to the stack if the encountered item is greater than or equal to the found max 
         max_found = false
-       
         # this loop should find the index of the first largest with an empty stack - done i think?
         # then find the first occurence of the largest or equal to the top of the stack
         for i in max_search_start..last_idx do
@@ -61,7 +61,6 @@ def solve(l)
             if x > max_in_remaining        
                 max_i = i
                 max_in_remaining = x 
-                max_search_start = i + 1 
                 max_found = true 
             end
           else
@@ -70,7 +69,6 @@ def solve(l)
               max_i = i 
               max_found = true 
               max_in_remaining = x 
-              max_search_start = i + 1
             end
             if x == top 
               max_i = i 
@@ -83,13 +81,12 @@ def solve(l)
         if max_found 
           cur_stack << max_in_remaining
           idx_to_delete << max_i 
+          max_search_start = max_i + 1
         end
+        STDERR.puts "cur_stack is #{cur_stack}"
       end
       stacks << cur_stack
-      STDERR.puts("about to delete #{idx_to_delete}")
-      original.delete_if.with_index{|_, i| idx_to_delete.include?(i) } # it handles the resizing of array
-      STDERR.puts "original is now #{original}"
-      STDERR.puts "stacks is now #{stacks}"
+      original = original.delete_if.with_index{|_, i| idx_to_delete.include?(i) } # it handles the resizing of array
       last_idx = original.size - 1
     end
     stacks.size
