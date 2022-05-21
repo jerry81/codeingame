@@ -50,7 +50,7 @@ def solve(l)
       idx_to_delete = []
       max_search_start = 0
       while max_found do # unnecessarily introducing a flag 
-        peeked = cur_stack.empty? ? -1 : cur_stack.head
+        peeked = cur_stack.empty? ? -1 : cur_stack.last
         # currently the loop will add to the stack if the encountered item is greater than or equal to the found max 
         max_found = false
         # this loop should find the index of the first largest with an empty stack
@@ -69,6 +69,14 @@ def solve(l)
             if !max_found 
               if x > max_in_remaining && x <= peeked
                 idx_to_delete << i 
+                max_i = i
+                max_in_remaining = x 
+                max_search_start = i + 1 
+              end
+            else 
+              if x > max_in_remaining && x < peeked
+                idx_to_delete << i 
+                max_i = i
                 max_in_remaining = x 
                 max_search_start = i + 1 
               end
