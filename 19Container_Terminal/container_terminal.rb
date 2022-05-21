@@ -70,7 +70,12 @@ def solve(l)
       original = original.delete_if.with_index{|_, i| idx_to_delete.include?(i) } # it handles the resizing of array
       last_idx = original.size - 1
     end
-    STDERR.puts "stacks is #{stacks}"
+    chars = stacks.map do |x|
+      x.map do |y| 
+        y.chr
+      end
+    end
+    STDERR.puts "chars is #{chars}"
     stacks.size
 end
 
