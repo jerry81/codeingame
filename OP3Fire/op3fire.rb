@@ -41,6 +41,7 @@ houses.each do |h|
     STDERR.puts "h is #{h}"
   end
 # game loop
+cut = []
 loop do
   cooldown = gets.to_i # number of turns remaining before you can cut a new cell
   fire_progress_grid = []
@@ -54,7 +55,7 @@ loop do
       # fire_progress: state of the fire in this cell (-2: safe, -1: no fire, 0<=.<fireDuration: fire, fireDuration: burnt)
       fire_progress = inputs[j].to_i
       if fire_progress >= 0 
-        fires << {:x => j, :y => y}
+        fires << {:x => j, :y => y, :v => fire_progress}
       end
       if fire_progress == -1 
         cuttable << {:x => j, :y => y}
@@ -72,14 +73,60 @@ loop do
     STDERR.puts "c is #{c}"
   end
 
-  
+  # naive approach - find the most urgent fires 
+  fires.sort_by! do |f| 
+    [f[:fire_progress]]
+  end
 
+  urgent_fire = fires.first
+  STDERR.puts "tfd #{tree_fire_duration}"
+  STDERR.puts "urgent #{urgent_fire}"
+  time_till_burnt = tree_fire_duration - urgent_fire[:v] 
+  x = urgent_fire[:x]
+  y = urgent_fire[:y]
+  if time_till_burnt > tree_treatment_duration
+    # cut a neighbor - TODO: optimize by cutting neighbor between fire and closest house 
+    # check neighbors 
+    uy = y-1 
+    dy = y+1 
+    rx = x+1 
+    lx = x-1
+    possibilities = []
+    # u, r, d, l 
+    if uy > -1
+        usq = fire_progress_grid[uy][x] # TODO: DRY 
+        if usq == -1 
+            possibilities << {:x=>x, :y=>uy}
+        end
+    end
+    if rx < width 
+        rsq = fire_progress_grid[y][rx]
+        if rsq == -1 
+            possibilities << {:x=>rx, :y=>y}
+        end
+    end
+    if dy < height 
+        dsq = fire_progress_grid[dy][x]
+        if dsq == -1 
+            possibilities << {:x=>x, :y=>dy}
+        end
+    end
+    if lx > -1 
+        lsq = fire_progress_grid[y][lx]
+        if lsq == -1 
+            possibilities << {:x=>lx, :y=>y}
+        end
+    end
+  end
   # WAIT if your intervention cooldown is not zero, else position [x] [y] of your intervention.
-  if cooldown > 0 
+  if cooldown > 0 && !possibilities.empty?
     puts "WAIT"
   else 
-    puts "WAIT"
+    cut = possibilities.first
+    puts "#{cut[:x]} #{cut[:y]}"
   end
+
+  
 
   # fires always spread n,s,e,w when the fire_condition reaches the limit 
 
