@@ -49,3 +49,8 @@ All cells on the border of the map will be SAFE cells.
 
 Allotted response time to output for the first turn is ≤ 5000 ms.
 Allotted response time to output for the other turns is ≤ 100 ms.
+
+# strategy
+
+- first, don't be idle when we can't cut a neighbor.  need a "minimize losses" strategy 
+- in one of the test cases, it seems we can cut in a "v shaped" pattern to try to catch up with the fires 
