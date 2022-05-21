@@ -46,28 +46,43 @@ def solve(l)
       max_found = true
       cur_stack = []
       idx_to_delete = []
+      max_search_start = 0
+      max_i = -1
+      max_in_remaining = -1 
       while max_found do # build a stack
         # currently the loop will add to the stack if the encountered item is greater than or equal to the found max 
         max_found = false
-        max_search_start = 0
-        max_i = -1
-        max_in_remaining = -1 
-        # this loop should find the index of the first largest with an empty stack
+       
+        # this loop should find the index of the first largest with an empty stack - done i think?
         # then find the first occurence of the largest or equal to the top of the stack
         for i in max_search_start..last_idx do
           x = original[i]
-          if x > max_in_remaining
-            if cur_stack.empty?
-              max_i = i
-              max_in_remaining = x 
-              max_search_start = i + 1 
+          if cur_stack.empty?
+            if x > max_in_remaining        
+                max_i = i
+                max_in_remaining = x 
+                max_search_start = i + 1 
+                max_found = true 
+            end
+          else
+            top = cur_stack.last 
+            if x < top && x > max_in_remaining 
+              max_i = i 
               max_found = true 
+              max_in_remaining = x 
+              max_search_start = i + 1
+            end
+            if x == top 
+              max_i = i 
+              max_found = true 
+              max_in_remaining = x 
+              break 
             end
           end
         end
         if max_found 
           cur_stack << max_in_remaining
-          
+          idx_to_delete << max_i 
         end
       end
       stacks << cur_stack
