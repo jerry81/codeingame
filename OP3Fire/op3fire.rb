@@ -18,29 +18,57 @@ fire_start_x, fire_start_y = gets.split(" ").collect { |x| x.to_i }
 
 # step 1 build grid 
 grid = []
+houses = []
+count = 0 
 height.times do
   grid_line = gets.chomp
   grid << grid_line 
+  grid_line.split('').each_with_index do |ch,i| 
+    # index houses and safe
+    if ch == 'X'
+      houses << {:y => count, :x => i}
+    end
+  end
+  count += 1
 end
 
 grid.each do |l|
   STDERR.puts "grid is #{l}"
 end
+
+houses.each do |h|
+    STDERR.puts "h is #{h}"
+  end
 # game loop
 loop do
   cooldown = gets.to_i # number of turns remaining before you can cut a new cell
+  fire_progress_grid = []
+  y = 0
+  fires = []
   height.times do
     inputs = gets.split(" ")
+    fire_progress_grid << []
     for j in 0..(width-1)
       # fire_progress: state of the fire in this cell (-2: safe, -1: no fire, 0<=.<fireDuration: fire, fireDuration: burnt)
       fire_progress = inputs[j].to_i
+      if fire_progress >= 0 
+        fires << {:x => j, :y => y}
+      end
+      fire_progress_grid[y][j] = fire_progress
     end
+    y+=1
   end
 
+  fires.each do |f|
+    STDERR.puts "f is #{f}"
+  end
   # Write an action using puts
   # To debug: STDERR.puts "Debug messages..."
 
 
   # WAIT if your intervention cooldown is not zero, else position [x] [y] of your intervention.
-  puts "WAIT"
+  if cooldown > 0 
+    puts "WAIT"
+  else 
+  end
 end
