@@ -20,9 +20,9 @@ def play(i1,i2,s1,s2)
   when 'P'
     case s2 
     when 'S'
-      winner = i2
-    when 'C'
       winner = i1
+    when 'C'
+      winner = i2
     when 'R'
       winner = i1
     when 'L'
@@ -47,7 +47,7 @@ def play(i1,i2,s1,s2)
       winner = i1
     when 'R'
       winner = i2
-    when 'S'
+    when 'C'
       winner = i2
     end
   else # spock
