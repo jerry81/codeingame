@@ -53,7 +53,7 @@ def get_closest_fire(x,y,fires)
             closest_d = dist
         end
     end
-    closest, closest_d
+    return closest, closest_d
 end
 # game loop
 cut = []
@@ -80,13 +80,13 @@ loop do
     y+=1
   end
 
-  fires.each do |f|
-    STDERR.puts "f is #{f}"
-  end
+  # fires.each do |f|
+  #   STDERR.puts "f is #{f}"
+  # end
 
-  cuttable.each do |c|
-    STDERR.puts "c is #{c}"
-  end
+  # cuttable.each do |c|
+  #   STDERR.puts "c is #{c}"
+  # end
 
   # naive approach - find the most urgent fires 
   fires.sort_by! do |f| 
@@ -94,8 +94,6 @@ loop do
   end
 
   urgent_fire = fires.first
-  STDERR.puts "tfd #{tree_fire_duration}"
-  STDERR.puts "urgent #{urgent_fire}"
   time_till_burnt = tree_fire_duration - urgent_fire[:v] 
   x = urgent_fire[:x]
   y = urgent_fire[:y]
@@ -148,31 +146,38 @@ loop do
             usqt = grid[uy][x]
             STDERR.puts "usqt is #{usqt}"
             if usq == -1 && usqt == '.'
-                possibilities << {:x=>x, :y=>uy}
+                _, dist = get_closest_fire(x,uy,fires)
+                possibilities << {:x=>x, :y=>uy, :d=>dist}
             end
         end
         if rx < width 
             rsq = fire_progress_grid[y][rx]
             rsqt = grid[y][rx]
             if rsq == -1 && rsqt == '.'
-                possibilities << {:x=>rx, :y=>y}
+                _, dist = get_closest_fire(rx,y,fires)
+                possibilities << {:x=>rx, :y=>y, :d=>dist}
             end
         end
         if dy < height 
             dsq = fire_progress_grid[dy][x]
             dsqt = grid[dy][x]
             if dsq == -1 && dsqt == '.'
-                possibilities << {:x=>x, :y=>dy}
+                _, dist = get_closest_fire(x,dy,fires)
+                possibilities << {:x=>x, :y=>dy, :d=>dist}
             end
         end
         if lx > -1 
             lsq = fire_progress_grid[y][lx]
             lsqt = grid[y][lx] 
             if lsq == -1 && lsqt == '.'
-                possibilities << {:x=>lx, :y=>y}
+                _, dist = get_closest_fire(lx,y,fires)
+                possibilities << {:x=>lx, :y=>y,:d=>dist}
             end
         end
     end
+  end
+  possibilities.sort_by! do |p|
+    [p[:d]]
   end
   # WAIT if your intervention cooldown is not zero, else position [x] [y] of your intervention.
   if cooldown > 0 || possibilities.empty?
@@ -182,9 +187,5 @@ loop do
     cut = possibilities.first
     puts "#{cut[:x]} #{cut[:y]}"
   end
-
-  
-
   # fires always spread n,s,e,w when the fire_condition reaches the limit 
-
 end
