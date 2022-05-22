@@ -11,17 +11,25 @@ STDERR.puts "expect 5 #{calc_dist(0,0,3,4)}"
 def build_hz_map(h,z)
     r = {}
     h.each do |i|
+        hi = i[:id]
+        hx = i[:x]
+        hy = i[:y]
+        r[hi] = []
         z.each do |j|
-            hi = i[:id]
-            hx = i[:x]
-            hy = i[:y]
             zx = j[:x]
             zy = j[:y]
             dist = calc_dist(hx,hy,zx,zy)
-            r[hi] = {:id=>hi, :x=>hx, :y=>hy, :d=>dist}
+            r[hi] << {:id=>hi, :x=>hx, :y=>hy, :d=>dist}
+        end
+        STDERR.puts "r[hi] is #{r[hi]}"
+        r[hi] = r[hi].sort_by do |v|
+          [v[:d]]
         end
     end
     r
+end
+
+def add_savable_info(hh,hz) 
 end
 # game loop
 loop do
@@ -43,11 +51,6 @@ loop do
   hero_to_h_d_m = build_hz_map(humans, [{:x=>x, :y=>y}])
   STDERR.puts "hzmap is #{human_to_zombie_distance_map}"
   STDERR.puts "hhmap is #{hero_to_h_d_m}"
-  human_to_zombie_distance_map = human_to_zombie_distance_map.sort_by do |k,v|
-    [v[:d]]
-  end
-  
-  STDERR.puts "sorted is #{human_to_zombie_distance_map}"
   # hero moves 1000
   # zombie moves 400 
   # filter unsavable humans 
@@ -67,7 +70,6 @@ loop do
       end
     end
   end
-
   # Write an action using puts
   # To debug: STDERR.puts "Debug messages..."
 
