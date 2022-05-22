@@ -34,7 +34,10 @@ def add_savable_info(hh,hz)
     hero_d_o = hh[z[:id]]
     hero_d = hero_d_o[:d]
     z_d = z[:d]
-    savable = hero_d < ((z_d*(10/4))+2000)
+    eff_zombie_dist = (z_d*(10/4))+2000
+    eff_hero_dist = hero_d 
+    STDERR.puts "eff_z_d = #{eff_zombie_dist} eff_h_dist is #{eff_hero_dist}"
+    savable = hero_d <= ((z_d*(10/4))+2000)
     STDERR.puts "#{z[:id]} savable is #{savable}"
   end
 end
