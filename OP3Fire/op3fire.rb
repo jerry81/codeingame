@@ -117,6 +117,41 @@ loop do
             possibilities << {:x=>lx, :y=>y}
         end
     end
+  elsif !houses.empty? 
+    # protect houses 
+    # for each house, cut down all its neighboring trees
+    houses.each do |h|
+        x = h[:x]
+        y = h[:y]
+        uy = y-1 # TODO: DRY
+        dy = y+1 
+        rx = x+1 
+        lx = x-1
+        if uy > -1
+            usq = fire_progress_grid[uy][x] # TODO: DRY 
+            if usq == -1 
+                possibilities << {:x=>x, :y=>uy}
+            end
+        end
+        if rx < width 
+            rsq = fire_progress_grid[y][rx]
+            if rsq == -1 
+                possibilities << {:x=>rx, :y=>y}
+            end
+        end
+        if dy < height 
+            dsq = fire_progress_grid[dy][x]
+            if dsq == -1 
+                possibilities << {:x=>x, :y=>dy}
+            end
+        end
+        if lx > -1 
+            lsq = fire_progress_grid[y][lx]
+            if lsq == -1 
+                possibilities << {:x=>lx, :y=>y}
+            end
+        end
+    end
   end
   # WAIT if your intervention cooldown is not zero, else position [x] [y] of your intervention.
   if cooldown > 0 || possibilities.empty?
