@@ -11,20 +11,25 @@ pseudo_random_number = gets.to_i
   rotor = gets.chomp
   $rotors[i] = rotor.split('')
 end
-STDERR.puts "rotors are #{$rotors}"
 message = gets.chomp
 
 # apply ceaser first 
 as_arr = message.split('')
 out_arr = []
 as_arr.each_with_index do |x,i|
-    shift = (4+$counter) % 26
+    shift = (pseudo_random_number+$counter) % 26
     $counter+=1
     out_arr << $idx_lookup[shift]
 end
-out = out_arr.join('')
-STDERR.puts "out is #{out}"
+$rotors.each do |r|
+    temp = []
+    out_arr.each do |c| 
+        idx = $idx_lookup.find_index(c)
+        temp << r[idx]
+    end
+    out_arr = temp 
+end
 # Write an answer using puts
 # To debug: STDERR.puts "Debug messages..."
 
-puts "message"
+puts "#{out_arr.join('')}"
