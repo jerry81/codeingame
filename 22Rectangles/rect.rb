@@ -23,10 +23,11 @@ end
 STDERR.puts "points are #{points}"
 STDERR.puts "12 is #{points.size}"
 sq_count = 0 
-points.each do |po|
+points.each_with_index do |po,i|
   x1 = po[:x] # p seems to be reserved? - yes p is a method like "puts"
   y1 = po[:y]
-  points.each do |q|
+  sl = points[i..]
+  sl.each do |q|
     x2 = q[:x]
     y2 = q[:y]
     if (x2 == x1) || (y2 == y1)
