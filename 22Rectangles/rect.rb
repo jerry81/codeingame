@@ -22,7 +22,6 @@ for i in 0..(count_x-1)
   end
   xs << x
 end
-STDERR.puts "wd is #{w_d}"
 inputs = gets.split(" ")
 for i in 0..(count_y-1)
   y = inputs[i].to_i
