@@ -43,6 +43,11 @@ loop do
   hero_to_h_d_m = build_hz_map(humans, [{:x=>x, :y=>y}])
   STDERR.puts "hzmap is #{human_to_zombie_distance_map}"
   STDERR.puts "hhmap is #{hero_to_h_d_m}"
+  human_to_zombie_distance_map = human_to_zombie_distance_map.sort_by do |k,v|
+    [v[:d]]
+  end
+  
+  STDERR.puts "sorted is #{human_to_zombie_distance_map}"
   # hero moves 1000
   # zombie moves 400 
   # filter unsavable humans 
