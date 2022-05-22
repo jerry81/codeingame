@@ -22,8 +22,25 @@ xs.each do |i|
 end
 STDERR.puts "points are #{points}"
 STDERR.puts "12 is #{points.size}"
+sq_count = 0 
+points.each do |po|
+  x1 = po[:x] # p seems to be reserved? - yes p is a method like "puts"
+  y1 = po[:y]
+  points.each do |q|
+    x2 = q[:x]
+    y2 = q[:y]
+    if (x2 == x1) || (y2 == y1)
+      next 
+    end
+
+    # now check if it is a square 
+    if (x2 - x1) == (y2 - y1) 
+      sq_count += 1
+    end
+  end
+end
 
 # Write an answer using puts
 # To debug: STDERR.puts "Debug messages..."
 
-puts "0"
+puts sq_count
