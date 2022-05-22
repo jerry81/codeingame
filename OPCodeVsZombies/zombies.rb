@@ -64,6 +64,7 @@ loop do
   STDERR.puts "hhmap is #{hero_to_h_d_m}"
   savables = add_savable_info(hero_to_h_d_m, human_to_zombie_distance_map)
   STDERR.puts "savables are #{savables}"
+  
   # hero moves 1000
   # zombie moves 400 
   # filter unsavable humans 
@@ -75,6 +76,11 @@ loop do
     savables[h[:id]]
   end
   STDERR.puts "savable_h are #{savable_h}"
+  # fallback to old code if savables is empty 
+  if savable_h.empty? 
+    savable_h = humans 
+  end
+
   zombies.each do |z|
     savable_h.each do |h|
       midx = ((h[:x] + z[:x]) / 2)
