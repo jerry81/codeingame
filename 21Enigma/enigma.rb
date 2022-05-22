@@ -17,7 +17,9 @@ message = gets.chomp
 as_arr = message.split('')
 out_arr = []
 as_arr.each_with_index do |x,i|
-    shift = (pseudo_random_number+$counter) % 26
+    cur_idx = $idx_lookup.find_index(x)
+    shift = (pseudo_random_number+$counter+cur_idx) % 26
+    STDERR.puts "shift is #{shift}"
     $counter+=1
     out_arr << $idx_lookup[shift]
 end
