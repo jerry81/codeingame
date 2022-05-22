@@ -32,11 +32,9 @@ loop do
   closestMidY = nil
   zombies.each do |z|
     humans.each do |h|
-      dx = (h[:x] - z[:x]).abs
-      dy = (h[:y] - z[:y]).abs
       midx = ((h[:x] + z[:x]) / 2)
       midy = ((h[:y] + z[:y]) / 2)
-      dist = Math.sqrt((dx ** 2) + (dy ** 2))
+      dist = calc_dist(h[:x],h[:y],z[:x],z[:y])
       if closestD.nil? || closestD > dist
         closestD = dist
         closestMidX = z[:xn]
