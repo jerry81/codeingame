@@ -21,7 +21,6 @@ def build_hz_map(h,z)
             dist = calc_dist(hx,hy,zx,zy)
             r[hi] << {:id=>hi, :x=>hx, :y=>hy, :d=>dist}
         end
-        STDERR.puts "r[hi] is #{r[hi]}"
         r[hi] = r[hi].sort_by do |v|
           [v[:d]]
         end
@@ -30,7 +29,14 @@ def build_hz_map(h,z)
     r
 end
 
-def add_savable_info(hh,hz) 
+def add_savable_info(hh,hz)
+  hz.each do |_,z|
+    hero_d_o = hh[z[:id]]
+    hero_d = hero_d_o[:d]
+    z_d = z[:d]
+    savable = hero_d < ((z_d*(10/4))+2000)
+    STDERR.puts "#{z[:id]} savable is #{savable}"
+  end
 end
 # game loop
 loop do
@@ -52,6 +58,7 @@ loop do
   hero_to_h_d_m = build_hz_map(humans, [{:x=>x, :y=>y}])
   STDERR.puts "hzmap is #{human_to_zombie_distance_map}"
   STDERR.puts "hhmap is #{hero_to_h_d_m}"
+  add_savable_info(hero_to_h_d_m, human_to_zombie_distance_map)
   # hero moves 1000
   # zombie moves 400 
   # filter unsavable humans 
