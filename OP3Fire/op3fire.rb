@@ -129,25 +129,30 @@ loop do
         lx = x-1
         if uy > -1
             usq = fire_progress_grid[uy][x] # TODO: DRY 
-            if usq == -1 
+            usqt = grid[uy][x]
+            STDERR.puts "usqt is #{usqt}"
+            if usq == -1 && usqt == '.'
                 possibilities << {:x=>x, :y=>uy}
             end
         end
         if rx < width 
             rsq = fire_progress_grid[y][rx]
-            if rsq == -1 
+            rsqt = grid[y][rx]
+            if rsq == -1 && rsqt == '.'
                 possibilities << {:x=>rx, :y=>y}
             end
         end
         if dy < height 
             dsq = fire_progress_grid[dy][x]
-            if dsq == -1 
+            dsqt = grid[dy][x]
+            if dsq == -1 && dsqt == '.'
                 possibilities << {:x=>x, :y=>dy}
             end
         end
         if lx > -1 
             lsq = fire_progress_grid[y][lx]
-            if lsq == -1 
+            lsqt = grid[y][lx] 
+            if lsq == -1 && lsqt == '.'
                 possibilities << {:x=>lx, :y=>y}
             end
         end
