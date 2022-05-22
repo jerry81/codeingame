@@ -39,7 +39,22 @@ end
 
 houses.each do |h|
     STDERR.puts "h is #{h}"
-  end
+end
+
+def get_closest_fire(x,y,fires)
+    closest = nil 
+    closest_d = 50**2
+    fires.each do |f|
+        fx = f[:x]
+        fy = f[:y]
+        dist = (fx - x)**2 + (fy - y)**2 
+        if dist < closest_d 
+            closest = f
+            closest_d = dist
+        end
+    end
+    closest, closest_d
+end
 # game loop
 cut = []
 loop do
@@ -92,6 +107,7 @@ loop do
     dy = y+1 
     rx = x+1 
     lx = x-1
+    # populate distance from closest fire into the possibilities and then sort 
     # u, r, d, l 
     if uy > -1
         usq = fire_progress_grid[uy][x] # TODO: DRY 
