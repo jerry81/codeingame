@@ -25,6 +25,7 @@ def build_hz_map(h,z)
         r[hi] = r[hi].sort_by do |v|
           [v[:d]]
         end
+        r[hi] = r[hi].first 
     end
     r
 end
