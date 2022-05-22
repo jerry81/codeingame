@@ -41,7 +41,6 @@ m.times do
   end
   outputs[output_name] = o
 end
-STDERR.puts "inputlookup is #{inputs}"
 outputs.each do |k,v|
 
   # Write an answer using puts
