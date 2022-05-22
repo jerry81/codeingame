@@ -40,7 +40,9 @@ loop do
   end
   STDERR.puts "humans #{humans} and zombies #{zombies}"
   human_to_zombie_distance_map = build_hz_map(humans,zombies)
+  hero_to_h_d_m = build_hz_map(humans, [{:x=>x, :y=>y}])
   STDERR.puts "hzmap is #{human_to_zombie_distance_map}"
+  STDERR.puts "hhmap is #{hero_to_h_d_m}"
   # hero moves 1000
   # zombie moves 400 
   # filter unsavable humans 
