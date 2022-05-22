@@ -67,6 +67,7 @@ def play(i1,i2,s1,s2)
 end
 
 participants = []
+p_hist = {} # track game history 
 n.times do
   numplayer, signplayer = gets.split(" ")
   numplayer = numplayer.to_i
@@ -79,13 +80,22 @@ until participants.size < 2 do
     j = i * 2
     part1 = participants[j]
     part2 = participants[j+1]
-    winner = play(part1[:n], part2[:n], part1[:s], part2[:s])
+    p1i = part1[:n]
+    p2i = part2[:n]
+    if p_hist[p1i].nil?
+      p_hist[p1i] = [p2i]
+      p_hist[p2i] = [p1i]
+    else
+      p_hist[p1i] << p2i
+      p_hist[p2i] << p1i
+    end
+    winner = play(p1i, p2i, part1[:s], part2[:s])
     new_participants << winner
-    STDERR.puts "participants is #{new_participants}"
   end
   participants = new_participants
 end
 # Write an answer using puts
 # To debug: STDERR.puts "Debug messages..."
-
-puts participants.first[:n]
+w = participants.first[:n]
+puts w 
+puts p_hist[w].join(' ')
