@@ -7,6 +7,22 @@ end
 
 # test distance
 STDERR.puts "expect 5 #{calc_dist(0,0,3,4)}"
+
+def build_hz_map(h,z)
+    r = {}
+    h.each do |i|
+        z.each do |j|
+            hi = i[:id]
+            hx = i[:x]
+            hy = i[:y]
+            zx = j[:x]
+            zy = j[:y]
+            dist = calc_dist(hx,hy,zx,zy)
+            r[hi] = {:id=>hi, :x=>hx, :y=>hy, :d=>dist}
+        end
+    end
+    r
+end
 # game loop
 loop do
   x, y = gets.split(" ").collect { |x| x.to_i }
@@ -23,6 +39,8 @@ loop do
     zombies << { :id => zombie_id, :x => zombie_x, :y => zombie_y, :xn => zombie_xnext, :yn => zombie_ynext}
   end
   STDERR.puts "humans #{humans} and zombies #{zombies}"
+  human_to_zombie_distance_map = build_hz_map(humans,zombies)
+  STDERR.puts "hzmap is #{human_to_zombie_distance_map}"
   # hero moves 1000
   # zombie moves 400 
   # filter unsavable humans 
