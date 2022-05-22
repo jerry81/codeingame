@@ -62,16 +62,30 @@ def play(i1,i2,s1,s2)
       winner = i2
     end
   end
-  winner
+  sign = winner == i1 ? s1 : s2 
+  {:n=>winner, :s=>sign}
 end
 
-STDERR.puts "expect 1 #{play(1,2,'R','C')}"
+participants = []
 n.times do
   numplayer, signplayer = gets.split(" ")
   numplayer = numplayer.to_i
+  participants << {:n=>numplayer, :s=>signplayer}
 end
 
+until participants.size < 2 do 
+  new_participants = []
+  for i in 0..(participants.size/2) - 1
+    j = i * 2
+    part1 = participants[j]
+    part2 = participants[j+1]
+    winner = play(part1[:n], part2[:n], part1[:s], part2[:s])
+    new_participants << winner
+    STDERR.puts "participants is #{new_participants}"
+  end
+  participants = new_participants
+end
 # Write an answer using puts
 # To debug: STDERR.puts "Debug messages..."
 
-puts "WHO IS THE WINNER?"
+puts participants.first[:n]
