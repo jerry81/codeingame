@@ -43,6 +43,9 @@ else  # TODO: DRY
   as_arr.each_with_index do |x,i|
     cur_idx = $idx_lookup.find_index(x)
     shift = cur_idx-pseudo_random_number-$counter
+    if shift < -26 
+        shift += 26 
+    end
     if shift < 0 
         shift = 26 + shift
     end
