@@ -1,7 +1,12 @@
 STDOUT.sync = true # DO NOT REMOVE
 # Save humans, destroy zombies!
 
+def calc_dist(x,y,x2,y2)
+  return Math.sqrt((x-x2)**2 + (y-y2)**2)
+end
 
+# test distance
+STDERR.puts "expect 5 #{calc_dist(0,0,3,4)}"
 # game loop
 loop do
   x, y = gets.split(" ").collect { |x| x.to_i }
@@ -18,7 +23,10 @@ loop do
     zombies << { :id => zombie_id, :x => zombie_x, :y => zombie_y, :xn => zombie_xnext, :yn => zombie_ynext}
   end
   STDERR.puts "humans #{humans} and zombies #{zombies}"
-  # find closest zombie to human
+  # hero moves 1000
+  # zombie moves 400 
+  # filter unsavable humans 
+  # only save human if it is savable 
   closestD = nil
   closestMidX = nil
   closestMidY = nil
