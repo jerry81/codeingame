@@ -11,9 +11,10 @@ for i in range(h):
     line = input()
     grid.append(line) # python has no list.push
 
-for y in grid:
-  for x in y:
-    print(f'i am iterating {x}', file=sys.stderr, flush=True)
+for row,y in enumerate(grid):
+  for col,x in enumerate(y):
+    if x == 'x':
+      print(f'mine found at {row} {col}', file=sys.stderr, flush=True)
 
 # Write an answer using print
 # To debug: print("Debug messages...", file=sys.stderr, flush=True)
