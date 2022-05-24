@@ -49,6 +49,17 @@ for i in draw(2):
 for i in draw(3):
   print(f"test draw3 {i}", file=sys.stderr, flush=True)
 
+# start with line 1
+def clean(lines):
+    h = len(lines)
+    w = len(lines[0]) # assuming not empty 
+    for i in range(0,h//2):
+        ci = i * 2 + 1 
+        for j in range (0,w//3):
+            cj = j * 3 + 1
+            print(f"test clean {lines[ci][cj]}", file=sys.stderr, flush=True)
+
+clean(draw(0))
 # Write an answer using print
 # To debug: print("Debug messages...", file=sys.stderr, flush=True)
 
