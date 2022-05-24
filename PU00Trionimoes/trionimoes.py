@@ -64,18 +64,54 @@ def clean(lines):
 def clean_holes(lines):
     print(f"todo: impl", file=sys.stderr, flush=True)
 
-cleaned = clean(draw(1))
+cleaned = clean(draw(3))
 as_strs = list(map(lambda x: ''.join(x),cleaned))
 for s in as_strs:
-  print(f"test clean {s}", file=sys.stderr, flush=True)
-# Write an answer using print
-# To debug: print("Debug messages...", file=sys.stderr, flush=True)
+  print(f"s is {s}", file=sys.stderr, flush=True)
 
-print("+--+")
+def pretty_p(cleaned):
+  as_strs = list(map(lambda x: ''.join(x),cleaned))
+  for s in as_strs:
+    print(f"{s}")
 
-for i in range(n):
+t = 0
+if n == 1:
+    if x == 0:
+        if y == 0:
+            t = 0
+        if y == 1:
+            t = 2
+    if x == 1:
+        if y == 0:
+            t = 1
+        if y == 1:
+            t = 3
 
-    # Write an answer using print
-    # To debug: print("Debug messages...", file=sys.stderr, flush=True)
+pretty_p(clean(draw(t)))
 
-    print("|  |\n+--+")
+
+# analysis
+"""
+0 1
++--+--+--+--+
+|     |     |
++--+  +--+  +
+|##|  |  |  |
++--+--+  +--+
+|  |     |  |
++  +--+--+  +
+|     |     |
++--+--+--+--+
+
+can be represented as 
+2, 2
+1, 0
+where 0,0 was due to input
+0,1 will always be 2
+1,0 will always be 1
+and 
+1,1 will always be 0 
+
+
+
+"""
