@@ -39,24 +39,31 @@ def draw(type):
         
 # start with line 1
 def clean(lines):
-    h = len(lines)
-    w = len(lines[0]) # assuming not empty 
-    holes = []
+    as_arr = list(map(lambda l: list(l), lines))
+    h = len(as_arr)
+    w = len(as_arr[0]) # assuming not empty 
     for i in range(0,h//2):
         ci = i * 2 + 1 
-        for j in range (0,w//3):
+        for j in range(0,w//3):
             cj = j * 3 + 1
-            hole_test = lines[ci][cj]
-            print(f"test clean {lines[ci][cj]}", file=sys.stderr, flush=True)
-            if hole_test == '#':
-                holes.append({"y":ci, "x":cj})
-    print(f"holes are at {holes}", file=sys.stderr, flush=True)
+            hole_test = as_arr[ci][cj]
+            if hole_test != '#':
+                if cj < w-3:
+                    as_arr[ci][cj+2] = ' '
+                if ci < h-2:
+                    as_arr[ci+1][cj] = ' '
+                    as_arr[ci+1][cj+1] = ' '
+    return as_arr
+                
             
 
 def clean_holes(lines):
     print(f"todo: impl", file=sys.stderr, flush=True)
 
-clean(draw(0))
+cleaned = clean(draw(0))
+as_strs = list(map(lambda x: ''.join(x),cleaned))
+for s in as_strs:
+  print(f"test clean {s}", file=sys.stderr, flush=True)
 # Write an answer using print
 # To debug: print("Debug messages...", file=sys.stderr, flush=True)
 
