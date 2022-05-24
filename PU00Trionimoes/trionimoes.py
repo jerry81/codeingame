@@ -19,6 +19,36 @@ x, y = [int(i) for i in input().split()]
   # then for the other 3 4*4 squares, they must leave a hole, so leave it in the corner away from the edge corner
 # 5.  helper to draw 
 
+def draw(type):
+    l1 = '+--+--+'
+    l3 = '+--+--+'
+    l5 = '+--+--+'
+    if type == 0:
+        l2 = '|xx|  |'
+        l4 = '|  |  |'
+    elif type == 1:
+        l2 = '|  |xx|'
+        l4 = '|  |  |'
+    elif type == 2:
+        l2 = '|  |  |'
+        l4 = '|xx|  |'
+    else:
+        l2 = '|  |  |'
+        l4 = '|  |xx|'
+    return [l1,l2,l3,l4,l5]
+        
+for i in draw(0):
+  print(f"test draw0 {i}", file=sys.stderr, flush=True)
+
+for i in draw(1):
+  print(f"test draw1 {i}", file=sys.stderr, flush=True)
+
+for i in draw(2):
+  print(f"test draw2 {i}", file=sys.stderr, flush=True)
+
+for i in draw(3):
+  print(f"test draw3 {i}", file=sys.stderr, flush=True)
+
 # Write an answer using print
 # To debug: print("Debug messages...", file=sys.stderr, flush=True)
 
