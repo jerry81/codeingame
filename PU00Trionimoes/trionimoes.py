@@ -53,14 +53,18 @@ def clean(lines):
                 if ci < h-2:
                     as_arr[ci+1][cj] = ' '
                     as_arr[ci+1][cj+1] = ' '
+            else: 
+                as_arr[ci-1][cj-1:cj+3] = ['+','-','-','+']
+                as_arr[ci][cj-1] = '|'
+                as_arr[ci][cj+2] = '|'
+                as_arr[ci+1][cj-1:cj+3] = ['+','-','-','+']
+                
     return as_arr
                 
-            
-
 def clean_holes(lines):
     print(f"todo: impl", file=sys.stderr, flush=True)
 
-cleaned = clean(draw(0))
+cleaned = clean(draw(1))
 as_strs = list(map(lambda x: ''.join(x),cleaned))
 for s in as_strs:
   print(f"test clean {s}", file=sys.stderr, flush=True)
