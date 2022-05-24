@@ -24,40 +24,37 @@ def draw(type):
     l3 = '+--+--+'
     l5 = '+--+--+'
     if type == 0:
-        l2 = '|xx|  |'
+        l2 = '|##|  |'
         l4 = '|  |  |'
     elif type == 1:
-        l2 = '|  |xx|'
+        l2 = '|  |##|'
         l4 = '|  |  |'
     elif type == 2:
         l2 = '|  |  |'
-        l4 = '|xx|  |'
+        l4 = '|##|  |'
     else:
         l2 = '|  |  |'
-        l4 = '|  |xx|'
+        l4 = '|  |##|'
     return [l1,l2,l3,l4,l5]
         
-for i in draw(0):
-  print(f"test draw0 {i}", file=sys.stderr, flush=True)
-
-for i in draw(1):
-  print(f"test draw1 {i}", file=sys.stderr, flush=True)
-
-for i in draw(2):
-  print(f"test draw2 {i}", file=sys.stderr, flush=True)
-
-for i in draw(3):
-  print(f"test draw3 {i}", file=sys.stderr, flush=True)
-
 # start with line 1
 def clean(lines):
     h = len(lines)
     w = len(lines[0]) # assuming not empty 
+    holes = []
     for i in range(0,h//2):
         ci = i * 2 + 1 
         for j in range (0,w//3):
             cj = j * 3 + 1
+            hole_test = lines[ci][cj]
             print(f"test clean {lines[ci][cj]}", file=sys.stderr, flush=True)
+            if hole_test == '#':
+                holes.append({"y":ci, "x":cj})
+    print(f"holes are at {holes}", file=sys.stderr, flush=True)
+            
+
+def clean_holes(lines):
+    print(f"todo: impl", file=sys.stderr, flush=True)
 
 clean(draw(0))
 # Write an answer using print
