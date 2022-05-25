@@ -185,7 +185,11 @@ def pprint(grid):
     for idx in range(w//3):
         pgrid[0][idx*3:(idx+1)*3] = ['+','-','-']
         pgrid[0][w-1] = '+'
-        # pgrid[l-1][idx*3:(idx+1)*3] = ['+','-','-']
+        pgrid[h-1][idx*3:(idx+1)*3] = ['+','-','-']
+        pgrid[h-1][w-1] = '+'
+    for idx in range(h):
+        pgrid[idx][0] = ['+', '|'][idx%2]
+        pgrid[idx][w-1] = ['+', '|'][idx%2]
     for i in pgrid:
       print(f"pgrid is {i} ", file=sys.stderr, flush=True) 
     hd = dim//2
