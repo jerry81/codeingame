@@ -145,10 +145,40 @@ def divide_grid(grid):
     dr_grid_y = grid[nl:l]
     dr_grid = list(map(lambda x: x[nl:l], dr_grid_y))
     drh = find_hole(dr_grid)
-    print(f"dr_grid is {dr_grid} ", file=sys.stderr, flush=True) 
-    print(f"ulh is {ulh} urh is {urh} dlh is {dlh} drh is {drh}", file=sys.stderr, flush=True) 
+    if ulh:
+        # put holes in other corners
+        # dl - forced to be ur
+        grid[nl-1][nl] = 'h'
+        # dr - forced to be ul 
+        grid[nl][nl] = 'h'
+        # ur - forced to be dl 
+        grid[nl][nl-1] = 'h'
+    elif urh:
+        # ul
+        grid[nl-1][nl-1] = 'h'
+        # dl
+        grid[nl-1][nl] = 'h'
+        # dr
+        grid[nl][nl] = 'h'
+    elif dlh:
+        # ul
+        grid[nl-1][nl-1] = 'h'
+        # ur
+        grid[nl][nl-1] = 'h'
+        # dr
+        grid[nl][nl] = 'h'
+    else:
+        # ul and r
+        grid[nl-1][nl-1] = 'h'
+        grid[nl][nl-1] = 'h'
+        # dl
+        grid[nl-1][nl] = 'h'
+    return grid 
 
-divide_grid(grid)
+divided = divide_grid(grid)
+
+for i in divided:
+    print(f"divided is {i} ", file=sys.stderr, flush=True) 
 
 pretty_p(clean(draw(get_type(x,y))))
 
