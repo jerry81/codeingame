@@ -191,29 +191,45 @@ def pprint(grid):
     for idx in range(h):
         pgrid[idx][0] = ['+', '|'][idx%2]
         pgrid[idx][w-1] = ['+', '|'][idx%2]
-    for i in pgrid:
-      print(f"pgrid is {i} ", file=sys.stderr, flush=True) 
     for idx_y in range(dim//2):
       for idx_x in range(dim//2):
           cy = idx_y*2
           cx = idx_x*2
-          py = cy
-          px = cx
+          py = cy*2
+          px = cx*3
           ul = grid[cy][cx]
           ur = grid[cy][cx+1]
           dl = grid[cy+1][cx]
           dr = grid[cy+1][cx+1]
           if ul == 'h':
               # 4 lines 
-              pgrid[py][px:px+7] = list("+--+--+")
+              pgrid[py][px:px+7] =   list("   +--+")
+              pgrid[py+1][px:px+7] = list("   |  |")
+              pgrid[py+2][px:px+7] = list("+--+  +")
+              pgrid[py+3][px:px+7] = list("|     |")
+              pgrid[py+4][px:px+7] = list("+--+--+")
+              # put a shape in the pgrid
+          if ur == 'h':
+              pgrid[py][px:px+7] =   list("+--+   ")
+              pgrid[py+1][px:px+7] = list("|  |   ")
+              pgrid[py+2][px:px+7] = list("+  +--+")
+              pgrid[py+3][px:px+7] = list("|     |")
+              pgrid[py+4][px:px+7] = list("+--+--+")
+          if dl == 'h':
+              pgrid[py][px:px+7] =   list("+--+--+")
+              pgrid[py+1][px:px+7] = list("|     |")
+              pgrid[py+2][px:px+7] = list("+--+  +")
+              pgrid[py+3][px:px+7] = list("   |  |")
+              pgrid[py+4][px:px+7] = list("   +--+")
+          if dr == 'h': 
+              pgrid[py][px:px+7] =   list("+--+--+")
               pgrid[py+1][px:px+7] = list("|     |")
               pgrid[py+2][px:px+7] = list("+  +--+")
               pgrid[py+3][px:px+7] = list("|  |   ")
               pgrid[py+4][px:px+7] = list("+--+   ")
-              # put a shape in the pgrid
-          if ur == 'h':
-          if dl == 'h':
-          if dr == 'h': 
+    for i in pgrid:
+      joined="".join(i)
+      print(f"pgrid is {joined} ", file=sys.stderr, flush=True) 
     
 """
 given 
