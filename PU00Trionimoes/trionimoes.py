@@ -78,8 +78,8 @@ def pretty_p(cleaned):
   for s in as_strs:
     print(f"{s}")
 
-t = 0
-if n == 1:
+def get_type(x,y):
+    t = 0
     if x == 0:
         if y == 0:
             t = 0
@@ -90,25 +90,17 @@ if n == 1:
             t = 1
         if y == 1:
             t = 3
+    return t 
 
 def solve(order,x,y):
     t = 0
     if order == 1:
-        if x == 0:
-            if y == 0:
-                t = 0
-            if y == 1:
-                t = 2
-        if x == 1:
-            if y == 0:
-                t = 1
-            if y == 1:
-                t = 3
+        t = get_type(x,y)
         return [[t]]
 
 print(f"solve2 is {solve(1,1,1)}", file=sys.stderr, flush=True) 
 
-pretty_p(clean(draw(t)))
+pretty_p(clean(draw(get_type(x,y))))
 
 
 
