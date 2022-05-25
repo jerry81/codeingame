@@ -1,18 +1,15 @@
-import sys
-import math
-
 n = int(input())
 x, y = [int(i) for i in input().split()]
-
+HOLE = 'h'
 dim = 2**n
 grid = [[' ' for _ in range(dim)] for _ in range(dim)]
-grid[y][x] = 'h'
+grid[y][x] = HOLE
 
 def find_hole(grid):
     l = len(grid)
     for i in range(l):
         for j in range(l):
-            if grid[i][j] == 'h':
+            if grid[i][j] == HOLE:
                 return True
     return False
 
@@ -21,34 +18,36 @@ def divide_grid(grid, ox, oy, ox2, oy2):
         return
     l = ox2-ox
     nl = l//2
-    u_grid = grid[oy:nl+oy]
-    d_grid = grid[oy+nl:oy2]
-    ul_grid = list(map(lambda x: x[ox:ox+nl], u_grid))
-    dl_grid = list(map(lambda x: x[ox:ox+nl], d_grid))
-    ur_grid = list(map(lambda x: x[ox+nl:ox2], u_grid))
+    mid_x = ox+nl
+    mid_y = oy+nl
+    u_grid = grid[oy:mid_y]
+    d_grid = grid[mid_y:oy2]
+    ul_grid = list(map(lambda x: x[ox:mid_x], u_grid))
+    dl_grid = list(map(lambda x: x[ox:mid_x], d_grid))
+    ur_grid = list(map(lambda x: x[mid_x:ox2], u_grid))
     ulh = find_hole(ul_grid)
     urh = find_hole(ur_grid)
     dlh = find_hole(dl_grid)
     if ulh:
-        grid[oy+nl-1][ox+nl] = 'h'
-        grid[oy+nl][ox+nl] = 'h'
-        grid[oy+nl][ox+nl-1] = 'h'
+        grid[mid_y-1][mid_x] = HOLE
+        grid[mid_y][mid_x] = HOLE
+        grid[mid_y][mid_x-1] = HOLE
     elif urh:
-        grid[oy+nl-1][ox+nl-1] = 'h' # ul
-        grid[oy+nl][ox+nl-1] = 'h' # 
-        grid[oy+nl][ox+nl] = 'h'
+        grid[mid_y-1][mid_x-1] = HOLE 
+        grid[mid_y][mid_x-1] = HOLE 
+        grid[mid_y][mid_x] = HOLE
     elif dlh:
-        grid[oy+nl-1][ox+nl-1] = 'h'
-        grid[oy+nl-1][ox+nl] = 'h'
-        grid[oy+nl][ox+nl] = 'h'
+        grid[mid_y-1][mid_x-1] = HOLE
+        grid[mid_y-1][mid_x] = HOLE
+        grid[mid_y][mid_x] = HOLE
     else: # drh
-        grid[oy+nl-1][ox+nl-1] = 'h'
-        grid[oy+nl][ox+nl-1] = 'h'
-        grid[oy+nl-1][ox+nl] = 'h'
-    divide_grid(grid,ox,oy,ox+nl,oy+nl)
-    divide_grid(grid,ox+nl,oy,ox2,oy+nl)
-    divide_grid(grid,ox,oy+nl,ox+nl,oy2)
-    divide_grid(grid,ox+nl,oy+nl,ox2,oy2)
+        grid[mid_y-1][mid_x-1] = HOLE
+        grid[mid_y][mid_x-1] = HOLE
+        grid[mid_y-1][mid_x] = HOLE
+    divide_grid(grid,ox,oy,mid_x,mid_y)
+    divide_grid(grid,mid_x,oy,ox2,mid_y)
+    divide_grid(grid,ox,mid_y,mid_x,oy2)
+    divide_grid(grid,mid_x,mid_y,ox2,oy2)
     
 dim = len(grid)
 divide_grid(grid,0,0,dim,dim)
@@ -68,25 +67,25 @@ def pprint(grid,y,x):
           ur = grid[cy][cx+1]
           dl = grid[cy+1][cx]
           dr = grid[cy+1][cx+1]
-          if ul == 'h':
+          if ul == HOLE:
               pgrid[py][px+3:px+7] =    list("+--+")
               pgrid[py+1][px+3:px+7] =  list("|  |")
               pgrid[py+2][px:px+7] = list("+--+  +")
               pgrid[py+3][px:px+7] = list("|     |")
               pgrid[py+4][px:px+7] = list("+--+--+")
-          if ur == 'h':
+          if ur == HOLE:
               pgrid[py][px:px+4] =   list("+--+")
               pgrid[py+1][px:px+4] = list("|  |")
               pgrid[py+2][px:px+7] = list("+  +--+")
               pgrid[py+3][px:px+7] = list("|     |")
               pgrid[py+4][px:px+7] = list("+--+--+")
-          if dl == 'h':
+          if dl == HOLE:
               pgrid[py][px:px+7] =   list("+--+--+")
               pgrid[py+1][px:px+7] = list("|     |")
               pgrid[py+2][px:px+7] = list("+--+  +")
               pgrid[py+3][px+3:px+7] =  list("|  |")
               pgrid[py+4][px+3:px+7] =  list("+--+")
-          if dr == 'h': 
+          if dr == HOLE: 
               pgrid[py][px:px+7] =   list("+--+--+")
               pgrid[py+1][px:px+7] = list("|     |")
               pgrid[py+2][px:px+7] = list("+  +--+")
