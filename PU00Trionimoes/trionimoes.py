@@ -182,6 +182,7 @@ def pprint(grid):
     # this is a trap! pgrid = [[' ']*w]*l 
     pgrid = [[' ' for _ in range(w)] for _ in range(h)]
     # make first and last lines
+    # next two loops probably not necessary
     for idx in range(w//3):
         pgrid[0][idx*3:(idx+1)*3] = ['+','-','-']
         pgrid[0][w-1] = '+'
@@ -192,7 +193,27 @@ def pprint(grid):
         pgrid[idx][w-1] = ['+', '|'][idx%2]
     for i in pgrid:
       print(f"pgrid is {i} ", file=sys.stderr, flush=True) 
-    hd = dim//2
+    for idx_y in range(dim//2):
+      for idx_x in range(dim//2):
+          cy = idx_y*2
+          cx = idx_x*2
+          py = cy
+          px = cx
+          ul = grid[cy][cx]
+          ur = grid[cy][cx+1]
+          dl = grid[cy+1][cx]
+          dr = grid[cy+1][cx+1]
+          if ul == 'h':
+              # 4 lines 
+              pgrid[py][px:px+7] = list("+--+--+")
+              pgrid[py+1][px:px+7] = list("|     |")
+              pgrid[py+2][px:px+7] = list("+  +--+")
+              pgrid[py+3][px:px+7] = list("|  |   ")
+              pgrid[py+4][px:px+7] = list("+--+   ")
+              # put a shape in the pgrid
+          if ur == 'h':
+          if dl == 'h':
+          if dr == 'h': 
     
 """
 given 
@@ -205,6 +226,11 @@ divided is [' ', 'h', 'h', ' ', ' ', ' ', 'h', ' ']
 divided is ['o', ' ', 'h', ' ', ' ', 'h', 'h', ' '] 
 divided is [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '] 
 
++--+--+
+|     |
++  +--+
+|  |
++--+
 should print 
 +--+--+--+--+--+--+--+--+
 |     |     |     |     |
