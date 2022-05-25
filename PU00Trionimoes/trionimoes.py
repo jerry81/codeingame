@@ -127,9 +127,14 @@ def pprint(grid,y,x):
               pgrid[py+3][px:px+4] = list("|  |")
               pgrid[py+4][px:px+4] = list("+--+")
     # draw the hole 
+    py = y*2
+    px = x*3
+    pgrid[py][px:px+4] =   "+--+"
+    pgrid[py+1][px:px+4] = "|##|"
+    pgrid[py+2][px:px+4] = "+--+"
     for i in pgrid:
       joined="".join(i)
-      print(f"pgrid is {joined} ", file=sys.stderr, flush=True) 
+      print(joined) 
     
 """
 given 
@@ -186,7 +191,4 @@ should print
 
 4x4 -> 13x9
 """
-pprint(grid,x,y)
-for i in grid:
-    print(f"divided is {i} ", file=sys.stderr, flush=True) 
-
+pprint(grid,y,x)
