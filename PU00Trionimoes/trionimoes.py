@@ -114,7 +114,7 @@ def make_grid(gn,gx,gy):
         grid.append([])
         for _ in range(dim):
             grid[i].append(' ')
-    grid[gy][gx] = "h"
+    grid[gy][gx] = "h" # o for original hole
     return grid
 
 grid = make_grid(n,x,y)
@@ -170,8 +170,26 @@ def divide_grid(grid, ox, oy, ox2, oy2):
 dim = len(grid)
 divide_grid(grid,0,0,dim,dim)
 
-# make a new method to print the grid
+# prepare grid - separate original hole with the created holes 
+grid[y][x] = 'o'
 
+# make a new method to print the grid
+def pprint(grid):
+    # split into blocks of 2x2
+    dim = len(grid)
+    w = dim*3+1
+    h = dim*2+1
+    # this is a trap! pgrid = [[' ']*w]*l 
+    pgrid = [[' ' for _ in range(w)] for _ in range(h)]
+    # make first and last lines
+    for idx in range(w//3):
+        pgrid[0][idx*3:(idx+1)*3] = ['+','-','-']
+        pgrid[0][w-1] = '+'
+        # pgrid[l-1][idx*3:(idx+1)*3] = ['+','-','-']
+    for i in pgrid:
+      print(f"pgrid is {i} ", file=sys.stderr, flush=True) 
+    hd = dim//2
+    
 """
 given 
 divided is [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '] 
@@ -180,7 +198,7 @@ divided is [' ', 'h', ' ', ' ', ' ', ' ', 'h', ' ']
 divided is [' ', ' ', ' ', 'h', 'h', ' ', ' ', ' '] 
 divided is [' ', ' ', ' ', ' ', 'h', ' ', ' ', ' '] 
 divided is [' ', 'h', 'h', ' ', ' ', ' ', 'h', ' '] 
-divided is ['h', ' ', 'h', ' ', ' ', 'h', 'h', ' '] 
+divided is ['o', ' ', 'h', ' ', ' ', 'h', 'h', ' '] 
 divided is [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '] 
 
 should print 
@@ -201,6 +219,29 @@ should print
 +--+  +--+  +  +--+--+  +
 |     |     |     |     |
 +--+--+--+--+--+--+--+--+
+
+8x8 => 8*2 = 16 + 1 = 17 x 8*3 = 24 + 1 = 25
+
+divided is [' ', ' ', ' ', ' '] 
+divided is ['o', ' ', 'h', ' '] 
+divided is [' ', 'h', 'h', ' '] 
+divided is [' ', ' ', ' ', ' '] 
+
+should print 
++--+--+--+--+
+|     |     |
++--+  +--+  +
+|##|  |  |  |
++--+--+  +--+
+|  |     |  |
++  +--+--+  +
+|     |     |
++--+--+--+--+
+
+4x4 -> 13x9
 """
+pprint(grid)
+for i in grid:
+    print(f"divided is {i} ", file=sys.stderr, flush=True) 
 
 pretty_p(clean(draw(get_type(x,y))))
