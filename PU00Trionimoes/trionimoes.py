@@ -92,28 +92,6 @@ def get_type(x,y):
             t = 3
     return t 
 
-def solve(order,top,left,has_hole=None):
-    if order == 1:
-        nx = 0 if top else 1
-        ny = 0 if left else 1
-        return get_type(nx,ny)
-    else:
-        # for o == 2, in the start case, the exact starting block can be identified first 
-        # x, y -> 0..3
-        # ul 0..1, 0..1
-        # let's say x is 0, y is 2
-        # means the "hole" is in dl, why?
-        # bc top half <= 2**order // 2 - 1
-        n_o = order - 1
-        ul = solve(n_o, False, False)
-        # ur 2..3, 0..1
-        ur = solve(n_o, False, True)
-        # dl 0..1, 2..3
-        dl = solve(n_o, True, True)
-        # dr 2..3, 2..3
-        dr = solve(n_o, True, False)
-        # o == 3?
-
 """
 divide and conquer picture
                                                       s(0)     o = 3
@@ -144,11 +122,34 @@ print(f"grid is {grid}", file=sys.stderr, flush=True)
 top = y <= (2**n)//2 - 1 # hole is in top quadrant
 left = x <= (2**n)//2 - 1 # hole is in left quadrant 
 
+def find_hole(grid):
+    l = len(grid)
+    for i in range(l):
+        for j in range(l):
+            if grid[i][j] == 'h':
+                return i,j
+    return None,None
 
-print(f"solve1 is {solve(1,False,False)}", file=sys.stderr, flush=True) 
+def divide_grid(grid):
+    l = len(grid)
+    nl = l//2
+    ul_grid_y = grid[0:nl]
+    ul_grid = list(map(lambda x: x[0:nl], ul_grid_y))
+    x,y = find_hole(ul_grid)
+    ur_grid_y = grid[0:nl]
+    ur_grid = list(map(lambda x: x[nl:l], ur_grid_y))
+    xr,yr = find_hole(ur_grid)
+    dl_grid_y = grid[nl:l]
+    dl_grid = list(map(lambda x: x[0:nl], dl_grid_y))
+    xdl,ydl = find_hole(dl_grid)
+    dr_grid_y = grid[nl:l]
+    dr_grid = list(map(lambda x: x[nl:l], dr_grid_y))
+    xdr,ydr = find_hole(dr_grid)
+    print(f"dr_grid is {dr_grid} ", file=sys.stderr, flush=True) 
+    print(f"x,y is {x} {y} xr,yr is {xr} {yr} xdl,ydl is {xdl} {ydl} xdr,ydr is {xdr} {ydr}", file=sys.stderr, flush=True) 
 
-print(f"solve2 is {solve(2,0,2)}", file=sys.stderr, flush=True) 
 
+divide_grid(grid)
 
 pretty_p(clean(draw(get_type(x,y))))
 
