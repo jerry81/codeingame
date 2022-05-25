@@ -7,106 +7,6 @@ import math
 n = int(input())
 x, y = [int(i) for i in input().split()]
 
-# ideas
-# 1.  simplify?  represent shapes with 0,1,2,3 - UL, UR, DL, DR (location of hole) - done 
-# 2.  helper method to detect a fillable hole? - todo 
-# 3.  "edge blocks" of 2x2 have limited choices
-  # they always need to place the hole to the opposite direction of the corner it is in
-  # unless they have the one hole specified in the input 
-# 4.  in the case of 8*8 
-  # the hole only appears in one place, so start with that 2*2 square 
-  # then it fills the 4*4 square because we handled that before
-  # then for the other 3 4*4 squares, they must leave a hole, so leave it in the corner away from the edge corner
-# 5.  helper to draw - done
-# 6.  improve helper to draw bigger squares 
-# 7.  solve the "abstract" problem where 2x2 blocks represented with 0-4
-
-
-
-def draw(type):
-    l1 = '+--+--+'
-    l3 = '+--+--+'
-    l5 = '+--+--+'
-    if type == 0:
-        l2 = '|##|  |'
-        l4 = '|  |  |'
-    elif type == 1:
-        l2 = '|  |##|'
-        l4 = '|  |  |'
-    elif type == 2:
-        l2 = '|  |  |'
-        l4 = '|##|  |'
-    else:
-        l2 = '|  |  |'
-        l4 = '|  |##|'
-    return [l1,l2,l3,l4,l5]
-        
-# start with line 1
-def clean(lines):
-    as_arr = list(map(lambda l: list(l), lines))
-    h = len(as_arr)
-    w = len(as_arr[0]) # assuming not empty 
-    for i in range(0,h//2):
-        ci = i * 2 + 1 
-        for j in range(0,w//3):
-            cj = j * 3 + 1
-            hole_test = as_arr[ci][cj]
-            if hole_test != '#':
-                if cj < w-3:
-                    as_arr[ci][cj+2] = ' '
-                if ci < h-2:
-                    as_arr[ci+1][cj] = ' '
-                    as_arr[ci+1][cj+1] = ' '
-            else: 
-                as_arr[ci-1][cj-1:cj+3] = ['+','-','-','+']
-                as_arr[ci][cj-1] = '|'
-                as_arr[ci][cj+2] = '|'
-                as_arr[ci+1][cj-1:cj+3] = ['+','-','-','+']
-                
-    return as_arr
-                
-def clean_holes(lines):
-    print(f"todo: impl", file=sys.stderr, flush=True)
-
-cleaned = clean(draw(3))
-as_strs = list(map(lambda x: ''.join(x),cleaned))
-for s in as_strs:
-  print(f"s is {s}", file=sys.stderr, flush=True)
-
-def pretty_p(cleaned):
-  as_strs = list(map(lambda x: ''.join(x),cleaned))
-  for s in as_strs:
-    print(f"{s}")
-
-def get_type(x,y):
-    t = 0
-    if x == 0:
-        if y == 0:
-            t = 0
-        if y == 1:
-            t = 2
-    if x == 1:
-        if y == 0:
-            t = 1
-        if y == 1:
-            t = 3
-    return t 
-
-"""
-divide and conquer picture
-                                                      s(0)     o = 3
-
-           uls(0)                      urs(1)                      dls(2)                     drs(4)      o = 2
-
-uls(0) urs(1) dls(2) drs(3) uls(4) urs(5) dls(6) drs(7) uls(8) urs(9) dls(10) drs(11) uls(12) urs(13) dls(14) drs(15)    o = 1
-"""
-
-"""
-divide might not even be necessary
-
-just create the grid which has a single hole 
-and iteratively conker
-"""
 def make_grid(gn,gx,gy):
     dim = 2**gn
     grid = []
@@ -171,10 +71,9 @@ dim = len(grid)
 divide_grid(grid,0,0,dim,dim)
 
 # prepare grid - separate original hole with the created holes 
-grid[y][x] = 'o'
 
 # make a new method to print the grid
-def pprint(grid):
+def pprint(grid,y,x):
     # split into blocks of 2x2
     dim = len(grid)
     w = dim*3+1
@@ -183,14 +82,14 @@ def pprint(grid):
     pgrid = [[' ' for _ in range(w)] for _ in range(h)]
     # make first and last lines
     # next two loops probably not necessary
-    for idx in range(w//3):
-        pgrid[0][idx*3:(idx+1)*3] = ['+','-','-']
-        pgrid[0][w-1] = '+'
-        pgrid[h-1][idx*3:(idx+1)*3] = ['+','-','-']
-        pgrid[h-1][w-1] = '+'
-    for idx in range(h):
-        pgrid[idx][0] = ['+', '|'][idx%2]
-        pgrid[idx][w-1] = ['+', '|'][idx%2]
+    # for idx in range(w//3):
+    #     pgrid[0][idx*3:(idx+1)*3] = ['+','-','-']
+    #     pgrid[0][w-1] = '+'
+    #     pgrid[h-1][idx*3:(idx+1)*3] = ['+','-','-']
+    #     pgrid[h-1][w-1] = '+'
+    # for idx in range(h):
+    #     pgrid[idx][0] = ['+', '|'][idx%2]
+    #     pgrid[idx][w-1] = ['+', '|'][idx%2]
     for idx_y in range(dim//2):
       for idx_x in range(dim//2):
           cy = idx_y*2
@@ -203,15 +102,15 @@ def pprint(grid):
           dr = grid[cy+1][cx+1]
           if ul == 'h':
               # 4 lines 
-              pgrid[py][px:px+7] =   list("   +--+")
-              pgrid[py+1][px:px+7] = list("   |  |")
+              pgrid[py][px+3:px+7] =    list("+--+")
+              pgrid[py+1][px+3:px+7] =  list("|  |")
               pgrid[py+2][px:px+7] = list("+--+  +")
               pgrid[py+3][px:px+7] = list("|     |")
               pgrid[py+4][px:px+7] = list("+--+--+")
               # put a shape in the pgrid
           if ur == 'h':
-              pgrid[py][px:px+7] =   list("+--+   ")
-              pgrid[py+1][px:px+7] = list("|  |   ")
+              pgrid[py][px:px+4] =   list("+--+")
+              pgrid[py+1][px:px+4] = list("|  |")
               pgrid[py+2][px:px+7] = list("+  +--+")
               pgrid[py+3][px:px+7] = list("|     |")
               pgrid[py+4][px:px+7] = list("+--+--+")
@@ -219,14 +118,15 @@ def pprint(grid):
               pgrid[py][px:px+7] =   list("+--+--+")
               pgrid[py+1][px:px+7] = list("|     |")
               pgrid[py+2][px:px+7] = list("+--+  +")
-              pgrid[py+3][px:px+7] = list("   |  |")
-              pgrid[py+4][px:px+7] = list("   +--+")
+              pgrid[py+3][px+3:px+7] =  list("|  |")
+              pgrid[py+4][px+3:px+7] =  list("+--+")
           if dr == 'h': 
               pgrid[py][px:px+7] =   list("+--+--+")
               pgrid[py+1][px:px+7] = list("|     |")
               pgrid[py+2][px:px+7] = list("+  +--+")
-              pgrid[py+3][px:px+7] = list("|  |   ")
-              pgrid[py+4][px:px+7] = list("+--+   ")
+              pgrid[py+3][px:px+4] = list("|  |")
+              pgrid[py+4][px:px+4] = list("+--+")
+    # draw the hole 
     for i in pgrid:
       joined="".join(i)
       print(f"pgrid is {joined} ", file=sys.stderr, flush=True) 
@@ -286,8 +186,7 @@ should print
 
 4x4 -> 13x9
 """
-pprint(grid)
+pprint(grid,x,y)
 for i in grid:
     print(f"divided is {i} ", file=sys.stderr, flush=True) 
 
-pretty_p(clean(draw(get_type(x,y))))
