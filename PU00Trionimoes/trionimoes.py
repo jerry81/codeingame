@@ -92,7 +92,7 @@ def get_type(x,y):
             t = 3
     return t 
 
-def solve(order,top,left,has_hole):
+def solve(order,top,left,has_hole=None):
     if order == 1:
         nx = 0 if top else 1
         ny = 0 if left else 1
@@ -105,7 +105,7 @@ def solve(order,top,left,has_hole):
         # means the "hole" is in dl, why?
         # bc top half <= 2**order // 2 - 1
         n_o = order - 1
-        ul = solve(n_o, False, False) if has_hole != 0 else solve(n_o, top, left)
+        ul = solve(n_o, False, False)
         # ur 2..3, 0..1
         ur = solve(n_o, False, True)
         # dl 0..1, 2..3
@@ -113,17 +113,35 @@ def solve(order,top,left,has_hole):
         # dr 2..3, 2..3
         dr = solve(n_o, True, False)
         # o == 3?
-        [ur,ur2,ul,ul2],[]
 
 """
 divide and conquer picture
-                                     s(8)
-        s(4)                s(4)                s(4)                s(4)
-s(2) s(2) s(2) s(2) s(2) s(2) s(2) s(2) s(2) s(2) s(2) s(2) s(2) s(2) s(2) s(2) 
+                                                      s(0)     o = 3
+
+           uls(0)                      urs(1)                      dls(2)                     drs(4)      o = 2
+
+uls(0) urs(1) dls(2) drs(3) uls(4) urs(5) dls(6) drs(7) uls(8) urs(9) dls(10) drs(11) uls(12) urs(13) dls(14) drs(15)    o = 1
 """
+
+def divide(order,sx,sy,cx,cy,max_order,pos,grid):
+    # i can know my exact position depending on how many levels deep i am 
+    # i can pass the whole grid down to build it 
+    cur_multiplier = max_order - order
+    if order == 0:
+        print(f"leaf is {cx} {cy}", file=sys.stderr, flush=True) 
+        return
+
+    next_order = order - 1
+    # ul, ur, dl, dr 
+    ul = divide(next_order,sx,sy,cx*2,cy*2,max_order, "ul", grid)
+    ur = divide(next_order,sx,sy,cx*2+1,cy*2,max_order, "ur", grid)
+    dl = divide(next_order,sx,sy,cx*2,cy*2+1,max_order, "dl", grid)
+    dr = divide(next_order,sx,sy,cx*2+1,cy*2+1,max_order, "dr", grid)
         
 top = y <= (2**n)//2 - 1 # hole is in top quadrant
 left = x <= (2**n)//2 - 1 # hole is in left quadrant 
+
+divide(3, 3,3, 0,0, 3, None,[])
 
 print(f"solve1 is {solve(1,False,False)}", file=sys.stderr, flush=True) 
 
