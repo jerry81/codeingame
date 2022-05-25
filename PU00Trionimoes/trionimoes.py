@@ -92,13 +92,43 @@ def get_type(x,y):
             t = 3
     return t 
 
-def solve(order,x,y):
-    t = 0
+def solve(order,top,left,has_hole):
     if order == 1:
-        t = get_type(x,y)
-        return [[t]]
+        nx = 0 if top else 1
+        ny = 0 if left else 1
+        return get_type(nx,ny)
+    else:
+        # for o == 2, in the start case, the exact starting block can be identified first 
+        # x, y -> 0..3
+        # ul 0..1, 0..1
+        # let's say x is 0, y is 2
+        # means the "hole" is in dl, why?
+        # bc top half <= 2**order // 2 - 1
+        n_o = order - 1
+        ul = solve(n_o, False, False) if has_hole != 0 else solve(n_o, top, left)
+        # ur 2..3, 0..1
+        ur = solve(n_o, False, True)
+        # dl 0..1, 2..3
+        dl = solve(n_o, True, True)
+        # dr 2..3, 2..3
+        dr = solve(n_o, True, False)
+        # o == 3?
+        [ur,ur2,ul,ul2],[]
 
-print(f"solve2 is {solve(1,1,1)}", file=sys.stderr, flush=True) 
+"""
+divide and conquer picture
+                                     s(8)
+        s(4)                s(4)                s(4)                s(4)
+s(2) s(2) s(2) s(2) s(2) s(2) s(2) s(2) s(2) s(2) s(2) s(2) s(2) s(2) s(2) s(2) 
+"""
+        
+top = y <= (2**n)//2 - 1 # hole is in top quadrant
+left = x <= (2**n)//2 - 1 # hole is in left quadrant 
+
+print(f"solve1 is {solve(1,False,False)}", file=sys.stderr, flush=True) 
+
+print(f"solve2 is {solve(2,0,2)}", file=sys.stderr, flush=True) 
+
 
 pretty_p(clean(draw(get_type(x,y))))
 
@@ -106,6 +136,7 @@ pretty_p(clean(draw(get_type(x,y))))
 
 # analysis
 """
+2
 0 1
 +--+--+--+--+
 |     |     |
@@ -116,7 +147,6 @@ pretty_p(clean(draw(get_type(x,y))))
 +  +--+--+  +
 |     |     |
 +--+--+--+--+
-
 can be represented as 
 2, 2
 1, 0
@@ -125,6 +155,22 @@ where 0,0 was due to input
 1,0 will always be 1
 and 
 1,1 will always be 0 
+
+
+2
+0 2
++--+--+--+--+
+|     |     |
++  +--+--+  +
+|  |     |  |
++--+--+  +--+
+|##|  |  |  |
++--+  +--+  +
+|     |     |
++--+--+--+--+
+can be represented as 
+3, 2
+0, 0
 
 3
 2 3
