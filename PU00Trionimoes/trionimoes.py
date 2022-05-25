@@ -170,82 +170,20 @@ def divide_grid(grid, ox, oy, ox2, oy2):
 dim = len(grid)
 divide_grid(grid,0,0,dim,dim)
 
-
-for i in grid:
-    print(f"divided is {i} ", file=sys.stderr, flush=True) 
-
-pretty_p(clean(draw(get_type(x,y))))
+# make a new method to print the grid
 
 """
-styding other DAC algorithms
-- quicksort does in-place changes to the array - markers are passed in to "divide" the array 
-"""
+given 
+divided is [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '] 
+divided is [' ', 'h', 'h', ' ', ' ', 'h', 'h', ' '] 
+divided is [' ', 'h', ' ', ' ', ' ', ' ', 'h', ' '] 
+divided is [' ', ' ', ' ', 'h', 'h', ' ', ' ', ' '] 
+divided is [' ', ' ', ' ', ' ', 'h', ' ', ' ', ' '] 
+divided is [' ', 'h', 'h', ' ', ' ', ' ', 'h', ' '] 
+divided is ['h', ' ', 'h', ' ', ' ', 'h', 'h', ' '] 
+divided is [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '] 
 
-# analysis
-"""
-2
-0 1
-+--+--+--+--+
-|     |     |
-+--+  +--+  +
-|##|  |  |  |
-+--+--+  +--+
-|  |     |  |
-+  +--+--+  +
-|     |     |
-+--+--+--+--+
-can be represented as 
-2, 2
-1, 0
-where 0,0 was due to input
-0,1 will always be 2
-1,0 will always be 1
-and 
-1,1 will always be 0 
-
-
-2
-0 2
-+--+--+--+--+
-|     |     |
-+  +--+--+  +
-|  |     |  |
-+--+--+  +--+
-|##|  |  |  |
-+--+  +--+  +
-|     |     |
-+--+--+--+--+
-can be represented as 
-3, 2
-0, 0
-
-3
-2 3
-+--+--+--+--+--+--+--+--+
-|     |     |     |     |
-+  +--+--+  +  +--+--+  +
-|  |     |  |  |     |  |
-+--+  +--+--+--+--+  +--+
-|  |  |     |     |  |  |
-+  +--+--+  +--+  +--+  +
-|     |##|  |  |  |     |
-+--+--+--+--+  +--+--+--+
-|     |  |     |  |     |
-+  +--+  +--+--+  +--+  +
-|  |  |     |     |  |  |
-+--+  +--+--+--+--+  +--+
-|  |     |  |  |     |  |
-+  +--+--+  +  +--+--+  +
-|     |     |     |     |
-+--+--+--+--+--+--+--+--+
-
-3,2,3,2
-1,2(exception), 2(because hole needs to be "centralized"), 0
-3,1(centralize), 0(centralize), 2
-1,0,1,0
-
-3
-0 6
+should print 
 +--+--+--+--+--+--+--+--+
 |     |     |     |     |
 +  +--+--+  +  +--+--+  +
@@ -263,9 +201,6 @@ can be represented as
 +--+  +--+  +  +--+--+  +
 |     |     |     |     |
 +--+--+--+--+--+--+--+--+
-
-3,2,3,2
-1,3,2,0
-3,2,0,2
-0*,0,1,0
 """
+
+pretty_p(clean(draw(get_type(x,y))))
