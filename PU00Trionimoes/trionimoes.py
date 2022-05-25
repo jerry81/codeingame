@@ -123,25 +123,27 @@ divide and conquer picture
 uls(0) urs(1) dls(2) drs(3) uls(4) urs(5) dls(6) drs(7) uls(8) urs(9) dls(10) drs(11) uls(12) urs(13) dls(14) drs(15)    o = 1
 """
 
-def divide(order,sx,sy,cx,cy,max_order,pos,grid):
-    # i can know my exact position depending on how many levels deep i am 
-    # i can pass the whole grid down to build it 
-    cur_multiplier = max_order - order
-    if order == 0:
-        print(f"leaf is {cx} {cy}", file=sys.stderr, flush=True) 
-        return
+"""
+divide might not even be necessary
 
-    next_order = order - 1
-    # ul, ur, dl, dr 
-    ul = divide(next_order,sx,sy,cx*2,cy*2,max_order, "ul", grid)
-    ur = divide(next_order,sx,sy,cx*2+1,cy*2,max_order, "ur", grid)
-    dl = divide(next_order,sx,sy,cx*2,cy*2+1,max_order, "dl", grid)
-    dr = divide(next_order,sx,sy,cx*2+1,cy*2+1,max_order, "dr", grid)
-        
+just create the grid which has a single hole 
+and iteratively conker
+"""
+def make_grid(gn,gx,gy):
+    dim = 2**gn
+    grid = []
+    for i in range(dim):
+        grid.append([])
+        for _ in range(dim):
+            grid[i].append(' ')
+    grid[gy][gx] = "h"
+    return grid
+
+grid = make_grid(n,x,y)
+print(f"grid is {grid}", file=sys.stderr, flush=True) 
 top = y <= (2**n)//2 - 1 # hole is in top quadrant
 left = x <= (2**n)//2 - 1 # hole is in left quadrant 
 
-divide(3, 3,3, 0,0, 3, None,[])
 
 print(f"solve1 is {solve(1,False,False)}", file=sys.stderr, flush=True) 
 
