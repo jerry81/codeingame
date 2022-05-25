@@ -130,59 +130,56 @@ def find_hole(grid):
                 return True
     return False
 
-def divide_grid(grid):
-    l = len(grid)
+def divide_grid(grid, ox, oy, ox2, oy2):
+    # for recursion - need a stop condition 
+    # need to call myself 
+    if ox2-ox <= 2: 
+        return
+    l = ox2-ox
     nl = l//2
-    ul_grid_y = grid[0:nl]
-    ul_grid = list(map(lambda x: x[0:nl], ul_grid_y))
+    u_grid = grid[oy:nl+oy]
+    d_grid = grid[oy+nl:oy2]
+    ul_grid = list(map(lambda x: x[ox:ox+nl], u_grid))
+    dl_grid = list(map(lambda x: x[ox:ox+nl], d_grid))
+    ur_grid = list(map(lambda x: x[ox+nl:ox2], u_grid))
+    # dr_grid = list(map(lambda x: x[nl:oy2], d_grid))
     ulh = find_hole(ul_grid)
-    ur_grid_y = grid[0:nl]
-    ur_grid = list(map(lambda x: x[nl:l], ur_grid_y))
     urh = find_hole(ur_grid)
-    dl_grid_y = grid[nl:l]
-    dl_grid = list(map(lambda x: x[0:nl], dl_grid_y))
     dlh = find_hole(dl_grid)
-    dr_grid_y = grid[nl:l]
-    dr_grid = list(map(lambda x: x[nl:l], dr_grid_y))
-    drh = find_hole(dr_grid)
     if ulh:
-        # put holes in other corners
-        # dl - forced to be ur
-        grid[nl-1][nl] = 'h'
-        # dr - forced to be ul 
-        grid[nl][nl] = 'h'
-        # ur - forced to be dl 
-        grid[nl][nl-1] = 'h'
+        grid[oy+nl-1][ox+nl] = 'h'
+        grid[oy+nl][ox+nl] = 'h'
+        grid[oy+nl][ox+nl-1] = 'h'
     elif urh:
-        # ul
-        grid[nl-1][nl-1] = 'h'
-        # dl
-        grid[nl-1][nl] = 'h'
-        # dr
-        grid[nl][nl] = 'h'
+        grid[oy+nl-1][ox+nl-1] = 'h' # ul
+        grid[oy+nl][ox+nl-1] = 'h' # 
+        grid[oy+nl][ox+nl] = 'h'
     elif dlh:
-        # ul
-        grid[nl-1][nl-1] = 'h'
-        # ur
-        grid[nl][nl-1] = 'h'
-        # dr
-        grid[nl][nl] = 'h'
-    else:
-        # ul and r
-        grid[nl-1][nl-1] = 'h'
-        grid[nl][nl-1] = 'h'
-        # dl
-        grid[nl-1][nl] = 'h'
-    return grid 
+        grid[oy+nl-1][ox+nl-1] = 'h'
+        grid[oy+nl-1][ox+nl] = 'h'
+        grid[oy+nl][ox+nl] = 'h'
+    else: # drh
+        grid[oy+nl-1][ox+nl-1] = 'h'
+        grid[oy+nl][ox+nl-1] = 'h'
+        grid[oy+nl-1][ox+nl] = 'h'
+    divide_grid(grid,ox,oy,ox+nl,oy+nl)
+    divide_grid(grid,ox+nl,oy,ox2,oy+nl)
+    divide_grid(grid,ox,oy+nl,ox+nl,oy2)
+    divide_grid(grid,ox+nl,oy+nl,ox2,oy2)
+    
+dim = len(grid)
+divide_grid(grid,0,0,dim,dim)
 
-divided = divide_grid(grid)
 
-for i in divided:
+for i in grid:
     print(f"divided is {i} ", file=sys.stderr, flush=True) 
 
 pretty_p(clean(draw(get_type(x,y))))
 
-
+"""
+styding other DAC algorithms
+- quicksort does in-place changes to the array - markers are passed in to "divide" the array 
+"""
 
 # analysis
 """
