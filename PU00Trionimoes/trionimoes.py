@@ -127,27 +127,26 @@ def find_hole(grid):
     for i in range(l):
         for j in range(l):
             if grid[i][j] == 'h':
-                return i,j
-    return None,None
+                return True
+    return False
 
 def divide_grid(grid):
     l = len(grid)
     nl = l//2
     ul_grid_y = grid[0:nl]
     ul_grid = list(map(lambda x: x[0:nl], ul_grid_y))
-    x,y = find_hole(ul_grid)
+    ulh = find_hole(ul_grid)
     ur_grid_y = grid[0:nl]
     ur_grid = list(map(lambda x: x[nl:l], ur_grid_y))
-    xr,yr = find_hole(ur_grid)
+    urh = find_hole(ur_grid)
     dl_grid_y = grid[nl:l]
     dl_grid = list(map(lambda x: x[0:nl], dl_grid_y))
-    xdl,ydl = find_hole(dl_grid)
+    dlh = find_hole(dl_grid)
     dr_grid_y = grid[nl:l]
     dr_grid = list(map(lambda x: x[nl:l], dr_grid_y))
-    xdr,ydr = find_hole(dr_grid)
+    drh = find_hole(dr_grid)
     print(f"dr_grid is {dr_grid} ", file=sys.stderr, flush=True) 
-    print(f"x,y is {x} {y} xr,yr is {xr} {yr} xdl,ydl is {xdl} {ydl} xdr,ydr is {xdr} {ydr}", file=sys.stderr, flush=True) 
-
+    print(f"ulh is {ulh} urh is {urh} dlh is {dlh} drh is {drh}", file=sys.stderr, flush=True) 
 
 divide_grid(grid)
 
