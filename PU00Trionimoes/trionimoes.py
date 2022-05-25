@@ -4,17 +4,9 @@ import math
 n = int(input())
 x, y = [int(i) for i in input().split()]
 
-def make_grid(gn,gx,gy):
-    dim = 2**gn
-    grid = []
-    for i in range(dim):
-        grid.append([])
-        for _ in range(dim):
-            grid[i].append(' ')
-    grid[gy][gx] = "h" # o for original hole
-    return grid
-
-grid = make_grid(n,x,y)
+dim = 2**n
+grid = [[' ' for _ in range(dim)] for _ in range(dim)]
+grid[y][x] = 'h'
 
 def find_hole(grid):
     l = len(grid)
