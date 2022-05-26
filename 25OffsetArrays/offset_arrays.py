@@ -34,7 +34,7 @@ while len(stack) > 0:
   entry = lookup[name]
   arr = entry["v"]
   offset = entry["s"]
-  idx = abs(offset - idx)
+  idx = abs(offset - int(cur_num))
   cur_num = arr[idx]
 print(cur_num)
 # Write an answer using print
