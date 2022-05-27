@@ -23,6 +23,22 @@ for i in range(map_height):
             snail['x'] = j
             snail['y'] = i
 
+def get_closest_goal(s, g):
+  sx=s['x']
+  sy=s['y']
+  closest_d = 100
+  for x in g:
+      gx = x['x']
+      gy = x['y']
+      dist = abs(gx - sx) + abs(gy - sy)
+      if dist < closest_d:
+          closest_d = dist 
+  return closest_d 
+
+for k,v in snails.items():
+    dist = get_closest_goal(v, goals)
+    snails[k]["d"] = dist
+
 print(f"snails are {snails}", file=sys.stderr, flush=True)
 print(f"goals are {goals}", file=sys.stderr, flush=True)
 
