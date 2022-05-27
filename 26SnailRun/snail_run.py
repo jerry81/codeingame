@@ -37,9 +37,14 @@ def get_closest_goal(s, g):
 
 for k,v in snails.items():
     dist = get_closest_goal(v, goals)
-    snails[k]["d"] = dist
+    turns = math.ceil(dist/snails[k]["s"])
+    snails[k]["t"] = turns
+
+sorted = {k: v for k,v in sorted(snails.items(), key=lambda item: item[1]['t'])} 
+# see https://stackoverflow.com/questions/16412563/python-sorting-dictionary-of-dictionaries for example 
 
 print(f"snails are {snails}", file=sys.stderr, flush=True)
 print(f"goals are {goals}", file=sys.stderr, flush=True)
+print(f"sorted are {sorted}", file=sys.stderr, flush=True)
 
-print("winner is number")
+print(list(sorted.keys())[0])
