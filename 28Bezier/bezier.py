@@ -56,8 +56,19 @@ for v in grid.values():
 print(f"grid is {grid}", file=sys.stderr, flush=True)
 
 for i in range(height):
-
-    # Write an answer using print
-    # To debug: print("Debug messages...", file=sys.stderr, flush=True)
-
-    print("curve")
+    cur = height - i - 1
+    cur_l = grid[cur]
+    if len(cur_l) == 0:
+        print('.')
+    else:
+        count = 0
+        chr_arr = []
+        for i in cur_l:
+            for j in range(count,i):
+                if j == 0:
+                    chr_arr.append('.')
+                else:
+                  chr_arr.append(' ')
+            count = i+1
+            chr_arr.append('#')
+        print (''.join(chr_arr))
