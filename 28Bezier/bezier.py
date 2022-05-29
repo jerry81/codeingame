@@ -39,6 +39,22 @@ rounded = list(map(lambda item: {"x":round(item["x"]), "y":round(item["y"])},poi
 
 print(f"rounded are {rounded}", file=sys.stderr, flush=True)
 
+# ascii printing
+
+# make a dictionary with keys of the heights from 0 to height
+grid = {}
+for i in range(height):
+    grid[i] = []
+
+for p in rounded:
+    y = p["y"]
+    grid[y].append(p["x"])
+    
+for v in grid.values():
+   v.sort()
+
+print(f"grid is {grid}", file=sys.stderr, flush=True)
+
 for i in range(height):
 
     # Write an answer using print
