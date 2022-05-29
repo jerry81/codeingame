@@ -62,13 +62,13 @@ for i in range(height):
         print('.')
     else:
         count = 0
-        chr_arr = []
+        mx = max(cur_l)
+        print(f"max is {mx}", file=sys.stderr, flush=True)
+        chr_arr = [' '] * (mx+1)
+        print(f"chr is {chr_arr}", file=sys.stderr, flush=True)
+        chr_arr[0] = '.'
         for i in cur_l:
-            for j in range(count,i):
-                if j == 0:
-                    chr_arr.append('.')
-                else:
-                  chr_arr.append(' ')
-            count = i+1
-            chr_arr.append('#')
+            print(f"i is {i}", file=sys.stderr, flush=True)
+            chr_arr[i] = '#'
+        print(f"chr_arr is {chr_arr}", file=sys.stderr, flush=True)
         print (''.join(chr_arr))
