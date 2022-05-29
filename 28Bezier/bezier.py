@@ -35,6 +35,10 @@ for i in range(1,steps-1):
 
 print(f"points are {points}", file=sys.stderr, flush=True)
 
+rounded = list(map(lambda item: {"x":round(item["x"]), "y":round(item["y"])},points))
+
+print(f"rounded are {rounded}", file=sys.stderr, flush=True)
+
 for i in range(height):
 
     # Write an answer using print
