@@ -25,14 +25,15 @@ def get_point(t,ax,ay,bx,by,cx,cy,dx,dy):
     px,py = interpolate(t,abcx,abcy,bcdx,bcdy)
     return px,py
 
-points = []
+points = [{"x":ax, "y": ay}, {"x":dx, "y":dy}]
 s = 1/(steps-1)
 print(f"step is {s}", file=sys.stderr, flush=True)
-for i in range(steps-1):
+for i in range(1,steps-1):
     t = i*s
-    print(f"t is {t}", file=sys.stderr, flush=True)
     px,py = get_point(t,ax,ay,bx,by,cx,cy,dx,dy)
-    print(f"point is {px} {py}", file=sys.stderr, flush=True)
+    points.append({"x":px, "y":py})
+
+print(f"points are {points}", file=sys.stderr, flush=True)
 
 for i in range(height):
 
