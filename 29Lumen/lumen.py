@@ -8,11 +8,11 @@ grid = []
 n = int(input())
 l = int(input())
 for i in range(n):
-    grid[i] = []
+    grid.append([])
     count = 0
     for cell in input().split():
+        grid[i].append(cell)
         count+=1
-        grid[i][count]=cell
         pass
 
 print(f"grid is now {grid}", file=sys.stderr, flush=True)
