@@ -47,7 +47,7 @@ for c in candles:
     light_grid(c)
 
 flattened = [x for i in grid for x in i]
-print(len(list(filter(lambda x: x == 0, flattened))))
+print(len(list(filter(lambda x: x == 0 or x == 'X', flattened))))
 print(f"grid is now {grid}", file=sys.stderr, flush=True)
 print(f"candles are {candles}", file=sys.stderr, flush=True)
 print(f"flattened is {flattened}", file=sys.stderr, flush=True)
