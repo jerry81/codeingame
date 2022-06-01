@@ -17,11 +17,19 @@ for i in range(c):
     grid.append(grid_line)
 
 # for each subblock, try to transpose the object onto it
+count = 0
 for i in range(c-a):
     for j in range(d-b):
-        # ul is i,j
-        continue
+        fits = True
+        for k in mark_indexes:
+            dx = k["x"]
+            dy = k["y"]
+            if grid[i+dy][j+dx] != '.':
+                fits = False
+                break
+        if fits:
+            count += 1
         
 print(f"grid is {grid}", file=sys.stderr, flush=True)
 
-print("answer")
+print(count)
