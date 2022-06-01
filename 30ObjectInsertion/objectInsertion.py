@@ -18,8 +18,8 @@ for i in range(c):
 
 # for each subblock, try to transpose the object onto it
 count = 0
-for i in range(c-a):
-    for j in range(d-b):
+for i in range(c-a+1):
+    for j in range(d-b+1):
         fits = True
         for k in mark_indexes:
             dx = k["x"]
