@@ -1,10 +1,15 @@
 import sys 
 obj = []
 a, b = [int(i) for i in input().split()]
+mark_indexes = []
 for i in range(a):
     object_line = input()
-    obj.append(object_line)
+    for idx,j in enumerate(list(object_line)):
+        if j == "*":
+            mark_indexes.append({"y": i, "x":idx})
+
 print(f"object is {obj}", file=sys.stderr, flush=True)
+print(f"mark_indexes is {mark_indexes}", file=sys.stderr, flush=True)
 grid = []
 c, d = [int(i) for i in input().split()]
 for i in range(c):
@@ -13,10 +18,9 @@ for i in range(c):
 
 # for each subblock, try to transpose the object onto it
 for i in range(c-a):
-    grid_line = grid[i:i+a]
     for j in range(d-b):
-        sub_grid = grid[j:j+b]
-        print(f"sub is {sub_grid}", file=sys.stderr, flush=True)
+        # ul is i,j
+        continue
         
 print(f"grid is {grid}", file=sys.stderr, flush=True)
 
