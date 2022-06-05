@@ -37,8 +37,6 @@ def validate(g):
             return False 
     for offsetx in range(0,9,3):
         for offsety in range(0,9,3):
-          offsetx = 0
-          offsety = 0
           copy3 = VALIDATOR.copy()
           for i in range(3):
               for j in range(3):
