@@ -12,6 +12,7 @@ r, c, a = [int(i) for i in input().split()]
 # game loop
 while True:
     count = 0 
+    reached = False
     grid = []
     # kr: row where Rick is located.
     # kc: column where Rick is located.
@@ -26,6 +27,16 @@ while True:
     print(f"grid is {grid}", file=sys.stderr, flush=True)
     # Write an action using print
     # To debug: print("Debug messages...", file=sys.stderr, flush=True)
-
+    
+    # 2 large problems - find control
+    # shortest path back with something like a*
+    # OR
+    # keep breadcrumb trail 
+    # heuristic rules
+    # keep track of explored and unexplored nodes 
+    # shortest path util handy in both cases
+      # if C has been found, try to find a path to C 
+    # if path not found
+    # move to closest unexplored 
     # Rick's next move (UP DOWN LEFT or RIGHT).
     print("RIGHT")
