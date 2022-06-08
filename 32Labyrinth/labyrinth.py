@@ -14,20 +14,26 @@ while True:
     count = 0 
     reached = False
     grid = []
+    visited = {}
+    breadcrumb = []
+    STATE = "EXPLORE"
+    STATE = "FOUND"
+    STATE = "REACHED"
     # kr: row where Rick is located.
     # kc: column where Rick is located.
     kr, kc = [int(i) for i in input().split()]
+    visited[f"{kr},{kc}"] = True
     for i in range(r):
         row = input()  # C of the characters in '#.TC?' (i.e. one line of the ASCII maze).
         rl = list(row)
         grid.append(rl)
-    count += 1
-    if count > 2:
-        break
     print(f"grid is {grid}", file=sys.stderr, flush=True)
+    print(f"visited is {visited}")
     # Write an action using print
     # To debug: print("Debug messages...", file=sys.stderr, flush=True)
-    
+    # 3 phases - C not found
+    # C found
+    # C reached
     # 2 large problems - find control
     # shortest path back with something like a*
     # OR
@@ -36,6 +42,7 @@ while True:
     # keep track of explored and unexplored nodes 
     # shortest path util handy in both cases
       # if C has been found, try to find a path to C 
+      # using dykstra
     # if path not found
     # move to closest unexplored 
     # Rick's next move (UP DOWN LEFT or RIGHT).
