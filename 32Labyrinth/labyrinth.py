@@ -10,22 +10,22 @@ import math
 r, c, a = [int(i) for i in input().split()]
 visited = {}
 breadcrumb = []
+tr = -1 
+tc = -1
 def is_visited(key):
   try:
       _ = visited[key]
       return True
   except:
       return False
+explore = True
+
+shortestPath = None
 
 # game loop
 while True:
     count = 0 
-    reached = False
     grid = []
-
-    STATE = "EXPLORE"
-    STATE = "FOUND"
-    STATE = "REACHED"
     # kr: row where Rick is located.
     # kc: column where Rick is located.
     kr, kc = [int(i) for i in input().split()]
@@ -35,6 +35,23 @@ while True:
         row = input()  # C of the characters in '#.TC?' (i.e. one line of the ASCII maze).
         rl = list(row)
         grid.append(rl)
+    if grid[kr][kc] == 'C':
+      explore = False 
+
+    if grid[kr][kc] == 'T':
+      tr = kr
+      tc = kc 
+    
+    if explore == False:
+        if shortestPath is None:
+            # build it
+            shortestPath = []
+            print(f"build it!", file=sys.stderr, flush=True)
+        else:
+            # walk it
+            print(f"walk it!", file=sys.stderr, flush=True)
+            continue
+
     ur = kr - 1 
     dr = kr + 1 
     lc = kc - 1 
@@ -65,23 +82,4 @@ while True:
           continue
     fallback = breadcrumb.pop()
     print(fallback)
-
-    print(f"grid is {grid}", file=sys.stderr, flush=True)
-    # Write an action using print
-    # To debug: print("Debug messages...", file=sys.stderr, flush=True)
-    # 3 phases - C not found
-    # C found
-    # C reached
-    # 2 large problems - find control
-    # shortest path back with something like a*
-    # OR
-    # keep breadcrumb trail 
-    # heuristic rules
-    # keep track of explored and unexplored nodes 
-    # shortest path util handy in both cases
-      # if C has been found, try to find a path to C 
-      # using dykstra
-    # if path not found
-    # move to closest unexplored 
-    # Rick's next move (UP DOWN LEFT or RIGHT).
-    # print("RIGHT")
+    
