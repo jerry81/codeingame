@@ -23,7 +23,6 @@ while True:
     reached = False
     grid = []
 
-    breadcrumb = []
     STATE = "EXPLORE"
     STATE = "FOUND"
     STATE = "REACHED"
@@ -41,32 +40,33 @@ while True:
     lc = kc - 1 
     rc = kc + 1 
     if ur >= 0:
-      if grid[ur][kc] == '.' and not is_visited(f"{ur},{kc}"):
+      if grid[ur][kc] != '#' and not is_visited(f"{ur},{kc}"):
           # move up
           breadcrumb.append("DOWN")
           print("UP")
           continue
     if dr < r:
-      if grid[dr][kc] == '.' and not is_visited(f"{dr},{kc}"):
+      if grid[dr][kc] != '#' and not is_visited(f"{dr},{kc}"):
           # move down 
           breadcrumb.append("UP")
           print("DOWN")
           continue
     if lc >= 0:
-      if grid[kr][lc] == '.' and not is_visited(f"{kr},{lc}"):
+      if grid[kr][lc] != '#' and not is_visited(f"{kr},{lc}"):
           # move left
           breadcrumb.append("RIGHT")
           print("LEFT")
           continue
     if rc < c:
-      if grid[kr][rc] == '.' and not is_visited(f"{kr},{rc}"):
+      if grid[kr][rc] != '#' and not is_visited(f"{kr},{rc}"):
           # move right 
           breadcrumb.append("LEFT")
           print("RIGHT")
           continue
+    fallback = breadcrumb.pop()
+    print(fallback)
 
     print(f"grid is {grid}", file=sys.stderr, flush=True)
-    print(f"visited is {visited}")
     # Write an action using print
     # To debug: print("Debug messages...", file=sys.stderr, flush=True)
     # 3 phases - C not found
@@ -84,4 +84,4 @@ while True:
     # if path not found
     # move to closest unexplored 
     # Rick's next move (UP DOWN LEFT or RIGHT).
-    print("RIGHT")
+    # print("RIGHT")
