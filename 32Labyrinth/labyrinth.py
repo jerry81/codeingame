@@ -46,7 +46,7 @@ while True:
         if shortestPath is None:
             # build it
             shortestPath = []
-            print(f"build it!", file=sys.stderr, flush=True)
+            # make distance map on the grid
         else:
             # walk it
             print(f"walk it!", file=sys.stderr, flush=True)
