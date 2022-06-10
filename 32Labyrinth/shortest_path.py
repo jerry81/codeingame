@@ -4,21 +4,76 @@ grid.append(['x','x','x','x','x'])
 grid.append(['x','x','x','x','x'])
 grid.append(['x','x','x','x','s'])
 
+"""
+a - b - c
+|   |   |
+d - e - f
+|   |   |
+g - h - i 
+
+01c - a,b,c visited
+1ef
+ghi
+
+012 - c e g visited
+12
+2
+
+
+a.g
+b.h
+cei
+dfj
+
+0 6
+1 5
+234
+345
+"""
+
+def get_neighbors(x,y,grid):
+  uy = y-1
+  dy = y+1
+  lx = x-1
+  rx = x+1 
+  neighbors = []
+  if uy >= 0 and grid[uy][x] == 'x':
+      neighbors.append(f"{uy},{x}")
+  if dy < len(grid) and grid[dy][x] == 'x':
+      neighbors.append(f"{dy},{x}")
+  if lx >= 0 and grid[y][lx] == 'x':
+      neighbors.append(f"{y},{lx}")
+  if rx < len(grid[0]) and grid[y][rx] == 'x':
+      neighbors.append(f"{y},{rx}")
+  return neighbors
+
 def mark_distances_from(grid,x,y):
-    grid[y][x] = 0
-    # neighbors 
-    uy = y-1
-    dy = y+1
-    lx = x-1
-    rx = x+1 
-    if uy >= 0:
-        grid[uy][x] = 1
-    if dy < len(grid):
-        grid[dy][x] = 1 
-    if lx >= 0:
-        grid[y][lx] = 1 
-    if rx < len(grid[0]):
-        grid[y][rx] = 1
+    distances = {}
+    visited = {}
+    for i in range(len(grid)):
+        for j in range(len(grid[0])):
+          distances[f"{i},{j}"] = 9999
+    distances[f"{y},{x}"] = 0
+    visited[f"{y},{x}"] = True
+    pointerx = x 
+    pointery = y
+    neighbors = get_neighbors(pointerx,pointery,grid)
+    print(f"neighbors are {neighbors}")
+    
+
+# grid[y][x] = 0
+# uy = y-1
+# dy = y+1
+# lx = x-1
+# rx = x+1 
+# if uy >= 0:
+#     grid[uy][x] = 1
+# if dy < len(grid):
+#     grid[dy][x] = 1 
+# if lx >= 0:
+#     grid[y][lx] = 1 
+# if rx < len(grid[0]):
+#     grid[y][rx] = 1
 
 mark_distances_from(grid,0,0)
 print(f"markdistances {grid}")

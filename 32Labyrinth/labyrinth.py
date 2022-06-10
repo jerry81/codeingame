@@ -47,6 +47,12 @@ while True:
             # build it
             shortestPath = []
             # make distance map on the grid
+            # starting with kr, kc
+            # add neighbors
+            # mark shortest distances of neighbors (0+1)
+            # paths [0,n1] [0,n2]
+            # for each path get last items' neighbors 
+            # 
         else:
             # walk it
             print(f"walk it!", file=sys.stderr, flush=True)
