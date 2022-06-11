@@ -1,3 +1,4 @@
+from http.client import CONTINUE
 import sys
 
 # Auto-generated code below aims at helping you parse
@@ -204,6 +205,8 @@ while True:
             # build it
             distances = mark_distances_from(visited,tc,tr)
             shortestPath = getShortestFrom(kr,kc,distances)
+            print(shortestPath.pop(0))
+            continue
             # make distance map on the grid
             # starting with kr, kc
             # add neighbors
@@ -213,7 +216,9 @@ while True:
             # 
         else:
             # walk it
+            print(f"before {shortestPath}", file=sys.stderr, flush=True)
             next = shortestPath.pop(0)
+            print(f"after {shortestPath}", file=sys.stderr, flush=True)
             print(next)
             continue
 
