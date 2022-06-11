@@ -123,7 +123,8 @@ def get_neighbors(x,y,grid,visited):
       neighbors.append(f"{y},{rx}")
   return neighbors
 
-def mark_distances_from(grid,x,y):
+def mark_distances_from(grid,x,y,target):
+    print(f"starting", file=sys.stderr, flush=True)
     distances = {}
     visited = {}
     for i in grid.keys():
@@ -154,11 +155,15 @@ def mark_distances_from(grid,x,y):
                     new_visited.append(n)
                 else:
                     new_visited = [n]
+            
             next_neighbors = get_neighbors(nx,ny,distances,visited)
             new_neighbors.append({"d":distances[n], "n":next_neighbors})
       next_set = new_neighbors
+      print(f"next_set len is {len(next_set)}", file=sys.stderr, flush=True)
       for i in new_visited:
           visited[i] = True
+          if i == target:
+            return distances
     return distances
     
 
@@ -203,7 +208,9 @@ while True:
     if explore == False:
         if shortestPath is None:
             # build it
-            distances = mark_distances_from(visited,tc,tr)
+            print(f"len is {len(visited)}", file=sys.stderr, flush=True)
+            target = f"{kr},{kc}"
+            distances = mark_distances_from(visited,tc,tr,target)
             shortestPath = getShortestFrom(kr,kc,distances)
             print(shortestPath.pop(0))
             continue
@@ -216,9 +223,7 @@ while True:
             # 
         else:
             # walk it
-            print(f"before {shortestPath}", file=sys.stderr, flush=True)
             next = shortestPath.pop(0)
-            print(f"after {shortestPath}", file=sys.stderr, flush=True)
             print(next)
             continue
 
