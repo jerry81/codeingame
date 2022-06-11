@@ -15,11 +15,8 @@ def getClosestNeighbor(cur,dist_map):
   has_d = False
   has_r = False
   has_l = False
-  print(f"distMap is {dist_map}")
   try:
-      print(f"up is {dist_map[f'{uy},{x}']}")
       has_u = dist_map[f"{uy},{x}"] >= 0
-      print(f"has_u is now {has_u}")
   except:
       has_u = False 
   try:
@@ -61,11 +58,9 @@ def getShortestFrom(y,x,dist_map):
     dist = dist_map[cur]
     while dist > 0: 
       direction, key = getClosestNeighbor(cur, dist_map)
-      print(f"direction, key {direction} {key}")
       if key is None:
           break
       path.append(direction)
-      print(f"path is now {path}")
       cur = key 
       dist = dist_map[cur]
     return path
@@ -207,10 +202,8 @@ while True:
     if explore == False:
         if shortestPath is None:
             # build it
-            print(f"visited is {visited}!", file=sys.stderr, flush=True)
             distances = mark_distances_from(visited,tc,tr)
-            print(f"distances is {distances}!", file=sys.stderr, flush=True)
-            shortestPath = []
+            shortestPath = getShortestFrom(kr,kc,distances)
             # make distance map on the grid
             # starting with kr, kc
             # add neighbors
@@ -220,7 +213,8 @@ while True:
             # 
         else:
             # walk it
-            print(f"walk it!", file=sys.stderr, flush=True)
+            next = shortestPath.pop(0)
+            print(next)
             continue
 
     ur = kr - 1 
