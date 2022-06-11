@@ -31,19 +31,39 @@ dfj
 345
 """
 
-def get_neighbors(x,y,grid):
+def get_neighbors(x,y,grid,visited):
   uy = y-1
   dy = y+1
   lx = x-1
   rx = x+1 
   neighbors = []
-  if uy >= 0 and grid[uy][x] == 'x':
+  u_visited = False
+  d_visited = False
+  l_visited = False 
+  r_visited = False
+  try:
+      u_visited = visited[f"{uy},{x}"]
+  except: 
+      u_visited = False
+  try:
+      d_visited = visited[f"{dy},{x}"]
+  except: 
+      d_visited = False
+  try:
+      l_visited = visited[f"{y},{lx}"]
+  except: 
+      l_visited = False
+  try:
+      r_visited = visited[f"{y},{rx}"]
+  except: 
+      r_visited = False
+  if uy >= 0 and grid[uy][x] == 'x' and not u_visited:
       neighbors.append(f"{uy},{x}")
-  if dy < len(grid) and grid[dy][x] == 'x':
+  if dy < len(grid) and grid[dy][x] == 'x' and not d_visited:
       neighbors.append(f"{dy},{x}")
-  if lx >= 0 and grid[y][lx] == 'x':
+  if lx >= 0 and grid[y][lx] == 'x' and not l_visited:
       neighbors.append(f"{y},{lx}")
-  if rx < len(grid[0]) and grid[y][rx] == 'x':
+  if rx < len(grid[0]) and grid[y][rx] == 'x' and not r_visited:
       neighbors.append(f"{y},{rx}")
   return neighbors
 
@@ -57,8 +77,31 @@ def mark_distances_from(grid,x,y):
     visited[f"{y},{x}"] = True
     pointerx = x 
     pointery = y
-    neighbors = get_neighbors(pointerx,pointery,grid)
-    print(f"neighbors are {neighbors}")
+    cur_d = 0
+    neighbors = get_neighbors(pointerx,pointery,grid,visited)
+    new_neighbors = []
+    new_visited = []
+    min_dist = 9999
+    for n in neighbors:
+        n_a = n.split(',')
+        nx = int(n_a[1])
+        ny = int(n_a[0])
+        n_d = distances[n]
+        distances[n] = min([n_d, cur_d+1])
+        if distances[n] <= min_dist:
+            min_dist = distances[n]
+            print(f"distances, mindist {distances[n]} {min_dist}")
+            if distances[n] == min_dist:
+                new_visited.append(n)
+            else:
+                new_visited = [n]
+        new_neighbors.append(get_neighbors(nx,ny,grid,visited))
+    flat_list = [x for xs in new_neighbors for x in xs]
+    as_set = list(set(flat_list))
+    print(f"as set {as_set}")
+    print(f"visited {new_visited}")
+    # print(f"neighbors are {neighbors}")
+    print(f"distances are now {distances}")
     
 
 # grid[y][x] = 0
