@@ -81,6 +81,14 @@ def get_neighbors(x,y,grid,visited):
   d_visited = False
   l_visited = False 
   r_visited = False
+  u_exist = False
+  d_exist = False 
+  l_exist = False 
+  r_exist = False 
+  try: 
+    u_exist = grid[f"{uy},{x}"] is not None
+  except:
+    u_exist = False
   try:
       u_visited = visited[f"{uy},{x}"]
   except: 
@@ -89,36 +97,47 @@ def get_neighbors(x,y,grid,visited):
       d_visited = visited[f"{dy},{x}"]
   except: 
       d_visited = False
+  try: 
+    d_exist = grid[f"{dy},{x}"] is not None
+  except:
+    d_exist = False
   try:
       l_visited = visited[f"{y},{lx}"]
   except: 
       l_visited = False
+  try: 
+    l_exist = grid[f"{y},{lx}"] is not None
+  except:
+    l_exist = False
   try:
       r_visited = visited[f"{y},{rx}"]
   except: 
       r_visited = False
-  if uy >= 0 and grid[uy][x] != '#' and not u_visited:
+  try: 
+    r_exist = grid[f"{y},{rx}"] is not None
+  except:
+    r_exist = False
+  if uy >= 0 and not u_visited and u_exist:
       neighbors.append(f"{uy},{x}")
-  if dy < len(grid) and grid[dy][x] != '#' and not d_visited:
+  if dy < r and not d_visited and d_exist:
       neighbors.append(f"{dy},{x}")
-  if lx >= 0 and grid[y][lx] != '#' and not l_visited:
+  if lx >= 0 and not l_visited and l_exist:
       neighbors.append(f"{y},{lx}")
-  if rx < len(grid[0]) and grid[y][rx] != '#' and not r_visited:
+  if rx < c and not r_visited and r_exist:
       neighbors.append(f"{y},{rx}")
   return neighbors
 
 def mark_distances_from(grid,x,y):
     distances = {}
     visited = {}
-    for i in range(len(grid.keys())):
-      print(f"i is {i}!", file=sys.stderr, flush=True)
+    for i in grid.keys():
       distances[i] = 9999
     distances[f"{y},{x}"] = 0
     visited[f"{y},{x}"] = True
     pointerx = x 
     pointery = y
     cur_d = 0
-    neighbors = get_neighbors(pointerx,pointery,grid,visited)
+    neighbors = get_neighbors(pointerx,pointery,distances,visited)
     next_set = [{"d": cur_d, "n": neighbors}]
     while len(next_set) > 0:
       new_neighbors = []
@@ -139,7 +158,7 @@ def mark_distances_from(grid,x,y):
                     new_visited.append(n)
                 else:
                     new_visited = [n]
-            next_neighbors = get_neighbors(nx,ny,grid,visited)
+            next_neighbors = get_neighbors(nx,ny,distances,visited)
             new_neighbors.append({"d":distances[n], "n":next_neighbors})
       next_set = new_neighbors
       for i in new_visited:
@@ -188,7 +207,8 @@ while True:
     if explore == False:
         if shortestPath is None:
             # build it
-            distances = mark_distances_from(visited,tr,tc)
+            print(f"visited is {visited}!", file=sys.stderr, flush=True)
+            distances = mark_distances_from(visited,tc,tr)
             print(f"distances is {distances}!", file=sys.stderr, flush=True)
             shortestPath = []
             # make distance map on the grid
