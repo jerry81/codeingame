@@ -2,7 +2,7 @@ grid = []
 grid.append(['e','x','x','x','x'])
 grid.append(['x','x','x','x','x'])
 grid.append(['x','x','x','x','x'])
-grid.append(['x','x','x','x','s'])
+grid.append(['x','x','x','x','x'])
 
 """
 a - b - c
@@ -72,36 +72,40 @@ def mark_distances_from(grid,x,y):
     visited = {}
     for i in range(len(grid)):
         for j in range(len(grid[0])):
-          distances[f"{i},{j}"] = 9999
+          if grid[i][j] != '.':
+              distances[f"{i},{j}"] = 9999
     distances[f"{y},{x}"] = 0
     visited[f"{y},{x}"] = True
     pointerx = x 
     pointery = y
     cur_d = 0
     neighbors = get_neighbors(pointerx,pointery,grid,visited)
-    new_neighbors = []
-    new_visited = []
-    min_dist = 9999
-    for n in neighbors:
-        n_a = n.split(',')
-        nx = int(n_a[1])
-        ny = int(n_a[0])
-        n_d = distances[n]
-        distances[n] = min([n_d, cur_d+1])
-        if distances[n] <= min_dist:
-            min_dist = distances[n]
-            print(f"distances, mindist {distances[n]} {min_dist}")
-            if distances[n] == min_dist:
-                new_visited.append(n)
-            else:
-                new_visited = [n]
-        new_neighbors.append(get_neighbors(nx,ny,grid,visited))
-    flat_list = [x for xs in new_neighbors for x in xs]
-    as_set = list(set(flat_list))
-    print(f"as set {as_set}")
-    print(f"visited {new_visited}")
-    # print(f"neighbors are {neighbors}")
-    print(f"distances are now {distances}")
+    next_set = [{"d": cur_d, "n": neighbors}]
+    while len(next_set) > 0:
+      new_neighbors = []
+      new_visited = []
+      min_dist = 9999
+      for ns in next_set:
+          cur_dist = ns["d"]
+          neighbors = ns["n"]
+          for n in neighbors: 
+            n_a = n.split(',')
+            nx = int(n_a[1])
+            ny = int(n_a[0])
+            n_d = distances[n]
+            distances[n] = min([n_d, cur_dist+1])
+            if distances[n] <= min_dist:
+                min_dist = distances[n]
+                if distances[n] == min_dist:
+                    new_visited.append(n)
+                else:
+                    new_visited = [n]
+            next_neighbors = get_neighbors(nx,ny,grid,visited)
+            new_neighbors.append({"d":distances[n], "n":next_neighbors})
+      next_set = new_neighbors
+      for i in new_visited:
+          visited[i] = True
+    return distances
     
 
 # grid[y][x] = 0
@@ -118,8 +122,8 @@ def mark_distances_from(grid,x,y):
 # if rx < len(grid[0]):
 #     grid[y][rx] = 1
 
-mark_distances_from(grid,0,0)
-print(f"markdistances {grid}")
+d = mark_distances_from(grid,0,0)
+print(f"markdistances {d}")
 
 # 0 1 2 3 4 
 # 1 2 3 4 5 
@@ -127,10 +131,13 @@ print(f"markdistances {grid}")
 # etc...
 
 grid = []
-grid.append(['e','.','7','8','9'])
-grid.append(['0','.','6','7','8'])
-grid.append(['1','.','5','.','9'])
-grid.append(['2','3','4','.','s'])
+grid.append(['e','.','x','x','x'])
+grid.append(['x','.','x','x','x'])
+grid.append(['x','.','x','.','x'])
+grid.append(['x','x','x','.','x'])
+
+d = mark_distances_from(grid,0,0)
+print(f"markdistances {d}")
 
 # x, x, dddrruuu
 # d, x, dddrruu
