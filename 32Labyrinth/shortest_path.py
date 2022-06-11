@@ -16,14 +16,17 @@ def getClosestNeighbor(cur,dist_map):
   has_d = False
   has_r = False
   has_l = False
+  print(f"distMap is {dist_map}")
   try:
+      print(f"up is {dist_map[f'{uy},{x}']}")
       has_u = dist_map[f"{uy},{x}"] >= 0
+      print(f"has_u is now {has_u}")
   except:
       has_u = False 
   try:
       has_d = dist_map[f"{dy},{x}"] >= 0
   except:
-      has_u = False 
+      has_d = False 
   try:
       has_l = dist_map[f"{y},{lx}"] >= 0
   except:
@@ -34,20 +37,20 @@ def getClosestNeighbor(cur,dist_map):
       has_r = False 
   min_d = 9999
   m_n = 'UP'
-  key = f"{uy},{x}"
+  key = None
   if has_u and dist_map[f"{uy},{x}"] < min_d:
       min_d = dist_map[f"{uy},{x}"]
       m_n = f"UP"
       key = f"{uy},{x}"
-  elif has_d and dist_map[f"{dy},{x}"] < min_d:
-      min_d = dist_map[f"{uy},{x}"]
+  if has_d and dist_map[f"{dy},{x}"] < min_d:
+      min_d = dist_map[f"{dy},{x}"]
       m_n = f"DOWN"
-      key = f"{uy},{x}"
-  elif has_r and dist_map[f"{y},{rx}"] < min_d:
+      key = f"{dy},{x}"
+  if has_r and dist_map[f"{y},{rx}"] < min_d:
       min_d = dist_map[f"{y},{rx}"]
       m_n = f"RIGHT"
       key = f"{y},{rx}"
-  elif has_l and dist_map[f"{y},{lx}"] < min_d:
+  if has_l and dist_map[f"{y},{lx}"] < min_d:
       min_d = dist_map[f"{y},{lx}"]
       m_n = f"LEFT"
       key = f"{y},{lx}"
@@ -55,8 +58,18 @@ def getClosestNeighbor(cur,dist_map):
 
 def getShortestFrom(y,x,dist_map):
     cur = f"{y},{x}"
-    direction, key = getClosestNeighbor(cur, dist_map)
-    print(f"dir, key {direction} {key}")
+    path = []
+    dist = dist_map[cur]
+    while dist > 0: 
+      direction, key = getClosestNeighbor(cur, dist_map)
+      print(f"direction, key {direction} {key}")
+      if key is None:
+          break
+      path.append(direction)
+      print(f"path is now {path}")
+      cur = key 
+      dist = dist_map[cur]
+    return path
 
 """
 a - b - c
@@ -192,7 +205,8 @@ grid.append(['x','x','x','.','x'])
 
 d = mark_distances_from(grid,0,0)
 print(f"markdistances {d}")
-getShortestFrom(3,4,d)
+path = getShortestFrom(3,4,d)
+print(f"shortest path is {path}")
 
 # x, x, dddrruuu
 # d, x, dddrruu
