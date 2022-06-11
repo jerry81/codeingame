@@ -4,6 +4,60 @@ grid.append(['x','x','x','x','x'])
 grid.append(['x','x','x','x','x'])
 grid.append(['x','x','x','x','x'])
 
+def getClosestNeighbor(cur,dist_map):
+  sp = cur.split(',')
+  y = int(sp[0])
+  x = int(sp[1])
+  uy = y-1
+  dy = y+1
+  lx = x-1
+  rx = x+1 
+  has_u = False
+  has_d = False
+  has_r = False
+  has_l = False
+  try:
+      has_u = dist_map[f"{uy},{x}"] >= 0
+  except:
+      has_u = False 
+  try:
+      has_d = dist_map[f"{dy},{x}"] >= 0
+  except:
+      has_u = False 
+  try:
+      has_l = dist_map[f"{y},{lx}"] >= 0
+  except:
+      has_l = False 
+  try:
+      has_r = dist_map[f"{y},{rx}"] >= 0
+  except:
+      has_r = False 
+  min_d = 9999
+  m_n = 'UP'
+  key = f"{uy},{x}"
+  if has_u and dist_map[f"{uy},{x}"] < min_d:
+      min_d = dist_map[f"{uy},{x}"]
+      m_n = f"UP"
+      key = f"{uy},{x}"
+  elif has_d and dist_map[f"{dy},{x}"] < min_d:
+      min_d = dist_map[f"{uy},{x}"]
+      m_n = f"DOWN"
+      key = f"{uy},{x}"
+  elif has_r and dist_map[f"{y},{rx}"] < min_d:
+      min_d = dist_map[f"{y},{rx}"]
+      m_n = f"RIGHT"
+      key = f"{y},{rx}"
+  elif has_l and dist_map[f"{y},{lx}"] < min_d:
+      min_d = dist_map[f"{y},{lx}"]
+      m_n = f"LEFT"
+      key = f"{y},{lx}"
+  return m_n,key
+
+def getShortestFrom(y,x,dist_map):
+    cur = f"{y},{x}"
+    direction, key = getClosestNeighbor(cur, dist_map)
+    print(f"dir, key {direction} {key}")
+
 """
 a - b - c
 |   |   |
@@ -138,6 +192,7 @@ grid.append(['x','x','x','.','x'])
 
 d = mark_distances_from(grid,0,0)
 print(f"markdistances {d}")
+getShortestFrom(3,4,d)
 
 # x, x, dddrruuu
 # d, x, dddrruu
