@@ -1,8 +1,151 @@
 import sys
-import math
 
 # Auto-generated code below aims at helping you parse
 # the standard input according to the problem statement.
+
+def getClosestNeighbor(cur,dist_map):
+  sp = cur.split(',')
+  y = int(sp[0])
+  x = int(sp[1])
+  uy = y-1
+  dy = y+1
+  lx = x-1
+  rx = x+1 
+  has_u = False
+  has_d = False
+  has_r = False
+  has_l = False
+  print(f"distMap is {dist_map}")
+  try:
+      print(f"up is {dist_map[f'{uy},{x}']}")
+      has_u = dist_map[f"{uy},{x}"] >= 0
+      print(f"has_u is now {has_u}")
+  except:
+      has_u = False 
+  try:
+      has_d = dist_map[f"{dy},{x}"] >= 0
+  except:
+      has_d = False 
+  try:
+      has_l = dist_map[f"{y},{lx}"] >= 0
+  except:
+      has_l = False 
+  try:
+      has_r = dist_map[f"{y},{rx}"] >= 0
+  except:
+      has_r = False 
+  min_d = 9999
+  m_n = 'UP'
+  key = None
+  if has_u and dist_map[f"{uy},{x}"] < min_d:
+      min_d = dist_map[f"{uy},{x}"]
+      m_n = f"UP"
+      key = f"{uy},{x}"
+  if has_d and dist_map[f"{dy},{x}"] < min_d:
+      min_d = dist_map[f"{dy},{x}"]
+      m_n = f"DOWN"
+      key = f"{dy},{x}"
+  if has_r and dist_map[f"{y},{rx}"] < min_d:
+      min_d = dist_map[f"{y},{rx}"]
+      m_n = f"RIGHT"
+      key = f"{y},{rx}"
+  if has_l and dist_map[f"{y},{lx}"] < min_d:
+      min_d = dist_map[f"{y},{lx}"]
+      m_n = f"LEFT"
+      key = f"{y},{lx}"
+  return m_n,key
+
+def getShortestFrom(y,x,dist_map):
+    cur = f"{y},{x}"
+    path = []
+    dist = dist_map[cur]
+    while dist > 0: 
+      direction, key = getClosestNeighbor(cur, dist_map)
+      print(f"direction, key {direction} {key}")
+      if key is None:
+          break
+      path.append(direction)
+      print(f"path is now {path}")
+      cur = key 
+      dist = dist_map[cur]
+    return path
+
+
+def get_neighbors(x,y,grid,visited):
+  uy = y-1
+  dy = y+1
+  lx = x-1
+  rx = x+1 
+  neighbors = []
+  u_visited = False
+  d_visited = False
+  l_visited = False 
+  r_visited = False
+  try:
+      u_visited = visited[f"{uy},{x}"]
+  except: 
+      u_visited = False
+  try:
+      d_visited = visited[f"{dy},{x}"]
+  except: 
+      d_visited = False
+  try:
+      l_visited = visited[f"{y},{lx}"]
+  except: 
+      l_visited = False
+  try:
+      r_visited = visited[f"{y},{rx}"]
+  except: 
+      r_visited = False
+  if uy >= 0 and grid[uy][x] != '#' and not u_visited:
+      neighbors.append(f"{uy},{x}")
+  if dy < len(grid) and grid[dy][x] != '#' and not d_visited:
+      neighbors.append(f"{dy},{x}")
+  if lx >= 0 and grid[y][lx] != '#' and not l_visited:
+      neighbors.append(f"{y},{lx}")
+  if rx < len(grid[0]) and grid[y][rx] != '#' and not r_visited:
+      neighbors.append(f"{y},{rx}")
+  return neighbors
+
+def mark_distances_from(grid,x,y):
+    distances = {}
+    visited = {}
+    for i in range(len(grid.keys())):
+      print(f"i is {i}!", file=sys.stderr, flush=True)
+      distances[i] = 9999
+    distances[f"{y},{x}"] = 0
+    visited[f"{y},{x}"] = True
+    pointerx = x 
+    pointery = y
+    cur_d = 0
+    neighbors = get_neighbors(pointerx,pointery,grid,visited)
+    next_set = [{"d": cur_d, "n": neighbors}]
+    while len(next_set) > 0:
+      new_neighbors = []
+      new_visited = []
+      min_dist = 9999
+      for ns in next_set:
+          cur_dist = ns["d"]
+          neighbors = ns["n"]
+          for n in neighbors: 
+            n_a = n.split(',')
+            nx = int(n_a[1])
+            ny = int(n_a[0])
+            n_d = distances[n]
+            distances[n] = min([n_d, cur_dist+1])
+            if distances[n] <= min_dist:
+                min_dist = distances[n]
+                if distances[n] == min_dist:
+                    new_visited.append(n)
+                else:
+                    new_visited = [n]
+            next_neighbors = get_neighbors(nx,ny,grid,visited)
+            new_neighbors.append({"d":distances[n], "n":next_neighbors})
+      next_set = new_neighbors
+      for i in new_visited:
+          visited[i] = True
+    return distances
+    
 
 # r: number of rows.
 # c: number of columns.
@@ -45,6 +188,8 @@ while True:
     if explore == False:
         if shortestPath is None:
             # build it
+            distances = mark_distances_from(visited,tr,tc)
+            print(f"distances is {distances}!", file=sys.stderr, flush=True)
             shortestPath = []
             # make distance map on the grid
             # starting with kr, kc
