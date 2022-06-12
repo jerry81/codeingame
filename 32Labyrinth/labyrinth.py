@@ -5,6 +5,7 @@ import sys
 # the standard input according to the problem statement.
 
 def mark(grid,x,y,w,h):
+    # print(f"w is {w} h is {h}", file=sys.stderr, flush=True)
     distances = defaultdict(lambda: 9999)
     neighbors = [(y,x)]
     distances[y,x] = 0
@@ -78,10 +79,12 @@ while True:
     if explore == False:
         if shortestPath is None:
             # build it
-            dists = mark(grid,tc,tr,r,c)
+            dists = mark(grid,tc,tr,c,r)
+            for g in grid:
             for k,v in dists.items():
                 y,x = k
                 grid[y][x] = v
+            for g in grid:
             # build path from grid
             path = []
             cy = kr 
@@ -97,7 +100,6 @@ while True:
                 mdist = 9999
                 if u >=0:
                   i = grid[u][cx]
-                  print(f"i is {i}", file=sys.stderr, flush=True)
                   if type(i) == int: 
                     if i < mdist:
                         mdist = i 
@@ -114,6 +116,7 @@ while True:
                         nx = cx
                 if ri < c:
                   i = grid[cy][ri]
+                  # print(f"right item is {i}", file=sys.stderr, flush=True)
                   if type(i) == int:
                     if i < mdist:
                         mdist = i 
@@ -131,8 +134,10 @@ while True:
                 cy = ny 
                 cx = nx
                 path.append(md)
-                print(f"path is {path}", file=sys.stderr, flush=True)
-            print(f"path is {path}", file=sys.stderr, flush=True)
+                # print(f"path is now {path}", file=sys.stderr, flush=True)
+            
+            shortestPath = path 
+            print(shortestPath.pop(0))
             continue
             # make distance map on the grid
             # starting with kr, kc
