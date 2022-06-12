@@ -80,11 +80,9 @@ while True:
         if shortestPath is None:
             # build it
             dists = mark(grid,tc,tr,c,r)
-            for g in grid:
             for k,v in dists.items():
                 y,x = k
                 grid[y][x] = v
-            for g in grid:
             # build path from grid
             path = []
             cy = kr 
@@ -137,6 +135,7 @@ while True:
                 # print(f"path is now {path}", file=sys.stderr, flush=True)
             
             shortestPath = path 
+            # print(f"shortest path is {shortestPath}", file=sys.stderr, flush=True)
             print(shortestPath.pop(0))
             continue
             # make distance map on the grid
