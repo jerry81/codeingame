@@ -188,6 +188,7 @@ def mark_distances_from(grid,x,y):
             next_neighbors = get_neighbors(nx,ny,grid,visited)
             new_neighbors.append({"d":distances[n], "n":next_neighbors})
       next_set = new_neighbors
+      print(f"next len is {len(next_set)}")
       for i in new_visited:
           visited[i] = True
     return distances
