@@ -1,172 +1,42 @@
-from http.client import CONTINUE
+from collections import defaultdict
 import sys
 
 # Auto-generated code below aims at helping you parse
 # the standard input according to the problem statement.
 
-def getClosestNeighbor(cur,dist_map):
-  sp = cur.split(',')
-  y = int(sp[0])
-  x = int(sp[1])
-  uy = y-1
-  dy = y+1
-  lx = x-1
-  rx = x+1 
-  has_u = False
-  has_d = False
-  has_r = False
-  has_l = False
-  try:
-      has_u = dist_map[f"{uy},{x}"] >= 0
-  except:
-      has_u = False 
-  try:
-      has_d = dist_map[f"{dy},{x}"] >= 0
-  except:
-      has_d = False 
-  try:
-      has_l = dist_map[f"{y},{lx}"] >= 0
-  except:
-      has_l = False 
-  try:
-      has_r = dist_map[f"{y},{rx}"] >= 0
-  except:
-      has_r = False 
-  min_d = 9999
-  m_n = 'UP'
-  key = None
-  if has_u and dist_map[f"{uy},{x}"] < min_d:
-      min_d = dist_map[f"{uy},{x}"]
-      m_n = f"UP"
-      key = f"{uy},{x}"
-  if has_d and dist_map[f"{dy},{x}"] < min_d:
-      min_d = dist_map[f"{dy},{x}"]
-      m_n = f"DOWN"
-      key = f"{dy},{x}"
-  if has_r and dist_map[f"{y},{rx}"] < min_d:
-      min_d = dist_map[f"{y},{rx}"]
-      m_n = f"RIGHT"
-      key = f"{y},{rx}"
-  if has_l and dist_map[f"{y},{lx}"] < min_d:
-      min_d = dist_map[f"{y},{lx}"]
-      m_n = f"LEFT"
-      key = f"{y},{lx}"
-  return m_n,key
-
-def getShortestFrom(y,x,dist_map):
-    cur = f"{y},{x}"
-    path = []
-    dist = dist_map[cur]
-    while dist > 0: 
-      direction, key = getClosestNeighbor(cur, dist_map)
-      if key is None:
-          break
-      path.append(direction)
-      cur = key 
-      dist = dist_map[cur]
-    return path
-
-
-def get_neighbors(x,y,grid,visited):
-  uy = y-1
-  dy = y+1
-  lx = x-1
-  rx = x+1 
-  neighbors = []
-  u_visited = False
-  d_visited = False
-  l_visited = False 
-  r_visited = False
-  u_exist = False
-  d_exist = False 
-  l_exist = False 
-  r_exist = False 
-  try: 
-    u_exist = grid[f"{uy},{x}"] is not None
-  except:
-    u_exist = False
-  try:
-      u_visited = visited[f"{uy},{x}"]
-  except: 
-      u_visited = False
-  try:
-      d_visited = visited[f"{dy},{x}"]
-  except: 
-      d_visited = False
-  try: 
-    d_exist = grid[f"{dy},{x}"] is not None
-  except:
-    d_exist = False
-  try:
-      l_visited = visited[f"{y},{lx}"]
-  except: 
-      l_visited = False
-  try: 
-    l_exist = grid[f"{y},{lx}"] is not None
-  except:
-    l_exist = False
-  try:
-      r_visited = visited[f"{y},{rx}"]
-  except: 
-      r_visited = False
-  try: 
-    r_exist = grid[f"{y},{rx}"] is not None
-  except:
-    r_exist = False
-  if uy >= 0 and not u_visited and u_exist:
-      neighbors.append(f"{uy},{x}")
-  if dy < r and not d_visited and d_exist:
-      neighbors.append(f"{dy},{x}")
-  if lx >= 0 and not l_visited and l_exist:
-      neighbors.append(f"{y},{lx}")
-  if rx < c and not r_visited and r_exist:
-      neighbors.append(f"{y},{rx}")
-  return neighbors
-
-def mark_distances_from(grid,x,y,target):
-    print(f"starting", file=sys.stderr, flush=True)
-    distances = {}
-    visited = {}
-    for i in grid.keys():
-      distances[i] = 9999
-    distances[f"{y},{x}"] = 0
-    visited[f"{y},{x}"] = True
-    pointerx = x 
-    pointery = y
-    cur_d = 0
-    neighbors = get_neighbors(pointerx,pointery,distances,visited)
-    next_set = [{"d": cur_d, "n": neighbors}]
-    while len(next_set) > 0:
-      new_neighbors = []
-      new_visited = []
-      min_dist = 9999
-      for ns in next_set:
-          cur_dist = ns["d"]
-          neighbors = ns["n"]
-          for n in neighbors: 
-            n_a = n.split(',')
-            nx = int(n_a[1])
-            ny = int(n_a[0])
-            n_d = distances[n]
-            distances[n] = min([n_d, cur_dist+1])
-            if distances[n] <= min_dist:
-                min_dist = distances[n]
-                if distances[n] == min_dist:
-                    new_visited.append(n)
-                else:
-                    new_visited = [n]
-            
-            next_neighbors = get_neighbors(nx,ny,distances,visited)
-            new_neighbors.append({"d":distances[n], "n":next_neighbors})
-      next_set = new_neighbors
-      print(f"next_set len is {len(next_set)}", file=sys.stderr, flush=True)
-      for i in new_visited:
-          visited[i] = True
-          if i == target:
-            return distances
+def mark(grid,x,y,w,h):
+    distances = defaultdict(lambda: 9999)
+    neighbors = [(y,x)]
+    distances[y,x] = 0
+    visited = defaultdict(lambda: False)
+    while len(neighbors) > 0:
+      ny,nx = neighbors.pop(0)
+      cur = distances[ny,nx]
+      visited[ny,nx] = True
+      d = ny+1
+      u = ny-1
+      r = nx+1
+      l = nx-1
+      if d < h:
+          grid_item = grid[d][nx]
+          if not visited[d,nx] and grid_item == '.':
+            neighbors.append((d,nx))
+      if u >= 0:
+          grid_item = grid[u][nx]
+          if not visited[u,nx] and grid_item == '.':
+            neighbors.append((u,nx))
+      if r < w:
+          grid_item = grid[ny][r]
+          if not visited[ny,r] and grid_item == '.':
+            neighbors.append((ny,r))
+      if l >= 0:
+          grid_item = grid[ny][l]
+          if not visited[ny,l] and grid_item == '.':
+            neighbors.append((ny,l))
+      for tup in neighbors:
+          distances[tup] = min(cur + 1, distances[tup])
+          visited[tup] = True 
     return distances
-    
-
 # r: number of rows.
 # c: number of columns.
 # a: number of rounds between the time the alarm countdown is activated and the time the alarm goes off.
@@ -208,11 +78,61 @@ while True:
     if explore == False:
         if shortestPath is None:
             # build it
-            print(f"len is {len(visited)}", file=sys.stderr, flush=True)
-            target = f"{kr},{kc}"
-            distances = mark_distances_from(visited,tc,tr,target)
-            shortestPath = getShortestFrom(kr,kc,distances)
-            print(shortestPath.pop(0))
+            dists = mark(grid,tc,tr,r,c)
+            for k,v in dists.items():
+                y,x = k
+                grid[y][x] = v
+            # build path from grid
+            path = []
+            cy = kr 
+            cx = kc
+            while (cy!=tr or cx!=tc):
+                d = cy + 1
+                u = cy - 1 
+                ri = cx + 1 
+                le = cx - 1
+                nx = cx 
+                ny = cy
+                md = "UP"
+                mdist = 9999
+                if u >=0:
+                  i = grid[u][cx]
+                  print(f"i is {i}", file=sys.stderr, flush=True)
+                  if type(i) == int: 
+                    if i < mdist:
+                        mdist = i 
+                        md = "UP"
+                        ny = u 
+                        nx = cx
+                if d < r:
+                  i = grid[d][cx]
+                  if type(i) == int:
+                    if i < mdist:
+                        mdist = i 
+                        md = "DOWN"
+                        ny = d
+                        nx = cx
+                if ri < c:
+                  i = grid[cy][ri]
+                  if type(i) == int:
+                    if i < mdist:
+                        mdist = i 
+                        md = "RIGHT"
+                        ny = cy 
+                        nx = ri
+                if le >= 0:
+                  i = grid[cy][le]
+                  if type(i) == int:
+                    if i < mdist:
+                        mdist = i 
+                        md = "LEFT"
+                        ny = cy 
+                        nx = le
+                cy = ny 
+                cx = nx
+                path.append(md)
+                print(f"path is {path}", file=sys.stderr, flush=True)
+            print(f"path is {path}", file=sys.stderr, flush=True)
             continue
             # make distance map on the grid
             # starting with kr, kc
