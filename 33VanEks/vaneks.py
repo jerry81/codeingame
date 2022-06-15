@@ -8,11 +8,8 @@ n = int(input())
 
 memo = {}
 for i in range(n-1):
-  print(f"a1 is {a1}", file=sys.stderr, flush=True)
-  print(f"memo is {memo}", file=sys.stderr, flush=True)
   try: 
     lastIdx = memo[a1]
-    print(f"lastIdx of {a1} is {lastIdx}", file=sys.stderr, flush=True)
     next = i - lastIdx
     memo[a1] = i
     a1 = next
