@@ -8,13 +8,18 @@ import math
 a1 = int(input())
 n = int(input())
 
-memo = defaultdict(int)
-for i in range(n):
-  print(f"memo[i] {memo[i]}", file=sys.stderr, flush=True)
-  memo[i] = i 
+memo = {}
+for i in range(n-1):
+  try: 
+    lastIdx = memo[a1]
+    a1 = i - lastIdx
+  except:
+    memo[a1] = i
+    a1 = 0
   
+print(a1)
+# 0, 0, 1, 0, 2, 0, 2, 2, 1, 6,
 
 # Write an answer using print
 # To debug: print("Debug messages...", file=sys.stderr, flush=True)
 
-print("answer")
