@@ -6,7 +6,7 @@ import math
 
 # game loop
 applications = {}
-
+turn_count = 0
 while True:
     game_phase = input()  # can be MOVE, GIVE_CARD, THROW_CARD, PLAY_CARD or RELEASE
     applications_count = int(input())
@@ -76,9 +76,16 @@ while True:
     # Write an action using print
     # To debug: print("Debug messages...", file=sys.stderr, flush=True)
 
-
     # In the first league: RANDOM | MOVE <zoneId> | RELEASE <applicationId> | WAIT; In later leagues: | GIVE <cardType> | THROW <cardType> | TRAINING | CODING | DAILY_ROUTINE | TASK_PRIORITIZATION <cardTypeToThrow> <cardTypeToTake> | ARCHITECTURE_STUDY | CONTINUOUS_DELIVERY <cardTypeToAutomate> | CODE_REVIEW | REFACTORING;
     if pm["MOVE 4"]:
         print("MOVE 4")
     else:
-        print("RANDOM")
+        if turn_count < 3:
+          if pm["WAIT"]:
+            turn_count+=1
+            print("WAIT")
+          else: 
+            print("RANDOM")
+        else:
+          # turn_count = 0
+          print("RANDOM")
