@@ -51,3 +51,16 @@ def app_summary(app):
 applications =  {21: [0, 2, 2, 0, 0, 2, 0, 0], 23: [2, 0, 0, 2, 0, 0, 0, 2], 16: [2, 0, 0, 0, 0, 2, 2, 0], 20: [0, 0, 0, 2, 0, 0, 2, 2], 2: [0, 0, 2, 0, 0, 0, 2, 2], 5: [0, 0, 2, 2, 0, 2, 0, 0], 6: [0, 0, 2, 0, 0, 2, 2, 0], 13: [0, 0, 0, 0, 2, 0, 2, 2], 25: [2, 2, 0, 0, 2, 0, 0, 0], 3: [0, 2, 2, 2, 0, 0, 0, 0], 9: [2, 0, 2, 0, 0, 0, 2, 0], 24: [0, 0, 0, 2, 0, 2, 2, 0]}
 expect = ['sum', 'sum2', 'sum3...']
 print(f"expect {expect} {app_summary(applications)}")
+
+def highest_req(reqs):
+    mi = 0
+    mx = 0 
+    for i in range(len(reqs)):
+        if reqs[i] > mx:
+            mi = i
+            mx = reqs[i]
+    return mi
+
+reqs = [8, 6, 12, 10, 4, 10, 14, 8]
+expect = 6
+print(f"expect {expect} {highest_req(reqs)}")
