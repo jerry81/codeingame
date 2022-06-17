@@ -12,6 +12,13 @@ def get_tech_debt(hand,req):
     tech_debt = max((sum(diff) - bonus_cards) ,0)
     return tech_debt
 
+def get_rc(cm):
+    k = list(cm.keys())
+    # map and filter
+    mapped = list(map(lambda x: x.split("RELEASE "),k))
+    filtered = list(filter(lambda x: len(x) > 1,mapped))
+    processed = list(map(lambda x: x[1], filtered))
+    return processed
 
 # game loop
 applications = {}
@@ -75,17 +82,23 @@ while True:
         technical_debt_cards_count = int(inputs[10])
         cm[cards_location].append(technical_debt_cards_count)
     print(f"cm is {cm}", file=sys.stderr, flush=True)
+
     possible_moves_count = int(input())
     pm = defaultdict(bool)
     for i in range(possible_moves_count):
         possible_move = input()
         pm[possible_move] = True
-
+    rc = get_rc(pm)
     print(f"pm is {pm}", file=sys.stderr, flush=True)
     # Write an action using print
     # To debug: print("Debug messages...", file=sys.stderr, flush=True)
 
     # In the first league: RANDOM | MOVE <zoneId> | RELEASE <applicationId> | WAIT; In later leagues: | GIVE <cardType> | THROW <cardType> | TRAINING | CODING | DAILY_ROUTINE | TASK_PRIORITIZATION <cardTypeToThrow> <cardTypeToTake> | ARCHITECTURE_STUDY | CONTINUOUS_DELIVERY <cardTypeToAutomate> | CODE_REVIEW | REFACTORING;
+    rm = {}
+    print(f"rc is {rc}", file=sys.stderr, flush=True)
+    for r in rc:
+        rm[r] = get_tech_debt(cm["HAND"],applications[int(r)])
+    print(f"rm is {rm}", file=sys.stderr, flush=True)
     if pm["MOVE 4"]:
         print("MOVE 4")
     else:
