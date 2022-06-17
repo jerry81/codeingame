@@ -98,7 +98,6 @@ while True:
     print(f"rc is {rc}", file=sys.stderr, flush=True)
     for r in rc:
         rm[r] = get_tech_debt(cm["HAND"],applications[int(r)])
-    print(f"rm is {rm}", file=sys.stderr, flush=True)
     if pm["MOVE 4"]:
         print("MOVE 4")
     else:

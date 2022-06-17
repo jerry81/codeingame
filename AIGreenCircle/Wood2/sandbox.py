@@ -27,3 +27,13 @@ cm = {'RELEASE 5': True, 'RELEASE 6': True, 'RELEASE 12': True, 'RELEASE 8': Tru
 expect = [5,6,12,8,11,15,2,3,17]
 
 print(f"expect {expect} {get_rc(cm)}")
+
+def get_best(rm):
+    items_sorted = {k: v for k, v in sorted(rm.items(), key=lambda item: item[1])}
+    print(f"items_sorted is {items_sorted}")
+    return list(items_sorted.keys())[0]
+
+rm = {'16': 5, '13': 2, '1': 2, '21': 5, '4': 4, '14': 6, '6': 5}
+expect = 13
+
+print(f"expect {expect} {get_best(rm)}")
