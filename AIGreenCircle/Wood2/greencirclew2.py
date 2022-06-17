@@ -4,6 +4,7 @@ import math
 
 # Complete the hackathon before your opponent by following the principles of Green IT
 
+
 # game loop
 applications = {}
 turn_count = 0
