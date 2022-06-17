@@ -12,6 +12,12 @@ def get_tech_debt(hand,req):
     tech_debt = max((sum(diff) - bonus_cards) ,0)
     return tech_debt
 
+def get_best(rm):
+    items_sorted = {k: v for k, v in sorted(rm.items(), key=lambda item: item[1])}
+    if (len(list(items_sorted.keys())) == 0):
+        return None
+    return list(items_sorted.keys())[0]
+
 def get_rc(cm):
     k = list(cm.keys())
     # map and filter
@@ -95,18 +101,25 @@ while True:
 
     # In the first league: RANDOM | MOVE <zoneId> | RELEASE <applicationId> | WAIT; In later leagues: | GIVE <cardType> | THROW <cardType> | TRAINING | CODING | DAILY_ROUTINE | TASK_PRIORITIZATION <cardTypeToThrow> <cardTypeToTake> | ARCHITECTURE_STUDY | CONTINUOUS_DELIVERY <cardTypeToAutomate> | CODE_REVIEW | REFACTORING;
     rm = {}
-    print(f"rc is {rc}", file=sys.stderr, flush=True)
     for r in rc:
         rm[r] = get_tech_debt(cm["HAND"],applications[int(r)])
+    optimized = get_best(rm)
     if pm["MOVE 4"]:
-        print("MOVE 4")
+        print("RANDOM")
     else:
         if turn_count < 3:
           if pm["WAIT"]:
             turn_count+=1
             print("WAIT")
           else: 
-            print("RANDOM")
+            if optimized is not None:
+              print(f"RELEASE {optimized}")
+            else: 
+              print("RANDOM")
         else:
           # turn_count = 0
-          print("RANDOM")
+          if optimized is not None:
+            print(f"RELEASE {optimized}")
+          else: 
+            print("RANDOM")
+
