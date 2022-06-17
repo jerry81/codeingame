@@ -17,3 +17,7 @@
     - output: tech debt 
   - build release candidates 
   - build release candidates tech debt map 
+
+# optimize skills phase
+- keep track of required skills summary 
+- return most lacking skill

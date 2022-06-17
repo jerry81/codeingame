@@ -37,3 +37,17 @@ rm = {'16': 5, '13': 2, '1': 2, '21': 5, '4': 4, '14': 6, '6': 5}
 expect = 13
 
 print(f"expect {expect} {get_best(rm)}")
+
+def app_summary(app):
+  summary = [0]*8
+  lists = list(app.values())
+  for l in lists:
+    for idx,k in enumerate(l):
+        print(f'idx is {idx}')
+        print(f'k is {k}')
+        summary[idx] += k
+  return summary 
+
+applications =  {21: [0, 2, 2, 0, 0, 2, 0, 0], 23: [2, 0, 0, 2, 0, 0, 0, 2], 16: [2, 0, 0, 0, 0, 2, 2, 0], 20: [0, 0, 0, 2, 0, 0, 2, 2], 2: [0, 0, 2, 0, 0, 0, 2, 2], 5: [0, 0, 2, 2, 0, 2, 0, 0], 6: [0, 0, 2, 0, 0, 2, 2, 0], 13: [0, 0, 0, 0, 2, 0, 2, 2], 25: [2, 2, 0, 0, 2, 0, 0, 0], 3: [0, 2, 2, 2, 0, 0, 0, 0], 9: [2, 0, 2, 0, 0, 0, 2, 0], 24: [0, 0, 0, 2, 0, 2, 2, 0]}
+expect = ['sum', 'sum2', 'sum3...']
+print(f"expect {expect} {app_summary(applications)}")

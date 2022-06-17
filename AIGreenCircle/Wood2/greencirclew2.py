@@ -12,6 +12,7 @@ def get_tech_debt(hand,req):
     tech_debt = max((sum(diff) - bonus_cards) ,0)
     return tech_debt
 
+
 def get_best(rm):
     items_sorted = {k: v for k, v in sorted(rm.items(), key=lambda item: item[1])}
     if (len(list(items_sorted.keys())) == 0):
@@ -103,7 +104,9 @@ while True:
     rm = {}
     for r in rc:
         rm[r] = get_tech_debt(cm["HAND"],applications[int(r)])
+    print(f"rm is {rm}", file=sys.stderr, flush=True)
     optimized = get_best(rm)
+    print(f"optmized is {optimized}", file=sys.stderr, flush=True)
     if pm["MOVE 4"]:
         print("RANDOM")
     else:
