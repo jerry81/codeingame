@@ -12,6 +12,8 @@
 # optmize releases
 - decision on releasing
 - make a map of projected technical debts for release candidates 
-  - helper for calculating tech debt for one release
+  - helper for calculating tech debt for one release - done 
     - input : hand, release requirements 
     - output: tech debt 
+  - build release candidates 
+  - build release candidates tech debt map 

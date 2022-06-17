@@ -3,6 +3,14 @@ import sys
 import math
 
 # Complete the hackathon before your opponent by following the principles of Green IT
+def get_tech_debt(hand,req):
+    bonus_cards = hand[-2]
+    tech_debt = sum(req)
+    diff = []
+    for i in range(7):
+        diff.append(max((req[i] - hand[i]),0))
+    tech_debt = max((sum(diff) - bonus_cards) ,0)
+    return tech_debt
 
 
 # game loop
