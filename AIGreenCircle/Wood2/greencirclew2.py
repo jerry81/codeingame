@@ -129,17 +129,17 @@ while True:
     if pm[f"MOVE {asum}"]:
         print(f"MOVE {asum}")
     else:
-        if turn_count < 3:
-          if pm["WAIT"]:
-            turn_count+=1
-            print("WAIT")
-          else: 
-            if optimized is not None:
-              print(f"RELEASE {optimized}")
-            else: 
-              print("RANDOM")
-        else:
-          # turn_count = 0
+        # if turn_count < 1:
+        #   if pm["WAIT"]:
+        #     turn_count+=1
+        #     print("WAIT")
+        #   else: 
+        #     if optimized is not None:
+        #       print(f"RELEASE {optimized}")
+        #     else: 
+        #       print("RANDOM")
+        # else:
+        # turn_count = 0
           if optimized is not None:
             print(f"RELEASE {optimized}")
           else: 
