@@ -71,7 +71,8 @@ while True:
           applications[_id].append(code_review_needed)
           refactoring_needed = int(inputs[9])  # number of REFACTORING skills needed to release this application
           applications[_id].append(refactoring_needed)
-    print(f"applications is {applications}", file=sys.stderr, flush=True)
+    for a in applications:
+      print(f"applications is {a}", file=sys.stderr, flush=True)
     asum = app_summary(applications)
     amax = highest_req(asum)
     for i in range(2):
@@ -79,14 +80,11 @@ while True:
         # player_permanent_daily_routine_cards: number of DAILY_ROUTINE the player has played. It allows them to take cards from the adjacent zones
         # player_permanent_architecture_study_cards: number of ARCHITECTURE_STUDY the player has played. It allows them to draw more cards
         player_location, player_score, player_permanent_daily_routine_cards, player_permanent_architecture_study_cards = [int(j) for j in input().split()]
-        print(f"perma archi is {player_permanent_architecture_study_cards}", file=sys.stderr, flush=True)
-        print(f"perma daily is {player_permanent_daily_routine_cards}", file=sys.stderr, flush=True)
     card_locations_count = int(input())
     cm = {"DRAW":[], "HAND": [], "DISCARD": [], "OPPONENT_CARDS": []}
     for i in range(card_locations_count):
         inputs = input().split()
         cards_location = inputs[0]  # the location of the card list. It can be HAND, DRAW, DISCARD or OPPONENT_CARDS (AUTOMATED and OPPONENT_AUTOMATED will appear in later leagues)
-        print(f"location {cards_location}", file=sys.stderr, flush=True)
         training_cards_count = int(inputs[1])
         cm[cards_location].append(training_cards_count)
         coding_cards_count = int(inputs[2])
