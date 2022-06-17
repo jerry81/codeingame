@@ -7,7 +7,7 @@ def get_tech_debt(hand,req):
     bonus_cards = hand[-2]
     tech_debt = sum(req)
     diff = []
-    for i in range(7):
+    for i in range(8):
         diff.append(max((req[i] - hand[i]),0))
     tech_debt = max((sum(diff) - bonus_cards) ,0)
     return tech_debt
@@ -71,7 +71,7 @@ while True:
           applications[_id].append(code_review_needed)
           refactoring_needed = int(inputs[9])  # number of REFACTORING skills needed to release this application
           applications[_id].append(refactoring_needed)
-    for a in applications:
+    for a in list(applications.items()):
       print(f"applications is {a}", file=sys.stderr, flush=True)
     asum = app_summary(applications)
     amax = highest_req(asum)
