@@ -72,3 +72,22 @@ def highest_req(reqs):
 reqs = [8, 6, 12, 10, 4, 10, 14, 8]
 expect = 6
 print(f"expect {expect} {highest_req(reqs)}")
+
+def highest_req2(reqs,draw,hand):
+    dhsum = [0]*8
+    for i in range(8):
+        print(f"i is {i}")
+        dhsum[i] = (reqs[i] - (draw[i] + hand[i]))
+    mi = 0
+    mx = 0 
+    for i in range(8):
+        if dhsum[i] > mx:
+            mi = i
+            mx = dhsum[i]
+    return mi
+
+draw =  [1, 0, 2, 2, 1, 1, 0, 1, 6, 9]
+hand =  [0, 0, 0, 0, 0, 1, 8, 1, 1, 2]
+# sum is [1,0,2,2,1,2,0,2]
+# diff is [7,6,10,8,3,8,14,6]
+print(f"expect 2 {highest_req2(reqs,draw,hand)}")
