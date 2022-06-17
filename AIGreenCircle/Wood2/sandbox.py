@@ -3,7 +3,7 @@ def get_tech_debt(hand,req):
     tech_debt = sum(req)
     diff = []
     for i in range(8):
-        diff.append(max((req[i] - hand[i]),0))
+        diff.append(max((req[i] - (hand[i] * 2)),0))
     tech_debt = max((sum(diff) - bonus_cards) ,0)
     return tech_debt
 
@@ -15,6 +15,11 @@ print(f"expect {expect} {get_tech_debt(hand,req)}")
 hand =  [0, 0, 0, 0, 0, 1, 0, 0, 2, 2]
 req = [0, 2, 0, 2, 0, 0, 0, 2]
 expect = 4 
+print(f"expect {expect} {get_tech_debt(hand,req)}")
+
+hand =  [0, 0, 0, 0, 0, 0, 1, 0, 1, 3]
+req =  [0, 0, 0, 0, 2, 0, 2, 2]
+expect = 3
 print(f"expect {expect} {get_tech_debt(hand,req)}")
 
 def get_rc(cm):
