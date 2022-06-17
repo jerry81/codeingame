@@ -21,3 +21,6 @@
 # optimize skills phase
 - keep track of required skills summary 
 - return most lacking skill
+- improvement for this phase:
+- this just takes applications into account but doesn't take player's cards
+- should tally draw cards and discard cards and subtractfrom the remaining applications sum 

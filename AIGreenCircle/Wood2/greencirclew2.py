@@ -8,7 +8,7 @@ def get_tech_debt(hand,req):
     tech_debt = sum(req)
     diff = []
     for i in range(8):
-        diff.append(max((req[i] - hand[i]),0))
+        diff.append(max((req[i] - (hand[i] * 2)),0))
     tech_debt = max((sum(diff) - bonus_cards) ,0)
     return tech_debt
 
