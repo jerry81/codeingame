@@ -27,13 +27,22 @@ def get_rc(cm):
     processed = list(map(lambda x: x[1], filtered))
     return processed
 
-def highest_req(reqs):
+def highest_req2(reqs,draw,hand):
+    dhsum = [0]*8
+    if len(draw) == 0:
+        draw = [0]*8 
+    
+    if len(hand) == 0:
+        hand = [0]*8
+        
+    for i in range(8):
+        dhsum[i] = (reqs[i] - (draw[i] + hand[i]))
     mi = 0
     mx = 0 
-    for i in range(len(reqs)):
-        if reqs[i] > mx:
+    for i in range(8):
+        if dhsum[i] > mx:
             mi = i
-            mx = reqs[i]
+            mx = dhsum[i]
     return mi
 
 def app_summary(app):
@@ -73,8 +82,7 @@ while True:
           applications[_id].append(refactoring_needed)
     for a in list(applications.items()):
       print(f"applications is {a}", file=sys.stderr, flush=True)
-    asum = app_summary(applications)
-    amax = highest_req(asum)
+    
     for i in range(2):
         # player_location: id of the zone in which the player is located
         # player_permanent_daily_routine_cards: number of DAILY_ROUTINE the player has played. It allows them to take cards from the adjacent zones
@@ -106,7 +114,8 @@ while True:
         technical_debt_cards_count = int(inputs[10])
         cm[cards_location].append(technical_debt_cards_count)
     print(f"cm is {cm}", file=sys.stderr, flush=True)
-
+    asum = app_summary(applications)
+    amax = highest_req2(asum,cm["DISCARD"],cm["DRAW"])
     possible_moves_count = int(input())
     pm = defaultdict(bool)
     for i in range(possible_moves_count):
