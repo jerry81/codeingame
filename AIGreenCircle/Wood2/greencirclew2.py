@@ -27,6 +27,23 @@ def get_rc(cm):
     processed = list(map(lambda x: x[1], filtered))
     return processed
 
+def highest_req(reqs):
+    mi = 0
+    mx = 0 
+    for i in range(len(reqs)):
+        if reqs[i] > mx:
+            mi = i
+            mx = reqs[i]
+    return mi
+
+def app_summary(app):
+  summary = [0]*8
+  lists = list(app.values())
+  for l in lists:
+    for idx,k in enumerate(l):
+        summary[idx] += k
+  return summary 
+
 # game loop
 applications = {}
 turn_count = 0
@@ -55,6 +72,8 @@ while True:
           refactoring_needed = int(inputs[9])  # number of REFACTORING skills needed to release this application
           applications[_id].append(refactoring_needed)
     print(f"applications is {applications}", file=sys.stderr, flush=True)
+    asum = app_summary(applications)
+    amax = highest_req(asum)
     for i in range(2):
         # player_location: id of the zone in which the player is located
         # player_permanent_daily_routine_cards: number of DAILY_ROUTINE the player has played. It allows them to take cards from the adjacent zones
@@ -107,8 +126,8 @@ while True:
     print(f"rm is {rm}", file=sys.stderr, flush=True)
     optimized = get_best(rm)
     print(f"optmized is {optimized}", file=sys.stderr, flush=True)
-    if pm["MOVE 4"]:
-        print("RANDOM")
+    if pm[f"MOVE {asum}"]:
+        print(f"MOVE {asum}")
     else:
         if turn_count < 3:
           if pm["WAIT"]:
