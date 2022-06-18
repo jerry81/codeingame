@@ -126,7 +126,7 @@ while True:
             my_loc = player_location
     print(f"opponent_loc is {opponent_loc}", file=sys.stderr, flush=True)
     card_locations_count = int(input())
-    cm = {"DRAW":[], "HAND": [], "DISCARD": [], "OPPONENT_CARDS": [], "PLAYED_CARDS": []}
+    cm = {"DRAW":[], "HAND": [], "DISCARD": [], "OPPONENT_CARDS": [], "PLAYED_CARDS": [], "AUTOMATED": [], "OPPONENT_AUTOMATED": []}
     for i in range(card_locations_count):
         inputs = input().split()
         cards_location = inputs[0]  # the location of the card list. It can be HAND, DRAW, DISCARD or OPPONENT_CARDS (AUTOMATED and OPPONENT_AUTOMATED will appear in later leagues)
