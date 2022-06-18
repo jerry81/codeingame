@@ -28,6 +28,8 @@ def get_rc(cm):
 
 def next_lowest(oppLoc,myLoc):
     forbidden = [oppLoc,myLoc]
+    if oppLoc == -1:
+        return 0
     if myLoc == -1:
         forbidden = [oppLoc]
         myLoc = 0
