@@ -1,6 +1,5 @@
 from collections import defaultdict
 import sys
-import math
 
 # Complete the hackathon before your opponent by following the principles of Green IT
 def get_tech_debt(hand,req):
@@ -44,6 +43,12 @@ def app_summary(app):
         summary[idx] += k
   return summary 
 
+def handle_move(amax):
+    if pm[f"MOVE {amax}"]:
+        print(f"MOVE {amax}")
+    else:
+        print("RANDOM")
+
 # game loop
 turn_count = 0
 while True:
@@ -76,11 +81,15 @@ while True:
       print(f"applications is {a}", file=sys.stderr, flush=True)
     asum = app_summary(applications)
     amax = highest_req(asum)
+    opponent_loc = "UNKNOWN"
     for i in range(2):
         # player_location: id of the zone in which the player is located
         # player_permanent_daily_routine_cards: number of DAILY_ROUTINE the player has played. It allows them to take cards from the adjacent zones
         # player_permanent_architecture_study_cards: number of ARCHITECTURE_STUDY the player has played. It allows them to draw more cards
         player_location, player_score, player_permanent_daily_routine_cards, player_permanent_architecture_study_cards = [int(j) for j in input().split()]
+        if i==1:
+            opponent_loc = player_location
+    print(f"opponent_loc is {opponent_loc}", file=sys.stderr, flush=True)
     card_locations_count = int(input())
     cm = {"DRAW":[], "HAND": [], "DISCARD": [], "OPPONENT_CARDS": [], "PLAYED_CARDS": []}
     for i in range(card_locations_count):
@@ -107,7 +116,7 @@ while True:
         technical_debt_cards_count = int(inputs[10])
         cm[cards_location].append(technical_debt_cards_count)
     print(f"cm is {cm}", file=sys.stderr, flush=True)
-
+    
     possible_moves_count = int(input())
     pm = defaultdict(bool)
     for i in range(possible_moves_count):
@@ -128,22 +137,12 @@ while True:
     if optimized is not None:
          print(f"tech is is {rm[optimized]}", file=sys.stderr, flush=True)
     print(f"amax is {amax}", file=sys.stderr, flush=True)
-    if pm[f"MOVE {amax}"]:
-        print(f"MOVE {amax}")
+
+    if game_phase == "MOVE":
+        handle_move(amax)
     else:
-        # if turn_count < 1:
-        #   if pm["WAIT"]:
-        #     turn_count+=1
-        #     print("WAIT")
-        #   else: 
-        #     if optimized is not None:
-        #       print(f"RELEASE {optimized}")
-        #     else: 
-        #       print("RANDOM")
-        # else:
-        # turn_count = 0
-          if optimized is not None:
-            print(f"RELEASE {optimized}")
-          else: 
-            print("RANDOM")
+        if optimized is not None:
+          print(f"RELEASE {optimized}")
+        else: 
+          print("RANDOM")
 
