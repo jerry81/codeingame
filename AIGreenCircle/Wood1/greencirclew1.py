@@ -35,14 +35,14 @@ def highest_req(reqs):
             mx = reqs[i]
     return mi
 
-def highest_req2(reqs,draw,discard,oppLoc):
+def highest_req2(reqs,draw,discard,oppLoc,myLoc):
     dhsum = [0]*8
     if len(discard) == 0:
         discard = [0]*8
     if len(draw) == 0:
         draw = [0]*8
 
-    forbidden = [oppLoc]
+    forbidden = [oppLoc,myLoc]
     if oppLoc-1 < 0:
         forbidden.append(7)
     else:
@@ -107,7 +107,7 @@ while True:
           applications[_id].append(refactoring_needed)
     for a in list(applications.items()):
       print(f"applications is {a}", file=sys.stderr, flush=True)
-    
+    my_loc = "UNKNOWN"
     opponent_loc = "UNKNOWN"
     for i in range(2):
         # player_location: id of the zone in which the player is located
@@ -116,6 +116,8 @@ while True:
         player_location, player_score, player_permanent_daily_routine_cards, player_permanent_architecture_study_cards = [int(j) for j in input().split()]
         if i==1:
             opponent_loc = player_location
+        else:
+            my_loc = player_location
     print(f"opponent_loc is {opponent_loc}", file=sys.stderr, flush=True)
     card_locations_count = int(input())
     cm = {"DRAW":[], "HAND": [], "DISCARD": [], "OPPONENT_CARDS": [], "PLAYED_CARDS": []}
@@ -144,7 +146,7 @@ while True:
         cm[cards_location].append(technical_debt_cards_count)
     print(f"cm is {cm}", file=sys.stderr, flush=True)
     asum = app_summary(applications)
-    amax = highest_req2(asum,cm["DRAW"],cm["DISCARD"],opponent_loc)
+    amax = highest_req2(asum,cm["DRAW"],cm["DISCARD"],opponent_loc,my_loc)
     possible_moves_count = int(input())
     pm = defaultdict(bool)
     for i in range(possible_moves_count):
