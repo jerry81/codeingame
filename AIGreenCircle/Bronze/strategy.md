@@ -16,8 +16,11 @@
 - Prioritize the play_cards (descending) - done
 
 - further optimize continuous integration and task prioritization 
+  - continuous integration - prioritize most in-demand requirements
+  - task prioritization - if possible trade bonus for skills (giving priority to best skills)
 
-- minimize damage from THROW
+
+- minimize damage from THROW - done 
 
 # fixes
 
