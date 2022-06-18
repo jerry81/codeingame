@@ -28,6 +28,9 @@ def highest_req2(reqs,draw,discard,oppLoc,myLoc):
 
 def next_lowest(oppLoc,myLoc):
     forbidden = [oppLoc,myLoc]
+    if myLoc == -1:
+        forbidden = [oppLoc]
+        myLoc = 0
     if oppLoc-1 < 0:
         forbidden.append(7)
     else:
@@ -46,5 +49,6 @@ draw =  [1, 0, 2, 2, 1, 1, 0, 1, 6, 9]
 hand =  [0, 0, 0, 0, 0, 1, 8, 1, 1, 2]
 # sum is [1,0,2,2,1,2,0,2]
 # diff is [7,6,10,8,3,8,14,6]
-print(f"expect 2 {next_lowest(reqs,draw,hand,4,1)}")
-print(f"expect 2 {next_lowest(reqs,draw,hand,7,0)}")
+print(f"expect 2 {next_lowest(4,1)}")
+print(f"expect 2 {next_lowest(7,0)}")
+print(f"expect 3 {next_lowest(1,-1)}")

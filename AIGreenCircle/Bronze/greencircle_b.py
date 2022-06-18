@@ -28,6 +28,9 @@ def get_rc(cm):
 
 def next_lowest(oppLoc,myLoc):
     forbidden = [oppLoc,myLoc]
+    if myLoc == -1:
+        forbidden = [oppLoc]
+        myLoc = 0
     if oppLoc-1 < 0:
         forbidden.append(7)
     else:
@@ -71,6 +74,16 @@ def handle_play(pm):
 def handle_throw(pm):
     if pm[f"THROW 8"]:
         print(f"THROW 8")
+    elif pm[f"THROW 0"]:
+        print(f"THROW 0")
+    elif pm[f"THROW 1"]:
+        print(f"THROW 1")
+    elif pm[f"THROW 2"]:
+        print(f"THROW 2")
+    elif pm[f"THROW 3"]:
+        print(f"THROW 3")
+    elif pm[f"THROW 5"]:
+        print(f"THROW 5")
     else:
         print("RANDOM")
 
