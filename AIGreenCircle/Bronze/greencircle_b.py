@@ -26,22 +26,7 @@ def get_rc(cm):
     processed = list(map(lambda x: x[1], filtered))
     return processed
 
-def highest_req(reqs):
-    mi = 0
-    mx = 0 
-    for i in range(len(reqs)):
-        if reqs[i] > mx:
-            mi = i
-            mx = reqs[i]
-    return mi
-
-def highest_req2(reqs,draw,discard,oppLoc,myLoc):
-    dhsum = [0]*8
-    if len(discard) == 0:
-        discard = [0]*8
-    if len(draw) == 0:
-        draw = [0]*8
-
+def next_lowest(oppLoc,myLoc):
     forbidden = [oppLoc,myLoc]
     if oppLoc-1 < 0:
         forbidden.append(7)
@@ -51,16 +36,10 @@ def highest_req2(reqs,draw,discard,oppLoc,myLoc):
         forbidden.append(0)
     else:
         forbidden.append(oppLoc+1)
-
     for i in range(8):
-        dhsum[i] = (reqs[i] - (draw[i] + discard[i]))
-    mi = 0
-    mx = 0 
-    for i in range(8):
-        if dhsum[i] > mx and i not in forbidden:
-            mi = i
-            mx = dhsum[i]
-    return mi
+        idx = (i + myLoc)%8
+        if idx not in forbidden:
+            return idx
 
 def app_summary(app):
   summary = [0]*8
@@ -156,7 +135,7 @@ while True:
     for c in cm.items():
       print(f"cm is {c}", file=sys.stderr, flush=True)
     asum = app_summary(applications)
-    amax = highest_req2(asum,cm["DRAW"],cm["DISCARD"],opponent_loc,my_loc)
+    amax = next_lowest(opponent_loc,my_loc)
     possible_moves_count = int(input())
     pm = defaultdict(bool)
     for i in range(possible_moves_count):
@@ -170,6 +149,8 @@ while True:
 
     # In the first league: RANDOM | MOVE <zoneId> | RELEASE <applicationId> | WAIT; In later leagues: | GIVE <cardType> | THROW <cardType> | TRAINING | CODING | DAILY_ROUTINE | TASK_PRIORITIZATION <cardTypeToThrow> <cardTypeToTake> | ARCHITECTURE_STUDY | CONTINUOUS_DELIVERY <cardTypeToAutomate> | CODE_REVIEW | REFACTORING;
     rm = {}
+    print(f"perma a is {perma_a}", file=sys.stderr, flush=True)
+    print(f"perma d is {perma_d}", file=sys.stderr, flush=True)
     for r in rc:
         rm[r] = get_tech_debt(cm["HAND"],applications[int(r)])
     for i in rm.items():
