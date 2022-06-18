@@ -111,10 +111,10 @@ while True:
           applications[_id].append(code_review_needed)
           refactoring_needed = int(inputs[9])  # number of REFACTORING skills needed to release this application
           applications[_id].append(refactoring_needed)
-    for a in list(applications.items()):
-      print(f"applications is {a}", file=sys.stderr, flush=True)
     my_loc = "UNKNOWN"
     opponent_loc = "UNKNOWN"
+    perma_a = 0
+    perma_d = 0
     for i in range(2):
         # player_location: id of the zone in which the player is located
         # player_permanent_daily_routine_cards: number of DAILY_ROUTINE the player has played. It allows them to take cards from the adjacent zones
@@ -124,6 +124,9 @@ while True:
             opponent_loc = player_location
         else:
             my_loc = player_location
+            perma_a = player_permanent_architecture_study_cards
+            perma_d = player_permanent_daily_routine_cards
+    
     print(f"opponent_loc is {opponent_loc}", file=sys.stderr, flush=True)
     card_locations_count = int(input())
     cm = {"DRAW":[], "HAND": [], "DISCARD": [], "OPPONENT_CARDS": [], "PLAYED_CARDS": [], "AUTOMATED": [], "OPPONENT_AUTOMATED": []}
@@ -150,7 +153,8 @@ while True:
         cm[cards_location].append(bonus_cards_count)
         technical_debt_cards_count = int(inputs[10])
         cm[cards_location].append(technical_debt_cards_count)
-    print(f"cm is {cm}", file=sys.stderr, flush=True)
+    for c in cm.items():
+      print(f"cm is {c}", file=sys.stderr, flush=True)
     asum = app_summary(applications)
     amax = highest_req2(asum,cm["DRAW"],cm["DISCARD"],opponent_loc,my_loc)
     possible_moves_count = int(input())
@@ -159,7 +163,8 @@ while True:
         possible_move = input()
         pm[possible_move] = True
     rc = get_rc(pm)
-    print(f"pm is {pm}", file=sys.stderr, flush=True)
+    for i in pm.items():
+      print(f"pm is {i}", file=sys.stderr, flush=True)
     # Write an action using print
     # To debug: print("Debug messages...", file=sys.stderr, flush=True)
 
@@ -167,7 +172,8 @@ while True:
     rm = {}
     for r in rc:
         rm[r] = get_tech_debt(cm["HAND"],applications[int(r)])
-    print(f"rm is {rm}", file=sys.stderr, flush=True)
+    for i in rm.items():
+      print(f"rm is {i}", file=sys.stderr, flush=True)
     optimized = get_best(rm)
     print(f"optmized is {optimized}", file=sys.stderr, flush=True)
     if optimized is not None:
