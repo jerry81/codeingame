@@ -12,7 +12,7 @@
 
 # new strategy
 - if we must give a card, give a bonus card or a random one 
-- give priority to smaller applications
-- don't move to where the opponent is (+ or - 1 block)
+- give priority to smaller applications 
+- don't move to where the opponent is (+ or - 1 block) - done 
   - 0 and 7 are adjacent 
-- use skills 
+- use skills - favor permanent (architecture) 

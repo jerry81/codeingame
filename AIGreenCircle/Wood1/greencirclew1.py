@@ -77,6 +77,12 @@ def handle_move(amax):
     else:
         print("RANDOM")
 
+def handle_play(pm):
+    if pm[f"ARCHITECTURE_STUDY"]:
+        print(f"ARCHITECTURE_STUDY")
+    else:
+        print("RANDOM")
+
 # game loop
 turn_count = 0
 while True:
@@ -170,6 +176,8 @@ while True:
 
     if game_phase == "MOVE":
         handle_move(amax)
+    elif game_phase == "PLAY_CARD":
+        handle_play(pm)
     else:
         if optimized is not None:
           print(f"RELEASE {optimized}")
