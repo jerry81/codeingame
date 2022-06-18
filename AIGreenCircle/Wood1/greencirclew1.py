@@ -49,6 +49,7 @@ turn_count = 0
 while True:
     applications = {}
     game_phase = input()  # can be MOVE, GIVE_CARD, THROW_CARD, PLAY_CARD or RELEASE
+    print(f"gamePhase is {game_phase}", file=sys.stderr, flush=True)
     applications_count = int(input())
     for i in range(applications_count):
           inputs = input().split()
@@ -81,7 +82,7 @@ while True:
         # player_permanent_architecture_study_cards: number of ARCHITECTURE_STUDY the player has played. It allows them to draw more cards
         player_location, player_score, player_permanent_daily_routine_cards, player_permanent_architecture_study_cards = [int(j) for j in input().split()]
     card_locations_count = int(input())
-    cm = {"DRAW":[], "HAND": [], "DISCARD": [], "OPPONENT_CARDS": []}
+    cm = {"DRAW":[], "HAND": [], "DISCARD": [], "OPPONENT_CARDS": [], "PLAYED_CARDS": []}
     for i in range(card_locations_count):
         inputs = input().split()
         cards_location = inputs[0]  # the location of the card list. It can be HAND, DRAW, DISCARD or OPPONENT_CARDS (AUTOMATED and OPPONENT_AUTOMATED will appear in later leagues)
