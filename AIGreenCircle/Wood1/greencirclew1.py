@@ -35,6 +35,33 @@ def highest_req(reqs):
             mx = reqs[i]
     return mi
 
+def highest_req2(reqs,draw,discard,oppLoc):
+    dhsum = [0]*8
+    if len(discard) == 0:
+        discard = [0]*8
+    if len(draw) == 0:
+        draw = [0]*8
+
+    forbidden = [oppLoc]
+    if oppLoc-1 < 0:
+        forbidden.append(7)
+    else:
+        forbidden.append(oppLoc-1)
+    if oppLoc+1 > 7:
+        forbidden.append(0)
+    else:
+        forbidden.append(oppLoc+1)
+
+    for i in range(8):
+        dhsum[i] = (reqs[i] - (draw[i] + discard[i]))
+    mi = 0
+    mx = 0 
+    for i in range(8):
+        if dhsum[i] > mx and i not in forbidden:
+            mi = i
+            mx = dhsum[i]
+    return mi
+
 def app_summary(app):
   summary = [0]*8
   lists = list(app.values())
@@ -44,6 +71,7 @@ def app_summary(app):
   return summary 
 
 def handle_move(amax):
+    print(f"amax is {amax}", file=sys.stderr, flush=True)
     if pm[f"MOVE {amax}"]:
         print(f"MOVE {amax}")
     else:
@@ -79,8 +107,7 @@ while True:
           applications[_id].append(refactoring_needed)
     for a in list(applications.items()):
       print(f"applications is {a}", file=sys.stderr, flush=True)
-    asum = app_summary(applications)
-    amax = highest_req(asum)
+    
     opponent_loc = "UNKNOWN"
     for i in range(2):
         # player_location: id of the zone in which the player is located
@@ -116,7 +143,8 @@ while True:
         technical_debt_cards_count = int(inputs[10])
         cm[cards_location].append(technical_debt_cards_count)
     print(f"cm is {cm}", file=sys.stderr, flush=True)
-    
+    asum = app_summary(applications)
+    amax = highest_req2(asum,cm["DRAW"],cm["DISCARD"],opponent_loc)
     possible_moves_count = int(input())
     pm = defaultdict(bool)
     for i in range(possible_moves_count):
