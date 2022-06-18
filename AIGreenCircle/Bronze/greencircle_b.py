@@ -57,8 +57,20 @@ def handle_move(amax):
         print("RANDOM")
 
 def handle_play(pm):
-    if pm[f"ARCHITECTURE_STUDY"]:
+    if pm[f"REFACTORING"]:
+        print(f"REFACTORING")
+    elif pm[f"CODE_REVIEW"]:
+        print(f"CODE_REVIEW")
+    # elif pm[f"CONTINUOUS_DELIVERY"]: needs special handling 
+    #     print(f"CONTINUOUS_DELIVERY")
+    elif pm[f"ARCHITECTURE_STUDY"]:
         print(f"ARCHITECTURE_STUDY")
+    else:
+        print("RANDOM")
+
+def handle_throw(pm):
+    if pm[f"THROW 8"]:
+        print(f"THROW 8")
     else:
         print("RANDOM")
 
@@ -165,6 +177,8 @@ while True:
         handle_move(amax)
     elif game_phase == "PLAY_CARD":
         handle_play(pm)
+    elif game_phase == "THROW_CARD":
+        handle_throw(pm)
     else:
         if optimized is not None:
           print(f"RELEASE {optimized}")

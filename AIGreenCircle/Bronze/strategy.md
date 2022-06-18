@@ -13,11 +13,11 @@
 - delayed release (build draw/discard with architecture farming)
 
 - PLAY_CARD phase
-- CI is really good 
-- CODE REVIEW is really good
-- REFACTORING is great 
+- Prioritize the play_cards (descending) - done
 
-- deal with throw card phase 
+- further optimize continuous integration and task prioritization 
+
+- minimize damage from THROW
 
 # fixes
 
