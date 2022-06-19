@@ -84,13 +84,21 @@ def get_best_possible_ci(pm,cimap):
             best = int(i)
     return f"CONTINUOUS_INTEGRATION {str(best)}"
 
+
+def has_ci(pm):
+    possible_keys = list(pm.keys())
+    continuous = list(filter(lambda y: len(y) > 1, list(map(lambda x: x.split("CONTINUOUS_INTEGRATION "), possible_keys))))
+    possible_idxs = list(map(lambda a: a[1],continuous))
+    return len(possible_idxs) > 1
+
 pm = {'TASK_PRIORITIZATION 8 0': True, 'TASK_PRIORITIZATION 8 1': True, 'TASK_PRIORITIZATION 8 2': True, 'TASK_PRIORITIZATION 8 3': True, 'TASK_PRIORITIZATION 8 4': True, 'TASK_PRIORITIZATION 8 5': True, 'TASK_PRIORITIZATION 8 6': True, 'TASK_PRIORITIZATION 8 7': True, 'TASK_PRIORITIZATION 5 0': True, 'TASK_PRIORITIZATION 5 1': True, 'TASK_PRIORITIZATION 5 2': True, 'TASK_PRIORITIZATION 5 3': True, 'TASK_PRIORITIZATION 5 4': True, 'TASK_PRIORITIZATION 5 5': True, 'TASK_PRIORITIZATION 5 6': True, 'TASK_PRIORITIZATION 5 7': True, 'CONTINUOUS_INTEGRATION 8': True, 'CONTINUOUS_INTEGRATION 3': True, 'RELEASE 8': True, 'RANDOM': True, 'WAIT': True}
 applications = {3: [4, 0, 0, 0, 4, 0, 0, 0], 7: [0, 4, 4, 0, 0, 0, 0, 0], 12: [0, 4, 0, 0, 0, 0, 0, 4], 18: [0, 0, 0, 4, 4, 0, 0, 0], 10: [0, 4, 0, 0, 0, 4, 0, 0], 17: [0, 0, 4, 0, 0, 0, 0, 4], 26: [0, 0, 0, 0, 0, 4, 0, 4], 6: [4, 0, 0, 0, 0, 0, 0, 4], 16: [0, 0, 4, 0, 0, 0, 4, 0], 8: [0, 4, 0, 4, 0, 0, 0, 0], 14: [0, 0, 4, 0, 4, 0, 0, 0]}
 automated = [0, 0, 0, 2, 0, 0, 0, 0, 0, 0]
-
 
 print(f"expect [1,2,7,4,0,5,3,6] {get_best_ci(applications, [])}")
 print(f"expect [1,2,7,4,0,5,3,6] {get_best_ci(applications, automated)}")
 best_map = get_best_ci(applications, [])
 best_ci = get_best_possible_ci(pm,best_map)
 print(f"best ci is {best_ci}")
+print(f"expect yes {has_ci(pm)}")
+print(f"expect no {has_ci( {'TASK_PRIORITIZATION 8 0': True})}")

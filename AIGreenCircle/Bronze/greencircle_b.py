@@ -46,6 +46,37 @@ def next_lowest(oppLoc,myLoc):
         if idx not in forbidden:
             return idx
 
+def get_best_ci(applications,automated):
+
+    if len(automated) == 0:
+        automated = [0] * 8
+    appsum = [0]*8 
+    for v in applications.values():
+        for idx, val in enumerate(v):
+          appsum[idx] += val
+    for i,v in enumerate(appsum):
+      appsum[i] = appsum[i] - (automated[i] * 2)
+    return appsum
+    # return sorted(range(len(appsum)), key=lambda k: appsum[k], reverse = True)
+
+def get_best_possible_ci(pm,cimap):
+    possible_keys = list(pm.keys())
+    continuous = list(filter(lambda y: len(y) > 1, list(map(lambda x: x.split("CONTINUOUS_INTEGRATION "), possible_keys))))
+    possible_idxs = list(map(lambda a: a[1],continuous))
+    best = 0 
+    bestv = 0 
+    for i in possible_idxs:
+        if i == '8':
+            if bestv < 2:
+                bestv = 2
+                best = int(i)
+        else:
+          v = cimap[int(i)]
+          if v > bestv:
+            bestv = v 
+            best = int(i)
+    return f"CONTINUOUS_INTEGRATION {str(best)}"
+
 def app_summary(app):
   summary = [0]*8
   lists = list(app.values())
@@ -61,13 +92,21 @@ def handle_move(amax):
     else:
         print("RANDOM")
 
-def handle_play(pm):
+def has_ci(pm):
+    possible_keys = list(pm.keys())
+    continuous = list(filter(lambda y: len(y) > 1, list(map(lambda x: x.split("CONTINUOUS_INTEGRATION "), possible_keys))))
+    possible_idxs = list(map(lambda a: a[1],continuous))
+    return len(possible_idxs) > 1
+
+def handle_play(pm, ci = [], apps = []):
     if pm[f"REFACTORING"]:
         print(f"REFACTORING")
     elif pm[f"CODE_REVIEW"]:
         print(f"CODE_REVIEW")
-    # elif pm[f"CONTINUOUS_DELIVERY"]: needs special handling 
+    elif has_ci(pm): # needs special handling 
     #     print(f"CONTINUOUS_DELIVERY")
+      cim = get_best_ci(apps,ci)
+      print(get_best_possible_ci(pm,cim))
     elif pm[f"ARCHITECTURE_STUDY"]:
         print(f"ARCHITECTURE_STUDY")
     else:
@@ -191,7 +230,7 @@ while True:
     if game_phase == "MOVE":
         handle_move(amax)
     elif game_phase == "PLAY_CARD":
-        handle_play(pm)
+        handle_play(pm,cm["AUTOMATED"],applications)
     elif game_phase == "THROW_CARD":
         handle_throw(pm)
     else:
