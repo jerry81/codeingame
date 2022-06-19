@@ -98,7 +98,47 @@ def has_ci(pm):
     possible_idxs = list(map(lambda a: a[1],continuous))
     return len(possible_idxs) > 1
 
-def handle_play(pm, ci = [], apps = []):
+def get_possible_task_prioritizations(pm):
+    possible_keys = list(pm.keys())
+    tp = list(filter(lambda y: len(y) > 1, list(map(lambda x: x.split("TASK_PRIORITIZATION "), possible_keys))))
+    indexes = list(map(lambda a: a[1].split(" "),tp))
+    return indexes
+
+def get_best_task_prioritization(indexes, requirements, cards):
+    draw = cards["DRAW"]
+    discard = cards["DISCARD"]
+    automated = cards["AUTOMATED"]
+    if len(draw) == 0:
+        draw = [0] * 8 
+    if len(discard) == 0:
+        discard = [0] * 8
+    if len(automated) == 0:
+        automated = [0] * 8
+    req_sum = [0] * 8
+    hand_sum = [0] * 8
+    for i in requirements.values():
+        for idx,j in enumerate(i):
+            req_sum[idx] += j
+    for i in range(8):
+      hand_sum[i] += draw[i]
+      hand_sum[i] += discard[i]
+      hand_sum[i] += automated[i]
+    diff = [0] * 8
+    for i in range(8):
+        diff[i] = req_sum[i] - (2*hand_sum[i])
+    best_indexes = sorted(range(len(diff)), key=lambda k: diff[k], reverse = True)
+    best_indexes.append(8)
+    for i in range(9):
+        j = 8 - i
+        worst = best_indexes[j]
+        for k in range(9):
+            best = best_indexes[k]
+            if [str(worst), str(best)] in indexes:
+                return f"TASK_PRIORITIZATION {worst} {best}"
+    return "RANDOM"
+
+def handle_play(pm, ci = [], apps = [], cm = {}):
+    tps = get_possible_task_prioritizations(pm)
     if pm[f"REFACTORING"]:
         print(f"REFACTORING")
     elif pm[f"CODE_REVIEW"]:
@@ -109,6 +149,8 @@ def handle_play(pm, ci = [], apps = []):
       print(get_best_possible_ci(pm,cim))
     elif pm[f"ARCHITECTURE_STUDY"]:
         print(f"ARCHITECTURE_STUDY")
+    elif len(tps) > 0:
+        print(get_best_task_prioritization(tps, apps,cm))
     else:
         print("RANDOM")
 
@@ -230,7 +272,7 @@ while True:
     if game_phase == "MOVE":
         handle_move(amax)
     elif game_phase == "PLAY_CARD":
-        handle_play(pm,cm["AUTOMATED"],applications)
+        handle_play(pm,cm["AUTOMATED"],applications,cm)
     elif game_phase == "THROW_CARD":
         handle_throw(pm)
     else:

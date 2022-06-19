@@ -144,7 +144,7 @@ print(f"expect no {has_ci( {'TASK_PRIORITIZATION 8 0': True})}")
 
 indexes = get_possible_task_prioritizations(pm)
 print(f"expect several {indexes}")
-
+print(f"expect none {get_possible_task_prioritizations({})}")
 cm = {'DRAW': [1, 4, 0, 3, 2, 2, 2, 4, 16, 17], 'HAND': [1, 0, 0, 0, 0, 0, 0, 0, 3, 0], 'DISCARD': [], 'OPPONENT_CARDS': [1, 0, 0, 1, 0, 1, 1, 1, 5, 0], 'PLAYED_CARDS': [0, 0, 0, 0, 0, 1, 0, 0, 0, 0], 'AUTOMATED': [1, 1, 0, 1, 1, 0, 0, 0, 1, 0], 'OPPONENT_AUTOMATED': []}
 best_task = get_best_task_prioritization(indexes,applications,cm)
 print(f"results is {best_task}")
