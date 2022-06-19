@@ -16,12 +16,13 @@
 - Prioritize the play_cards (descending) - done
 
 - further optimize continuous integration and task prioritization 
-  - continuous integration - prioritize most in-demand requirements
-    - list all continuous integration possibilities 
-      - pm is ('CONTINUOUS_INTEGRATION 8', True)
-      - pm is ('CONTINUOUS_INTEGRATION 3', True)
-    - get map of requirements - already automated 
+  - continuous integration - prioritize most in-demand requirements - done 
+    - list all continuous integration possibilities - done 
+      - pm is ('CONTINUOUS_INTEGRATION 8', True) 
+      - pm is ('CONTINUOUS_INTEGRATION 3', True) 
+    - get map of requirements - already automated  - done
   - task prioritization - if possible trade bonus for skills (giving priority to best skills)
+    - possible moves parsing - done 
     - 
 
 
