@@ -23,7 +23,10 @@
     - get map of requirements - already automated  - done
   - task prioritization - if possible trade bonus for skills (giving priority to best skills)
     - possible moves parsing - done 
-    - 
+    - add up the "effective" cards 
+      - DRAW + DISCARD + AUTOMATED
+    - make map of required
+    - prioritize trading bonus card for most required 
 
 
 - minimize damage from THROW - done 

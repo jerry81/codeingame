@@ -94,9 +94,37 @@ def has_ci(pm):
 def get_possible_task_prioritizations(pm):
     possible_keys = list(pm.keys())
     tp = list(filter(lambda y: len(y) > 1, list(map(lambda x: x.split("TASK_PRIORITIZATION "), possible_keys))))
-    print(f"tp are {tp}")
     indexes = list(map(lambda a: a[1].split(" "),tp))
     return indexes
+
+def get_best_task_prioritization(indexes, requirements, cards):
+    draw = cards["DRAW"]
+    discard = cards["DISCARD"]
+    automated = cards["AUTOMATED"]
+    if len(draw) == 0:
+        draw = [0] * 8 
+    if len(discard) == 0:
+        discard = [0] * 8
+    if len(automated) == 0:
+        automated = [0] * 8
+    req_sum = [0] * 8
+    hand_sum = [0] * 8
+    for i in requirements.values():
+        for idx,j in enumerate(i):
+            req_sum[idx] += j
+    for i in range(8):
+      hand_sum[i] += draw[i]
+      hand_sum[i] += discard[i]
+      hand_sum[i] += automated[i]
+    diff = [0] * 8
+    for i in range(8):
+        diff[i] = req_sum[i] - (2*hand_sum[i])
+    best_indexes = sorted(range(len(diff)), key=lambda k: diff[k], reverse = True)
+    best_indexes.append(8)
+    for i in range(9):
+        j = 8 - i
+        worst = best_indexes[j]
+        best = best_indexes[i]
 
 pm = {'TASK_PRIORITIZATION 8 0': True, 'TASK_PRIORITIZATION 8 1': True, 'TASK_PRIORITIZATION 8 2': True, 'TASK_PRIORITIZATION 8 3': True, 'TASK_PRIORITIZATION 8 4': True, 'TASK_PRIORITIZATION 8 5': True, 'TASK_PRIORITIZATION 8 6': True, 'TASK_PRIORITIZATION 8 7': True, 'TASK_PRIORITIZATION 5 0': True, 'TASK_PRIORITIZATION 5 1': True, 'TASK_PRIORITIZATION 5 2': True, 'TASK_PRIORITIZATION 5 3': True, 'TASK_PRIORITIZATION 5 4': True, 'TASK_PRIORITIZATION 5 5': True, 'TASK_PRIORITIZATION 5 6': True, 'TASK_PRIORITIZATION 5 7': True, 'CONTINUOUS_INTEGRATION 8': True, 'CONTINUOUS_INTEGRATION 3': True, 'RELEASE 8': True, 'RANDOM': True, 'WAIT': True}
 applications = {3: [4, 0, 0, 0, 4, 0, 0, 0], 7: [0, 4, 4, 0, 0, 0, 0, 0], 12: [0, 4, 0, 0, 0, 0, 0, 4], 18: [0, 0, 0, 4, 4, 0, 0, 0], 10: [0, 4, 0, 0, 0, 4, 0, 0], 17: [0, 0, 4, 0, 0, 0, 0, 4], 26: [0, 0, 0, 0, 0, 4, 0, 4], 6: [4, 0, 0, 0, 0, 0, 0, 4], 16: [0, 0, 4, 0, 0, 0, 4, 0], 8: [0, 4, 0, 4, 0, 0, 0, 0], 14: [0, 0, 4, 0, 4, 0, 0, 0]}
@@ -110,4 +138,8 @@ print(f"best ci is {best_ci}")
 print(f"expect yes {has_ci(pm)}")
 print(f"expect no {has_ci( {'TASK_PRIORITIZATION 8 0': True})}")
 
-print(f"expect several {get_possible_task_prioritizations(pm)}")
+indexes = get_possible_task_prioritizations(pm)
+print(f"expect several {indexes}")
+
+cm = {'DRAW': [1, 4, 0, 3, 2, 2, 2, 4, 16, 17], 'HAND': [1, 0, 0, 0, 0, 0, 0, 0, 3, 0], 'DISCARD': [], 'OPPONENT_CARDS': [1, 0, 0, 1, 0, 1, 1, 1, 5, 0], 'PLAYED_CARDS': [0, 0, 0, 0, 0, 1, 0, 0, 0, 0], 'AUTOMATED': [1, 1, 0, 1, 1, 0, 0, 0, 1, 0], 'OPPONENT_AUTOMATED': []}
+best_task = get_best_task_prioritization(indexes,applications,cm)
