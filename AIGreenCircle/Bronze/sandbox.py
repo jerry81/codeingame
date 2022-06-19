@@ -124,7 +124,11 @@ def get_best_task_prioritization(indexes, requirements, cards):
     for i in range(9):
         j = 8 - i
         worst = best_indexes[j]
-        best = best_indexes[i]
+        for k in range(9):
+            best = best_indexes[k]
+            if [str(worst), str(best)] in indexes:
+                return f"TASK_PRIORITIZATION {worst} {best}"
+    return "RANDOM"
 
 pm = {'TASK_PRIORITIZATION 8 0': True, 'TASK_PRIORITIZATION 8 1': True, 'TASK_PRIORITIZATION 8 2': True, 'TASK_PRIORITIZATION 8 3': True, 'TASK_PRIORITIZATION 8 4': True, 'TASK_PRIORITIZATION 8 5': True, 'TASK_PRIORITIZATION 8 6': True, 'TASK_PRIORITIZATION 8 7': True, 'TASK_PRIORITIZATION 5 0': True, 'TASK_PRIORITIZATION 5 1': True, 'TASK_PRIORITIZATION 5 2': True, 'TASK_PRIORITIZATION 5 3': True, 'TASK_PRIORITIZATION 5 4': True, 'TASK_PRIORITIZATION 5 5': True, 'TASK_PRIORITIZATION 5 6': True, 'TASK_PRIORITIZATION 5 7': True, 'CONTINUOUS_INTEGRATION 8': True, 'CONTINUOUS_INTEGRATION 3': True, 'RELEASE 8': True, 'RANDOM': True, 'WAIT': True}
 applications = {3: [4, 0, 0, 0, 4, 0, 0, 0], 7: [0, 4, 4, 0, 0, 0, 0, 0], 12: [0, 4, 0, 0, 0, 0, 0, 4], 18: [0, 0, 0, 4, 4, 0, 0, 0], 10: [0, 4, 0, 0, 0, 4, 0, 0], 17: [0, 0, 4, 0, 0, 0, 0, 4], 26: [0, 0, 0, 0, 0, 4, 0, 4], 6: [4, 0, 0, 0, 0, 0, 0, 4], 16: [0, 0, 4, 0, 0, 0, 4, 0], 8: [0, 4, 0, 4, 0, 0, 0, 0], 14: [0, 0, 4, 0, 4, 0, 0, 0]}
@@ -143,3 +147,4 @@ print(f"expect several {indexes}")
 
 cm = {'DRAW': [1, 4, 0, 3, 2, 2, 2, 4, 16, 17], 'HAND': [1, 0, 0, 0, 0, 0, 0, 0, 3, 0], 'DISCARD': [], 'OPPONENT_CARDS': [1, 0, 0, 1, 0, 1, 1, 1, 5, 0], 'PLAYED_CARDS': [0, 0, 0, 0, 0, 1, 0, 0, 0, 0], 'AUTOMATED': [1, 1, 0, 1, 1, 0, 0, 0, 1, 0], 'OPPONENT_AUTOMATED': []}
 best_task = get_best_task_prioritization(indexes,applications,cm)
+print(f"results is {best_task}")
