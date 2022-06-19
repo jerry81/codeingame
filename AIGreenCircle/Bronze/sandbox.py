@@ -52,3 +52,20 @@ hand =  [0, 0, 0, 0, 0, 1, 8, 1, 1, 2]
 print(f"expect 2 {next_lowest(4,1)}")
 print(f"expect 2 {next_lowest(7,0)}")
 print(f"expect 3 {next_lowest(1,-1)}")
+
+def get_best_ci(applications,automated):
+    if len(automated) == 0:
+        automated = [0] * 8
+    appsum = [0]*8 
+    for v in applications.values():
+        for idx, val in enumerate(v):
+          appsum[idx] += val
+    for i,v in enumerate(appsum):
+      appsum[i] = appsum[i] - (automated[i] * 2)
+    return sorted(range(len(appsum)), key=lambda k: appsum[k], reverse = True)
+
+applications = {3: [4, 0, 0, 0, 4, 0, 0, 0], 7: [0, 4, 4, 0, 0, 0, 0, 0], 12: [0, 4, 0, 0, 0, 0, 0, 4], 18: [0, 0, 0, 4, 4, 0, 0, 0], 10: [0, 4, 0, 0, 0, 4, 0, 0], 17: [0, 0, 4, 0, 0, 0, 0, 4], 26: [0, 0, 0, 0, 0, 4, 0, 4], 6: [4, 0, 0, 0, 0, 0, 0, 4], 16: [0, 0, 4, 0, 0, 0, 4, 0], 8: [0, 4, 0, 4, 0, 0, 0, 0], 14: [0, 0, 4, 0, 4, 0, 0, 0]}
+automated = [0, 0, 0, 2, 0, 0, 0, 0, 0, 0]
+
+print(f"expect [1,2,7,4,0,5,3,6] {get_best_ci(applications, [])}")
+print(f"expect [1,2,7,4,0,5,3,6] {get_best_ci(applications, automated)}")
