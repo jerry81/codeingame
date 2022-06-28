@@ -36,19 +36,19 @@ if len(fizzIdxes) == 0 and len(fizzBuzzI) >= 2:
     f = fizzBuzzI[1] - fizzBuzzI[0]
 if len(fizzIdxes) == 1:
     idx = fizzIdxes[0]
-    prevItem = allIdxes[idx-1]
-    if prevItem > -1 and prevItem != "Fizz" and prevItem != "Buzz" and prevItem != "FizzBuzz":
+    prevItem = int(allIdxes[idx-1])
+    if prevItem is int and prevItem > -1: #!= "Fizz" and prevItem != "Buzz" and prevItem != "FizzBuzz":
         f = int(prevItem) + 1
-    nextItem = allIdxes[idx+1]
-    if nextItem > -1 and nextItem != "Fizz" and nextItem != "Buzz" and nextItem != "FizzBuzz":
+    nextItem = int(allIdxes[idx+1])
+    if nextItem is int and nextItem > -1:# != "Fizz" and nextItem != "Buzz" and nextItem != "FizzBuzz":
         f = int(nextItem) - 1
 if len(buzzIdxes) == 1:
     idx = buzzIdxes[0]
-    prevItem = allIdxes[idx-1]
-    if prevItem > -1 and prevItem != "Fizz" and prevItem != "Buzz" and prevItem != "FizzBuzz":
+    prevItem = int(allIdxes[idx-1])
+    if prevItem is int and prevItem > -1: # != "Fizz" and prevItem != "Buzz" and prevItem != "FizzBuzz":
         b = int(prevItem) + 1
-    nextItem = allIdxes[idx+1]
-    if nextItem > -1 and nextItem != "Fizz" and nextItem != "Buzz" and nextItem != "FizzBuzz":
+    nextItem = int(allIdxes[idx+1])
+    if nextItem is int and nextItem > -1: # != "Fizz" and nextItem != "Buzz" and nextItem != "FizzBuzz":
         b = int(nextItem) - 1
     
 # Write an answer using print
