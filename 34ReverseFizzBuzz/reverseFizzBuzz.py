@@ -15,12 +15,13 @@ for i in range(n):
     if (line == 'Fizz'):
          print(f"fizz is {i}", file=sys.stderr, flush=True)
          fizzIdxes.append(i)
-    if (line == 'Buzz'):
+    elif (line == 'Buzz'):
          print(f"buzz is {i}", file=sys.stderr, flush=True)
          buzzIdxes.append(i)
-    if (line == 'FizzBuzz'):
+    elif (line == 'FizzBuzz'):
         fizzBuzzI.append(i)
-    allIdxes[i] = line
+    else: 
+        allIdxes[i] = int(line)
 print(f"fizzIdxes is {fizzIdxes}", file=sys.stderr, flush=True)
 print(f"buzzIdxes is {buzzIdxes}", file=sys.stderr, flush=True)
 print(f"all is {allIdxes}", file=sys.stderr, flush=True)
@@ -36,20 +37,23 @@ if len(fizzIdxes) == 0 and len(fizzBuzzI) >= 2:
     f = fizzBuzzI[1] - fizzBuzzI[0]
 if len(fizzIdxes) == 1:
     idx = fizzIdxes[0]
-    prevItem = int(allIdxes[idx-1])
+    prevItem = allIdxes[idx-1]
+    print(f"prevItem is {prevItem}", file=sys.stderr, flush=True)
     if prevItem is int and prevItem > -1: #!= "Fizz" and prevItem != "Buzz" and prevItem != "FizzBuzz":
-        f = int(prevItem) + 1
-    nextItem = int(allIdxes[idx+1])
-    if nextItem is int and nextItem > -1:# != "Fizz" and nextItem != "Buzz" and nextItem != "FizzBuzz":
-        f = int(nextItem) - 1
+        print(f"prevItem is {prevItem}", file=sys.stderr, flush=True)
+        f = prevItem + 1
+    nextItem = allIdxes[idx+1]
+    if nextItem is int and nextItem > 0:# != "Fizz" and nextItem != "Buzz" and nextItem != "FizzBuzz":
+        print(f"shouldnt be here is {prevItem}", file=sys.stderr, flush=True)
+        f = nextItem - 1
 if len(buzzIdxes) == 1:
     idx = buzzIdxes[0]
-    prevItem = int(allIdxes[idx-1])
+    prevItem = allIdxes[idx-1]
     if prevItem is int and prevItem > -1: # != "Fizz" and prevItem != "Buzz" and prevItem != "FizzBuzz":
-        b = int(prevItem) + 1
-    nextItem = int(allIdxes[idx+1])
-    if nextItem is int and nextItem > -1: # != "Fizz" and nextItem != "Buzz" and nextItem != "FizzBuzz":
-        b = int(nextItem) - 1
+        b = prevItem + 1
+    nextItem = allIdxes[idx+1]
+    if nextItem is int and nextItem > 0: # != "Fizz" and nextItem != "Buzz" and nextItem != "FizzBuzz":
+        b = nextItem - 1
     
 # Write an answer using print
 # To debug: print("Debug messages...", file=sys.stderr, flush=True)
