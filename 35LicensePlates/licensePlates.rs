@@ -57,7 +57,7 @@ fn main() {
         // increment letters
         // do it times_over times 
         // first add to splitS2[1]
-        let incr = (spl_s_2[1] - 65) as u16 + times_over as u16;
+        let incr = (spl_s_2[1] - 65) as u32 + times_over as u32;
         if incr > 26 {
             eprintln!("incr overflow is {} ", incr); 
             // handle char overflow
@@ -75,6 +75,8 @@ fn main() {
                 let fourth_times = incr3 / 26;
                 let fourth_remain = incr3 % 26;
                 spl_s_1[1] = 65 + fourth_remain as u8;
+                spl_s_1[0] = spl_s_1[0] as u8 + fourth_times as u8;
+                
               } else {
                 spl_s_1[1] = (65+incr3) as u8;
               }
