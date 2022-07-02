@@ -70,12 +70,15 @@ fn main() {
             eprintln!("times test {} ", times); 
             eprintln!("remain test {} ", remain); 
             if times > 26 {
+              eprintln!("times is {} ", times); 
               let mut incr2 = spl_s_1[1] as u16 + times as u16;
+              eprintln!("orig is {} ", spl_s_1[1]); 
+              eprintln!("incr2 is {} ", incr2); 
               let third_times = (incr2-65) / 26;
               let third_remain = (incr2-65) % 26;
               eprintln!("third_times test {} ", third_times); 
               eprintln!("third_remain test {} ", third_remain);
-              spl_s_1[1] = (incr2 + third_times) as u8;
+              spl_s_1[1] = (spl_s_1[1] as u16 + third_times) as u8;
               incr = third_remain;
             }
         }
