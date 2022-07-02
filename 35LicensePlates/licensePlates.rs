@@ -37,7 +37,6 @@ fn main() {
     let asi = num.parse::<i32>().unwrap();
     eprintln!("spl_s_1 is {:?}", spl_s_1);
     eprintln!("spl_s_2 is {:?}", spl_s_2);
-    eprintln!("asi converted is {}", asi);
     let new_num = n + asi;
     let mut new_num_str: String = new_num.to_string();
     if new_num >= 999 {
@@ -54,8 +53,6 @@ fn main() {
         You could probably also use let x = 7.0 in this case.
         */
         let remainder = new_num % 999;
-        eprintln!("times_over test {} ", times_over); 
-        eprintln!("format test {} ", format!("{:03}", 42)); 
         new_num_str = format!("{:03}", remainder);
         // increment letters
         // do it times_over times 
@@ -65,25 +62,21 @@ fn main() {
             eprintln!("incr overflow is {} ", incr); 
             // handle char overflow
             let times = incr/26;
-            eprintln!("times is {} ", times); 
             let remain = incr%26;
             spl_s_2[1] = (remain + 65) as u8;
-            eprintln!("second is {}", spl_s_2[0]);
-            let incr2 = (spl_s_2[0] - 65) as u16 + times as u16;
-            eprintln!("incr2 normal is {} ", incr2); 
+            let incr2 = (spl_s_2[0] - 65) as u16 + times as u16; // TODO: DRY
             if incr2 > 26 {
               eprintln!("incr2 overflow is {} ", incr2); 
               let third_times = incr2 / 26;
               let third_remain = incr2 % 26;
               spl_s_2[0] = 65 + third_remain as u8; 
-              if third_times > 26 {
-                
-                let final_nest = third_times / 26;
-                let final_remain = third_times % 26;
-                eprintln!("final_nest is {} ", final_nest); 
-                eprintln!("final_remain is {} ", final_remain); 
+              let incr3 = (spl_s_1[1] - 65) as u16 + third_times as u16;
+              if incr3 > 26 {
+                let fourth_times = incr3 / 26;
+                let fourth_remain = incr3 % 26;
+                spl_s_1[1] = 65 + fourth_remain as u8;
               } else {
-
+                spl_s_1[1] = (65+incr3) as u8;
               }
               // spl_s_1[1] = (spl_s_1[1] as u16 + third_times) as u8;
             } else {
