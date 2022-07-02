@@ -40,7 +40,8 @@ fn main() {
     eprintln!("asi converted is {}", asi);
     let new_num = n + asi;
     let mut new_num_str: String = new_num.to_string();
-    if new_num > 999 {
+    if new_num >= 999 {
+        eprintln!("newNum test {} ", new_num_str); 
         let times_over = new_num / 999;
         /* 
         notes on division: rust does flooring int division by default
@@ -59,11 +60,18 @@ fn main() {
         // increment letters
         // do it times_over times 
         // first add to splitS2[1]
-        let incr = spl_s_2[1] + times_over as u8;
+        let mut incr = spl_s_2[1] + times_over as u8;
         if incr > 90 {
             // handle char overflow
+            let times = (incr-65)/26;
+            let remain = (incr-65)%26;
+            spl_s_2[0] += times as u8;
+            incr = 65 + remain as u8;
+            eprintln!("times test {} ", times); 
+            eprintln!("remain test {} ", remain); 
         }
-        eprintln!("incr test {} ", incr); 
+        
+        
         spl_s_2[1] = incr;
         // a_char is 65
         // z is 90
