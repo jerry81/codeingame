@@ -70,6 +70,7 @@ fn main() {
         // achar is 65
         // z is 90
     }
+    let charArr2: Vec<char> = splS2.iter().map(|x| *x as char).collect();
     eprintln!("newNum is {}", newNum);
     eprintln!("newNumStr is {}", newNumStr);
     // increment right chars
@@ -84,6 +85,6 @@ fn main() {
      
      {:?} is for debugging and other miscellaneous printing, so it displays quotes on strings.
     */
-
-    println!("{}-{}-{}", spl[0], newNumStr, spl[2]);
+    let s2: String = charArr2.iter().collect();
+    println!("{}-{}-{}", spl[0], newNumStr, s2);
 }
