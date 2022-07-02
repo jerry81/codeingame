@@ -20,11 +20,20 @@ fn main() {
     // To debug: eprintln!("Debug message...");
     // experiments
     let spl: Vec<&str>  = x.split("-").collect();
-    eprintln!("spl is {:?}", spl); 
+
     let aChar = 'A' as u32;
     let zChar = 'Z' as u32;
     // split the input
     // increment the number
+    let let1 = spl[0];
+    let num = spl[1];
+    let let2 = spl[2];
+    // convert 
+    let splS1: Vec<&str> = let1.split("").filter(|&x| !x.is_empty()).collect();
+    let splS2: Vec<&str> = let2.split("").filter(|&x| !x.is_empty()).collect(); // first time using rust filter?
+   
+    eprintln!("splS1 is {:?}", splS1);
+    eprintln!("splS2 is {:?}", splS2);
     // increment right chars
     // increment left chars 
     eprintln!("achar is {:?}", aChar); // refresher on printing vars
