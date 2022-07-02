@@ -60,7 +60,7 @@ fn main() {
         // increment letters
         // do it times_over times 
         // first add to splitS2[1]
-        let mut incr = (spl_s_2[1] - 65) as u16 + times_over as u16;
+        let incr = (spl_s_2[1] - 65) as u16 + times_over as u16;
         if incr > 26 {
             // handle char overflow
             let times = incr/26;
@@ -80,13 +80,13 @@ fn main() {
               } else {
 
               }
-              spl_s_1[1] = (spl_s_1[1] as u16 + third_times) as u8;
+              // spl_s_1[1] = (spl_s_1[1] as u16 + third_times) as u8;
             } else {
-                spl_s_1[1] += 65 + incr2 as u8;
+                spl_s_2[0] = (65 + incr2) as u8;
             }
             
         } else {
-            spl_s_2[1] = 65 + incr as u8;
+            spl_s_2[1] = (65 + incr) as u8;
         }
         
         
