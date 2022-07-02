@@ -21,8 +21,8 @@ fn main() {
     // experiments
     let spl: Vec<&str>  = x.split("-").collect();
 
-    let aChar = 'A' as u32;
-    let zChar = 'Z' as u32;
+    let aChar = 'A' as i32;
+    let zChar = 'Z' as i32;
     // split the input
     // increment the number
     let let1 = spl[0];
@@ -31,9 +31,11 @@ fn main() {
     // convert 
     let splS1: Vec<&str> = let1.split("").filter(|&x| !x.is_empty()).collect();
     let splS2: Vec<&str> = let2.split("").filter(|&x| !x.is_empty()).collect(); // first time using rust filter?
-   
+    eprintln!("num pre converted is {:?}", num);
+    let asi = num.parse::<i32>().unwrap();
     eprintln!("splS1 is {:?}", splS1);
     eprintln!("splS2 is {:?}", splS2);
+    eprintln!("asi converted is {:?}", asi);
     // increment right chars
     // increment left chars 
     eprintln!("achar is {:?}", aChar); // refresher on printing vars
