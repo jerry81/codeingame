@@ -62,12 +62,17 @@ fn main() {
         // first add to splitS2[1]
         let incr = (spl_s_2[1] - 65) as u16 + times_over as u16;
         if incr > 26 {
+            eprintln!("incr overflow is {} ", incr); 
             // handle char overflow
             let times = incr/26;
+            eprintln!("times is {} ", times); 
             let remain = incr%26;
             spl_s_2[1] = (remain + 65) as u8;
-            let mut incr2 = (spl_s_1[0] - 65) as u16 + times as u16;
+            eprintln!("second is {}", spl_s_2[0]);
+            let incr2 = (spl_s_2[0] - 65) as u16 + times as u16;
+            eprintln!("incr2 normal is {} ", incr2); 
             if incr2 > 26 {
+              eprintln!("incr2 overflow is {} ", incr2); 
               let third_times = incr2 / 26;
               let third_remain = incr2 % 26;
               spl_s_2[0] = 65 + third_remain as u8; 
@@ -82,6 +87,7 @@ fn main() {
               }
               // spl_s_1[1] = (spl_s_1[1] as u16 + third_times) as u8;
             } else {
+                eprintln!("setting the wrong item {} ", incr2); 
                 spl_s_2[0] = (65 + incr2) as u8;
             }
             
