@@ -66,16 +66,18 @@ fn main() {
             let times = (incr-65)/26;
             let remain = (incr-65)%26;
             incr = 65 + remain as u16;
-            eprintln!("incr test {} ", incr);
-            eprintln!("times test {} ", times); 
-            eprintln!("remain test {} ", remain); 
             if times > 26 {
               eprintln!("times is {} ", times); 
               eprintln!("orig is {} ", spl_s_1[1]);  
               let third_times = times / 26;
               let third_remain = times % 26;
-              eprintln!("third_times test {} ", third_times); 
-              eprintln!("third_remain test {} ", third_remain);
+              if third_times > 26 {
+                
+                let final_nest = third_times / 26;
+                let final_remain = third_times % 26;
+                eprintln!("final_nest is {} ", final_nest); 
+                eprintln!("final_remain is {} ", final_remain); 
+              }
               spl_s_1[1] = (spl_s_1[1] as u16 + third_times) as u8;
               spl_s_2[0] += (third_remain) as u8;
             } else {
@@ -91,13 +93,9 @@ fn main() {
     }
     let char_arr_1: Vec<char> = spl_s_1.iter().map(|x| *x as char).collect();
     let char_arr_2: Vec<char> = spl_s_2.iter().map(|x| *x as char).collect();
-    eprintln!("new_num is {}", new_num);
-    eprintln!("new_num_str is {}", new_num_str);
+   
     // increment right chars
     // increment left chars 
-    eprintln!("a_char is {}", a_char); // refresher on printing vars
-
-    eprintln!("z is {}", z_char); // refresher on printing vars
 
     /*
     {} is for values that have a lossless, unambiguous representation as a string.,
