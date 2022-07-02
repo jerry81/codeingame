@@ -60,34 +60,37 @@ fn main() {
         // increment letters
         // do it times_over times 
         // first add to splitS2[1]
-        let mut incr = spl_s_2[1] as u16 + times_over as u16;
-        if incr > 90 {
+        let mut incr = (spl_s_2[1] - 65) as u16 + times_over as u16;
+        if incr > 26 {
             // handle char overflow
-            let times = (incr-65)/26;
-            let remain = (incr-65)%26;
-            incr = 65 + remain as u16;
-            if times > 26 {
-              eprintln!("times is {} ", times); 
-              eprintln!("orig is {} ", spl_s_1[1]);  
-              let third_times = times / 26;
-              let third_remain = times % 26;
+            let times = incr/26;
+            let remain = incr%26;
+            spl_s_2[1] = (remain + 65) as u8;
+            let mut incr2 = (spl_s_1[0] - 65) as u16 + times as u16;
+            if incr2 > 26 {
+              let third_times = incr2 / 26;
+              let third_remain = incr2 % 26;
+              spl_s_2[0] = 65 + third_remain as u8; 
               if third_times > 26 {
                 
                 let final_nest = third_times / 26;
                 let final_remain = third_times % 26;
                 eprintln!("final_nest is {} ", final_nest); 
                 eprintln!("final_remain is {} ", final_remain); 
+              } else {
+
               }
               spl_s_1[1] = (spl_s_1[1] as u16 + third_times) as u8;
-              spl_s_2[0] += (third_remain) as u8;
             } else {
-                spl_s_2[0] += times as u8;
+                spl_s_1[1] += 65 + incr2 as u8;
             }
             
+        } else {
+            spl_s_2[1] = 65 + incr as u8;
         }
         
         
-        spl_s_2[1] = incr as u8;
+        
         // a_char is 65
         // z is 90
     }
