@@ -65,22 +65,23 @@ fn main() {
             // handle char overflow
             let times = (incr-65)/26;
             let remain = (incr-65)%26;
-            spl_s_2[0] += times as u8;
             incr = 65 + remain as u16;
+            eprintln!("incr test {} ", incr);
             eprintln!("times test {} ", times); 
             eprintln!("remain test {} ", remain); 
             if times > 26 {
               eprintln!("times is {} ", times); 
-              let mut incr2 = spl_s_1[1] as u16 + times as u16;
-              eprintln!("orig is {} ", spl_s_1[1]); 
-              eprintln!("incr2 is {} ", incr2); 
-              let third_times = (incr2-65) / 26;
-              let third_remain = (incr2-65) % 26;
+              eprintln!("orig is {} ", spl_s_1[1]);  
+              let third_times = times / 26;
+              let third_remain = times % 26;
               eprintln!("third_times test {} ", third_times); 
               eprintln!("third_remain test {} ", third_remain);
               spl_s_1[1] = (spl_s_1[1] as u16 + third_times) as u8;
-              incr = third_remain;
+              spl_s_2[0] += (third_remain) as u8;
+            } else {
+                spl_s_2[0] += times as u8;
             }
+            
         }
         
         
