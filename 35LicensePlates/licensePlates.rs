@@ -29,8 +29,10 @@ fn main() {
     let num = spl[1];
     let let2 = spl[2];
     // convert 
-    let splS1: Vec<&str> = let1.split("").filter(|&x| !x.is_empty()).collect();
-    let splS2: Vec<&str> = let2.split("").filter(|&x| !x.is_empty()).collect(); // first time using rust filter?
+    let splS1: Vec<i32> = let1.chars()
+    .map(|x| x as i32).collect();
+    let splS2: Vec<i32> = let2.chars()
+    .map(|x| x as i32).collect();; // first time using rust filter?
     eprintln!("num pre converted is {:?}", num);
     let asi = num.parse::<i32>().unwrap();
     eprintln!("splS1 is {:?}", splS1);
