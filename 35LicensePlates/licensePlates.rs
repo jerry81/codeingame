@@ -33,16 +33,24 @@ fn main() {
     .map(|x| x as i32).collect();
     let splS2: Vec<i32> = let2.chars()
     .map(|x| x as i32).collect();; // first time using rust filter?
-    eprintln!("num pre converted is {:?}", num);
     let asi = num.parse::<i32>().unwrap();
     eprintln!("splS1 is {:?}", splS1);
     eprintln!("splS2 is {:?}", splS2);
-    eprintln!("asi converted is {:?}", asi);
+    eprintln!("asi converted is {}", asi);
+    let newNum = n + asi;
+    eprintln!("newNum is {}", newNum);
     // increment right chars
     // increment left chars 
-    eprintln!("achar is {:?}", aChar); // refresher on printing vars
+    eprintln!("achar is {}", aChar); // refresher on printing vars
 
-    eprintln!("z is {:?}", zChar); // refresher on printing vars
+    eprintln!("z is {}", zChar); // refresher on printing vars
 
-    println!("AA-000-AA");
+    /*
+    {} is for values that have a lossless, unambiguous representation as a string.,
+     e.g. strings and integers. 
+     
+     {:?} is for debugging and other miscellaneous printing, so it displays quotes on strings.
+    */
+
+    println!("{}-{}-{}", spl[0], newNum, spl[2]);
 }
