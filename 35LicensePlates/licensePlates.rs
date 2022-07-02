@@ -1,4 +1,5 @@
 use std::io;
+use std::fmt;
 
 macro_rules! parse_input {
     ($x:expr, $t:ident) => ($x.trim().parse::<$t>().unwrap())
@@ -38,7 +39,16 @@ fn main() {
     eprintln!("splS2 is {:?}", splS2);
     eprintln!("asi converted is {}", asi);
     let newNum = n + asi;
+    let mut newNumStr: String = "".to_string();
+    if newNum > 999 {
+        let remainder = newNum % 999;
+        eprintln!("format test {} ", format!("{:03}", 42)); 
+        let asS: String = newNum.to_string();
+        newNumStr = format!("{:03}", asS);
+        // increment letters
+    }
     eprintln!("newNum is {}", newNum);
+    eprintln!("newNumStr is {}", newNumStr);
     // increment right chars
     // increment left chars 
     eprintln!("achar is {}", aChar); // refresher on printing vars
