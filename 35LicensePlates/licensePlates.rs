@@ -22,30 +22,53 @@ fn main() {
     // experiments
     let spl: Vec<&str>  = x.split("-").collect();
 
-    let aChar = 'A' as i32;
-    let zChar = 'Z' as i32;
+    let aChar = 'A' as u8;
+    let zChar = 'Z' as u8;
     // split the input
     // increment the number
     let let1 = spl[0];
     let num = spl[1];
     let let2 = spl[2];
     // convert 
-    let splS1: Vec<i32> = let1.chars()
-    .map(|x| x as i32).collect();
-    let splS2: Vec<i32> = let2.chars()
-    .map(|x| x as i32).collect();; // first time using rust filter?
+    let splS1: Vec<u8> = let1.chars()
+    .map(|x| x as u8).collect();
+    let splS2: Vec<u8> = let2.chars()
+    .map(|x| x as u8).collect();; // first time using rust filter?
     let asi = num.parse::<i32>().unwrap();
     eprintln!("splS1 is {:?}", splS1);
     eprintln!("splS2 is {:?}", splS2);
     eprintln!("asi converted is {}", asi);
     let newNum = n + asi;
-    let mut newNumStr: String = "".to_string();
+    let mut newNumStr: String = newNum.to_string();
+    let mut incrStr: char = 'X';
     if newNum > 999 {
+        let timesOver = newNum / 999;
+        /* 
+        notes on division: rust does flooring int division by default
+        You can declare the number type like so:
+        for more precision, work with floats 
+        let x = 7f64;
+        let y = 3f64;
+        
+        println!("{} / {} = {}", x, y, x/y);
+        You could probably also use let x = 7.0 in this case.
+        */
         let remainder = newNum % 999;
+        eprintln!("timesOver test {} ", timesOver); 
         eprintln!("format test {} ", format!("{:03}", 42)); 
-        let asS: String = newNum.to_string();
-        newNumStr = format!("{:03}", asS);
+        newNumStr = format!("{:03}", remainder);
         // increment letters
+        // do it timesover times 
+        // first add to splitS2[1]
+        let incr = splS2[1] + timesOver as u8;
+        if incr > 90 {
+            // handle char overflow
+        }
+        eprintln!("incr test {} ", incr); 
+        incrStr = incr as char;
+        eprintln!("incrStr test {} ", incrStr); 
+        // achar is 65
+        // z is 90
     }
     eprintln!("newNum is {}", newNum);
     eprintln!("newNumStr is {}", newNumStr);
@@ -62,5 +85,5 @@ fn main() {
      {:?} is for debugging and other miscellaneous printing, so it displays quotes on strings.
     */
 
-    println!("{}-{}-{}", spl[0], newNum, spl[2]);
+    println!("{}-{}-{}", spl[0], newNumStr, spl[2]);
 }
