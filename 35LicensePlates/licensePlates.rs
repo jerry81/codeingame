@@ -60,22 +60,32 @@ fn main() {
         // increment letters
         // do it times_over times 
         // first add to splitS2[1]
-        let mut incr = spl_s_2[1] + times_over as u8;
+        let mut incr = spl_s_2[1] as u16 + times_over as u16;
         if incr > 90 {
             // handle char overflow
             let times = (incr-65)/26;
             let remain = (incr-65)%26;
             spl_s_2[0] += times as u8;
-            incr = 65 + remain as u8;
+            incr = 65 + remain as u16;
             eprintln!("times test {} ", times); 
             eprintln!("remain test {} ", remain); 
+            if times > 26 {
+              let mut incr2 = spl_s_1[1] as u16 + times as u16;
+              let third_times = (incr2-65) / 26;
+              let third_remain = (incr2-65) % 26;
+              eprintln!("third_times test {} ", third_times); 
+              eprintln!("third_remain test {} ", third_remain);
+              spl_s_1[1] = (incr2 + third_times) as u8;
+              incr = third_remain;
+            }
         }
         
         
-        spl_s_2[1] = incr;
+        spl_s_2[1] = incr as u8;
         // a_char is 65
         // z is 90
     }
+    let char_arr_1: Vec<char> = spl_s_1.iter().map(|x| *x as char).collect();
     let char_arr_2: Vec<char> = spl_s_2.iter().map(|x| *x as char).collect();
     eprintln!("new_num is {}", new_num);
     eprintln!("new_num_str is {}", new_num_str);
@@ -92,5 +102,6 @@ fn main() {
      {:?} is for debugging and other miscellaneous printing, so it displays quotes on strings.
     */
     let s2: String = char_arr_2.iter().collect();
-    println!("{}-{}-{}", spl[0], new_num_str, s2);
+    let s1: String = char_arr_1.iter().collect();
+    println!("{}-{}-{}", s1, new_num_str, s2);
 }
