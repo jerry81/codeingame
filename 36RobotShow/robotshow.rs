@@ -10,7 +10,7 @@ macro_rules! parse_input {
  * the standard input according to the problem statement.
  **/
 fn main() {
-    let mut ans = 0;
+    let mut ans:f32 = 0f32;
     let mut input_line = String::new();
     io::stdin().read_line(&mut input_line).unwrap();
     let l = parse_input!(input_line, i32);
@@ -25,15 +25,17 @@ fn main() {
         balls.push(b);
     }
     if n == 1 {
-        ans = cmp::max(balls[0], l-balls[0]);
+        ans = cmp::max(balls[0], l-balls[0]) as f32;
     }
     if n == 2 {
-        
+        let mid = balls[0] + balls[1] / 2;
+        ans += (cmp::max(balls[0],balls[1]) - mid) as f32;
+        ans += cmp::max(l-mid, mid) as f32;
     }
     // Write an answer using println!("message...");
     // To debug: eprintln!("Debug message...");
 
-    println!("{}",ans);
+    println!("{}",ans.round());
 }
 
 /* analysis
