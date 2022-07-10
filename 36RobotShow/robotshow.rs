@@ -28,7 +28,8 @@ fn main() {
         ans = cmp::max(balls[0], l-balls[0]) as f32;
     }
     if n == 2 {
-        let mid = balls[0] + balls[1] / 2;
+        let mid = (balls[0] + balls[1]) / 2;
+        eprintln!("mid is {}", mid);
         ans += (cmp::max(balls[0],balls[1]) - mid) as f32;
         ans += cmp::max(l-mid, mid) as f32;
     }
