@@ -9,8 +9,9 @@ fn main() {
     v.sort();
     // Write an answer using println!("message...");
     // To debug: eprintln!("Debug message...");
-
+    let rounded = (1.5f32).round();
     println!("v is {:?}", v);
+    println!("rounded is {}", rounded);
 }
 
 /* analysis

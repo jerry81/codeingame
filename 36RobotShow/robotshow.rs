@@ -23,11 +23,13 @@ fn main() {
     for i in inputs.split_whitespace() {
         let b = parse_input!(i, i32);
         balls.push(b);
+    }
     if n == 1 {
         ans = cmp::max(balls[0], l-balls[0]);
     }
+    if n == 2 {
+        
     }
-
     // Write an answer using println!("message...");
     // To debug: eprintln!("Debug message...");
 
