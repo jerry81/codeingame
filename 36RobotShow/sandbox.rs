@@ -30,7 +30,13 @@ expected answer 103
 
 ans 20 
 
-12 must face right
-67 must face 
+midpoint 20+1 / 2 = 10.5
+
+ 1> 2> 6> 7>   10> <14  <20
+     2>  4>     8>  9>    <12>    <18
+        3>    5>       9> 10>  <10.5>  <17
+next state?
+
+
 */
 
