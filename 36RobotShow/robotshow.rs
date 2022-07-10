@@ -26,3 +26,14 @@ fn main() {
 
     println!("answer");
 }
+
+/* analysis
+103 - length of pipe
+20 - number of bots
+87 19 72 59 22 74 89 30 33 3 66 77 15 23 58 82 56 98 1 84
+
+expected answer 103
+
+1 3 
+*/
+
