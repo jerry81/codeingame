@@ -33,7 +33,7 @@ fn main() {
         ans += mid.max(l as f32-mid);
     } else {
         let min = *balls.iter().min().unwrap() as f32;
-        let max = *balls.iter().max().unwrap() as f32;
+        let max = *balls.iter().max().unwrap() as f32; // converts &f32 to f32 and also unwraps the Option 
         let mid:f32 = (min + max) / 2f32;
         ans+= max - mid;
         ans += mid.max(l as f32 - mid);
