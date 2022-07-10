@@ -1,5 +1,5 @@
 // use std::io;
-
+use std::cmp;
 /**
  * Auto-generated code below aims at helping you parse
  * the standard input according to the problem statement.
@@ -12,6 +12,12 @@ fn main() {
     let rounded = (1.5f32).round();
     println!("v is {:?}", v);
     println!("rounded is {}", rounded);
+    let mut ans = 0f32;
+    let mid:f32 = 5f32 / 2f32;
+    eprintln!("mid is {}", mid);
+    ans += (cmp::max(0,5) as f32 - mid) as f32;
+    ans += mid.max(3f32);
+    println!("ans is {}",ans);
 }
 
 /* analysis
