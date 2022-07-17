@@ -17,8 +17,14 @@ fn main() {
     let end = input_line.trim().to_string();
     let bs:Vec<&str> = begin.split('.').collect();
     let es:Vec<&str>= end.split('.').collect();
+    let yeardiff = es[2].parse::<i32>().unwrap() - bs[2].parse::<i32>().unwrap();
+    let monthdiff = es[1].parse::<i32>().unwrap() - bs[1].parse::<i32>().unwrap();
+    let daydiff = es[0].parse::<i32>().unwrap() - bs[0].parse::<i32>().unwrap();
     eprintln!("bs is {:?}", bs);
     eprintln!("es is {:?}", es);
+    eprintln!("yeardiff is {:?}", yeardiff);
+    eprintln!("monthdiff is {:?}", monthdiff);
+    eprintln!("daydiff is {:?}", daydiff);
     // Write an answer using println!("message...");
     // To debug: eprintln!("Debug message...");
 
