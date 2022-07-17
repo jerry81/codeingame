@@ -10,11 +10,14 @@ macro_rules! parse_input {
  * the standard input according to the problem statement.
  **/
 
-fn is_leap_year(year:int<i32>) -> bool {
-    if (year % 4 != 0) {
+fn is_leap_year(year:i32) -> bool {
+    if year % 4 != 0 {
         return false
-    }
-    return (year % 100 == 0 && year % 400 == 0)
+    } 
+    if year % 100 == 0 {
+        return year % 400 == 0
+    } 
+    return true
 }
 fn main() {
     let mut lookup = HashMap::new();
@@ -41,15 +44,14 @@ fn main() {
     let yeardiff = es[2].parse::<i32>().unwrap() - bs[2].parse::<i32>().unwrap();
     let monthdiff = es[1].parse::<i32>().unwrap() - bs[1].parse::<i32>().unwrap();
     let daydiff = es[0].parse::<i32>().unwrap() - bs[0].parse::<i32>().unwrap();
-    eprintln!("bs is {:?}", bs);
-    eprintln!("es is {:?}", es);
-    eprintln!("yeardiff is {:?}", yeardiff);
-    eprintln!("monthdiff is {:?}", monthdiff);
-    eprintln!("daydiff is {:?}", daydiff);
-    // Write an answer using println!("message...");
-    // To debug: eprintln!("Debug message...");
-    eprintln!("2000 isLeapyear is {:?}", is_leap_year(2000));
-    eprintln!("2001 isLeapyear is {:?}", is_leap_year(2001));
-    eprintln!("1900 isLeapyear is {:?}", is_leap_year(1900));
-    println!("YY year[s], MM month[s], total NN days");
+    let mut totalDays = 0;
+    for i in (bs[2].parse::<i32>().unwrap()..es[2].parse::<i32>().unwrap()).rev() {
+        if is_leap_year(i) {
+            eprintln!("{} is leap year", i);
+            totalDays+=366
+        } else {
+            totalDays+=365
+        }
+    }
+    println!("total {} days", totalDays);
 }
