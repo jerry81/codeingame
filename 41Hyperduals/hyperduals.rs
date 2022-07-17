@@ -38,14 +38,20 @@ fn main() {
     let mut min = std::i32::MAX;
     for i in 0..horses.len()-1 {
       let horse1 = &horses[i];
-      let horse2 = &horses[i+1];
-      let diff = (horse1.v - horse2.v).abs() + (horse1.e - horse2.e).abs();
-      if diff < min {
-          min = diff;
+      for j in i..horses.len() {
+        let horse2 = &horses[j];
+        let diff = (horse1.v - horse2.v).abs() + (horse1.e - horse2.e).abs();
+        if diff < min {
+            min = diff;
+        }
       }
+      
     }
     // Write an answer using println!("message...");
     // To debug: eprintln!("Debug message...");
 
     println!("{}", min);
 }
+
+
+// 147615
