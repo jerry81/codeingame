@@ -33,6 +33,10 @@ fn main() {
         if openers.contains(&i) {
             stk.push(i);
         } else if closers.contains(&i) {
+            if stk.len() == 0 {
+                res = "false";
+                break;
+            }
             let item = stk.pop().unwrap();
             let corresponder = lookup.get(&i).unwrap();
             if item != *corresponder {
@@ -43,6 +47,6 @@ fn main() {
     }
     // Write an answer using println!("message...");
     // To debug: eprintln!("Debug message...");
-
+    res = if res == "true" && stk.len() == 0 { "true" } else { "false" };
     println!("{}", res);
 }
