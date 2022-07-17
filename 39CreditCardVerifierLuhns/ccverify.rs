@@ -10,6 +10,12 @@ macro_rules! parse_input {
  **/
 
 fn verify(card: String) -> bool {
+  let trimmed = card.replace(" ", "");
+  
+  let chs = trimmed.chars();
+  for c in chs {
+    eprintln!("c is {}", c);
+  }
   return true;
 }
 
