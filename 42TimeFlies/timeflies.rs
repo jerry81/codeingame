@@ -15,9 +15,10 @@ fn main() {
     let mut input_line = String::new();
     io::stdin().read_line(&mut input_line).unwrap();
     let end = input_line.trim().to_string();
-    let bs = begin.split('.');
-    let es = end.split('.');
-    
+    let bs:Vec<&str> = begin.split('.').collect();
+    let es:Vec<&str>= end.split('.').collect();
+    eprintln!("bs is {:?}", bs);
+    eprintln!("es is {:?}", es);
     // Write an answer using println!("message...");
     // To debug: eprintln!("Debug message...");
 
