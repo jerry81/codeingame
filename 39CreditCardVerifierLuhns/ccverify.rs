@@ -17,10 +17,12 @@ fn verify(card: String) -> bool {
   let ints: Vec<u32> = chs.flat_map(|ch| ch.to_digit(10)).collect(); // flat_map combination of  map() and flatten() 
   // collect turns iter into collection (vector)
   let filtered: Vec<(usize,u32)> = ints.into_iter().enumerate().filter(|(i, _)| i%2 == 0).collect();
-  let reversed: Vec<(usize,u32)> = filtered.into_iter().rev().collect();
-  let doubled: Vec<(usize,u32)> = reversed.into_iter().map(|(i,x)| (i,x*2)).collect();
+  let indexdrop: Vec<u32> = filtered.iter().map(|(_,x)| *x).collect();
+  let reversed: Vec<u32> = indexdrop.into_iter().rev().collect();
+  let doubled: Vec<u32> = reversed.into_iter().map(|x| x*2).collect();
   // let normalized: Vec<(usize,u32)> = doubled.into_iter().map(|(i,x)| (i,x >= 10 ? x-9 : x)).collect(); RUST DOESNT have ternary
-  let normalized: Vec<(usize,u32)> = doubled.into_iter().map(|(i,x)| (i, if x >= 10 {x-9}  else {x})).collect();
+  let normalized: Vec<u32> = doubled.into_iter().map(|x| if x >= 10 {x-9}  else {x}).collect();
+  
   for i in normalized {
     eprintln!("i is {:?}", i);
   }
