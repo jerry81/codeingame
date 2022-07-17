@@ -27,9 +27,17 @@ fn main() {
     lookup.insert(']', '[');
     lookup.insert(')', '(');
     lookup.insert('}', '{');
-
+    let mut stk = Vec::new();
     for i in expression.chars() {
-        eprintln!("i is {}", i);
+        if openers.contains(&i) {
+            stk.push(i);
+        } else if closers.contains(&i) {
+            let item = stk.pop().unwrap();
+            let corresponder = lookup.get(&i).unwrap();
+            if item != *corresponder {
+                eprintln!("mismatch");
+            }
+        }
     }
     // Write an answer using println!("message...");
     // To debug: eprintln!("Debug message...");
