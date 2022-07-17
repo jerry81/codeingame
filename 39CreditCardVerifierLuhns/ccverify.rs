@@ -15,9 +15,11 @@ fn verify(card: String) -> bool {
   let chs = trimmed.chars(); // chars() returns iterator
   // let ints = chs.iter().map(|x| x as i8).collect::<Vec<i8>>(); WRONG, this gets the char code
   let ints: Vec<u32> = chs.flat_map(|ch| ch.to_digit(10)).collect(); // flat_map combination of  map() and flatten() 
-
-  for i in ints {
-    eprintln!("i is {}", i);
+  // collect turns iter into collection (vector)
+  let filtered: Vec<(usize,u32)> = ints.into_iter().enumerate().filter(|(i, _)| i%2 == 0).collect();
+  let reversed: Vec<(usize,u32)> = filtered.into_iter().rev().collect();
+  for i in reversed {
+    eprintln!("i is {:?}", i);
   }
   return true;
 }
