@@ -1,4 +1,6 @@
 use std::io;
+use std::collections::HashMap;
+use std::collections::HashSet;
 
 macro_rules! parse_input {
     ($x:expr, $t:ident) => ($x.trim().parse::<$t>().unwrap())
@@ -13,9 +15,9 @@ fn main() {
     io::stdin().read_line(&mut input_line).unwrap();
     let expression = input_line.trim().to_string();
     
-    let lookup = HashMap::new();
-    let openers = HashSet::new();
-    let closers = HashSet::new();
+    let mut lookup = HashMap::new();
+    let mut openers = HashSet::new();
+    let mut closers = HashSet::new();
     openers.insert('[');
     openers.insert('(');
     openers.insert('{');
@@ -25,6 +27,10 @@ fn main() {
     lookup.insert(']', '[');
     lookup.insert(')', '(');
     lookup.insert('}', '{');
+
+    for i in expression.chars() {
+        eprintln!("i is {}", i);
+    }
     // Write an answer using println!("message...");
     // To debug: eprintln!("Debug message...");
 
