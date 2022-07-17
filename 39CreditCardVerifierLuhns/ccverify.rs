@@ -12,9 +12,12 @@ macro_rules! parse_input {
 fn verify(card: String) -> bool {
   let trimmed = card.replace(" ", "");
   
-  let chs = trimmed.chars();
-  for c in chs {
-    eprintln!("c is {}", c);
+  let chs = trimmed.chars(); // chars() returns iterator
+  // let ints = chs.iter().map(|x| x as i8).collect::<Vec<i8>>(); WRONG, this gets the char code
+  let ints: Vec<u32> = chs.flat_map(|ch| ch.to_digit(10)).collect(); // flat_map combination of  map() and flatten() 
+
+  for i in ints {
+    eprintln!("i is {}", i);
   }
   return true;
 }
