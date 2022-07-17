@@ -18,7 +18,10 @@ fn verify(card: String) -> bool {
   // collect turns iter into collection (vector)
   let filtered: Vec<(usize,u32)> = ints.into_iter().enumerate().filter(|(i, _)| i%2 == 0).collect();
   let reversed: Vec<(usize,u32)> = filtered.into_iter().rev().collect();
-  for i in reversed {
+  let doubled: Vec<(usize,u32)> = reversed.into_iter().map(|(i,x)| (i,x*2)).collect();
+  // let normalized: Vec<(usize,u32)> = doubled.into_iter().map(|(i,x)| (i,x >= 10 ? x-9 : x)).collect(); RUST DOESNT have ternary
+  let normalized: Vec<(usize,u32)> = doubled.into_iter().map(|(i,x)| (i, if x >= 10 {x-9}  else {x})).collect();
+  for i in normalized {
     eprintln!("i is {:?}", i);
   }
   return true;
