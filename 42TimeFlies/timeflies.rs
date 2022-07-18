@@ -47,11 +47,12 @@ fn main() {
     let mut totalDays = 0;
     for i in (bs[2].parse::<i32>().unwrap()..es[2].parse::<i32>().unwrap()).rev() {
         if is_leap_year(i) {
-            eprintln!("{} is leap year", i);
             totalDays+=366
         } else {
             totalDays+=365
         }
     }
-    println!("total {} days", totalDays);
+    let yearstr = "YY year[s], "
+    let monthstr = "MM month[s], "
+    println!("{}{}total {} days", yearstr,monthstr,totalDays);
 }
