@@ -85,6 +85,9 @@ fn main() {
         }
         for m in months {
             totalDays += lookup.get(&m).unwrap();
+            if m == 2 && is_leap_year(es[1].parse::<i32>().unwrap()) {
+                totalDays+=1;
+            }
         }
     }
     let yearstr = if totalYears > 0 { format!("{} year{}, ",totalYears, if totalYears > 1 { "s" } else { "" }).to_string() } else { "".to_string() };
