@@ -65,8 +65,29 @@ fn main() {
       }
       totalYears+=1;
     }
-    totalMonths = monthdiff.abs();
+    if monthdiff < 0 {
+        // this means start month > end month 
+        let mut months: Vec<i32> = Vec::new();
+        totalMonths += es[1].parse::<i32>().unwrap();
+        for m in (1..es[1].parse::<i32>().unwrap()).rev() {
+            months.push(m);
+        }
+        totalMonths += (bs[1].parse::<i32>().unwrap()) - 1;
+        for m in bs[1].parse::<i32>().unwrap()..12 {
+            months.push(m);
+        }
+        eprintln!("months is {:?}", months);
+    } else {
+        let mut months: Vec<i32> = Vec::new();
+        totalMonths = monthdiff;
+        for m in (bs[1].parse::<i32>().unwrap()..es[1].parse::<i32>().unwrap()).rev() {
+            months.push(m);
+        }
+        for m in months {
+            totalDays += lookup.get(&m).unwrap();
+        }
+    }
     let yearstr = if totalYears > 0 { format!("{} year{}, ",totalYears, if totalYears > 1 { "s" } else { "" }).to_string() } else { "".to_string() };
-    let monthstr = if monthdiff == 0 { "".to_string() } else { format!("{} month{}, ", totalMonths, if totalMonths > 1 { "s" } else { "" }).to_string() };
+    let monthstr = if totalMonths == 0 { "".to_string() } else { format!("{} month{}, ", totalMonths, if totalMonths > 1 { "s" } else { "" }).to_string() };
     println!("{}{}total {} days", yearstr,monthstr,totalDays);
 }
