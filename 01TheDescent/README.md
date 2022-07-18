@@ -1,4 +1,4 @@
-	The Goal
+ 	The Goal
 Destroy the mountains before your starship collides with one of them. For that, shoot the highest mountain on your path.
  	Rules
 At the start of each game turn, you are given the height of the 8 mountains from left to right.

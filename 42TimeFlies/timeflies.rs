@@ -1,5 +1,6 @@
 use std::io;
 use std::collections::HashMap;
+use std::fmt;
 
 macro_rules! parse_input {
     ($x:expr, $t:ident) => ($x.trim().parse::<$t>().unwrap())
@@ -45,14 +46,29 @@ fn main() {
     let monthdiff = es[1].parse::<i32>().unwrap() - bs[1].parse::<i32>().unwrap();
     let daydiff = es[0].parse::<i32>().unwrap() - bs[0].parse::<i32>().unwrap();
     let mut totalDays = 0;
-    for i in (bs[2].parse::<i32>().unwrap()..es[2].parse::<i32>().unwrap()).rev() {
+    let mut totalYears = 0;
+    let totalMonths = 0;
+    for i in (bs[2].parse::<i32>().unwrap()+1..es[2].parse::<i32>().unwrap()).rev() {
         if is_leap_year(i) {
-            totalDays+=366
+            totalDays+=366;
         } else {
-            totalDays+=365
+            totalDays+=365;
         }
+        totalYears +=1;
     }
-    let yearstr = "YY year[s], "
-    let monthstr = "MM month[s], "
+    eprintln!("monthdiff {} daydiff {}", monthdiff, daydiff);
+    if monthdiff == 0 && daydiff == 0 {
+      if is_leap_year(bs[2].parse::<i32>().unwrap()) {
+        totalDays+=366;
+      } else {
+        totalDays+=365;
+      }
+      totalYears+=1;
+    }
+    if monthdiff < 0 {
+
+    }
+    let yearstr = if totalYears > 0 { format!("{} year{}, ",totalYears, if totalYears > 1 { "s" } else { "" }).to_string() } else { "".to_string() };
+    let monthstr = if monthdiff == 0 { "" } else {"MM month[s], "};
     println!("{}{}total {} days", yearstr,monthstr,totalDays);
 }
