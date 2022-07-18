@@ -47,7 +47,7 @@ fn main() {
     let daydiff = es[0].parse::<i32>().unwrap() - bs[0].parse::<i32>().unwrap();
     let mut totalDays = 0;
     let mut totalYears = 0;
-    let totalMonths = 0;
+    let mut totalMonths = 0;
     for i in (bs[2].parse::<i32>().unwrap()+1..es[2].parse::<i32>().unwrap()).rev() {
         if is_leap_year(i) {
             totalDays+=366;
@@ -65,10 +65,8 @@ fn main() {
       }
       totalYears+=1;
     }
-    if monthdiff < 0 {
-
-    }
+    totalMonths = monthdiff.abs();
     let yearstr = if totalYears > 0 { format!("{} year{}, ",totalYears, if totalYears > 1 { "s" } else { "" }).to_string() } else { "".to_string() };
-    let monthstr = if monthdiff == 0 { "" } else {"MM month[s], "};
+    let monthstr = if monthdiff == 0 { "".to_string() } else { format!("{} month{}, ", totalMonths, if totalMonths > 1 { "s" } else { "" }).to_string() };
     println!("{}{}total {} days", yearstr,monthstr,totalDays);
 }
