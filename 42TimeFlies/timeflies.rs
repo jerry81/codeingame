@@ -50,6 +50,7 @@ fn main() {
     let mut totalMonths = 0;
     for i in (bs[2].parse::<i32>().unwrap()+1..es[2].parse::<i32>().unwrap()).rev() {
         if is_leap_year(i) {
+            eprintln!("{} is a leap year ", i);
             totalDays+=366;
         } else {
             totalDays+=365;
@@ -59,13 +60,14 @@ fn main() {
     eprintln!("monthdiff {} daydiff {}", monthdiff, daydiff);
     if monthdiff == 0 && daydiff == 0 {
       if is_leap_year(bs[2].parse::<i32>().unwrap()) {
-        eprintln!("is leap ")
+        eprintln!("is leap ");
         totalDays+=366;
       } else {
         totalDays+=365;
       }
       totalYears+=1;
     }
+    eprintln!("total days is now {}", totalDays);
     if monthdiff < 0 {
         // this means start month > end month 
         let mut months: Vec<i32> = Vec::new();
@@ -78,15 +80,17 @@ fn main() {
                 totalDays+=1;
             }
         }
-        totalMonths += (12 - bs[1].parse::<i32>().unwrap());
-        for m in bs[1].parse::<i32>().unwrap()..13 {
+        totalMonths += 12 - bs[1].parse::<i32>().unwrap();
+        for m in (bs[1].parse::<i32>().unwrap()+1)..13 {
             months.push(m);
             totalDays += lookup.get(&m).unwrap();
             if m == 2 && is_leap_year(es[2].parse::<i32>().unwrap()) {
-                eprintln!("adding leap");
                 totalDays+=1;
             }
         }
+        let remaining_days = lookup.get(&bs[1].parse::<i32>().unwrap()).unwrap() - bs[0].parse::<i32>().unwrap();
+        totalDays+=remaining_days;
+
         eprintln!("months is {:?}", months);
     } else {
         let mut months: Vec<i32> = Vec::new();
