@@ -59,6 +59,7 @@ fn main() {
     eprintln!("monthdiff {} daydiff {}", monthdiff, daydiff);
     if monthdiff == 0 && daydiff == 0 {
       if is_leap_year(bs[2].parse::<i32>().unwrap()) {
+        eprintln!("is leap ")
         totalDays+=366;
       } else {
         totalDays+=365;
@@ -71,10 +72,20 @@ fn main() {
         totalMonths += es[1].parse::<i32>().unwrap();
         for m in (1..es[1].parse::<i32>().unwrap()).rev() {
             months.push(m);
+            totalDays += lookup.get(&m).unwrap();
+            if m == 2 && is_leap_year(es[2].parse::<i32>().unwrap()) {
+                eprintln!("adding leap");
+                totalDays+=1;
+            }
         }
-        totalMonths += (bs[1].parse::<i32>().unwrap()) - 1;
-        for m in bs[1].parse::<i32>().unwrap()..12 {
+        totalMonths += (12 - bs[1].parse::<i32>().unwrap());
+        for m in bs[1].parse::<i32>().unwrap()..13 {
             months.push(m);
+            totalDays += lookup.get(&m).unwrap();
+            if m == 2 && is_leap_year(es[2].parse::<i32>().unwrap()) {
+                eprintln!("adding leap");
+                totalDays+=1;
+            }
         }
         eprintln!("months is {:?}", months);
     } else {
@@ -85,7 +96,7 @@ fn main() {
         }
         for m in months {
             totalDays += lookup.get(&m).unwrap();
-            if m == 2 && is_leap_year(es[1].parse::<i32>().unwrap()) {
+            if m == 2 && is_leap_year(es[2].parse::<i32>().unwrap()) {
                 totalDays+=1;
             }
         }
