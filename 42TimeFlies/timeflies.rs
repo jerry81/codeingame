@@ -66,15 +66,18 @@ fn main() {
 
     // calculate total days
     for year in startyear..endyear+1 {
+      eprintln!("iterating year {}", year);
       let sm = if year == startyear { startmonth } else { 1 };
-      let em = if year == endyear { endmonth } else { 13 };
+      let em = if year == endyear { endmonth+1 } else { 13 };
       for m in sm..em {
-        let sd = if year == startyear && m == startmonth { startday } else { 1 };
+        eprintln!("iterating month {}", m);
+        let sd = if year == startyear && m == startmonth { startday } else { 0 };
         let mut ed = if year == endyear && m == endmonth { endday } else { *lookup.get(&m).unwrap() };
         if is_leap_year(year) && m == 2 {
           ed = 29;
         }
-        totalDays += (ed - sd) + 1;
+        eprintln!("sd and ed are {} and {}", sd, ed);
+        totalDays += (ed - sd);
       }
     }
 
