@@ -61,6 +61,7 @@ fn main() {
     }
     if monthdiff < 0 {
       totalYears -= 1;
+      totalMonths += 12;
     }
 
     // calculate total days
