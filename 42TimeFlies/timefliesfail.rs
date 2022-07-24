@@ -34,8 +34,6 @@ fn main() {
     lookup.insert(10,31);
     lookup.insert(11,30);
     lookup.insert(12,31);
-
-
     let mut input_line = String::new();
     io::stdin().read_line(&mut input_line).unwrap();
     let begin = input_line.trim().to_string();
@@ -44,44 +42,25 @@ fn main() {
     let end = input_line.trim().to_string();
     let bs:Vec<&str> = begin.split('.').collect();
     let es:Vec<&str>= end.split('.').collect();
-    let endyear = es[2].parse::<i32>().unwrap();
-    let startyear = bs[2].parse::<i32>().unwrap();
-    let endmonth = es[1].parse::<i32>().unwrap();
-    let startmonth = bs[1].parse::<i32>().unwrap();
-    let endday = es[0].parse::<i32>().unwrap();
-    let startday = bs[0].parse::<i32>().unwrap();
-    let yeardiff = endyear - startyear;
-    let monthdiff = endmonth - startmonth;
-    let daydiff = endday - startday;
+    let yeardiff = es[2].parse::<i32>().unwrap() - bs[2].parse::<i32>().unwrap();
+    let monthdiff = es[1].parse::<i32>().unwrap() - bs[1].parse::<i32>().unwrap();
+    let daydiff = es[0].parse::<i32>().unwrap() - bs[0].parse::<i32>().unwrap();
     let mut totalDays = 0;
     let mut totalYears = 0;
     let mut totalMonths = 0;
-
-    // days remainder
-    // same month case
-    if endmonth == startmonth {
-      if startday < endday {
-        totalDays += endday - startday;
-      } else {
-        // it's a wraparound  i.e. 3/20/2000 - 3/19/2001
-        //
-      }
-    }
-
-    // year diff > 1 i.e. 2015 to 2017
-    // just count 2016 as a full year
-    if yeardiff > 1 {
-      for i in (startyear+1..endyear).rev() {
+    for i in (bs[2].parse::<i32>().unwrap()+1..es[2].parse::<i32>().unwrap()).rev() {
         if is_leap_year(i) {
+            eprintln!("{} is a leap year ", i);
             totalDays+=366;
         } else {
             totalDays+=365;
         }
         totalYears +=1;
-      }
     }
+    eprintln!("monthdiff {} daydiff {}", monthdiff, daydiff);
     if monthdiff == 0 && daydiff == 0 {
       if is_leap_year(bs[2].parse::<i32>().unwrap()) {
+        eprintln!("is leap ");
         totalDays+=366;
       } else {
         totalDays+=365;
@@ -134,19 +113,3 @@ fn main() {
     let monthstr = if totalMonths == 0 { "".to_string() } else { format!("{} month{}, ", totalMonths, if totalMonths > 1 { "s" } else { "" }).to_string() };
     println!("{}{}total {} days", yearstr,monthstr,totalDays);
 }
-
-/*
-analysex
-28.02.2015
-13.04.2018
-3 years, 1 month, total 1140 days
-
-begin date > end date so
-count up to end of month
-1 day from feb
-13 days in april = 14 dangling days
-
-march is a full month
-
-then add 3 full years
-*/
