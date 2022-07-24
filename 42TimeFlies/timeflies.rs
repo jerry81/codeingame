@@ -54,82 +54,25 @@ fn main() {
     let monthdiff = endmonth - startmonth;
     let daydiff = endday - startday;
     let mut totalDays = 0;
-    let mut totalYears = 0;
-    let mut totalMonths = 0;
-
-    // days remainder
-    // same month case
-    if endmonth == startmonth {
-      if startday < endday {
-        totalDays += endday - startday;
-      } else {
-        // it's a wraparound  i.e. 3/20/2000 - 3/19/2001
-        //
-      }
+    let mut totalYears = yeardiff;
+    let mut totalMonths = monthdiff;
+    if daydiff < 0 {
+      totalMonths -= 1;
     }
-
-    // year diff > 1 i.e. 2015 to 2017
-    // just count 2016 as a full year
-    if yeardiff > 1 {
-      for i in (startyear+1..endyear).rev() {
-        if is_leap_year(i) {
-            totalDays+=366;
-        } else {
-            totalDays+=365;
-        }
-        totalYears +=1;
-      }
-    }
-    if monthdiff == 0 && daydiff == 0 {
-      if is_leap_year(bs[2].parse::<i32>().unwrap()) {
-        totalDays+=366;
-      } else {
-        totalDays+=365;
-      }
-      totalYears+=1;
-    }
-    eprintln!("total days is now {}", totalDays);
     if monthdiff < 0 {
-        // this means start month > end month
-        let mut months: Vec<i32> = Vec::new();
-        totalMonths += es[1].parse::<i32>().unwrap() - 1;
-        for m in (1..es[1].parse::<i32>().unwrap()).rev() {
-            months.push(m);
-            totalDays += lookup.get(&m).unwrap();
-            if m == 2 && is_leap_year(es[2].parse::<i32>().unwrap()) {
-                eprintln!("adding leap");
-                totalDays+=1;
-            }
-        }
-        totalDays += es[0].parse::<i32>().unwrap() - 1;
-        totalMonths += 12 - bs[1].parse::<i32>().unwrap();
-        if bs[0].parse::<i32>().unwrap() == 1 {
-          totalMonths += 1;
-        }
-        for m in (bs[1].parse::<i32>().unwrap()+1)..13 {
-            months.push(m);
-            totalDays += lookup.get(&m).unwrap();
-            if m == 2 && is_leap_year(es[2].parse::<i32>().unwrap()) {
-                totalDays+=1;
-            }
-        }
-        let remaining_days = lookup.get(&bs[1].parse::<i32>().unwrap()).unwrap() - bs[0].parse::<i32>().unwrap();
-        totalDays+=remaining_days;
-
-        eprintln!("months is {:?}", months);
-    } else {
-        let mut months: Vec<i32> = Vec::new();
-        totalMonths = monthdiff;
-        for m in (bs[1].parse::<i32>().unwrap()..es[1].parse::<i32>().unwrap()).rev() {
-            months.push(m);
-        }
-        for m in months {
-            totalDays += lookup.get(&m).unwrap();
-            if m == 2 && is_leap_year(es[2].parse::<i32>().unwrap()) {
-                totalDays+=1;
-            }
-        }
+      totalYears -= 1;
     }
+
+    // calculate total days
+    for year in startyear..endyear+1 {
+      let sm = if year == startyear { startmonth } else { 1 }
+      let em = if year == endyear { endmonth } else { 13 }
+      for m in sm..em {
+        sd = if year == startyear && m == startmonth { startday } else { 1 }
+        ed = if year == endyear && m == endmonth { endday } else { lookup.get(&m) }
+      }
+    }
+
     let yearstr = if totalYears > 0 { format!("{} year{}, ",totalYears, if totalYears > 1 { "s" } else { "" }).to_string() } else { "".to_string() };
     let monthstr = if totalMonths == 0 { "".to_string() } else { format!("{} month{}, ", totalMonths, if totalMonths > 1 { "s" } else { "" }).to_string() };
     println!("{}{}total {} days", yearstr,monthstr,totalDays);
@@ -137,6 +80,7 @@ fn main() {
 
 /*
 analysex
+
 28.02.2015
 13.04.2018
 3 years, 1 month, total 1140 days
@@ -146,7 +90,36 @@ count up to end of month
 1 day from feb
 13 days in april = 14 dangling days
 
+
+
 march is a full month
 
 then add 3 full years
+
+
+01.01.2000
+01.01.2016
+16 years, total 5844 days
+
+days equal, months equal so count full years
+
+01.01.2016
+01.08.2016
+7 months, total 213 days
+
+days equal so add full months
+
+
+01.11.2015
+01.02.2017
+1 year, 3 months, total 458 days
+days equal so coun tfull months
+months diff, so cannot count full year  subtract one year 2017 - 2015 - 1
+
+17.12.2016
+16.01.2017
+total 30 days
+
+days not equal so cannot subtract 1 from month diff
+months not equal so subtract 1 from year diff
 */
