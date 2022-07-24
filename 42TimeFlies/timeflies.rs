@@ -65,11 +65,15 @@ fn main() {
 
     // calculate total days
     for year in startyear..endyear+1 {
-      let sm = if year == startyear { startmonth } else { 1 }
-      let em = if year == endyear { endmonth } else { 13 }
+      let sm = if year == startyear { startmonth } else { 1 };
+      let em = if year == endyear { endmonth } else { 13 };
       for m in sm..em {
-        sd = if year == startyear && m == startmonth { startday } else { 1 }
-        ed = if year == endyear && m == endmonth { endday } else { lookup.get(&m) }
+        let sd = if year == startyear && m == startmonth { startday } else { 1 };
+        let mut ed = if year == endyear && m == endmonth { endday } else { *lookup.get(&m).unwrap() };
+        if is_leap_year(year) && m == 2 {
+          ed = 29;
+        }
+        totalDays += (ed - sd) + 1;
       }
     }
 
