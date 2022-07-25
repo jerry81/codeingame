@@ -52,7 +52,17 @@ fn main() {
         let mut returned = "Check";
         // one of B, N, R, Q
         match p.as_str() {
-          "N"=>eprintln!("knight"),
+          "N"=>{
+            let dx = king.x as i8 - enemy.x as i8;
+            let dy = king.y as i8 - enemy.y as i8;
+            let dxp = dx.abs();
+            let dyp = dy.abs();
+            let knight1 = dxp == 1 && dyp == 2;
+            let knight2 = dxp == 2 && dyp == 1;
+            if (!knight1 && !knight2) {
+              returned = "No Check";
+            }
+          },
           "Q"=>{
             let dx = king.x as i8 - enemy.x as i8;
             let dy = king.y as i8 - enemy.y as i8;
@@ -102,5 +112,27 @@ dx, dy
 -1,-1
 1,-1
 -1,1
+
+
+
+Knight analysis
+
+
+
+           2,3    2,5
+        3,2          3,6
+               4,4
+        5,2          5,6
+           6,3    6,5
+
+dx, dy
+-1,-2
+-1,2
+-2,-1
+1,-2
+-1,2
+-2,1
+1,2
+2,1
 */
 
