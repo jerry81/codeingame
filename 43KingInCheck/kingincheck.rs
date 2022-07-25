@@ -10,13 +10,38 @@ fn main() {
         io::stdin().read_line(&mut input_line).unwrap();
         let chess_row = input_line.trim_matches('\n').to_string();
         let chess_chars: Vec<&str> = chess_row.split(" ").collect();
+        struct Enemy {
+          x: usize,
+          y: usize,
+          piece: String
+        }
+
+        struct King {
+          x: usize,
+          y: usize
+        }
+
+        let mut king = King {
+          x: 0,
+          y: 0
+        };
+
+        let mut enemy = Enemy {
+          x: 0,
+          y: 0,
+          piece: "".to_string()
+        };
+
         for j in 0..8 as usize {
           let c = chess_chars[j];
           if c == "K" {
-            eprintln!("king found {} {}", i, j);
+            king.x = j;
+            king.y = i;
           }
           else if c != "_" {
-            eprintln!("enemy found {} {}", i, j);
+            enemy.x = j;
+            enemy.y = i;
+            enemy.piece = c.to_string();
           }
         }
     }
