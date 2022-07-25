@@ -59,7 +59,13 @@ fn main() {
               returned = "No Check";
             }
           },
-          "B"=>eprintln!("bishop"),
+          "B"=>{
+            let dx = king.x as i8 - enemy.x as i8;
+            let dy = king.y as i8 - enemy.y as i8;
+            if dx.abs() != dy.abs() {
+              returned = "No Check";
+            }
+          },
           _=> unreachable!()
         }
 
@@ -68,3 +74,25 @@ fn main() {
 
     println!("{}", returned);
 }
+
+
+/*
+
+bishop analysis:
+
+0,0                     0,8
+   1,1               1,7
+      2,2         2,6
+         3,3   3,5
+            4,4
+         5,3   5,5
+      6,2         6,6
+   7,1
+8,0
+
+dx, dy
+-1,-1
+1,-1
+-1,1
+*/
+
