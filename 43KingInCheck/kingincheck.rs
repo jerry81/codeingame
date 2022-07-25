@@ -67,13 +67,13 @@ fn main() {
             let dx = king.x as i8 - enemy.x as i8;
             let dy = king.y as i8 - enemy.y as i8;
             let no_diag = dx.abs() != dy.abs();
-            let no_line = enemy.x != king.x && enemy.y != king.x;
+            let no_line = enemy.x != king.x && enemy.y != king.y;
             if no_diag && no_line {
               returned = "No Check";
             }
           },
           "R"=>{
-            if enemy.x != king.x && enemy.y != king.x {
+            if enemy.x != king.x && enemy.y != king.y {
               returned = "No Check";
             }
           },
