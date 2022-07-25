@@ -53,7 +53,15 @@ fn main() {
         // one of B, N, R, Q
         match p.as_str() {
           "N"=>eprintln!("knight"),
-          "Q"=>eprintln!("queen"),
+          "Q"=>{
+            let dx = king.x as i8 - enemy.x as i8;
+            let dy = king.y as i8 - enemy.y as i8;
+            let no_diag = dx.abs() != dy.abs();
+            let no_line = enemy.x != king.x && enemy.y != king.x;
+            if no_diag && no_line {
+              returned = "No Check";
+            }
+          },
           "R"=>{
             if enemy.x != king.x && enemy.y != king.x {
               returned = "No Check";
