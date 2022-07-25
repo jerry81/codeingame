@@ -44,6 +44,20 @@ fn main() {
             enemy.piece = c.to_string();
           }
         }
+
+        let p = enemy.piece;
+        eprintln!("p as str {:?}", p.as_str());
+        // one of B, N, R, Q
+        match p.as_str() {
+          "N"=>eprintln!("knight"),
+          "Q"=>eprintln!("queen"),
+          "R"=>{
+            eprintln!("rook!");
+            break
+          },
+          "B"=>eprintln!("bishop"),
+          _=> unreachable!()
+        }
     }
 
     // Write an answer using println!("message...");
