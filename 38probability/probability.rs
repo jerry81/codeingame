@@ -25,13 +25,22 @@ fn main() {
     io::stdin().read_line(&mut input_line).unwrap();
     let n = parse_input!(input_line, i32);
     // pick m uniques out of n tries
-    let mut v:Vec<u8> = Vec::new();
-    let mut rng = rand::thread_rng();
-    for _ in 0..n {
-        let random = rng.gen_range(0..38);
-        v.push(random);
+
+    let mut successes = 0;
+    for i in 0..1000000 {
+        let mut v:Vec<u8> = Vec::new();
+        let mut rng = rand::thread_rng();
+        for _ in 0..n {
+            let random = rng.gen_range(0..38);
+            v.push(random);
+        }
+        let u = filter_uniq(v);
+        if u.len() as i32 >= m {
+            successes += 1;
+        }
     }
-    let u = filter_uniq(v);
-    eprintln!("u is {:?}", u);
+    eprintln!("succ is {}", successes);
+    let prob = successes as f64 / 1000000 as f64;
+    eprintln!("prob is {}", prob);
     println!("probability");
 }
