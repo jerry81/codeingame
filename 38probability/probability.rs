@@ -40,7 +40,8 @@ fn main() {
         }
     }
     eprintln!("succ is {}", successes);
-    let prob = successes as f64 / 1000000 as f64;
+    format!("{:.2}", 1.2399);
+    let prob = (100.00 * (successes as f32 / 1000000 as f32)).round();
     eprintln!("prob is {}", prob);
-    println!("probability");
+    println!("{}%", prob);
 }
