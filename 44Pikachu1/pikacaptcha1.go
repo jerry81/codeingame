@@ -23,14 +23,22 @@ func main() {
 		    chars := []rune(line) // :- is declaration plus assignment
         lines = append(lines, chars)
     }
-		var newarr = make([][]rune,height)
-		for i := range newarr {
+		var newarr = make([][]rune, height)
+		for i := 0; i < height; i++ {
 			newarr[i] = make([]rune, width)
 	  }
+
+		newarr[1][0] = rune('a')
+		newarr[1][1] = rune('b')
+		newarr[1][2] = rune('c')
+        newarr[1][3] = rune('d')
+        newarr[1][4] = rune('e')
+		fmt.Fprintln(os.Stderr, "newarr ", string(newarr[1]))
+
     for i := 0; i < height; i++ {
         for j := 0; j < width; j++ {
 					up := i - 1
-          down := i + 1
+                    down := i + 1
 					left := j - 1
 					right := j + 1
 					cnt := 0
@@ -62,15 +70,20 @@ func main() {
                     fmt.Fprintln(os.Stderr, "cnt is ", cnt)
 					if string(lines[i][j]) == "#" {
 					  newarr[i][j] = rune('#')
-                      fmt.Fprintln(os.Stderr, "i is ", i, " j is ", j, " newarr[i][j] is now  ", rune('#'))
+                      fmt.Fprintln(os.Stderr, "newarr is now ", newarr)
 					} else {
                         asStr := strconv.Itoa(cnt)
-                        fmt.Fprintln(os.Stderr, "i is ", i, " j is ", j, " newarr[i][j] is now  ", []rune(asStr)[0])
+
 					    newarr[i][j] = []rune(asStr)[0]
+                        fmt.Fprintln(os.Stderr, "newarr is now ", newarr)
 				  }
 				}
-        for i := 0; i < height; i++ {
+
+    }
+		fmt.Fprintln(os.Stderr, "final newarr is ", newarr)
+                for i := 0; i < height; i++ {
+                    fmt.Fprintln(os.Stderr, "final print i is now ", i)
+                    fmt.Fprintln(os.Stderr, "should print  ", string(newarr[i]))
 					fmt.Println(string(newarr[i]))
 				}  // Write action to stdout
-    }
 }
