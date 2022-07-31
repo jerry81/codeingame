@@ -14,15 +14,15 @@ func main() {
     var width, height int
 
     fmt.Scan(&width, &height)
-    var lines []string // this is slice
+    var lines [][]rune // this is slice
 
     for i := 0; i < height; i++ {
         var line string
         fmt.Scan(&line)
-        lines = append(lines, line)
+				chars := []rune(line) // :- is declaration plus assignment
+        lines = append(lines, chars)
     }
     for i := 0; i < height; i++ {
-
         fmt.Fprintln(os.Stderr, "i is ", i, "line[i] is ", lines[i])
         fmt.Println("#####")// Write action to stdout
     }
