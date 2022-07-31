@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	"os"
+	// "os"
     "strconv"
 )
 
@@ -58,14 +58,14 @@ func main() {
 						  cnt += 1
 						}
 					}
-                    fmt.Fprintln(os.Stderr, "cnt is ", cnt)
+                    // fmt.Fprintln(os.Stderr, "cnt is ", cnt)
 					if string(lines[i][j]) == "#" {
 					  newarr[i][j] = rune('#')
 					} else {
                         asStr := strconv.Itoa(cnt)
 
 					    newarr[i][j] = []rune(asStr)[0]
-                        fmt.Fprintln(os.Stderr, "newarr is now ", newarr)
+                        // fmt.Fprintln(os.Stderr, "newarr is now ", newarr)
 				  }
 				}
 
