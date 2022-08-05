@@ -51,7 +51,7 @@ int main()
 
     for (int k = 0; k <= j-1; ++k) {
       int s1 = streaks[k];
-      int s2 = streaks[k+1]
+      int s2 = streaks[k+1];
       int sum = s1 + s2 + 1;
       if (sum > max) {
         max = sum;
