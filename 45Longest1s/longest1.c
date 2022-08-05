@@ -47,6 +47,7 @@ int main()
       }
       ++i;
     }
+    streaks[j] = streak;
 
     int max = 0;
 
