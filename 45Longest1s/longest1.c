@@ -37,6 +37,7 @@ int main()
     int j = 0;
     int maxj;
     while (b[i]) {
+      fprintf(stderr, "working on b[i] %c\n", b[i]);
       if (b[i] == '0') {
         streaks[j] = streak;
         streak = 0;
@@ -50,13 +51,13 @@ int main()
     int max = 0;
 
     for (int k = 0; k <= j-1; ++k) {
+      fprintf(stderr, "streak is %i\n", streaks[k]);
       int s1 = streaks[k];
       int s2 = streaks[k+1];
       int sum = s1 + s2 + 1;
       if (sum > max) {
         max = sum;
       }
-      k+=1;
     }
 
     // Write an answer using printf(). DON'T FORGET THE TRAILING \n
