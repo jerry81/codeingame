@@ -32,10 +32,26 @@ int main()
     scanf("%[^\n]", b);
 
     int i = 0;
-    chunks = []
+    int streak = 0;
+    int streaks[1000];
+    int j = 0;
+    int maxj;
     while (b[i]) {
+      if (b[i] == '0') {
+        streaks[j] = streak;
+        streak = 0;
+        ++j;
+      } else {
+        ++streak;
+      }
       ++i;
     }
+
+    for (int k = 0; k <= j; ++k) {
+      fprintf(stderr, "streak is %i\n", streaks[k]);
+      k+=1;
+    }
+
     // Write an answer using printf(). DON'T FORGET THE TRAILING \n
     // To debug: fprintf(stderr, "Debug messages...\n");
     // find "widths" of chunks and mark their start and end
