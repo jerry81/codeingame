@@ -38,16 +38,43 @@
  * Auto-generated code below aims at helping you parse
  * the standard input according to the problem statement.
  **/
-
 int main()
 {
     int n;
     scanf("%d", &n);
-
+    int alist[n];
+    int blist[n];
     // Write an answer using printf(). DON'T FORGET THE TRAILING \n
     // To debug: fprintf(stderr, "Debug messages...\n");
 
-    printf("1/n = 1/x + 1/y\n");
-
+    // observing exmaple cases, max x, y is always n*2, a,b=n*2 is always part of list
+    // also can start trying from n+1
+    int ptr = 0;
+    for (int i = n+1; i <= n * 2; ++i) {
+      // bulk of the logic
+      float b = n*i / (i-n);
+      if (ceilf(b) == b) {
+        alist[ptr] = i;
+        blist[ptr] = (int)b;
+        ++ptr;
+      }
+    }
+    for (int ptr2 = 0; ptr2 <= ptr; ++ptr2) {
+      printf("1/%d = 1/%d + 1/%d\n", n, alist[ptr2], blist[ptr2]);
+    }
     return 0;
 }
+
+/*
+n = 17 example
+1/17 = 1/18 + 1/306
+trial and error?
+1/17 = 1/34 + 1/34 ...
+17/578 34/578
+
+1/18 + 1/306 = 17/306 + 1/306 = 18 / 306 = 17
+1/19 + 1/y = 1/17 ??
+(19*y / 19) + (19/y*19) = 1/17
+19y/19y + 19/19y = 19y + 19 / 19y = 1/17
+34
+*/
