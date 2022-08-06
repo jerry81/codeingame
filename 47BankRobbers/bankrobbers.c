@@ -30,6 +30,8 @@ int main()
         }
         if (digitSum > 1) {
           combinations += digitSum;
+        } else {
+            combinations = 1;
         }
         int vowel_sum = 1;
         while (vowels_count > 0) {
@@ -59,6 +61,7 @@ int main()
       // for remainder of vaults, add to the min bucket
       for (int i = R; i < V; ++i) {
         int nextCombinations = vaults[i];
+        fprintf(stderr, "nextcombin is %d", nextCombinations);
         queue[minIdx] += nextCombinations;
         // recalculate min
         min = -1;
@@ -70,6 +73,10 @@ int main()
     }
       }
     }
+    for (int i = 0; i < R; ++i) {
+    fprintf(stderr,"queue item is %ld", queue[i]);
+    }
+
             for (int i = 0; i < R; ++i) {
           if (queue[i] > finalAnswer) {
               finalAnswer = queue[i];
