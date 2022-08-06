@@ -14,14 +14,33 @@ int main()
     scanf("%d", &R);
     int V;
     scanf("%d", &V);
-    int vaults[V];
-    int queue[R];
+    long int vaults[V];
+    long int queue[R];
     for (int i = 0; i < V; i++) {
         int C;
         int N;
         scanf("%d%d", &C, &N);
-        long int combinations = (long int)10L**(long int)(N) + (long int)5L**(long int)(C-N)
+        long int combinations = 0;
+        int vowels_count = C-N;
+        int digit_count = N;
+        long int digitSum = 1;
+        while (digit_count > 0) {
+          digitSum *= 10;
+          --digit_count;
+        }
+        if (digitSum > 1) {
+          combinations += digitSum;
+        }
+        long int vowel_sum = 1;
+        while (vowels_count > 0) {
+          vowel_sum *= 5;
+          --vowels_count;
+        }
+        if (vowel_sum > 1) {
+          combinations += vowel_sum;
+        }
         vaults[i] = combinations;
+        fprintf(stderr, "combinations is %ld", combinations);
     }
     int minIdx = 0;
     int min = -1;
