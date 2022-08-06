@@ -47,6 +47,7 @@ int main()
     int minIdx = 0;
     int min = -1;
     // init main loop
+
     for (int i = 0; i < R; ++i) {
       queue[i] = vaults[i];
       if (min < 0 || queue[i] < min) {
@@ -54,7 +55,15 @@ int main()
         minIdx = i;
       }
     }
-    fprintf(stderr, "min is %d", min);
+    int finalAnswer = 0;
+    if (R == V) {
+        for (int i = 0; i < R; ++i) {
+          if (queue[i] > finalAnswer) {
+              finalAnswer = queue[i];
+          }
+        }
+    }
+    fprintf(stderr, "min is %d\n", min);
     // get min of the items in queue
 
     // 1 robber
@@ -95,7 +104,7 @@ int main()
     // Write an answer using printf(). DON'T FORGET THE TRAILING \n
     // To debug: fprintf(stderr, "Debug messages...\n");
 
-    printf("1\n");
+    printf("%d\n", finalAnswer);
 
     return 0;
 }
