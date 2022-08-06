@@ -28,7 +28,6 @@ int main()
           digitSum *= 10;
           --digit_count;
         }
-        fprintf(stderr, "combin now %d digitSum now %d\n",  combinations, digitSum);
         if (digitSum > 1) {
           combinations += digitSum;
         }
@@ -56,13 +55,26 @@ int main()
       }
     }
     int finalAnswer = 0;
-    if (R == V) {
+    if (R != V) { // more vaults than robbers case
+      // for remainder of vaults, add to the min bucket
+      for (int i = R; i < V; ++i) {
+        int nextCombinations = vaults[i];
+        queue[minIdx] += nextCombinations;
+        // recalculate min
+        min = -1;
         for (int i = 0; i < R; ++i) {
+          if (min < 0 || queue[i] < min) {
+            min = queue[i];
+            minIdx = i;
+      }
+    }
+      }
+    }
+            for (int i = 0; i < R; ++i) {
           if (queue[i] > finalAnswer) {
               finalAnswer = queue[i];
           }
         }
-    }
     fprintf(stderr, "min is %d\n", min);
     // get min of the items in queue
 
