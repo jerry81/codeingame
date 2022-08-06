@@ -52,14 +52,13 @@ int main()
     int ptr = 0;
     for (int i = n+1; i <= n * 2; ++i) {
       // bulk of the logic
-      long long int asLongLong = (long long int) i;
-      long long int asLongLong2 = (long long int) n;
-      fprintf(stderr, "i is %d, n is %d, long double is %lld\n", i, n, (asLongLong*asLongLong2));
-      long double b = (long double)(asLongLong*asLongLong2) / (long double)(asLongLong-asLongLong2);
-      fprintf(stderr, "b is %Lf\n", b);
-      if (ceilf(b) == b) {
+      long long int ll1 = (long long int) i;
+      long long int ll2 = (long long int) n;
+      long long int prod = ll1 * ll2;
+      long long int remainder = prod % (ll1 - ll2);
+      if (remainder == 0) {
         alist[ptr] = i;
-        blist[ptr] = (long long int)b;
+        blist[ptr] = prod / (ll1 - ll2);
         ++ptr;
       }
     }
