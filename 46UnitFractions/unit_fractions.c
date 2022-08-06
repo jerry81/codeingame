@@ -59,8 +59,8 @@ int main()
         ++ptr;
       }
     }
-    for (int ptr2 = 0; ptr2 <= ptr; ++ptr2) {
-      printf("1/%d = 1/%d + 1/%d\n", n, alist[ptr2], blist[ptr2]);
+    for (int ptr2 = 0; ptr2 < ptr; ++ptr2) {
+      printf("1/%d = 1/%d + 1/%d\n", n, blist[ptr2], alist[ptr2]);
     }
     return 0;
 }
