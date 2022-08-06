@@ -20,27 +20,29 @@ int main()
         int C;
         int N;
         scanf("%d%d", &C, &N);
-        long int combinations = 0;
+        int combinations = 0;
         int vowels_count = C-N;
         int digit_count = N;
-        long int digitSum = 1;
+        int digitSum = 1;
         while (digit_count > 0) {
           digitSum *= 10;
           --digit_count;
         }
+        fprintf(stderr, "combin now %d digitSum now %d\n",  combinations, digitSum);
         if (digitSum > 1) {
           combinations += digitSum;
         }
-        long int vowel_sum = 1;
+        int vowel_sum = 1;
         while (vowels_count > 0) {
           vowel_sum *= 5;
           --vowels_count;
         }
+        fprintf(stderr, "combin now %d vowelSum now %d\n",  combinations, vowel_sum);
         if (vowel_sum > 1) {
-          combinations += vowel_sum;
+          combinations *= vowel_sum;
         }
         vaults[i] = combinations;
-        fprintf(stderr, "combinations is %ld", combinations);
+        fprintf(stderr, "combinations is %d\n", combinations);
     }
     int minIdx = 0;
     int min = -1;
