@@ -14,11 +14,27 @@ int main()
     scanf("%d", &R);
     int V;
     scanf("%d", &V);
+    int vaults[V];
+    int queue[R];
     for (int i = 0; i < V; i++) {
         int C;
         int N;
         scanf("%d%d", &C, &N);
+        long int combinations = (long int)10L**(long int)(N) + (long int)5L**(long int)(C-N)
+        vaults[i] = combinations;
     }
+    int minIdx = 0;
+    int min = -1;
+    // init main loop
+    for (int i = 0; i < R; ++i) {
+      queue[i] = vaults[i];
+      if (min < 0 || queue[i] < min) {
+        min = queue[i];
+        minIdx = i;
+      }
+    }
+    // get min of the items in queue
+
     // 1 robber
     // 1 vault, 3 chars, 1 digit 10*5*5 = 50 * 5 = 250
     // 4
