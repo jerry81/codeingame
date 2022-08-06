@@ -43,7 +43,7 @@ int main()
     int n;
     scanf("%d", &n);
     int alist[n];
-    int blist[n];
+    long long int blist[n];
     // Write an answer using printf(). DON'T FORGET THE TRAILING \n
     // To debug: fprintf(stderr, "Debug messages...\n");
 
@@ -52,16 +52,19 @@ int main()
     int ptr = 0;
     for (int i = n+1; i <= n * 2; ++i) {
       // bulk of the logic
-      double b = (double)(n*i) / (double)(i-n);
-      fprintf(stderr, "b is %f", b);
+      long long int asLongLong = (long long int) i;
+      long long int asLongLong2 = (long long int) n;
+      fprintf(stderr, "i is %d, n is %d, long double is %lld\n", i, n, (asLongLong*asLongLong2));
+      long double b = (long double)(asLongLong*asLongLong2) / (long double)(asLongLong-asLongLong2);
+      fprintf(stderr, "b is %Lf\n", b);
       if (ceilf(b) == b) {
         alist[ptr] = i;
-        blist[ptr] = (int)b;
+        blist[ptr] = (long long int)b;
         ++ptr;
       }
     }
     for (int ptr2 = 0; ptr2 < ptr; ++ptr2) {
-      printf("1/%d = 1/%d + 1/%d\n", n, blist[ptr2], alist[ptr2]);
+      printf("1/%d = 1/%lld + 1/%d\n", n, blist[ptr2], alist[ptr2]);
     }
     return 0;
 }
