@@ -52,7 +52,8 @@ int main()
     int ptr = 0;
     for (int i = n+1; i <= n * 2; ++i) {
       // bulk of the logic
-      float b = n*i / (i-n);
+      float b = (float)(n*i) / (float)(i-n);
+      fprintf(stderr, "b is %f", b);
       if (ceilf(b) == b) {
         alist[ptr] = i;
         blist[ptr] = (int)b;
