@@ -54,6 +54,7 @@ int main()
         minIdx = i;
       }
     }
+    fprintf(stderr, "min is %d", min);
     // get min of the items in queue
 
     // 1 robber
