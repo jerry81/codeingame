@@ -20,10 +20,17 @@ int main()
     }
     for (int i = 0; i < N; i++) {
         int firstsum = -1;
-        char curStr[129] = xs[i];
+        char curStr[129];
         int curi = 0;
-        while (curStr[curi]) {
+        int sum = 0;
+        while (xs[i][curi]) {
+            int multiplier = xs[i][curi] - '0';
+            int sq =  multiplier * multiplier;
+            sum += sq;
+            ++curi;
         }
+        fprintf(stderr, "sum is now %d", sum);
+
         fprintf(stderr, "xs[i] is %s\n", xs[i]);
     }
 
