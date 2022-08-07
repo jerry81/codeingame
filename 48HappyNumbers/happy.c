@@ -12,13 +12,18 @@ int main()
 {
     int N;
     scanf("%d", &N); fgetc(stdin);
-    char xs[N][129];
+    char xs[N][129]; // TIL 2d array
     for (int i = 0; i < N; i++) {
         char x[129];
         scanf("%[^\n]", x); fgetc(stdin);
         strcpy(xs[i],x);
     }
     for (int i = 0; i < N; i++) {
+        int firstsum = -1;
+        char curStr[129] = xs[i];
+        int curi = 0;
+        while (curStr[curi]) {
+        }
         fprintf(stderr, "xs[i] is %s\n", xs[i]);
     }
 
