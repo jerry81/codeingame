@@ -8,10 +8,16 @@
  * the standard input according to the problem statement.
  **/
 
+ struct Answer {
+   char label[129];
+   char smiley[3];
+ };
+
 int main()
 {
     int N;
     scanf("%d", &N); fgetc(stdin);
+    struct Answer answers[N];
     char xs[N][129]; // TIL 2d array
     for (int i = 0; i < N; i++) {
         char x[129];
@@ -20,7 +26,8 @@ int main()
     }
     for (int i = 0; i < N; i++) {
         int firstsum = -1;
-        char curStr[129];
+        struct Answer a;
+        strcpy(a.label, xs[i]);
         int curi = 0;
         int sum = 0;
         while (xs[i][curi]) {
@@ -52,18 +59,21 @@ int main()
           fprintf("sum is %d", sum);
           if (sum == firstsum) {
             fprintf(stderr, "repeated %d!", sum);
+            strcpy(a.smiley,":(");
             break;
           }
+          strcpy(a.smiley,":)");
         }
-        fprintf(stderr, "sum is now %d", sum);
-
-        fprintf(stderr, "xs[i] is %s\n", xs[i]);
+        answers[i] = a;
+    }
+    for (int i = 0; i < N; ++i) {
+    struct Answer a = answers[i];
+    printf("%s %s\n", a.label, a.smiley);
     }
 
     // Write an answer using printf(). DON'T FORGET THE TRAILING \n
     // To debug: fprintf(stderr, "Debug messages...\n");
 
-    printf("23 :)\n");
 
     return 0;
 
