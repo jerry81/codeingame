@@ -37,7 +37,7 @@ int main()
             ++curi;
             // sum created
         }
-        firstsum = sum;
+
 
         // options to convert to string
         // sprintf
@@ -45,6 +45,8 @@ int main()
         // itoa?
         // until firstsum reached again or sum becomes 1
         fprintf(stderr,"im here %d\n", firstsum);
+        reset_ht()
+        install()
         while (sum != 1) {
         //   // must convert int, sum to chararr
           curi = 0;
@@ -113,6 +115,13 @@ unsigned hash(char *s) // goal: convert string into an index in the hash table
     for (hashval = 0; *s != '\0'; s++)
       hashval = *s + 31 * hashval;
     return hashval % HASHSIZE; // hash function always ends with this line
+}
+
+void reset_ht() {
+  for (int i = 0; i < HASHSIZE; ++i) {
+    hashtab[i] = NULL;
+  }
+  // free(hashtab);
 }
 
 /* lookup: look for s in hashtab */
