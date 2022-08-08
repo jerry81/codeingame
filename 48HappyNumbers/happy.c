@@ -44,6 +44,7 @@ int main()
         // log10 loop with modulo 10
         // itoa?
         // until firstsum reached again or sum becomes 1
+        fprintf(stderr,"im here %d\n", firstsum);
         while (sum != 1) {
         //   // must convert int, sum to chararr
           curi = 0;
@@ -56,15 +57,16 @@ int main()
             sum += sq;
             ++curi;
           }
-          fprintf("sum is %d", sum);
+          fprintf(stderr, "were out! %d\n", sum);
           if (sum == firstsum) {
             fprintf(stderr, "repeated %d!", sum);
             strcpy(a.smiley,":(");
             break;
           }
-          strcpy(a.smiley,":)");
         }
+        strcpy(a.smiley,":)");
         answers[i] = a;
+        fprintf(stderr, "answers[i] is %s %s\n", a.label, a.smiley);
     }
     for (int i = 0; i < N; ++i) {
     struct Answer a = answers[i];
