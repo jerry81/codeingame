@@ -9,7 +9,7 @@ struct nlist { /* table entry: */
 };
 
 #define HASHSIZE 101
-static struct nlist *hashtab[HASHSIZE]; /* pointer table */
+struct nlist *hashtab[HASHSIZE]; /* pointer table */
 
 /* hash: form hash value for string s */
 unsigned hash(char *s) // goal: convert string into an index in the hash table
@@ -18,6 +18,13 @@ unsigned hash(char *s) // goal: convert string into an index in the hash table
     for (hashval = 0; *s != '\0'; s++)
       hashval = *s + 31 * hashval;
     return hashval % HASHSIZE; // hash function always ends with this line
+}
+
+void reset_ht() {
+  for (int i = 0; i < HASHSIZE; ++i) {
+    hashtab[i] = NULL;
+  }
+  // free(hashtab);
 }
 
 /* lookup: look for s in hashtab */
@@ -68,11 +75,27 @@ int main() {
   if (entry.defn == NULL) {
     printf("not found!");
   } else {
-    printf("entry is %s", entry.defn);
+    printf("entry is %s\n", entry.defn);
   }
 
   if (lookup("key3") == NULL) {
-    printf("key was not found!\n");
+    printf("key3 was not found!\n");
+  }
+
+  reset_ht();
+
+  if (lookup("key1") == NULL) {
+    printf("reset was successful\n");
+  } else {
+    printf("key1's val is still %s\n", lookup("key1") -> defn);
+  }
+
+  install("key1", "value1");
+
+  if (lookup("key1") == NULL) {
+    printf("reset was unsuccessful");
+  } else {
+    printf("key1's val is back to %s, reset success\n", lookup("key1") -> defn);
   }
   // printf("lookup done ");
   // if (entry2.defn == NULL) {
