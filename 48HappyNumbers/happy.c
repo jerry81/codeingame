@@ -31,18 +31,30 @@ int main()
             // sum created
         }
         firstsum = sum;
-        char asC[129];
+
         // options to convert to string
         // sprintf
         // log10 loop with modulo 10
         // itoa?
-        sprintf(asC,"%d", sum);
-        fprintf(stderr, "asC is %s\n", asC);
         // until firstsum reached again or sum becomes 1
-        // while (sum != 1) {
+        while (sum != 1) {
         //   // must convert int, sum to chararr
-
-        // }
+          curi = 0;
+          char asC[129];
+          sprintf(asC,"%d", sum);
+          sum = 0;
+          while (asC[curi]) {
+            int multiplier = asC[curi] - '0';
+            int sq =  multiplier * multiplier;
+            sum += sq;
+            ++curi;
+          }
+          fprintf("sum is %d", sum);
+          if (sum == firstsum) {
+            fprintf(stderr, "repeated %d!", sum);
+            break;
+          }
+        }
         fprintf(stderr, "sum is now %d", sum);
 
         fprintf(stderr, "xs[i] is %s\n", xs[i]);
