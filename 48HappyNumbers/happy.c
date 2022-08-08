@@ -94,3 +94,5 @@ int main()
     // 1 16 25 42
     // 16 4 20 - only have to store one
 }
+
+// linux provides hcreate hsearch hdestroy! hash search and hashcreate
