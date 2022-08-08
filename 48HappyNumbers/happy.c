@@ -28,7 +28,21 @@ int main()
             int sq =  multiplier * multiplier;
             sum += sq;
             ++curi;
+            // sum created
         }
+        firstsum = sum;
+        char asC[129];
+        // options to convert to string
+        // sprintf
+        // log10 loop with modulo 10
+        // itoa?
+        sprintf(asC,"%d", sum);
+        fprintf(stderr, "asC is %s\n", asC);
+        // until firstsum reached again or sum becomes 1
+        // while (sum != 1) {
+        //   // must convert int, sum to chararr
+
+        // }
         fprintf(stderr, "sum is now %d", sum);
 
         fprintf(stderr, "xs[i] is %s\n", xs[i]);
