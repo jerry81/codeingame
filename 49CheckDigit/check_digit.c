@@ -64,7 +64,21 @@ char get_checksum(char isbn[21]) {
     ++i;
   }
   fprintf(stderr, "len is %i\n", i);
-  return 'a';
+  if (i != 10 && i != 13) {
+    return 'z';
+  }
+
+  if (i == 10) {
+    // convert each char to digit and get checksum
+    for (int j = 0; j < 9; j+=1) {
+      int asI = isbn[j] - '0';
+      if (asI >= 10) {
+          return 'z';
+      }
+    }
+  } else if (i == 13) {
+    // convert each char to digit and get checksum
+  }
 }
 
 int main()
