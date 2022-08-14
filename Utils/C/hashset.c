@@ -17,6 +17,7 @@ struct nlist2 { /* table entry: */
 #define HASHSIZE 101
 struct nlist *hashtab[HASHSIZE]; /* pointer table */
 struct nlist2 *hashtab2[HASHSIZE];
+struct nlist2 *orig[HASHSIZE];
 
 unsigned hash2(int i) {
   return i%HASHSIZE;
@@ -32,13 +33,14 @@ unsigned hash(char *s) // goal: convert string into an index in the hash table
 }
 
 void reset_ht() {
+  memcpy( hashtab2, orig, sizeof hashtab2 );
 }
 
 /* lookup: look for s in hashtab */
 struct nlist2 *lookup2(int i)
 {
     struct nlist2 *np;
-    for (np = hashtab2[hash(i)]; np != NULL; np = np->next)
+    for (np = hashtab2[hash(i)]; np != NULL; np = np->next) // NULL in C is null pointer
         if (i == np->name)
           return np; /* found */
     // printf("not found!");
