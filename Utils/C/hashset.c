@@ -40,7 +40,7 @@ void reset_ht() {
 struct nlist2 *lookup2(int i)
 {
     struct nlist2 *np;
-    for (np = hashtab2[hash(i)]; np != NULL; np = np->next) // NULL in C is null pointer
+    for (np = hashtab2[hash2(i)]; np != NULL; np = np->next) // NULL in C is null pointer
         if (i == np->name)
           return np; /* found */
     // printf("not found!");
@@ -58,7 +58,7 @@ struct nlist *lookup(char *s)
     return NULL; /* not found */
 }
 
-struct nlist *install2(int name, int defn)
+struct nlist2 *install2(int name, int defn)
 {
     struct nlist2 *np;
     unsigned hashval;
@@ -67,15 +67,15 @@ struct nlist *install2(int name, int defn)
         /*
         void *malloc(size_t size)   <- void * means pointer of any type and is castable like the call above
         */
-        if (np == NULL || (np->name = name) == NULL) // not exactly sure what this check is for
+        if (np == NULL) // not exactly sure what this check is for
           return NULL;
+        np->name = name;
+        np->defn = defn;
         hashval = hash2(name);
         np->next = hashtab2[hashval];
         hashtab2[hashval] = np;
-    } else /* already there */
-        free((void *) np->defn); /*free previous defn */
-    if ((np->defn = defn) == NULL)
-       return NULL;
+    } else
+        np->defn = defn;
     return np;
 }
 
@@ -109,35 +109,28 @@ struct nlist *install(char *name, char *defn)
 // }
 
 int main() {
-  struct nlist entry;
-  install("key1", "value1");
-  install("key2", "value2");
-  entry = *lookup("key1");
-  if (entry.defn == NULL) {
+  struct nlist2* entry;
+  install2(20, 20);
+  install2(22, 22);
+  entry = lookup2(20);
+  if (entry == NULL) {
     printf("not found!");
   } else {
-    printf("entry is %s\n", entry.defn);
+    printf("entry is %i\n", entry->defn);
   }
 
-  if (lookup("key3") == NULL) {
+  if (lookup2(33) == NULL) {
     printf("key3 was not found!\n");
   }
 
   reset_ht();
 
-  if (lookup("key1") == NULL) {
+  if (lookup2(20) == NULL) {
     printf("reset was successful\n");
   } else {
-    printf("key1's val is still %s\n", lookup("key1") -> defn);
+    printf("key1's val is still %i\n", lookup2(20) -> defn);
   }
 
-  install("key1", "value1");
-
-  if (lookup("key1") == NULL) {
-    printf("reset was unsuccessful");
-  } else {
-    printf("key1's val is back to %s, reset success\n", lookup("key1") -> defn);
-  }
   // printf("lookup done ");
   // if (entry2.defn == NULL) {
   //   printf("not found!");
