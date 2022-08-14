@@ -117,13 +117,13 @@ char is_valid(char isbn[21])
       {
         sum += (asI * 3);
       }
-      int expect = 10 - (sum % 10);
-      char last = isbn[12];
-      char asC = expect + '0';
-      fprintf(stderr,"13! last is %c, asC is %c\n", last, asC);
-      return last == asC;
-      // convert each char to digit and get checksum
     }
+    int expect = 10 - (sum % 10);
+    char last = isbn[12];
+    char asC = expect + '0';
+    fprintf(stderr,"13! last is %c, asC is %c\n", last, asC);
+    return last == asC;
+    // convert each char to digit and get checksum
   }
 }
 
