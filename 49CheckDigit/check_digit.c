@@ -61,7 +61,7 @@ Output
 int main()
 {
     int N;
-    scanf("%d", &N); fgetc(stdin);
+    scanf("%d", &N); fgetc(stdin); // fget c: gets character from file pointer - must be reading the new line
     for (int i = 0; i < N; i++) {
         char ISBN[21];
         scanf("%[^\n]", ISBN); fgetc(stdin);
