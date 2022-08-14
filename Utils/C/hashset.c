@@ -65,14 +65,14 @@ struct nlist *install2(int name, int defn)
         /*
         void *malloc(size_t size)   <- void * means pointer of any type and is castable like the call above
         */
-        if (np == NULL || (np->name = strdup(name)) == NULL)
+        if (np == NULL || (np->name = name) == NULL) // not exactly sure what this check is for
           return NULL;
-        hashval = hash(name);
-        np->next = hashtab[hashval];
-        hashtab[hashval] = np;
+        hashval = hash2(name);
+        np->next = hashtab2[hashval];
+        hashtab2[hashval] = np;
     } else /* already there */
         free((void *) np->defn); /*free previous defn */
-    if ((np->defn = strdup(defn)) == NULL)
+    if ((np->defn = defn) == NULL)
        return NULL;
     return np;
 }
@@ -88,7 +88,7 @@ struct nlist *install(char *name, char *defn)
         if (np == NULL || (np->name = strdup(name)) == NULL)
           return NULL;
         hashval = hash(name);
-        np->next = hashtab[hashval];
+        np->next = hashtab[hashval]; // adds to the head of the list
         hashtab[hashval] = np;
     } else /* already there */
         free((void *) np->defn); /*free previous defn */
