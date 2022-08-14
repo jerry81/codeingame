@@ -88,6 +88,7 @@ int main()
             ++curi;
             // sum created
         }
+        firstsum = sum;
 
 
         // options to convert to string
@@ -98,6 +99,7 @@ int main()
         fprintf(stderr,"im here %d\n", firstsum);
         reset_ht();
         install2(firstsum,firstsum);
+        bool repeat = false;
         while (sum != 1) {
         //   // must convert int, sum to chararr
           curi = 0;
@@ -111,14 +113,18 @@ int main()
             ++curi;
           }
           fprintf(stderr, "were out! %d\n", sum);
-          install2(sum,sum);
           if (lookup2(sum) != NULL) {
             fprintf(stderr, "repeated %d!", sum);
-            strcpy(a.smiley,":(");
+            repeat = true;
             break;
           }
+          install2(sum,sum);
         }
-        strcpy(a.smiley,":)");
+        char s1[3];
+        if (repeat) fprintf(stderr,"repeat is true"); else fprintf(stderr,"repeat is false");
+
+        strcpy(s1, repeat ? ":(" : ":)");
+        strcpy(a.smiley,s1);
         answers[i] = a;
         fprintf(stderr, "answers[i] is %s %s\n", a.label, a.smiley);
     }
