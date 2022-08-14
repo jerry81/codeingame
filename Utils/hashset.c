@@ -8,8 +8,19 @@ struct nlist { /* table entry: */
     char *defn; /* replacement text */
 };
 
+struct nlist2 { /* table entry: */
+    struct nlist2 *next; /* next entry in chain */
+    int name; /* defined name */
+    int defn; /* replacement text */
+};
+
 #define HASHSIZE 101
 struct nlist *hashtab[HASHSIZE]; /* pointer table */
+struct nlist2 *hashtab2[HASHSIZE];
+
+unsigned hash2(int i) {
+  return i%HASHSIZE;
+}
 
 /* hash: form hash value for string s */
 unsigned hash(char *s) // goal: convert string into an index in the hash table
@@ -21,10 +32,17 @@ unsigned hash(char *s) // goal: convert string into an index in the hash table
 }
 
 void reset_ht() {
-  for (int i = 0; i < HASHSIZE; ++i) {
-    hashtab[i] = NULL;
-  }
-  // free(hashtab);
+}
+
+/* lookup: look for s in hashtab */
+struct nlist2 *lookup2(int i)
+{
+    struct nlist2 *np;
+    for (np = hashtab2[hash(i)]; np != NULL; np = np->next)
+        if (i == np->name)
+          return np; /* found */
+    // printf("not found!");
+    return NULL; /* not found */
 }
 
 /* lookup: look for s in hashtab */
@@ -36,6 +54,27 @@ struct nlist *lookup(char *s)
           return np; /* found */
     // printf("not found!");
     return NULL; /* not found */
+}
+
+struct nlist *install2(int name, int defn)
+{
+    struct nlist2 *np;
+    unsigned hashval;
+    if ((np = lookup2(name)) == NULL) { /* not found */
+        np = (struct nlist2 *) malloc(sizeof(*np)); // malloc:
+        /*
+        void *malloc(size_t size)   <- void * means pointer of any type and is castable like the call above
+        */
+        if (np == NULL || (np->name = strdup(name)) == NULL)
+          return NULL;
+        hashval = hash(name);
+        np->next = hashtab[hashval];
+        hashtab[hashval] = np;
+    } else /* already there */
+        free((void *) np->defn); /*free previous defn */
+    if ((np->defn = strdup(defn)) == NULL)
+       return NULL;
+    return np;
 }
 
 // char *strdup(char *);
