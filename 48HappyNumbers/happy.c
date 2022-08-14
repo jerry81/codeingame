@@ -45,8 +45,8 @@ int main()
         // itoa?
         // until firstsum reached again or sum becomes 1
         fprintf(stderr,"im here %d\n", firstsum);
-        reset_ht()
-        install()
+        reset_ht();
+        install2(firstsum,firstsum);
         while (sum != 1) {
         //   // must convert int, sum to chararr
           curi = 0;
@@ -60,7 +60,8 @@ int main()
             ++curi;
           }
           fprintf(stderr, "were out! %d\n", sum);
-          if (sum == firstsum) {
+          install(sum,sum);
+          if (lookup2(sum) != NULL) {
             fprintf(stderr, "repeated %d!", sum);
             strcpy(a.smiley,":(");
             break;
@@ -99,58 +100,52 @@ int main()
 
 // linux provides hcreate hsearch hdestroy! hash search and hashcreate
 
-struct nlist { /* table entry: */
-    struct nlist *next; /* next entry in chain */
-    char *name; /* defined name */
-    char *defn; /* replacement text */
+struct nlist2 { /* table entry: */
+    struct nlist2 *next; /* next entry in chain */
+    int name; /* defined name */
+    int defn; /* replacement text */
 };
 
 #define HASHSIZE 101
-static struct nlist *hashtab[HASHSIZE]; /* pointer table */
+struct nlist2 *hashtab2[HASHSIZE];
+struct nlist2 *orig[HASHSIZE];
 
-/* hash: form hash value for string s */
-unsigned hash(char *s) // goal: convert string into an index in the hash table
-{
-    unsigned hashval;
-    for (hashval = 0; *s != '\0'; s++)
-      hashval = *s + 31 * hashval;
-    return hashval % HASHSIZE; // hash function always ends with this line
+unsigned hash2(int i) {
+  return i%HASHSIZE;
 }
 
 void reset_ht() {
-  for (int i = 0; i < HASHSIZE; ++i) {
-    hashtab[i] = NULL;
-  }
-  // free(hashtab);
+  memcpy( hashtab2, orig, sizeof hashtab2 );
 }
 
 /* lookup: look for s in hashtab */
-struct nlist *lookup(char *s)
+struct nlist2 *lookup2(int i)
 {
-    struct nlist *np;
-    for (np = hashtab[hash(s)]; np != NULL; np = np->next)
-        if (strcmp(s, np->name) == 0)
+    struct nlist2 *np;
+    for (np = hashtab2[hash2(i)]; np != NULL; np = np->next) // NULL in C is null pointer
+        if (i == np->name)
           return np; /* found */
     // printf("not found!");
     return NULL; /* not found */
 }
 
-// char *strdup(char *);
-/* install: put (name, defn) in hashtab */
-struct nlist *install(char *name, char *defn)
+struct nlist2 *install2(int name, int defn)
 {
-    struct nlist *np;
+    struct nlist2 *np;
     unsigned hashval;
-    if ((np = lookup(name)) == NULL) { /* not found */
-        np = (struct nlist *) malloc(sizeof(*np));
-        if (np == NULL || (np->name = strdup(name)) == NULL)
+    if ((np = lookup2(name)) == NULL) { /* not found */
+        np = (struct nlist2 *) malloc(sizeof(*np)); // malloc:
+        /*
+        void *malloc(size_t size)   <- void * means pointer of any type and is castable like the call above
+        */
+        if (np == NULL) // not exactly sure what this check is for
           return NULL;
-        hashval = hash(name);
-        np->next = hashtab[hashval];
-        hashtab[hashval] = np;
-    } else /* already there */
-        free((void *) np->defn); /*free previous defn */
-    if ((np->defn = strdup(defn)) == NULL)
-       return NULL;
+        np->name = name;
+        np->defn = defn;
+        hashval = hash2(name);
+        np->next = hashtab2[hashval];
+        hashtab2[hashval] = np;
+    } else
+        np->defn = defn;
     return np;
 }
