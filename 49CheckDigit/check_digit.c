@@ -58,23 +58,34 @@ Output
  * the standard input according to the problem statement.
  **/
 
-char get_checksum(char isbn[21]) {
+char is_valid(char isbn[21]) {
   int i = 0;
   while (isbn[i] != '\0') {
     ++i;
   }
   fprintf(stderr, "len is %i\n", i);
   if (i != 10 && i != 13) {
-    return 'z';
+    return 0;
   }
 
   if (i == 10) {
     // convert each char to digit and get checksum
+    int sum = 0;
     for (int j = 0; j < 9; j+=1) {
       int asI = isbn[j] - '0';
       if (asI >= 10) {
-          return 'z';
+          return 0;
       }
+      int multiplier = 10 - j;
+      sum += multiplier * asI;
+    }
+    int expect = sum%11;
+    char last = isbn[9];
+    if (expect == 10) {
+      return last == 'X';
+    } else {
+      char asC = expect + '0';
+      return asC == last;
     }
   } else if (i == 13) {
     // convert each char to digit and get checksum
@@ -91,7 +102,7 @@ int main()
         scanf("%[^\n]", ISBN); fgetc(stdin);
         strcpy(ISBNs[i],ISBN);
         fprintf(stderr, "Isbns is %s\n", ISBNs[i]);
-        get_checksum(ISBN);
+        is_valid(ISBN);
     }
 
 
