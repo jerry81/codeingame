@@ -8,7 +8,7 @@ int main () {
    /* Initial memory allocation */
    str = (char *) malloc(15);
    strcpy(str, "tutorialspoint");
-   printf("String = %s,  Address = %p\n", str, &str);
+   printf("String = %s,  Address = %p\n", str, &str); // print mem address with %p
 
    /* Reallocating memory */
    str = (char *) realloc(str, 25);
@@ -16,6 +16,8 @@ int main () {
    printf("String = %s,  Address = %p\n", str, &str);
 
    free(str);
+
+   printf("str is now %s", str);
 
    return(0); // after terminating program OS will clean up memory
 }
