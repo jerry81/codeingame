@@ -96,7 +96,6 @@ int main()
         // log10 loop with modulo 10
         // itoa?
         // until firstsum reached again or sum becomes 1
-        fprintf(stderr,"im here %d\n", firstsum);
         reset_ht();
         install2(firstsum,firstsum);
         bool repeat = false;
@@ -112,21 +111,17 @@ int main()
             sum += sq;
             ++curi;
           }
-          fprintf(stderr, "were out! %d\n", sum);
           if (lookup2(sum) != NULL) {
-            fprintf(stderr, "repeated %d!", sum);
             repeat = true;
             break;
           }
           install2(sum,sum);
         }
         char s1[3];
-        if (repeat) fprintf(stderr,"repeat is true"); else fprintf(stderr,"repeat is false");
 
         strcpy(s1, repeat ? ":(" : ":)");
         strcpy(a.smiley,s1);
         answers[i] = a;
-        fprintf(stderr, "answers[i] is %s %s\n", a.label, a.smiley);
     }
     for (int i = 0; i < N; ++i) {
     struct Answer a = answers[i];
