@@ -85,7 +85,8 @@ char is_valid(char isbn[21])
       int multiplier = 10 - j;
       sum += multiplier * asI;
     }
-    int expect = 11 - (sum % 11);
+    int rem = sum % 11;
+    int expect = (rem == 0) ? 0 : 11 - (sum % 11);
     char last = isbn[9];
     if (expect == 10)
     {
@@ -93,8 +94,9 @@ char is_valid(char isbn[21])
     }
     else
     {
+      fprintf(stderr, "expect is %i\n", expect);
       char asC = expect + '0';
-      fprintf(stderr, "10! asC %c, last %c\n", asC, last);
+      fprintf(stderr, "10! asC %c, last %c\nOriginal was %s\n", asC, last, isbn);
       return asC == last;
     }
   }
@@ -118,7 +120,8 @@ char is_valid(char isbn[21])
         sum += (asI * 3);
       }
     }
-    int expect = 10 - (sum % 10);
+    int rem = sum % 10;
+    int expect = (rem == 0) ? 0 : 10 - (sum % 10);
     char last = isbn[12];
     char asC = expect + '0';
     fprintf(stderr,"13! last is %c, asC is %c\n", last, asC);
