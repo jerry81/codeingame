@@ -88,6 +88,21 @@ char is_valid(char isbn[21]) {
       return asC == last;
     }
   } else if (i == 13) {
+    int sum = 0;
+    for (int j = 0; j < 12; j+=1) {
+      int asI = isbn[j] - '0'; // TODO: DRY
+      if (asI >= 10) {
+          return 0;
+      }
+      if (j%2 == 0) {
+        sum += asI;
+      } else {
+        sum += asI*3;
+      }
+      int expect = sum % 10;
+      char last = isbn[12];
+      char asC = expect + '0';
+      return last == asC;
     // convert each char to digit and get checksum
   }
 }
@@ -97,12 +112,19 @@ int main()
     int N;
     scanf("%d", &N); fgetc(stdin); // fget c: gets character from file pointer - must be reading the new line
     char ISBNs[N][21];
+    int count = 0;
     for (int i = 0; i < N; i++) {
         char ISBN[21];
         scanf("%[^\n]", ISBN); fgetc(stdin);
         strcpy(ISBNs[i],ISBN);
         fprintf(stderr, "Isbns is %s\n", ISBNs[i]);
-        is_valid(ISBN);
+        if (!is_valid(ISBN)) {
+          count+=1;
+        }
+    }
+    printf("%i invalid:\n", count);
+    for (int j = 0; j < count; ++j) {
+
     }
 
 
