@@ -75,7 +75,7 @@ char is_valid(char isbn[21])
   {
     // convert each char to digit and get checksum
     int sum = 0;
-    for (int j = 0; j < 9; j += 1)
+    for (int j = 0; j < 9; ++j)
     {
       int asI = isbn[j] - '0';
       if (asI >= 10)
@@ -94,14 +94,14 @@ char is_valid(char isbn[21])
     else
     {
       char asC = expect + '0';
-      fprintf(stderr, "asC %c, last %c\n", asC, last);
+      fprintf(stderr, "10! asC %c, last %c\n", asC, last);
       return asC == last;
     }
   }
   else if (i == 13)
   {
     int sum = 0;
-    for (int j = 0; j < 12; j += 1)
+    for (int j = 0; j < 12; ++j)
     {
       int asI = isbn[j] - '0'; // TODO: DRY
       if (asI >= 10)
@@ -120,6 +120,7 @@ char is_valid(char isbn[21])
       int expect = 10 - (sum % 10);
       char last = isbn[12];
       char asC = expect + '0';
+      fprintf(stderr,"13! last is %c, asC is %c\n", last, asC);
       return last == asC;
       // convert each char to digit and get checksum
     }
@@ -138,9 +139,9 @@ int main()
     char ISBN[21];
     scanf("%[^\n]", ISBN);
     fgetc(stdin);
-    strcpy(ISBNs[i], ISBN);
     if (!is_valid(ISBN))
     {
+      strcpy(ISBNs[count], ISBN);
       count += 1;
     }
   }
