@@ -58,14 +58,30 @@ Output
  * the standard input according to the problem statement.
  **/
 
+char get_checksum(char isbn[21]) {
+  int i = 0;
+  while (isbn[i] != '\0') {
+    ++i;
+  }
+  fprintf(stderr, "len is %i\n", i);
+  return 'a';
+}
+
 int main()
 {
     int N;
     scanf("%d", &N); fgetc(stdin); // fget c: gets character from file pointer - must be reading the new line
+    char ISBNs[N][21];
     for (int i = 0; i < N; i++) {
         char ISBN[21];
         scanf("%[^\n]", ISBN); fgetc(stdin);
+        strcpy(ISBNs[i],ISBN);
+        fprintf(stderr, "Isbns is %s\n", ISBNs[i]);
+        get_checksum(ISBN);
     }
+
+
+
 
     // Write an answer using printf(). DON'T FORGET THE TRAILING \n
     // To debug: fprintf(stderr, "Debug messages...\n");
