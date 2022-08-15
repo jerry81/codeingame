@@ -53,9 +53,6 @@ int main()
     coords[i][0] = X;
     coords[i][1] = Y;
   }
-  double minD = 1000000;
-  int minY = -1;
-  int minX = -1;
   for (int i = 0; i < N; ++i)
   {
     int x1 = coords[i][0];
@@ -71,12 +68,6 @@ int main()
       double dist = sqrt((double)(dx + dy));
       dists[i][j] = dist;
       dists[j][i] = dist;
-      if (dist < minD)
-      {
-        minD = dist;
-        minX = i;
-        minY = j;
-      }
     }
   }
   // for (int g = 0; g < N; ++g) {
@@ -84,7 +75,23 @@ int main()
   //     fprintf(stderr,"dist of %i, %i is %lf\n",g,h,dists[g][h]);
   //   }
   // }
-  fprintf(stderr, "mind %lf, minX %i, minY %i\n", minD, minX, minY);
+  int minX = 0;
+  int minY = -1;
+  double minD = 100000.00;
+  for (int first=0;first<N;++first){
+    double cdist = dists[0][first];
+    fprintf(stderr, "cDist is %lf\n", cdist);
+    if (cdist <= 0.00000000001) {
+      fprintf(stderr, "should continue\n");
+      continue;
+    }
+
+    if (minD > cdist) {
+      minD = cdist;
+      minY = first;
+    }
+  }
+  fprintf(stderr,"minD is %lf\n", minD);
   double total = 0.00;
   int visited = 0;
   while (visited < N)
@@ -102,7 +109,7 @@ int main()
     for (int comp = 0; comp < N; ++comp)
     {
       double curDist = dists[minY][comp];
-      if (curDist <= 0.00)
+      if (curDist <= 0.00000000001)
         continue;
 
       if (curDist < nextDist)
