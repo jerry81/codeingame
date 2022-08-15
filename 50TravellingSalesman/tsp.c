@@ -42,7 +42,7 @@ int main()
 {
     int N;
     scanf("%d", &N); // number of points
-    int dists[N][N];
+    double dists[N][N];
     int coords[N][2];
     for (int i = 0; i < N; i++) {
         int X;
@@ -51,6 +51,23 @@ int main()
         // x y coordinates
         coords[i][0] = X;
         coords[i][1] = Y;
+    }
+    double minD = 1000000;
+    int minY = -1;
+    int minX = -1;
+    for (int i = 0; i < N; ++i) {
+      int x1 = coords[i][0];
+      int y1 = coords[i][1];
+      for (int j = i+1; j < N; ++j) {
+        int x2 = coords[j][0];
+        int y2 = coords[j][1];
+        fprintf(stderr, "x2 %i y2 %i x1 %i y1 %i\n", x2, y2, x1, y1);
+        long dx = (long)((x2-x1)*(x2-x1));
+        long dy = (long)((y2-y1)*(y2-y1));
+
+        double dist = sqrt((double)(dx+dy));
+        fprintf(stderr, "sqrt is %lf\n", dist);
+      }
     }
 
     // Write an answer using printf(). DON'T FORGET THE TRAILING \n
