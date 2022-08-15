@@ -79,6 +79,11 @@ int main()
       }
     }
   }
+  for (int g = 0; g < N; ++g) {
+    for (int h=0; h<N;++h) {
+      fprintf(stderr,"dist of %i, %i is %lf\n",g,h,dists[g][h]);
+    }
+  }
   fprintf(stderr, "mind %lf, minX %i, minY %i\n", minD, minX, minY);
   double total = 0.00;
   int visited = 0;
@@ -90,6 +95,8 @@ int main()
     {
       dists[removed][minY] = 0.00;
     }
+    dists[minY][minX] = 0.00; // prevent backtrack
+    minX = minY;
     int nextMinY = -1;
     double nextDist = 1000000;
     for (int comp = 0; comp < N; ++comp)
