@@ -79,11 +79,11 @@ int main()
       }
     }
   }
-  for (int g = 0; g < N; ++g) {
-    for (int h=0; h<N;++h) {
-      fprintf(stderr,"dist of %i, %i is %lf\n",g,h,dists[g][h]);
-    }
-  }
+  // for (int g = 0; g < N; ++g) {
+  //   for (int h=0; h<N;++h) {
+  //     fprintf(stderr,"dist of %i, %i is %lf\n",g,h,dists[g][h]);
+  //   }
+  // }
   fprintf(stderr, "mind %lf, minX %i, minY %i\n", minD, minX, minY);
   double total = 0.00;
   int visited = 0;
@@ -115,7 +115,7 @@ int main()
     minD = nextDist;
     ++visited;
   }
-  printf("%lf", total);
+  printf("%i", (int)total);
 
   // Write an answer using printf(). DON'T FORGET THE TRAILING \n
   // To debug: fprintf(stderr, "Debug messages...\n");
