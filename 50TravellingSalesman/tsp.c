@@ -28,6 +28,7 @@ Input
 Output
 71
 */
+#include <math.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
@@ -55,17 +56,17 @@ int main()
   }
   for (int i = 0; i < N; ++i)
   {
-    int x1 = coords[i][0];
-    int y1 = coords[i][1];
+    double x1 = (double)coords[i][0];
+    double y1 = (double)coords[i][1];
     for (int j = i + 1; j < N; ++j)
     {
-      int x2 = coords[j][0];
-      int y2 = coords[j][1];
+      double x2 = (double)coords[j][0];
+      double y2 = (double)coords[j][1];
       fprintf(stderr, "x2 %i y2 %i x1 %i y1 %i\n", x2, y2, x1, y1);
-      long dx = (long)((x2 - x1) * (x2 - x1));
-      long dy = (long)((y2 - y1) * (y2 - y1));
+      double dx = (x2 - x1) * (x2 - x1);
+      double dy = (y2 - y1) * (y2 - y1);
 
-      double dist = sqrt((double)(dx + dy));
+      double dist = sqrt(dx + dy);
       dists[i][j] = dist;
       dists[j][i] = dist;
     }
@@ -105,7 +106,7 @@ int main()
     dists[minY][minX] = 0.00; // prevent backtrack
     minX = minY;
     int nextMinY = -1;
-    double nextDist = 1000000;
+    double nextDist = 1000000.00;
     for (int comp = 0; comp < N; ++comp)
     {
       double curDist = dists[minY][comp];
@@ -122,6 +123,7 @@ int main()
     minD = nextDist;
     ++visited;
   }
+  fprintf(stderr, "total is %lf\n", total);
   printf("%i", (int)total);
 
   // Write an answer using printf(). DON'T FORGET THE TRAILING \n
