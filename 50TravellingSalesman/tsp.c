@@ -81,19 +81,16 @@ int main()
   }
   fprintf(stderr, "mind %lf, minX %i, minY %i\n", minD, minX, minY);
   double total = 0.00;
-  int visited = 1;
+  int visited = 0;
   while (visited < N)
   {
     total += minD;
     // remove minX and minY from the map
     for (int removed = 0; removed < N; ++removed)
     {
-      dists[removed][minX] = 0.00;
       dists[removed][minY] = 0.00;
-      fprintf(stderr, "%i and %i removed\n", minX, minY);
     }
     int nextMinY = -1;
-    minX = minY;
     double nextDist = 1000000;
     for (int comp = 0; comp < N; ++comp)
     {
