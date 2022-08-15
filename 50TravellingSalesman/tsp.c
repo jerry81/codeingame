@@ -129,7 +129,7 @@ int main()
   fprintf(stderr, "adding final dist minY: %i, 0 -- %lf\n", minY, dists[minY][0]);
   total+=dists[minY][0];
   fprintf(stderr, "total is %lf\n", total);
-  printf("%i", (int)total);
+  printf("%i", (int)round(total));
 
   // Write an answer using printf(). DON'T FORGET THE TRAILING \n
   // To debug: fprintf(stderr, "Debug messages...\n");
