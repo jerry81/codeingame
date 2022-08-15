@@ -66,9 +66,17 @@ int main()
         long dy = (long)((y2-y1)*(y2-y1));
 
         double dist = sqrt((double)(dx+dy));
-        fprintf(stderr, "sqrt is %lf\n", dist);
+        dists[i][j] = dist;
+        dists[j][i] = dist;
+        if (dist < minD) {
+          minD = dist;
+          minX = i;
+          minY = j;
+        }
       }
+      fprintf(stderr, "mind %lf, minX %i, minY %i\n", minD, minX, minY);
     }
+
 
     // Write an answer using printf(). DON'T FORGET THE TRAILING \n
     // To debug: fprintf(stderr, "Debug messages...\n");
