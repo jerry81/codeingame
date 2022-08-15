@@ -40,75 +40,83 @@ Output
 
 int main()
 {
-    int N;
-    scanf("%d", &N); // number of points
-    double dists[N][N];
-    int coords[N][2];
-    for (int i = 0; i < N; i++) {
-        int X;
-        int Y;
-        scanf("%d%d", &X, &Y);
-        // x y coordinates
-        coords[i][0] = X;
-        coords[i][1] = Y;
-    }
-    double minD = 1000000;
-    int minY = -1;
-    int minX = -1;
-    for (int i = 0; i < N; ++i) {
-      int x1 = coords[i][0];
-      int y1 = coords[i][1];
-      for (int j = i+1; j < N; ++j) {
-        int x2 = coords[j][0];
-        int y2 = coords[j][1];
-        fprintf(stderr, "x2 %i y2 %i x1 %i y1 %i\n", x2, y2, x1, y1);
-        long dx = (long)((x2-x1)*(x2-x1));
-        long dy = (long)((y2-y1)*(y2-y1));
+  int N;
+  scanf("%d", &N); // number of points
+  double dists[N][N];
+  int coords[N][2];
+  for (int i = 0; i < N; i++)
+  {
+    int X;
+    int Y;
+    scanf("%d%d", &X, &Y);
+    // x y coordinates
+    coords[i][0] = X;
+    coords[i][1] = Y;
+  }
+  double minD = 1000000;
+  int minY = -1;
+  int minX = -1;
+  for (int i = 0; i < N; ++i)
+  {
+    int x1 = coords[i][0];
+    int y1 = coords[i][1];
+    for (int j = i + 1; j < N; ++j)
+    {
+      int x2 = coords[j][0];
+      int y2 = coords[j][1];
+      fprintf(stderr, "x2 %i y2 %i x1 %i y1 %i\n", x2, y2, x1, y1);
+      long dx = (long)((x2 - x1) * (x2 - x1));
+      long dy = (long)((y2 - y1) * (y2 - y1));
 
-        double dist = sqrt((double)(dx+dy));
-        dists[i][j] = dist;
-        dists[j][i] = dist;
-        if (dist < minD) {
-          minD = dist;
-          minX = i;
-          minY = j;
-        }
+      double dist = sqrt((double)(dx + dy));
+      dists[i][j] = dist;
+      dists[j][i] = dist;
+      if (dist < minD)
+      {
+        minD = dist;
+        minX = i;
+        minY = j;
       }
-      fprintf(stderr, "mind %lf, minX %i, minY %i\n", minD, minX, minY);
-      int total = 0;
-      int visited = 1;
-      while (visited < N) {
-        total+=minD;
-        // remove minX and minY from the map
-        for (int removed = 0; removed < N; ++removed) {
-          dists[removed][minX] = 0.00;
-          dists[removed][minY] = 0.00;
-        }
-        int nextMinY = -1;
-        minX = minY;
-        double nextDist = 1000000;
-        for (int comp = 0; comp < N; ++comp) {
-          double curDist = dists[minY][comp];
-          if (curDist <= 0.00) continue;
-
-
-          if (curDist < nextDist) {
-            nextDist = curDist;
-            nextMinY = comp;
-          }
-        }
-        ++visited;
-      }
-      printf("%i", total);
     }
+  }
+  fprintf(stderr, "mind %lf, minX %i, minY %i\n", minD, minX, minY);
+  double total = 0.00;
+  int visited = 1;
+  while (visited < N)
+  {
+    total += minD;
+    // remove minX and minY from the map
+    for (int removed = 0; removed < N; ++removed)
+    {
+      dists[removed][minX] = 0.00;
+      dists[removed][minY] = 0.00;
+      fprintf(stderr, "%i and %i removed\n", minX, minY);
+    }
+    int nextMinY = -1;
+    minX = minY;
+    double nextDist = 1000000;
+    for (int comp = 0; comp < N; ++comp)
+    {
+      double curDist = dists[minY][comp];
+      if (curDist <= 0.00)
+        continue;
 
+      if (curDist < nextDist)
+      {
+        nextDist = curDist;
+        nextMinY = comp;
+      }
+    }
+    minY = nextMinY;
+    minD = nextDist;
+    ++visited;
+  }
+  printf("%lf", total);
 
-    // Write an answer using printf(). DON'T FORGET THE TRAILING \n
-    // To debug: fprintf(stderr, "Debug messages...\n");
+  // Write an answer using printf(). DON'T FORGET THE TRAILING \n
+  // To debug: fprintf(stderr, "Debug messages...\n");
 
-    printf("distance\n");
-
-    return 0;
+  return 0;
 }
 
 /*
