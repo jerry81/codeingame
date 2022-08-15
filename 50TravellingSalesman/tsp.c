@@ -62,7 +62,6 @@ int main()
     {
       double x2 = (double)coords[j][0];
       double y2 = (double)coords[j][1];
-      fprintf(stderr, "x2 %i y2 %i x1 %i y1 %i\n", x2, y2, x1, y1);
       double dx = (x2 - x1) * (x2 - x1);
       double dy = (y2 - y1) * (y2 - y1);
 
@@ -71,19 +70,18 @@ int main()
       dists[j][i] = dist;
     }
   }
-  // for (int g = 0; g < N; ++g) {
-  //   for (int h=0; h<N;++h) {
-  //     fprintf(stderr,"dist of %i, %i is %lf\n",g,h,dists[g][h]);
-  //   }
-  // }
+  for (int g = 0; g < N; ++g) {
+    for (int h=0; h<N;++h) {
+      fprintf(stderr,"dist of %i, %i is %lf\n",g,h,dists[g][h]);
+    }
+  }
   int minX = 0;
   int minY = -1;
+
   double minD = 100000.00;
   for (int first=0;first<N;++first){
     double cdist = dists[0][first];
-    fprintf(stderr, "cDist is %lf\n", cdist);
     if (cdist <= 0.00000000001) {
-      fprintf(stderr, "should continue\n");
       continue;
     }
 
@@ -92,24 +90,27 @@ int main()
       minY = first;
     }
   }
-  fprintf(stderr,"minD is %lf\n", minD);
   double total = 0.00;
-  int visited = 0;
+  int visited = 1;
   while (visited < N)
   {
     total += minD;
+    fprintf(stderr, "total is now %lf\n", total);
+    fprintf(stderr, "moving from %i to %i\n", minX, minY);
     // remove minX and minY from the map
     for (int removed = 0; removed < N; ++removed)
     {
       dists[removed][minY] = 0.00;
     }
-    dists[minY][minX] = 0.00; // prevent backtrack
+    if (minX != 0)
+       dists[minY][minX] = 0.00; // prevent backtrack
     minX = minY;
     int nextMinY = -1;
     double nextDist = 1000000.00;
-    for (int comp = 0; comp < N; ++comp)
+    for (int comp = 1; comp < N; ++comp)
     {
       double curDist = dists[minY][comp];
+      fprintf(stderr, "comaparing %i %i dist %lf\n", minY, comp, curDist);
       if (curDist <= 0.00000000001)
         continue;
 
@@ -119,10 +120,14 @@ int main()
         nextMinY = comp;
       }
     }
-    minY = nextMinY;
+    if (nextMinY != -1) {
+      minY = nextMinY;
+    }
     minD = nextDist;
     ++visited;
   }
+  fprintf(stderr, "adding final dist minY: %i, 0 -- %lf\n", minY, dists[minY][0]);
+  total+=dists[minY][0];
   fprintf(stderr, "total is %lf\n", total);
   printf("%i", (int)total);
 
@@ -149,7 +154,7 @@ distmap:
 3: 4,3
 4: 13,27
 
-0: { 1: 20, 2: 17, 3: 5, 4: 22}
+0: { 1: 15.297 2:   3: 4: }
 1: { 0: 20 }
 2: { 0: 27 }
 3: { 0: 5 }
