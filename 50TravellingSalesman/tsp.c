@@ -70,11 +70,6 @@ int main()
       dists[j][i] = dist;
     }
   }
-  for (int g = 0; g < N; ++g) {
-    for (int h=0; h<N;++h) {
-      fprintf(stderr,"dist of %i, %i is %lf\n",g,h,dists[g][h]);
-    }
-  }
   int minX = 0;
   int minY = -1;
 
@@ -95,8 +90,6 @@ int main()
   while (visited < N)
   {
     total += minD;
-    fprintf(stderr, "total is now %lf\n", total);
-    fprintf(stderr, "moving from %i to %i\n", minX, minY);
     // remove minX and minY from the map
     for (int removed = 0; removed < N; ++removed)
     {
@@ -110,7 +103,6 @@ int main()
     for (int comp = 1; comp < N; ++comp)
     {
       double curDist = dists[minY][comp];
-      fprintf(stderr, "comaparing %i %i dist %lf\n", minY, comp, curDist);
       if (curDist <= 0.00000000001)
         continue;
 
@@ -126,9 +118,7 @@ int main()
     minD = nextDist;
     ++visited;
   }
-  fprintf(stderr, "adding final dist minY: %i, 0 -- %lf\n", minY, dists[minY][0]);
   total+=dists[minY][0];
-  fprintf(stderr, "total is %lf\n", total);
   printf("%i", (int)round(total));
 
   // Write an answer using printf(). DON'T FORGET THE TRAILING \n
