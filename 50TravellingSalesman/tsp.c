@@ -41,11 +41,16 @@ Output
 int main()
 {
     int N;
-    scanf("%d", &N);
+    scanf("%d", &N); // number of points
+    int dists[N][N];
+    int coords[N][2];
     for (int i = 0; i < N; i++) {
         int X;
         int Y;
         scanf("%d%d", &X, &Y);
+        // x y coordinates
+        coords[i][0] = X;
+        coords[i][1] = Y;
     }
 
     // Write an answer using printf(). DON'T FORGET THE TRAILING \n
@@ -55,3 +60,47 @@ int main()
 
     return 0;
 }
+
+/*
+5
+9 12
+24 15
+12 30
+4 3
+13 27
+
+ans: 71
+
+distmap:
+0: 9,12
+1: 24,15
+2: 12,30
+3: 4,3
+4: 13,27
+
+0: { 1: 20, 2: 17, 3: 5, 4: 22}
+1: { 0: 20 }
+2: { 0: 27 }
+3: { 0: 5 }
+4: { 0: 22 }
+
+0: { 1: 20, 2: 17, 3: 5, 4: 22}
+1: { 0: 20, 2:  }
+2: { 0: 27, 1: }
+3: { 0: 5, 1: }
+4: { 0: 22, 1: }
+etc...
+
+ending up with
+0: { 1,2,3,4 }
+1: { 0,2,3,4 }
+...
+4: { 0,1,2,3 }
+
+get min dist edge (there will be 2)
+then walk back to original node
+
+distance map
+- array of arrays NxN
+
+*/
