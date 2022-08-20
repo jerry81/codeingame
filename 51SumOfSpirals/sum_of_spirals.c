@@ -109,17 +109,26 @@ int main()
       }
     }
 
-    for (int i = 0; i < n; ++i) {
-      for (int j = 0; j < n; ++j) {
-        fprintf(stderr, "%d ", mat[i][j]);
-      }
-      fprintf(stderr, "\n");
-    }
+    // for (int i = 0; i < n; ++i) {
+    //   for (int j = 0; j < n; ++j) {
+    //     fprintf(stderr, "%d ", mat[i][j]);
+    //   }
+    //   fprintf(stderr, "\n");
+    // }
 
     // sum diagonals
 
-
-    printf("answer\n");
+    int s = 0;
+    bool even = ((n%2) == 0);
+    for (int i = 0; i < n; ++i) {
+      s += mat[i][i];
+      s += mat[n-i-1][i];
+    }
+    // if not even, subtract the middle element (largest)
+    if (!even) {
+      s -= n*n;
+    }
+    printf("%d\n", s);
 
     return 0;
 }
