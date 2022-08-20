@@ -61,8 +61,12 @@ int main()
     int mnx = 0;
     int mny= 1;
     unsigned int dir = 0;
+    fprintf(stderr, "wha");
     for (unsigned int i = 0; i < (unsigned int)(n*n); ++i) {
-      fprintf(stderr, "cy is %d cx is %d i is %d \n", cy, cx, i);
+      if (cy < 0 || cx < 0) {
+          fprintf(stderr, "ruroh");
+          break;
+      }
       mat[cy][cx] = (i+1);
       if (dir == 0) {
         unsigned int nx = cx + 1;
@@ -88,9 +92,7 @@ int main()
       }
       if (dir == 2) {
         int nx = cx - 1;
-        fprintf(stderr, "nx is now %d\n", nx);
         if (nx < mnx) {
-          fprintf(stderr, "lessthan");
           dir = 3;
           cy -= 1;
           ++mnx;
