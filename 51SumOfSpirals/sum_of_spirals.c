@@ -56,14 +56,19 @@ int main()
     int mat[n][n];
     int cx = 0;
     int cy = 0;
+    int mxx = n;
+    int mxy = n;
+    int mnx = 0;
+    int mny= 1;
     int dir = 0;
     for (int i = 0; i < (n*n); ++i) {
       mat[cy][cx] = (i+1);
       if (dir == 0) {
         int nx = cx + 1;
-        if (nx >= n) {
+        if (nx >= mxx) {
           dir = 1;
           cy += 1;
+          --mxx;
           continue;
         } else {
           cx = nx;
@@ -71,9 +76,10 @@ int main()
       }
       if (dir == 1) {
         int ny = cy + 1;
-        if (ny >= n) {
+        if (ny >= mxy) {
           dir = 2;
           cx -= 1;
+          --mxy;
           continue;
         } else {
           cy = ny;
@@ -81,9 +87,10 @@ int main()
       }
       if (dir == 2) {
         int nx = cx - 1;
-        if (nx < 0) {
+        if (nx < mnx) {
           dir = 3;
           cy += 1;
+          ++mnx;
           continue;
         } else {
           cx = nx;
@@ -91,9 +98,10 @@ int main()
       }
       if (dir == 3) {
         int ny = cy - 1;
-        if (ny < 0) {
+        if (ny < mny) {
           dir = 0;
           cx += 1;
+          ++mny;
           continue;
         } else {
           cy = ny;
