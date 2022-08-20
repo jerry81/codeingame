@@ -53,7 +53,7 @@ int main()
     // To debug: fprintf(stderr, "Debug messages...\n");
 
     // build spiral
-    unsigned int mat[n][n];
+    long int mat[n][n];
     unsigned int cx = 0;
     unsigned int cy = 0;
     unsigned int mxx = n;
@@ -61,8 +61,7 @@ int main()
     int mnx = 0;
     int mny= 1;
     unsigned int dir = 0;
-    fprintf(stderr, "wha");
-    for (unsigned int i = 0; i < (unsigned int)(n*n); ++i) {
+    for (long int i = 0; i < (long int)(n*n); ++i) {
       if (cy < 0 || cx < 0) {
           fprintf(stderr, "ruroh");
           break;
