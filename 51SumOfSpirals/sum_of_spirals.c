@@ -54,6 +54,11 @@ int main()
 
     // build spiral
     long int mat[n][n];
+    for (int i = 0; i < n; ++i) {
+      for (int j = 0; j < n; ++j) {
+        mat[i][j] = 0;
+      }
+    }
     unsigned int cx = 0;
     unsigned int cy = 0;
     unsigned int mxx = n;
