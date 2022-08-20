@@ -52,6 +52,65 @@ int main()
     // Write an answer using printf(). DON'T FORGET THE TRAILING \n
     // To debug: fprintf(stderr, "Debug messages...\n");
 
+    // build spiral
+    int mat[n][n];
+    int cx = 0;
+    int cy = 0;
+    int dir = 0;
+    for (int i = 0; i < (n*n); ++i) {
+      mat[cy][cx] = (i+1);
+      if (dir == 0) {
+        int nx = cx + 1;
+        if (nx >= n) {
+          dir = 1;
+          cy += 1;
+          continue;
+        } else {
+          cx = nx;
+        }
+      }
+      if (dir == 1) {
+        int ny = cy + 1;
+        if (ny >= n) {
+          dir = 2;
+          cx -= 1;
+          continue;
+        } else {
+          cy = ny;
+        }
+      }
+      if (dir == 2) {
+        int nx = cx - 1;
+        if (nx < 0) {
+          dir = 3;
+          cy += 1;
+          continue;
+        } else {
+          cx = nx;
+        }
+      }
+      if (dir == 3) {
+        int ny = cy - 1;
+        if (ny < 0) {
+          dir = 0;
+          cx += 1;
+          continue;
+        } else {
+          cy = ny;
+        }
+      }
+    }
+
+    for (int i = 0; i < n; ++i) {
+      for (int j = 0; j < n; ++j) {
+        fprintf(stderr, "%d ", mat[i][j]);
+      }
+      fprintf(stderr, "\n");
+    }
+
+    // sum diagonals
+
+
     printf("answer\n");
 
     return 0;
