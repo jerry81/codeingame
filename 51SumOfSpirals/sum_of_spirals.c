@@ -53,7 +53,10 @@ int main()
     // To debug: fprintf(stderr, "Debug messages...\n");
 
     // build spiral
-    long int mat[n][n];
+    long int **mat = malloc(n * sizeof *mat);
+    for (int i = 0; i < n; i++) {
+      mat[i] = malloc(n * sizeof *mat[i]);
+    }
     for (int i = 0; i < n; ++i) {
       for (int j = 0; j < n; ++j) {
         mat[i][j] = 0;
@@ -127,7 +130,7 @@ int main()
 
     // sum diagonals
 
-    unsigned int s = 0;
+    long int s = 0;
     bool even = ((n%2) == 0);
     for (int i = 0; i < n; ++i) {
       s += mat[i][i];
@@ -137,7 +140,7 @@ int main()
     if (!even) {
       s -= (n*n);
     }
-    printf("%d\n", s);
+    printf("%ld\n", s);
 
     return 0;
 }
