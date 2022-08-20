@@ -89,7 +89,7 @@ int main()
         int nx = cx - 1;
         if (nx < mnx) {
           dir = 3;
-          cy += 1;
+          cy -= 1;
           ++mnx;
           continue;
         } else {
