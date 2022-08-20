@@ -53,18 +53,19 @@ int main()
     // To debug: fprintf(stderr, "Debug messages...\n");
 
     // build spiral
-    int mat[n][n];
-    int cx = 0;
-    int cy = 0;
-    int mxx = n;
-    int mxy = n;
+    unsigned int mat[n][n];
+    unsigned int cx = 0;
+    unsigned int cy = 0;
+    unsigned int mxx = n;
+    unsigned int mxy = n;
     int mnx = 0;
     int mny= 1;
-    int dir = 0;
-    for (int i = 0; i < (n*n); ++i) {
+    unsigned int dir = 0;
+    for (unsigned int i = 0; i < (unsigned int)(n*n); ++i) {
+      fprintf(stderr, "cy is %d cx is %d i is %d \n", cy, cx, i);
       mat[cy][cx] = (i+1);
       if (dir == 0) {
-        int nx = cx + 1;
+        unsigned int nx = cx + 1;
         if (nx >= mxx) {
           dir = 1;
           cy += 1;
@@ -75,7 +76,7 @@ int main()
         }
       }
       if (dir == 1) {
-        int ny = cy + 1;
+        unsigned int ny = cy + 1;
         if (ny >= mxy) {
           dir = 2;
           cx -= 1;
@@ -87,7 +88,9 @@ int main()
       }
       if (dir == 2) {
         int nx = cx - 1;
+        fprintf(stderr, "nx is now %d\n", nx);
         if (nx < mnx) {
+          fprintf(stderr, "lessthan");
           dir = 3;
           cy -= 1;
           ++mnx;
@@ -118,7 +121,7 @@ int main()
 
     // sum diagonals
 
-    int s = 0;
+    unsigned int s = 0;
     bool even = ((n%2) == 0);
     for (int i = 0; i < n; ++i) {
       s += mat[i][i];
@@ -126,7 +129,7 @@ int main()
     }
     // if not even, subtract the middle element (largest)
     if (!even) {
-      s -= n*n;
+      s -= (n*n);
     }
     printf("%d\n", s);
 
