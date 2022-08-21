@@ -54,24 +54,31 @@ int sum_digits_plus(int i)
     return s;
 }
 
+int connection(int r_1) {
+    for (int i = 1; i < r_1; ++i) {
+      int s = i + sum_digits_plus(i);
+      if (s == r_1) {
+        return i;
+      }
+    }
+    return -1;
+}
+
 int main()
 {
     int r_1;
     scanf("%d", &r_1);
-    int s = sum_digits_plus(r_1);
-    fprintf(stderr, "s is %d\n", s);
-    int count = 0;
-    for (int i = 1; i < r_1; ++i) {
-      int s = i + sum_digits_plus(i);
-      if (s == r_1) {
-        count+=1;
-      }
+    // int s = sum_digits_plus(r_1);
+    // fprintf(stderr, "s is %d\n", s);
+    int i = connection(r_1);
+    bool answer = false;
+    if (i > 0) {
+      answer = (connection(i)>0);
     }
-    fprintf(stderr, "count is %d\n", count);
     // Write an answer using printf(). DON'T FORGET THE TRAILING \n
     // To debug: fprintf(stderr, "Debug messages...\n");
     char returned[4];
-    strcpy(returned, (count > 1) ? "YES" : "NO");
+    strcpy(returned, answer ? "YES" : "NO");
     printf("%s\n", returned);
 
     return 0;
@@ -123,5 +130,6 @@ sum(max) is y
 9915
 9800
 */
+
 
 
