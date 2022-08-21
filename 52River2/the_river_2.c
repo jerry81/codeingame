@@ -46,3 +46,46 @@ int main()
 
     return 0;
 }
+
+/* analysis
+20
+so the previous could be
+x + y = 20
+x < 20
+y < 20
+10 + 1
+11 + 2
+12 + 3
+13 + 4
+14 + 5
+15 + 6
+x has no predecessors
+
+13
+12 + 3
+11 + 2 yes
+10 + 1
+9 + 9
+
+7 14
+5 10 11 13
+
+32 37 47
+
+y = x + sum(dig(x))
+
+y = 20
+20 = x + sum(dig(x))
+
+20 = x + a + b where a and b is 0 or 1, b is 0 - 9
+x = 20 - a - b
+a = 20 - x - b
+b = 20 - a - x
+substitution will not help here?
+
+brute force?
+x min is y - sum(max)
+sum(max) is y
+*/
+
+
