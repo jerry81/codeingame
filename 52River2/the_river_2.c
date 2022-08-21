@@ -34,17 +34,17 @@ NO
  * the standard input according to the problem statement.
  **/
 
-int sum_digits(int i) {
-  char *intNumber;
+void sum_digits(int i) {
+  char intNumber[11];
   sprintf(intNumber,"%ld", i);
-  fprintf(stderr, "sprintfed %ld", intNumber);
+  fprintf(stderr, "%s", intNumber);
 }
 
 int main()
 {
     int r_1;
     scanf("%d", &r_1);
-
+    sum_digits(r_1);
     // Write an answer using printf(). DON'T FORGET THE TRAILING \n
     // To debug: fprintf(stderr, "Debug messages...\n");
 
