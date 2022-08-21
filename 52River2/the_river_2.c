@@ -38,7 +38,6 @@ NO
 int sum_digits_plus(int i)
 {
     int n = log10(i) + 1; // gets base 10 log. (10^x = 10000, x = 4)
-    fprintf(stderr, "n is %d\n", n);
     char *numberArray = calloc(n, sizeof(char)); // calloc
     /*
     calloc() gives you a zero-initialized buffer, while malloc() leaves the memory uninitialized.
@@ -49,9 +48,7 @@ int sum_digits_plus(int i)
     }
     int s = 0;
     for (int k = 0; k < n; ++k) {
-      fprintf(stderr, "asc is %c\n", numberArray[k]);
       int item = (int)numberArray[k] - '0';
-      fprintf(stderr, "item is %d\n", item);
       s += item;
     }
     return s;
@@ -63,11 +60,19 @@ int main()
     scanf("%d", &r_1);
     int s = sum_digits_plus(r_1);
     fprintf(stderr, "s is %d\n", s);
-
+    int count = 0;
+    for (int i = 1; i < r_1; ++i) {
+      int s = i + sum_digits_plus(i);
+      if (s == r_1) {
+        count+=1;
+      }
+    }
+    fprintf(stderr, "count is %d\n", count);
     // Write an answer using printf(). DON'T FORGET THE TRAILING \n
     // To debug: fprintf(stderr, "Debug messages...\n");
-
-    printf("YES|NO\n");
+    char returned[4];
+    strcpy(returned, (count > 1) ? "YES" : "NO");
+    printf("%s\n", returned);
 
     return 0;
 }
