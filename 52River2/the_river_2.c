@@ -24,6 +24,7 @@ Output
 NO
 */
 
+#include <math.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
@@ -40,11 +41,24 @@ void sum_digits(int i) {
   fprintf(stderr, "%s", intNumber);
 }
 
+char * sum_digits_plus(int i)
+{
+    int n = log10(i) + 1; // gets base 10 log. (10^x = 10000, x = 4)
+    fprintf(stderr, "n is %d\n", n);
+    char *numberArray = calloc(n, sizeof(char)); // calloc
+    for (int j = n-1; j >= 0; --j, i /= 10) // statements that run each loop can be listed (comma seperated)
+    {
+        numberArray[j] = (i % 10) + '0'; // review - single digit to char trick
+    }
+    return numberArray;
+}
+
 int main()
 {
     int r_1;
     scanf("%d", &r_1);
-    sum_digits(r_1);
+    char *s = sum_digits_plus(r_1);
+    fprintf(stderr, "s is %s\n", s);
     // Write an answer using printf(). DON'T FORGET THE TRAILING \n
     // To debug: fprintf(stderr, "Debug messages...\n");
 
