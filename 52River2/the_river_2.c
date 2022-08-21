@@ -34,6 +34,12 @@ NO
  * the standard input according to the problem statement.
  **/
 
+int sum_digits(int i) {
+  char *intNumber;
+  sprintf(intNumber,"%ld", i);
+  fprintf(stderr, "sprintfed %ld", intNumber);
+}
+
 int main()
 {
     int r_1;
@@ -59,6 +65,9 @@ y < 20
 13 + 4
 14 + 5
 15 + 6
+9 + 9 = 18..
+10 + 1 = 11
+11 + 2 = 13
 x has no predecessors
 
 13
@@ -86,6 +95,9 @@ substitution will not help here?
 brute force?
 x min is y - sum(max)
 sum(max) is y
+
+9915
+9800
 */
 
 
