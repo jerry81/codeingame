@@ -35,30 +35,35 @@ NO
  * the standard input according to the problem statement.
  **/
 
-void sum_digits(int i) {
-  char intNumber[11];
-  sprintf(intNumber,"%ld", i);
-  fprintf(stderr, "%s", intNumber);
-}
-
-char * sum_digits_plus(int i)
+int sum_digits_plus(int i)
 {
     int n = log10(i) + 1; // gets base 10 log. (10^x = 10000, x = 4)
     fprintf(stderr, "n is %d\n", n);
     char *numberArray = calloc(n, sizeof(char)); // calloc
+    /*
+    calloc() gives you a zero-initialized buffer, while malloc() leaves the memory uninitialized.
+    */
     for (int j = n-1; j >= 0; --j, i /= 10) // statements that run each loop can be listed (comma seperated)
     {
         numberArray[j] = (i % 10) + '0'; // review - single digit to char trick
     }
-    return numberArray;
+    int s = 0;
+    for (int k = 0; k < n; ++k) {
+      fprintf(stderr, "asc is %c\n", numberArray[k]);
+      int item = (int)numberArray[k] - '0';
+      fprintf(stderr, "item is %d\n", item);
+      s += item;
+    }
+    return s;
 }
 
 int main()
 {
     int r_1;
     scanf("%d", &r_1);
-    char *s = sum_digits_plus(r_1);
-    fprintf(stderr, "s is %s\n", s);
+    int s = sum_digits_plus(r_1);
+    fprintf(stderr, "s is %d\n", s);
+
     // Write an answer using printf(). DON'T FORGET THE TRAILING \n
     // To debug: fprintf(stderr, "Debug messages...\n");
 
