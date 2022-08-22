@@ -32,21 +32,40 @@ struct Answer {
 
 /*
  more memory refresher
- calloc -> "contiguous allocation" - suitable for arrays - two args, block size and size
+ calloc -> "contiguous allocation" - suitable for arrays - two args, num of blocks and block size i.e. calloc(n, sizeof(int))
  malloc -> one arg, single block
  free - deallocates memory
+ realloc - 2 args, the pointer, the new size
+ void *reallocarray(void *ptr, size_t nmemb, size_t size);
 */
 
 int main()
 {
     int N;
     struct Answer *answers;
+    int answers_size = 0;
     scanf("%d", &N);
 
     // Write an answer using printf(). DON'T FORGET THE TRAILING \n
     // To debug: fprintf(stderr, "Debug messages...\n");
     int a,b,c;
 
+    int al = N / 5; // should floor
+    for (int i = 0; i < al; ++i) {
+      for (int j = 0; j < i; ++j) {
+        int workingSum = (i * 5) + (j * 2);
+        if (workingSum == N) {
+          struct Answer a;
+          a.a = i;
+          a.b = j;
+          // allocate
+          reallocarray(answers, (answers_size+1), sizeof(Answer));
+          answers[answers_size] = a;
+          ++answers_size;
+        }
+      }
+    }
+    fprintf(stderr, "al is %d\n", al);
     printf("tries transformations penalties\n");
 
     return 0;
