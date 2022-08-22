@@ -24,20 +24,37 @@ Output
 #include <string.h>
 #include <stdbool.h>
 
-/**
- * Auto-generated code below aims at helping you parse
- * the standard input according to the problem statement.
- **/
+struct Answer {
+  int a;
+  int b;
+  int c;
+};
+
+/*
+ more memory refresher
+ calloc -> "contiguous allocation" - suitable for arrays - two args, block size and size
+ malloc -> one arg, single block
+ free - deallocates memory
+*/
 
 int main()
 {
     int N;
+    struct Answer *answers;
     scanf("%d", &N);
 
     // Write an answer using printf(). DON'T FORGET THE TRAILING \n
     // To debug: fprintf(stderr, "Debug messages...\n");
+    int a,b,c;
 
     printf("tries transformations penalties\n");
 
     return 0;
 }
+
+/**
+ * strategy
+ * the problem statement suggests only loops are necessary
+ * the largest input in examples is just 88
+ * try brute force first
+**/
