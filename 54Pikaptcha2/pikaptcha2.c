@@ -62,12 +62,19 @@ int main()
     int width;
     int height;
     scanf("%d%d", &width, &height);
+    char grid[height][256];
     for (int i = 0; i < height; i++) {
         char line[256];
         scanf("%s", line);
+        strcpy(grid[i], line);
+    }
+    for (int i = 0; i < height; i++) {
+      fprintf(stderr, "grid line is %s\n", grid[i]);
     }
     char side[2];
     scanf("%s", side);
+
+    fprintf(stderr, "side is %s\n", side);
     for (int i = 0; i < height; i++) {
 
         // Write an action using printf(). DON'T FORGET THE TRAILING \n
@@ -78,3 +85,6 @@ int main()
 
     return 0;
 }
+
+// return to original position
+// L or R hugging which wall
