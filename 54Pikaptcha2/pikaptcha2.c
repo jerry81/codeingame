@@ -61,11 +61,32 @@ int main()
 {
     int width;
     int height;
+    int startx = 0;
+    int starty = 0;
     scanf("%d%d", &width, &height);
     char grid[height][256];
     for (int i = 0; i < height; i++) {
         char line[256];
         scanf("%s", line);
+        int j = 0;
+        while (line[j] != '\0') {
+          char c = line[j];
+          fprintf(stderr, "c is %c\n", c);
+          switch (c) {
+            case '>':
+              fprintf(stderr, "pikaptcha found!");
+              break;
+            case '<':
+              break;
+            case '^':
+              break;
+            case 'v':
+              break;
+            default:
+              break;
+          }
+          ++j;
+        }
         strcpy(grid[i], line);
     }
     for (int i = 0; i < height; i++) {
