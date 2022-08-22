@@ -54,21 +54,30 @@ int main()
     for (int i = 0; i <= al; ++i) {
       for (int j = 0; j <= i; ++j) {
         int workingSum = (i * 5) + (j * 2);
-        fprintf(stderr, "working sum is %d\n", workingSum);
+        struct Answer a = {0,0,0};
+        a.a = i;
+        a.b = j;
         if (workingSum == N) {
-          fprintf(stderr, "match found");
-          struct Answer a;
-          a.a = i;
-          a.b = j;
           // allocate
+          answers = reallocarray(answers, (answers_size+1), sizeof(Answer));
+          answers[answers_size] = a;
+          ++answers_size;
+        }
+        if (workingSum >= N) continue;
+
+        int diff = N - workingSum;
+        if (diff % 3 == 0) {
+          a.c = diff / 3;
           answers = reallocarray(answers, (answers_size+1), sizeof(Answer));
           answers[answers_size] = a;
           ++answers_size;
         }
       }
     }
-    fprintf(stderr, "al is %d\n", al);
-    printf("tries transformations penalties\n");
+    for (int i = 0; i < answers_size; ++i) {
+        printf("%d %d %d\n", answers[i].a, answers[i].b, answers[i].c);
+    }
+    // fprintf(stderr, "al is %d\n", al);
 
     return 0;
 }
