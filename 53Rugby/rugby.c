@@ -28,7 +28,7 @@ struct Answer {
   int a;
   int b;
   int c;
-};
+} Answer;
 
 /*
  more memory refresher
@@ -51,15 +51,17 @@ int main()
     int a,b,c;
 
     int al = N / 5; // should floor
-    for (int i = 0; i < al; ++i) {
-      for (int j = 0; j < i; ++j) {
+    for (int i = 0; i <= al; ++i) {
+      for (int j = 0; j <= i; ++j) {
         int workingSum = (i * 5) + (j * 2);
+        fprintf(stderr, "working sum is %d\n", workingSum);
         if (workingSum == N) {
+          fprintf(stderr, "match found");
           struct Answer a;
           a.a = i;
           a.b = j;
           // allocate
-          reallocarray(answers, (answers_size+1), sizeof(Answer));
+          answers = reallocarray(answers, (answers_size+1), sizeof(Answer));
           answers[answers_size] = a;
           ++answers_size;
         }
