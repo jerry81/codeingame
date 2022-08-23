@@ -97,24 +97,31 @@ int getNextDir(int cury, int curx, int curd, int wall /* 0 L 1 R */ ) {
     case 0: // R
       if (rx < WIDTH) {
         return 0;
-      }
+      };
     case 1: // U
+      fprintf(stderr, "case1 hit %d naturalnext is %d\n", uy, naturalNext);
       if (uy >= 0) {
         return 1;
       }
+      break;
     case 2: // D
       if (dy < HEIGHT) {
         return 2;
-      }
+      };
+      break;
     case 3: // L
       if (lx >= 0) {
         return 3;
-      }
+      };
+      break;
     default:
-      return getNextDir(cury, curx, naturalNext, wall);
       break;
   }
+  fprintf(stderr, "recursing! \n");
+  return getNextDir(cury, curx, naturalNext, wall);
 }
+
+/* helper to convert L/R to 0/1 */
 
 int main()
 {
@@ -130,7 +137,7 @@ int main()
     dtest2 = getNextDir(1,2,0,0);
     dtest3 = getNextDir(0,2,0,0);
     dtest4 = getNextDir(0,0,1,1);
-    fprintf(stderr, "expect 0 %d, expect 1 %d, expect 2 %d, expect 0 %d\n", dtest1, dtest2, dtest3, dtest4);
+    fprintf(stderr, "expect 0 %d, expect 1 %d, expect 3 %d, expect 0 %d\n", dtest1, dtest2, dtest3, dtest4);
     int width;
     int height;
     int px = 0;
@@ -205,3 +212,39 @@ int main()
 
 // return to original position
 // L or R hugging which wall
+
+/* TIL: trickiness of switch
+
+int a = 9;
+switch (a) {
+ case 1: printf("I am One\n");
+         break;
+ case 2: printf("I am Two\n");
+         break;
+ case 3: printf("I an Three\n");
+         break;
+ case 4: printf("I am Four\n");
+         break;
+ case 5: printf("I am Five\n");
+         break;
+ case 6: printf("I am Six\n");
+         break;
+ case 7: printf("I am Seven\n");
+         break;
+ case 8: printf("I am Eight\n");
+ case 9: printf("I am Nine\n");
+ case 0: printf("I am Zero\n");
+ default: printf("I am default\n");
+}
+Explanation: The a variable value is 9,
+this is compared against the case values and a
+match is found. All the statements following case 9
+ are executed until a break statement or end of switch
+  are encountered. Since there are no break statements(break is optional), all the statements
+  following case 9 are executed.
+  (Which is a weird output, if we gave 9 as input,
+   we only want to print I am Nine as output,
+   so we have to write break immediately after
+   printf(“I am Nine”) to stop the flow)
+
+*/
