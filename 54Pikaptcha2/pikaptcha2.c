@@ -123,7 +123,14 @@ int main()
     int dtest2 = getNextDirByWall(1, 1);
     int dtest3 = getNextDirByWall(2, 0);
     int dtest4 = getNextDirByWall(3, 1);
-    fprintf(stderr, "expect 1 %d, expect 0 %d, expect 0 %d, expect 1 %d", dtest1, dtest2, dtest3, dtest4);
+    fprintf(stderr, "expect 1 %d, expect 0 %d, expect 0 %d, expect 1 %d\n", dtest1, dtest2, dtest3, dtest4);
+    WIDTH=2;
+    HEIGHT=3;
+    dtest1 = getNextDir(0,0,0,0);
+    dtest2 = getNextDir(1,2,0,0);
+    dtest3 = getNextDir(0,2,0,0);
+    dtest4 = getNextDir(0,0,1,1);
+    fprintf(stderr, "expect 0 %d, expect 1 %d, expect 2 %d, expect 0 %d\n", dtest1, dtest2, dtest3, dtest4);
     int width;
     int height;
     int px = 0;
