@@ -269,9 +269,10 @@ int main()
         // Write an action using printf(). DON'T FORGET THE TRAILING \n
         // To debug: fprintf(stderr, "Debug messages...\n");
         for (int j = 0; j < width; ++j) {
-          fprintf(stderr,"%d ", counts[i][j]);
+          char nxt = (counts[i][j] < 0) ? '#' : counts[i][j] + '0';
+          printf("%c", nxt);
         }
-        fprintf(stderr,"\n");
+        printf("\n");
         // printf("#####\n");
     }
 
