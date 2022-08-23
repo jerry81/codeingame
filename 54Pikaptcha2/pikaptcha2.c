@@ -123,6 +123,10 @@ int getNextDir(int cury, int curx, int curd, int wall /* 0 L 1 R */ ) {
 
 /* helper to convert L/R to 0/1 */
 
+int convertWall(char *side) {
+  return (strcmp(side,"L") == 0) ? 0 : 1;
+}
+
 int main()
 {
     // test getdirbywall
@@ -138,6 +142,12 @@ int main()
     dtest3 = getNextDir(0,2,0,0);
     dtest4 = getNextDir(0,0,1,1);
     fprintf(stderr, "expect 0 %d, expect 1 %d, expect 3 %d, expect 0 %d\n", dtest1, dtest2, dtest3, dtest4);
+    char sidetest[2];
+    sidetest[0] = 'R';
+    sidetest[1] = '\0';
+    int converttest1 = convertWall("L");
+    int converttest2 = convertWall(sidetest);
+    fprintf(stderr, "expect 0 %d, expect 1 %d\n", converttest1, converttest2);
     int width;
     int height;
     int px = 0;
