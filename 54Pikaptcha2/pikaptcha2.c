@@ -67,7 +67,26 @@ static int num2;
 static int WIDTH;
 static int HEIGHT;
 
-int getNextDir(int cury, int curx, int curd, char *wall) {
+int getNextDirByWall(int curd, int wall) {
+  switch (curd) {
+    case 0:
+      return (wall == 0) ? 1 : 2;
+      break;
+    case 1:
+      return (wall == 0) ? 3 : 0;
+      break;
+    case 2:
+      return (wall == 0) ? 0 : 3;
+      break;
+    case 3:
+      return (wall == 0) ? 2 : 1;
+      break;
+    default:
+      break;
+  }
+}
+
+int getNextDir(int cury, int curx, int curd, int wall /* 0 L 1 R */ ) {
   int lx = curx - 1;
   int rx = curx + 1;
   int uy = cury - 1;
@@ -102,6 +121,12 @@ int getNextDir(int cury, int curx, int curd, char *wall) {
 
 int main()
 {
+    // test getdirbywall
+    int dtest1 = getNextDirByWall(0, 0);
+    int dtest2 = getNextDirByWall(1, 1);
+    int dtest3 = getNextDirByWall(2, 0);
+    int dtest4 = getNextDirByWall(3, 1);
+    fprintf(stderr, "expect 1 %d, expect 0 %d, expect 0 %d, expect 1 %d", dtest1, dtest2, dtest3, dtest4);
     int width;
     int height;
     int px = 0;
@@ -161,36 +186,7 @@ int main()
     py = starty;
     // int px = 0;
     // int py = 0; // for some reason, doing this late leads to timeout
-    switch (curd) {
-      case 0:
-        if ((px+1) < width) {
-          px+=1;
-        } else {
-          if (side == "L") {
-            // R to U
-            if ((py - 1) > 0) {
-              py -= 1;
-            } else {
-              // must turn again (getting too nested)
-            }
-            curd = 1;
-          } else {
-            // R to D
-            if ((py + 1) < width) {
-              py += 1;
-            } else {
-            }
-            curd = 2;
-          }
-        }
-        break;
-      case 1:
-        break;
-      case 2:
-        break;
-      default:
-        break;
-    }
+
     fprintf(stderr, "width and height are %d, %d\n", WIDTH, HEIGHT);
     for (int i = 0; i < height; i++) {
 
