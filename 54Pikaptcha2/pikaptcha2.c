@@ -87,6 +87,26 @@ int getNextDirByWall(int curd, int wall) {
   }
 }
 
+bool trapped(int cury, int curx, char grid[][256]) {
+  int lx = curx - 1;
+  int rx = curx + 1;
+  int uy = cury - 1;
+  int dy = cury + 1;
+  if (rx < WIDTH && grid[cury][rx] != '#') {
+    return false;
+  }
+  if (uy >= 0 && grid[uy][curx] != '#') {
+    return false;
+  }
+  if (dy < HEIGHT && grid[dy][curx] != '#') {
+    return false;
+  }
+  if (lx >= 0 && grid[cury][lx] != '#') {
+    return false;
+  }
+  return true;
+}
+
 // extend this to find "#s"
 int getNextDir(int cury, int curx, int curd, int wall /* 0 L 1 R */ , char grid[][256]) {
   int lx = curx - 1;
@@ -104,7 +124,6 @@ int getNextDir(int cury, int curx, int curd, int wall /* 0 L 1 R */ , char grid[
       }
       break;
     case 1: // U
-      fprintf(stderr, "case1 hit %d naturalnext is %d\n", uy, naturalNext);
       if (uy >= 0) {
         char usq = grid[uy][curx];
         if (usq != '#') {
@@ -215,7 +234,11 @@ int main()
     px = startx;
     py = starty;
     int w = convertWall(side);
+
     do {
+      if (trapped(py, px, grid)) {
+        break;
+      }
       curd = getNextDir(py,px,curd,w,grid);
       switch (curd) {
         case 0:
