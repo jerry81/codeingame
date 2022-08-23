@@ -75,13 +75,15 @@ int main()
 {
     int width;
     int height;
+    int px = 0;
+    int py = 0;
     int startx = 0;
     int starty = 0;
     int curd = 0;
+    scanf("%d%d", &width, &height);
+    int counts[height][width]; // use -1 for #
     WIDTH = width;
     HEIGHT = height;
-    int counts[height][width]; // use -1 for #
-    scanf("%d%d", &width, &height);
     char grid[height][256];
     for (int i = 0; i < height; i++) {
         char line[256];
@@ -126,8 +128,10 @@ int main()
 
     fprintf(stderr, "side is %s\n", side);
     fprintf(stderr, "starting at %d %d with direction %d\n", starty,startx,curd);
-    int px = 0;
-    int py = 0; // for some reason, doing this late leads to timeout
+    px = startx;
+    py = starty;
+    // int px = 0;
+    // int py = 0; // for some reason, doing this late leads to timeout
     switch (curd) {
       case 0:
         if ((px+1) < width) {
@@ -152,7 +156,9 @@ int main()
         }
         break;
       case 1:
+        break;
       case 2:
+        break;
       default:
         break;
     }
