@@ -87,7 +87,9 @@ int getNextDirByWall(int curd, int wall) {
   }
 }
 
-int getNextDir(int cury, int curx, int curd, int wall /* 0 L 1 R */ ) {
+// extend this to find "#s"
+int getNextDir(int cury, int curx, int curd, int wall /* 0 L 1 R */ , char grid[][256]) {
+  fprintf(stderr, "grid 0 is %s\n", grid[0]);
   int lx = curx - 1;
   int rx = curx + 1;
   int uy = cury - 1;
@@ -117,8 +119,8 @@ int getNextDir(int cury, int curx, int curd, int wall /* 0 L 1 R */ ) {
     default:
       break;
   }
-  fprintf(stderr, "recursing! \n");
-  return getNextDir(cury, curx, naturalNext, wall);
+
+  return getNextDir(cury, curx, naturalNext, wall, grid);
 }
 
 /* helper to convert L/R to 0/1 */
@@ -137,11 +139,11 @@ int main()
     fprintf(stderr, "expect 1 %d, expect 0 %d, expect 0 %d, expect 1 %d\n", dtest1, dtest2, dtest3, dtest4);
     WIDTH=2;
     HEIGHT=3;
-    dtest1 = getNextDir(0,0,0,0);
-    dtest2 = getNextDir(1,2,0,0);
-    dtest3 = getNextDir(0,2,0,0);
-    dtest4 = getNextDir(0,0,1,1);
-    fprintf(stderr, "expect 0 %d, expect 1 %d, expect 3 %d, expect 0 %d\n", dtest1, dtest2, dtest3, dtest4);
+    // dtest1 = getNextDir(0,0,0,0);
+    // dtest2 = getNextDir(1,2,0,0);
+    // dtest3 = getNextDir(0,2,0,0);
+    // dtest4 = getNextDir(0,0,1,1);
+    // fprintf(stderr, "expect 0 %d, expect 1 %d, expect 3 %d, expect 0 %d\n", dtest1, dtest2, dtest3, dtest4);
     char sidetest[2];
     sidetest[0] = 'R';
     sidetest[1] = '\0';
@@ -205,9 +207,10 @@ int main()
     fprintf(stderr, "starting at %d %d with direction %d\n", starty,startx,curd);
     px = startx;
     py = starty;
-    // int px = 0;
-    // int py = 0; // for some reason, doing this late leads to timeout
+    int w = convertWall(side);
+    curd = getNextDir(py,px,curd,w,grid);
 
+    // move pikaptcha
     fprintf(stderr, "width and height are %d, %d\n", WIDTH, HEIGHT);
     for (int i = 0; i < height; i++) {
 
