@@ -67,8 +67,29 @@ static int num2;
 static int WIDTH;
 static int HEIGHT;
 
-int getNextDir(int cury, int curx, int curd) {
+int getNextDir(int cury, int curx, int curd, char *wall) {
+  int lx = curx - 1;
+  int rx = curx + 1;
+  int uy = cury - 1;
+  int dy = cury + 1;
+  switch (curd) {
+    case 0: // R
+      if rx < WIDTH {
+        return 0;
+      } else {
 
+      }
+      break;
+    case 1: // U
+
+      break;
+    case 2: // D
+      break;
+    case 3: // L
+      break;
+    default:
+      break;
+  }
 }
 
 int main()
