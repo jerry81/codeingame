@@ -74,18 +74,26 @@ int getNextDir(int cury, int curx, int curd, char *wall) {
   int dy = cury + 1;
   switch (curd) {
     case 0: // R
-      if rx < WIDTH {
+      if (rx < WIDTH) {
         return 0;
       } else {
 
       }
       break;
     case 1: // U
-
+      if (uy >= 0) {
+        return 1;
+      }
       break;
     case 2: // D
+      if (dy < HEIGHT) {
+        return 2;
+      }
       break;
     case 3: // L
+      if (lx >= 0) {
+        return 3;
+      }
       break;
     default:
       break;
