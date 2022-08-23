@@ -239,6 +239,7 @@ int main()
     px = startx;
     py = starty;
     int w = convertWall(side);
+    fprintf(stderr, "px is %d and startx is %d\n", px, startx);
     do {
       curd = getNextDir(py,px,curd,w,grid);
       switch (curd) {
@@ -258,8 +259,8 @@ int main()
           break;
       }
       counts[py][px] += 1;
-    }
-    while (px != startx && py != starty);
+      fprintf(stderr, "px is NOW %d and startx is NOW %d\n", px, startx);
+    } while ((px != startx) || (py != starty));
 
     // move pikaptcha
     fprintf(stderr, "width and height are %d, %d\n", WIDTH, HEIGHT);
