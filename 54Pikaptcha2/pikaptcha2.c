@@ -95,7 +95,7 @@ int getNextDir(int cury, int curx, int curd, int wall /* 0 L 1 R */ , char grid[
   int uy = cury - 1;
   int dy = cury + 1;
   int naturalNext = getNextDirByWall(curd, wall);
-  switch (curd) {
+  switch (naturalNext) {
     case 0: // R
       if (rx < WIDTH) {
         char rsq = grid[cury][rx];
@@ -136,7 +136,7 @@ int getNextDir(int cury, int curx, int curd, int wall /* 0 L 1 R */ , char grid[
     default:
       break;
   }
-
+  naturalNext = getNextDirByWall(curd, (wall == 0) ? 1:0);
   return getNextDir(cury, curx, naturalNext, wall, grid);
 }
 
