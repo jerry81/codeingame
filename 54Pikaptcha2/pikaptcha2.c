@@ -63,6 +63,8 @@ int main()
     int height;
     int startx = 0;
     int starty = 0;
+    int curd = 0;
+    int counts[height][width]; // use -1 for #
     scanf("%d%d", &width, &height);
     char grid[height][256];
     for (int i = 0; i < height; i++) {
@@ -74,13 +76,24 @@ int main()
           fprintf(stderr, "c is %c\n", c);
           switch (c) {
             case '>':
-              fprintf(stderr, "pikaptcha found!");
+              curd = 0;
+              startx = j;
+              starty = i;
               break;
             case '<':
+              curd = 3;
+              startx = j;
+              starty = i;
               break;
             case '^':
+              curd = 1;
+              startx = j;
+              starty = i;
               break;
             case 'v':
+              curd = 2;
+              startx = j;
+              starty = i;
               break;
             default:
               break;
@@ -96,6 +109,8 @@ int main()
     scanf("%s", side);
 
     fprintf(stderr, "side is %s\n", side);
+    fprintf(stderr, "starting at %d %d with direction %d\n", starty,startx,curd);
+
     for (int i = 0; i < height; i++) {
 
         // Write an action using printf(). DON'T FORGET THE TRAILING \n
