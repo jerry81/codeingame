@@ -176,6 +176,11 @@ int main()
     int curd = 0;
     scanf("%d%d", &width, &height);
     int counts[height][width]; // use -1 for #
+    for (int i = 0; i < height; ++i) {
+      for (int j = 0; j < width; ++j) {
+        counts[i][j] = 0;
+      }
+    }
     WIDTH = width;
     HEIGHT = height;
     char grid[height][256];
@@ -207,6 +212,9 @@ int main()
               startx = j;
               starty = i;
               break;
+            case '#':
+              counts[j][i] = -1;
+              break;
             default:
               break;
           }
@@ -216,6 +224,7 @@ int main()
     }
     for (int i = 0; i < height; i++) {
       fprintf(stderr, "grid line is %s\n", grid[i]);
+      fprintf(stderr, "counts line is %s\n", counts[i]);
     }
     char side[2];
     scanf("%s", side);
@@ -225,7 +234,27 @@ int main()
     px = startx;
     py = starty;
     int w = convertWall(side);
-    curd = getNextDir(py,px,curd,w,grid);
+    do {
+      curd = getNextDir(py,px,curd,w,grid);
+      switch (curd) {
+        case 0:
+          ++px;
+          break;
+        case 1:
+          --py;
+          break;
+        case 2:
+          ++py;
+          break;
+        case 3:
+          --px;
+          break;
+        default:
+          break;
+      }
+      counts[py][px] += 1;
+    }
+    while (px != startx && py != starty);
 
     // move pikaptcha
     fprintf(stderr, "width and height are %d, %d\n", WIDTH, HEIGHT);
