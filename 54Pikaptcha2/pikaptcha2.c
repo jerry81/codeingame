@@ -98,22 +98,39 @@ int getNextDir(int cury, int curx, int curd, int wall /* 0 L 1 R */ , char grid[
   switch (curd) {
     case 0: // R
       if (rx < WIDTH) {
-        return 0;
-      };
+        char rsq = grid[cury][rx];
+        fprintf(stderr, "rsq is %c\n", rsq);
+        if (rsq != '#') {
+          return 0;
+        }
+      }
+      break;
     case 1: // U
       fprintf(stderr, "case1 hit %d naturalnext is %d\n", uy, naturalNext);
       if (uy >= 0) {
-        return 1;
+        char usq = grid[uy][curx];
+        fprintf(stderr, "usq is %c\n", usq);
+        if (usq != '#') {
+          return 1;
+        }
       }
       break;
     case 2: // D
       if (dy < HEIGHT) {
-        return 2;
+        char dsq = grid[dy][curx];
+        fprintf(stderr, "dsq is %c\n", dsq);
+        if (dsq != '#') {
+          return 2;
+        }
       };
       break;
     case 3: // L
       if (lx >= 0) {
-        return 3;
+        char lsq = grid[cury][lx];
+        fprintf(stderr, "lsq is %c\n", lsq);
+        if (lsq != '#') {
+          return 3;
+        }
       };
       break;
     default:
