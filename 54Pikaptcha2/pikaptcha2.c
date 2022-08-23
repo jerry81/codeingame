@@ -82,6 +82,7 @@ int getNextDirByWall(int curd, int wall) {
       return (wall == 0) ? 2 : 1;
       break;
     default:
+      return -1;
       break;
   }
 }
@@ -91,30 +92,26 @@ int getNextDir(int cury, int curx, int curd, int wall /* 0 L 1 R */ ) {
   int rx = curx + 1;
   int uy = cury - 1;
   int dy = cury + 1;
+  int naturalNext = getNextDirByWall(curd, wall);
   switch (curd) {
     case 0: // R
       if (rx < WIDTH) {
         return 0;
-      } else {
-
       }
-      break;
     case 1: // U
       if (uy >= 0) {
         return 1;
       }
-      break;
     case 2: // D
       if (dy < HEIGHT) {
         return 2;
       }
-      break;
     case 3: // L
       if (lx >= 0) {
         return 3;
       }
-      break;
     default:
+      return getNextDir(cury, curx, naturalNext, wall);
       break;
   }
 }
