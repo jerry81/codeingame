@@ -89,7 +89,6 @@ int getNextDirByWall(int curd, int wall) {
 
 // extend this to find "#s"
 int getNextDir(int cury, int curx, int curd, int wall /* 0 L 1 R */ , char grid[][256]) {
-  fprintf(stderr, "grid 0 is %s\n", grid[0]);
   int lx = curx - 1;
   int rx = curx + 1;
   int uy = cury - 1;
@@ -99,7 +98,6 @@ int getNextDir(int cury, int curx, int curd, int wall /* 0 L 1 R */ , char grid[
     case 0: // R
       if (rx < WIDTH) {
         char rsq = grid[cury][rx];
-        fprintf(stderr, "rsq is %c\n", rsq);
         if (rsq != '#') {
           return 0;
         }
@@ -109,7 +107,6 @@ int getNextDir(int cury, int curx, int curd, int wall /* 0 L 1 R */ , char grid[
       fprintf(stderr, "case1 hit %d naturalnext is %d\n", uy, naturalNext);
       if (uy >= 0) {
         char usq = grid[uy][curx];
-        fprintf(stderr, "usq is %c\n", usq);
         if (usq != '#') {
           return 1;
         }
@@ -118,7 +115,6 @@ int getNextDir(int cury, int curx, int curd, int wall /* 0 L 1 R */ , char grid[
     case 2: // D
       if (dy < HEIGHT) {
         char dsq = grid[dy][curx];
-        fprintf(stderr, "dsq is %c\n", dsq);
         if (dsq != '#') {
           return 2;
         }
@@ -127,7 +123,6 @@ int getNextDir(int cury, int curx, int curd, int wall /* 0 L 1 R */ , char grid[
     case 3: // L
       if (lx >= 0) {
         char lsq = grid[cury][lx];
-        fprintf(stderr, "lsq is %c\n", lsq);
         if (lsq != '#') {
           return 3;
         }
@@ -149,11 +144,6 @@ int convertWall(char *side) {
 int main()
 {
     // test getdirbywall
-    int dtest1 = getNextDirByWall(0, 0);
-    int dtest2 = getNextDirByWall(1, 1);
-    int dtest3 = getNextDirByWall(2, 0);
-    int dtest4 = getNextDirByWall(3, 1);
-    fprintf(stderr, "expect 1 %d, expect 0 %d, expect 0 %d, expect 1 %d\n", dtest1, dtest2, dtest3, dtest4);
     WIDTH=2;
     HEIGHT=3;
     // dtest1 = getNextDir(0,0,0,0);
@@ -164,9 +154,6 @@ int main()
     char sidetest[2];
     sidetest[0] = 'R';
     sidetest[1] = '\0';
-    int converttest1 = convertWall("L");
-    int converttest2 = convertWall(sidetest);
-    fprintf(stderr, "expect 0 %d, expect 1 %d\n", converttest1, converttest2);
     int width;
     int height;
     int px = 0;
@@ -190,7 +177,6 @@ int main()
         int j = 0;
         while (line[j] != '\0') {
           char c = line[j];
-          fprintf(stderr, "c is %c\n", c);
           switch (c) {
             case '>':
               curd = 0;
@@ -222,24 +208,13 @@ int main()
         }
         strcpy(grid[i], line);
     }
-    for (int i = 0; i < height; i++) {
-      fprintf(stderr, "grid line is %s\n", grid[i]);
-    }
-    for (int i = 0; i < height; ++i) {
-      for (int j = 0; j < width; ++j) {
-          fprintf(stderr, "%d", counts[i][j]);
-      }
-      fprintf(stderr, "\n");
-    }
+
     char side[2];
     scanf("%s", side);
 
-    fprintf(stderr, "side is %s\n", side);
-    fprintf(stderr, "starting at %d %d with direction %d\n", starty,startx,curd);
     px = startx;
     py = starty;
     int w = convertWall(side);
-    fprintf(stderr, "px is %d and startx is %d\n", px, startx);
     do {
       curd = getNextDir(py,px,curd,w,grid);
       switch (curd) {
@@ -259,11 +234,9 @@ int main()
           break;
       }
       counts[py][px] += 1;
-      fprintf(stderr, "px is NOW %d and startx is NOW %d\n", px, startx);
     } while ((px != startx) || (py != starty));
 
     // move pikaptcha
-    fprintf(stderr, "width and height are %d, %d\n", WIDTH, HEIGHT);
     for (int i = 0; i < height; i++) {
 
         // Write an action using printf(). DON'T FORGET THE TRAILING \n
@@ -317,3 +290,5 @@ match is found. All the statements following case 9
    printf(“I am Nine”) to stop the flow)
 
 */
+
+// TODO: fix case where pikachu has nowhere to go on the first turn
