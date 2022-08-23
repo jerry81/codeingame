@@ -213,7 +213,7 @@ int main()
               starty = i;
               break;
             case '#':
-              counts[j][i] = -1;
+              counts[i][j] = -1;
               break;
             default:
               break;
@@ -224,7 +224,12 @@ int main()
     }
     for (int i = 0; i < height; i++) {
       fprintf(stderr, "grid line is %s\n", grid[i]);
-      fprintf(stderr, "counts line is %s\n", counts[i]);
+    }
+    for (int i = 0; i < height; ++i) {
+      for (int j = 0; j < width; ++j) {
+          fprintf(stderr, "%d", counts[i][j]);
+      }
+      fprintf(stderr, "\n");
     }
     char side[2];
     scanf("%s", side);
@@ -262,8 +267,11 @@ int main()
 
         // Write an action using printf(). DON'T FORGET THE TRAILING \n
         // To debug: fprintf(stderr, "Debug messages...\n");
-
-        printf("#####\n");
+        for (int j = 0; j < width; ++j) {
+          fprintf(stderr,"%d ", counts[i][j]);
+        }
+        fprintf(stderr,"\n");
+        // printf("#####\n");
     }
 
     return 0;
