@@ -82,7 +82,7 @@ int main()
 
 /* strategy
   input is just a number
-  n=1 is three single stars
+  n=1 is three single stars 3
   n=2 is
    *
   ***
@@ -98,5 +98,24 @@ bottom line len is 11 (5+5+1)
   *     *
  ***   ***
 ***** *****
+Another example, a Triforce of size 5 will look like:
 
+
+.        *
+        ***
+       *****
+      *******
+     *********
+    *         *
+   ***       ***
+  *****     *****
+ *******   *******
+********* *********
+n=5
+unit = 9
+max = 19
+
+general formla for unit triangle
+1 + 2*row index stars
+largest is (4 * n) - 1
 */
