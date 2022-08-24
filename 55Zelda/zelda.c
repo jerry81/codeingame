@@ -79,3 +79,24 @@ int main()
 
     return 0;
 }
+
+/* strategy
+  input is just a number
+  n=1 is three single stars
+  n=2 is
+   *
+  ***
+ *   *
+*** ***
+so unit becomes 1, 3
+longest line is 7
+n=3 is 1,3,5
+bottom line len is 11 (5+5+1)
+     *
+    ***
+   *****
+  *     *
+ ***   ***
+***** *****
+
+*/
