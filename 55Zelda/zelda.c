@@ -73,6 +73,31 @@ int main()
     scanf("%d", &N);
     int height = N * 2;
     int width = N * 4 - 1;
+    char grid[height][width];
+    grid[0][0] = '.';
+    for (int i = 0; i < N; ++i) {
+      int row_stars = i * 2 + 1;
+      for (int j = 0; j < row_stars; ++j) {
+        if (i == 0 && j == 0) {
+          continue;
+        }
+        grid[i][j] = ' ';
+      }
+      for (int j = row_stars; j < (width - row_stars); ++j) {
+        grid[i][j] = '*';
+      }
+      for (int j = width-row_stars; j < width; ++j) {
+        grid[i][j] = ' ';
+      }
+    }
+    fprintf(stderr, "test!!\n");
+    for (int i = 0; i < N; ++i) {
+      for (int j = 0; j < width; ++j) {
+        fprintf(stderr, "%c", grid[i][j]);
+      }
+      fprintf(stderr, "\n");
+    }
+
     fprintf(stderr, "height, width are %d, %d\n", height, width);
     // Write an answer using printf(). DON'T FORGET THE TRAILING \n
     // To debug: fprintf(stderr, "Debug messages...\n");
