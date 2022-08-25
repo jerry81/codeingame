@@ -74,35 +74,33 @@ int main()
     int height = N * 2;
     int width = N * 4 - 1;
     char grid[height][width];
-    grid[0][0] = '.';
-    for (int i = 0; i < N; ++i) {
-      int row_stars = i * 2 + 1;
-      for (int j = 0; j < row_stars; ++j) {
-        if (i == 0 && j == 0) {
-          continue;
-        }
-        grid[i][j] = ' ';
-      }
-      for (int j = row_stars; j < (width - row_stars); ++j) {
-        grid[i][j] = '*';
-      }
-      for (int j = width-row_stars; j < width; ++j) {
+    for (int i = 0; i <= N; ++i) {
+      for (int j = 0; j < width; ++j) {
         grid[i][j] = ' ';
       }
     }
-    fprintf(stderr, "test!!\n");
+    grid[0][0] = '.';
     for (int i = 0; i < N; ++i) {
-      for (int j = 0; j < width; ++j) {
-        fprintf(stderr, "%c", grid[i][j]);
+      int row_stars = i * 2 + 1;
+      for (int j = row_stars; j < (width - row_stars); ++j) {
+        grid[i][j] = '*';
+        grid[i+N][j-N-i] = '*';
+        grid[i+N][j+N-i] = '*';
       }
-      fprintf(stderr, "\n");
+    }
+    fprintf(stderr, "test!!\n");
+    for (int i = 0; i < height; ++i) {
+      for (int j = 0; j < width; ++j) {
+        printf("%c", grid[i][j]);
+      }
+      printf("\n");
     }
 
     fprintf(stderr, "height, width are %d, %d\n", height, width);
     // Write an answer using printf(). DON'T FORGET THE TRAILING \n
     // To debug: fprintf(stderr, "Debug messages...\n");
 
-    printf("answer\n");
+    // printf("answer\n");
 
     return 0;
 }
