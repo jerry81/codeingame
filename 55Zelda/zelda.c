@@ -71,7 +71,9 @@ int main()
 {
     int N;
     scanf("%d", &N);
-
+    int height = N * 2;
+    int width = N * 4 - 1;
+    fprintf(stderr, "height, width are %d, %d\n", height, width);
     // Write an answer using printf(). DON'T FORGET THE TRAILING \n
     // To debug: fprintf(stderr, "Debug messages...\n");
 
@@ -118,4 +120,13 @@ max = 19
 general formla for unit triangle
 1 + 2*row index stars
 largest is (4 * n) - 1
+height is n*2
+second row,
+8***12
+third
+7*****13
+
+second triangle second row
+3***6....13***17
+2*****7....12*****18
 */
