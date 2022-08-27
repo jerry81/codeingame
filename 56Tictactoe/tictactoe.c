@@ -37,7 +37,7 @@ OOO
  **/
 void modify_arr(char *arr, size_t row, size_t col)
 {
-  *(arr + (row * 4 + col)) = 'M';
+  *(arr + (row * 4 + col)) = 'O';
 }
 
 int check_line(char line[3])
@@ -51,7 +51,7 @@ int check_line(char line[3])
     {
       ++o_count;
     }
-    if (line[i] == ' ')
+    if (line[i] == '.')
     {
       ++space_count;
       space_pos = i;
@@ -61,6 +61,13 @@ int check_line(char line[3])
     return space_pos;
   } else {
     return -1;
+  }
+}
+
+void print_matrix(char mat[3][4]) {
+  for (int i = 0; i < 3; i++)
+  {
+    printf("%s\n", mat[i]);
   }
 }
 
@@ -83,15 +90,37 @@ int main()
     strcpy(mat[i], line);
   }
 
-  char test[3] = { 'O', 'O', ' '};
-  int res = check_line(test);
-  fprintf(stderr, "res is %d\n", res);
+  // char test[3] = { 'O', 'O', ' '};
+  // char test2[3] = { 'X', 'O', ' '};
+  // int res = check_line(test);
+  // int res2 = check_line(test2);
+  // fprintf(stderr, "res is %d\n", res);
+  // fprintf(stderr, "res2 is %d\n", res2);
+
+  // horizontals first
+  for (int i = 0; i < 3; ++i) {
+    char h_line[3];
+    for (int j = 0; j < 3; ++j) {
+      h_line[j] = mat[i][j];
+    }
+    for (int k = 0; k < 3; ++k) {
+      fprintf(stderr, "h_line[%d] is %c\n", k, h_line[k]);
+    }
+
+    int check = check_line(h_line);
+    fprintf(stderr, "check is %d\n", check);
+    if (check > 0) {
+      // update matrix
+      // print matrix
+      fprintf(stderr, "i is %d and check is %d\n", i, check);
+      modify_arr((char *)mat, i, check);
+      print_matrix(mat);
+      return 0;
+    };
+  }
 
   // modify_arr((char *)mat, 2, 2);
-  // for (int i = 0; i < 3; i++)
-  // {
-  // fprintf(stderr, "lines[i] is %s\n", mat[i]);
-  // }
+
 
   // Write an answer using printf(). DON'T FORGET THE TRAILING \n
   // To debug: fprintf(stderr, "Debug messages...\n");
