@@ -73,6 +73,7 @@ int main()
     scanf("%d", &N);
     int height = N * 2;
     int width = N * 4 - 1;
+    int mid = (width - 1) / 2;
     char grid[height][width];
     for (int i = 0; i <= N; ++i) {
       for (int j = 0; j < width; ++j) {
@@ -82,16 +83,16 @@ int main()
     grid[0][0] = '.';
     for (int i = 0; i < N; ++i) {
       int row_stars = i * 2 + 1;
-      int mid = (width-1) / 2;
-      for (int j = mid - i; j < mid + i; ++j) {
+      for (int j = mid - i; j <= mid + i; ++j) {
         grid[i][j] = '*';
         // grid[i+N][j-N-i] = '*';
        // grid[i+N][j+N-i] = '*';
       }
     }
     fprintf(stderr, "test!!\n");
+
     for (int i = 0; i < N; ++i) {
-      for (int j = 0; j < width; ++j) {
+      for (int j = 0; j <= mid + i; ++j) {
         printf("%c", grid[i][j]);
       }
       printf("\n");
