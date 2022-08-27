@@ -82,8 +82,8 @@ int main()
     grid[0][0] = '.';
     for (int i = 0; i < N; ++i) {
       int row_stars = i * 2 + 1;
-      fprintf(stderr, "rowstars is %d\n", row_stars);
-      for (int j = (int)(width/2) - row_stars; j < (int)((width/2) + (row_stars-1)); ++j) {
+      int mid = (width-1) / 2;
+      for (int j = mid - i; j < mid + i; ++j) {
         grid[i][j] = '*';
         // grid[i+N][j-N-i] = '*';
        // grid[i+N][j+N-i] = '*';
@@ -118,12 +118,12 @@ so unit becomes 1, 3
 longest line is 7
 n=3 is 1,3,5
 bottom line len is 11 (5+5+1)
-     *
-    ***
-   *****
-  *     *
- ***   ***
-***** *****
+     *  (5)      (width - 1) / 2  stars = 1 -> 0
+    ***  (4,5,6)   ((width -1) / 2)  stars = 3 -> 1
+   *****  (3,4,5,6,7)  stars = 5  -> 2
+  *     *   (2  8)
+ ***   ***   (123  789)
+***** *****  (01234 6789,10)
 Another example, a Triforce of size 5 will look like:
 
 
