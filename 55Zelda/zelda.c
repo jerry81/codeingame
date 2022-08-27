@@ -82,14 +82,15 @@ int main()
     grid[0][0] = '.';
     for (int i = 0; i < N; ++i) {
       int row_stars = i * 2 + 1;
-      for (int j = row_stars; j < (width - row_stars); ++j) {
+      fprintf(stderr, "rowstars is %d\n", row_stars);
+      for (int j = (int)(width/2) - row_stars; j < (int)((width/2) + (row_stars-1)); ++j) {
         grid[i][j] = '*';
-        grid[i+N][j-N-i] = '*';
-        grid[i+N][j+N-i] = '*';
+        // grid[i+N][j-N-i] = '*';
+       // grid[i+N][j+N-i] = '*';
       }
     }
     fprintf(stderr, "test!!\n");
-    for (int i = 0; i < height; ++i) {
+    for (int i = 0; i < N; ++i) {
       for (int j = 0; j < width; ++j) {
         printf("%c", grid[i][j]);
       }
