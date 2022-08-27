@@ -38,10 +38,23 @@ OOO
 
 int main()
 {
+    char *lines[4];  // size of returns size_t
+    /*
+    According to the 1999 ISO C standard (C99),
+    size_t is an unsigned integer type of at least 16 bit (see sections 7.17 and 7.18.3).
+    */
     for (int i = 0; i < 3; i++) {
         char line[4];
         scanf("%[^\n]", line); fgetc(stdin);
+        fprintf(stderr, "line is %s\n", line);
+        *(lines+i) = line;
+        fprintf(stderr, "lines i is now %s\n", *(lines+i));
+        fprintf(stderr, "first item is %s\n", *lines); // on second loop, the first item has been replaced
     }
+    for (int i = 0; i < 3; i++) {
+      fprintf(stderr, "lines[i] is %s\n", *(lines+i));
+    }
+
 
     // Write an answer using printf(). DON'T FORGET THE TRAILING \n
     // To debug: fprintf(stderr, "Debug messages...\n");
@@ -50,3 +63,14 @@ int main()
 
     return 0;
 }
+
+/*
+pointer and array fundamentals
+&arr[0] is equal to arr and arr[0] is equal to *arr. Similarly,
+
+&arr[1] is equal to (arr + 1) and arr[1] is equal to *(arr + 1).
+&arr[2] is equal to (arr + 2) and arr[2] is equal to *(arr + 2) and so on.
+...
+Finally, we can write the above expressions in a fundamental form as :
+&arr[i] is equal to (arr + i) and arr[i] is equal to *(arr + i).
+*/
