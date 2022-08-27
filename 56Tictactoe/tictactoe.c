@@ -98,9 +98,17 @@ int main()
   // fprintf(stderr, "res2 is %d\n", res2);
 
   // horizontals first
+  char d_line[3];
   for (int i = 0; i < 3; ++i) {
     char h_line[3];
     char v_line[3];
+    d_line[i] = mat[i][i];
+    int d_check = check_line(d_line);
+    if (d_check > 0) {
+      modify_arr((char *)mat, d_check, d_check);
+      print_matrix(mat);
+      return 0;
+    }
     for (int j = 0; j < 3; ++j) {
       h_line[j] = mat[i][j];
       v_line[j] = mat[j][i];
