@@ -35,10 +35,35 @@ OOO
  * Auto-generated code below aims at helping you parse
  * the standard input according to the problem statement.
  **/
-void modifyArrTest(char *arr, size_t row, size_t col)
+void modify_arr(char *arr, size_t row, size_t col)
 {
-  *(arr+(row*4+col)) = 'M';
+  *(arr + (row * 4 + col)) = 'M';
 }
+
+int check_line(char line[3])
+{
+  int o_count = 0;
+  int space_count = 0;
+  int space_pos = -1;
+  for (int i = 0; i < 3; ++i)
+  {
+    if (line[i] == 'O')
+    {
+      ++o_count;
+    }
+    if (line[i] == ' ')
+    {
+      ++space_count;
+      space_pos = i;
+    }
+  }
+  if (space_count == 1 && o_count == 2) {
+    return space_pos;
+  } else {
+    return -1;
+  }
+}
+
 
 int main()
 {
@@ -58,11 +83,15 @@ int main()
     strcpy(mat[i], line);
   }
 
-  modifyArrTest((char *)mat, 2, 2);
-  for (int i = 0; i < 3; i++)
-  {
-    fprintf(stderr, "lines[i] is %s\n", mat[i]);
-  }
+  char test[3] = { 'O', 'O', ' '};
+  int res = check_line(test);
+  fprintf(stderr, "res is %d\n", res);
+
+  // modify_arr((char *)mat, 2, 2);
+  // for (int i = 0; i < 3; i++)
+  // {
+  // fprintf(stderr, "lines[i] is %s\n", mat[i]);
+  // }
 
   // Write an answer using printf(). DON'T FORGET THE TRAILING \n
   // To debug: fprintf(stderr, "Debug messages...\n");
@@ -81,4 +110,12 @@ pointer and array fundamentals
 ...
 Finally, we can write the above expressions in a fundamental form as :
 &arr[i] is equal to (arr + i) and arr[i] is equal to *(arr + i).
+*/
+
+/*
+   00 01 02
+   10 11 12
+   20 21 22
+
+   8 total checks
 */
