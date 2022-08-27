@@ -1,5 +1,5 @@
 /*
-	Goal
+  Goal
 Find the winning move for the O player on the following tic-tac-toe board.
 Input
 3 lines: a 3-character string (ex: ".OX") displaying the board current state
@@ -35,33 +35,41 @@ OOO
  * Auto-generated code below aims at helping you parse
  * the standard input according to the problem statement.
  **/
+void modifyArrTest(char arr[3][4])
+{
+  arr[2][2] = 'M';
+}
 
 int main()
 {
-    size_t rows = 3; // size of returns size_t
-    size_t cols = 4; // accounting for \0
-    char mat[rows][cols];
-    /*
-    According to the 1999 ISO C standard (C99),
-    size_t is an unsigned integer type of at least 16 bit (see sections 7.17 and 7.18.3).
-    */
-    for (int i = 0; i < 3; i++) {
-        char line[4];
-        scanf("%[^\n]", line); fgetc(stdin);
-        fprintf(stderr, "line is %s\n", line);
-        strcpy(mat[i], line);
-    }
-    for (int i = 0; i < 3; i++) {
-      fprintf(stderr, "lines[i] is %s\n", mat[i]);
-    }
+  size_t rows = 3; // size of returns size_t
+  size_t cols = 4; // accounting for \0
+  char mat[rows][cols];
+  /*
+  According to the 1999 ISO C standard (C99),
+  size_t is an unsigned integer type of at least 16 bit (see sections 7.17 and 7.18.3).
+  */
+  for (int i = 0; i < 3; i++)
+  {
+    char line[4];
+    scanf("%[^\n]", line);
+    fgetc(stdin);
+    fprintf(stderr, "line is %s\n", line);
+    strcpy(mat[i], line);
+  }
 
+  modifyArrTest(mat);
+  for (int i = 0; i < 3; i++)
+  {
+    fprintf(stderr, "lines[i] is %s\n", mat[i]);
+  }
 
-    // Write an answer using printf(). DON'T FORGET THE TRAILING \n
-    // To debug: fprintf(stderr, "Debug messages...\n");
+  // Write an answer using printf(). DON'T FORGET THE TRAILING \n
+  // To debug: fprintf(stderr, "Debug messages...\n");
 
-    printf("answer\n");
+  printf("answer\n");
 
-    return 0;
+  return 0;
 }
 
 /*
