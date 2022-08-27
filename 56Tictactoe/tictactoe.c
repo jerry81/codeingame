@@ -86,7 +86,7 @@ int main()
     char line[4];
     scanf("%[^\n]", line);
     fgetc(stdin);
-    fprintf(stderr, "line is %s\n", line);
+    // fprintf(stderr, "line is %s\n", line);
     strcpy(mat[i], line);
   }
 
@@ -100,23 +100,31 @@ int main()
   // horizontals first
   for (int i = 0; i < 3; ++i) {
     char h_line[3];
+    char v_line[3];
     for (int j = 0; j < 3; ++j) {
       h_line[j] = mat[i][j];
+      v_line[j] = mat[j][i];
     }
-    for (int k = 0; k < 3; ++k) {
-      fprintf(stderr, "h_line[%d] is %c\n", k, h_line[k]);
-    }
+    // for (int k = 0; k < 3; ++k) {
+    //   fprintf(stderr, "h_line[%d] is %c\n", k, h_line[k]);
+    // }
 
     int check = check_line(h_line);
-    fprintf(stderr, "check is %d\n", check);
+
     if (check > 0) {
       // update matrix
       // print matrix
-      fprintf(stderr, "i is %d and check is %d\n", i, check);
       modify_arr((char *)mat, i, check);
       print_matrix(mat);
       return 0;
     };
+
+    int vcheck = check_line(v_line);
+    if (vcheck > 0) {
+      modify_arr((char *)mat, vcheck, i);
+      print_matrix(mat);
+      return 0;
+    }
   }
 
   // modify_arr((char *)mat, 2, 2);
