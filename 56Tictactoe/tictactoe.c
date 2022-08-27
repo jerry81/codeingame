@@ -149,7 +149,7 @@ int main()
   // Write an answer using printf(). DON'T FORGET THE TRAILING \n
   // To debug: fprintf(stderr, "Debug messages...\n");
 
-  printf("answer\n");
+  printf("false\n");
 
   return 0;
 }
