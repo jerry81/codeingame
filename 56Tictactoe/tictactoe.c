@@ -35,9 +35,9 @@ OOO
  * Auto-generated code below aims at helping you parse
  * the standard input according to the problem statement.
  **/
-void modifyArrTest(char *arr)
+void modifyArrTest(char *arr, size_t row, size_t col)
 {
-  *(arr+(2*1+2)) = 'M';
+  *(arr+(row*4+col)) = 'M';
 }
 
 int main()
@@ -58,7 +58,7 @@ int main()
     strcpy(mat[i], line);
   }
 
-  modifyArrTest((char *)mat);
+  modifyArrTest((char *)mat, 2, 2);
   for (int i = 0; i < 3; i++)
   {
     fprintf(stderr, "lines[i] is %s\n", mat[i]);
