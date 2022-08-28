@@ -43,6 +43,29 @@ hit
 #include <string.h>
 #include <stdbool.h>
 
+bool vert(double y2, double y1) {
+  return y2 == y1;
+}
+
+double slope(double x1, double y1, double x2, double y2) {
+  double num = y2 - y1;
+  double den = x2 - x1;
+  return num/den;
+}
+
+struct Line {
+  double sx;
+  double sy;
+  double ex;
+  double ey;
+  bool vert;
+  double slope;
+};
+
+void printLine(struct Line l) {
+  fprintf(stderr, "sx %lf, sy %lf, ex %lf, ey %lf vert %d, slope %lf\n", l.sx, l.sy, l.ex, l.ey, l.vert, l.slope);
+}
+
 /**
  * Auto-generated code below aims at helping you parse
  * the standard input according to the problem statement.
@@ -51,11 +74,26 @@ hit
 int main()
 {
     int N;
+    struct Line lines[N];
     scanf("%d", &N);
     for (int i = 0; i < N; i++) {
         int x;
         int y;
         scanf("%d%d", &x, &y);
+        struct Line l;
+        double dx = (double)x;
+        double dy = (double)y;
+        lines[i].sx = dx;
+        lines[i].sy = dy;
+        if (i != 0) {
+          lines[i-1].ex = dx;
+          lines[i-1].ey = dy;
+          lines[i-1].vert = vert(dy, lines[i-1].sy);
+          lines[i-1].slope = ((lines[i-1].vert)) ? 0.0 : slope(lines[i-1].sx, lines[i-1].sy,dx,dy);
+        } else {
+          lines[N-1].ex = (double)x;
+          lines[N-1].ey = (double)y;
+        }
     }
     int M;
     scanf("%d", &M);
@@ -79,6 +117,50 @@ int main()
   count # of intersections with all lines of polygon
   if 1 then hit else miss
 */
+
+/*
+-100 -100
+100 -100
+100 100
+-100 100
+99 99
+
+lines, -100 -100 to 100 -100
+dx 200 dy 0 slope 0, intercept
+y = sx + b
+s = 0
+y = 0x + b
+y = b
+b = -100
+
+100 -100 to 100 100
+dx = 0
+dy = 200
+
+100 100 to -100 100
+ray 99 99
+
+every vector has slope and starting point
+from this you can calculate x or y given y or x
+
+the slope could be infinite
+struct vec {
+  bool inf,
+  double slope,
+  double sx,
+  double sy,
+  double ex,
+  double ey
+}
+
+a point will be given x,y
+extrapolate the point with slope 0 (y remains fixed)
+to the right
+so we just check the y
+
+if inf, just check that
+*/
+
 
 /*
       4
