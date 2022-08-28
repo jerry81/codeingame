@@ -72,3 +72,28 @@ int main()
 
     return 0;
 }
+
+/*
+  Ray casting!
+  from the point, go in any direction (i.e. slope 0)
+  count # of intersections with all lines of polygon
+  if 1 then hit else miss
+*/
+
+/*
+      4
+
+
+
+
+
+5       3
+
+0       2
+
+
+
+
+
+   1
+*/
