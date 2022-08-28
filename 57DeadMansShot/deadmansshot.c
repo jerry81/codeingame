@@ -43,7 +43,11 @@ hit
 #include <string.h>
 #include <stdbool.h>
 
-bool vert(double y2, double y1) {
+bool vert(double x2, double x1) {
+  return x2 == x1;
+}
+
+bool horiz(double y2, double y1) {
   return y2 == y1;
 }
 
@@ -59,8 +63,18 @@ struct Line {
   double ex;
   double ey;
   bool vert;
+  bool horiz;
   double slope;
 };
+
+double solve_x(struct Line l, double y) {
+  if (l.vert) return l.ex;
+
+  return  (y - l.sy) / l.slope;
+  // y = mx + b;
+  // x = (y - b) / m
+}
+
 
 void printLine(struct Line l) {
   fprintf(stderr, "sx %lf, sy %lf, ex %lf, ey %lf vert %d, slope %lf\n", l.sx, l.sy, l.ex, l.ey, l.vert, l.slope);
@@ -89,6 +103,7 @@ int main()
           lines[i-1].ex = dx;
           lines[i-1].ey = dy;
           lines[i-1].vert = vert(dx, lines[i-1].sx);
+          lines[i-1].horiz = horiz(dy, lines[i-1].sy);
           lines[i-1].slope = ((lines[i-1].vert)) ? 0.0 : slope(lines[i-1].sx, lines[i-1].sy,dx,dy);
         } else {
           lines[N-1].ex = (double)x;
@@ -96,6 +111,7 @@ int main()
         }
     }
     lines[N-1].vert = vert(lines[N-1].ex, lines[N-1].sx);
+    lines[N-1].horiz = horiz(lines[N-1].ey, lines[N-1].sy);
     lines[N-1].slope = ((lines[N-1].vert)) ? 0.0 : slope(lines[N-1].sx, lines[N-1].sy,lines[N-1].ex,lines[N-1].ey);
     // final item calculations
     // test
@@ -110,6 +126,33 @@ int main()
         int x;
         int y;
         scanf("%d%d", &x, &y);
+
+        // for each point check the intersection with each line
+        int intersections = 0;
+        for (int i = 0; i < N; ++i) {
+          struct Line l = lines[i];
+          if (l.horiz) {
+            if (l.sy == y) {
+              ++intersections;
+            }
+          } else {
+            double solved_x = solve_x(l, (double)y);
+            if (solved_x>l.ex && solved_x>l.sx) {
+                continue;
+            }
+
+            // if y is between the start and end y then there is intersection
+            if (y>=l.ey && y<=l.sy) {
+              ++intersections;
+            }
+            else if (y<l.ey && y>l.sy) {
+              ++intersections;
+            }
+          }
+
+
+        }
+        fprintf(stderr, "intersections is %d\n", intersections);
     }
 
     // Write an answer using printf(). DON'T FORGET THE TRAILING \n
