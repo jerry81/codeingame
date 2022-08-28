@@ -88,13 +88,22 @@ int main()
         if (i != 0) {
           lines[i-1].ex = dx;
           lines[i-1].ey = dy;
-          lines[i-1].vert = vert(dy, lines[i-1].sy);
+          lines[i-1].vert = vert(dx, lines[i-1].sx);
           lines[i-1].slope = ((lines[i-1].vert)) ? 0.0 : slope(lines[i-1].sx, lines[i-1].sy,dx,dy);
         } else {
           lines[N-1].ex = (double)x;
           lines[N-1].ey = (double)y;
         }
     }
+    lines[N-1].vert = vert(lines[N-1].ex, lines[N-1].sx);
+    lines[N-1].slope = ((lines[N-1].vert)) ? 0.0 : slope(lines[N-1].sx, lines[N-1].sy,lines[N-1].ex,lines[N-1].ey);
+    // final item calculations
+    // test
+    fprintf(stderr, "test lines\n");
+    for (int i = 0; i < N; ++i) {
+      printLine(lines[i]);
+    }
+
     int M;
     scanf("%d", &M);
     for (int i = 0; i < M; i++) {
