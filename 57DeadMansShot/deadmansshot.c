@@ -84,6 +84,7 @@ double solve_x(struct Line l, double y)
   // x = (y - b) / m
 }
 
+
 void printLine(struct Line l)
 {
   fprintf(stderr, "sx %lf, sy %lf, ex %lf, ey %lf vert %d, slope %lf\n", l.sx, l.sy, l.ex, l.ey, l.vert, l.slope);
@@ -105,10 +106,12 @@ int main()
     int y;
     scanf("%d%d", &x, &y);
     struct Line l;
+
     double dx = (double)x;
     double dy = (double)y;
-    lines[i].sx = dx;
-    lines[i].sy = dy;
+    l.sx = dx;
+    l.sy = dy;
+    lines[i] = l;
     if (i != 0)
     {
       lines[i - 1].ex = dx;
@@ -119,8 +122,10 @@ int main()
     }
     else
     {
-      lines[N - 1].ex = (double)x;
-      lines[N - 1].ey = (double)y;
+      struct Line ll;
+      ll.ex = dx;
+      ll.ey = dy;
+      lines[N - 1] = ll;
     }
   }
   lines[N - 1].vert = vert(lines[N - 1].ex, lines[N - 1].sx);
@@ -146,40 +151,37 @@ int main()
     int intersections = 0;
     for (int i = 0; i < N; ++i)
     {
-      struct Line l2 = lines[i];
       // fprintf(stderr, "about to work on \n");
       // printLine(l);
 
-      if (l2.horiz)
+      if (lines[i].horiz)
       {
-        if (l2.sy == y)
+        if (lines[i].sy == y)
         {
           ++intersections;
         }
         continue;
       }
 
-      double solved_x = solve_x(l2, (double)y);
+      double solved_x = solve_x(lines[i], (double)y);
+      // bool x_in1 = (solved_x <= lines[i].sx) && (solved_x >= lines[i].ex);
+      // bool x_in2 = (solved_x >= l2.sx) && (solved_x <= l2.ex);
+      // bool x_in = (solved_x >= x) && (x_in1 || x_in2);
+      // bool y_in1 = (y <= l2.sy) && (y >= l2.ey);
+      // bool y_in2 = (y >= l2.sy) && (y <= l2.ey);
+      // bool y_in = y_in1 || y_in2;
+      // if (x_in && y_in) intersections++;
       // fprintf(stderr, "solvedx is %lf\n", solved_x);
       // fprintf(stderr, "l.sx is %lf\n", l.sx);
       /*
         for some reason there is segmentation fault if you set the boolean to an expression that uses structure
       */
-      double sx = l2.sx;
-      double ex = l2.ex;
-      double sy = l2.sy;
-      double ey = l2.ey;
       // if (solved_x <= sx) {
       //     fprintf(stderr, "im ok");
       // }
       // intersection if solved_x is between x and y is between y
-      bool x_in1 = (solved_x <= sx) && (solved_x >= ex);
-      bool x_in2 = (solved_x >= sx) && (solved_x <= ex);
-      bool x_in = (solved_x >= x) && (x_in1 || x_in2);
-      bool y_in1 = (y <= sy) && (y >= ey);
-      bool y_in2 = (y >= sy) && (y <= ey);
-      bool y_in = y_in1 || y_in2;
-      if (x_in && y_in) intersections++;
+
+      // if (x_in && y_in) intersections++;
      //  fprintf(stderr, "intersection found at x: %lf, y: %lf\n", solved_x, y);
     }
     fprintf(stderr, "intersections is %d\n", intersections);
