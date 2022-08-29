@@ -84,6 +84,11 @@ double solve_x(Line l, double y)
   // x = (y - b) / m
 }
 
+void experiment(Line l) {
+    double d = l.sx;
+    fprintf(stderr, "im in and declaring ok %lf\n", d);
+}
+
 
 void printLine(Line l)
 {
@@ -99,6 +104,12 @@ int main()
 {
   int N;
   Line lines[N];
+  Line first;
+  first.sx = 5.00;
+  // for (int i = 0; i < N; i++) {
+  //   memset(&lines[i], 0, sizeof(lines[i]));
+  // }
+
   scanf("%d", &N);
   for (int i = 0; i < N; i++)
   {
@@ -142,6 +153,12 @@ int main()
     printLine(lines[i]);
   }
 
+  fprintf(stderr, "test access\n");
+  // double sxt = lines[0].sx; // seg fault still
+  // Line l = lines[0];
+
+
+  fprintf(stderr, "accessing %lf\n", lines[0].sx);
   int M;
   scanf("%d", &M);
   for (int i = 0; i < M; i++)
@@ -156,7 +173,8 @@ int main()
     {
       // fprintf(stderr, "about to work on \n");
       // printLine(l);
-
+      // Line *lp = malloc(sizeof(Line));
+      // *lp = lines[j];
       if (lines[j].horiz)
       {
         if (lines[j].sy == y)
@@ -167,13 +185,16 @@ int main()
       }
 
       double solved_x = solve_x(lines[j], (double)y);
-      double sx = lines[j].sx;
+      double dx;
+      experiment(first);
+     fprintf(stderr, "first sx is %lf\n", first.sx);
+      // double sx = lp->sx;
       // double defunique = lines[j].ex;
       fprintf(stderr, "test ex %lf\n", lines[j].ex);
       fprintf(stderr, "test sx %lf\n", lines[j].sx);
       fprintf(stderr, "test ex %lf\n", lines[j].ey);
       fprintf(stderr, "test sx %lf\n", lines[j].sy);
-      bool x_in1 = solved_x <= sx;
+      // bool x_in1 = solved_x <= sx;
       // bool x_in2 = solved_x >= ex;
 
 
