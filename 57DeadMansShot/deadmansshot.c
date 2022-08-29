@@ -43,21 +43,25 @@ hit
 #include <string.h>
 #include <stdbool.h>
 
-bool vert(double x2, double x1) {
+bool vert(double x2, double x1)
+{
   return x2 == x1;
 }
 
-bool horiz(double y2, double y1) {
+bool horiz(double y2, double y1)
+{
   return y2 == y1;
 }
 
-double slope(double x1, double y1, double x2, double y2) {
+double slope(double x1, double y1, double x2, double y2)
+{
   double num = y2 - y1;
   double den = x2 - x1;
-  return num/den;
+  return num / den;
 }
 
-struct Line {
+struct Line
+{
   double sx;
   double sy;
   double ex;
@@ -67,16 +71,21 @@ struct Line {
   double slope;
 };
 
-double solve_x(struct Line l, double y) {
-  if (l.vert) return l.ex;
+double solve_x(struct Line l, double y)
+{
 
-  return  (y - l.sy) / l.slope;
+  if (l.vert)
+    return l.ex;
+
+  double intercept;
+  intercept = l.sy - (l.slope*l.sx);
+  return (y - intercept) / l.slope;
   // y = mx + b;
   // x = (y - b) / m
 }
 
-
-void printLine(struct Line l) {
+void printLine(struct Line l)
+{
   fprintf(stderr, "sx %lf, sy %lf, ex %lf, ey %lf vert %d, slope %lf\n", l.sx, l.sy, l.ex, l.ey, l.vert, l.slope);
 }
 
@@ -87,80 +96,101 @@ void printLine(struct Line l) {
 
 int main()
 {
-    int N;
-    struct Line lines[N];
-    scanf("%d", &N);
-    for (int i = 0; i < N; i++) {
-        int x;
-        int y;
-        scanf("%d%d", &x, &y);
-        struct Line l;
-        double dx = (double)x;
-        double dy = (double)y;
-        lines[i].sx = dx;
-        lines[i].sy = dy;
-        if (i != 0) {
-          lines[i-1].ex = dx;
-          lines[i-1].ey = dy;
-          lines[i-1].vert = vert(dx, lines[i-1].sx);
-          lines[i-1].horiz = horiz(dy, lines[i-1].sy);
-          lines[i-1].slope = ((lines[i-1].vert)) ? 0.0 : slope(lines[i-1].sx, lines[i-1].sy,dx,dy);
-        } else {
-          lines[N-1].ex = (double)x;
-          lines[N-1].ey = (double)y;
+  int N;
+  struct Line lines[N];
+  scanf("%d", &N);
+  for (int i = 0; i < N; i++)
+  {
+    int x;
+    int y;
+    scanf("%d%d", &x, &y);
+    struct Line l;
+    double dx = (double)x;
+    double dy = (double)y;
+    lines[i].sx = dx;
+    lines[i].sy = dy;
+    if (i != 0)
+    {
+      lines[i - 1].ex = dx;
+      lines[i - 1].ey = dy;
+      lines[i - 1].vert = vert(dx, lines[i - 1].sx);
+      lines[i - 1].horiz = horiz(dy, lines[i - 1].sy);
+      lines[i - 1].slope = ((lines[i - 1].vert)) ? 0.0 : slope(lines[i - 1].sx, lines[i - 1].sy, dx, dy);
+    }
+    else
+    {
+      lines[N - 1].ex = (double)x;
+      lines[N - 1].ey = (double)y;
+    }
+  }
+  lines[N - 1].vert = vert(lines[N - 1].ex, lines[N - 1].sx);
+  lines[N - 1].horiz = horiz(lines[N - 1].ey, lines[N - 1].sy);
+  lines[N - 1].slope = ((lines[N - 1].vert)) ? 0.0 : slope(lines[N - 1].sx, lines[N - 1].sy, lines[N - 1].ex, lines[N - 1].ey);
+  // final item calculations
+  // test
+  fprintf(stderr, "test lines\n");
+  for (int i = 0; i < N; ++i)
+  {
+    printLine(lines[i]);
+  }
+
+  int M;
+  scanf("%d", &M);
+  for (int i = 0; i < M; i++)
+  {
+    int x;
+    int y;
+    scanf("%d%d", &x, &y);
+
+    // for each point check the intersection with each line
+    int intersections = 0;
+    for (int i = 0; i < N; ++i)
+    {
+      struct Line l2 = lines[i];
+      // fprintf(stderr, "about to work on \n");
+      // printLine(l);
+
+      if (l2.horiz)
+      {
+        if (l2.sy == y)
+        {
+          ++intersections;
         }
+        continue;
+      }
+
+      double solved_x = solve_x(l2, (double)y);
+      // fprintf(stderr, "solvedx is %lf\n", solved_x);
+      // fprintf(stderr, "l.sx is %lf\n", l.sx);
+      /*
+        for some reason there is segmentation fault if you set the boolean to an expression that uses structure
+      */
+      double sx = l2.sx;
+      double ex = l2.ex;
+      double sy = l2.sy;
+      double ey = l2.ey;
+      // if (solved_x <= sx) {
+      //     fprintf(stderr, "im ok");
+      // }
+      // intersection if solved_x is between x and y is between y
+      bool x_in1 = (solved_x <= sx) && (solved_x >= ex);
+      bool x_in2 = (solved_x >= sx) && (solved_x <= ex);
+      bool x_in = (solved_x >= x) && (x_in1 || x_in2);
+      bool y_in1 = (y <= sy) && (y >= ey);
+      bool y_in2 = (y >= sy) && (y <= ey);
+      bool y_in = y_in1 || y_in2;
+      if (x_in && y_in) intersections++;
+     //  fprintf(stderr, "intersection found at x: %lf, y: %lf\n", solved_x, y);
     }
-    lines[N-1].vert = vert(lines[N-1].ex, lines[N-1].sx);
-    lines[N-1].horiz = horiz(lines[N-1].ey, lines[N-1].sy);
-    lines[N-1].slope = ((lines[N-1].vert)) ? 0.0 : slope(lines[N-1].sx, lines[N-1].sy,lines[N-1].ex,lines[N-1].ey);
-    // final item calculations
-    // test
-    fprintf(stderr, "test lines\n");
-    for (int i = 0; i < N; ++i) {
-      printLine(lines[i]);
-    }
+    fprintf(stderr, "intersections is %d\n", intersections);
+  }
 
-    int M;
-    scanf("%d", &M);
-    for (int i = 0; i < M; i++) {
-        int x;
-        int y;
-        scanf("%d%d", &x, &y);
+  // Write an answer using printf(). DON'T FORGET THE TRAILING \n
+  // To debug: fprintf(stderr, "Debug messages...\n");
 
-        // for each point check the intersection with each line
-        int intersections = 0;
-        for (int i = 0; i < N; ++i) {
-          struct Line l = lines[i];
-          if (l.horiz) {
-            if (l.sy == y) {
-              ++intersections;
-            }
-          } else {
-            double solved_x = solve_x(l, (double)y);
-            if (solved_x>l.ex && solved_x>l.sx) {
-                continue;
-            }
+  printf("hit_or_miss\n");
 
-            // if y is between the start and end y then there is intersection
-            if (y>=l.ey && y<=l.sy) {
-              ++intersections;
-            }
-            else if (y<l.ey && y>l.sy) {
-              ++intersections;
-            }
-          }
-
-
-        }
-        fprintf(stderr, "intersections is %d\n", intersections);
-    }
-
-    // Write an answer using printf(). DON'T FORGET THE TRAILING \n
-    // To debug: fprintf(stderr, "Debug messages...\n");
-
-    printf("hit_or_miss\n");
-
-    return 0;
+  return 0;
 }
 
 /*
@@ -212,7 +242,6 @@ so we just check the y
 
 if inf, just check that
 */
-
 
 /*
       4
