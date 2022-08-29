@@ -105,13 +105,13 @@ int main()
     int x;
     int y;
     scanf("%d%d", &x, &y);
-    Line l;
 
     double dx = (double)x;
     double dy = (double)y;
-    l.sx = dx;
-    l.sy = dy;
-    lines[i] = l;
+    lines[i].sx = dx;
+    lines[i].sy = dy;
+    lines[i].ex = 0.0;
+    lines[i].ey = 0.0;
     if (i != 0)
     {
       lines[i - 1].ex = dx;
@@ -122,10 +122,10 @@ int main()
     }
     else
     {
-      Line ll;
-      ll.ex = dx;
-      ll.ey = dy;
-      lines[N - 1] = ll;
+      lines[N-1].sx=0.0;
+      lines[N-1].sy=0.0;
+      lines[N - 1].ex = dx;
+      lines[N - 1].ey = dy;
     }
   }
   lines[N - 1].vert = vert(lines[N - 1].ex, lines[N - 1].sx);
@@ -165,10 +165,7 @@ int main()
 
       double solved_x = solve_x(lines[j], (double)y);
       double sx = lines[j].sx;
-      /**
-       * absolutely mystifying, uncommenting this line causes segmentation fault.
-       **/
-      // double defunique = lines[j].sy;
+      // double defunique = lines[j].ex;
       fprintf(stderr, "test ex %lf\n", lines[j].ex);
       fprintf(stderr, "test sx %lf\n", lines[j].sx);
       fprintf(stderr, "test ex %lf\n", lines[j].ey);
@@ -198,7 +195,7 @@ int main()
       // if (x_in && y_in) intersections++;
      //  fprintf(stderr, "intersection found at x: %lf, y: %lf\n", solved_x, y);
     }
-    fprintf(stderr, "intersections is %d\n", intersections);
+    // fprintf(stderr, "intersections is %d\n", intersections);
   }
 
   // Write an answer using printf(). DON'T FORGET THE TRAILING \n
