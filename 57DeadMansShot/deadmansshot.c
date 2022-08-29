@@ -60,7 +60,7 @@ double slope(double x1, double y1, double x2, double y2)
   return num / den;
 }
 
-struct Line
+typedef struct Line
 {
   double sx;
   double sy;
@@ -69,9 +69,9 @@ struct Line
   bool vert;
   bool horiz;
   double slope;
-};
+} Line;
 
-double solve_x(struct Line l, double y)
+double solve_x(Line l, double y)
 {
 
   if (l.vert)
@@ -85,7 +85,7 @@ double solve_x(struct Line l, double y)
 }
 
 
-void printLine(struct Line l)
+void printLine(Line l)
 {
   fprintf(stderr, "sx %lf, sy %lf, ex %lf, ey %lf vert %d, slope %lf\n", l.sx, l.sy, l.ex, l.ey, l.vert, l.slope);
 }
@@ -98,14 +98,14 @@ void printLine(struct Line l)
 int main()
 {
   int N;
-  struct Line lines[N];
+  Line lines[N];
   scanf("%d", &N);
   for (int i = 0; i < N; i++)
   {
     int x;
     int y;
     scanf("%d%d", &x, &y);
-    struct Line l;
+    Line l;
 
     double dx = (double)x;
     double dy = (double)y;
@@ -122,7 +122,7 @@ int main()
     }
     else
     {
-      struct Line ll;
+      Line ll;
       ll.ex = dx;
       ll.ey = dy;
       lines[N - 1] = ll;
@@ -165,9 +165,18 @@ int main()
 
       double solved_x = solve_x(lines[j], (double)y);
       double sx = lines[j].sx;
-      // double ex = lines[j].ex;
+      /**
+       * absolutely mystifying, uncommenting this line causes segmentation fault.
+       **/
+      // double defunique = lines[j].sy;
+      fprintf(stderr, "test ex %lf\n", lines[j].ex);
+      fprintf(stderr, "test sx %lf\n", lines[j].sx);
+      fprintf(stderr, "test ex %lf\n", lines[j].ey);
+      fprintf(stderr, "test sx %lf\n", lines[j].sy);
       bool x_in1 = solved_x <= sx;
       // bool x_in2 = solved_x >= ex;
+
+
 
       // bool x_in1 = (solved_x <= lines[i].sx) && (solved_x >= lines[i].ex);
       // bool x_in2 = (solved_x >= l2.sx) && (solved_x <= l2.ex);
