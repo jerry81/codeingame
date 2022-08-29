@@ -149,21 +149,26 @@ int main()
 
     // for each point check the intersection with each line
     int intersections = 0;
-    for (int i = 0; i < N; ++i)
+    for (int j = 0; j < N; ++j)
     {
       // fprintf(stderr, "about to work on \n");
       // printLine(l);
 
-      if (lines[i].horiz)
+      if (lines[j].horiz)
       {
-        if (lines[i].sy == y)
+        if (lines[j].sy == y)
         {
           ++intersections;
         }
         continue;
       }
 
-      double solved_x = solve_x(lines[i], (double)y);
+      double solved_x = solve_x(lines[j], (double)y);
+      double sx = lines[j].sx;
+      // double ex = lines[j].ex;
+      bool x_in1 = solved_x <= sx;
+      // bool x_in2 = solved_x >= ex;
+
       // bool x_in1 = (solved_x <= lines[i].sx) && (solved_x >= lines[i].ex);
       // bool x_in2 = (solved_x >= l2.sx) && (solved_x <= l2.ex);
       // bool x_in = (solved_x >= x) && (x_in1 || x_in2);
