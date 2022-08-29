@@ -87,7 +87,7 @@ double solve_x(Line l, double y)
 
 void printLine(Line l)
 {
-  fprintf(stderr, "sx %lf, sy %lf, ex %lf, ey %lf vert %d, slope %lf\n", l.sx, l.sy, l.ex, l.ey, l.vert, l.slope);
+  fprintf(stderr, "sx %lf, sy %lf, ex %lf, ey %lf vert %d, horiz %d, slope %lf\n", l.sx, l.sy, l.ex, l.ey, l.vert, l.horiz, l.slope);
 }
 
 /**
@@ -102,6 +102,11 @@ int main()
   scanf("%d", &N);
   for (int i = 0; i < N; i++)
   {
+    // lines[i].ex = 0.0;
+    // lines[i].ey = 0.0;
+    // lines[i].vert = false;
+    // lines[i].horiz = false;
+    // lines[i].slope = 0.0;
     int x;
     int y;
     scanf("%d%d", &x, &y);
@@ -110,8 +115,6 @@ int main()
     double dy = (double)y;
     lines[i].sx = dx;
     lines[i].sy = dy;
-    lines[i].ex = 0.0;
-    lines[i].ey = 0.0;
     if (i != 0)
     {
       lines[i - 1].ex = dx;
