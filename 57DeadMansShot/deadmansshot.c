@@ -103,14 +103,13 @@ void printLine(Line l)
 int main()
 {
   int N;
-  Line lines[N];
-  Line first;
-  first.sx = 5.00;
+
   // for (int i = 0; i < N; i++) {
   //   memset(&lines[i], 0, sizeof(lines[i]));
   // }
 
   scanf("%d", &N);
+  Line lines[N];
   for (int i = 0; i < N; i++)
   {
     // lines[i].ex = 0.0;
@@ -185,26 +184,17 @@ int main()
       }
 
       double solved_x = solve_x(lines[j], (double)y);
-      double dx;
-      experiment(first);
-     fprintf(stderr, "first sx is %lf\n", first.sx);
-      // double sx = lp->sx;
-      // double defunique = lines[j].ex;
-      fprintf(stderr, "test ex %lf\n", lines[j].ex);
-      fprintf(stderr, "test sx %lf\n", lines[j].sx);
-      fprintf(stderr, "test ex %lf\n", lines[j].ey);
-      fprintf(stderr, "test sx %lf\n", lines[j].sy);
       // bool x_in1 = solved_x <= sx;
       // bool x_in2 = solved_x >= ex;
 
 
-
-      // bool x_in1 = (solved_x <= lines[i].sx) && (solved_x >= lines[i].ex);
-      // bool x_in2 = (solved_x >= l2.sx) && (solved_x <= l2.ex);
-      // bool x_in = (solved_x >= x) && (x_in1 || x_in2);
-      // bool y_in1 = (y <= l2.sy) && (y >= l2.ey);
-      // bool y_in2 = (y >= l2.sy) && (y <= l2.ey);
-      // bool y_in = y_in1 || y_in2;
+      Line l2 = lines[i];
+      bool x_in1 = (solved_x <= l2.sx) && (solved_x >= l2.ex);
+      bool x_in2 = (solved_x >= l2.sx) && (solved_x <= l2.ex);
+      bool x_in = (solved_x >= x) && (x_in1 || x_in2);
+      bool y_in1 = (y <= l2.sy) && (y >= l2.ey);
+      bool y_in2 = (y >= l2.sy) && (y <= l2.ey);
+      bool y_in = y_in1 || y_in2;
       // if (x_in && y_in) intersections++;
       // fprintf(stderr, "solvedx is %lf\n", solved_x);
       // fprintf(stderr, "l.sx is %lf\n", l.sx);
