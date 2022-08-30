@@ -82,16 +82,7 @@ double solve_x(Line l, double y)
   return (y - intercept) / l.slope;
 }
 
-void experiment(Line l) {
-    double d = l.sx;
-    fprintf(stderr, "im in and declaring ok %lf\n", d);
-}
 
-
-void printLine(Line l)
-{
-  fprintf(stderr, "sx %lf, sy %lf, ex %lf, ey %lf vert %d, horiz %d, slope %lf\n", l.sx, l.sy, l.ex, l.ey, l.vert, l.horiz, l.slope);
-}
 
 
 int main()
@@ -161,12 +152,10 @@ int main()
       bool y_in2 = (y >= l2.sy) && (y <= l2.ey);
       bool y_in = y_in1 || y_in2;
       if (x_in && y_in && (prevx != solved_x)) {
-          fprintf(stderr, "point (%d, %d) intersects with line %d\n", x,y, j);
           prevx = solved_x;
           intersections++;
       }
     }
-    fprintf(stderr, "intersections is %d\n", intersections);
     if (intersections == 1) {
         printf("hit\n");
     } else {
