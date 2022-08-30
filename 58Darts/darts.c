@@ -85,3 +85,7 @@ int main()
 
     return 0;
 }
+
+/* diamond is like previous problem - four sided polygon - at most we check all four sides against a ray cast to the right for a single intersection */
+/* circle use ray cast, but watch out for the fact that a circle will have 2 points to check per given input just check to ensure only one of the points is intersected */
+/* square is special case - easily find if point is within bounding box */
