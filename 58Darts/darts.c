@@ -52,13 +52,19 @@ Will 15
 
 int main()
 {
-    int SIZE;
+    int SIZE; // diameter of circle (length of sq), diamond corner to corner
     scanf("%d", &SIZE);
-    int N;
+    int N; // competitors
     scanf("%d", &N); fgetc(stdin);
+    int scores[N];
+    char names[N][101];
+    for (int i = 0; i < N; ++i) {
+      fprintf(stderr, "scores is %d\n", scores[i]);
+    }
     for (int i = 0; i < N; i++) {
         char name[101];
         scanf("%[^\n]", name); fgetc(stdin);
+        strcpy(names[i],name);
     }
     int T;
     scanf("%d", &T);
