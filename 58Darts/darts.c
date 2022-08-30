@@ -58,13 +58,16 @@ int main()
     scanf("%d", &N); fgetc(stdin);
     int scores[N];
     char names[N][101];
-    for (int i = 0; i < N; ++i) {
-      fprintf(stderr, "scores is %d\n", scores[i]);
-    }
+    memset (scores, 0, sizeof (int) * N);
+
     for (int i = 0; i < N; i++) {
         char name[101];
         scanf("%[^\n]", name); fgetc(stdin);
         strcpy(names[i],name);
+    }
+        for (int i = 0; i < N; ++i) {
+      fprintf(stderr, "score is %d\n", scores[i]);
+      fprintf(stderr, "name is %s\n", names[i]);
     }
     int T;
     scanf("%d", &T);
