@@ -153,8 +153,6 @@ int main()
   }
 
   fprintf(stderr, "test access\n");
-  // double sxt = lines[0].sx; // seg fault still
-  // Line l = lines[0];
 
 
   fprintf(stderr, "accessing %lf\n", lines[0].sx);
@@ -178,9 +176,9 @@ int main()
       {
         if (lines[j].sy == y)
         {
-          ++intersections;
+          intersections = 1;
+          break;
         }
-        continue;
       }
 
       double solved_x = solve_x(lines[j], (double)y);
@@ -195,7 +193,10 @@ int main()
       bool y_in1 = (y <= l2.sy) && (y >= l2.ey);
       bool y_in2 = (y >= l2.sy) && (y <= l2.ey);
       bool y_in = y_in1 || y_in2;
-      if (x_in && y_in) intersections++;
+      if (x_in && y_in) {
+          fprintf(stderr, "point (%d, %d) intersects with line %d\n", x,y, j);
+          intersections++;
+      }
       /*
         for some reason there is segmentation fault if you set the boolean to an expression that uses structure
       */
@@ -207,7 +208,7 @@ int main()
      //  fprintf(stderr, "intersection found at x: %lf, y: %lf\n", solved_x, y);
     }
     fprintf(stderr, "intersections is %d\n", intersections);
-    if (intersections > 0) {
+    if (intersections == 1) {
         printf("hit\n");
     } else {
         printf("miss\n");
