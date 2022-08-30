@@ -188,16 +188,14 @@ int main()
       // bool x_in2 = solved_x >= ex;
 
 
-      Line l2 = lines[i];
+      Line l2 = lines[j];
       bool x_in1 = (solved_x <= l2.sx) && (solved_x >= l2.ex);
       bool x_in2 = (solved_x >= l2.sx) && (solved_x <= l2.ex);
       bool x_in = (solved_x >= x) && (x_in1 || x_in2);
       bool y_in1 = (y <= l2.sy) && (y >= l2.ey);
       bool y_in2 = (y >= l2.sy) && (y <= l2.ey);
       bool y_in = y_in1 || y_in2;
-      // if (x_in && y_in) intersections++;
-      // fprintf(stderr, "solvedx is %lf\n", solved_x);
-      // fprintf(stderr, "l.sx is %lf\n", l.sx);
+      if (x_in && y_in) intersections++;
       /*
         for some reason there is segmentation fault if you set the boolean to an expression that uses structure
       */
@@ -206,16 +204,19 @@ int main()
       // }
       // intersection if solved_x is between x and y is between y
 
-      // if (x_in && y_in) intersections++;
      //  fprintf(stderr, "intersection found at x: %lf, y: %lf\n", solved_x, y);
     }
-    // fprintf(stderr, "intersections is %d\n", intersections);
+    fprintf(stderr, "intersections is %d\n", intersections);
+    if (intersections > 0) {
+        printf("hit\n");
+    } else {
+        printf("miss\n");
+    }
   }
 
   // Write an answer using printf(). DON'T FORGET THE TRAILING \n
   // To debug: fprintf(stderr, "Debug messages...\n");
 
-  printf("hit_or_miss\n");
 
   return 0;
 }
