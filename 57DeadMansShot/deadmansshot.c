@@ -80,8 +80,6 @@ double solve_x(Line l, double y)
   double intercept;
   intercept = l.sy - (l.slope*l.sx);
   return (y - intercept) / l.slope;
-  // y = mx + b;
-  // x = (y - b) / m
 }
 
 void experiment(Line l) {
@@ -95,28 +93,14 @@ void printLine(Line l)
   fprintf(stderr, "sx %lf, sy %lf, ex %lf, ey %lf vert %d, horiz %d, slope %lf\n", l.sx, l.sy, l.ex, l.ey, l.vert, l.horiz, l.slope);
 }
 
-/**
- * Auto-generated code below aims at helping you parse
- * the standard input according to the problem statement.
- **/
 
 int main()
 {
   int N;
-
-  // for (int i = 0; i < N; i++) {
-  //   memset(&lines[i], 0, sizeof(lines[i]));
-  // }
-
   scanf("%d", &N);
   Line lines[N];
   for (int i = 0; i < N; i++)
   {
-    // lines[i].ex = 0.0;
-    // lines[i].ey = 0.0;
-    // lines[i].vert = false;
-    // lines[i].horiz = false;
-    // lines[i].slope = 0.0;
     int x;
     int y;
     scanf("%d%d", &x, &y);
@@ -141,21 +125,11 @@ int main()
       lines[N - 1].ey = dy;
     }
   }
+
   lines[N - 1].vert = vert(lines[N - 1].ex, lines[N - 1].sx);
   lines[N - 1].horiz = horiz(lines[N - 1].ey, lines[N - 1].sy);
   lines[N - 1].slope = ((lines[N - 1].vert)) ? 0.0 : slope(lines[N - 1].sx, lines[N - 1].sy, lines[N - 1].ex, lines[N - 1].ey);
-  // final item calculations
-  // test
-  fprintf(stderr, "test lines\n");
-  for (int i = 0; i < N; ++i)
-  {
-    printLine(lines[i]);
-  }
 
-  fprintf(stderr, "test access\n");
-
-
-  fprintf(stderr, "accessing %lf\n", lines[0].sx);
   int M;
   scanf("%d", &M);
   for (int i = 0; i < M; i++)
@@ -164,26 +138,19 @@ int main()
     int y;
     scanf("%d%d", &x, &y);
 
-    // for each point check the intersection with each line
     int intersections = 0;
+    int prevx = 10001;
     for (int j = 0; j < N; ++j)
     {
-      // fprintf(stderr, "about to work on \n");
-      // printLine(l);
-      // Line *lp = malloc(sizeof(Line));
-      // *lp = lines[j];
+      double solved_x = solve_x(lines[j], (double)y);
       if (lines[j].horiz)
       {
-        if (lines[j].sy == y)
+        if (lines[j].sy == y && x < solved_x)
         {
           intersections = 1;
           break;
         }
       }
-
-      double solved_x = solve_x(lines[j], (double)y);
-      // bool x_in1 = solved_x <= sx;
-      // bool x_in2 = solved_x >= ex;
 
 
       Line l2 = lines[j];
@@ -193,19 +160,11 @@ int main()
       bool y_in1 = (y <= l2.sy) && (y >= l2.ey);
       bool y_in2 = (y >= l2.sy) && (y <= l2.ey);
       bool y_in = y_in1 || y_in2;
-      if (x_in && y_in) {
+      if (x_in && y_in && (prevx != solved_x)) {
           fprintf(stderr, "point (%d, %d) intersects with line %d\n", x,y, j);
+          prevx = solved_x;
           intersections++;
       }
-      /*
-        for some reason there is segmentation fault if you set the boolean to an expression that uses structure
-      */
-      // if (solved_x <= sx) {
-      //     fprintf(stderr, "im ok");
-      // }
-      // intersection if solved_x is between x and y is between y
-
-     //  fprintf(stderr, "intersection found at x: %lf, y: %lf\n", solved_x, y);
     }
     fprintf(stderr, "intersections is %d\n", intersections);
     if (intersections == 1) {
@@ -215,77 +174,5 @@ int main()
     }
   }
 
-  // Write an answer using printf(). DON'T FORGET THE TRAILING \n
-  // To debug: fprintf(stderr, "Debug messages...\n");
-
-
   return 0;
 }
-
-/*
-  Ray casting!
-  from the point, go in any direction (i.e. slope 0)
-  count # of intersections with all lines of polygon
-  if 1 then hit else miss
-*/
-
-/*
--100 -100
-100 -100
-100 100
--100 100
-99 99
-
-lines, -100 -100 to 100 -100
-dx 200 dy 0 slope 0, intercept
-y = sx + b
-s = 0
-y = 0x + b
-y = b
-b = -100
-
-100 -100 to 100 100
-dx = 0
-dy = 200
-
-100 100 to -100 100
-ray 99 99
-
-every vector has slope and starting point
-from this you can calculate x or y given y or x
-
-the slope could be infinite
-struct vec {
-  bool inf,
-  double slope,
-  double sx,
-  double sy,
-  double ex,
-  double ey
-}
-
-a point will be given x,y
-extrapolate the point with slope 0 (y remains fixed)
-to the right
-so we just check the y
-
-if inf, just check that
-*/
-
-/*
-      4
-
-
-
-
-
-5       3
-
-0       2
-
-
-
-
-
-   1
-*/
