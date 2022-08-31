@@ -58,6 +58,23 @@ double calc_x_circle(r, y) {
   return sqrt(rs - ys);
 }
 
+
+typedef struct Line
+{
+  double sx;
+  double sy;
+  double ex;
+  double ey;
+  double slope;
+} Line;
+
+double solve_x(Line l, double y)
+{
+  double intercept;
+  intercept = l.sy - (l.slope*l.sx);
+  return (y - intercept) / l.slope;
+}
+
 int main()
 {
     fprintf(stderr, "calc circle test, expect 4: actual %lf\n", calc_x_circle(5,3));
@@ -67,6 +84,12 @@ int main()
     scanf("%d", &N); fgetc(stdin);
     int scores[N];
     char names[N][101];
+    Line diamond[4];
+    // LURD
+    double w = SIZE/2.0;
+    fprintf(stderr, "width is %lf\n", w);
+
+    // build diamond
     memset (scores, 0, sizeof (int) * N);
 
     for (int i = 0; i < N; i++) {
