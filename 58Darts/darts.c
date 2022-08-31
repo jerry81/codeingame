@@ -160,6 +160,10 @@ int main()
             }
         }
 
+        if ((y == w || y == -w) && ((x != w) || (x != -w))) {
+          diamond_i = 0;
+        }
+
         if (diamond_i == 1)
         {
             scores[i % N] += 15;
