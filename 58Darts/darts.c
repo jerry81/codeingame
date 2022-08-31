@@ -172,10 +172,12 @@ int main()
 
         // circle raycast
         int circle_i = 0;
-        if (w < (double)y)
+        fprintf(stderr, "w is %lf, y is %d\n", w, y);
+        if (w > (double)y)
         {
             double cx = calc_x_circle(w, (double)y);
             double cx_n = -cx;
+            fprintf(stderr, "cx is %lf, cx_n is %lf, and x is %d\n", cx, cx_n, x);
             if (cx == x || cx_n == x)
             {
                 circle_i = 1;
@@ -190,6 +192,7 @@ int main()
 
             if (circle_i == 1)
             {
+                fprintf(stderr, "circle at index %d\n", i);
                 scores[i % N] += 10;
                 continue;
             }
@@ -202,6 +205,7 @@ int main()
 
         if (y_in_sq && x_in_sq)
         {
+            fprintf(stderr, "sq at index %d\n", i);
             scores[i % N] += 5;
         }
     }
