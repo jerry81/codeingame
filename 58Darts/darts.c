@@ -110,7 +110,6 @@ int main()
     diamond[3].ex = 0.0;
     diamond[3].slope = -1.0;
 
-    // build diamond
     memset (scores, 0, sizeof (int) * N);
 
     for (int i = 0; i < N; i++) {
@@ -129,12 +128,67 @@ int main()
         int throw_x;
         int throw_y;
         scanf("%s%d%d", throw_name, &throw_x, &throw_y);
+        // ray cast
+        // ray will be a slope 0 ray
+        // if diamond check
+        int diamond_i = 0;
+        double prev_x = -400;
+        int x = throw_x;
+        int y = throw_y;
+
+        // diamond raycast
+        for (int side = 0; side < 4; ++side) {
+          Line l2 = diamond[side];
+          double solved_x = solve_x(l2, y);
+          bool x_in1 = (solved_x <= l2.sx) && (solved_x >= l2.ex);
+          bool x_in2 = (solved_x >= l2.sx) && (solved_x <= l2.ex);
+          bool x_in = (solved_x >= x) && (x_in1 || x_in2);
+          bool y_in1 = (y <= l2.sy) && (y >= l2.ey);
+          bool y_in2 = (y >= l2.sy) && (y <= l2.ey);
+          bool y_in = y_in1 || y_in2;
+          if (y_in && x_in && (prev_x != solved_x)) {
+            diamond_i++;
+            prev_x = solved_x;
+          }
+        }
+
+        if (diamond_i == 1) {
+          scores[i%N]+=15;
+          continue;
+        }
+
+        // circle raycast
+        int circle_i = 0;
+        double cx = calc_x_circle(w, y);
+        double cx_n = -cx;
+        if (cx == x || cx_n == x) {
+          circle_i = 1;
+        } else {
+          if (x < cx) circle_i++;
+          if (x < cx_n) circle_i++;
+        }
+
+        if (circle_i == 1) {
+          scores[i%N]+=10;
+          continue;
+        }
+
+        // sq test
+        // just check bounding box
+        bool y_in_sq = y <= w && y>= -w;
+        bool x_in_sq = x <= w && x>=-w;
+
+        if (y_in_sq && x_in_sq) {
+          scores[i%N]+=5;
+        }
     }
 
     // Write an answer using printf(). DON'T FORGET THE TRAILING \n
     // To debug: fprintf(stderr, "Debug messages...\n");
+    for (int i = 0; i < N; ++i) {
+        fprintf(stderr, "i score is %d\n", scores[i]);
+    }
 
-    printf("answer\n");
 
     return 0;
 }
