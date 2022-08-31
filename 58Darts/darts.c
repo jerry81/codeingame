@@ -1,5 +1,5 @@
 /*
-	Goal
+    Goal
 A group of your friends want to have a dart throwing competition with a unique target. They've asked you, their tech savvy friend, to automate the scoring as they often squabble over scoring, and have trouble keeping track of who's turn it is to throw.
 
 The target is a square. The square has a circle inscribed within whose diameter matches the width of the square. The circle, in turn, encompasses a diamond whose width from corner to corner matches the circle's diameter. The diamond can be thought of as a square rotated by 1/4 PI so that the corners of the square are on the x and y axes.
@@ -51,42 +51,44 @@ Will 15
  * the standard input according to the problem statement.
  **/
 
-double calc_x_circle(r, y) {
-  // y*y + x*x = r*r
-  double rs = r*r;
-  double ys = y*y;
-  return sqrt(rs - ys);
+double calc_x_circle(double r, double y)
+{
+    // y*y + x*x = r*r
+    double rs = r * r;
+    double ys = y * y;
+    fprintf(stderr, "about to sqrt %lf\n", rs - ys);
+    return sqrt(rs - ys);
 }
-
 
 typedef struct Line
 {
-  double sx;
-  double sy;
-  double ex;
-  double ey;
-  double slope;
+    double sx;
+    double sy;
+    double ex;
+    double ey;
+    double slope;
 } Line;
 
 double solve_x(Line l, double y)
 {
-  double intercept;
-  intercept = l.sy - (l.slope*l.sx);
-  return (y - intercept) / l.slope;
+    double intercept;
+    intercept = l.sy - (l.slope * l.sx);
+    return (y - intercept) / l.slope;
 }
 
 int main()
 {
-    fprintf(stderr, "calc circle test, expect 4: actual %lf\n", calc_x_circle(5,3));
+    fprintf(stderr, "calc circle test, expect 4: actual %lf\n", calc_x_circle(5, 3));
     int SIZE; // diameter of circle (length of sq), diamond corner to corner
     scanf("%d", &SIZE);
     int N; // competitors
-    scanf("%d", &N); fgetc(stdin);
+    scanf("%d", &N);
+    fgetc(stdin);
     int scores[N];
     char names[N][101];
     Line diamond[4];
     // LURD
-    double w = SIZE/2.0;
+    double w = SIZE / 2.0;
     fprintf(stderr, "width is %lf\n", w);
     // opportunities to refactor
     diamond[0].sy = 0.0; // L
@@ -110,20 +112,24 @@ int main()
     diamond[3].ex = 0.0;
     diamond[3].slope = -1.0;
 
-    memset (scores, 0, sizeof (int) * N);
+    memset(scores, 0, sizeof(int) * N);
 
-    for (int i = 0; i < N; i++) {
+    for (int i = 0; i < N; i++)
+    {
         char name[101];
-        scanf("%[^\n]", name); fgetc(stdin);
-        strcpy(names[i],name);
+        scanf("%[^\n]", name);
+        fgetc(stdin);
+        strcpy(names[i], name);
     }
-        for (int i = 0; i < N; ++i) {
-      fprintf(stderr, "score is %d\n", scores[i]);
-      fprintf(stderr, "name is %s\n", names[i]);
+    for (int i = 0; i < N; ++i)
+    {
+        fprintf(stderr, "score is %d\n", scores[i]);
+        fprintf(stderr, "name is %s\n", names[i]);
     }
     int T;
     scanf("%d", &T);
-    for (int i = 0; i < T; i++) {
+    for (int i = 0; i < T; i++)
+    {
         char throw_name[101];
         int throw_x;
         int throw_y;
@@ -137,58 +143,71 @@ int main()
         int y = throw_y;
 
         // diamond raycast
-        for (int side = 0; side < 4; ++side) {
-          Line l2 = diamond[side];
-          double solved_x = solve_x(l2, y);
-          bool x_in1 = (solved_x <= l2.sx) && (solved_x >= l2.ex);
-          bool x_in2 = (solved_x >= l2.sx) && (solved_x <= l2.ex);
-          bool x_in = (solved_x >= x) && (x_in1 || x_in2);
-          bool y_in1 = (y <= l2.sy) && (y >= l2.ey);
-          bool y_in2 = (y >= l2.sy) && (y <= l2.ey);
-          bool y_in = y_in1 || y_in2;
-          if (y_in && x_in && (prev_x != solved_x)) {
-            diamond_i++;
-            prev_x = solved_x;
-          }
+        for (int side = 0; side < 4; ++side)
+        {
+            Line l2 = diamond[side];
+            double solved_x = solve_x(l2, y);
+            bool x_in1 = (solved_x <= l2.sx) && (solved_x >= l2.ex);
+            bool x_in2 = (solved_x >= l2.sx) && (solved_x <= l2.ex);
+            bool x_in = (solved_x >= x) && (x_in1 || x_in2);
+            bool y_in1 = (y <= l2.sy) && (y >= l2.ey);
+            bool y_in2 = (y >= l2.sy) && (y <= l2.ey);
+            bool y_in = y_in1 || y_in2;
+            if (y_in && x_in && (prev_x != solved_x))
+            {
+                diamond_i++;
+                prev_x = solved_x;
+            }
         }
 
-        if (diamond_i == 1) {
-          scores[i%N]+=15;
-          continue;
+        if (diamond_i == 1)
+        {
+            scores[i % N] += 15;
+            continue;
         }
 
         // circle raycast
         int circle_i = 0;
-        double cx = calc_x_circle(w, y);
-        double cx_n = -cx;
-        if (cx == x || cx_n == x) {
-          circle_i = 1;
-        } else {
-          if (x < cx) circle_i++;
-          if (x < cx_n) circle_i++;
-        }
+        if (w < (double)y)
+        {
+            double cx = calc_x_circle(w, (double)y);
+            double cx_n = -cx;
+            if (cx == x || cx_n == x)
+            {
+                circle_i = 1;
+            }
+            else
+            {
+                if (x < cx)
+                    circle_i++;
+                if (x < cx_n)
+                    circle_i++;
+            }
 
-        if (circle_i == 1) {
-          scores[i%N]+=10;
-          continue;
+            if (circle_i == 1)
+            {
+                scores[i % N] += 10;
+                continue;
+            }
         }
 
         // sq test
         // just check bounding box
-        bool y_in_sq = y <= w && y>= -w;
-        bool x_in_sq = x <= w && x>=-w;
+        bool y_in_sq = y <= w && y >= -w;
+        bool x_in_sq = x <= w && x >= -w;
 
-        if (y_in_sq && x_in_sq) {
-          scores[i%N]+=5;
+        if (y_in_sq && x_in_sq)
+        {
+            scores[i % N] += 5;
         }
     }
 
     // Write an answer using printf(). DON'T FORGET THE TRAILING \n
     // To debug: fprintf(stderr, "Debug messages...\n");
-    for (int i = 0; i < N; ++i) {
+    for (int i = 0; i < N; ++i)
+    {
         fprintf(stderr, "i score is %d\n", scores[i]);
     }
-
 
     return 0;
 }
