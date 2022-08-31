@@ -130,7 +130,7 @@ int main()
     scanf("%d", &T);
     for (int i = 0; i < T; i++)
     {
-        char throw_name[101];
+        char throw_name[101]; // need a map because order is not preserved
         int throw_x;
         int throw_y;
         scanf("%s%d%d", throw_name, &throw_x, &throw_y);
@@ -242,3 +242,5 @@ int main()
 /* diamond is like previous problem - four sided polygon - at most we check all four sides against a ray cast to the right for a single intersection */
 /* circle use ray cast, but watch out for the fact that a circle will have 2 points to check per given input just check to ensure only one of the points is intersected */
 /* square is special case - easily find if point is within bounding box */
+
+/* TODO: cannot rely on order of throws to be proper */
