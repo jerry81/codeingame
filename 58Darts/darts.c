@@ -44,14 +44,23 @@ Will 15
 #include <stdio.h>
 #include <string.h>
 #include <stdbool.h>
+#include <math.h>
 
 /**
  * Auto-generated code below aims at helping you parse
  * the standard input according to the problem statement.
  **/
 
+double calc_x_circle(r, y) {
+  // y*y + x*x = r*r
+  double rs = r*r;
+  double ys = y*y;
+  return sqrt(rs - ys);
+}
+
 int main()
 {
+    fprintf(stderr, "calc circle test, expect 4: actual %lf\n", calc_x_circle(5,3));
     int SIZE; // diameter of circle (length of sq), diamond corner to corner
     scanf("%d", &SIZE);
     int N; // competitors
