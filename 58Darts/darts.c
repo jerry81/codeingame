@@ -202,11 +202,30 @@ int main()
         }
     }
 
+    int sorted_indexes[N];
+    bool visited[N];
+    memset(visited, false, sizeof(bool) * N);
+    for (int i = 0; i < N; ++i) {
+      // find max score and put index in
+      int max = -1;
+      int max_idx = -1;
+      for (int j = 0; j < N; ++j) {
+        if (visited[j]) continue;
+        if (scores[j] > max) {
+          max = scores[j];
+          max_idx = j;
+        }
+      }
+      sorted_indexes[i] = max_idx;
+      visited[max_idx] = true;
+    }
+
     // Write an answer using printf(). DON'T FORGET THE TRAILING \n
     // To debug: fprintf(stderr, "Debug messages...\n");
     for (int i = 0; i < N; ++i)
     {
-        fprintf(stderr, "i score is %d\n", scores[i]);
+        int nxt_idx = sorted_indexes[i];
+        printf("%s %d\n", names[nxt_idx], scores[nxt_idx]);
     }
 
     return 0;
