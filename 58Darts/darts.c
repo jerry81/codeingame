@@ -243,4 +243,7 @@ int main()
 /* circle use ray cast, but watch out for the fact that a circle will have 2 points to check per given input just check to ensure only one of the points is intersected */
 /* square is special case - easily find if point is within bounding box */
 
-/* TODO: cannot rely on order of throws to be proper */
+/* TODO: cannot rely on order of throws to be proper
+2 choices, use hashmap
+search name on each throw to find proper index
+*/
