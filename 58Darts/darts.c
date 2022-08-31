@@ -88,6 +88,27 @@ int main()
     // LURD
     double w = SIZE/2.0;
     fprintf(stderr, "width is %lf\n", w);
+    // opportunities to refactor
+    diamond[0].sy = 0.0; // L
+    diamond[0].sx = -w;
+    diamond[0].ey = w; // U
+    diamond[0].ex = 0.0;
+    diamond[0].slope = 1.0;
+    diamond[1].sy = w; // U
+    diamond[1].sx = 0.0;
+    diamond[1].ey = 0.0; // R
+    diamond[1].ex = w;
+    diamond[1].slope = -1.0;
+    diamond[2].ey = 0.0; // D
+    diamond[2].ex = w;
+    diamond[2].sy = -w; // R
+    diamond[2].sx = 0.0;
+    diamond[2].slope = 1.0;
+    diamond[3].sy = 0.0; // L
+    diamond[3].sx = -w;
+    diamond[3].ey = -w; // D
+    diamond[3].ex = 0.0;
+    diamond[3].slope = -1.0;
 
     // build diamond
     memset (scores, 0, sizeof (int) * N);
