@@ -56,7 +56,6 @@ double calc_x_circle(double r, double y)
     // y*y + x*x = r*r
     double rs = r * r;
     double ys = y * y;
-    fprintf(stderr, "about to sqrt %lf\n", rs - ys);
     return sqrt(rs - ys);
 }
 
@@ -78,7 +77,6 @@ double solve_x(Line l, double y)
 
 int main()
 {
-    fprintf(stderr, "calc circle test, expect 4: actual %lf\n", calc_x_circle(5, 3));
     int SIZE; // diameter of circle (length of sq), diamond corner to corner
     scanf("%d", &SIZE);
     int N; // competitors
@@ -89,7 +87,6 @@ int main()
     Line diamond[4];
     // LURD
     double w = SIZE / 2.0;
-    fprintf(stderr, "width is %lf\n", w);
     // opportunities to refactor
     diamond[0].sy = 0.0; // L
     diamond[0].sx = -w;
@@ -120,11 +117,6 @@ int main()
         scanf("%[^\n]", name);
         fgetc(stdin);
         strcpy(names[i], name);
-    }
-    for (int i = 0; i < N; ++i)
-    {
-        fprintf(stderr, "score is %d\n", scores[i]);
-        fprintf(stderr, "name is %s\n", names[i]);
     }
     int T;
     scanf("%d", &T);
@@ -179,12 +171,10 @@ int main()
 
         // circle raycast
         int circle_i = 0;
-        fprintf(stderr, "w is %lf, y is %d\n", w, y);
         if (w > (double)y)
         {
             double cx = calc_x_circle(w, (double)y);
             double cx_n = -cx;
-            fprintf(stderr, "cx is %lf, cx_n is %lf, and x is %d\n", cx, cx_n, x);
             if (cx == x || cx_n == x)
             {
                 circle_i = 1;
@@ -199,7 +189,6 @@ int main()
 
             if (circle_i == 1)
             {
-                fprintf(stderr, "circle at index %d\n", i);
                 scores[throw_idx] += 10;
                 continue;
             }
@@ -212,7 +201,6 @@ int main()
 
         if (y_in_sq && x_in_sq)
         {
-            fprintf(stderr, "sq at index %d\n", i);
             scores[throw_idx] += 5;
         }
     }
@@ -235,8 +223,6 @@ int main()
       visited[max_idx] = true;
     }
 
-    // Write an answer using printf(). DON'T FORGET THE TRAILING \n
-    // To debug: fprintf(stderr, "Debug messages...\n");
     for (int i = 0; i < N; ++i)
     {
         int nxt_idx = sorted_indexes[i];
