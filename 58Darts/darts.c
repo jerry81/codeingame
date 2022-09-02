@@ -134,6 +134,13 @@ int main()
         int throw_x;
         int throw_y;
         scanf("%s%d%d", throw_name, &throw_x, &throw_y);
+        int throw_idx = 0;
+        for (int t=1;t<N;++t) {
+          if (strcmp(names[t],throw_name)==0) {
+            throw_idx=t;
+            break;
+          }
+        }
         // ray cast
         // ray will be a slope 0 ray
         // if diamond check
@@ -166,7 +173,7 @@ int main()
 
         if (diamond_i == 1)
         {
-            scores[i % N] += 15;
+            scores[throw_idx] += 15;
             continue;
         }
 
@@ -193,7 +200,7 @@ int main()
             if (circle_i == 1)
             {
                 fprintf(stderr, "circle at index %d\n", i);
-                scores[i % N] += 10;
+                scores[throw_idx] += 10;
                 continue;
             }
         }
@@ -206,7 +213,7 @@ int main()
         if (y_in_sq && x_in_sq)
         {
             fprintf(stderr, "sq at index %d\n", i);
-            scores[i % N] += 5;
+            scores[throw_idx] += 5;
         }
     }
 
