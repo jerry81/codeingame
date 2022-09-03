@@ -89,7 +89,7 @@ typedef struct p_in {
 
 p_in process_input(string instruction)
 {
-
+  cerr << "len is " << instruction.length();
   p_in ret;
   ret.row = instruction[0] - 97;
   ret.col = instruction[1] - 97;
