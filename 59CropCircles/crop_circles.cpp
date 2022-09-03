@@ -68,6 +68,7 @@ Output
 #include <string>
 #include <vector>
 #include <algorithm>
+#include <cstring>
 
 using namespace std;
 
@@ -79,6 +80,22 @@ using namespace std;
 bool grid[25][19];
 const string hit = "{}";
 const string miss = "  ";
+
+typedef struct p_in {
+  int row;
+  int col;
+  int dia;
+} p_in;
+
+p_in process_input(string instruction)
+{
+  p_in ret;
+  ret.row = instruction[0] - 97;
+  ret.col = instruction[1] - 97;
+
+  cerr <<"row is "<<ret.row<<" and col is "<<ret.col<<endl;
+  return ret;
+}
 
 void print_grid()
 {
@@ -97,9 +114,21 @@ int main()
     string instructions;
     getline(cin, instructions);
 
+    char *ptr; // declare a ptr pointer
+    char c_s[instructions.length()+1];
+    strcpy(c_s, instructions.c_str());
+    ptr = strtok(c_s, " "); // use strtok() function to separate string using comma (,) delimiter.
+    cout << " Split string using strtok() function: " << endl;
+    while (ptr != NULL)
+    {
+        cout << ptr  << endl; // print the string token
+        ptr = strtok (NULL, " , ");
+    }
+    p_in p = process_input(instructions);
     // Write an answer using cout. DON'T FORGET THE "<< endl"
     // To debug: cerr << "Debug messages..." << endl;
-    print_grid();
+
+
     cout << "Farming-Field with Crop-Circles" << endl;
 }
 
@@ -108,4 +137,5 @@ int main()
 Strategy
 representation - 0s and 1s
 output with small conversion
+translate input
 */
