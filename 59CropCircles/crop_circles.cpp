@@ -90,11 +90,15 @@ typedef struct p_in {
 p_in process_input(string instruction)
 {
   p_in ret;
-  ret.row = instruction[0] - 97;
-  ret.col = instruction[1] - 97;
+  ret.row = instruction[0] - 'a';
+  ret.col = instruction[1] - 'a';
   ret.dia =  (instruction.length() == 3) ? instruction[2] - '0' : (instruction[2] - '0') * 10 + (instruction[3] - '0');
-  cerr <<"row is "<<ret.row<<" and col is "<<ret.col<<" dia is "<<ret.dia<<endl;
   return ret;
+}
+
+void modify_grid()
+{
+  grid[0][0] = true;
 }
 
 void print_grid()
@@ -124,8 +128,13 @@ int main()
         cout << ptr  << endl; // print the string token
         string instr = ptr;
         p_in p = process_input(instr);
+        // modify grid
+
         ptr = strtok (NULL, " ");
     }
+
+    modify_grid();
+    print_grid();
 
     // Write an answer using cout. DON'T FORGET THE "<< endl"
     // To debug: cerr << "Debug messages..." << endl;
