@@ -122,9 +122,11 @@ int main()
     while (ptr != NULL)
     {
         cout << ptr  << endl; // print the string token
-        ptr = strtok (NULL, " , ");
+        string instr = ptr;
+        p_in p = process_input(instr);
+        ptr = strtok (NULL, " ");
     }
-    p_in p = process_input(instructions);
+
     // Write an answer using cout. DON'T FORGET THE "<< endl"
     // To debug: cerr << "Debug messages..." << endl;
 
