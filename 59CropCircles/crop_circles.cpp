@@ -77,6 +77,8 @@ using namespace std;
  **/
 
 bool grid[25][19];
+const string hit = "{}";
+const string miss = "  ";
 
 void print_grid()
 {
@@ -84,7 +86,7 @@ void print_grid()
   {
     for (int j=0; j<19;++j)
     {
-      cerr << grid[i][j];
+      cerr << (grid[i][j] ? miss : hit);
     }
     cerr << endl;
   }
