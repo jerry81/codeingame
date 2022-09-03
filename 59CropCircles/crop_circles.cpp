@@ -76,6 +76,20 @@ using namespace std;
  * the standard input according to the problem statement.
  **/
 
+bool grid[25][19];
+
+void print_grid()
+{
+  for (int i=0; i<25;++i)
+  {
+    for (int j=0; j<19;++j)
+    {
+      cerr << grid[i][j];
+    }
+    cerr << endl;
+  }
+}
+
 int main()
 {
     string instructions;
@@ -83,6 +97,13 @@ int main()
 
     // Write an answer using cout. DON'T FORGET THE "<< endl"
     // To debug: cerr << "Debug messages..." << endl;
-
+    print_grid();
     cout << "Farming-Field with Crop-Circles" << endl;
 }
+
+
+/*
+Strategy
+representation - 0s and 1s
+output with small conversion
+*/
