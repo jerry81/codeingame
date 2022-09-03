@@ -89,10 +89,12 @@ typedef struct p_in {
 
 p_in process_input(string instruction)
 {
+
   p_in ret;
   ret.row = instruction[0] - 97;
   ret.col = instruction[1] - 97;
-
+  cerr << "index 2 is " << instruction[2] << endl;
+  cerr << "index 3 is " << (instruction[3] == '\0' ? "yes" : "no") << endl;
   cerr <<"row is "<<ret.row<<" and col is "<<ret.col<<endl;
   return ret;
 }
