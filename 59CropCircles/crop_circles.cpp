@@ -123,9 +123,9 @@ void print_grid()
   {
     for (int j=0; j<19;++j)
     {
-      cerr << (grid[i][j] ? miss : hit);
+      cout << (grid[i][j] ? miss : hit);
     }
-    cerr << endl;
+    cout << endl;
   }
 }
 
@@ -141,7 +141,7 @@ int main()
     cerr << " Split string using strtok() function: " << endl;
     while (ptr != NULL)
     {
-        cout << ptr  << endl; // print the string token
+        // cout << ptr  << endl; // print the string token
         string instr = ptr;
         p_in p = process_input(instr);
         // modify grid
@@ -168,7 +168,7 @@ int main()
     // To debug: cerr << "Debug messages..." << endl;
 
 
-    cout << "Farming-Field with Crop-Circles" << endl;
+    // cout << "Farming-Field with Crop-Circles" << endl;
 }
 
 
