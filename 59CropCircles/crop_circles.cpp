@@ -111,7 +111,6 @@ void modify_grid(int cx, int cy, int r, int curx)
         for (int j = cy - r; j <= cy + r; ++j) {
           int y = curx + cx;
           int y2 = cx - curx;
-          cerr << "y is " << y << endl;
           grid[y][j] = true;
           grid[y2][j] = true;
         }
@@ -149,11 +148,10 @@ int main()
         int diff = floor(rad);
         cerr << "diff is " << diff << endl;
         // from x = center - rad to center + rad
-        int h = diff;
         modify_grid(p.col, p.row, diff, 0);
-        for (int i = 1; i <= h; ++i) {
+        for (int i = 1; i <= diff; ++i) {
           double y = calc_y(i, rad);
-          int yr = round(y);
+          int yr = floor(y);
           modify_grid(p.col, p.row, yr, i);
           cerr<<"yr is "<<yr<<endl;
           cerr << "i is " << i << " y is " << y << endl;
