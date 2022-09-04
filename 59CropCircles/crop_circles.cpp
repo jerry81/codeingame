@@ -114,7 +114,7 @@ p_in process_input(string instruction)
   }
   ret.row = instruction[idx] - 'a';
   ret.col = instruction[idx+1] - 'a';
-  ret.dia =  (instruction.length() == 3) ? instruction[2] - '0' : (instruction[2] - '0') * 10 + (instruction[3] - '0');
+  ret.dia =  ((instruction.length()-idx) == 3) ? instruction[idx+2] - '0' : (instruction[idx+2] - '0') * 10 + (instruction[idx+3] - '0');
   return ret;
 }
 
