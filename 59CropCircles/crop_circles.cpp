@@ -103,13 +103,16 @@ p_in process_input(string instruction)
   return ret;
 }
 
-void modify_grid(int cx, int cy, int r)
+void modify_grid(int cx, int cy, int r, int curx)
 {
-    for (int i = cx - r; i < (cx + r); ++i) {
-        for (int j = cy - r; j < (cy + r); ++j) {
-          grid[i][j] = true;
+        // r == 4, y should be 0, 1, 2
+        // r == 3, y should be 3, -3
+        // r == 2, y should be 4, -4
+        for (int j = cy - r; j < (cy + r+1); ++j) {
+          int y = curx + cy;
+          grid[y][j] = true;
+          grid[-y][j] = true;
         }
-    }
 }
 
 void print_grid()
@@ -145,11 +148,12 @@ int main()
         cerr << "diff is " << diff << endl;
         // from x = center - rad to center + rad
         int h = diff;
-        grid[p.col][p.row] = true;
-        for (int i = 0; i < h; ++i) {
-          double y = calc_y(i+1, rad);
+        int yr = round(rad);
+        modify_grid(p.col, p.row, yr, 0);
+        for (int i = 1; i <= h; ++i) {
+          double y = calc_y(i, rad);
           int yr = round(y);
-          modify_grid(p.col, p.row, yr);
+          modify_grid(p.col, p.row, yr, i);
           cerr<<"yr is "<<yr<<endl;
           cerr << "i is " << i << "y is " << y << endl;
         }
