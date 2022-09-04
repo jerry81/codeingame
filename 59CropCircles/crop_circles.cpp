@@ -86,6 +86,7 @@ typedef struct p_in {
   int row;
   int col;
   int dia;
+  int type;
 } p_in;
 
 double calc_y(int x,double r) {
@@ -96,9 +97,23 @@ double calc_y(int x,double r) {
 
 p_in process_input(string instruction)
 {
+  int l = instruction.length();
+
+
   p_in ret;
-  ret.row = instruction[0] - 'a';
-  ret.col = instruction[1] - 'a';
+  int idx = 0;
+  if (l >= 11) {
+    // cheat: PlantMow
+    ret.type = 2;
+    idx = 8;
+  }
+  else if (l >= 9) {
+    // cheat plant
+    ret.type = 1;
+    idx = 5;
+  }
+  ret.row = instruction[idx] - 'a';
+  ret.col = instruction[idx+1] - 'a';
   ret.dia =  (instruction.length() == 3) ? instruction[2] - '0' : (instruction[2] - '0') * 10 + (instruction[3] - '0');
   return ret;
 }
