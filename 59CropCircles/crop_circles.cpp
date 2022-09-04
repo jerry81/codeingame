@@ -108,10 +108,12 @@ void modify_grid(int cx, int cy, int r, int curx)
         // r == 4, y should be 0, 1, 2
         // r == 3, y should be 3, -3
         // r == 2, y should be 4, -4
-        for (int j = cy - r; j < (cy + r+1); ++j) {
-          int y = curx + cy;
+        for (int j = cy - r; j <= cy + r; ++j) {
+          int y = curx + cx;
+          int y2 = cx - curx;
+          cerr << "y is " << y << endl;
           grid[y][j] = true;
-          grid[-y][j] = true;
+          grid[y2][j] = true;
         }
 }
 
@@ -136,7 +138,7 @@ int main()
     char c_s[instructions.length()+1];
     strcpy(c_s, instructions.c_str());
     ptr = strtok(c_s, " "); // use strtok() function to separate string using comma (,) delimiter.
-    cout << " Split string using strtok() function: " << endl;
+    cerr << " Split string using strtok() function: " << endl;
     while (ptr != NULL)
     {
         cout << ptr  << endl; // print the string token
@@ -148,14 +150,13 @@ int main()
         cerr << "diff is " << diff << endl;
         // from x = center - rad to center + rad
         int h = diff;
-        int yr = round(rad);
-        modify_grid(p.col, p.row, yr, 0);
+        modify_grid(p.col, p.row, diff, 0);
         for (int i = 1; i <= h; ++i) {
           double y = calc_y(i, rad);
           int yr = round(y);
           modify_grid(p.col, p.row, yr, i);
           cerr<<"yr is "<<yr<<endl;
-          cerr << "i is " << i << "y is " << y << endl;
+          cerr << "i is " << i << " y is " << y << endl;
         }
         ptr = strtok (NULL, " ");
     }
