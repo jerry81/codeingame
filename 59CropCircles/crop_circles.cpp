@@ -69,6 +69,7 @@ Output
 #include <vector>
 #include <algorithm>
 #include <cstring>
+#include <cmath>
 
 using namespace std;
 
@@ -87,6 +88,12 @@ typedef struct p_in {
   int dia;
 } p_in;
 
+double calc_y(int x,double r) {
+  // r*r = x*x + y*y
+  double dx = (double) x;
+  return sqrt((r*r) - (dx*dx));
+}
+
 p_in process_input(string instruction)
 {
   p_in ret;
@@ -96,9 +103,8 @@ p_in process_input(string instruction)
   return ret;
 }
 
-void modify_grid()
+void modify_grid(int cx, int cy, int dia)
 {
-  grid[0][0] = true;
 }
 
 void print_grid()
@@ -129,11 +135,19 @@ int main()
         string instr = ptr;
         p_in p = process_input(instr);
         // modify grid
-
+        double rad = p.dia / 2.0;
+        int diff = floor(rad);
+        cerr << "diff is " << diff << endl;
+        // from x = center - rad to center + rad
+        int h = diff;
+        for (int i = 0; i < h; ++i) {
+          double y = calc_y(i+1, rad);
+          cerr << "i is " << i << "y is " << y << endl;
+        }
         ptr = strtok (NULL, " ");
     }
 
-    modify_grid();
+    // modify_grid();
     print_grid();
 
     // Write an answer using cout. DON'T FORGET THE "<< endl"
