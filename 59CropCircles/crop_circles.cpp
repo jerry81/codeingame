@@ -103,8 +103,13 @@ p_in process_input(string instruction)
   return ret;
 }
 
-void modify_grid(int cx, int cy, int dia)
+void modify_grid(int cx, int cy, int r)
 {
+    for (int i = cx - r; i < (cx + r); ++i) {
+        for (int j = cy - r; j < (cy + r); ++j) {
+          grid[i][j] = true;
+        }
+    }
 }
 
 void print_grid()
@@ -140,8 +145,12 @@ int main()
         cerr << "diff is " << diff << endl;
         // from x = center - rad to center + rad
         int h = diff;
+        grid[p.col][p.row] = true;
         for (int i = 0; i < h; ++i) {
           double y = calc_y(i+1, rad);
+          int yr = round(y);
+          modify_grid(p.col, p.row, yr);
+          cerr<<"yr is "<<yr<<endl;
           cerr << "i is " << i << "y is " << y << endl;
         }
         ptr = strtok (NULL, " ");
