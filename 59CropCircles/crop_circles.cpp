@@ -82,79 +82,99 @@ bool grid[25][19];
 const string hit = "{}";
 const string miss = "  ";
 
-typedef struct p_in {
-  int row;
-  int col;
-  int dia;
-  int type;
+typedef struct p_in
+{
+    int row;
+    int col;
+    int dia;
+    int type;
 } p_in;
 
-double calc_y(int x,double r) {
-  // r*r = x*x + y*y
-  double dx = (double) x;
-  return sqrt((r*r) - (dx*dx));
+double calc_y(int x, double r)
+{
+    // r*r = x*x + y*y
+    double dx = (double)x;
+    return sqrt((r * r) - (dx * dx));
 }
 
 p_in process_input(string instruction)
 {
-  int l = instruction.length();
+    int l = instruction.length();
 
-  p_in ret;
-  int idx = 0;
-  if (l >= 11) {
-    // cheat: PlantMow
-    ret.type = 2;
-    idx = 8;
-  }
-  else if (l >= 8) {
-    // cheat plant
-    ret.type = 1;
-    idx = 5;
-  } else {
-    ret.type = 0;
-  }
-  ret.row = instruction[idx] - 'a';
-  ret.col = instruction[idx+1] - 'a';
-  ret.dia =  ((instruction.length()-idx) == 3) ? instruction[idx+2] - '0' : (instruction[idx+2] - '0') * 10 + (instruction[idx+3] - '0');
+    p_in ret;
+    int idx = 0;
+    if (l >= 11)
+    {
+        // cheat: PlantMow
+        ret.type = 2;
+        idx = 8;
+    }
+    else if (l >= 8)
+    {
+        // cheat plant
+        ret.type = 1;
+        idx = 5;
+    }
+    else
+    {
+        ret.type = 0;
+    }
+    ret.row = instruction[idx] - 'a';
+    ret.col = instruction[idx + 1] - 'a';
+    ret.dia = ((instruction.length() - idx) == 3) ? instruction[idx + 2] - '0' : (instruction[idx + 2] - '0') * 10 + (instruction[idx + 3] - '0');
 
-  return ret;
+    return ret;
 }
 
-void modify_grid(int cx, int cy, int r, int curx, int type=0)
+void modify_grid(int cx, int cy, int r, int curx, int type = 0)
 {
-        // r == 4, y should be 0, 1, 2
-        // r == 3, y should be 3, -3
-        // r == 2, y should be 4, -4
-        for (int j = cy - r; j <= cy + r; ++j) {
-          int y = curx + cx;
-          int y2 = cx - curx;
-          if (j < 0 || j > 18) continue;
+    // r == 4, y should be 0, 1, 2
+    // r == 3, y should be 3, -3
+    // r == 2, y should be 4, -4
+    for (int j = cy - r; j <= cy + r; ++j)
+    {
+        int y = curx + cx;
+        int y2 = cx - curx;
 
-          if (y < 0 || y > 24) continue;
-
-          if (y2 < 0 || y2 > 24) continue;
-
-          if (type == 2) {
-            grid[y][j] = !grid[y][j];
-            grid[y2][j] = !grid[y][j];
+        if (j < 0 || j > 18)
+        {
             continue;
-          }
-
-          grid[y][j] = (type == 0);
-          grid[y2][j] = (type == 0);
         }
+
+        if (type == 2)
+        {
+            if (y >= 0 && y <= 24)
+            {
+                grid[y][j] = !grid[y][j];
+            }
+            if (y2 >= 0 && y2 <= 24)
+            {
+                grid[y2][j] = !grid[y][j];
+            }
+            continue;
+        }
+
+        if (y >= 0 && y <= 24)
+        {
+            grid[y][j] = (type == 0);
+        }
+        if (y2 >= 0 && y2 <= 24)
+        {
+            grid[y2][j] = (type == 0);
+        }
+    }
 }
 
 void print_grid()
 {
-  for (int i=0; i<25;++i)
-  {
-    for (int j=0; j<19;++j)
+    for (int i = 0; i < 25; ++i)
     {
-      cout << (grid[i][j] ? miss : hit);
+        for (int j = 0; j < 19; ++j)
+        {
+            cout << (grid[i][j] ? miss : hit);
+        }
+        cout << endl;
     }
-    cout << endl;
-  }
 }
 
 int main()
@@ -163,30 +183,31 @@ int main()
     getline(cin, instructions);
 
     char *ptr; // declare a ptr pointer
-    char c_s[instructions.length()+1];
+    char c_s[instructions.length() + 1];
     strcpy(c_s, instructions.c_str());
     ptr = strtok(c_s, " "); // use strtok() function to separate string using comma (,) delimiter.
-    cerr << " Split string using strtok() function: " << endl;
     while (ptr != NULL)
     {
         // cout << ptr  << endl; // print the string token
         string instr = ptr;
         p_in p = process_input(instr);
+        cerr << "instr is " << instr << endl;
+        cerr << "col " << p.col << " row " << p.row << " dia " << p.dia << " type " << p.type << endl;
         // modify grid
         double rad = p.dia / 2.0;
         int diff = floor(rad);
         cerr << "diff is " << diff << endl;
         // from x = center - rad to center + rad
         modify_grid(p.col, p.row, diff, 0, p.type);
-        for (int i = 1; i <= diff; ++i) {
-          double y = calc_y(i, rad);
-          int yr = floor(y);
-          cerr<<"ptype is "<<p.type<<endl;
-          modify_grid(p.col, p.row, yr, i, p.type);
-          cerr<<"yr is "<<yr<<endl;
-          // cerr << "i is " << i << " y is " << y << endl;
+        for (int i = 1; i <= diff; ++i)
+        {
+            double y = calc_y(i, rad);
+            int yr = floor(y);
+            modify_grid(p.col, p.row, yr, i, p.type);
+            cerr << "yr is " << yr << endl;
+            // cerr << "i is " << i << " y is " << y << endl;
         }
-        ptr = strtok (NULL, " ");
+        ptr = strtok(NULL, " ");
     }
 
     // modify_grid();
@@ -195,10 +216,8 @@ int main()
     // Write an answer using cout. DON'T FORGET THE "<< endl"
     // To debug: cerr << "Debug messages..." << endl;
 
-
     // cout << "Farming-Field with Crop-Circles" << endl;
 }
-
 
 /*
 Strategy
