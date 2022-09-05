@@ -106,15 +106,17 @@ p_in process_input(string instruction)
     ret.type = 2;
     idx = 8;
   }
-  else if (l >= 9) {
+  else if (l >= 8) {
     // cheat plant
     ret.type = 1;
     idx = 5;
+  } else {
+    ret.type = 0;
   }
   ret.row = instruction[idx] - 'a';
   ret.col = instruction[idx+1] - 'a';
   ret.dia =  ((instruction.length()-idx) == 3) ? instruction[idx+2] - '0' : (instruction[idx+2] - '0') * 10 + (instruction[idx+3] - '0');
-  ret.type = 0;
+
   return ret;
 }
 
@@ -126,6 +128,12 @@ void modify_grid(int cx, int cy, int r, int curx, int type=0)
         for (int j = cy - r; j <= cy + r; ++j) {
           int y = curx + cx;
           int y2 = cx - curx;
+          if (j < 0 || j > 18) continue;
+
+          if (y < 0 || y > 24) continue;
+
+          if (y2 < 0 || y2 > 24) continue;
+
           if (type == 2) {
             grid[y][j] = !grid[y][j];
             grid[y2][j] = !grid[y][j];
@@ -169,14 +177,14 @@ int main()
         int diff = floor(rad);
         cerr << "diff is " << diff << endl;
         // from x = center - rad to center + rad
-        modify_grid(p.col, p.row, diff, 0);
+        modify_grid(p.col, p.row, diff, 0, p.type);
         for (int i = 1; i <= diff; ++i) {
           double y = calc_y(i, rad);
           int yr = floor(y);
           cerr<<"ptype is "<<p.type<<endl;
           modify_grid(p.col, p.row, yr, i, p.type);
           cerr<<"yr is "<<yr<<endl;
-          cerr << "i is " << i << " y is " << y << endl;
+          // cerr << "i is " << i << " y is " << y << endl;
         }
         ptr = strtok (NULL, " ");
     }
