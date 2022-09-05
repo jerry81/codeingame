@@ -191,22 +191,17 @@ int main()
     ptr = strtok(c_s, " "); // use strtok() function to separate string using comma (,) delimiter.
     while (ptr != NULL)
     {
-        // cout << ptr  << endl; // print the string token
         string instr = ptr;
         p_in p = process_input(instr);
-        cerr << "instr is " << instr << endl;
-        cerr << "col " << p.col << " row " << p.row << " dia " << p.dia << " type " << p.type << endl;
         // modify grid
         double rad = p.dia / 2.0;
         int diff = floor(rad);
-        cerr << "diff is " << diff << endl;
         // from x = center - rad to center + rad
         for (int i = 0; i <= diff; ++i)
         {
             double y = calc_y(i, rad);
             int yr = floor(y);
             modify_grid(p.col, p.row, yr, i, p.type);
-            // cerr << "i is " << i << " y is " << y << endl;
         }
         ptr = strtok(NULL, " ");
     }
@@ -214,10 +209,6 @@ int main()
     // modify_grid();
     print_grid();
 
-    // Write an answer using cout. DON'T FORGET THE "<< endl"
-    // To debug: cerr << "Debug messages..." << endl;
-
-    // cout << "Farming-Field with Crop-Circles" << endl;
 }
 
 /*
