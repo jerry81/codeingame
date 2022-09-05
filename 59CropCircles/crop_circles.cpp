@@ -149,7 +149,10 @@ void modify_grid(int cx, int cy, int r, int curx, int type = 0)
             }
             if (y2 >= 0 && y2 <= 24)
             {
-                grid[y2][j] = !grid[y][j];
+                if (y != y2)
+                {
+                    grid[y2][j] = !grid[y2][j];
+                }
             }
             continue;
         }
@@ -198,13 +201,11 @@ int main()
         int diff = floor(rad);
         cerr << "diff is " << diff << endl;
         // from x = center - rad to center + rad
-        modify_grid(p.col, p.row, diff, 0, p.type);
-        for (int i = 1; i <= diff; ++i)
+        for (int i = 0; i <= diff; ++i)
         {
             double y = calc_y(i, rad);
             int yr = floor(y);
             modify_grid(p.col, p.row, yr, i, p.type);
-            cerr << "yr is " << yr << endl;
             // cerr << "i is " << i << " y is " << y << endl;
         }
         ptr = strtok(NULL, " ");
