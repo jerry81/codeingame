@@ -16,6 +16,8 @@
 - be able to get closest neutral to your leader
 - if Dist == 1 convert!
 
+- move helper?  first check if there is an adjacent cultist
+
 ## TODO
 
 - review A+ pathfinding

@@ -9,6 +9,16 @@ using namespace std;
  * Convert neutral units and attack enemy ones
  **/
 
+
+typedef struct Unit {
+  int id;
+  int type;
+  int hp;
+  int x;
+  int y;
+  int owner;
+} Unit;
+
 void move(int unit_id, int x, int y) {
   cout << unit_id << " MOVE " << x << " " << y << endl;
 }
@@ -25,14 +35,18 @@ int manhattan(Unit u1, Unit u2) {
   return abs(u1.x - u2.x) + abs(u1.y - u2.y);
 }
 
-typedef struct Unit {
-  int id;
-  int type;
-  int hp;
-  int x;
-  int y;
-  int owner;
-} Unit;
+int adjacent_neutral(Unit leader, vector<Unit> neutrals) {
+  // -1 means no adjacent
+  if (neutrals.empty()) return -1;
+
+  for (Unit n: neutrals) {
+    if (manhattan(leader, n) == 1) {
+      return n.id;
+    }
+  }
+
+  return -1;
+}
 
 int main()
 {
@@ -100,6 +114,11 @@ int main()
 
 
         // WAIT | unitId MOVE x y | unitId SHOOT target| unitId CONVERT target
+        int neutral_id = adjacent_neutral(leader, neutrals);
+        if (neutral_id > -1) {
+          convert(leader.id, neutral_id);
+          continue;
+        }
         cout << "WAIT" << endl;
     }
 }
