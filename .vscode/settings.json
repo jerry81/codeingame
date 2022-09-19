@@ -2,6 +2,10 @@
   "files.associations": {
     "__locale": "c",
     "ios": "c",
-    "string.h": "c"
+    "string.h": "c",
+    "iosfwd": "cpp",
+    "iostream": "cpp",
+    "istream": "cpp",
+    "ostream": "cpp"
   }
 }

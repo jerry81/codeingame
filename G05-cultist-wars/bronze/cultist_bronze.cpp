@@ -21,6 +21,15 @@ void convert(int unit_id, int target_id) {
   cout << unit_id << " CONVERT " << target_id << endl;
 }
 
+typedef struct Unit {
+  int id;
+  int type;
+  int hp;
+  int x;
+  int y;
+  int owner;
+} Unit;
+
 int main()
 {
     int my_id; // 0 - you are the first player, 1 - you are the second player
@@ -28,9 +37,11 @@ int main()
     int width; // Width of the board
     int height; // Height of the board
     cin >> width >> height; cin.ignore();
+    string lines[height];
     for (int i = 0; i < height; i++) {
         string y; // A y of the board: "." is empty, "x" is obstacle
         cin >> y; cin.ignore();
+        lines[i] = y;
     }
 
     // game loop
@@ -45,6 +56,7 @@ int main()
             int y; // Y coordinate of the unit
             int owner; // id of owner player
             cin >> unit_id >> unit_type >> hp >> x >> y >> owner; cin.ignore();
+
         }
 
         // Write an action using cout. DON'T FORGET THE "<< endl"
