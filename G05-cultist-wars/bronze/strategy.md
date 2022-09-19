@@ -1,1 +1,3 @@
-# TODO strategy
+# strategy
+
+- create an output helper

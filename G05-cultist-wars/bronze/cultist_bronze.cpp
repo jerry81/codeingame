@@ -9,6 +9,18 @@ using namespace std;
  * Convert neutral units and attack enemy ones
  **/
 
+void move(int unit_id, int x, int y) {
+  cout << unit_id << " MOVE " << x << " " << y << endl;
+}
+
+void shoot(int unit_id, int target_id) {
+  cout << unit_id << " MOVE " << target_id << endl;
+}
+
+void convert(int unit_id, int target_id) {
+  cout << unit_id << " CONVERT " << target_id << endl;
+}
+
 int main()
 {
     int my_id; // 0 - you are the first player, 1 - you are the second player
