@@ -48,6 +48,11 @@ int main()
     while (1) {
         int num_of_units; // The total number of units on the board
         cin >> num_of_units; cin.ignore();
+        Unit leader;
+        Unit enemy_leader;
+        vector<Unit> neutrals;
+        vector<Unit> friendlies;
+        vector<Unit> enemies;
         for (int i = 0; i < num_of_units; i++) {
             int unit_id; // The unit's ID
             int unit_type; // The unit's type: 0 = Cultist, 1 = Cult Leader
@@ -56,7 +61,28 @@ int main()
             int y; // Y coordinate of the unit
             int owner; // id of owner player
             cin >> unit_id >> unit_type >> hp >> x >> y >> owner; cin.ignore();
-
+            Unit u;
+            u.id = unit_id;
+            u.type = unit_type;
+            u.hp = hp;
+            u.x = x;
+            u.y = y;
+            u.owner = owner;
+            if (u.type == 1) {
+              if (u.owner == my_id) {
+                leader = u;
+              } else {
+                enemy_leader = u;
+              }
+            } else { // cultists
+              if (u.owner == 2) {
+                neutrals.push_back(u);
+              } else if (u.owner == my_id) {
+                friendlies.push_back(u);
+              } else {
+                enemies.push_back(u);
+              }
+            }
         }
 
         // Write an action using cout. DON'T FORGET THE "<< endl"
