@@ -14,9 +14,11 @@
 
 - helper - calc manhattan distance between two objects
 - be able to get closest neutral to your leader
-- if Dist == 1 convert!
+- if Dist == 1 convert! - done
 
-- move helper?  first check if there is an adjacent cultist
+- move helper?  first check if there is an adjacent cultist - done
+
+- sort by manhattan distances
 
 ## TODO
 

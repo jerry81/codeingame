@@ -119,6 +119,8 @@ int main()
           convert(leader.id, neutral_id);
           continue;
         }
+
+
         cout << "WAIT" << endl;
     }
 }
