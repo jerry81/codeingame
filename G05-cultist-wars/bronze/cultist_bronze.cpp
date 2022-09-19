@@ -76,7 +76,7 @@ int main() {
     vector<Unit> neutrals;
     vector<Unit> friendlies;
     vector<Unit> enemies;
-    bool leader_alive;
+    bool leader_alive = false;
     for (int i = 0; i < num_of_units; i++) {
       int unit_id;    // The unit's ID
       int unit_type;  // The unit's type: 0 = Cultist, 1 = Cult Leader
@@ -141,6 +141,7 @@ int main() {
       move(leader.id, targetx, targety);
       continue;
     } else {
+      cerr << "leader is dead! " << endl;
       // leader dead!
     }
     cout << "WAIT" << endl;
