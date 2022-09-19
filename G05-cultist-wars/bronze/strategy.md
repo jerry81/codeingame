@@ -12,7 +12,10 @@
 - represent the map - array of strings
 - represent units - struct
 
-- helper - calc manhattan distance
+- helper - calc manhattan distance between two objects
 - be able to get closest neutral to your leader
 - if Dist == 1 convert!
 
+## TODO
+
+- review A+ pathfinding

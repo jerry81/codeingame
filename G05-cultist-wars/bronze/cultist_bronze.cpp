@@ -21,6 +21,10 @@ void convert(int unit_id, int target_id) {
   cout << unit_id << " CONVERT " << target_id << endl;
 }
 
+int manhattan(Unit u1, Unit u2) {
+  return abs(u1.x - u2.x) + abs(u1.y - u2.y);
+}
+
 typedef struct Unit {
   int id;
   int type;
@@ -83,6 +87,12 @@ int main()
                 enemies.push_back(u);
               }
             }
+        }
+
+        cerr << "my leader pos " << leader.x << "," << leader.y << endl;
+        cerr << "enemy leader pos " << enemy_leader.x << "," << enemy_leader.y << endl;
+        for (Unit u:neutrals) {
+          cerr << "neutral at " << u.x << "," << u.y <<endl;
         }
 
         // Write an action using cout. DON'T FORGET THE "<< endl"
