@@ -19,6 +19,8 @@ typedef struct Unit {
   int owner;
 } Unit;
 
+Unit leader; // global
+
 void move(int unit_id, int x, int y) {
   cout << unit_id << " MOVE " << x << " " << y << endl;
 }
@@ -33,6 +35,10 @@ void convert(int unit_id, int target_id) {
 
 int manhattan(Unit u1, Unit u2) {
   return abs(u1.x - u2.x) + abs(u1.y - u2.y);
+}
+
+int compare_manhattans(Unit u1, Unit u2) {
+  return manhattan(leader, u1) < manhattan(leader, u2);
 }
 
 int adjacent_neutral(Unit leader, vector<Unit> neutrals) {
@@ -66,7 +72,6 @@ int main()
     while (1) {
         int num_of_units; // The total number of units on the board
         cin >> num_of_units; cin.ignore();
-        Unit leader;
         Unit enemy_leader;
         vector<Unit> neutrals;
         vector<Unit> friendlies;
@@ -117,6 +122,12 @@ int main()
         int neutral_id = adjacent_neutral(leader, neutrals);
         if (neutral_id > -1) {
           convert(leader.id, neutral_id);
+          continue;
+        }
+
+        if (!neutrals.empty()) {
+          sort(neutrals.begin(), neutrals.end(), compare_manhattans);
+          move(leader.id, neutrals.front().x, neutrals.front().y);
           continue;
         }
 
