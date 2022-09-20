@@ -3,6 +3,8 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <unordered_map>
+#include <utility>
 
 using namespace std;
 
@@ -17,7 +19,12 @@ typedef struct Unit {
   int x;
   int y;
   int owner;
+  int d_2_leader;
+  int d_2_e_leader;
+  vector<pair<int,int>> d_2_enemies;
 } Unit;
+
+unordered_map<int, Unit> units_map;
 
 Unit leader;  // global
 vector<string> g_lines;
@@ -152,13 +159,6 @@ int main() {
           enemies.push_back(u);
         }
       }
-    }
-
-    cerr << "my leader pos " << leader.x << "," << leader.y << endl;
-    cerr << "enemy leader pos " << enemy_leader.x << "," << enemy_leader.y
-         << endl;
-    for (Unit u : neutrals) {
-      cerr << "neutral at " << u.x << "," << u.y << endl;
     }
 
     // Write an action using cout. DON'T FORGET THE "<< endl"
