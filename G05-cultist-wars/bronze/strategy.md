@@ -20,6 +20,12 @@
 
 - sort by manhattan distances
 
+- need optimization - not just manhattan distance, but sort by shortest path (including obstacles)
+
+- improvement - no moves left or leader dead - use the pawns!
+- helper to find if path has obstacle
+- helper to find enemies in range
+
 ## TODO
 
-- review A+ pathfinding
+- review A* pathfinding - add this later

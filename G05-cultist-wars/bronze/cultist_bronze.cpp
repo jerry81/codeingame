@@ -1,4 +1,5 @@
 #include <algorithm>
+#include <cmath>
 #include <iostream>
 #include <string>
 #include <vector>
@@ -19,6 +20,7 @@ typedef struct Unit {
 } Unit;
 
 Unit leader;  // global
+vector<string> g_lines;
 
 void move(int unit_id, int x, int y) {
   cout << unit_id << " MOVE " << x << " " << y << endl;
@@ -30,6 +32,45 @@ void shoot(int unit_id, int target_id) {
 
 void convert(int unit_id, int target_id) {
   cout << unit_id << " CONVERT " << target_id << endl;
+}
+
+bool path_has_obstacle(Unit u1, Unit u2) {
+  if (u1.x == u2.x) {
+    if (u1.y > u2.y) {
+      for (int i = u1.y; i != u2.y; --i) {
+        if (g_lines[i][u1.x] == 'x') {
+          return true;
+        }
+      }
+    } else {
+      for (int i = u1.y; i != u2.y; ++i) {
+        if (g_lines[i][u1.x] == 'x') {
+          return true;
+        }
+      }
+    }
+
+    return false;
+  }
+
+  double slope =
+      ((double)u1.y - (double)u2.y) / ((double)u1.x - (double)u2.x) * -1;
+  if (u1.x > u2.x) {
+    for (int x = u1.x; x != u2.x; --x) {
+      int y = (int)floor(slope * (double)x) + u1.y;
+      if (g_lines[y][x] == 'x') {
+        return true;
+      }
+    }
+  } else {
+    for (int x = u1.x; x != u2.x; ++x) {
+      int y = (int)floor(slope * (double)x) + u1.y;
+      if (g_lines[y][x] == 'x') {
+        return true;
+      }
+    }
+  }
+  return false;
 }
 
 int manhattan(Unit u1, Unit u2) { return abs(u1.x - u2.x) + abs(u1.y - u2.y); }
@@ -65,6 +106,7 @@ int main() {
     cin >> y;
     cin.ignore();
     lines[i] = y;
+    g_lines.push_back(y);
   }
 
   // game loop
@@ -141,7 +183,6 @@ int main() {
       move(leader.id, targetx, targety);
       continue;
     } else {
-      cerr << "leader is dead! " << endl;
       // leader dead!
     }
     cout << "WAIT" << endl;
