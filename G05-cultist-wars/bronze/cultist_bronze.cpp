@@ -86,6 +86,16 @@ int compare_manhattans(Unit u1, Unit u2) {
   return manhattan(leader, u1) < manhattan(leader, u2);
 }
 
+pair<int,int> getClosestEnemyD(Unit u) {
+  pair<int,int> closest(-1,7*13);
+  for (pair<int,int> p:u.d_2_enemies) {
+    if (p.second < closest.second) {
+      closest = p;
+    }
+  }
+  return closest;
+}
+
 int adjacent_neutral(Unit leader, vector<Unit> neutrals) {
   // -1 means no adjacent
   if (neutrals.empty()) return -1;
@@ -200,6 +210,26 @@ int main() {
       continue;
     } else {
       // leader dead!
+      // target closest enemy with soldiers
+      int cfi = -1;
+      int cei = -1;
+      int cd = 13*7;
+      for (Unit f:friendlies) {
+        pair<int,int> closest = getClosestEnemyD(f);
+        if (closest.second < cd) {
+          cd = closest.second;
+          cei = closest.first;
+          cfi = f.id;
+        }
+        if (f.d_2_e_leader < cd) {
+          cd = f.d_2_e_leader;
+          cfi = f.id;
+          cei = enemy_leader.id;
+        }
+      }
+      shoot(cfi, cei);
+      continue;
+      // unitId SHOOT targetId
     }
     cout << "WAIT" << endl;
   }
