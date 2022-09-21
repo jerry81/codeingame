@@ -226,11 +226,11 @@ int main() {
         continue;
       }
 
-      int targetx = my_id ? 12 : 0;
-      int targety = my_id ? 6 : 0;
-      move(leader.id, targetx, targety);
-      continue;
-    } else {
+      // int targetx = my_id ? 12 : 0;
+      // int targety = my_id ? 6 : 0;
+      // move(leader.id, targetx, targety);
+      // continue;
+    }
       // leader dead!
       // target closest enemy with soldiers
       int cfi = -1;
@@ -254,9 +254,9 @@ int main() {
           continue;
 
       }
-
-      // unitId SHOOT targetId
     }
+      // unitId SHOOT targetId
+
     cout << "WAIT" << endl;
-  }
+
 }

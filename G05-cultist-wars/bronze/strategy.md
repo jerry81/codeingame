@@ -28,6 +28,8 @@
 - leader may get stuck a lot
 - code to check
 
+- leader stuck improvement - move pawns if they are adjacent to leader and leader is stuck
+- use the obstacle method when trying to shoot
 ## TODO
 
 - review A* pathfinding - add this later
