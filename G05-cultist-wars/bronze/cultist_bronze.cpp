@@ -161,8 +161,24 @@ int main() {
       }
     }
 
-    // Write an action using cout. DON'T FORGET THE "<< endl"
-    // To debug: cerr << "Debug messages..." << endl;
+    // populate distances
+    /*
+      int d_2_leader;
+      int d_2_e_leader;
+      vector<pair<int,int>> d_2_enemies;
+    */
+    for (Unit friendly: friendlies) {
+      friendly.d_2_leader = manhattan(friendly, leader);
+      friendly.d_2_e_leader = manhattan(friendly, enemy_leader);
+      // transform(enemies.begin(), enemies.end(),
+      //   [](Unit u) {
+      //   }
+      // ); seems c++ transform more trouble than just for loop
+      for (Unit enemy: enemies) {
+        pair<int,int> distance_entry(enemy.id, manhattan(friendly, enemy));
+        friendly.d_2_enemies.push_back(distance_entry);
+      }
+    }
 
     // WAIT | unitId MOVE x y | unitId SHOOT target| unitId CONVERT target
     if (leader_alive) {
