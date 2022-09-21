@@ -28,16 +28,24 @@ unordered_map<int, Unit> units_map;
 
 Unit leader;  // global
 vector<string> g_lines;
+bool leader_moved = false;
 
 void move(int unit_id, int x, int y) {
+  if (leader.id == unit_id) {
+    leader_moved = true;
+  } else {
+    leader_moved = false;
+  }
   cout << unit_id << " MOVE " << x << " " << y << endl;
 }
 
 void shoot(int unit_id, int target_id) {
+  leader_moved = false;
   cout << unit_id << " SHOOT " << target_id << endl;
 }
 
 void convert(int unit_id, int target_id) {
+  leader_moved = false;
   cout << unit_id << " CONVERT " << target_id << endl;
 }
 
@@ -128,8 +136,9 @@ int main() {
 
   // game loop
   pair<int,int> prev_loc(-1,-1);
-  bool stuck = false;
+
   while (1) {
+    bool stuck = false;
     int num_of_units;  // The total number of units on the board
     cin >> num_of_units;
     cin.ignore();
@@ -157,11 +166,11 @@ int main() {
       if (u.type == 1) {
         if (u.owner == my_id) {
           leader = u;
-          if (prev_loc.first >= 0) {
-            if (u.x == prev_loc.first && u.y == prev_loc.second) {
-              stuck = true;
-            } else {
-              stuck = false;
+          if (leader_moved) {
+            if (prev_loc.first>=0) {
+              if (prev_loc.first == u.x && prev_loc.second == u.y) {
+                stuck = true;
+              }
             }
           }
           prev_loc.first = u.x;
