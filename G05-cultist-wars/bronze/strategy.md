@@ -25,6 +25,8 @@
 - improvement - no moves left or leader dead - use the pawns!
 - helper to find if path has obstacle
 - helper to find enemies in range
+- leader may get stuck a lot
+- code to check
 
 ## TODO
 

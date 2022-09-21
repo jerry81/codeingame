@@ -34,7 +34,7 @@ void move(int unit_id, int x, int y) {
 }
 
 void shoot(int unit_id, int target_id) {
-  cout << unit_id << " MOVE " << target_id << endl;
+  cout << unit_id << " SHOOT " << target_id << endl;
 }
 
 void convert(int unit_id, int target_id) {
