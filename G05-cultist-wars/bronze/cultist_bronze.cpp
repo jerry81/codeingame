@@ -201,7 +201,7 @@ int main() {
     }
 
     // WAIT | unitId MOVE x y | unitId SHOOT target| unitId CONVERT target
-    if (leader_alive) {
+    if (leader_alive && !stuck) {
       int neutral_id = adjacent_neutral(leader, neutrals);
       if (neutral_id > -1) {
         convert(leader.id, neutral_id);
@@ -237,8 +237,11 @@ int main() {
           cei = enemy_leader.id;
         }
       }
-      shoot(cfi, cei);
-      continue;
+      if (cfi > 0 && cei > 0) {
+        shoot(cfi, cei);
+        continue;
+      }
+
       // unitId SHOOT targetId
     }
     cout << "WAIT" << endl;
