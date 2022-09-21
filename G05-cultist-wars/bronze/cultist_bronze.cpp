@@ -196,16 +196,17 @@ int main() {
       int d_2_e_leader;
       vector<pair<int,int>> d_2_enemies;
     */
-    for (Unit friendly: friendlies) {
-      friendly.d_2_leader = manhattan(friendly, leader);
-      friendly.d_2_e_leader = manhattan(friendly, enemy_leader);
+    // for (Unit friendly: friendlies) { TIL: without pointer, this won't update
+    for (int i = 0; i < friendlies.size(); ++i) {
+      friendlies.at(i).d_2_leader = manhattan(friendlies.at(i), leader);
+      friendlies.at(i).d_2_e_leader = manhattan(friendlies.at(i), enemy_leader);
       // transform(enemies.begin(), enemies.end(),
       //   [](Unit u) {
       //   }
       // ); seems c++ transform more trouble than just for loop
       for (Unit enemy: enemies) {
-        pair<int,int> distance_entry(enemy.id, manhattan(friendly, enemy));
-        friendly.d_2_enemies.push_back(distance_entry);
+        pair<int,int> distance_entry(enemy.id, manhattan(friendlies.at(i), enemy));
+        friendlies.at(i).d_2_enemies.push_back(distance_entry);
       }
     }
 
