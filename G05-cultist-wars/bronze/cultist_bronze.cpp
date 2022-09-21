@@ -2,9 +2,9 @@
 #include <cmath>
 #include <iostream>
 #include <string>
-#include <vector>
 #include <unordered_map>
 #include <utility>
+#include <vector>
 
 using namespace std;
 
@@ -21,7 +21,7 @@ typedef struct Unit {
   int owner;
   int d_2_leader;
   int d_2_e_leader;
-  vector<pair<int,int>> d_2_enemies;
+  vector<pair<int, int>> d_2_enemies;
 } Unit;
 
 unordered_map<int, Unit> units_map;
@@ -94,9 +94,9 @@ int compare_manhattans(Unit u1, Unit u2) {
   return manhattan(leader, u1) < manhattan(leader, u2);
 }
 
-pair<int,int> getClosestEnemyD(Unit u) {
-  pair<int,int> closest(-1,7*13);
-  for (pair<int,int> p:u.d_2_enemies) {
+pair<int, int> getClosestEnemyD(Unit u) {
+  pair<int, int> closest(-1, 7 * 13);
+  for (pair<int, int> p : u.d_2_enemies) {
     if (p.second < closest.second) {
       closest = p;
     }
@@ -135,7 +135,7 @@ int main() {
   }
 
   // game loop
-  pair<int,int> prev_loc(-1,-1);
+  pair<int, int> prev_loc(-1, -1);
 
   while (1) {
     bool stuck = false;
@@ -168,7 +168,7 @@ int main() {
         if (u.owner == my_id) {
           leader = u;
           if (leader_moved) {
-            if (prev_loc.first>=0) {
+            if (prev_loc.first >= 0) {
               if (prev_loc.first == u.x && prev_loc.second == u.y) {
                 stuck = true;
               }
@@ -179,7 +179,7 @@ int main() {
           leader_alive = leader.hp > 0;
         } else {
           enemy_leader = u;
-          enemy_leader_alive =  enemy_leader.hp > 0;
+          enemy_leader_alive = enemy_leader.hp > 0;
         }
       } else {  // cultists
         if (u.owner == 2) {
@@ -206,8 +206,9 @@ int main() {
       //   [](Unit u) {
       //   }
       // ); seems c++ transform more trouble than just for loop
-      for (Unit enemy: enemies) {
-        pair<int,int> distance_entry(enemy.id, manhattan(friendlies.at(i), enemy));
+      for (Unit enemy : enemies) {
+        pair<int, int> distance_entry(enemy.id,
+                                      manhattan(friendlies.at(i), enemy));
         friendlies.at(i).d_2_enemies.push_back(distance_entry);
       }
     }
@@ -231,32 +232,30 @@ int main() {
       // move(leader.id, targetx, targety);
       // continue;
     }
-      // leader dead!
-      // target closest enemy with soldiers
-      int cfi = -1;
-      int cei = -1;
-      int cd = 13*7;
-      for (Unit f:friendlies) {
-        pair<int,int> closest = getClosestEnemyD(f);
-        if (closest.second < cd) {
-          cd = closest.second;
-          cei = closest.first;
-          cfi = f.id;
-        }
-        if (enemy_leader_alive && (f.d_2_e_leader < cd)) {
-          cd = f.d_2_e_leader;
-          cfi = f.id;
-          cei = enemy_leader.id;
-        }
+    // leader dead!
+    // target closest enemy with soldiers
+    int cfi = -1;
+    int cei = -1;
+    int cd = 13 * 7;
+    for (Unit f : friendlies) {
+      pair<int, int> closest = getClosestEnemyD(f);
+      if (closest.second < cd) {
+        cd = closest.second;
+        cei = closest.first;
+        cfi = f.id;
       }
-      if (cfi > 0 && cei > 0) {
-          shoot(cfi, cei);
-          continue;
-
+      if (enemy_leader_alive && (f.d_2_e_leader < cd)) {
+        cd = f.d_2_e_leader;
+        cfi = f.id;
+        cei = enemy_leader.id;
       }
     }
-      // unitId SHOOT targetId
-
+    if (cfi > 0 && cei > 0) {
+      shoot(cfi, cei);
+      continue;
+    }
     cout << "WAIT" << endl;
+  }
+  // unitId SHOOT targetId
 
 }
