@@ -127,6 +127,8 @@ int main() {
   }
 
   // game loop
+  pair<int,int> prev_loc(-1,-1);
+  bool stuck = false;
   while (1) {
     int num_of_units;  // The total number of units on the board
     cin >> num_of_units;
@@ -155,7 +157,15 @@ int main() {
       if (u.type == 1) {
         if (u.owner == my_id) {
           leader = u;
-
+          if (prev_loc.first >= 0) {
+            if (u.x == prev_loc.first && u.y == prev_loc.second) {
+              stuck = true;
+            } else {
+              stuck = false;
+            }
+          }
+          prev_loc.first = u.x;
+          prev_loc.second = u.y;
           leader_alive = leader.hp > 0;
         } else {
           enemy_leader = u;
