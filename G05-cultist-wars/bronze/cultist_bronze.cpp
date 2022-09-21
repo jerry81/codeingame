@@ -143,6 +143,7 @@ int main() {
     cin >> num_of_units;
     cin.ignore();
     Unit enemy_leader;
+    bool enemy_leader_alive = false;
     vector<Unit> neutrals;
     vector<Unit> friendlies;
     vector<Unit> enemies;
@@ -178,6 +179,7 @@ int main() {
           leader_alive = leader.hp > 0;
         } else {
           enemy_leader = u;
+          enemy_leader_alive =  enemy_leader.hp > 0;
         }
       } else {  // cultists
         if (u.owner == 2) {
@@ -241,15 +243,16 @@ int main() {
           cei = closest.first;
           cfi = f.id;
         }
-        if (f.d_2_e_leader < cd) {
+        if (enemy_leader_alive && (f.d_2_e_leader < cd)) {
           cd = f.d_2_e_leader;
           cfi = f.id;
           cei = enemy_leader.id;
         }
       }
       if (cfi > 0 && cei > 0) {
-        shoot(cfi, cei);
-        continue;
+          shoot(cfi, cei);
+          continue;
+
       }
 
       // unitId SHOOT targetId
