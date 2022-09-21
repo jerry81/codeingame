@@ -250,7 +250,7 @@ int main() {
         cei = enemy_leader.id;
       }
     }
-    if (cfi > 0 && cei > 0) {
+    if (cfi >= 0 && cei >= 0) {
       shoot(cfi, cei);
       continue;
     }
