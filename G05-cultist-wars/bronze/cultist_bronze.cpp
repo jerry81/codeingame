@@ -50,30 +50,39 @@ void convert(int unit_id, int target_id) {
 }
 
 bool path_has_obstacle(Unit u1, Unit u2) {
+  cerr << "calc path obstacle from " << u1.id << " to " << u2.id << endl;
   if (u1.x == u2.x) {
     if (u1.y > u2.y) {
       for (int i = u1.y; i != u2.y; --i) {
         if (g_lines[i][u1.x] == 'x') {
+          cerr << "end calc path obstacle" << endl;
           return true;
         }
       }
     } else {
       for (int i = u1.y; i != u2.y; ++i) {
         if (g_lines[i][u1.x] == 'x') {
+          cerr << "end calc path obstacle" << endl;
           return true;
         }
       }
     }
-
+cerr << "end calc path obstacle" << endl;
     return false;
   }
 
   double slope =
-      ((double)u1.y - (double)u2.y) / ((double)u1.x - (double)u2.x) * -1;
+      (((double)u1.y - (double)u2.y) / ((double)u1.x - (double)u2.x)) * -1;
+  cerr << "slope is " << slope << endl;
   if (u1.x > u2.x) {
+    cerr << "u2 x " << u2.x << endl;
+    cerr << "u1 x " << u1.x << endl;
     for (int x = u1.x; x != u2.x; --x) {
+      cerr << " x is " << x << endl;
       int y = (int)floor(slope * (double)x) + u1.y;
-      if (g_lines[y][x] == 'x') {
+      cerr << "y is " << y << endl;
+      if (g_lines[y][x] == 'x') { // negative number discovered here, it will break
+        cerr << "end calc path obstacle" << endl;
         return true;
       }
     }
@@ -81,10 +90,12 @@ bool path_has_obstacle(Unit u1, Unit u2) {
     for (int x = u1.x; x != u2.x; ++x) {
       int y = (int)floor(slope * (double)x) + u1.y;
       if (g_lines[y][x] == 'x') {
+        cerr << "end calc path obstacle" << endl;
         return true;
       }
     }
   }
+  cerr << "end calc path obstacle" << endl;
   return false;
 }
 
@@ -99,6 +110,7 @@ pair<int, int> getClosestEnemyD(Unit u) {
   for (pair<int, int> p : u.d_2_enemies) {
     if (p.second < closest.second) {
       if (!path_has_obstacle(u, units_map[closest.first])) { // this doesn't work yet it seems
+        cerr << "no obstacle between " << u.id << " and " << closest.first << endl;
         closest = p;
       }
     }
@@ -246,18 +258,23 @@ int main() {
     int cei = -1;
     int cd = 13 * 7;
     for (Unit f : friendlies) {
+      cerr << "analyzing friendly " << endl;
       pair<int, int> closest = getClosestEnemyD(f);
+      cerr << "closest " << closest.first << endl;
       if (closest.second < cd) {
         cd = closest.second;
         cei = closest.first;
         cfi = f.id;
       }
-      if (enemy_leader_alive && (f.d_2_e_leader < cd)) {
+      cerr << "analyze enemy leader " << endl;
+      if (enemy_leader_alive && (f.d_2_e_leader < cd) && !path_has_obstacle(f,enemy_leader)) {
         cd = f.d_2_e_leader;
         cfi = f.id;
         cei = enemy_leader.id;
       }
+      cerr << "enemy leader analyzed " << endl;
     }
+    cerr << "cfi is " << cfi << " and cei is " << cei << endl;
     if (cfi >= 0 && cei >= 0) {
       shoot(cfi, cei);
       continue;
