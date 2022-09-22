@@ -109,10 +109,7 @@ pair<int, int> getClosestEnemyD(Unit u) {
   pair<int, int> closest(-1, 7 * 13);
   for (pair<int, int> p : u.d_2_enemies) {
     if (p.second < closest.second) {
-      if (!path_has_obstacle(u, units_map[closest.first])) { // this doesn't work yet it seems
-        cerr << "no obstacle between " << u.id << " and " << closest.first << endl;
         closest = p;
-      }
     }
   }
   return closest;
@@ -267,7 +264,7 @@ int main() {
         cfi = f.id;
       }
       cerr << "analyze enemy leader " << endl;
-      if (enemy_leader_alive && (f.d_2_e_leader < cd) && !path_has_obstacle(f,enemy_leader)) {
+      if (enemy_leader_alive && (f.d_2_e_leader < cd)) {
         cd = f.d_2_e_leader;
         cfi = f.id;
         cei = enemy_leader.id;
