@@ -98,7 +98,9 @@ pair<int, int> getClosestEnemyD(Unit u) {
   pair<int, int> closest(-1, 7 * 13);
   for (pair<int, int> p : u.d_2_enemies) {
     if (p.second < closest.second) {
-      closest = p;
+      if (!path_has_obstacle(u, units_map[closest.first])) {
+        closest = p;
+      }
     }
   }
   return closest;
@@ -164,6 +166,7 @@ int main() {
       u.x = x;
       u.y = y;
       u.owner = owner;
+      units_map[unit_id] = u;
       if (u.type == 1) {
         if (u.owner == my_id) {
           leader = u;
@@ -200,8 +203,12 @@ int main() {
     */
     // for (Unit friendly: friendlies) { TIL: without pointer, this won't update
     for (int i = 0; i < friendlies.size(); ++i) {
-      friendlies.at(i).d_2_leader = manhattan(friendlies.at(i), leader);
-      friendlies.at(i).d_2_e_leader = manhattan(friendlies.at(i), enemy_leader);
+      int m_dist_l = manhattan(friendlies.at(i), leader);
+      int m_dist_e_l = manhattan(friendlies.at(i), enemy_leader);
+      friendlies.at(i).d_2_leader = m_dist_l;
+      friendlies.at(i).d_2_e_leader = m_dist_e_l;
+      units_map[friendlies.at(i).id].d_2_leader = m_dist_l;
+      units_map[friendlies.at(i).id].d_2_e_leader = m_dist_e_l;
       // transform(enemies.begin(), enemies.end(),
       //   [](Unit u) {
       //   }
@@ -210,6 +217,7 @@ int main() {
         pair<int, int> distance_entry(enemy.id,
                                       manhattan(friendlies.at(i), enemy));
         friendlies.at(i).d_2_enemies.push_back(distance_entry);
+        units_map[friendlies.at(i).id].d_2_enemies.push_back(distance_entry);
       }
     }
 
