@@ -98,7 +98,7 @@ pair<int, int> getClosestEnemyD(Unit u) {
   pair<int, int> closest(-1, 7 * 13);
   for (pair<int, int> p : u.d_2_enemies) {
     if (p.second < closest.second) {
-      if (!path_has_obstacle(u, units_map[closest.first])) {
+      if (!path_has_obstacle(u, units_map[closest.first])) { // this doesn't work yet it seems
         closest = p;
       }
     }
