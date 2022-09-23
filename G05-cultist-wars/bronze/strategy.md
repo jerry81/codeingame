@@ -31,6 +31,13 @@
 - leader stuck improvement - move pawns if they are adjacent to leader and leader is stuck
 - use the obstacle method when trying to shoot
 - use a* to find paths and replace move directly to a far target to move to next available square calculated from a* (taking into consideration friendlies and enemies)
+
+- incorporate obstacles in shooting
+- incorporate range into shooting
+
+- try prioritizing shooting
+
+- (holistic) - move cultists "forward" (ahead of leader) - obstacles complicate this
 ## TODO
 
 - review A* pathfinding - add this later
