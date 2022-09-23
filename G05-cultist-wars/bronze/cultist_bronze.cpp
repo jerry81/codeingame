@@ -67,32 +67,24 @@ bool path_has_obstacle(Unit u1, Unit u2) {
         }
       }
     }
-cerr << "end calc path obstacle" << endl;
+    cerr << "end calc path obstacle" << endl;
     return false;
   }
-
+  // slope depends on which is relatively left
+  Unit left;
+  Unit right;
+  bool u1_left = u1.x < u2.x;
+  left = u1_left ? u1 : u2;
+  right = u1_left ? u2 : u1;
   double slope =
-      (((double)u1.y - (double)u2.y) / ((double)u1.x - (double)u2.x)) * -1;
+      (((double)right.y - (double)left.y) / ((double)right.x - (double)left.x));
   cerr << "slope is " << slope << endl;
-  if (u1.x > u2.x) {
-    cerr << "u2 x " << u2.x << endl;
-    cerr << "u1 x " << u1.x << endl;
-    for (int x = u1.x; x != u2.x; --x) {
-      cerr << " x is " << x << endl;
-      int y = (int)floor(slope * (double)x) + u1.y;
-      cerr << "y is " << y << endl;
-      if (g_lines[y][x] == 'x') { // negative number discovered here, it will break
-        cerr << "end calc path obstacle" << endl;
-        return true;
-      }
-    }
-  } else {
-    for (int x = u1.x; x != u2.x; ++x) {
-      int y = (int)floor(slope * (double)x) + u1.y;
-      if (g_lines[y][x] == 'x') {
-        cerr << "end calc path obstacle" << endl;
-        return true;
-      }
+  for (int x = left.x; x != right.x; ++x) {
+    int y = (int)floor(slope * (double)x) + left.y;
+    if (g_lines[y][x] ==
+        'x') {  // negative number discovered here, it will break
+      cerr << "end calc path obstacle" << endl;
+      return true;
     }
   }
   cerr << "end calc path obstacle" << endl;
@@ -109,7 +101,7 @@ pair<int, int> getClosestEnemyD(Unit u) {
   pair<int, int> closest(-1, 7 * 13);
   for (pair<int, int> p : u.d_2_enemies) {
     if (p.second < closest.second) {
-        closest = p;
+      closest = p;
     }
   }
   return closest;
@@ -226,9 +218,11 @@ int main() {
       for (Unit enemy : enemies) {
         pair<int, int> distance_entry(enemy.id,
                                       manhattan(friendlies.at(i), enemy));
-        fprintf(stderr, "calculating friendly %d to enemy %d\n", friendlies.at(i).id, enemy.id);
+        fprintf(stderr, "calculating friendly %d to enemy %d\n",
+                friendlies.at(i).id, enemy.id);
         bool obs = path_has_obstacle(friendlies.at(i), enemy);
-        fprintf(stderr, "friendly %d to enemy %d is %d\n", friendlies.at(i).id, enemy.id, obs);
+        fprintf(stderr, "friendly %d to enemy %d is %d\n", friendlies.at(i).id,
+                enemy.id, obs);
         friendlies.at(i).d_2_enemies.push_back(distance_entry);
         units_map[friendlies.at(i).id].d_2_enemies.push_back(distance_entry);
       }
@@ -283,5 +277,4 @@ int main() {
     cout << "WAIT" << endl;
   }
   // unitId SHOOT targetId
-
 }
