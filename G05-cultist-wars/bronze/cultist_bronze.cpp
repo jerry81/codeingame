@@ -79,8 +79,10 @@ bool path_has_obstacle(Unit u1, Unit u2) {
   double slope =
       (((double)right.y - (double)left.y) / ((double)right.x - (double)left.x));
   cerr << "slope is " << slope << endl;
-  for (int x = left.x; x != right.x; ++x) {
+  for (int x = 1; x < (right.x - left.x); ++x) {
+    cerr << "left.y " << left.y << endl;
     int y = (int)floor(slope * (double)x) + left.y;
+    fprintf(stderr, "y is %d x is %d\n", y, x);
     if (g_lines[y][x] ==
         'x') {  // negative number discovered here, it will break
       cerr << "end calc path obstacle" << endl;
