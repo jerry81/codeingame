@@ -218,6 +218,7 @@ int main() {
       friendlies.at(i).d_2_e_leader = m_dist_e_l;
       units_map[friendlies.at(i).id].d_2_leader = m_dist_l;
       units_map[friendlies.at(i).id].d_2_e_leader = m_dist_e_l;
+
       // transform(enemies.begin(), enemies.end(),
       //   [](Unit u) {
       //   }
@@ -225,6 +226,9 @@ int main() {
       for (Unit enemy : enemies) {
         pair<int, int> distance_entry(enemy.id,
                                       manhattan(friendlies.at(i), enemy));
+        fprintf(stderr, "calculating friendly %d to enemy %d\n", friendlies.at(i).id, enemy.id);
+        bool obs = path_has_obstacle(friendlies.at(i), enemy);
+        fprintf(stderr, "friendly %d to enemy %d is %d\n", friendlies.at(i).id, enemy.id, obs);
         friendlies.at(i).d_2_enemies.push_back(distance_entry);
         units_map[friendlies.at(i).id].d_2_enemies.push_back(distance_entry);
       }
