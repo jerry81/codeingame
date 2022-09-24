@@ -19,6 +19,9 @@
 ## TODO
 
 - review A* pathfinding - add this later
+- still need to fix the path
+  - vertical attacks dont work (slope > 1)
+
 
 ## Done
 
