@@ -50,24 +50,20 @@ void convert(int unit_id, int target_id) {
 }
 
 bool path_has_obstacle(Unit u1, Unit u2) {
-  cerr << "calc path obstacle from " << u1.id << " to " << u2.id << endl;
   if (u1.x == u2.x) {
     if (u1.y > u2.y) {
       for (int i = u1.y; i != u2.y; --i) {
         if (g_lines[i][u1.x] == 'x') {
-          cerr << "end calc path obstacle" << endl;
           return true;
         }
       }
     } else {
       for (int i = u1.y; i != u2.y; ++i) {
         if (g_lines[i][u1.x] == 'x') {
-          cerr << "end calc path obstacle" << endl;
           return true;
         }
       }
     }
-    cerr << "end calc path obstacle" << endl;
     return false;
   }
   // slope depends on which is relatively left
@@ -78,18 +74,13 @@ bool path_has_obstacle(Unit u1, Unit u2) {
   right = u1_left ? u2 : u1;
   double slope =
       (((double)right.y - (double)left.y) / ((double)right.x - (double)left.x));
-  cerr << "slope is " << slope << endl;
   for (int x = 1; x < (right.x - left.x); ++x) {
-    cerr << "left.y " << left.y << endl;
     int y = (int)floor(slope * (double)x) + left.y;
-    fprintf(stderr, "y is %d x is %d\n", y, x);
     if (g_lines[y][x] ==
         'x') {  // negative number discovered here, it will break
-      cerr << "end calc path obstacle" << endl;
       return true;
     }
   }
-  cerr << "end calc path obstacle" << endl;
   return false;
 }
 
@@ -220,27 +211,25 @@ int main() {
       for (Unit enemy : enemies) {
         pair<int, int> distance_entry(enemy.id,
                                       manhattan(friendlies.at(i), enemy));
-        fprintf(stderr, "calculating friendly %d to enemy %d\n",
-                friendlies.at(i).id, enemy.id);
         bool obs = path_has_obstacle(friendlies.at(i), enemy);
-        fprintf(stderr, "friendly %d to enemy %d is %d\n", friendlies.at(i).id,
-                enemy.id, obs);
-        friendlies.at(i).d_2_enemies.push_back(distance_entry);
-        units_map[friendlies.at(i).id].d_2_enemies.push_back(distance_entry);
+        fprintf(stderr, "obstacle from %d to %d is %d\n", friendlies.at(i).id, enemy.id, obs);
+        if (!obs) {
+          friendlies.at(i).d_2_enemies.push_back(distance_entry);
+          units_map[friendlies.at(i).id].d_2_enemies.push_back(distance_entry);
+        }
       }
     }
 
-    // WAIT | unitId MOVE x y | unitId SHOOT target| unitId CONVERT target
     if (leader_alive && !stuck) {
       int neutral_id = adjacent_neutral(leader, neutrals);
       if (neutral_id > -1) {
-        convert(leader.id, neutral_id);
+        convert(leader.id, neutral_id); // 1.  convert adjacent
         continue;
       }
 
       if (!neutrals.empty()) {
         sort(neutrals.begin(), neutrals.end(), compare_manhattans);
-        move(leader.id, neutrals.front().x, neutrals.front().y);
+        move(leader.id, neutrals.front().x, neutrals.front().y); // 2.  move to closest neutral
         continue;
       }
 
@@ -255,23 +244,18 @@ int main() {
     int cei = -1;
     int cd = 13 * 7;
     for (Unit f : friendlies) {
-      cerr << "analyzing friendly " << endl;
       pair<int, int> closest = getClosestEnemyD(f);
-      cerr << "closest " << closest.first << endl;
       if (closest.second < cd) {
         cd = closest.second;
         cei = closest.first;
         cfi = f.id;
       }
-      cerr << "analyze enemy leader " << endl;
-      if (enemy_leader_alive && (f.d_2_e_leader < cd)) {
+      if (enemy_leader_alive && (f.d_2_e_leader < cd) && !path_has_obstacle(f,enemy_leader)) {
         cd = f.d_2_e_leader;
         cfi = f.id;
         cei = enemy_leader.id;
       }
-      cerr << "enemy leader analyzed " << endl;
     }
-    cerr << "cfi is " << cfi << " and cei is " << cei << endl;
     if (cfi >= 0 && cei >= 0) {
       shoot(cfi, cei);
       continue;
