@@ -78,7 +78,6 @@ bool path_has_obstacle(Unit u1, Unit u2) {
     int y = (int)floor(slope * (double)x) + left.y;
     if (g_lines[y][x+left.x] ==
         'x') {
-      fprintf(stderr, "obstacle detected at %d,%d in path from %d to %d\n", y,x,u1.id,u2.id);
       return true;
     }
   }
@@ -213,7 +212,6 @@ int main() {
         pair<int, int> distance_entry(enemy.id,
                                       manhattan(friendlies.at(i), enemy));
         bool obs = path_has_obstacle(friendlies.at(i), enemy);
-        fprintf(stderr, "obstacle from %d to %d is %d\n", friendlies.at(i).id, enemy.id, obs);
         if (!obs) {
           friendlies.at(i).d_2_enemies.push_back(distance_entry);
           units_map[friendlies.at(i).id].d_2_enemies.push_back(distance_entry);
