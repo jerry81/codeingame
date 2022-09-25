@@ -76,8 +76,8 @@ bool path_has_obstacle(Unit u1, Unit u2) {
       (((double)right.y - (double)left.y) / ((double)right.x - (double)left.x));
   if (abs(slope) <= 1) {
     for (int x = 1; x < (right.x - left.x); ++x) {
-      int y = (int)floor(slope * (double)x) + left.y;
-      if (g_lines[y][x+left.x] ==
+      int dy = (int)floor(slope * (double)x);
+      if (g_lines[dy + left.y][x+left.x] ==
           'x') {
         return true;
       }
