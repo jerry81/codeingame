@@ -76,7 +76,7 @@ bool path_has_obstacle(Unit u1, Unit u2) {
       (((double)right.y - (double)left.y) / ((double)right.x - (double)left.x));
   if (abs(slope) <= 1) {
     for (int x = 1; x < (right.x - left.x); ++x) {
-      int y = (int)floor(slope * (double)x) + left.y;
+      int y = (int)round(slope * (double)x) + left.y;
       if (g_lines[y][x+left.x] ==
           'x') {
         return true;
@@ -91,7 +91,7 @@ bool path_has_obstacle(Unit u1, Unit u2) {
       // y = mx + b
       // x = y - b / m
       for (int y = 1; y < (bot.y - top.y); ++y) {
-      int dx = (int)floor((double)y / slope);
+      int dx = (int)round((double)y / slope);
       if (g_lines[y+top.y][top.x + dx] ==
           'x') {
         return true;
