@@ -42,7 +42,17 @@ int main()
     cerr << "len is " << line_1.length() << endl;
     int len = line_1.length() / 3;
     for (int i = 0; i < len; ++i) {
-
+      int startx = i * 3;
+      int x2 = startx + 1;
+      int x3 = startx + 2;
+      if (line_2[startx] == '|') {
+        if (line_3[startx] == '|') {
+          if (line_2[x3] != '|') {
+            // this is a 6
+            cerr << "six detected at " << startx << endl;
+          }
+        }
+      }
     }
 
     // Write an answer using cout. DON'T FORGET THE "<< endl"
