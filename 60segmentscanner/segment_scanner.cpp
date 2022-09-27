@@ -69,6 +69,15 @@ int main()
             }
           }
         }
+      } else {
+        // 1, 2, 3, 7
+        if (line_3[x3] == '|') {
+          // 1, 3, 7
+
+        } else {
+          // 2
+          cerr << "2 discovered at " << startx << endl;
+        }
       }
     }
 
