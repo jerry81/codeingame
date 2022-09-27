@@ -57,6 +57,17 @@ int main()
               cerr << " zero detected " << startx << endl;
             }
           }
+        } else {
+          // 4,5,9
+          if (line_2[x3] != '|') {
+            cerr << "5 detected at " << startx << endl;
+          } else {
+            if (line_1[x2] == '_') {
+              cerr << "9 discovered at " << startx << endl;
+            } else {
+              cerr << "4 discovered at " << startx << endl;
+            }
+          }
         }
       }
     }
