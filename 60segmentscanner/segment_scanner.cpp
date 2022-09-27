@@ -39,6 +39,7 @@ int main()
     getline(cin, line_2);
     string line_3;
     getline(cin, line_3);
+    string outp = "";
     cerr << "len is " << line_1.length() << endl;
     int len = line_1.length() / 3;
     for (int i = 0; i < len; ++i) {
@@ -49,23 +50,29 @@ int main()
         if (line_3[startx] == '|') {
           if (line_2[x3] != '|') {
             // this is a 6
+            outp += '6';
             cerr << "six detected at " << startx << endl;
           } else {
             if (line_2[x2] == '_') {
               cerr << " eight detected at " << startx << endl;
+              outp += '8';
             } else {
               cerr << " zero detected " << startx << endl;
+              outp += '0';
             }
           }
         } else {
           // 4,5,9
           if (line_2[x3] != '|') {
             cerr << "5 detected at " << startx << endl;
+            outp += '5';
           } else {
             if (line_1[x2] == '_') {
               cerr << "9 discovered at " << startx << endl;
+              outp += '9';
             } else {
               cerr << "4 discovered at " << startx << endl;
+              outp += '4';
             }
           }
         }
@@ -73,10 +80,23 @@ int main()
         // 1, 2, 3, 7
         if (line_3[x3] == '|') {
           // 1, 3, 7
-
+          if (line_1[x2] == '_') {
+            if (line_2[x2] == '_') {
+              cerr << "3 discovered at " << startx << endl;
+              outp += '3';
+            } else {
+              cerr << " 7 discovered at " << startx << endl;
+              outp += '7';
+            }
+          } else {
+            // 1
+            cerr << "1 discovered at " << startx << endl;
+            outp += '1';
+          }
         } else {
           // 2
           cerr << "2 discovered at " << startx << endl;
+          outp += '2';
         }
       }
     }
@@ -84,5 +104,5 @@ int main()
     // Write an answer using cout. DON'T FORGET THE "<< endl"
     // To debug: cerr << "Debug messages..." << endl;
 
-    cout << "number" << endl;
+    cout << outp << endl;
 }
