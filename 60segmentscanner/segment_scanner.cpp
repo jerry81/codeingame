@@ -50,6 +50,12 @@ int main()
           if (line_2[x3] != '|') {
             // this is a 6
             cerr << "six detected at " << startx << endl;
+          } else {
+            if (line_2[x2] == '_') {
+              cerr << " eight detected at " << startx << endl;
+            } else {
+              cerr << " zero detected " << startx << endl;
+            }
           }
         }
       }
