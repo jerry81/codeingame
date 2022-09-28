@@ -62,7 +62,9 @@ int main() {
   string b_card;
   int b_ace = 0;
   int b_sum = 0;
+  int b_count = 0;
   while (getline(ss, b_card, ' ')) {
+    ++b_count;
     cerr << "bank card is " << b_card << endl;
     if (b_card.length() == 1) {
       if (isdigit(b_card[0])) {
@@ -85,7 +87,9 @@ int main() {
   string p_card;
   int p_ace = 0;
   int p_sum = 0;
+  int p_count = 0;
   while (getline(ss2, p_card, ' ')) {
+    ++p_count;
     cerr << "player card is " << p_card << endl;
     cerr << "length is " << p_card.length() << endl;
     if (p_card.length() == 1) {
@@ -124,17 +128,17 @@ int main() {
       p_sum += 1;
     }
   }
-  if (p_sum == 21 && b_sum != 21) {
+  bool player_blackjack = p_sum == 21 && p_count == 2;
+  bool bank_blackjack = b_sum == 21 && b_count == 2;
+  if (player_blackjack && !bank_blackjack) {
     cout << "Blackjack!" << endl;
+  } else if (player_blackjack && bank_blackjack) {
+    cout << "Draw" << endl;
   } else if (p_sum <= 21 && p_sum > b_sum) {
     cout << "Player" << endl;
   } else if (p_sum > 21) {
     // bust
-    if (b_sum > 21) {
-      cout << "Draw" << endl;
-    } else {
       cout << "Bank" << endl;
-    }
   } else if (b_sum > 21) {
     if (p_sum > 21) {
       cout << "Draw" << endl;
