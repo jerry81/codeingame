@@ -60,6 +60,7 @@ int main() {
   // step 1: split
   stringstream ss(bank_cards);
   string b_card;
+  int b_ace = 0;
   int b_sum = 0;
   while (getline(ss, b_card, ' ')) {
     cerr << "bank card is " << b_card << endl;
@@ -68,7 +69,7 @@ int main() {
         b_sum += (b_card[0] - '0');
       } else {
       if (b_card[0] == 'A') {
-
+          b_ace += 1;
         } else {
         // J Q K
           b_sum += 10;
@@ -82,6 +83,7 @@ int main() {
 
   stringstream ss2(player_cards);
   string p_card;
+  int p_ace = 0;
   int p_sum = 0;
   while (getline(ss2, p_card, ' ')) {
     cerr << "player card is " << p_card << endl;
@@ -92,7 +94,7 @@ int main() {
       } else {
         // A
         if (p_card[0] == 'A') {
-
+          p_ace += 1;
         } else {
         // J Q K
           p_sum += 10;
@@ -104,9 +106,24 @@ int main() {
   }
 
   cerr << "player total is " << p_sum << endl;
-  // Write an answer using cout. DON'T FORGET THE "<< endl"
-  // To debug: cerr << "Debug messages..." << endl;
+  // optimize aces
+  while (b_ace > 0) {
+    --b_ace;
+    if (b_sum + b_ace + 11 <= 21) {
+      b_sum += 11;
+    } else {
+      b_sum += 1;
+    }
+  }
 
+  while (p_ace > 0) {
+    --p_ace;
+    if (p_sum + p_ace + 11 <= 21) {
+      p_sum += 11;
+    } else {
+      p_sum += 1;
+    }
+  }
   if (p_sum == 21 && b_sum != 21) {
     cout << "Blackjack!" << endl;
   } else if (p_sum <= 21 && p_sum > b_sum) {
