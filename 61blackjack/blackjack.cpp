@@ -66,7 +66,16 @@ int main() {
     if (b_card.length() == 1) {
       if (isdigit(b_card[0])) {
         b_sum += (b_card[0] - '0');
+      } else {
+      if (b_card[0] == 'A') {
+
+        } else {
+        // J Q K
+          b_sum += 10;
+        }
       }
+    } else {
+      b_sum += 10;
     }
   }
   cerr << "bank total is " << b_sum << endl;
@@ -80,7 +89,17 @@ int main() {
     if (p_card.length() == 1) {
       if (isdigit(p_card[0])) {
         p_sum += (p_card[0] - '0');
+      } else {
+        // A
+        if (p_card[0] == 'A') {
+
+        } else {
+        // J Q K
+          p_sum += 10;
+        }
       }
+    } else {
+      p_sum += 10;
     }
   }
 
@@ -92,5 +111,22 @@ int main() {
     cout << "Blackjack!" << endl;
   } else if (p_sum <= 21 && p_sum > b_sum) {
     cout << "Player" << endl;
+  } else if (p_sum > 21) {
+    // bust
+    if (b_sum > 21) {
+      cout << "Draw" << endl;
+    } else {
+      cout << "Bank" << endl;
+    }
+  } else if (b_sum > 21) {
+    if (p_sum > 21) {
+      cout << "Draw" << endl;
+    } else {
+      cout << "Player" << endl;
+    }
+  } else if (b_sum <= 21 && b_sum > p_sum) {
+    cout << "Bank" << endl;
+  } else {
+    cout << "Draw" << endl;
   }
 }
