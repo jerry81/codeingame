@@ -88,5 +88,9 @@ int main() {
   // Write an answer using cout. DON'T FORGET THE "<< endl"
   // To debug: cerr << "Debug messages..." << endl;
 
-  cout << "Blackjack!" << endl;
+  if (p_sum == 21 && b_sum != 21) {
+    cout << "Blackjack!" << endl;
+  } else if (p_sum <= 21 && p_sum > b_sum) {
+    cout << "Player" << endl;
+  }
 }
