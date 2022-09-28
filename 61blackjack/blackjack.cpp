@@ -34,6 +34,7 @@ Player
 #include <string>
 #include <vector>
 #include <algorithm>
+#include <sstream>
 
 using namespace std;
 
@@ -48,6 +49,13 @@ int main()
     getline(cin, bank_cards);
     string player_cards;
     getline(cin, player_cards);
+
+    // step 1: split
+    stringstream ss(bank_cards);
+    string b_card;
+    while (getline(ss,b_card, ' ')) {
+      cerr << "bank card is " << b_card << endl;
+    }
 
     // Write an answer using cout. DON'T FORGET THE "<< endl"
     // To debug: cerr << "Debug messages..." << endl;
