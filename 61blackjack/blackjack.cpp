@@ -53,9 +53,14 @@ int main()
     // step 1: split
     stringstream ss(bank_cards);
     string b_card;
+    int b_sum = 0;
     while (getline(ss,b_card, ' ')) {
       cerr << "bank card is " << b_card << endl;
+      if (isdigit(b_card[0])) {
+        b_sum+=(b_card[0] - '0');
+      }
     }
+    cerr << "bank total is " << b_sum << endl;
 
     // Write an answer using cout. DON'T FORGET THE "<< endl"
     // To debug: cerr << "Debug messages..." << endl;
