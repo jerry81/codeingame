@@ -64,6 +64,18 @@ Point right(Point c, string grid[]);
 Point up(Point c, string grid[]);
 Point down(Point c, string grid[]);
 
+Point left(Point c, string grid[]) {
+  cur_d = 3;
+  int x = c.x;
+  if (x <= 0) return up(c, grid);
+
+  if (grid[c.y][x-1] == '#') return up(c,grid);
+
+  Point next;
+  next.y = c.y;
+  next.x = x-1;
+  return next;
+}
 
 Point down(Point c, string grid[]) {
   cur_d = 2;
@@ -75,19 +87,6 @@ Point down(Point c, string grid[]) {
   Point next;
   next.y = y+1;
   next.x = c.x;
-  return next;
-}
-
-Point left(Point c, string grid[]) {
-  cur_d = 3;
-  int x = c.x;
-  if (x <= 0) return up(c, grid);
-
-  if (grid[c.y][x-1] == '#') return up(c,grid);
-
-  Point next;
-  next.y = c.y;
-  next.x = x-1;
   return next;
 }
 
@@ -152,7 +151,7 @@ int main()
     }
 
     for (int i = 0; i < n; ++i) {
-      move(start,grid);
+      start = move(start,grid);
     }
 
 
