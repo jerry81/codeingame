@@ -154,14 +154,22 @@ int main()
     }
 
     int period = -1;
+    int remainder = -1;
     for (int i = 0; i < n; ++i) {
       start = move(start,grid);
       if (start.x == i_x && start.y == i_y && cur_d == 0) {
-         cerr << "period is " << period << endl;
         if (period == -1) {
           period = i;
-
+          remainder = n % period;
+          break;
         }
+      }
+    }
+
+    if (period > -1) {
+      cerr << "period detected " << period << "remainder " << remainder << endl;
+      for (int i = 0; i < remainder+1; ++i) {
+        start = move(start,grid);
       }
     }
 
