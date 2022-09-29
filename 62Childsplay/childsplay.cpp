@@ -53,16 +53,32 @@ using namespace std;
  * the standard input according to the problem statement.
  **/
 
+struct Point {
+  int x;
+  int y;
+};
 int main()
 {
     int w;
     int h;
+
     cin >> w >> h; cin.ignore();
+    // init grid
+    string grid[h];
+    Point start;
     long long n;
     cin >> n; cin.ignore();
     for (int i = 0; i < h; i++) {
         string line;
         getline(cin, line);
+        grid[i] = line;
+        for (int j = 0; j < w; j++) {
+          if (line[j] == 'O') {
+            cerr << "start found " << endl;
+            start.x = j;
+            start.y = i;
+          }
+        }
     }
 
     // Write an answer using cout. DON'T FORGET THE "<< endl"
