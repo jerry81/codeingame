@@ -57,15 +57,81 @@ struct Point {
   int x;
   int y;
 };
+int g_w,g_h;
+int cur_d = 0;
+Point left(Point c, string grid[]);
+Point right(Point c, string grid[]);
+Point up(Point c, string grid[]);
+Point down(Point c, string grid[]);
+
+Point left(Point c, string grid[]) {
+  int x = c.x;
+  if (x <= 0) return up(c, grid);
+
+  if (grid[c.y][x-1] == '#') return up(c,grid);
+
+  Point next;
+  next.y = c.y;
+  next.x = x-1;
+  return next;
+}
+
+Point right(Point c, string grid[]) {
+  int x = c.x;
+  if (x >= g_w-1) return down(c, grid);
+
+  if (grid[c.y][x+1] == '#') return down(c,grid);
+
+  Point next;
+  next.y = c.y;
+  next.x = x+1;
+  return next;
+}
+
+Point up(Point c, string grid[]) {
+  int y = c.y;
+  if (y <= 0) return right(c, grid);
+
+  if (grid[y-1][c.x] == '#') return right(c,grid);
+
+  Point next;
+  next.y = y-1;
+  next.x = c.x;
+  return next;
+}
+
+Point down(Point c, string grid[], int w, int h) {
+  int y = c.y;
+  if (y >= (g_w - 1)) return left(c, grid);
+
+  if (grid[y+1][c.x] == '#') return left(c,grid);
+
+  Point next;
+  next.y = y+1;
+  next.x = c.x;
+  return next;
+}
+
+Point move(Point c, string grid[]) {
+  switch (cur_d) {
+    case 0: return up(c,grid);
+    case 1: return right(c,grid);
+    case 2: return down(c,grid);
+    default: return left(c,grid);
+  }
+}
+
 int main()
 {
     int w;
     int h;
 
     cin >> w >> h; cin.ignore();
+    g_w = w;
+    g_h = h;
     // init grid
     string grid[h];
-    Point start;
+    Point start; // 0 u 1 r 2 d 3 l
     long long n;
     cin >> n; cin.ignore();
     for (int i = 0; i < h; i++) {
@@ -74,12 +140,16 @@ int main()
         grid[i] = line;
         for (int j = 0; j < w; j++) {
           if (line[j] == 'O') {
-            cerr << "start found " << endl;
             start.x = j;
             start.y = i;
           }
         }
     }
+
+    for (int i = 0; i < n; ++i) {
+      move(start,grid);
+    }
+
 
     // Write an answer using cout. DON'T FORGET THE "<< endl"
     // To debug: cerr << "Debug messages..." << endl;
