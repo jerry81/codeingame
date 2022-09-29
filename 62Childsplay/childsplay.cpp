@@ -64,6 +64,20 @@ Point right(Point c, string grid[]);
 Point up(Point c, string grid[]);
 Point down(Point c, string grid[]);
 
+
+Point down(Point c, string grid[]) {
+  cur_d = 2;
+  int y = c.y;
+  if (y >= (g_w - 1)) return left(c, grid);
+
+  if (grid[y+1][c.x] == '#') return left(c,grid);
+
+  Point next;
+  next.y = y+1;
+  next.x = c.x;
+  return next;
+}
+
 Point left(Point c, string grid[]) {
   cur_d = 3;
   int x = c.x;
@@ -99,19 +113,6 @@ Point up(Point c, string grid[]) {
 
   Point next;
   next.y = y-1;
-  next.x = c.x;
-  return next;
-}
-
-Point down(Point c, string grid[], int w, int h) {
-  cur_d = 2;
-  int y = c.y;
-  if (y >= (g_w - 1)) return left(c, grid);
-
-  if (grid[y+1][c.x] == '#') return left(c,grid);
-
-  Point next;
-  next.y = y+1;
   next.x = c.x;
   return next;
 }
@@ -158,5 +159,5 @@ int main()
     // Write an answer using cout. DON'T FORGET THE "<< endl"
     // To debug: cerr << "Debug messages..." << endl;
 
-    cout << "answer" << endl;
+    cout << start.x << " " << start.y << endl;
 }
