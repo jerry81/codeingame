@@ -137,6 +137,7 @@ int main()
     string grid[h];
     Point start; // 0 u 1 r 2 d 3 l
     long long n;
+    int i_y, i_x;
     cin >> n; cin.ignore();
     for (int i = 0; i < h; i++) {
         string line;
@@ -145,13 +146,23 @@ int main()
         for (int j = 0; j < w; j++) {
           if (line[j] == 'O') {
             start.x = j;
+            i_x = j;
             start.y = i;
+            i_y = i;
           }
         }
     }
 
+    int period = -1;
     for (int i = 0; i < n; ++i) {
       start = move(start,grid);
+      if (start.x == i_x && start.y == i_y && cur_d == 0) {
+         cerr << "period is " << period << endl;
+        if (period == -1) {
+          period = i;
+
+        }
+      }
     }
 
 
