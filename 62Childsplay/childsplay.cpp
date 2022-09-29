@@ -65,6 +65,7 @@ Point up(Point c, string grid[]);
 Point down(Point c, string grid[]);
 
 Point left(Point c, string grid[]) {
+  cur_d = 3;
   int x = c.x;
   if (x <= 0) return up(c, grid);
 
@@ -77,6 +78,7 @@ Point left(Point c, string grid[]) {
 }
 
 Point right(Point c, string grid[]) {
+  cur_d = 1;
   int x = c.x;
   if (x >= g_w-1) return down(c, grid);
 
@@ -89,6 +91,7 @@ Point right(Point c, string grid[]) {
 }
 
 Point up(Point c, string grid[]) {
+  cur_d = 0;
   int y = c.y;
   if (y <= 0) return right(c, grid);
 
@@ -101,6 +104,7 @@ Point up(Point c, string grid[]) {
 }
 
 Point down(Point c, string grid[], int w, int h) {
+  cur_d = 2;
   int y = c.y;
   if (y >= (g_w - 1)) return left(c, grid);
 
