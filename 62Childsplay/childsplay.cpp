@@ -59,6 +59,7 @@ struct Point {
 };
 int g_w,g_h;
 int cur_d = 0;
+int lookup[10][20];
 Point left(Point c, string grid[]);
 Point right(Point c, string grid[]);
 Point up(Point c, string grid[]);
@@ -137,18 +138,17 @@ int main()
     string grid[h];
     Point start; // 0 u 1 r 2 d 3 l
     long long n;
-    int i_y, i_x;
     cin >> n; cin.ignore();
     for (int i = 0; i < h; i++) {
         string line;
         getline(cin, line);
         grid[i] = line;
         for (int j = 0; j < w; j++) {
+          lookup[i][j] = -1;
           if (line[j] == 'O') {
             start.x = j;
-            i_x = j;
             start.y = i;
-            i_y = i;
+            lookup[i][j] = 0;
           }
         }
     }
@@ -156,13 +156,21 @@ int main()
     int period = -1;
     int remainder = -1;
     for (int i = 0; i < n; ++i) {
+      if (i > 50) break;
       start = move(start,grid);
-      if (start.x == i_x && start.y == i_y && cur_d == 0) {
+      cerr << "start is now " << start.y << " " << start.x << endl;
+      cerr << "lookup is " << lookup[start.y][start.x] << endl;
+
+      if (lookup[start.y][start.x] >= 0) {
+        cerr << "loop detected at " << start.y << " " << start.x << endl;
+        cerr << " on turn " << i << endl;
         if (period == -1) {
           period = i;
           remainder = n % period;
           break;
         }
+      } else {
+        lookup[start.y][start.x] = i;
       }
     }
 
