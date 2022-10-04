@@ -158,30 +158,30 @@ int main()
 
     int period = -1;
     int remainder = -1;
-    for (int i = 0; i < n; ++i) {
+    for (long int i = 0; i < n; ++i) {
       if (i > 50) break;
       start = move(start,grid);
-      cerr << "start is now " << start.y << " " << start.x << endl;
-      cerr << "lookup is " << lookup[start.y][start.x] << endl;
       int old_d = dir_lookup[start.y][start.x];
       int old_c = lookup[start.y][start.x];
       if (old_d >= 0 && old_d == cur_d) {
         cerr << "loop detected at " << start.y << " " << start.x << endl;
         cerr << " on turn " << i << endl;
         if (period == -1) {
-          period = (i-old_c)+1;
-          remainder = n % period - 1;
+          cerr << "old c is " << old_c << endl;
+          period = (i+1)-old_c;
+          cerr << "n is " << n-1 << endl;
+          remainder = (n-(i+1)) % period;
           break;
         }
       } else {
-        lookup[start.y][start.x] = i;
+        lookup[start.y][start.x] = (i+1);
         dir_lookup[start.y][start.x] = cur_d;
       }
     }
 
     if (period > -1) {
       cerr << "period detected " << period << "remainder " << remainder << endl;
-      for (int i = 0; i < remainder+1; ++i) {
+      for (int i = 0; i < remainder; ++i) {
         start = move(start,grid);
       }
     }
