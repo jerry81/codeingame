@@ -165,8 +165,8 @@ int main()
         cerr << "loop detected at " << start.y << " " << start.x << endl;
         cerr << " on turn " << i << endl;
         if (period == -1) {
-          period = i;
-          remainder = n % period;
+          period = i+1;
+          remainder = n % period - 1;
           break;
         }
       } else {
