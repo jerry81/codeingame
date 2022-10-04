@@ -159,7 +159,6 @@ int main()
     int period = -1;
     int remainder = -1;
     for (long int i = 0; i < n; ++i) {
-      if (i > 50) break;
       start = move(start,grid);
       int old_d = dir_lookup[start.y][start.x];
       int old_c = lookup[start.y][start.x];
@@ -175,8 +174,8 @@ int main()
         }
       } else {
         lookup[start.y][start.x] = (i+1);
-        dir_lookup[start.y][start.x] = cur_d;
       }
+      dir_lookup[start.y][start.x] = cur_d;
     }
 
     if (period > -1) {
