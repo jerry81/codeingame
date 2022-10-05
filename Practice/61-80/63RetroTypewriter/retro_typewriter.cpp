@@ -106,11 +106,21 @@ int main() {
     if (find(begin(tokens), end(tokens), instr) != end(tokens)) {
       print_symbol(instr);
     } else {
+      int pivot = -1;
       for (int i = 0; i < instr.length(); ++i) {
         char c = instr[i];
         if (isdigit(c)) {
+        } else {
+          pivot = i;
+          break;
         }
       }
+      if (pivot >= 0) {
+        string count = instr.substr(0 , pivot);
+        string symb = instr.substr(pivot);
+        cerr << "count: " << count << " symb: "<<symb<<endl;
+      }
+      cerr << "pivot is " << pivot << endl;
     }
     ptr = strtok(NULL, " ");
   }
