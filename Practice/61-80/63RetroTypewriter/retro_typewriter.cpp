@@ -102,7 +102,10 @@ int main()
     while (ptr != NULL)
     {
         string instr = ptr;
-        cerr << "instr is " << instr << endl;
+        string tokens[4] = {"nl", "sp", "bS", "sQ"};
+        if (find(begin(tokens), end(tokens), instr) != end(tokens)) {
+          print_symbol(instr);
+        }
         ptr = strtok(NULL, " ");
     }
     cout << "answer" << endl;
