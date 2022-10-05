@@ -1,46 +1,63 @@
 /*
 Goal
-For several years now, in elementary schools, we have seen the emergence of a new educational model, playful programming. The students must program a small robot using assembly blocks. This allows them to get familiar with programming from an early age while exercising their logic and perception of space.
+Back in the day, people had fun turning "recipes" into surprise images using typewriters.
 
-You are a student at one such school. The purpose of the exercise is simple: your teacher has crafted a circuit for your robot, told you how many moves n the robot may make, and you must find out the final position of the robot at end of execution.
+Use the provided recipe to create a recognizable image.
 
-To do this you need to know some principles of robot operation.
-– When the robot encounters an obstacle (represented by #) it turns right (on same operation) until there's no obstacle ahead anymore. Otherwise on an empty area (represented by .) it moves straight ahead.
-– The robot initially moves upwards.
-– The robot stops after n moves.
-– The top left corner represents the coordinates (0,0)
-– The robot's environment is represented as follows, where O is the robot's initial position:
-...#........
-...........#
-............
-............
-..#O........
-..........#.
+Chunks in the recipe are separated by a space.
+Each chunk will tell you either
+nl meaning NewLine (aka Carriage Return)
+~or~
+how many of the character and what character
+
+For example:
+4z means zzzz
+1{ means {
+10= means ==========
+5bS means \\\\\ (see Abbreviations list below)
+27 means 77
+123 means 333333333333
+(If a chunk is composed only of numbers, the character is the last digit.)
+
+So if part of the recipe is
+2* 15sp 1x 4sQ nl
+...that tells you to show
+**               x''''
+and then go to a new line.
+
+
+Abbreviations used:
+sp = space
+bS = backSlash \
+sQ = singleQuote '
+and
+nl = NewLine
+
+
+
+
+Sources/references:
+https://asciiart.cc
+https://loriemerson.net/2013/01/18/d-i-y-typewriter-art/
+https://www.youtube.com/watch?v=kyK5WvpFxqo
 Input
-¤ Width w and height h of the map.
-¤ Number n of operations to be performed by the robot
-¤ The map where the robot moves with . representing a free space, # an obstacle and O the starting position.
+string recipe
 Output
-¤ The final position x y (separated by a space) of the robot at end of execution, where x is the horizontal position and y is the vertical position.
+string (multiple lines) to show the image the recipe creates
 Constraints
-¤ 0 < w <= 20
-¤ 0 < h <= 10
-¤ The obstacles are placed in such a way that the robot will never leave the map
-¤ The robot will never be blocked between obstacles
-¤ n < 2^53
+5 ≤ Length of recipe ≤ 1000
+There won't be any double quotes (") in the recipe
+recipe will contain at least 1 nl
 Example
 Input
-12 6
-987
-...#........
-...........#
-............
-............
-..#O........
-..........#.
+1sp 1/ 1bS 1_ 1/ 1bS nl 1( 1sp 1o 1. 1o 1sp 1) nl 1sp 1> 1sp 1^ 1sp 1< nl 2sp 3|
 Output
-7 1
+ /\_/\
+( o.o )
+ > ^ <
+  |||
 */
+
 #include <iostream>
 #include <string>
 #include <vector>
@@ -53,141 +70,13 @@ using namespace std;
  * the standard input according to the problem statement.
  **/
 
-struct Point {
-  int x;
-  int y;
-};
-int g_w,g_h;
-int cur_d = 0;
-int lookup[10][20];
-int dir_lookup[10][20];
-Point left(Point c, string grid[]);
-Point right(Point c, string grid[]);
-Point up(Point c, string grid[]);
-Point down(Point c, string grid[]);
-
-Point left(Point c, string grid[]) {
-  cur_d = 3;
-  int x = c.x;
-  if (x <= 0) return up(c, grid);
-
-  if (grid[c.y][x-1] == '#') return up(c,grid);
-
-  Point next;
-  next.y = c.y;
-  next.x = x-1;
-  return next;
-}
-
-Point down(Point c, string grid[]) {
-  cur_d = 2;
-  int y = c.y;
-  if (y >= (g_w - 1)) return left(c, grid);
-
-  if (grid[y+1][c.x] == '#') return left(c,grid);
-
-  Point next;
-  next.y = y+1;
-  next.x = c.x;
-  return next;
-}
-
-Point right(Point c, string grid[]) {
-  cur_d = 1;
-  int x = c.x;
-  if (x >= g_w-1) return down(c, grid);
-
-  if (grid[c.y][x+1] == '#') return down(c,grid);
-
-  Point next;
-  next.y = c.y;
-  next.x = x+1;
-  return next;
-}
-
-Point up(Point c, string grid[]) {
-  cur_d = 0;
-  int y = c.y;
-  if (y <= 0) return right(c, grid);
-
-  if (grid[y-1][c.x] == '#') return right(c,grid);
-
-  Point next;
-  next.y = y-1;
-  next.x = c.x;
-  return next;
-}
-
-Point move(Point c, string grid[]) {
-  switch (cur_d) {
-    case 0: return up(c,grid);
-    case 1: return right(c,grid);
-    case 2: return down(c,grid);
-    default: return left(c,grid);
-  }
-}
-
 int main()
 {
-    int w;
-    int h;
-
-    cin >> w >> h; cin.ignore();
-    g_w = w;
-    g_h = h;
-    // init grid
-    string grid[h];
-    Point start; // 0 u 1 r 2 d 3 l
-    long long n;
-    cin >> n; cin.ignore();
-    for (int i = 0; i < h; i++) {
-        string line;
-        getline(cin, line);
-        grid[i] = line;
-        for (int j = 0; j < w; j++) {
-          lookup[i][j] = -1;
-          dir_lookup[i][j] = -1;
-          if (line[j] == 'O') {
-            start.x = j;
-            start.y = i;
-            dir_lookup[i][j] = cur_d;
-            lookup[i][j] = 0;
-          }
-        }
-    }
-
-    int period = -1;
-    int remainder = -1;
-    for (long int i = 0; i < n; ++i) {
-      start = move(start,grid);
-      int old_d = dir_lookup[start.y][start.x];
-      int old_c = lookup[start.y][start.x];
-      if (old_d >= 0 && old_d == cur_d) {
-        cerr << "loop detected at " << start.y << " " << start.x << endl;
-        cerr << " on turn " << i << endl;
-        if (period == -1) {
-          cerr << "old c is " << old_c << endl;
-          period = (i+1)-old_c;
-          cerr << "n is " << n-1 << endl;
-          remainder = (n-(i+1)) % period;
-          break;
-        }
-      } else {
-        lookup[start.y][start.x] = (i+1);
-      }
-      dir_lookup[start.y][start.x] = cur_d;
-    }
-
-    if (period > -1) {
-      cerr << "period detected " << period << "remainder " << remainder << endl;
-      for (int i = 0; i < remainder; ++i) {
-        start = move(start,grid);
-      }
-    }
-
+    string t;
+    getline(cin, t);
 
     // Write an answer using cout. DON'T FORGET THE "<< endl"
     // To debug: cerr << "Debug messages..." << endl;
 
-    cout << start.x << " " << start.y << endl;
+    cout << "answer" << endl;
 }
