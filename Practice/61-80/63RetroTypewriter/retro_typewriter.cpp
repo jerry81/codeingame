@@ -88,6 +88,19 @@ void print_symbol(string symbol,int count = 1) {
   }
 }
 
+int str_to_int(string s) {
+  int ret = 0;
+  int factor = 1;
+  for (int i = s.length() - 1; i >= 0; --i) {
+    char c = s[i];
+    int j = c - '0';
+    int normalized = j*factor;
+    ret+=normalized;
+    factor*=10;
+  }
+  return ret;
+}
+
 
 int main() {
   string t;
@@ -117,13 +130,15 @@ int main() {
         string symb = instr.substr(pivot);
         cerr << "count: " << count << " symb: "<<symb<<endl;
         // convert to int
-        print_symbol(symb);
+        int count_s = str_to_int(count);
+        cerr << "count as num is " << count_s << endl;
+        print_symbol(symb, count_s);
       }
       cerr << "pivot is " << pivot << endl;
     }
     ptr = strtok(NULL, " ");
   }
-  cout << "answer" << endl;
+ // cout << "answer" << endl;
 }
 
 /* notes
