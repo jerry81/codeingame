@@ -62,6 +62,7 @@ Output
 #include <string>
 #include <vector>
 #include <algorithm>
+#include <cstring>
 
 using namespace std;
 
@@ -88,14 +89,22 @@ void printGlyph(int number, char ch) {
   }
 }
 
+
+
 int main()
 {
     string t;
     getline(cin, t);
-
-    // Write an answer using cout. DON'T FORGET THE "<< endl"
-    // To debug: cerr << "Debug messages..." << endl;
-
+    char *ptr; // declare a ptr pointer
+    char c_s[t.length() + 1];
+    strcpy(c_s, t.c_str());
+    ptr = strtok(c_s, " "); // use strtok() function to separate string using comma (,) delimiter.
+    while (ptr != NULL)
+    {
+        string instr = ptr;
+        cerr << "instr is " << instr << endl;
+        ptr = strtok(NULL, " ");
+    }
     cout << "answer" << endl;
 }
 
