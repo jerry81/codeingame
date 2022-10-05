@@ -80,17 +80,14 @@ void print_symbol(string symbol,int count = 1) {
       cout << " ";
     } else if (symbol == "sQ") {
       cout << "\'";
-    } else {
+    } else if (symbol == "bS") {
       cout << "\\";
+    } else {
+      cout << symbol;
     }
   }
 }
 
-void printGlyph(int number, char ch) {
-  for (int i = 0; i < number; ++i) {
-    cout << ch;
-  }
-}
 
 int main() {
   string t;
@@ -119,6 +116,8 @@ int main() {
         string count = instr.substr(0 , pivot);
         string symb = instr.substr(pivot);
         cerr << "count: " << count << " symb: "<<symb<<endl;
+        // convert to int
+        print_symbol(symb);
       }
       cerr << "pivot is " << pivot << endl;
     }
