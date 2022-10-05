@@ -70,6 +70,24 @@ using namespace std;
  * the standard input according to the problem statement.
  **/
 
+void print_symbol(string symbol) {
+  if (symbol == "nl") {
+      cout << endl;
+  } else if (symbol == "sp") {
+      cout << " ";
+  } else if (symbol == "sQ") {
+      cout << "\'";
+  } else {
+    cout << "\\";
+  }
+}
+
+void printGlyph(int number, char ch) {
+  for (int i = 0; i < number; ++i) {
+    cout << ch;
+  }
+}
+
 int main()
 {
     string t;
@@ -80,3 +98,15 @@ int main()
 
     cout << "answer" << endl;
 }
+
+/* notes
+  bS - backslash
+  sp - space
+  sQ - single quote
+  nl - new line
+
+  split string, c
+
+  print immediately
+
+*/
