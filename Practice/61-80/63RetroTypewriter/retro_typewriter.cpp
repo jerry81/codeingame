@@ -1,6 +1,7 @@
 /*
 Goal
-Back in the day, people had fun turning "recipes" into surprise images using typewriters.
+Back in the day, people had fun turning "recipes" into surprise images using
+typewriters.
 
 Use the provided recipe to create a recognizable image.
 
@@ -58,11 +59,11 @@ Output
   |||
 */
 
+#include <algorithm>
+#include <cstring>
 #include <iostream>
 #include <string>
 #include <vector>
-#include <algorithm>
-#include <cstring>
 
 using namespace std;
 
@@ -71,15 +72,17 @@ using namespace std;
  * the standard input according to the problem statement.
  **/
 
-void print_symbol(string symbol) {
-  if (symbol == "nl") {
+void print_symbol(string symbol,int count = 1) {
+  for (int i = 0; i < count; ++i) {
+    if (symbol == "nl") {
       cout << endl;
-  } else if (symbol == "sp") {
+    } else if (symbol == "sp") {
       cout << " ";
-  } else if (symbol == "sQ") {
+    } else if (symbol == "sQ") {
       cout << "\'";
-  } else {
-    cout << "\\";
+    } else {
+      cout << "\\";
+    }
   }
 }
 
@@ -89,26 +92,29 @@ void printGlyph(int number, char ch) {
   }
 }
 
-
-
-int main()
-{
-    string t;
-    getline(cin, t);
-    char *ptr; // declare a ptr pointer
-    char c_s[t.length() + 1];
-    strcpy(c_s, t.c_str());
-    ptr = strtok(c_s, " "); // use strtok() function to separate string using comma (,) delimiter.
-    while (ptr != NULL)
-    {
-        string instr = ptr;
-        string tokens[4] = {"nl", "sp", "bS", "sQ"};
-        if (find(begin(tokens), end(tokens), instr) != end(tokens)) {
-          print_symbol(instr);
+int main() {
+  string t;
+  getline(cin, t);
+  char *ptr;  // declare a ptr pointer
+  char c_s[t.length() + 1];
+  strcpy(c_s, t.c_str());
+  ptr = strtok(c_s, " ");  // use strtok() function to separate string using
+                           // comma (,) delimiter.
+  while (ptr != NULL) {
+    string instr = ptr;
+    string tokens[4] = {"nl", "sp", "bS", "sQ"};
+    if (find(begin(tokens), end(tokens), instr) != end(tokens)) {
+      print_symbol(instr);
+    } else {
+      for (int i = 0; i < instr.length(); ++i) {
+        char c = instr[i];
+        if (isdigit(c)) {
         }
-        ptr = strtok(NULL, " ");
+      }
     }
-    cout << "answer" << endl;
+    ptr = strtok(NULL, " ");
+  }
+  cout << "answer" << endl;
 }
 
 /* notes
@@ -121,4 +127,8 @@ int main()
 
   print immediately
 
+  seperate the count part with the token part
+  cases - all numbers - last digit is the token
+  multi-digit count - build a number
+  special token - reuse the current logic
 */
