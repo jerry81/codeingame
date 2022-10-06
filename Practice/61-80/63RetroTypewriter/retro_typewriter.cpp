@@ -125,16 +125,16 @@ int main() {
           break;
         }
       }
-      if (pivot >= 0) {
-        string count = instr.substr(0 , pivot);
-        string symb = instr.substr(pivot);
-        cerr << "count: " << count << " symb: "<<symb<<endl;
-        // convert to int
-        int count_s = str_to_int(count);
-        cerr << "count as num is " << count_s << endl;
-        print_symbol(symb, count_s);
+      if (pivot < 0) {
+        pivot = instr.length() - 1;
       }
-      cerr << "pivot is " << pivot << endl;
+      string count = instr.substr(0 , pivot);
+      string symb = instr.substr(pivot);
+      cerr << "count: " << count << " symb: "<<symb<<endl;
+      // convert to int
+      int count_s = str_to_int(count);
+      // cerr << "count as num is " << count_s << endl;
+      print_symbol(symb, count_s);
     }
     ptr = strtok(NULL, " ");
   }
