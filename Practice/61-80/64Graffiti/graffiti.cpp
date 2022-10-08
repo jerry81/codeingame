@@ -77,6 +77,12 @@ bool compareInterval(Interval i1, Interval i2) {
   return (i1.s < i2.s);
 }
 
+bool isOverlapping(Interval i1, Interval i2) {
+  bool i1Ini2 = (i1.s >= i2.s) && (i1.s <= i2.e);
+  bool i2InI1 = (i2.s >= i1.s) && (i2.s <= i1.e);
+  return i1Ini2 || i2InI1;
+}
+
 
 int main()
 {
@@ -98,9 +104,13 @@ int main()
 
     sort(all_i.begin(), all_i.end(), compareInterval);
 
-    for (Interval i:all_i) {
-      cerr << "interval st,end " << i.s << " " << i.e << endl;
+    vector<Interval> copy = all_i;
+    for (Interval c: copy) {
+     cerr << "interval " << c.s << " " << c.e << endl;
     }
+    // while (true) {
+
+    // }
 
     // Write an answer using cout. DON'T FORGET THE "<< endl"
     // To debug: cerr << "Debug messages..." << endl;
@@ -110,3 +120,6 @@ int main()
 
 // step 1, store the intervals in structures - done
 // step 2, "sort the intervals?" - done
+// step 3, merge the intervals
+  // helper function - done
+  // how do we compare each item with each other item
