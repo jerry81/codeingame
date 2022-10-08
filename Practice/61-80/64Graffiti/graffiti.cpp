@@ -83,6 +83,13 @@ bool isOverlapping(Interval i1, Interval i2) {
   return i1Ini2 || i2InI1;
 }
 
+Interval merge_intervals(Interval i1, Interval i2) {
+  Interval i3;
+  i3.s = min(i1.s, i2.s);
+  i3.e = max(i1.e, i2.e);
+  return i3;
+}
+
 
 int main()
 {
@@ -114,7 +121,34 @@ int main()
 
     // Write an answer using cout. DON'T FORGET THE "<< endl"
     // To debug: cerr << "Debug messages..." << endl;
-
+    cerr << "overlap test 1" << endl;
+    Interval test1;
+    Interval test2;
+    test1.s = 1;
+    test2.s = 3;
+    test1.e = 4;
+    test2.e = 5;
+    cerr << "expect true " << isOverlapping(test1,test2);
+    cerr << "overlap test 2" << endl;
+    test1.s = 1;
+    test2.s = 4;
+    test1.e = 2;
+    test2.e = 3;
+    cerr << "expect true " << isOverlapping(test1,test2);
+    cerr << "overlap test 3" << endl;
+    test1.s = 1;
+    test2.s = 2;
+    test1.e = 3;
+    test2.e = 4;
+    cerr << "expect false " << isOverlapping(test1,test2);
+    test1.s = 1;
+    test2.s = 4;
+    test1.e = 2;
+    test2.e = 5;
+    cerr << "merge test 1" << endl;
+    Interval test3 = merge_intervals(test1,test2);
+    cerr << "expect 1, 5: " << test3.s << ", " << test3.e << endl;
+   // cerr << "merge test 2" << endl;
     cout << "answer" << endl;
 }
 
