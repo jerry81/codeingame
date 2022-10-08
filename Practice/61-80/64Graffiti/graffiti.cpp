@@ -69,16 +69,32 @@ using namespace std;
  * the standard input according to the problem statement.
  **/
 
+struct Interval {
+  long int s;
+  long int e;
+};
+
+
 int main()
 {
     int l;
     cin >> l; cin.ignore();
     int n;
+
     cin >> n; cin.ignore();
+    Interval all[n];
     for (int i = 0; i < n; i++) {
         int st;
         int ed;
         cin >> st >> ed; cin.ignore();
+        Interval next;
+        next.s = st;
+        next.e = ed;
+        all[i] = next;
+    }
+
+    for (int i = 0; i < n; ++i) {
+      cerr << "interval st,end " << all[i].s << " " << all[i].e << endl;
     }
 
     // Write an answer using cout. DON'T FORGET THE "<< endl"
@@ -86,3 +102,5 @@ int main()
 
     cout << "answer" << endl;
 }
+
+// step 1, store the intervals in structures
