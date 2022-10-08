@@ -70,9 +70,12 @@ using namespace std;
  **/
 
 struct Interval {
-  long int s;
-  long int e;
+  long int s,e;
 };
+
+bool compareInterval(Interval i1, Interval i2) {
+  return (i1.s < i2.s);
+}
 
 
 int main()
@@ -82,7 +85,7 @@ int main()
     int n;
 
     cin >> n; cin.ignore();
-    Interval all[n];
+    vector<Interval> all_i;
     for (int i = 0; i < n; i++) {
         int st;
         int ed;
@@ -90,11 +93,13 @@ int main()
         Interval next;
         next.s = st;
         next.e = ed;
-        all[i] = next;
+        all_i.push_back(next);
     }
 
-    for (int i = 0; i < n; ++i) {
-      cerr << "interval st,end " << all[i].s << " " << all[i].e << endl;
+    sort(all_i.begin(), all_i.end(), compareInterval);
+
+    for (Interval i:all_i) {
+      cerr << "interval st,end " << i.s << " " << i.e << endl;
     }
 
     // Write an answer using cout. DON'T FORGET THE "<< endl"
@@ -103,4 +108,5 @@ int main()
     cout << "answer" << endl;
 }
 
-// step 1, store the intervals in structures
+// step 1, store the intervals in structures - done
+// step 2, "sort the intervals?" - done
