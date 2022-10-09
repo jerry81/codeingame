@@ -81,8 +81,10 @@ bool isOverlapping(Interval i1, Interval i2) {
   bool i2sIni1 = (i2.s >= i1.s) && (i2.s <= i1.e);
   bool i1eIni2 = (i1.e >= i2.s) && (i1.e <= i2.e);
   bool i2eIni1 = (i2.e >= i1.s) && (i2.e <= i1.e);
+  bool i1ini2 = (i1.s >= i2.s) && (i1.e <= i2.e);
+  bool i2ini1 = (i2.s >= i1.s) && (i2.e <= i1.e);
 
-  return (i1sIni2 || i2sIni1 || i1eIni2 || i2eIni1);
+  return (i1sIni2 || i2sIni1 || i1eIni2 || i2eIni1 || i1ini2 || i2ini1 );
 }
 
 Interval merge_intervals(Interval i1, Interval i2) {
@@ -142,6 +144,7 @@ int main() {
       break;
     }
     cur = merged;
+    sort(cur.begin(), cur.end(), compareInterval);
   }
 
   cerr << "after merged size " << merged.size() << endl;
@@ -154,11 +157,10 @@ int main() {
   // print interval 0 to start
   // end is new start
   // go until no more pointers, end is l
-
   long int ptr = 0;
   bool skipped = false;
+  sort(merged.begin(), merged.end(), compareInterval);
   for (Interval m : merged) {
-    cerr << "merged item " << m.s << " " << m.e << endl;
     if (m.s > ptr) {
       cout << ptr << " " << m.s << endl;
       skipped = true;
@@ -166,7 +168,7 @@ int main() {
     ptr = m.e;
   }
 
-  if (ptr != l) {
+  if (ptr < l) {
     cout << ptr << " " << l << endl;
     skipped = true;
   } else if (!skipped) {
