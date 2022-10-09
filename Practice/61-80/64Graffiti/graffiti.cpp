@@ -116,27 +116,39 @@ int main() {
 
   // one merge pass
   cerr << "before merged size " << all_i.size() << endl;
+  vector<Interval> cur = all_i;
   vector<Interval> merged;
-  bool merged_hm[all_i.size()];
-  for (int i = 0; i < all_i.size()-1; ++i) {
-    Interval first = all_i[i];
-    // check merged first
-    for (int j = i+1; j < all_i.size(); ++j) {
-      Interval second = all_i[j];
-      if (isOverlapping(first,second)) {
-        Interval m = merge_intervals(first,second);
-        merged.push_back(m);
+  while (true) {
+    merged.clear();
+    bool merged_hm[cur.size()];
+    for (int i = 0; i < cur.size(); ++i) {
+      Interval first = cur[i];
+      // check merged first
+      for (int j = i + 1; j < cur.size(); ++j) {
+        Interval second = cur[j];
+        if (isOverlapping(first, second)) {
+          Interval m = merge_intervals(first, second);
+          merged.push_back(m);
+          merged_hm[i] = true;
+          merged_hm[j] = true;
+          break;
+        }
+      }
+      if (!merged_hm[i]) {
+        merged.push_back(first);
       }
     }
+    if (merged.size() == cur.size()) {
+      break;
+    }
+    cur = merged;
   }
 
   cerr << "after merged size " << merged.size() << endl;
 
-
-  for (Interval m:merged) {
+  for (Interval m : merged) {
     cerr << "merged item " << m.s << " " << m.e << endl;
   }
-
 
   // vector<Interval> copy = all_i;
   // for (Interval c : copy) {
@@ -185,9 +197,9 @@ int main() {
 // helper function - done
 // how do we compare each item with each other item
 // loop all items
-  // loop all the other items
-    // put merged items into new array
-    // put nonoverlapping into new array also
+// loop all the other items
+// put merged items into new array
+// put nonoverlapping into new array also
 // keep looping until nothing is merged
 
 // sort might be left until the end
