@@ -79,8 +79,13 @@ bool compareInterval(Interval i1, Interval i2) { return (i1.s < i2.s); }
 bool isOverlapping(Interval i1, Interval i2) {
   bool i1sIni2 = (i1.s >= i2.s) && (i1.s <= i2.e);
   bool i2sIni1 = (i2.s >= i1.s) && (i2.s <= i1.e);
-  bool i1eIni2 = (i1.e >= i1.s) && (i1.e <= i2.e);
+  bool i1eIni2 = (i1.e >= i2.s) && (i1.e <= i2.e);
   bool i2eIni1 = (i2.e >= i1.s) && (i2.e <= i1.e);
+  cerr << "i1s in i2 " << i1sIni2 << endl;
+  cerr << "i2s in i1 " << i2sIni1 << endl;
+  cerr << "i1e in i2 " << i1eIni2 << endl;
+  cerr << "i2e in i1 " << i2eIni1 << endl;
+
   return (i1sIni2 || i2sIni1 || i1eIni2 || i2eIni1);
 }
 
@@ -133,17 +138,16 @@ int main() {
   cerr << "expect true " << isOverlapping(test1, test2) << endl;
   cerr << "overlap test 2" << endl;
   test1.s = 1;
-  test2.s = 4;
-  test1.e = 2;
+  test1.e = 4;
+  test2.s = 2;
   test2.e = 3;
   cerr << "expect true " << isOverlapping(test1, test2) << endl;
-  ;
   cerr << "overlap test 3" << endl;
   test1.s = 1;
-  test2.s = 2;
-  test1.e = 3;
+  test1.e = 2;
+  test2.s = 3;
   test2.e = 4;
-  cerr << "expect false " << isOverlapping(test1, test2);
+  cerr << "expect false " << isOverlapping(test1, test2) << endl;
   test1.s = 1;
   test2.s = 4;
   test1.e = 2;
