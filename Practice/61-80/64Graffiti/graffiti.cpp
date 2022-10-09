@@ -115,20 +115,23 @@ int main() {
   sort(all_i.begin(), all_i.end(), compareInterval);
 
   // one merge pass
+  cerr << "before merged size " << all_i.size() << endl;
   vector<Interval> merged;
+  bool merged_hm[all_i.size()];
   for (int i = 0; i < all_i.size()-1; ++i) {
     Interval first = all_i[i];
+    // check merged first
     for (int j = i+1; j < all_i.size(); ++j) {
       Interval second = all_i[j];
       if (isOverlapping(first,second)) {
         Interval m = merge_intervals(first,second);
         merged.push_back(m);
-      } else {
-        merged.push_back(first);
-        merged.push_back(second);
       }
     }
   }
+
+  cerr << "after merged size " << merged.size() << endl;
+
 
   for (Interval m:merged) {
     cerr << "merged item " << m.s << " " << m.e << endl;
