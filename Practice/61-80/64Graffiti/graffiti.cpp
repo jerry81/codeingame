@@ -156,17 +156,21 @@ int main() {
   // go until no more pointers, end is l
 
   long int ptr = 0;
+  bool skipped = false;
   for (Interval m : merged) {
     cerr << "merged item " << m.s << " " << m.e << endl;
     if (m.s > ptr) {
-      cout << ptr << " " << m.s << endl;;
-      ptr = m.e;
+      cout << ptr << " " << m.s << endl;
+      skipped = true;
     }
+    ptr = m.e;
   }
-  if (ptr == 0) {
-    cout << "All painted" << endl;
-  } else {
+
+  if (ptr != l) {
     cout << ptr << " " << l << endl;
+    skipped = true;
+  } else if (!skipped) {
+    cout << "All painted" << endl;
   }
 
   // vector<Interval> copy = all_i;
