@@ -81,10 +81,6 @@ bool isOverlapping(Interval i1, Interval i2) {
   bool i2sIni1 = (i2.s >= i1.s) && (i2.s <= i1.e);
   bool i1eIni2 = (i1.e >= i2.s) && (i1.e <= i2.e);
   bool i2eIni1 = (i2.e >= i1.s) && (i2.e <= i1.e);
-  cerr << "i1s in i2 " << i1sIni2 << endl;
-  cerr << "i2s in i1 " << i2sIni1 << endl;
-  cerr << "i1e in i2 " << i1eIni2 << endl;
-  cerr << "i2e in i1 " << i2eIni1 << endl;
 
   return (i1sIni2 || i2sIni1 || i1eIni2 || i2eIni1);
 }
@@ -118,43 +114,64 @@ int main() {
 
   sort(all_i.begin(), all_i.end(), compareInterval);
 
-  vector<Interval> copy = all_i;
-  for (Interval c : copy) {
-    cerr << "interval " << c.s << " " << c.e << endl;
+  // one merge pass
+  vector<Interval> merged;
+  for (int i = 0; i < all_i.size()-1; ++i) {
+    Interval first = all_i[i];
+    for (int j = i+1; j < all_i.size(); ++j) {
+      Interval second = all_i[j];
+      if (isOverlapping(first,second)) {
+        Interval m = merge_intervals(first,second);
+        merged.push_back(m);
+      } else {
+        merged.push_back(first);
+        merged.push_back(second);
+      }
+    }
   }
+
+  for (Interval m:merged) {
+    cerr << "merged item " << m.s << " " << m.e << endl;
+  }
+
+
+  // vector<Interval> copy = all_i;
+  // for (Interval c : copy) {
+  //   cerr << "interval " << c.s << " " << c.e << endl;
+  // }
   // while (true) {
 
   // }
 
   // Write an answer using cout. DON'T FORGET THE "<< endl"
   // To debug: cerr << "Debug messages..." << endl;
-  cerr << "overlap test 1" << endl;
-  Interval test1;
-  Interval test2;
-  test1.s = 1;
-  test2.s = 3;
-  test1.e = 4;
-  test2.e = 5;
-  cerr << "expect true " << isOverlapping(test1, test2) << endl;
-  cerr << "overlap test 2" << endl;
-  test1.s = 1;
-  test1.e = 4;
-  test2.s = 2;
-  test2.e = 3;
-  cerr << "expect true " << isOverlapping(test1, test2) << endl;
-  cerr << "overlap test 3" << endl;
-  test1.s = 1;
-  test1.e = 2;
-  test2.s = 3;
-  test2.e = 4;
-  cerr << "expect false " << isOverlapping(test1, test2) << endl;
-  test1.s = 1;
-  test2.s = 4;
-  test1.e = 2;
-  test2.e = 5;
-  cerr << "merge test 1" << endl;
-  Interval test3 = merge_intervals(test1, test2);
-  cerr << "expect 1, 5: " << test3.s << ", " << test3.e << endl;
+  // cerr << "overlap test 1" << endl;
+  // Interval test1;
+  // Interval test2;
+  // test1.s = 1;
+  // test2.s = 3;
+  // test1.e = 4;
+  // test2.e = 5;
+  // cerr << "expect true " << isOverlapping(test1, test2) << endl;
+  // cerr << "overlap test 2" << endl;
+  // test1.s = 1;
+  // test1.e = 4;
+  // test2.s = 2;
+  // test2.e = 3;
+  // cerr << "expect true " << isOverlapping(test1, test2) << endl;
+  // cerr << "overlap test 3" << endl;
+  // test1.s = 1;
+  // test1.e = 2;
+  // test2.s = 3;
+  // test2.e = 4;
+  // cerr << "expect false " << isOverlapping(test1, test2) << endl;
+  // test1.s = 1;
+  // test2.s = 4;
+  // test1.e = 2;
+  // test2.e = 5;
+  // cerr << "merge test 1" << endl;
+  // Interval test3 = merge_intervals(test1, test2);
+  // cerr << "expect 1, 5: " << test3.s << ", " << test3.e << endl;
   // cerr << "merge test 2" << endl;
   cout << "answer" << endl;
 }
@@ -164,3 +181,10 @@ int main() {
 // step 3, merge the intervals
 // helper function - done
 // how do we compare each item with each other item
+// loop all items
+  // loop all the other items
+    // put merged items into new array
+    // put nonoverlapping into new array also
+// keep looping until nothing is merged
+
+// sort might be left until the end
