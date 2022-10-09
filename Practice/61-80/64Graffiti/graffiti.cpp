@@ -146,9 +146,24 @@ int main() {
 
   cerr << "after merged size " << merged.size() << endl;
 
+
+
+  // print logic
+  // pointer at 0
+  // compare with next start
+  // print interval 0 to start
+  // end is new start
+  // go until no more pointers, end is l
+
+  long int ptr = 0;
   for (Interval m : merged) {
     cerr << "merged item " << m.s << " " << m.e << endl;
+    if (m.s > ptr) {
+      cout << ptr << " " << m.s << endl;;
+      ptr = m.e;
+    }
   }
+  cout << ptr << " " << l << endl;
 
   // vector<Interval> copy = all_i;
   // for (Interval c : copy) {
@@ -188,7 +203,6 @@ int main() {
   // Interval test3 = merge_intervals(test1, test2);
   // cerr << "expect 1, 5: " << test3.s << ", " << test3.e << endl;
   // cerr << "merge test 2" << endl;
-  cout << "answer" << endl;
 }
 
 // step 1, store the intervals in structures - done
