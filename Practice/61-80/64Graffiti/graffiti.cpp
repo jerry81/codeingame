@@ -163,7 +163,11 @@ int main() {
       ptr = m.e;
     }
   }
-  cout << ptr << " " << l << endl;
+  if (ptr == 0) {
+    cout << "All painted" << endl;
+  } else {
+    cout << ptr << " " << l << endl;
+  }
 
   // vector<Interval> copy = all_i;
   // for (Interval c : copy) {
