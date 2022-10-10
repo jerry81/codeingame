@@ -72,25 +72,33 @@ using namespace std;
  **/
 
 string int_to_bin_string(int i) {
+  return bitset<8>(i).to_string();
 }
 
 int least_sig(string bin_string) {
+  return bin_string[bin_string.length() - 1] - '0';
 }
 
 vector<string> bin_str_to_byte_strs(string bin_string) {
+  vector<string> returned;
+  for (int i = 0; i < (bin_string.length()/8); ++i) {
+    string sub = bin_string.substr(i*8, 8);
+  }
 }
 
 char byte_str_to_ascii(string byte) {
+  return char(stoi(byte, nullptr, 2));
 }
 
 void test_helpers() {
   string res1 = int_to_bin_string(5);
-  cerr << "expect 101 " << res1 << endl;
-  int res2 = least_sig("101");
+  cerr << "expect 00000101 " << res1 << endl;
+  int res2 = least_sig("00000101");
   cerr << "expect 1 " << res2 << endl;
   vector<string> res3 = bin_str_to_byte_strs("0100100001100101");
   cerr << "expect 01001000 " <<  res3.at(0) << endl;
   cerr << "expect 01100101 " <<  res3.at(1) << endl;
+  cerr << "expect 2 " << res3.size() << endl;
   char res4 = byte_str_to_ascii("01001000");
   cerr << "expect H " << res4 << endl;
 }
