@@ -108,7 +108,8 @@ void test_helpers() {
 
 int main()
 {
-    test_helpers();
+    // test_helpers();
+    string super_long_bin_str = "";
     int w;
     int h;
     cin >> w >> h; cin.ignore();
@@ -116,13 +117,18 @@ int main()
         for (int j = 0; j < w; j++) {
             int pixel;
             cin >> pixel; cin.ignore();
+            super_long_bin_str += least_sig(int_to_bin_string(pixel)) + '0';
         }
     }
+    vector<string> byte_arr = bin_str_to_byte_strs(super_long_bin_str);
+    for (string x:byte_arr) {
+      cout << byte_str_to_ascii(x);
+    }
+
 
     // Write an answer using cout. DON'T FORGET THE "<< endl"
     // To debug: cerr << "Debug messages..." << endl;
 
-    cout << "answer" << endl;
 }
 
 /*
