@@ -84,7 +84,9 @@ vector<string> bin_str_to_byte_strs(string bin_string) {
   vector<string> returned;
   for (int i = 0; i < (bin_string.length()/8); ++i) {
     string sub = bin_string.substr(i*8, 8);
+    returned.push_back(sub);
   }
+  return returned;
 }
 
 char byte_str_to_ascii(string byte) {
