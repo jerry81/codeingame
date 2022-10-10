@@ -74,17 +74,30 @@ using namespace std;
 string int_to_bin_string(int i) {
 }
 
-int leastSig(string bin_string) {
+int least_sig(string bin_string) {
 }
 
-string* bin_str_to_byte_strs(string bin_string) {
+vector<string> bin_str_to_byte_strs(string bin_string) {
 }
 
 char byte_str_to_ascii(string byte) {
 }
 
+void test_helpers() {
+  string res1 = int_to_bin_string(5);
+  cerr << "expect 101 " << res1 << endl;
+  int res2 = least_sig("101");
+  cerr << "expect 1 " << res2 << endl;
+  vector<string> res3 = bin_str_to_byte_strs("0100100001100101");
+  cerr << "expect 01001000 " <<  res3.at(0) << endl;
+  cerr << "expect 01100101 " <<  res3.at(1) << endl;
+  char res4 = byte_str_to_ascii("01001000");
+  cerr << "expect H " << res4 << endl;
+}
+
 int main()
 {
+    test_helpers();
     int w;
     int h;
     cin >> w >> h; cin.ignore();
