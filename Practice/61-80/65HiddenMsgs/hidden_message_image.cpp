@@ -71,6 +71,18 @@ using namespace std;
  * the standard input according to the problem statement.
  **/
 
+string int_to_bin_string(int i) {
+}
+
+int leastSig(string bin_string) {
+}
+
+string* bin_str_to_byte_strs(string bin_string) {
+}
+
+char byte_str_to_ascii(string byte) {
+}
+
 int main()
 {
     int w;
@@ -88,3 +100,10 @@ int main()
 
     cout << "answer" << endl;
 }
+
+/*
+  int to binary string helper
+  least sig bit helper
+  split to byte helper
+  byte to ascii helper
+*/
