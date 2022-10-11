@@ -58,6 +58,7 @@ Left
 #include <string>
 #include <vector>
 #include <algorithm>
+#include <unordered_map>
 
 using namespace std;
 
@@ -65,6 +66,13 @@ using namespace std;
  * Auto-generated code below aims at helping you parse
  * the standard input according to the problem statement.
  **/
+struct TreeNode {
+  int idx;
+  TreeNode *parent;
+};
+
+unordered_map<int,TreeNode*> tree_map;
+
 
 int main()
 {
@@ -79,6 +87,35 @@ int main()
         int l;
         int r;
         cin >> p >> l >> r; cin.ignore();
+        TreeNode *left;
+        TreeNode *right;
+        TreeNode *n;
+        if (tree_map.find(p) != tree_map.end()) {
+          n = tree_map[p];
+        } else {
+          tree_map[p] = n;
+        }
+
+        n->idx = p;
+
+        if (tree_map.find(l) != tree_map.end()) {
+          left = tree_map[l];
+        } else {
+          tree_map[l] = left;
+        }
+
+        left->idx = l;
+        left->parent=n;
+
+        if (tree_map.find(r) != tree_map.end()) {
+          right = tree_map[r];
+        } else {
+          tree_map[r]=right;
+        }
+
+        right->idx=r;
+        right->parent=n;
+
     }
 
     // Write an answer using cout. DON'T FORGET THE "<< endl"
@@ -86,3 +123,9 @@ int main()
 
     cout << "tree_path" << endl;
 }
+
+/*
+  build the tree
+    check if map has the item
+
+*/
