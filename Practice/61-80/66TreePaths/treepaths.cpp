@@ -69,6 +69,7 @@ using namespace std;
 struct TreeNode {
   int idx;
   TreeNode *parent;
+  bool is_right; // 0 left 1 right
 };
 
 unordered_map<int,TreeNode*> tree_map;
@@ -106,6 +107,7 @@ int main()
 
         left->idx = l;
         left->parent=n;
+        left->is_right=false;
 
         if (tree_map.find(r) != tree_map.end()) {
           right = tree_map[r];
@@ -115,7 +117,7 @@ int main()
 
         right->idx=r;
         right->parent=n;
-
+        right->is_right=true;
     }
 
     // Write an answer using cout. DON'T FORGET THE "<< endl"
