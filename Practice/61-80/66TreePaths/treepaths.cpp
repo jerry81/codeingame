@@ -128,8 +128,14 @@ int main()
       cout << "Root" << endl;
       return 0;
     }
+    bool started = false;
     while (next_node->parent != nullptr) {
-      cout << (next_node->is_right ? "Right ":"Left ");
+      if (!started) {
+        started = true;
+      } else {
+        cout << " ";
+      }
+      cout << (next_node->is_right ? "Right":"Left");
       next_node = next_node->parent;
     }
 }
