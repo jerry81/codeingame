@@ -120,9 +120,6 @@ int main()
         right->is_right=true;
     }
 
-    // Write an answer using cout. DON'T FORGET THE "<< endl"
-    // To debug: cerr << "Debug messages..." << endl;
-    cerr << "node is " << tree_map[v]->idx << " parent is  " << tree_map[v]->parent->idx << endl;
     TreeNode *next_node = tree_map[v];
     if (next_node->parent == nullptr) {
       cout << "Root" << endl;
