@@ -88,9 +88,9 @@ int main()
         int l;
         int r;
         cin >> p >> l >> r; cin.ignore();
-        TreeNode *left;
-        TreeNode *right;
-        TreeNode *n;
+        TreeNode *left = new TreeNode;
+        TreeNode *right = new TreeNode;
+        TreeNode *n = new TreeNode;
         if (tree_map.find(p) != tree_map.end()) {
           n = tree_map[p];
         } else {
@@ -122,8 +122,16 @@ int main()
 
     // Write an answer using cout. DON'T FORGET THE "<< endl"
     // To debug: cerr << "Debug messages..." << endl;
-
-    cout << "tree_path" << endl;
+    cerr << "node is " << tree_map[v]->idx << " parent is  " << tree_map[v]->parent->idx << endl;
+    TreeNode *next_node = tree_map[v];
+    if (next_node->parent == nullptr) {
+      cout << "Root" << endl;
+      return 0;
+    }
+    while (next_node->parent != nullptr) {
+      cout << (next_node->is_right ? "Right ":"Left ");
+      next_node = next_node->parent;
+    }
 }
 
 /*
