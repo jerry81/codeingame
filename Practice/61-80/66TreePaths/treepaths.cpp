@@ -126,14 +126,20 @@ int main()
       return 0;
     }
     bool started = false;
+    vector<bool> path;
     while (next_node->parent != nullptr) {
-      if (!started) {
-        started = true;
-      } else {
-        cout << " ";
-      }
-      cout << (next_node->is_right ? "Right":"Left");
+
+      path.push_back(next_node->is_right);
       next_node = next_node->parent;
+    }
+    reverse(path.begin(), path.end());
+    for (bool b:path) {
+      if (started) {
+        cout << " ";
+      } else {
+        started = true;
+      }
+      cout << (b)?"Right":"Left";
     }
 }
 
