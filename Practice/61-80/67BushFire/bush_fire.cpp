@@ -55,6 +55,29 @@ using namespace std;
  * the standard input according to the problem statement.
  **/
 
+int solveR(string line) {
+  if (line.length() == 0) return 0;
+
+  for (int i = 0; i < line.length(); ++i) {
+    char c = line[i];
+    if (c == 'f') {
+      int left = i-1;
+      int right = i+1;
+      int left_c = 1000;
+      int right_c = 1000;
+      if (left >= 0) {
+        left_c = 1 + solveR(line.substr(left, line.length() - left));
+      }
+      int center = 1+ solveR(line.substr(i, line.length() - i));
+      if (right < line.length()) {
+        right_c = 1 + solveR(line.substr(right, line.length() - right));
+      }
+      return min(left_c, center, right_c);
+    }
+  }
+  return 0;
+}
+
 int main()
 {
     int n;
@@ -71,3 +94,14 @@ int main()
         cout << "answer" << endl;
     }
 }
+
+/*
+
+notes
+
+feels like a recursive optimization problem
+
+would greedy/holistic work?
+
+
+*/
