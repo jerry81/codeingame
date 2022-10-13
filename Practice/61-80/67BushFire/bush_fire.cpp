@@ -56,7 +56,10 @@ using namespace std;
  **/
 
 int solveR(string line) {
-  if (line.length() == 0) return 0;
+  cerr << "recurse " << line << endl;
+  if (line.length() < 3) {
+    return (line.find('f') != string::npos) ;
+  }
 
   for (int i = 0; i < line.length(); ++i) {
     char c = line[i];
@@ -66,13 +69,14 @@ int solveR(string line) {
       int left_c = 1000;
       int right_c = 1000;
       if (left >= 0) {
-        left_c = 1 + solveR(line.substr(left, line.length() - left));
+        cerr << "left is " << (left+2) << " and len is " << (line.length() - (left+2)) << endl;
+        left_c = 1 + solveR(line.substr(left+2, line.length() - (left+2)));
       }
-      int center = 1+ solveR(line.substr(i, line.length() - i));
+      int center = 1+ solveR(line.substr(i+2, line.length() - (i+2)));
       if (right < line.length()) {
-        right_c = 1 + solveR(line.substr(right, line.length() - right));
+        right_c = 1 + solveR(line.substr(right+2, line.length() - (right+2)));
       }
-      return min(left_c, center, right_c);
+      return min(min(left_c, center), right_c);
     }
   }
   return 0;
@@ -82,16 +86,18 @@ int main()
 {
     int n;
     cin >> n; cin.ignore();
+    string lines[n];
     for (int i = 0; i < n; i++) {
         string line;
         getline(cin, line);
+        lines[i] = line;
     }
     for (int i = 0; i < n; i++) {
 
         // Write an answer using cout. DON'T FORGET THE "<< endl"
         // To debug: cerr << "Debug messages..." << endl;
 
-        cout << "answer" << endl;
+        cout << solveR(lines[i]) << endl;
     }
 }
 
