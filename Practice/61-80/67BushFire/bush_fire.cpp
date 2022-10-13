@@ -57,7 +57,8 @@ using namespace std;
 
 int solveR(string line) {
   cerr << "recurse " << line << endl;
-  if (line.length() < 3) {
+  cerr << "line.length is " << line.length() << endl;
+  if (line.length() <= 3) {
     return (line.find('f') != string::npos) ;
   }
 
@@ -68,13 +69,22 @@ int solveR(string line) {
       int right = i+1;
       int left_c = 1000;
       int right_c = 1000;
-      if (left >= 0) {
-        cerr << "left is " << (left+2) << " and len is " << (line.length() - (left+2)) << endl;
-        left_c = 1 + solveR(line.substr(left+2, line.length() - (left+2)));
+      int center = 1000;
+      if (left >= 0 && ((left+2) < line.length())) {
+        string left_s = line.substr(left+2, line.length() - (left+2));
+        cerr << "left s is " << left_s << endl;
+        left_c = 1 + solveR(left_s);
       }
-      int center = 1+ solveR(line.substr(i+2, line.length() - (i+2)));
-      if (right < line.length()) {
-        right_c = 1 + solveR(line.substr(right+2, line.length() - (right+2)));
+      if ((i+2) < line.length()) {
+        string center_s = line.substr(i+2, line.length() - (i+2));
+        cerr << "center_s is " << center_s << endl;
+        center = 1+ solveR(center_s);
+      }
+
+      if ((right+2) < line.length()) {
+        string right_s = line.substr(right+2, line.length() - (right+2));
+        cerr << "right_s is " << right_s << endl;
+        right_c = 1 + solveR(right_s);
       }
       return min(min(left_c, center), right_c);
     }
