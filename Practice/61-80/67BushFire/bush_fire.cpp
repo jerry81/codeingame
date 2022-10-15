@@ -56,47 +56,27 @@ using namespace std;
  **/
 
 int solveR(string line) {
+  int size = line.length();
   cerr << "recurse " << line << endl;
-  if (line.length() <= 3) {
+  if (size <= 3) {
     int r = (line.find('f') != string::npos);
     cerr << "line " << line << " is returning " << r << endl;
     return r;
   }
 
-  for (int i = 0; i < line.length(); ++i) {
+  for (int i = 0; i < size; ++i) {
+
     char c = line[i];
     if (c == 'f') {
-      int left = i-1;
-      int right = i+1;
-      int left_c = 1000;
-      int right_c = 1000;
-      int center = 1000;
-      if (left >= 0) {
-        if ((left+3) < line.length()) {
-        string left_s = line.substr((left+3), line.length() - (left+3));
-        cerr << "left s is " << left_s << endl;
-        left_c = 1 + solveR(left_s);
-      } else {
-        return 1;
-      }
-      }
-      if ((i+3) < line.length()) {
-        string center_s = line.substr(i+3, line.length() - (i+3));
-        cerr << "center_s is " << center_s << endl;
-        center = 1+ solveR(center_s);
-      } else {
-        return 1;
+      vector<string> substrings;
+      if i ==
+      if (i > 0) {
+        substrings.push_back(line.substr(i));
       }
 
-      if ((right+3) < line.length()) {
-        string right_s = line.substr(right+3, line.length() - (right+3));
-        cerr << "right_s is " << right_s << endl;
-        right_c = 1 + solveR(right_s);
-      } else {
-        return 1;
-      }
-
-      return min(min(left_c, center), right_c);
+      i
+      substrings.push_back(line.substr(i+1));
+      substrings.push_back(line.substr(i+2));
     }
   }
   return 0;
@@ -129,5 +109,10 @@ feels like a recursive optimization problem
 
 would greedy/holistic work?
 
-
+fff..ffff..
+middle ff -> f..ffff.., right fff -> ..ffff.., right
+  f..ffff...
+  middle f. -> .ffff..., right f.. -> ffff...
+  ..ffff..
+  left ..f -> fff., middle .ff -> ff.., right fff -> f..
 */
