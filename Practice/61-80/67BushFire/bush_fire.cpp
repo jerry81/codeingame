@@ -69,14 +69,18 @@ int solveR(string line) {
     char c = line[i];
     if (c == 'f') {
       vector<string> substrings;
-      if i ==
+
       if (i > 0) {
         substrings.push_back(line.substr(i));
       }
 
-      i
       substrings.push_back(line.substr(i+1));
       substrings.push_back(line.substr(i+2));
+      vector<int> counts;
+      for (string s:substrings) {
+        counts.push_back((1+solveR(s)));
+      }
+      return *min_element(begin(counts),end(counts));
     }
   }
   return 0;
