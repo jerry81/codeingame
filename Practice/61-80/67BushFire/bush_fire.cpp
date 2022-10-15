@@ -70,15 +70,25 @@ int solveR(string line) {
     if (c == 'f') {
       vector<string> substrings;
 
-      if (i > 0) {
-        substrings.push_back(line.substr(i));
+      if (i > 0 && ((i+1) < size)) {
+        substrings.push_back(line.substr(i+1));
       }
 
-      substrings.push_back(line.substr(i+1));
-      substrings.push_back(line.substr(i+2));
+      if ((i+2) < size) { substrings.push_back(line.substr(i+2)); } else {
+        substrings.push_back("");
+      }
+
+      if ((i+3) < size) {
+        substrings.push_back(line.substr(i+3));
+      } else {
+        substrings.push_back("");
+      }
       vector<int> counts;
       for (string s:substrings) {
         counts.push_back((1+solveR(s)));
+      }
+      if (counts.empty()) {
+        return 1;
       }
       return *min_element(begin(counts),end(counts));
     }
