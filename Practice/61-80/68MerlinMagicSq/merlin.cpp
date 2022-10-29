@@ -103,14 +103,33 @@ void update(int i) {
           g3[0] = reverse(g1[0]);
           break;
         case 5:
+          g1[1] = reverse(g1[1]);
+          g2[0] = reverse(g2[0]);
+          g2[1] = reverse(g2[1]);
+          g2[2] = reverse(g2[2]);
+          g3[1] = reverse(g3[1]);
           break;
         case 6:
+          g1[2] = reverse(g1[2]);
+          g2[2] = reverse(g1[2]);
+          g3[2] = reverse(g1[2]);
           break;
         case 7:
+          g1[1] = reverse(g1[1]);
+          g1[2] = reverse(g1[2]);
+          g2[1] = reverse(g2[1]);
+          g2[2] = reverse(g2[2]);
           break;
         case 8:
+          g3[0] = reverse(g3[0]);
+          g3[1] = reverse(g3[1]);
+          g3[2] = reverse(g3[2]);
           break;
         default:
+          g1[0] = reverse(g1[0]);
+          g1[1] = reverse(g1[1]);
+          g2[0] = reverse(g2[0]);
+          g2[1] = reverse(g2[1]);
           return;
     }
 }
