@@ -74,15 +74,33 @@ string g1;
 string g2;
 string g3;
 
+char reverse(char c) {
+  return (c=='*') ? '~' : '*';
+} 
+
 void update(int i) {
     switch (i) {
         case 1:
+          g2[1] = reverse(g2[1]);
+          g2[2] = reverse(g2[2]);
+          g3[1] = reverse(g3[1]);
+          g3[2] = reverse(g3[2]);
           break;
         case 2:
+          g1[0] = reverse(g1[0]);
+          g1[1] = reverse(g1[1]);
+          g1[2] = reverse(g1[2]);
           break;
         case 3:
+          g2[0] = reverse(g2[0]);
+          g2[1] = reverse(g2[1]);
+          g3[0] = reverse(g3[0]);
+          g3[1] = reverse(g3[1]);
           break;
         case 4:
+          g1[0] = reverse(g1[0]);
+          g2[0] = reverse(g1[0]);
+          g3[0] = reverse(g1[0]);
           break;
         case 5:
           break;
@@ -115,9 +133,7 @@ int main()
         cerr << "as_i is " << as_i << endl;
         update(as_i);
     }
-    cerr << g1 << endl << g2 << endl g3 << endl;
-    // Write an answer using cout. DON'T FORGET THE "<< endl"
-    // To debug: cerr << "Debug messages..." << endl;
-
+    cerr << g1 << endl << g2 << endl << g3 << endl;
+    
     cout << "answer (a single digit)" << endl;
 }
