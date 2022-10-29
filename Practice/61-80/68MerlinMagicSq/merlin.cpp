@@ -80,6 +80,10 @@ int main()
     getline(cin, row_3);
     string all_buttons_pressed;
     getline(cin, all_buttons_pressed);
+    for (char c:all_buttons_pressed) {
+        int as_i = c - '0';
+        cerr << "as_i is " << as_i << endl;
+    }
 
     // Write an answer using cout. DON'T FORGET THE "<< endl"
     // To debug: cerr << "Debug messages..." << endl;
