@@ -99,8 +99,8 @@ void update(int i) {
           break;
         case 4:
           g1[0] = reverse(g1[0]);
-          g2[0] = reverse(g1[0]);
-          g3[0] = reverse(g1[0]);
+          g2[0] = reverse(g2[0]);
+          g3[0] = reverse(g3[0]);
           break;
         case 5:
           g1[2] = reverse(g1[2]);
@@ -111,8 +111,8 @@ void update(int i) {
           break;
         case 6:
           g1[4] = reverse(g1[4]);
-          g2[4] = reverse(g1[4]);
-          g3[4] = reverse(g1[4]);
+          g2[4] = reverse(g2[4]);
+          g3[4] = reverse(g3[4]);
           break;
         case 7:
           g1[2] = reverse(g1[2]);
@@ -148,9 +148,11 @@ int main()
     string all_buttons_pressed;
     getline(cin, all_buttons_pressed);
     for (char c:all_buttons_pressed) {
+        cerr << "grid before " << endl << g1 << endl << g2 << endl << g3 << endl;
         int as_i = c - '0';
         cerr << "as_i is " << as_i << endl;
         update(as_i);
+        cerr << "grid after " << endl << g1 << endl << g2 << endl << g3 << endl;
     }
     cerr << g1 << endl << g2 << endl << g3 << endl;
     
