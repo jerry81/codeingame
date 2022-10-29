@@ -68,16 +68,15 @@ int solveR(string line) {
 
     char c = line[i];
     if (c == 'f') {
+
+      // if (i > 0 && ((i+1) < size)) {
+      //   substrings.push_back(line.substr(i+1));
+      // }
+
+      // if ((i+2) < size) { substrings.push_back(line.substr(i+2)); } else {
+      //   substrings.push_back("");
+      // }
       vector<string> substrings;
-
-      if (i > 0 && ((i+1) < size)) {
-        substrings.push_back(line.substr(i+1));
-      }
-
-      if ((i+2) < size) { substrings.push_back(line.substr(i+2)); } else {
-        substrings.push_back("");
-      }
-
       if ((i+3) < size) {
         substrings.push_back(line.substr(i+3));
       } else {
