@@ -70,21 +70,52 @@ using namespace std;
  * the standard input according to the problem statement.
  **/
 
+string g1;
+string g2;
+string g3;
+
+void update(int i) {
+    switch (i) {
+        case 1:
+          break;
+        case 2:
+          break;
+        case 3:
+          break;
+        case 4:
+          break;
+        case 5:
+          break;
+        case 6:
+          break;
+        case 7:
+          break;
+        case 8:
+          break;
+        default:
+          return;
+    }
+}
+
 int main()
 {
     string row_1;
     getline(cin, row_1);
+    g1 = row_1;
     string row_2;
     getline(cin, row_2);
+    g2 = row_2;
     string row_3;
     getline(cin, row_3);
+    g3 = row_3;
     string all_buttons_pressed;
     getline(cin, all_buttons_pressed);
     for (char c:all_buttons_pressed) {
         int as_i = c - '0';
         cerr << "as_i is " << as_i << endl;
+        update(as_i);
     }
-
+    cerr << g1 << endl << g2 << endl g3 << endl;
     // Write an answer using cout. DON'T FORGET THE "<< endl"
     // To debug: cerr << "Debug messages..." << endl;
 
