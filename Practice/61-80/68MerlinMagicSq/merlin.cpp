@@ -157,3 +157,7 @@ int main()
 
     cout << "answer (a single digit)" << endl;
 }
+
+/*
+  final step - enumerate all 9 ending conditions
+*/
