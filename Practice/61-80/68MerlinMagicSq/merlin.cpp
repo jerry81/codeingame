@@ -76,20 +76,20 @@ string g3;
 
 char reverse(char c) {
   return (c=='*') ? '~' : '*';
-} 
+}
 
 void update(int i) {
     switch (i) {
         case 1:
-          g2[1] = reverse(g2[1]);
           g2[2] = reverse(g2[2]);
-          g3[1] = reverse(g3[1]);
+          g2[4] = reverse(g2[4]);
           g3[2] = reverse(g3[2]);
+          g3[4] = reverse(g3[4]);
           break;
         case 2:
           g1[0] = reverse(g1[0]);
-          g1[1] = reverse(g1[1]);
           g1[2] = reverse(g1[2]);
+          g1[4] = reverse(g1[4]);
           break;
         case 3:
           g2[0] = reverse(g2[0]);
@@ -154,7 +154,6 @@ int main()
         update(as_i);
         cerr << "grid after " << endl << g1 << endl << g2 << endl << g3 << endl;
     }
-    cerr << g1 << endl << g2 << endl << g3 << endl;
-    
+
     cout << "answer (a single digit)" << endl;
 }

@@ -57,10 +57,8 @@ using namespace std;
 
 int solveR(string line) {
   int size = line.length();
-  cerr << "recurse " << line << endl;
   if (size <= 3) {
     int r = (line.find('f') != string::npos);
-    cerr << "line " << line << " is returning " << r << endl;
     return r;
   }
 
