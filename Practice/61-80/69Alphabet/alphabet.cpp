@@ -146,7 +146,6 @@ vector<Point> find_path(int starty, int startx) {
   while (nc != '{') {
     Point p = get_next_p(starty, startx, nc);
     if (p.x < 0) {
-      cerr << "p x is " << p.x << endl;
       ret.clear();
       break;
     }
@@ -182,7 +181,12 @@ int main()
         if (strs.at(i)[j] == 'a') {
           vector<Point> points = find_path(i,j);
           if (!points.empty()) {
-            cout << "found path" << endl;
+            res.at(i)[j] = 'a';
+            char nc = 'b';
+            for (Point p: points) {
+              res.at(p.y)[p.x] = nc;
+              nc = next_c(nc);
+            }
             break;
           }
         }
@@ -191,7 +195,9 @@ int main()
 
     // Write an answer using cout. DON'T FORGET THE "<< endl"
     // To debug: cerr << "Debug messages..." << endl;
-    cout << "no path found" << endl;
+    for (string s: res) {
+      cout << s << endl;
+    }
 }
 
 // loop all 'a'
