@@ -84,6 +84,7 @@ ij---vwx--
 using namespace std;
 
 vector<string> strs;
+int bounds;
 
 char next_c(char c) {
   return (char)(c+1);
@@ -95,10 +96,47 @@ struct Point {
 };
 
 Point get_next_p(int startx, int starty, char next) {
-  Point p;
-  // path could branch ...
+  Point ret;
+  vector<Point> points_to_test;
+  int leftx = startx - 1;
+  int rightx = startx + 1;
+  int downy = starty + 1;
+  int upy = starty - 1;
+  if (leftx >= 0) {
+    Point left;
+    left.x = leftx;
+    left.y = starty;
+    points_to_test.push_back(left);
+  }
+  if (rightx < bounds) {
+    Point right;
+    right.x = rightx;
+    right.y = starty;
+    points_to_test.push_back(right);
+  }
+  if (downy < bounds) {
+    Point down;
+    down.x = startx;
+    down.y = downy;
+    points_to_test.push_back(down);
+  }
+  if (upy < bounds) {
+    Point up;
+    up.x = startx;
+    up.y = upy;
+    points_to_test.push_back(up);
+  }
+  // char tests
+  for (Point p: points_to_test) {
+    if (strs.at(p.y)[p.x] == next) {
+      ret = p;
+      break;
+    }
+  }
+  // path could branch?
+  // first test without branching possibility
 
-  return p;
+  return ret;
 }
 
 vector<Point> find_path(int startx, int starty) {
@@ -116,6 +154,7 @@ int main()
 {
     int n;
     cin >> n; cin.ignore();
+    bounds = n;
     for (int i = 0; i < n; i++) {
         string m;
         cin >> m; cin.ignore();
