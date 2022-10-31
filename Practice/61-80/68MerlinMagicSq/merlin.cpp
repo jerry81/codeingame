@@ -78,6 +78,19 @@ char reverse(char c) {
   return (c=='*') ? '~' : '*';
 }
 
+int find_solution() {
+  // 1
+  bool first_line_check = (g1[0] == '~' && g1[2] == '~');
+  bool second_line_check = (g2[0] == '~' && g2[2] == '*');
+  if (first_line_check && second_line_check) return 1;
+
+  if (g1[0] = '~' && g1[2] == '~' && g1[4] == '~') return 2;
+
+  first_line_check = (g1[2] == '~' && g1[4] == '~');
+  second_line_check = (g2[4] == '~' && g2[2] == '*');
+  if (first_line_check && second_line_check) return 3;
+}
+
 void update(int i) {
     switch (i) {
         case 1:
@@ -155,7 +168,8 @@ int main()
         cerr << "grid after " << endl << g1 << endl << g2 << endl << g3 << endl;
     }
 
-    cout << "answer (a single digit)" << endl;
+    int sol = find_solution();
+    cout << sol << endl;
 }
 
 /*
