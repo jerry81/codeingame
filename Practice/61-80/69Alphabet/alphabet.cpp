@@ -129,7 +129,6 @@ Point get_next_p(int starty, int startx, char next) {
   }
   // char tests
   for (Point p: points_to_test) {
-    cerr << "checking possible points " << strs.at(p.y)[p.x] << " vs " << next << endl;
     if (strs.at(p.y)[p.x] == next) {
       ret = p;
       break;
@@ -152,7 +151,6 @@ vector<Point> find_path(int starty, int startx) {
       break;
     }
     ret.push_back(p);
-    cerr << "path growing " << p.x << ", " << p.y << endl;
     starty = p.y;
     startx = p.x;
     nc = next_c(nc);
@@ -166,17 +164,23 @@ int main()
     int n;
     cin >> n; cin.ignore();
     bounds = n;
+    vector<string> res;
+    string tmp;
+    for (int i = 0; i < n; ++i) {
+        tmp+='-';
+    }
+    for (int i = 0; i < n; ++i) {
+        res.push_back(tmp);
+    }
     for (int i = 0; i < n; i++) {
         string m;
         cin >> m; cin.ignore();
         strs.push_back(m);
     }
-
     for (int i = 0; i < n; ++i) {
       for (int j = 0; j < n; ++j) {
         if (strs.at(i)[j] == 'a') {
           vector<Point> points = find_path(i,j);
-          cerr << "points length " << points.size() << endl;
           if (!points.empty()) {
             cout << "found path" << endl;
             break;
