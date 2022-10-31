@@ -83,38 +83,50 @@ ij---vwx--
 
 using namespace std;
 
-/**
- * Auto-generated code below aims at helping you parse
- * the standard input according to the problem statement.
- **/
+vector<string> strs;
 
 char next_c(char c) {
-  return c+1;
+  return (char)(c+1);
+}
+
+struct Point {
+  int x;
+  int y;
+};
+
+vector<Point> find_path(int startx, int starty) {
+  vector<Point> ret;
+
+  char next_c = 'b';
+
+  return ret;
 }
 
 int main()
 {
     int n;
     cin >> n; cin.ignore();
-    vector<string> strs;
     for (int i = 0; i < n; i++) {
         string m;
         cin >> m; cin.ignore();
         strs.push_back(m);
     }
 
-    int cur = 'a';
     for (int i = 0; i < n; ++i) {
       for (int j = 0; j < n; ++j) {
-        if (strs.at(i)[j] == cur) {
+        if (strs.at(i)[j] == 'a') {
+          vector<Point> points = find_path(i,j);
+          if (!points.empty()) {
+            cout << "found path" << end;
+            break;
+          }
         }
       }
     }
 
     // Write an answer using cout. DON'T FORGET THE "<< endl"
     // To debug: cerr << "Debug messages..." << endl;
-
-    cout << "answer" << endl;
+    cout << "no path found" << endl;
 }
 
 // loop all 'a'
