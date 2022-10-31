@@ -97,6 +97,7 @@ struct Point {
 
 Point get_next_p(int startx, int starty, char next) {
   Point ret;
+  ret.x = -1;
   vector<Point> points_to_test;
   int leftx = startx - 1;
   int rightx = startx + 1;
@@ -133,8 +134,6 @@ Point get_next_p(int startx, int starty, char next) {
       break;
     }
   }
-  // path could branch?
-  // first test without branching possibility
 
   return ret;
 }
@@ -142,9 +141,16 @@ Point get_next_p(int startx, int starty, char next) {
 vector<Point> find_path(int startx, int starty) {
   vector<Point> ret;
 
-  char next_c = 'b';
+  char nc = 'b';
 
-  while (next_c != '{') {
+  while (nc != '{') {
+    Point p = get_next_p(startx, starty, nc);
+    if (p.x < 0) {
+      ret.clear();
+      break;
+    }
+    ret.push_back(p);
+    nc = next_c(nc);
   }
 
   return ret;
