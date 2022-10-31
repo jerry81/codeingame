@@ -94,12 +94,20 @@ struct Point {
   int y;
 };
 
+Point get_next_p(int startx, int starty, char next) {
+  Point p;
+  // path could branch ...
+
+  return p;
+}
+
 vector<Point> find_path(int startx, int starty) {
   vector<Point> ret;
 
   char next_c = 'b';
 
-  while (next_c )
+  while (next_c != '{') {
+  }
 
   return ret;
 }
