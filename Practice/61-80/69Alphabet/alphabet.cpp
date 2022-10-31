@@ -99,6 +99,8 @@ vector<Point> find_path(int startx, int starty) {
 
   char next_c = 'b';
 
+  while (next_c )
+
   return ret;
 }
 
