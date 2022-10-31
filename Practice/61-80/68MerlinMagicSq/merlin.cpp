@@ -79,7 +79,6 @@ char reverse(char c) {
 }
 
 int find_solution() {
-  // 1
   bool first_line_check = (g1[0] == '~' && g1[2] == '~');
   bool second_line_check = (g2[0] == '~' && g2[2] == '*');
   if (first_line_check && second_line_check) return 1;
@@ -89,6 +88,20 @@ int find_solution() {
   first_line_check = (g1[2] == '~' && g1[4] == '~');
   second_line_check = (g2[4] == '~' && g2[2] == '*');
   if (first_line_check && second_line_check) return 3;
+
+  if (g1[0] = '~' && g2[0] == '~' && g3[0] == '~') return 4;
+
+  if (g1[2] == '~' && g2[0] == '~' && g2[2] == '*' && g2[4] == '~' && g3[2] == '~') return 5;
+
+  if (g1[4] = '~' && g2[4] == '~' && g3[4] == '~') return 6;
+
+  first_line_check = (g2[0] == '~' && g3[0] == '~');
+  second_line_check = (g2[2] == '*' && g3[2] == '~');
+  if (first_line_check && second_line_check) return 7;
+
+  if (g3[0] = '~' && g3[2] == '~' && g3[4] == '~') return 8;
+
+  return 9;
 }
 
 void update(int i) {
