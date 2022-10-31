@@ -88,13 +88,27 @@ using namespace std;
  * the standard input according to the problem statement.
  **/
 
+char next_c(char c) {
+  return c+1;
+}
+
 int main()
 {
     int n;
     cin >> n; cin.ignore();
+    vector<string> strs;
     for (int i = 0; i < n; i++) {
         string m;
         cin >> m; cin.ignore();
+        strs.push_back(m);
+    }
+
+    int cur = 'a';
+    for (int i = 0; i < n; ++i) {
+      for (int j = 0; j < n; ++j) {
+        if (strs.at(i)[j] == cur) {
+        }
+      }
     }
 
     // Write an answer using cout. DON'T FORGET THE "<< endl"
