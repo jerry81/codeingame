@@ -102,3 +102,7 @@ int main()
 
     cout << "answer" << endl;
 }
+
+// loop all 'a'
+// - try the chain for each
+// helper int to char
