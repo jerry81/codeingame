@@ -46,8 +46,17 @@ using namespace std;
  * the standard input according to the problem statement.
  **/
 
+char to_b36(int i) {
+  if (i < 10) return (char)(i + '0');
+
+  int remainder = i-10;
+
+  return (char) ('A' + remainder);
+}
+
 int main()
 {
+    cerr << "test helper, expect B: " << to_b36(11) << endl;
     int w;
     int h;
     cin >> w >> h; cin.ignore();
@@ -57,9 +66,10 @@ int main()
     }
     for (int i = 0; i < h; i++) {
 
-        // Write an answer using cout. DON'T FORGET THE "<< endl"
-        // To debug: cerr << "Debug messages..." << endl;
 
         cout << "answer" << endl;
     }
 }
+
+// bfs from the start point
+// helper to convert 10-36 to A-Z
