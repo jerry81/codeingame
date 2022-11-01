@@ -77,7 +77,7 @@ Point find_start() {
   Point ret;
   for (int i = 0; i < by; ++i) {
     for (int j = 0; j < bx; ++j) {
-      if (maze[i][j] == 's') {
+      if (maze[i][j] == 'S') {
         ret.x = j;
         ret.y = i;
       }
