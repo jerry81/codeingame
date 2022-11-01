@@ -34,10 +34,12 @@ Output
 ##3#DCBA9#
 ##########
 
-*/#include <iostream>
+*/
+#include <iostream>
 #include <string>
 #include <vector>
 #include <algorithm>
+#include <unordered_set>
 
 using namespace std;
 
@@ -45,6 +47,20 @@ using namespace std;
  * Auto-generated code below aims at helping you parse
  * the standard input according to the problem statement.
  **/
+
+struct Point {
+  int x;
+  int y;
+  string to_s() {
+    return to_string(x)+","+to_string(y);
+  }
+};
+
+vector<string> maze;
+
+unordered_set<string> vis;
+int bx;
+int by;
 
 char to_b36(int i) {
   if (i < 10) return (char)(i + '0');
@@ -54,16 +70,36 @@ char to_b36(int i) {
   return (char) ('A' + remainder);
 }
 
+void bfs(Point start) {
+}
+
+Point find_start() {
+  Point ret;
+  for (int i = 0; i < by; ++i) {
+    for (int j = 0; j < bx; ++j) {
+      if (maze[i][j] == 's') {
+        ret.x = j;
+        ret.y = i;
+      }
+    }
+  }
+  return ret;
+}
+
 int main()
 {
-    cerr << "test helper, expect B: " << to_b36(11) << endl;
     int w;
     int h;
     cin >> w >> h; cin.ignore();
+    bx = w;
+    by = h;
     for (int i = 0; i < h; i++) {
         string row;
         getline(cin, row);
+        maze.push_back(row);
     }
+    Point start = find_start();
+    cerr << "start x, y " << start.x << " " << start.y << endl;
     for (int i = 0; i < h; i++) {
 
 
