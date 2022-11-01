@@ -87,6 +87,38 @@ void bfs(Point start, int dist) {
     int rx = (x == (bx-1)) ? 0 : x+1;
     int dy = (y == (by-1)) ? 0 : y+1;
     // bfs on each neighbor
+    vector<Point> to_try;
+    bool is_empty = (maze[uy][x] == '.');
+    if (is_empty) {
+      Point u;
+      u.x = x;
+      u.y = uy;
+      to_try.push_back(u);
+    }
+    is_empty = (maze[dy][x] == '.');
+    if (is_empty) {
+      Point u;
+      u.x = x;
+      u.y = dy;
+      to_try.push_back(u);
+    }
+    is_empty = (maze[y][rx] == '.');
+    if (is_empty) {
+      Point u;
+      u.x = rx;
+      u.y = y;
+      to_try.push_back(u);
+    }
+    is_empty = (maze[y][lx] == '.');
+    if (is_empty) {
+      Point u;
+      u.x = lx;
+      u.y = y;
+      to_try.push_back(u);
+    }
+    for (Point p: to_try) {
+      bfs(p,dist+1);
+    }
 }
 
 Point find_start() {
