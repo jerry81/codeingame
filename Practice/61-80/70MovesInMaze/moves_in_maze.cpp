@@ -70,6 +70,13 @@ char to_b36(int i) {
   return (char) ('A' + remainder);
 }
 
+int b36_to_i(char c) {
+  int ret = (int)(c - '0');
+  if (ret < 10) return ret;
+
+  return ret - 7;
+}
+
 void bfs(Point start) {
 }
 
@@ -83,6 +90,8 @@ Point find_start() {
       }
     }
   }
+  vis.insert(ret.to_s());
+  maze[ret.y][ret.x] = to_b36(0);
   return ret;
 }
 
@@ -99,7 +108,7 @@ int main()
         maze.push_back(row);
     }
     Point start = find_start();
-    cerr << "start x, y " << start.x << " " << start.y << endl;
+
     for (int i = 0; i < h; i++) {
 
 
