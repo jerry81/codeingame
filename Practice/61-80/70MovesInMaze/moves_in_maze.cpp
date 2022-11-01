@@ -87,17 +87,18 @@ void bfs(queue<Point> q, int dist) {
     maze[start.y][start.x] = to_b36(dist);
     int x = start.x;
     int y = start.y;
-    int uy = (y == 0) ? (by - 1) : y - 1;
-    int lx = (x == 0) ? (bx - 1) : x - 1;
-    int rx = (x == (bx - 1)) ? 0 : x + 1;
-    int dy = (y == (by - 1)) ? 0 : y + 1;
+    int uy = (y == 0) ? (by - 1) : (y - 1);
+    int lx = (x == 0) ? (bx - 1) : (x - 1);
+    int rx = (x == (bx - 1)) ? 0 : (x + 1);
+    int dy = (y == (by - 1)) ? 0 : (y + 1);
     // bfs on each neighbor
     bool is_empty = (maze[uy][x] == '.');
     if (is_empty) {
       Point u;
       u.x = x;
       u.y = uy;
-      if (vis.find(u.to_s()) != vis.end()) {
+      if (vis.find(u.to_s()) == vis.end()) {
+        vis.insert(u.to_s());
         next.push(u);
       }
     }
@@ -107,6 +108,7 @@ void bfs(queue<Point> q, int dist) {
       u.x = x;
       u.y = dy;
       if (vis.find(u.to_s()) == vis.end()) {
+        vis.insert(u.to_s());
         next.push(u);
       }
     }
@@ -116,6 +118,7 @@ void bfs(queue<Point> q, int dist) {
       u.x = rx;
       u.y = y;
       if (vis.find(u.to_s()) == vis.end()) {
+        vis.insert(u.to_s());
         next.push(u);
       }
     }
@@ -125,6 +128,7 @@ void bfs(queue<Point> q, int dist) {
       u.x = lx;
       u.y = y;
       if (vis.find(u.to_s()) == vis.end()) {
+        vis.insert(u.to_s());
         next.push(u);
       }
     }
