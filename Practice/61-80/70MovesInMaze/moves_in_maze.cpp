@@ -77,7 +77,16 @@ int b36_to_i(char c) {
   return ret - 7;
 }
 
-void bfs(Point start) {
+void bfs(Point start, int dist) {
+    vis.insert(start.to_s());
+    maze[start.y][start.x] = to_b36(dist);
+    int x = start.x;
+    int y = start.y;
+    int uy = (y == 0) ? (by - 1) : y-1;
+    int lx = (x == 0) ? (bx - 1) : x-1;
+    int rx = (x == (bx-1)) ? 0 : x+1;
+    int dy = (y == (by-1)) ? 0 : y+1;
+    // bfs on each neighbor
 }
 
 Point find_start() {
@@ -90,8 +99,6 @@ Point find_start() {
       }
     }
   }
-  vis.insert(ret.to_s());
-  maze[ret.y][ret.x] = to_b36(0);
   return ret;
 }
 
@@ -108,7 +115,7 @@ int main()
         maze.push_back(row);
     }
     Point start = find_start();
-
+    bfs(start, 0);
     for (int i = 0; i < h; i++) {
 
 
