@@ -31,6 +31,7 @@ Output
 #include <string>
 #include <vector>
 #include <algorithm>
+#include <cmath>
 
 using namespace std;
 
@@ -38,15 +39,35 @@ using namespace std;
  * Auto-generated code below aims at helping you parse
  * the standard input according to the problem statement.
  **/
+int get_wasteful(float side, float diameter) {
+  int ret = 0;
+  ret = pow((int)(side/diameter), 2);
+  return ret;
+}
+
+int get_frugal(float side, float diameter) {
+    int ret = 0;
+    float area = pow(side,2);
+    float radius = diameter/2.0f;
+    cerr << "radius is " << radius << endl;
+    return ret;
+}
 
 int main()
 {
     float side;
     float diameter;
     cin >> side >> diameter; cin.ignore();
-
+    int wasteful = get_wasteful(side, diameter);
+    int frugal = get_frugal(side,diameter);
     // Write an answer using cout. DON'T FORGET THE "<< endl"
     // To debug: cerr << "Debug messages..." << endl;
 
     cout << "how many more biscuit" << endl;
 }
+
+/*
+ notes
+ circles and squares
+ first calc wasteful
+*/
