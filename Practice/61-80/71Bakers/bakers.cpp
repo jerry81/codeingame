@@ -32,6 +32,7 @@ Output
 #include <vector>
 #include <algorithm>
 #include <cmath>
+#include <math.h>
 
 using namespace std;
 
@@ -45,11 +46,30 @@ int get_wasteful(float side, float diameter) {
   return ret;
 }
 
+float get_remaining_area(float side, float diameter) {
+  float ret = 0.0f;
+  int num_circles = get_wasteful(side, diameter);
+  float area = pow(side,2);
+  float radius = diameter/2.0f;
+  float circle_area = M_PI * pow(radius,2);
+  float total_circle_area = num_circles * circle_area;
+  ret = area - total_circle_area;
+  return ret;
+}
+
 int get_frugal(float side, float diameter) {
     int ret = 0;
-    float area = pow(side,2);
-    float radius = diameter/2.0f;
-    cerr << "radius is " << radius << endl;
+    int num_circles = get_wasteful(side, diameter);
+    ret += num_circles;
+    float rem = get_remaining_area(side, diameter);
+    side = sqrt(rem);
+    num_circles = get_wasteful(side, diameter);
+    while (num_circles > 0) {
+      ret += num_circles;
+      side = sqrt(rem);
+      rem = get_remaining_area(side, diameter);
+      num_circles = get_wasteful(side, diameter); // TODO DRY
+    }
     return ret;
 }
 
@@ -63,7 +83,7 @@ int main()
     // Write an answer using cout. DON'T FORGET THE "<< endl"
     // To debug: cerr << "Debug messages..." << endl;
 
-    cout << "how many more biscuit" << endl;
+    cout << frugal - wasteful << endl;
 }
 
 /*
