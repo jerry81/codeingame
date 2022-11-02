@@ -60,14 +60,7 @@ float get_remaining_area(float side, float diameter) {
 int get_frugal(float side, float diameter) {
     int ret = 0;
     int num_circles = get_wasteful(side, diameter);
-    ret += num_circles;
-    float rem = get_remaining_area(side, diameter);
-    cerr << "remaining area is " << rem << endl;
-    side = sqrt(rem);
-    cerr << "next side is " << side << endl;
-    num_circles = get_wasteful(side, diameter);
-    rem = get_remaining_area(side, diameter);
-    cerr << "num circles is " << rem << endl;
+    float rem;
     while (num_circles > 0) {
       ret += num_circles;
       rem = get_remaining_area(side, diameter);
@@ -84,11 +77,6 @@ int main()
     cin >> side >> diameter; cin.ignore();
     int wasteful = get_wasteful(side, diameter);
     int frugal = get_frugal(side,diameter);
-    cerr << "wasteful: " << wasteful << endl;
-    cerr << "frugal: " << frugal << endl;
-    // Write an answer using cout. DON'T FORGET THE "<< endl"
-    // To debug: cerr << "Debug messages..." << endl;
-
     cout << frugal - wasteful << endl;
 }
 
