@@ -56,8 +56,8 @@ vector<string> grid;
 unordered_set<string> lookup;
 
 int bounds;
-string get_hash(int i, int j) {
-  return to_string(i) + "," + to_string(j);
+string get_hash(int x, int y) {
+  return to_string(x) + "," + to_string(y);
 }
 
 bool visited(string h) {
@@ -84,7 +84,7 @@ bool sort_islands(Island a, Island b) {
 // global for index
 int g_i = 1;
 
-void bfs(int x, int y) {
+void bfs(int y, int x) {
   // bfs again!
   // while queue is not empty
   // pop from queue = point
@@ -119,6 +119,7 @@ void bfs(int x, int y) {
         char neighbor_char = grid[ny][lx];
         string h = get_hash(lx, ny);
         if (neighbor_char == '#' && !visited(h)) {
+          lookup.insert(h);
           next_neighbors.push(nxt);
         } else {
           // coast
@@ -136,6 +137,7 @@ void bfs(int x, int y) {
         char neighbor_char = grid[ny][rx];
         string h = get_hash(rx, ny);
         if (neighbor_char == '#' && !visited(h)) {
+             lookup.insert(h);
           next_neighbors.push(nxt);
         } else {
           // coast
@@ -153,6 +155,7 @@ void bfs(int x, int y) {
         char neighbor_char = grid[uy][nx];
         string h = get_hash(nx, uy);
         if (neighbor_char == '#' && !visited(h)) {
+             lookup.insert(h);
           next_neighbors.push(nxt);
         } else {
           // coast
@@ -170,6 +173,7 @@ void bfs(int x, int y) {
         char neighbor_char = grid[dy][nx];
         string h = get_hash(nx, dy);
         if (neighbor_char == '#' && !visited(h)) {
+             lookup.insert(h);
           next_neighbors.push(nxt);
         } else {
           // coast
@@ -181,7 +185,7 @@ void bfs(int x, int y) {
       }
     }
 
-    next_neighbors = neighbors;
+    neighbors = next_neighbors;
   }
   island.coast_count = coasts;
   islands.push_back(island);
@@ -202,7 +206,7 @@ int main()
     for (int i = 0; i < n; ++i) {
       for (int j = 0; j < n; ++j) {
         char c = grid[i][j];
-        if (c == '#' && !visited(get_hash(i,j))) {
+        if (c == '#' && !visited(get_hash(j,i))) {
           bfs(i,j);
         }
       }

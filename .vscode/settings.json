@@ -9,6 +9,7 @@
     "ostream": "cpp",
     "vector": "cpp",
     "unordered_map": "cpp",
-    "string": "cpp"
+    "string": "cpp",
+    "queue": "cpp"
   }
 }
