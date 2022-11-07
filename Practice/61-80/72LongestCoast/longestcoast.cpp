@@ -43,6 +43,7 @@ Output
 #include <vector>
 #include <algorithm>
 #include <unordered_set>
+#include <queue>
 
 using namespace std;
 
@@ -53,7 +54,8 @@ using namespace std;
 
 vector<string> grid;
 unordered_set<string> lookup;
-
+vector<Island> islands;
+int bounds;
 string get_hash(int i, int j) {
   return to_string(i) + "," + to_string(j);
 }
@@ -64,7 +66,11 @@ bool visited(string h) {
 struct Island {
   int idx;
   int coast_count;
+};
 
+struct Point {
+  int x;
+  int y;
 };
 
 bool sort_islands(Island a, Island b) {
@@ -73,13 +79,85 @@ bool sort_islands(Island a, Island b) {
   return a.idx >= b.idx;
 }
 
-void bfs(int i, int j) {
+// global for index
+int g_i = 1;
+
+void bfs(int x, int y) {
+  // bfs again!
+  // while queue is not empty
+  // pop from queue = point
+  // process point and add neighbors to queue
+  // dont doublecount water
+  Island island;
+  island.idx = g_i;
+  int coasts = 0;
+  unordered_set<string> inner_lookup;
+  queue<Point> neighbors;
+  Point p;
+  p.x = x;
+  p.y = y;
+  neighbors.push(p);
+  while (!neighbors.empty()) {
+    queue<Point> next_neighbors;
+    while (!neighbors.empty()) {
+      Point p = neighbors.front();
+      neighbors.pop();
+      int nx = p.x;
+      int ny = p.y;
+      lookup.insert(get_hash(nx,ny));
+      int lx = nx - 1;
+      int rx = nx + 1;
+      int uy = ny - 1;
+      int dy = ny + 1;
+
+      if (lx >= 0) {
+        Point nxt;
+        nxt.x = lx;
+        nxt.y = ny;
+        char neighbor_char = grid[ny][lx];
+        string h = get_hash(lx, ny);
+        if (neighbor_char == '#' && !visited(h)) {
+          next_neighbors.push(nxt);
+        } else {
+          // coast
+          if (inner_lookup.find(h) != inner_lookup.end()) {
+            ++coasts;
+            inner_lookup.insert(h);
+          }
+        }
+      }
+
+      if (rx < bounds) {
+        Point nxt;
+        nxt.x = rx;
+        nxt.y = ny;
+        next_neighbors.push(nxt);
+      }
+
+      if (uy >= 0) {
+        Point nxt;
+        nxt.x = nx;
+        nxt.y = uy;
+        next_neighbors.push(nxt);
+      }
+
+      if (dy < bounds) {
+        Point nxt;
+        nxt.x = nx;
+        nxt.y = dy;
+        next_neighbors.push(nxt);
+      }
+    }
+  }
+  islands.push_back(island);
+  ++g_i;
 }
 
 int main()
 {
     int n;
     cin >> n; cin.ignore();
+    bounds = n;
     for (int i = 0; i < n; i++) {
         string row;
         getline(cin, row);
