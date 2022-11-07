@@ -50,6 +50,18 @@ using namespace std;
  * the standard input according to the problem statement.
  **/
 
+vector<string> grid;
+struct Island {
+  int idx;
+  int coast_count;
+};
+
+bool sort_islands(Island a, Island b) {
+  if (a.coast_count != b.coast_count) return a.coast_count > b.coast_count;
+
+  return a.idx >= b.idx;
+}
+
 int main()
 {
     int n;
@@ -57,11 +69,12 @@ int main()
     for (int i = 0; i < n; i++) {
         string row;
         getline(cin, row);
+        grid.push_back(row);
     }
 
-    // Write an answer using cout. DON'T FORGET THE "<< endl"
-    // To debug: cerr << "Debug messages..." << endl;
-
+    for (string row: grid) {
+      cerr << "row is " << row << endl;
+    }
     cout << "answer" << endl;
 }
 
