@@ -42,6 +42,7 @@ Output
 #include <string>
 #include <vector>
 #include <algorithm>
+#include <unordered_set>
 
 using namespace std;
 
@@ -51,15 +52,28 @@ using namespace std;
  **/
 
 vector<string> grid;
+unordered_set<string> lookup;
+
+string get_hash(int i, int j) {
+  return to_string(i) + "," + to_string(j);
+}
+
+bool visited(string h) {
+  return (lookup.find(h) != lookup.end());
+}
 struct Island {
   int idx;
   int coast_count;
+
 };
 
 bool sort_islands(Island a, Island b) {
   if (a.coast_count != b.coast_count) return a.coast_count > b.coast_count;
 
   return a.idx >= b.idx;
+}
+
+void bfs(int i, int j) {
 }
 
 int main()
@@ -72,9 +86,12 @@ int main()
         grid.push_back(row);
     }
 
-    for (string s:grid) {
-      for (char c:s) {
-        cerr << "i will iterate " << c << endl;
+    for (int i = 0; i < n; ++i) {
+      for (int j = 0; j < n; ++j) {
+        char c = grid[i][j];
+        if (c == '#' && !visited(get_hash(i,j))) {
+          bfs(i,j);
+        }
       }
     }
     cout << "answer" << endl;
