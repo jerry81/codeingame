@@ -131,24 +131,55 @@ void bfs(int x, int y) {
         Point nxt;
         nxt.x = rx;
         nxt.y = ny;
-        next_neighbors.push(nxt);
+        char neighbor_char = grid[ny][rx];
+        string h = get_hash(rx, ny);
+        if (neighbor_char == '#' && !visited(h)) {
+          next_neighbors.push(nxt);
+        } else {
+          // coast
+          if (inner_lookup.find(h) != inner_lookup.end()) {
+            ++coasts;
+            inner_lookup.insert(h);
+          }
+        }
       }
 
       if (uy >= 0) {
         Point nxt;
         nxt.x = nx;
         nxt.y = uy;
-        next_neighbors.push(nxt);
+        char neighbor_char = grid[uy][nx];
+        string h = get_hash(nx, uy);
+        if (neighbor_char == '#' && !visited(h)) {
+          next_neighbors.push(nxt);
+        } else {
+          // coast
+          if (inner_lookup.find(h) != inner_lookup.end()) {
+            ++coasts;
+            inner_lookup.insert(h);
+          }
+        }
       }
 
       if (dy < bounds) {
         Point nxt;
         nxt.x = nx;
         nxt.y = dy;
-        next_neighbors.push(nxt);
+        char neighbor_char = grid[dy][nx];
+        string h = get_hash(nx, dy);
+        if (neighbor_char == '#' && !visited(h)) {
+          next_neighbors.push(nxt);
+        } else {
+          // coast
+          if (inner_lookup.find(h) != inner_lookup.end()) {
+            ++coasts;
+            inner_lookup.insert(h);
+          }
+        }
       }
     }
   }
+  island.coast_count = coasts;
   islands.push_back(island);
   ++g_i;
 }
