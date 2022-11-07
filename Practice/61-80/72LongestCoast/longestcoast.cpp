@@ -72,8 +72,10 @@ int main()
         grid.push_back(row);
     }
 
-    for (string row: grid) {
-      cerr << "row is " << row << endl;
+    for (string s:grid) {
+      for (char c:s) {
+        cerr << "i will iterate " << c << endl;
+      }
     }
     cout << "answer" << endl;
 }
