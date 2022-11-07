@@ -64,3 +64,7 @@ int main()
 
     cout << "answer" << endl;
 }
+
+// island coast is counted by just countihng adjacent waters
+// so this beocmes a bfs problem where you can just traverse the entire islands' land squares, counting
+// must sort in the end by both count and index
