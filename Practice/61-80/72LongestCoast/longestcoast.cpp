@@ -78,7 +78,7 @@ struct Point {
 bool sort_islands(Island a, Island b) {
   if (a.coast_count != b.coast_count) return a.coast_count > b.coast_count;
 
-  return a.idx >= b.idx;
+  return a.idx <= b.idx;
 }
 
 // global for index
