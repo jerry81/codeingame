@@ -121,11 +121,12 @@ void bfs(int y, int x) {
         if (neighbor_char == '#' && !visited(h)) {
           lookup.insert(h);
           next_neighbors.push(nxt);
-        } else {
+        } else if (neighbor_char == '~') {
           // coast
           if (inner_lookup.find(h) == inner_lookup.end()) {
             ++coasts;
             inner_lookup.insert(h);
+            cerr << "coast added for " << h << endl;
           }
         }
       }
@@ -139,11 +140,13 @@ void bfs(int y, int x) {
         if (neighbor_char == '#' && !visited(h)) {
              lookup.insert(h);
           next_neighbors.push(nxt);
-        } else {
+        } else if (neighbor_char == '~') {
           // coast
           if (inner_lookup.find(h) == inner_lookup.end()) {
             ++coasts;
             inner_lookup.insert(h);
+                        cerr << "coast added for " << h << endl;
+
           }
         }
       }
@@ -157,11 +160,13 @@ void bfs(int y, int x) {
         if (neighbor_char == '#' && !visited(h)) {
              lookup.insert(h);
           next_neighbors.push(nxt);
-        } else {
+        } else if (neighbor_char == '~') {
           // coast
           if (inner_lookup.find(h) == inner_lookup.end()) {
             ++coasts;
             inner_lookup.insert(h);
+                        cerr << "coast added for " << h << endl;
+
           }
         }
       }
@@ -175,16 +180,17 @@ void bfs(int y, int x) {
         if (neighbor_char == '#' && !visited(h)) {
              lookup.insert(h);
           next_neighbors.push(nxt);
-        } else {
+        } else if (neighbor_char == '~') {
           // coast
           if (inner_lookup.find(h) == inner_lookup.end()) {
             ++coasts;
             inner_lookup.insert(h);
+                        cerr << "coast added for " << h << endl;
+
           }
         }
       }
     }
-
     neighbors = next_neighbors;
   }
   island.coast_count = coasts;
