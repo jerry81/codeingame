@@ -54,7 +54,7 @@ using namespace std;
 
 vector<string> grid;
 unordered_set<string> lookup;
-vector<Island> islands;
+
 int bounds;
 string get_hash(int i, int j) {
   return to_string(i) + "," + to_string(j);
@@ -67,6 +67,8 @@ struct Island {
   int idx;
   int coast_count;
 };
+
+vector<Island> islands;
 
 struct Point {
   int x;
@@ -120,7 +122,7 @@ void bfs(int x, int y) {
           next_neighbors.push(nxt);
         } else {
           // coast
-          if (inner_lookup.find(h) != inner_lookup.end()) {
+          if (inner_lookup.find(h) == inner_lookup.end()) {
             ++coasts;
             inner_lookup.insert(h);
           }
@@ -137,7 +139,7 @@ void bfs(int x, int y) {
           next_neighbors.push(nxt);
         } else {
           // coast
-          if (inner_lookup.find(h) != inner_lookup.end()) {
+          if (inner_lookup.find(h) == inner_lookup.end()) {
             ++coasts;
             inner_lookup.insert(h);
           }
@@ -154,7 +156,7 @@ void bfs(int x, int y) {
           next_neighbors.push(nxt);
         } else {
           // coast
-          if (inner_lookup.find(h) != inner_lookup.end()) {
+          if (inner_lookup.find(h) == inner_lookup.end()) {
             ++coasts;
             inner_lookup.insert(h);
           }
@@ -171,13 +173,15 @@ void bfs(int x, int y) {
           next_neighbors.push(nxt);
         } else {
           // coast
-          if (inner_lookup.find(h) != inner_lookup.end()) {
+          if (inner_lookup.find(h) == inner_lookup.end()) {
             ++coasts;
             inner_lookup.insert(h);
           }
         }
       }
     }
+
+    next_neighbors = neighbors;
   }
   island.coast_count = coasts;
   islands.push_back(island);
@@ -202,6 +206,10 @@ int main()
           bfs(i,j);
         }
       }
+    }
+    for (Island i: islands) {
+      cerr << "island idx " << i.idx << endl;
+      cerr << "island count " << i.coast_count << endl;
     }
     cout << "answer" << endl;
 }
