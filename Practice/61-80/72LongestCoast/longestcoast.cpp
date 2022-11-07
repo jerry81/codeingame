@@ -126,7 +126,6 @@ void bfs(int y, int x) {
           if (inner_lookup.find(h) == inner_lookup.end()) {
             ++coasts;
             inner_lookup.insert(h);
-            cerr << "coast added for " << h << endl;
           }
         }
       }
@@ -145,7 +144,6 @@ void bfs(int y, int x) {
           if (inner_lookup.find(h) == inner_lookup.end()) {
             ++coasts;
             inner_lookup.insert(h);
-                        cerr << "coast added for " << h << endl;
 
           }
         }
@@ -165,7 +163,6 @@ void bfs(int y, int x) {
           if (inner_lookup.find(h) == inner_lookup.end()) {
             ++coasts;
             inner_lookup.insert(h);
-                        cerr << "coast added for " << h << endl;
 
           }
         }
@@ -185,7 +182,6 @@ void bfs(int y, int x) {
           if (inner_lookup.find(h) == inner_lookup.end()) {
             ++coasts;
             inner_lookup.insert(h);
-                        cerr << "coast added for " << h << endl;
 
           }
         }
@@ -217,11 +213,12 @@ int main()
         }
       }
     }
+    sort(islands.begin(), islands.end(), sort_islands);
     for (Island i: islands) {
       cerr << "island idx " << i.idx << endl;
       cerr << "island count " << i.coast_count << endl;
     }
-    cout << "answer" << endl;
+    cout << islands[0].idx << " " << islands[0].coast_count << endl;
 }
 
 // island coast is counted by just countihng adjacent waters
