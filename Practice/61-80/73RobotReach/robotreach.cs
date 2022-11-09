@@ -76,14 +76,17 @@ using System.Collections.Generic;
  * Auto-generated code below aims at helping you parse
  * the standard input according to the problem statement.
  **/
-class Solution
-{
+class Grid {
+    struct Point {
+      public int x;
+      public int y;
+    }
     private List<List<int>> grid = new List<List<int>>{};
     int ctoi(char c) { // TIL: char to int
       return c - '0';
     }
 
-    int sum_digits(int full) {
+    public int sum_digits(int full) {
       string fs = full.ToString();
       int ret = 0;
       foreach(char c in fs) {
@@ -92,40 +95,38 @@ class Solution
       return ret;
     }
 
-    void bfs() {
+    public void bfs() {
+      HashSet<string> lookup = new HashSet<string>();
     }
 
     string get_hash_key(int row, int col) {
       return $"{row},{col}";
     }
-
+}
+class Solution
+{
     static void Main(string[] args)
     {
-        Solution s = new Solution();
+        Grid g = new Grid();
         int R = int.Parse(Console.ReadLine());
         int C = int.Parse(Console.ReadLine());
         int T = int.Parse(Console.ReadLine());
         for (int row = 0; row < R; ++row) {
-          int ri = s.sum_digits(row); // TIL: int to string
+          int ri = g.sum_digits(row); // TIL: int to string
 
           s.grid.Add(new List<int>{});
           for (int col = 0; col < C; ++col) {
-            int ci = s.sum_digits(col);
-            s.grid[row].Add(ci+ri);
+            int ci = g.sum_digits(col);
+            g.grid[row].Add(ci+ri);
           }
         }
 
         for (int row = 0; row < R; ++row) {
           for (int col = 0; col < C; ++col) {
-            Console.Error.Write($"{s.grid[row][col]} ");
+            Console.Error.Write($"{g.grid[row][col]} ");
           }
           Console.Error.WriteLine($"");
         }
-        // for i..R
-        // for j..C
-        //   populate grid
-        // Write an answer using Console.WriteLine()
-        // To debug: Console.Error.WriteLine("Debug messages...");
 
         Console.WriteLine("answer");
     }
