@@ -83,10 +83,21 @@ class Solution
         int R = int.Parse(Console.ReadLine());
         int C = int.Parse(Console.ReadLine());
         int T = int.Parse(Console.ReadLine());
-
+        // for i..R
+        // for j..C
+        //   populate grid
         // Write an answer using Console.WriteLine()
         // To debug: Console.Error.WriteLine("Debug messages...");
 
         Console.WriteLine("answer");
     }
 }
+
+// helper
+// step 1: build the grid
+// step 2: analyze
+
+/* TIL: string templates
+string mafa = "mothafucka";
+Console.WriteLine($"Hello World {mafa}");
+*/
