@@ -77,7 +77,7 @@ using System.Collections.Generic;
  * the standard input according to the problem statement.
  **/
 class Grid {
-    struct Point {
+    private struct Point {
       public int x;
       public int y;
     }
@@ -116,6 +116,13 @@ class Grid {
     public int bfs() {
       int ret = 0;
       HashSet<string> lookup = new HashSet<string>();
+      Point p;
+      p.x = 0;
+      p.y = 0;
+      Queue<Point> q = new Queue<Point>();
+      q.Enqueue(p);
+      Point dqtest = q.Dequeue();
+      Console.Error.WriteLine($"dqtest x, y {dqtest.x} {dqtest.y}");
       return ret;
     }
 
@@ -142,6 +149,7 @@ class Solution
         Grid g = new Grid(R,C,T);
 
         g.print();
+        int x = g.bfs();
 
         Console.WriteLine("answer");
     }
