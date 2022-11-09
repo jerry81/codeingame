@@ -83,6 +83,19 @@ class Solution
         int R = int.Parse(Console.ReadLine());
         int C = int.Parse(Console.ReadLine());
         int T = int.Parse(Console.ReadLine());
+        var grid = new List<List<int>>{};
+        for (int row = 0; row < R; ++row) {
+          grid.Add(new List<int>{});
+          for (int col = 0; col < C; ++col) {
+            grid[row].Add(col);
+          }
+        }
+
+        for (int row = 0; row < R; ++row) {
+          for (int col = 0; col < C; ++col) {
+            Console.Error.WriteLine($"item is {grid[row][col]}");
+          }
+        }
         // for i..R
         // for j..C
         //   populate grid
