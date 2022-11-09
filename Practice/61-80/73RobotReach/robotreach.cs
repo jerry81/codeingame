@@ -78,6 +78,10 @@ using System.Collections.Generic;
  **/
 class Solution
 {
+    int ctoi(char c) { // TIL: char to int
+      return c - '0';
+    }
+
     static void Main(string[] args)
     {
         int R = int.Parse(Console.ReadLine());
