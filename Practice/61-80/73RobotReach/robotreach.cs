@@ -82,6 +82,15 @@ class Solution
       return c - '0';
     }
 
+    int sum_digits(int full) {
+      string fs = full.ToString();
+      int ret = 0;
+      foreach(char c in fs) {
+        ret+=(ctoi(c));
+      }
+      return ret;
+    }
+
     static void Main(string[] args)
     {
         int R = int.Parse(Console.ReadLine());
@@ -89,11 +98,12 @@ class Solution
         int T = int.Parse(Console.ReadLine());
         var grid = new List<List<int>>{};
         for (int row = 0; row < R; ++row) {
-          string rs = row.ToString(); // TIL: int to string
+          int ri = sum_digits(row); // TIL: int to string
+
           grid.Add(new List<int>{});
           for (int col = 0; col < C; ++col) {
-            string cs = row.ToString();
-            grid[row].Add(col);
+            int ci = sum_digits(col);
+            grid[row].Add(ci+ri);
           }
         }
 
