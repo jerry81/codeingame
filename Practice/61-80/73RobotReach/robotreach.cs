@@ -78,6 +78,7 @@ using System.Collections.Generic;
  **/
 class Solution
 {
+    private List<List<int>> grid = new List<List<int>>{};
     int ctoi(char c) { // TIL: char to int
       return c - '0';
     }
@@ -91,28 +92,34 @@ class Solution
       return ret;
     }
 
+    void bfs() {
+    }
+
+    string get_hash_key(int row, int col) {
+      return $"{row},{col}";
+    }
+
     static void Main(string[] args)
     {
         Solution s = new Solution();
         int R = int.Parse(Console.ReadLine());
         int C = int.Parse(Console.ReadLine());
         int T = int.Parse(Console.ReadLine());
-        var grid = new List<List<int>>{};
         for (int row = 0; row < R; ++row) {
           int ri = s.sum_digits(row); // TIL: int to string
 
-          grid.Add(new List<int>{});
+          s.grid.Add(new List<int>{});
           for (int col = 0; col < C; ++col) {
             int ci = s.sum_digits(col);
-            grid[row].Add(ci+ri);
+            s.grid[row].Add(ci+ri);
           }
         }
 
         for (int row = 0; row < R; ++row) {
-          Console.Error.WriteLine($"line {row}");
           for (int col = 0; col < C; ++col) {
-            Console.Error.WriteLine($"item is {grid[row][col]}");
+            Console.Error.Write($"{s.grid[row][col]} ");
           }
+          Console.Error.WriteLine($"");
         }
         // for i..R
         // for j..C
@@ -127,6 +134,9 @@ class Solution
 // helper
 // step 1: build the grid
 // step 2: analyze
+// step 3: surefire solution: do bfs from 0,0
+  // bfs requires hashmap for lookup
+  // queue preferred
 
 /* TIL: string templates
 string mafa = "mothafucka";
