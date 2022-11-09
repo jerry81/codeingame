@@ -121,8 +121,23 @@ class Grid {
       p.y = 0;
       Queue<Point> q = new Queue<Point>();
       q.Enqueue(p);
-      Point dqtest = q.Dequeue();
-      Console.Error.WriteLine($"dqtest x, y {dqtest.x} {dqtest.y}");
+      while (q.Count > 0) {
+        Queue<Point> nextQ = new Queue<Point>();
+        while (q.Count > 0) {
+          Point cur = q.Dequeue();
+          string h = get_hash_key(p.y,p.x);
+          if (lookup.Contains(h)) continue;
+
+          if ((grid[p.y][p.x] <= pT)) {
+            ++ret;
+            lookup.Add(h);
+          }
+
+          // add neighbors
+        }
+        q = nextQ;
+      }
+
       return ret;
     }
 
