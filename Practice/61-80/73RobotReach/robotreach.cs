@@ -85,8 +85,10 @@ class Solution
         int T = int.Parse(Console.ReadLine());
         var grid = new List<List<int>>{};
         for (int row = 0; row < R; ++row) {
+          string rs = row.ToString(); // TIL: int to string
           grid.Add(new List<int>{});
           for (int col = 0; col < C; ++col) {
+            string cs = row.ToString();
             grid[row].Add(col);
           }
         }
