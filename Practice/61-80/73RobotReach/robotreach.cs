@@ -82,11 +82,29 @@ class Grid {
       public int y;
     }
     private List<List<int>> grid = new List<List<int>>{};
+    private int pR;
+    private int pC;
+    private int pT;
     int ctoi(char c) { // TIL: char to int
       return c - '0';
     }
 
-    public int sum_digits(int full) {
+    public Grid(int R, int C, int T) {
+      pR = R;
+      pC = C;
+      pT = T;
+      for (int row = 0; row < R; ++row) {
+          int ri = sum_digits(row); // TIL: int to string
+
+          grid.Add(new List<int>{});
+          for (int col = 0; col < C; ++col) {
+            int ci = sum_digits(col);
+            grid[row].Add(ci+ri);
+          }
+        }
+    }
+
+    int sum_digits(int full) {
       string fs = full.ToString();
       int ret = 0;
       foreach(char c in fs) {
@@ -95,38 +113,35 @@ class Grid {
       return ret;
     }
 
-    public void bfs() {
+    public int bfs() {
+      int ret = 0;
       HashSet<string> lookup = new HashSet<string>();
+      return ret;
     }
 
-    string get_hash_key(int row, int col) {
+    private string get_hash_key(int row, int col) {
       return $"{row},{col}";
+    }
+
+    public void print() {
+      for (int row = 0; row < pR; ++row) {
+          for (int col = 0; col < pC; ++col) {
+            Console.Error.Write($"{grid[row][col]} ");
+          }
+          Console.Error.WriteLine($"");
+      }
     }
 }
 class Solution
 {
     static void Main(string[] args)
     {
-        Grid g = new Grid();
         int R = int.Parse(Console.ReadLine());
         int C = int.Parse(Console.ReadLine());
         int T = int.Parse(Console.ReadLine());
-        for (int row = 0; row < R; ++row) {
-          int ri = g.sum_digits(row); // TIL: int to string
+        Grid g = new Grid(R,C,T);
 
-          s.grid.Add(new List<int>{});
-          for (int col = 0; col < C; ++col) {
-            int ci = g.sum_digits(col);
-            g.grid[row].Add(ci+ri);
-          }
-        }
-
-        for (int row = 0; row < R; ++row) {
-          for (int col = 0; col < C; ++col) {
-            Console.Error.Write($"{g.grid[row][col]} ");
-          }
-          Console.Error.WriteLine($"");
-        }
+        g.print();
 
         Console.WriteLine("answer");
     }
