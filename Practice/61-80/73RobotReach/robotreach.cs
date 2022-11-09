@@ -93,21 +93,23 @@ class Solution
 
     static void Main(string[] args)
     {
+        Solution s = new Solution();
         int R = int.Parse(Console.ReadLine());
         int C = int.Parse(Console.ReadLine());
         int T = int.Parse(Console.ReadLine());
         var grid = new List<List<int>>{};
         for (int row = 0; row < R; ++row) {
-          int ri = sum_digits(row); // TIL: int to string
+          int ri = s.sum_digits(row); // TIL: int to string
 
           grid.Add(new List<int>{});
           for (int col = 0; col < C; ++col) {
-            int ci = sum_digits(col);
+            int ci = s.sum_digits(col);
             grid[row].Add(ci+ri);
           }
         }
 
         for (int row = 0; row < R; ++row) {
+          Console.Error.WriteLine($"line {row}");
           for (int col = 0; col < C; ++col) {
             Console.Error.WriteLine($"item is {grid[row][col]}");
           }
