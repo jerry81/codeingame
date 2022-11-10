@@ -125,10 +125,15 @@ class Grid {
         Queue<Point> nextQ = new Queue<Point>();
         while (q.Count > 0) {
           Point cur = q.Dequeue();
-          string h = get_hash_key(p.y,p.x);
+          string h = get_hash_key(cur.y,cur.x);
           // if (lookup.Contains(h)) continue;
 
-          if ((grid[p.y][p.x] <= pT && lookup.Contains(h))) {
+          if ((grid[cur.y][cur.x] <= pT)) {
+            Console.Error.WriteLine($"p {cur.y} {cur.x}");
+
+            Console.Error.WriteLine($"adding {grid[cur.y][cur.x]}");
+            Console.Error.WriteLine($"bc it is less than {pT}");
+
             ++ret;
             lookup.Add(h);
           }
@@ -140,39 +145,43 @@ class Grid {
 
           if (lx >= 0) {
             // under threshold, add to next queue
-            string curs = get_hash_key(p.y, lx);  //TODO: DRY
+            string curs = get_hash_key(cur.y, lx);  //TODO: DRY
             Point left;
-            left.y = p.y;
+            left.y = cur.y;
             left.x = lx;
-            if (grid[p.y][lx] <= pT && !lookup.Contains(curs)) {
+            if (grid[cur.y][lx] <= pT && !lookup.Contains(curs)) {
               nextQ.Enqueue(left);
+              lookup.Add(curs);
             }
           }
           if (rx < pC) {
-            string curs = get_hash_key(p.y, rx);
+            string curs = get_hash_key(cur.y, rx);
             Point right;
-            right.y = p.y;
+            right.y = cur.y;
             right.x = rx;
-            if (grid[p.y][rx] <= pT && !lookup.Contains(curs)) {
+            if (grid[cur.y][rx] <= pT && !lookup.Contains(curs)) {
               nextQ.Enqueue(right);
+              lookup.Add(curs);
             }
           }
           if (uy >= 0) {
-            string curs = get_hash_key(uy, p.x);
+            string curs = get_hash_key(uy, cur.x);
             Point up;
             up.y = uy;
-            up.x = p.x;
-            if (grid[uy][p.x] <= pT && !lookup.Contains(curs)) {
+            up.x = cur.x;
+            if (grid[uy][cur.x] <= pT && !lookup.Contains(curs)) {
               nextQ.Enqueue(up);
+              lookup.Add(curs);
             }
           }
           if (dy < pR) {
-            string curs = get_hash_key(dy, p.x);
+            string curs = get_hash_key(dy, cur.x);
             Point down;
             down.y = dy;
-            down.x = p.x;
-            if (grid[dy][p.x] <= pT && lookup.Contains(curs)) {
+            down.x = cur.x;
+            if (grid[dy][cur.x] <= pT && !lookup.Contains(curs)) {
               nextQ.Enqueue(down);
+              lookup.Add(curs);
             }
           }
         }
