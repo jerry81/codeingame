@@ -32,15 +32,20 @@ using System.Collections.Generic;
  * the standard input according to the problem statement.
  **/
 class LogicGraph {
-  Dictionary<string, List<string>> neighbors;
+  Dictionary<string, List<string>> neighbors = new Dictionary<string, List<string>>();
   bool traverse(string start, string end) {
-    bool ret = false;
-    return ret;
+    string cur = start;
+    while (true) {
+      if (cur == end) return true;
+      if (!neighbors.ContainsKey(cur) || neighbors[cur].Count == 0) return false;
+
+      cur = neighbors[cur][0];
+    }
   }
   public bool AddEntry(string row) {
     string[] sa = row.Split(" > ");
     if (neighbors.ContainsKey(sa[0]) && neighbors.ContainsKey(sa[1])) {
-
+      if (traverse(sa[1], sa[0])) return false;
     }
 
     if (!neighbors.ContainsKey(sa[0])) {
