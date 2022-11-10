@@ -140,39 +140,39 @@ class Grid {
 
           if (lx >= 0) {
             // under threshold, add to next queue
-            string cur = get_hash_key(p.y, lx);  //TODO: DRY
+            string curs = get_hash_key(p.y, lx);  //TODO: DRY
             Point left;
             left.y = p.y;
             left.x = lx;
-            if (grid[p.y][lx] <= pT && !lookup.Contains(cur)) {
-              nextQ.Add(left);
+            if (grid[p.y][lx] <= pT && !lookup.Contains(curs)) {
+              nextQ.Enqueue(left);
             }
           }
           if (rx < pC) {
-            string cur = get_hash_key(p.y, rx);
+            string curs = get_hash_key(p.y, rx);
             Point right;
             right.y = p.y;
             right.x = rx;
-            if (grid[p.y][rx] <= pT && !lookup.Contains(cur)) {
-              nextQ.Add(right);
+            if (grid[p.y][rx] <= pT && !lookup.Contains(curs)) {
+              nextQ.Enqueue(right);
             }
           }
           if (uy >= 0) {
-            string cur = get_hash_key(uy, p.x);
+            string curs = get_hash_key(uy, p.x);
             Point up;
             up.y = uy;
             up.x = p.x;
-            if (grid[uy][p.x] <= pT && !lookup.Contains(cur)) {
-              nextQ.Add(up);
+            if (grid[uy][p.x] <= pT && !lookup.Contains(curs)) {
+              nextQ.Enqueue(up);
             }
           }
           if (dy < pR) {
-            string cur = get_hash_key(dy, p.x);
+            string curs = get_hash_key(dy, p.x);
             Point down;
             down.y = dy;
             down.x = p.x;
-            if (grid[dy][p.x] <= pT && lookup.Contains(cur)) {
-              nextQ.Add(down);
+            if (grid[dy][p.x] <= pT && lookup.Contains(curs)) {
+              nextQ.Enqueue(down);
             }
           }
         }
