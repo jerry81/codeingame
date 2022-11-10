@@ -36,6 +36,7 @@ class LogicGraph {
   bool traverse(string start, string end) {
     string cur = start;
     while (true) {
+      Console.Error.WriteLine($"cur is now {cur}");
       if (cur == end) return true;
       if (!neighbors.ContainsKey(cur) || neighbors[cur].Count == 0) return false;
 
@@ -45,13 +46,16 @@ class LogicGraph {
   public bool AddEntry(string row) {
     string[] sa = row.Split(" > ");
     if (neighbors.ContainsKey(sa[0]) && neighbors.ContainsKey(sa[1])) {
+      Console.Error.WriteLine($"traversing {sa[1]} to {sa[0]}");
       if (traverse(sa[1], sa[0])) return false;
     }
 
     if (!neighbors.ContainsKey(sa[0])) {
       neighbors.Add(sa[0], new List<string>());
-      neighbors[sa[0]].Add(sa[1]);
+
     }
+
+    neighbors[sa[0]].Add(sa[1]);
 
     if (!neighbors.ContainsKey(sa[1])) {
       neighbors.Add(sa[1], new List<string>());
