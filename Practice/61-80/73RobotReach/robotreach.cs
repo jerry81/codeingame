@@ -126,14 +126,55 @@ class Grid {
         while (q.Count > 0) {
           Point cur = q.Dequeue();
           string h = get_hash_key(p.y,p.x);
-          if (lookup.Contains(h)) continue;
+          // if (lookup.Contains(h)) continue;
 
-          if ((grid[p.y][p.x] <= pT)) {
+          if ((grid[p.y][p.x] <= pT && lookup.Contains(h))) {
             ++ret;
             lookup.Add(h);
           }
-
           // add neighbors
+          int lx = p.x-1;
+          int rx = p.x+1;
+          int uy = p.y-1;
+          int dy = p.y+1;
+
+          if (lx >= 0) {
+            // under threshold, add to next queue
+            string cur = get_hash_key(p.y, lx);  //TODO: DRY
+            Point left;
+            left.y = p.y;
+            left.x = lx;
+            if (grid[p.y][lx] <= pT && !lookup.Contains(cur)) {
+              nextQ.Add(left);
+            }
+          }
+          if (rx < pC) {
+            string cur = get_hash_key(p.y, rx);
+            Point right;
+            right.y = p.y;
+            right.x = rx;
+            if (grid[p.y][rx] <= pT && !lookup.Contains(cur)) {
+              nextQ.Add(right);
+            }
+          }
+          if (uy >= 0) {
+            string cur = get_hash_key(uy, p.x);
+            Point up;
+            up.y = uy;
+            up.x = p.x;
+            if (grid[uy][p.x] <= pT && !lookup.Contains(cur)) {
+              nextQ.Add(up);
+            }
+          }
+          if (dy < pR) {
+            string cur = get_hash_key(dy, p.x);
+            Point down;
+            down.y = dy;
+            down.x = p.x;
+            if (grid[dy][p.x] <= pT && lookup.Contains(cur)) {
+              nextQ.Add(down);
+            }
+          }
         }
         q = nextQ;
       }
@@ -166,7 +207,7 @@ class Solution
         g.print();
         int x = g.bfs();
 
-        Console.WriteLine("answer");
+        Console.WriteLine(x);
     }
 }
 
