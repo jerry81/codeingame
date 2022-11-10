@@ -138,10 +138,10 @@ class Grid {
             lookup.Add(h);
           }
           // add neighbors
-          int lx = p.x-1;
-          int rx = p.x+1;
-          int uy = p.y-1;
-          int dy = p.y+1;
+          int lx = cur.x-1;
+          int rx = cur.x+1;
+          int uy = cur.y-1;
+          int dy = cur.y+1;
 
           if (lx >= 0) {
             // under threshold, add to next queue
@@ -184,10 +184,10 @@ class Grid {
               lookup.Add(curs);
             }
           }
+
         }
         q = nextQ;
       }
-
       return ret;
     }
 
