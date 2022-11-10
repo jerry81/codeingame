@@ -31,20 +31,33 @@ using System.Collections.Generic;
  * Auto-generated code below aims at helping you parse
  * the standard input according to the problem statement.
  **/
+class LogicGraph {
+  Dictionary<char, List<char>> neighbors;
+
+  public bool AddEntry(string row) {
+    return true;
+  }
+}
+
 class Solution
 {
     static void Main(string[] args)
     {
         int n = int.Parse(Console.ReadLine());
+        LogicGraph lg = new LogicGraph();
         for (int i = 0; i < n; i++)
         {
             string row = Console.ReadLine();
+            if (!lg.AddEntry(row)) {
+              Console.WriteLine("contradiction");
+              return;
+            };
         }
 
         // Write an answer using Console.WriteLine()
         // To debug: Console.Error.WriteLine("Debug messages...");
 
-        Console.WriteLine("consistent/contradiction");
+        Console.WriteLine("consistent");
     }
 }
 
