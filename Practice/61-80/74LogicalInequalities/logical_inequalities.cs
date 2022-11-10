@@ -47,3 +47,23 @@ class Solution
         Console.WriteLine("consistent/contradiction");
     }
 }
+
+/*
+  store dictionary of Lists of Letters NodeToNeighbors
+
+  helper -> traverse(start, searchfor)
+
+  for each item pair a, b
+    if a and b don't exist
+      - create a: [b]
+      - create b: []
+    if a exists but not b
+      -  a neighbors << b
+      - create b: []
+    if b exists but not a
+      - create a: [b]
+      - b do nothing
+    if both exist
+      traverse(b,a)
+      if false then a.neighbors << b
+*/
