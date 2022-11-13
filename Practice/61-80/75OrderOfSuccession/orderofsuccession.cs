@@ -69,16 +69,21 @@ using System.Text;
 using System.Collections;
 using System.Collections.Generic;
 
-/**
- * Auto-generated code below aims at helping you parse
- * the standard input according to the problem statement.
- **/
+// can we assume first item is alwasy the root?
 class RoyalTree {
   private int len;
   public void SetLength(int length) {
     len = length;
   }
 
+  public void AddPerson(
+    string name,
+    string parent,
+    int birth,
+    int death,
+    string religion,
+    string gender) {
+  }
 }
 class Solution
 {
@@ -96,6 +101,7 @@ class Solution
             string death = inputs[3];
             string religion = inputs[4];
             string gender = inputs[5];
+            rt.AddPerson(name,parent,birth,death,religion,gender);
         }
 
         // Write an answer using Console.WriteLine()
