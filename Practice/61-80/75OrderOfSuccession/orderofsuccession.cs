@@ -74,12 +74,19 @@ using System.Collections.Generic;
  * the standard input according to the problem statement.
  **/
 class RoyalTree {
+  private int len;
+  public void SetLength(int length) {
+    len = length;
+  }
+
 }
 class Solution
 {
     static void Main(string[] args)
     {
+        RoyalTree rt = new RoyalTree();
         int n = int.Parse(Console.ReadLine());
+        rt.SetLength(n);
         for (int i = 0; i < n; i++)
         {
             string[] inputs = Console.ReadLine().Split(' ');
