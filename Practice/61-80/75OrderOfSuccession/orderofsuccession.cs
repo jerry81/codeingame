@@ -84,6 +84,10 @@ class RoyalTree {
     List<RTNode> children;
   };
 
+  Dictionary<string, RTNode> family_lookup = new Dictionary<string, RTNode>();
+
+  string root;
+
   public void SetLength(int length) {
     len = length;
   }
@@ -95,6 +99,9 @@ class RoyalTree {
     int death,
     string religion,
     string gender) {
+    RTNode person;
+    person.name = name;
+    person.parent = parent;
   }
 }
 class Solution
