@@ -72,6 +72,18 @@ using System.Collections.Generic;
 // can we assume first item is alwasy the root?
 class RoyalTree {
   private int len;
+
+  struct RTNode {
+    string name;
+    string parent;
+    int birth;
+    int death = -1;
+    string religion;
+    string gender;
+
+    List<RTNode> children;
+  };
+
   public void SetLength(int length) {
     len = length;
   }
