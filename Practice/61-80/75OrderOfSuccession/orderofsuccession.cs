@@ -88,32 +88,32 @@ class RoyalTree {
     public List<string> children;
   };
 
-  // class SiblingSorter : IComparer<string>
-  // {
-  //    private Dictionary<string, RTNode> family_lookup = new Dictionary<string, RTNode>();
+ class SiblingSorter : IComparer<string>
+   {
+      private Dictionary<string, RTNode> family_lookup = new Dictionary<string, RTNode>();
 
-  //    public SiblingSorter(Dictionary<string, RTNode> fl) {
-  //      family_lookup=fl;
-  //    }
+      public SiblingSorter(Dictionary<string, RTNode> fl) {
+        family_lookup=fl;
+      }
 
-  //    public int Compare(string x, string y)
-  //    {
-  //        RTNode rx = family_lookup[x];
-  //        RTNode ry = family_lookup[y];
-  //        if (rx.death != "-" && ry.death == "-") return 1;
+      public int Compare(string x, string y)
+      {
+          RTNode rx = family_lookup[x];
+          RTNode ry = family_lookup[y];
+          if (rx.death != "-" && ry.death == "-") return 1;
 
-  //        if (rx.death == "-" && ry.death != "-") return -1;
+          if (rx.death == "-" && ry.death != "-") return -1;
 
-  //        if (rx.gender == "M" && ry.gender == "F")return -1;
+          if (rx.gender == "M" && ry.gender == "F")return -1;
 
-  //        if (rx.gender == "F" && ry.gender == "M") return -1;
+          if (rx.gender == "F" && ry.gender == "M") return 1;
 
-  //        if (rx.birth == ry.birth) return 0;
+          if (rx.birth == ry.birth) return 0;
 
-  //        return (rx.birth < ry.birth) ? -1 : 1;
+          return (rx.birth < ry.birth) ? -1 : 1;
 
-  //    }
-  // }
+      }
+   }
 
   Dictionary<string, RTNode> family_lookup = new Dictionary<string, RTNode>();
 
@@ -123,11 +123,17 @@ class RoyalTree {
     len = length;
   }
 
-  public List<string> traverse(List<string> cur) {
-    List<string> ret = new List<string>();
-    RTNode r = family_lookup[root];
-    if (r.death == "-") ret.Add(r.name);
-    return ret;
+  private void traverseR(string cur) {
+    RTNode curR = family_lookup[cur];
+    if (curR.death == "-" && curR.religion != "Catholic") Console.WriteLine(cur);
+    List<string> c = curR.children;
+    foreach (var child in c) {
+      traverseR(child);
+    }
+  }
+
+  public void Traverse() {
+    traverseR(root);
   }
 
   public void AddPerson(
@@ -150,6 +156,8 @@ class RoyalTree {
       root = name;
     } else {
       family_lookup[parent].children.Add(name);
+      SiblingSorter ss = new SiblingSorter(family_lookup);
+      family_lookup[parent].children.Sort(ss);
     }
   }
 
@@ -158,11 +166,11 @@ class RoyalTree {
     {
        string key = entry.Key;
        RTNode value = entry.Value;
-      // Console.Error.WriteLine($"key: {key}, parent: {value.parent}");
-      //  foreach (var child in value.children) {
-      //     Console.Error.WriteLine($"child is: {child}");
-      //  }
-       if (value.death == "-" && value.religion != "Catholic") Console.WriteLine(key);
+      Console.Error.WriteLine($"key: {key}, parent: {value.parent}");
+        foreach (var child in value.children) {
+           Console.Error.WriteLine($"child is: {child}");
+        }
+      // if (value.death == "-" && value.religion != "Catholic") Console.WriteLine(key);
     }
     Console.Error.WriteLine($"Root is {root}");
   }
@@ -185,11 +193,70 @@ class Solution
             string gender = inputs[5];
             rt.AddPerson(name,parent,birth,death,religion,gender);
         }
-        rt.PrintTree();
-
+        // rt.PrintTree();
+        rt.Traverse();
         // Write an answer using Console.WriteLine()
         // To debug: Console.Error.WriteLine("Debug messages...");
 
         // Console.WriteLine("orDeroFsucceSsion");
     }
 }
+
+/*
+
+KingGeorgeVI - 1895 1952 Anglican M
+QueenElizabethII KingGeorgeVI 1926 - Anglican F
+CharlesPrinceofWales QueenElizabethII 1948 - Anglican M
+PrinceWilliamDukeofCambridge CharlesPrinceofWales 1982 - Anglican M
+PrinceGeorgeofCambridge PrinceWilliamDukeofCambridge 2013 - Anglican M
+PrincessCharlotteofCambridge PrinceWilliamDukeofCambridge 2015 - Anglican F
+PrinceHenryofWales CharlesPrinceofWales 1984 - Anglican M
+PrinceEdwardEarlofWessex QueenElizabethII 1964 - Anglican M
+PrinceAndrewDukeofYork QueenElizabethII 1960 - Anglican M
+PrincessBeatriceofYork PrinceAndrewDukeofYork 1988 - Anglican F
+PrincessEugenieofYork PrinceAndrewDukeofYork 1990 - Anglican F
+JamesViscountSevern PrinceEdwardEarlofWessex 2007 - Anglican M
+LadyLouiseWindsor PrinceEdwardEarlofWessex 2003 - Anglican F
+AnnePrincessRoyal QueenElizabethII 1950 - Anglican F
+PeterPhillips AnnePrincessRoyal 1977 - Anglican M
+SavannahPhillips PeterPhillips 2010 - Anglican F
+IslaPhillips PeterPhillips 2012 - Anglican F
+ZaraTindall AnnePrincessRoyal 1981 - Anglican F
+MiaTindall ZaraTindall 2014 - Anglican F
+PrincessMargaretCountessofSnowdon KingGeorgeVI 1930 2002 Anglican F
+DavidArmstrong-Jones2ndEarlofSnowdon PrincessMargaretCountessofSnowdon 1961 - Anglican M
+CharlesArmstrong-JonesViscountLinley DavidArmstrong-Jones2ndEarlofSnowdon 1999 - Anglican M
+LadyMargaritaArmstrong-Jones DavidArmstrong-Jones2ndEarlofSnowdon 2002 - Anglican F
+LadySarahChatto PrincessMargaretCountessofSnowdon 1964 - Anglican F
+SamuelChatto LadySarahChatto 1996 - Anglican M
+ArthurChatto LadySarahChatto 1999 - Anglican M
+
+
+QueenElizabethII
+CharlesPrinceofWales
+PrinceWilliamDukeofCambridge
+PrinceGeorgeofCambridge
+PrincessCharlotteofCambridge
+PrinceHenryofWales
+PrinceAndrewDukeofYork
+PrincessBeatriceofYork
+PrincessEugenieofYork
+PrinceEdwardEarlofWessex
+JamesViscountSevern
+LadyLouiseWindsor
+AnnePrincessRoyal
+PeterPhillips
+SavannahPhillips
+IslaPhillips
+ZaraTindall
+MiaTindall
+DavidArmstrong-Jones2ndEarlofSnowdon
+CharlesArmstrong-JonesViscountLinley
+LadyMargaritaArmstrong-Jones
+LadySarahChatto
+SamuelChatto
+ArthurChatto
+SEND TO IDE
+04 Non anglican people
+
+*/
