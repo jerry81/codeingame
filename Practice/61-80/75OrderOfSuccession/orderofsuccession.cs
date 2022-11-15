@@ -73,15 +73,15 @@ using System.Collections.Generic;
 class RoyalTree {
   private int len;
 
-  struct RTNode {
-    string name;
-    string parent;
-    int birth;
-    int death = -1;
-    string religion;
-    string gender;
+  private struct RTNode {
+    public string name;
+    public string parent;
+    public int birth;
+    public string death;
+    public string religion;
+    public string gender;
 
-    List<RTNode> children;
+    public List<string> children;
   };
 
   Dictionary<string, RTNode> family_lookup = new Dictionary<string, RTNode>();
@@ -96,12 +96,33 @@ class RoyalTree {
     string name,
     string parent,
     int birth,
-    int death,
+    string death,
     string religion,
     string gender) {
     RTNode person;
+    person.children=new List<string>();
     person.name = name;
     person.parent = parent;
+    person.birth = birth;
+    person.death = death;
+    person.religion = religion;
+    person.gender = gender;
+    family_lookup[name] = person;
+    if (parent == "-") {
+      root = name;
+    } else {
+      family_lookup[parent].children.Add(name);
+    }
+  }
+
+  public void PrintTree() {
+    foreach (var entry in family_lookup)
+ {
+ string key = entry.Key;
+ RTNode value = entry.Value;
+ // Do something here
+   Console.Error.WriteLine($"key: {key}, parent: {value.parent}");
+ }
   }
 }
 class Solution
@@ -122,6 +143,7 @@ class Solution
             string gender = inputs[5];
             rt.AddPerson(name,parent,birth,death,religion,gender);
         }
+        rt.PrintTree();
 
         // Write an answer using Console.WriteLine()
         // To debug: Console.Error.WriteLine("Debug messages...");
