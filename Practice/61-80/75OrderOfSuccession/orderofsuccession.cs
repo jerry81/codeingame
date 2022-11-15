@@ -123,9 +123,10 @@ class RoyalTree {
     len = length;
   }
 
-  public List<string> traverse() {
+  public List<string> traverse(List<string> cur) {
     List<string> ret = new List<string>();
     RTNode r = family_lookup[root];
+    if (r.death == "-") ret.Add(r.name);
     return ret;
   }
 
@@ -157,10 +158,11 @@ class RoyalTree {
     {
        string key = entry.Key;
        RTNode value = entry.Value;
-       Console.Error.WriteLine($"key: {key}, parent: {value.parent}");
-       foreach (var child in value.children) {
-          Console.Error.WriteLine($"child is: {child}");
-       }
+      // Console.Error.WriteLine($"key: {key}, parent: {value.parent}");
+      //  foreach (var child in value.children) {
+      //     Console.Error.WriteLine($"child is: {child}");
+      //  }
+       if (value.death == "-" && value.religion != "Catholic") Console.WriteLine(key);
     }
     Console.Error.WriteLine($"Root is {root}");
   }
@@ -188,6 +190,6 @@ class Solution
         // Write an answer using Console.WriteLine()
         // To debug: Console.Error.WriteLine("Debug messages...");
 
-        Console.WriteLine("orDeroFsucceSsion");
+        // Console.WriteLine("orDeroFsucceSsion");
     }
 }
