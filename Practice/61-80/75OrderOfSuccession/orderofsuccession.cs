@@ -88,26 +88,32 @@ class RoyalTree {
     public List<string> children;
   };
 
-  class SiblingSorter : IComparer<RTNode>
-  {
-     public int Compare(string x, string y)
-     {
-         RTNode rx = family_lookup[x];
-         RTNode ry = family_lookup[y];
-         if (rx.death != "-" && ry.death == "-") return 1;
+  // class SiblingSorter : IComparer<string>
+  // {
+  //    private Dictionary<string, RTNode> family_lookup = new Dictionary<string, RTNode>();
 
-         if (rx.death == "-" && ry.death != "-") return -1;
+  //    public SiblingSorter(Dictionary<string, RTNode> fl) {
+  //      family_lookup=fl;
+  //    }
 
-         if (rx.gender == "M" && ry.gender == "F")return -1;
+  //    public int Compare(string x, string y)
+  //    {
+  //        RTNode rx = family_lookup[x];
+  //        RTNode ry = family_lookup[y];
+  //        if (rx.death != "-" && ry.death == "-") return 1;
 
-         if (rx.gender == "F" && ry.gender == "M") return -1;
+  //        if (rx.death == "-" && ry.death != "-") return -1;
 
-         if (rx.birth == ry.birth) return 0;
+  //        if (rx.gender == "M" && ry.gender == "F")return -1;
 
-         return (rx.birth < ry.birth) ? -1 : 1;
+  //        if (rx.gender == "F" && ry.gender == "M") return -1;
 
-     }
-  }
+  //        if (rx.birth == ry.birth) return 0;
+
+  //        return (rx.birth < ry.birth) ? -1 : 1;
+
+  //    }
+  // }
 
   Dictionary<string, RTNode> family_lookup = new Dictionary<string, RTNode>();
 
@@ -119,8 +125,8 @@ class RoyalTree {
 
   public List<string> traverse() {
     List<string> ret = new List<string>();
-    RTNode r = family_lookup(root);
-    if (r.)
+    RTNode r = family_lookup[root];
+    return ret;
   }
 
   public void AddPerson(
@@ -152,6 +158,9 @@ class RoyalTree {
        string key = entry.Key;
        RTNode value = entry.Value;
        Console.Error.WriteLine($"key: {key}, parent: {value.parent}");
+       foreach (var child in value.children) {
+          Console.Error.WriteLine($"child is: {child}");
+       }
     }
     Console.Error.WriteLine($"Root is {root}");
   }
