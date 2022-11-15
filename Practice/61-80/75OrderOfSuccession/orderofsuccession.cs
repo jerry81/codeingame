@@ -70,6 +70,10 @@ using System.Collections;
 using System.Collections.Generic;
 
 // can we assume first item is alwasy the root?
+
+
+
+
 class RoyalTree {
   private int len;
 
@@ -84,12 +88,39 @@ class RoyalTree {
     public List<string> children;
   };
 
+  class SiblingSorter : IComparer<RTNode>
+  {
+     public int Compare(string x, string y)
+     {
+         RTNode rx = family_lookup[x];
+         RTNode ry = family_lookup[y];
+         if (rx.death != "-" && ry.death == "-") return 1;
+
+         if (rx.death == "-" && ry.death != "-") return -1;
+
+         if (rx.gender == "M" && ry.gender == "F")return -1;
+
+         if (rx.gender == "F" && ry.gender == "M") return -1;
+
+         if (rx.birth == ry.birth) return 0;
+
+         return (rx.birth < ry.birth) ? -1 : 1;
+
+     }
+  }
+
   Dictionary<string, RTNode> family_lookup = new Dictionary<string, RTNode>();
 
   string root;
 
   public void SetLength(int length) {
     len = length;
+  }
+
+  public List<string> traverse() {
+    List<string> ret = new List<string>();
+    RTNode r = family_lookup(root);
+    if (r.)
   }
 
   public void AddPerson(
@@ -117,12 +148,12 @@ class RoyalTree {
 
   public void PrintTree() {
     foreach (var entry in family_lookup)
- {
- string key = entry.Key;
- RTNode value = entry.Value;
- // Do something here
-   Console.Error.WriteLine($"key: {key}, parent: {value.parent}");
- }
+    {
+       string key = entry.Key;
+       RTNode value = entry.Value;
+       Console.Error.WriteLine($"key: {key}, parent: {value.parent}");
+    }
+    Console.Error.WriteLine($"Root is {root}");
   }
 }
 class Solution
