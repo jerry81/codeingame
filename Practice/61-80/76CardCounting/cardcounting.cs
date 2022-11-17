@@ -58,16 +58,50 @@ class Solution
     class Deck {
       int over;
       int under;
+      int thresh;
 
       public Deck(int thresh) {
         this.under = (thresh-1) * 4;
         this.over = 52 - this.under;
+        this.thresh = thresh;
       }
 
-      public void ParseStream(string stream) {
+      public int ParseStream(string stream) {
         foreach (char c in stream) {
           Console.Error.WriteLine($"c is {c}");
+          if (c == 'A') {
+            --this.under;
+            continue;
+          }
+          if (c == 'K') {
+            --this.over;
+            continue;
+          }
+          if (c == 'Q') {
+            --this.over;
+            continue;
+          }
+          if (c == 'J') {
+            --this.over;
+            continue;
+          }
+          if (c == 'T') {
+            --this.over;
+            continue;
+          }
+          int as_i = c - '0';
+          if ((as_i > 1) && (as_i < 10)) {
+            if (as_i < this.thresh) {
+              --this.under;
+            } else {
+              --this.over;
+            }
+          }
         }
+        Console.Error.WriteLine($"before division under: {this.under} over: {this.over}");
+        float prob = (this.under / (this.under+this.over));
+        Console.Error.WriteLine($"after division {prob}");
+        return 0;
       }
     }
 
@@ -77,7 +111,7 @@ class Solution
         int bustThreshold = int.Parse(Console.ReadLine());
         Deck d = new Deck(bustThreshold);
         d.ParseStream(streamOfConsciousness);
-
+        Console.Error.WriteLine($"testAscii 2 is {'2' - '0'} 9 is {'9' - '0'}");
         Console.WriteLine("percentageChance%");
     }
 }
