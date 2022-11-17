@@ -68,7 +68,6 @@ class Solution
 
       public int ParseStream(string stream) {
         foreach (char c in stream) {
-          Console.Error.WriteLine($"c is {c}");
           if (c == 'A') {
             --this.under;
             continue;
@@ -98,10 +97,9 @@ class Solution
             }
           }
         }
-        Console.Error.WriteLine($"before division under: {this.under} over: {this.over}");
-        float prob = (this.under / (this.under+this.over));
-        Console.Error.WriteLine($"after division {prob}");
-        return 0;
+        double prob = 100*((this.under / (double)(this.under+this.over)));
+
+        return (int)Math.Round(prob);
       }
     }
 
@@ -110,8 +108,7 @@ class Solution
         string streamOfConsciousness = Console.ReadLine();
         int bustThreshold = int.Parse(Console.ReadLine());
         Deck d = new Deck(bustThreshold);
-        d.ParseStream(streamOfConsciousness);
-        Console.Error.WriteLine($"testAscii 2 is {'2' - '0'} 9 is {'9' - '0'}");
-        Console.WriteLine("percentageChance%");
+        int result = d.ParseStream(streamOfConsciousness);
+        Console.WriteLine($"{result}%");
     }
 }
