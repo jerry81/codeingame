@@ -44,7 +44,7 @@ public class Solution
         //Constructor.
         public Royal(string name, string parent, string birth, string death, string religion, string gender) // constructor
         {
-            this.Name = name;
+            this.Name = name; // uses this
             this.Parent = parent;
             this.Birth = int.Parse(birth);
             this.Death = !death.Equals("-") ? int.Parse(death) : -1;

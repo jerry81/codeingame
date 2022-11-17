@@ -56,15 +56,27 @@ using System.Collections.Generic;
 class Solution
 {
     class Deck {
+      int over;
+      int under;
+
+      public Deck(int thresh) {
+        this.under = (thresh-1) * 4;
+        this.over = 52 - this.under;
+      }
+
+      public void ParseStream(string stream) {
+        foreach (char c in stream) {
+          Console.Error.WriteLine($"c is {c}");
+        }
+      }
     }
 
     static void Main(string[] args)
     {
         string streamOfConsciousness = Console.ReadLine();
         int bustThreshold = int.Parse(Console.ReadLine());
-
-        // Write an answer using Console.WriteLine()
-        // To debug: Console.Error.WriteLine("Debug messages...");
+        Deck d = new Deck(bustThreshold);
+        d.ParseStream(streamOfConsciousness);
 
         Console.WriteLine("percentageChance%");
     }
