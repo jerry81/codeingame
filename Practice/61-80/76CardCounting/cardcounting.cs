@@ -66,8 +66,38 @@ class Solution
         this.thresh = thresh;
       }
 
+      private bool isCard(char c) {
+        int as_i = (int)c;
+        if ((as_i > 1) && (as_i < 10)) {
+          return true;
+        }
+
+        int[] valid = {84,75,81,74};
+        try {
+          Array.Find(valid, element => (element == as_i));
+          return true;
+        } catch {
+          return false;
+        }
+      }
+
       public int ParseStream(string stream) {
-        foreach (char c in stream) {
+        string[] items = stream.Split('.');
+        string str = "";
+        foreach (string s in items) {
+          bool valid = true;
+          str = s;
+          foreach (char c in s) {
+            int as_i = (int) c;
+
+            if (!isCard(c)) {
+              valid = false;
+              break;
+            }
+          }
+
+        if (!valid) continue;
+        foreach (char c in str) {
           if (c == 'A') {
             --this.under;
             continue;
@@ -97,6 +127,7 @@ class Solution
             }
           }
         }
+        }
         double prob = 100*((this.under / (double)(this.under+this.over)));
 
         return (int)Math.Round(prob);
@@ -112,3 +143,10 @@ class Solution
         Console.WriteLine($"{result}%");
     }
 }
+
+/*
+
+Did I turn the iron off?.Did I turn the iron off?.AT3A.7JA.J.Oceans11.95A.mob boss.IRS.hungry.Cute dealer.2.45T84Q.Show Girls!!.QQQ.24868.QUEEN.K837695.Is that Penn or Teller?.362436.KJ7KJ
+7
+
+*/
