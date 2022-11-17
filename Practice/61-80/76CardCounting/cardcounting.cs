@@ -67,15 +67,17 @@ class Solution
       }
 
       private bool isCard(char c) {
-        int as_i = (int)c;
-        if ((as_i > 1) && (as_i < 10)) {
+        int as_num = c - '0';
+        if ((as_num > 1) && (as_num < 10)) {
           return true;
         }
 
-        int[] valid = {84,75,81,74};
+        int as_i = (int)c;
+
+        int[] valid = {84,75,81,74, 65};
         try {
-          Array.Find(valid, element => (element == as_i));
-          return true;
+          int val = Array.Find(valid, element => (element == as_i));
+          return val == as_i;
         } catch {
           return false;
         }
@@ -96,37 +98,38 @@ class Solution
             }
           }
 
-        if (!valid) continue;
-        foreach (char c in str) {
-          if (c == 'A') {
-            --this.under;
-            continue;
-          }
-          if (c == 'K') {
-            --this.over;
-            continue;
-          }
-          if (c == 'Q') {
-            --this.over;
-            continue;
-          }
-          if (c == 'J') {
-            --this.over;
-            continue;
-          }
-          if (c == 'T') {
-            --this.over;
-            continue;
-          }
-          int as_i = c - '0';
-          if ((as_i > 1) && (as_i < 10)) {
-            if (as_i < this.thresh) {
+          if (!valid) continue;
+
+          foreach (char c in str) {
+            if (c == 'A') {
               --this.under;
-            } else {
+              continue;
+            }
+            if (c == 'K') {
               --this.over;
+              continue;
+            }
+            if (c == 'Q') {
+              --this.over;
+              continue;
+            }
+            if (c == 'J') {
+              --this.over;
+              continue;
+            }
+            if (c == 'T') {
+              --this.over;
+              continue;
+            }
+            int as_i = c - '0';
+            if ((as_i > 1) && (as_i < 10)) {
+              if (as_i < this.thresh) {
+                --this.under;
+              } else {
+                --this.over;
+              }
             }
           }
-        }
         }
         double prob = 100*((this.under / (double)(this.under+this.over)));
 
