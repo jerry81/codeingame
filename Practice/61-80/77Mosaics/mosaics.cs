@@ -52,8 +52,9 @@ class Solution
         this.pattern = pattern;
       }
       public void Analyze(string line) {
-        string[] split = line.split(this.pattern);
-        for (var s in split) {
+        Console.Error.WriteLine("line");
+        string[] split = line.Split(this.pattern);
+        foreach (var s in split) {
           Console.Error.WriteLine(s);
         }
       }
@@ -63,7 +64,7 @@ class Solution
     {
         int N = int.Parse(Console.ReadLine());
         string pattern = Console.ReadLine();
-        PatternFinder pf = PatternFinder(pattern);
+        PatternFinder pf = new PatternFinder(pattern);
         for (int i = 0; i < N; i++)
         {
             string row = Console.ReadLine();
