@@ -46,13 +46,28 @@ using System.Collections.Generic;
  **/
 class Solution
 {
+    class PatternFinder {
+      private string pattern;
+      public PatternFinder(string pattern) {
+        this.pattern = pattern;
+      }
+      public void Analyze(string line) {
+        string[] split = line.split(this.pattern);
+        for (var s in split) {
+          Console.Error.WriteLine(s);
+        }
+      }
+    }
+
     static void Main(string[] args)
     {
         int N = int.Parse(Console.ReadLine());
         string pattern = Console.ReadLine();
+        PatternFinder pf = PatternFinder(pattern);
         for (int i = 0; i < N; i++)
         {
             string row = Console.ReadLine();
+            pf.Analyze(row);
         }
 
         // Write an answer using Console.WriteLine()
