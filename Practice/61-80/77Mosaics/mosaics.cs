@@ -48,15 +48,27 @@ class Solution
 {
     class PatternFinder {
       private string pattern;
+      private int curRow = 0;
+      private string solution;
       public PatternFinder(string pattern) {
         this.pattern = pattern;
       }
       public void Analyze(string line) {
-        Console.Error.WriteLine("line");
         string[] split = line.Split(this.pattern);
-        foreach (var s in split) {
-          Console.Error.WriteLine(s);
+        int curCol = 0;
+        Console.Error.WriteLine($"curRow is {curRow}");
+        foreach (string s in split) {
+          if (s.Length > 0) {
+            Console.Error.WriteLine(s);
+            Console.Error.WriteLine($"curCol is {curCol}");
+            this.solution=$"({curCol+1},{curRow})";
+          }
+          curCol+=1;
         }
+        ++curRow;
+      }
+      public string GetSolution() {
+        return this.solution;
       }
     }
 
@@ -74,6 +86,6 @@ class Solution
         // Write an answer using Console.WriteLine()
         // To debug: Console.Error.WriteLine("Debug messages...");
 
-        Console.WriteLine("(x,y)");
+        Console.WriteLine(pf.GetSolution());
     }
 }
