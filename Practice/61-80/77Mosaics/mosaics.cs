@@ -127,3 +127,14 @@ class Solution
         Console.WriteLine(pf.GetSolution());
     }
 }
+
+/*
+
+Validator 7 is the only case where the line containing the messed up pattern
+ is in the form of
+ “partial end of correct pattern” +
+ “incorrect pattern” +
+ “correct patterns up to the end of the line”.
+  This is not featured in the other cases.
+
+*/
