@@ -49,8 +49,10 @@ class Solution
     class PatternFinder {
       private string pattern;
       private int curRow = 0;
-      private string solution;
+      private int solRow = 0;
+      private int solCol = 0;
       Dictionary<string,int> freq = new Dictionary<string, int>();
+      Dictionary<string,int> rowLookup = new Dictionary<string, int>();
       public PatternFinder(string pattern) {
         this.pattern = pattern;
       }
@@ -65,18 +67,23 @@ class Solution
             } else {
               this.freq.Add(s,1);
             }
+            this.rowLookup[s] = this.solRow;
+
           }
           curCol+=1;
         }
         ++curRow;
       }
       public string GetSolution() {
-        return this.solution;
+        return $"(,{this.curRow})";
       }
 
       public void PrintFreq() {
         foreach (KeyValuePair<string,int> ele in this.freq) {
           Console.Error.WriteLine($"key: {ele.Key}, value: {ele.Value}");
+        }
+        foreach (KeyValuePair<string,int> ele in this.rowLookup) {
+          Console.Error.WriteLine($"key: {ele.Key}, Row: {ele.Value}");
         }
       }
     }
