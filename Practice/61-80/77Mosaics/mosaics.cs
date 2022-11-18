@@ -57,15 +57,13 @@ class Solution
       public void Analyze(string line) {
         string[] split = line.Split(this.pattern);
         int curCol = 0;
-        Console.Error.WriteLine($"curRow is {curRow}");
         foreach (string s in split) {
           if (s.Length > 0) {
             Console.Error.WriteLine(s);
-            Console.Error.WriteLine($"curCol is {curCol}");
             if (this.freq.ContainsKey(s)) {
               ++this.freq[s];
             } else {
-              this.freq.Add(s,0);
+              this.freq.Add(s,1);
             }
           }
           curCol+=1;
