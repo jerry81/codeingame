@@ -40,10 +40,6 @@ using System.Text;
 using System.Collections;
 using System.Collections.Generic;
 
-/**
- * Auto-generated code below aims at helping you parse
- * the standard input according to the problem statement.
- **/
 class Solution
 {
     class PatternFinder {
@@ -63,7 +59,6 @@ class Solution
         int curCol = 0;
         foreach (string s in split) {
           if (s.Length > 0) {
-            Console.Error.WriteLine(s);
             if (this.freq.ContainsKey(s)) {
               ++this.freq[s];
             } else {
@@ -78,19 +73,32 @@ class Solution
       }
 
       void FindRow() {
-        Console.Error.WriteLine("finding row");
         foreach (KeyValuePair<string,int> ele in this.freq) {
-          Console.Error.WriteLine($"ele Value is {ele.Value}");
           if (ele.Value == 1) {
-            Console.Error.WriteLine($"rowLookup is {this.rowLookup[ele.Key]}");
             this.solRow = this.rowLookup[ele.Key];
           }
         }
       }
 
       void FindCol() {
-        Console.Error.WriteLine("find col");
-        Console.Error.WriteLine(this.solRow);
+        string analyzedRow = this.rows[this.solRow];
+        // iterate chars in row
+        // "align" pattern with the start character
+
+        int offset = 0;
+        int cycle = this.pattern.Length;
+        // string sub = analyzedRow.Substring(0, 0+(cycle));
+        // Console.Error.WriteLine($"sub is {sub}");
+        for (int i = 0; i < (analyzedRow.Length - cycle + 1); ++i) {
+          string sub = analyzedRow.Substring(i, cycle);
+
+          Console.Error.WriteLine($"sub is {sub}");
+        }
+        for (int i = 0; i < analyzedRow.Length; ++i) {
+          char cur = analyzedRow[i];
+        }
+        Console.Error.WriteLine($"cycle is {cycle}");
+        Console.Error.WriteLine(this.rows[this.solRow]);
       }
 
       public string GetSolution() {
@@ -119,11 +127,6 @@ class Solution
             string row = Console.ReadLine();
             pf.Analyze(row);
         }
-
-       // pf.PrintFreq();
-       // pf.GetSolution();
-        // Write an answer using Console.WriteLine()
-        // To debug: Console.Error.WriteLine("Debug messages...");
 
         Console.WriteLine(pf.GetSolution());
     }
