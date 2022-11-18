@@ -51,12 +51,14 @@ class Solution
       private int curRow = 0;
       private int solRow = 0;
       private int solCol = 0;
+      private List<string> rows = new List<string>();
       Dictionary<string,int> freq = new Dictionary<string, int>();
       Dictionary<string,int> rowLookup = new Dictionary<string, int>();
       public PatternFinder(string pattern) {
         this.pattern = pattern;
       }
       public void Analyze(string line) {
+        rows.Add(line);
         string[] split = line.Split(this.pattern);
         int curCol = 0;
         foreach (string s in split) {
@@ -74,8 +76,22 @@ class Solution
         }
         ++curRow;
       }
+
+      void FindRow() {
+        foreach (KeyValuePair<string,int> ele in this.freq) {
+          if (ele.Value == 1) {
+            this.solRow = rowLookup[ele.Key];
+          }
+        }
+      }
+
+      void FindCol() {
+      }
+
       public string GetSolution() {
-        return $"(,{this.curRow})";
+        this.FindRow();
+        this.FindCol();
+        return $"({this.solCol},{this.solRow})";
       }
 
       public void PrintFreq() {
