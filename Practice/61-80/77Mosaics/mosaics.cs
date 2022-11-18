@@ -50,6 +50,7 @@ class Solution
       private string pattern;
       private int curRow = 0;
       private string solution;
+      Dictionary<string,int> freq = new Dictionary<string, int>();
       public PatternFinder(string pattern) {
         this.pattern = pattern;
       }
@@ -61,7 +62,11 @@ class Solution
           if (s.Length > 0) {
             Console.Error.WriteLine(s);
             Console.Error.WriteLine($"curCol is {curCol}");
-            this.solution=$"({curCol+1},{curRow})";
+            if (this.freq.ContainsKey(s)) {
+              ++this.freq[s];
+            } else {
+              this.freq.Add(s,0);
+            }
           }
           curCol+=1;
         }
@@ -69,6 +74,12 @@ class Solution
       }
       public string GetSolution() {
         return this.solution;
+      }
+
+      public void PrintFreq() {
+        foreach (KeyValuePair<string,int> ele in this.freq) {
+          Console.Error.WriteLine($"key: {ele.Key}, value: {ele.Value}");
+        }
       }
     }
 
@@ -82,6 +93,8 @@ class Solution
             string row = Console.ReadLine();
             pf.Analyze(row);
         }
+
+        pf.PrintFreq();
 
         // Write an answer using Console.WriteLine()
         // To debug: Console.Error.WriteLine("Debug messages...");
