@@ -93,7 +93,6 @@ class Solution
           string sub = analyzedRow.Substring(i, cycle);
 
           if (sub == this.pattern) {
-            Console.Error.WriteLine($"found pattern, i is {i}");
             offset = i;
             break;
           }
@@ -105,23 +104,12 @@ class Solution
             break;
           }
         }
-        Console.Error.WriteLine($"cycle is {cycle}");
-        Console.Error.WriteLine(this.rows[this.solRow]);
       }
 
       public string GetSolution() {
         this.FindRow();
         this.FindCol();
         return $"({this.solCol},{this.solRow})";
-      }
-
-      public void PrintFreq() {
-        foreach (KeyValuePair<string,int> ele in this.freq) {
-          Console.Error.WriteLine($"key: {ele.Key}, value: {ele.Value}");
-        }
-        foreach (KeyValuePair<string,int> ele in this.rowLookup) {
-          Console.Error.WriteLine($"key: {ele.Key}, Row: {ele.Value}");
-        }
       }
     }
 
