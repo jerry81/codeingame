@@ -69,7 +69,7 @@ class Solution
             } else {
               this.freq.Add(s,1);
             }
-            this.rowLookup[s] = this.solRow;
+            this.rowLookup[s] = this.curRow;
 
           }
           curCol+=1;
@@ -78,14 +78,19 @@ class Solution
       }
 
       void FindRow() {
+        Console.Error.WriteLine("finding row");
         foreach (KeyValuePair<string,int> ele in this.freq) {
+          Console.Error.WriteLine($"ele Value is {ele.Value}");
           if (ele.Value == 1) {
-            this.solRow = rowLookup[ele.Key];
+            Console.Error.WriteLine($"rowLookup is {this.rowLookup[ele.Key]}");
+            this.solRow = this.rowLookup[ele.Key];
           }
         }
       }
 
       void FindCol() {
+        Console.Error.WriteLine("find col");
+        Console.Error.WriteLine(this.solRow);
       }
 
       public string GetSolution() {
@@ -115,8 +120,8 @@ class Solution
             pf.Analyze(row);
         }
 
-        pf.PrintFreq();
-
+       // pf.PrintFreq();
+       // pf.GetSolution();
         // Write an answer using Console.WriteLine()
         // To debug: Console.Error.WriteLine("Debug messages...");
 
