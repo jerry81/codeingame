@@ -81,32 +81,47 @@ class Solution
       }
 
       void FindCol() {
-        string analyzedRow = this.rows[this.solRow];
-        // iterate chars in row
-        // "align" pattern with the start character
 
-        int offset = 0;
+        string analyzedRow = this.rows[this.solRow];
+        string checkedLine = this.pattern + this.pattern;
+        Console.Error.WriteLine($"checkedLine {checkedLine}");
+        // int offset = 0;
         int cycle = this.pattern.Length;
+        for (int i = 0; i <= this.pattern.Length; ++i) {
+          bool contains = checkedLine.Contains(analyzedRow.Substring(0,i));
+          if (!contains) {
+            this.solCol = i;
+            return;
+          }
+        }
 
         for (int i = 0; i < (analyzedRow.Length - cycle + 1); ++i) {
           string sub = analyzedRow.Substring(i, cycle);
+          bool contains = checkedLine.Contains(sub);
+          if (!contains) {
+            this.solCol = i+cycle;
+            return;
+          }
 
-          if (sub == this.pattern) {
-            offset = i;
-            break;
-          }
-        }
-        for (int i = 0; i < analyzedRow.Length; ++i) {
-          char cur = analyzedRow[i];
-          int adjusted = (i%cycle) - offset;
-          if (adjusted < 0) {
-            adjusted = cycle + adjusted;
-          }
-          if (cur != this.pattern[adjusted]) {
-            this.solCol = i;
-            break;
-          }
-        }
+        // for (int i = 0; i < (analyzedRow.Length - cycle + 1); ++i) {
+        //   string sub = analyzedRow.Substring(i, cycle);
+
+        //   if (sub == this.pattern) {
+        //     offset = i;
+        //     break;
+        //   }
+        // }
+        // for (int i = 0; i < analyzedRow.Length; ++i) {
+        //   char cur = analyzedRow[i];
+        //   int adjusted = (i%cycle) - offset;
+        //   if (adjusted < 0) {
+        //     adjusted = cycle + adjusted;
+        //   }
+        //   if (cur != this.pattern[adjusted]) {
+        //     this.solCol = i;
+        //     break;
+        //   }
+        // }
       }
 
       public string GetSolution() {
