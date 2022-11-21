@@ -87,13 +87,21 @@ class Solution
         Console.Error.WriteLine($"checkedLine {checkedLine}");
         // int offset = 0;
         int cycle = this.pattern.Length;
-        for (int i = 0; i <= this.pattern.Length; ++i) {
-          bool contains = checkedLine.Contains(analyzedRow.Substring(0,i));
-          if (!contains) {
-            this.solCol = i;
-            return;
-          }
-        }
+        // for (int i = 1; i <= this.pattern.Length; ++i) {
+        //   bool contains = checkedLine.Contains(analyzedRow.Substring(0,i));
+        //   Console.Error.WriteLine($"analyzing {analyzedRow.Substring(0,i)}");
+        //   if (!contains) {
+        //     this.solCol = i;
+        //     return;
+        //   }
+        // }
+
+        /*
+        next idea
+        loop until find a non-matching
+        then loop until find a matching
+        - the item before finding the matching breaks the pattern
+        */
 
         for (int i = 0; i < (analyzedRow.Length - cycle + 1); ++i) {
           string sub = analyzedRow.Substring(i, cycle);
