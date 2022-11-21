@@ -67,7 +67,7 @@ class Solution
             this.rowLookup[s] = this.curRow;
 
           }
-          curCol+=1;
+          ++curCol;
         }
         ++curRow;
       }
@@ -87,8 +87,7 @@ class Solution
 
         int offset = 0;
         int cycle = this.pattern.Length;
-        // string sub = analyzedRow.Substring(0, 0+(cycle));
-        // Console.Error.WriteLine($"sub is {sub}");
+
         for (int i = 0; i < (analyzedRow.Length - cycle + 1); ++i) {
           string sub = analyzedRow.Substring(i, cycle);
 
@@ -99,7 +98,11 @@ class Solution
         }
         for (int i = 0; i < analyzedRow.Length; ++i) {
           char cur = analyzedRow[i];
-          if (cur != this.pattern[i%(cycle+offset)]) {
+          int adjusted = (i%cycle) - offset;
+          if (adjusted < 0) {
+            adjusted = cycle + adjusted;
+          }
+          if (cur != this.pattern[adjusted]) {
             this.solCol = i;
             break;
           }
