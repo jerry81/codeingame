@@ -101,6 +101,15 @@ class Solution
         loop until find a non-matching
         then loop until find a matching
         - the item before finding the matching breaks the pattern
+
+        TODO:
+        2 phases - step full patterns
+        if the first check is a bad pattern
+          - search for the first non-bad pattern
+          - return the first item in the previous substring
+        else
+          - search for the first bad pattern - return the last item in the substring
+
         */
 
         for (int i = 0; i < (analyzedRow.Length - cycle + 1); ++i) {
