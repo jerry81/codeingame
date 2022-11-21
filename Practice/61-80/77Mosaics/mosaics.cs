@@ -102,6 +102,7 @@ class Solution
             this.solCol = i+cycle;
             return;
           }
+          }
 
         // for (int i = 0; i < (analyzedRow.Length - cycle + 1); ++i) {
         //   string sub = analyzedRow.Substring(i, cycle);
