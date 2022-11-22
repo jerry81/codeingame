@@ -81,25 +81,24 @@ class Solution
       }
 
       void FindCol() {
-
         string analyzedRow = this.rows[this.solRow];
         string checkedLine = this.pattern + this.pattern;
         int cycle = this.pattern.Length;
 
         bool found = false;
-          string sub = analyzedRow.Substring(0, cycle);
-          bool contains = checkedLine.Contains(sub);
-          if (!contains) {
-            found = true;
-          }
+        string sub = analyzedRow.Substring(0, cycle);
+        bool contains = checkedLine.Contains(sub);
+        if (!contains) {
+          found = true;
+        }
         if (found) {
-        for (int i = 1; i < cycle; ++i) {
-         sub = analyzedRow.Substring(i, cycle);
-         contains = checkedLine.Contains(sub);
-          if (contains) {
-            this.solCol = i-1;
-            return;
-          }
+          for (int i = 1; i < cycle; ++i) {
+           sub = analyzedRow.Substring(i, cycle);
+           contains = checkedLine.Contains(sub);
+            if (contains) {
+              this.solCol = i-1;
+              return;
+            }
           }
         }
         for (int i = 1 ; i < analyzedRow.Length; ++i) {
