@@ -39,6 +39,20 @@ class Solution
         this.palindrome = s;
         this.len = len;
       }
+
+      private bool IsPalindrome(string s) {
+
+      }
+
+      private bool GetLongestPalindrome() {
+        for (int i = this.len-2; i >= 0; --i) {
+          string s = this.palindrome.Substring(i, this.len-i-1);
+        }
+      }
+
+      public GetSolution() {
+
+      }
     }
 
     static void Main(string[] args)
@@ -46,9 +60,7 @@ class Solution
         int n = int.Parse(Console.ReadLine());
         string s = Console.ReadLine();
         Palindrome p = new Palindrome(s, n);
-        // Write an answer using Console.WriteLine()
-        // To debug: Console.Error.WriteLine("Debug messages...");
-
-        Console.WriteLine("answer");
+        int ans = p.GetSolution();
+        Console.WriteLine(ans);
     }
 }
