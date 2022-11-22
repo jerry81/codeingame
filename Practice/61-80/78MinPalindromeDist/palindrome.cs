@@ -32,11 +32,20 @@ using System.Collections.Generic;
  **/
 class Solution
 {
+    class Palindrome {
+      string palindrome;
+      int len;
+      public Palindrome(string s, int len) {
+        this.palindrome = s;
+        this.len = len;
+      }
+    }
+
     static void Main(string[] args)
     {
         int n = int.Parse(Console.ReadLine());
         string s = Console.ReadLine();
-
+        Palindrome p = new Palindrome(s, n);
         // Write an answer using Console.WriteLine()
         // To debug: Console.Error.WriteLine("Debug messages...");
 
