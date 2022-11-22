@@ -119,7 +119,7 @@ class Solution
             found = true;
           }
         if (found) {
-               Console.Error.WriteLine($"found");
+               Console.Error.WriteLine($"found in original ");
         for (int i = 1; i < cycle; ++i) {
          sub = analyzedRow.Substring(0, cycle);
          contains = checkedLine.Contains(sub);
@@ -129,17 +129,18 @@ class Solution
             return;
           }
           }
+        }
         // }
         Console.Error.WriteLine("found");
         for (int i = 1 ; i < analyzedRow.Length; ++i) {
            sub = analyzedRow.Substring(i, cycle);
            contains = checkedLine.Contains(sub);
           if (!contains) {
-            this.solCol = i + cycle;
+            this.solCol = i + cycle - 1;
             return;
           }
         }
-        }
+
         // for (int i = 0; i < (analyzedRow.Length - cycle + 1); ++i) {
         //   string sub = analyzedRow.Substring(i, cycle);
 
