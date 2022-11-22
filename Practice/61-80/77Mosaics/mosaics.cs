@@ -117,10 +117,17 @@ class Solution
           bool contains = checkedLine.Contains(sub);
           if (!contains) {
             found = true;
-            break;
           }
+          if (found && contains) {
+            this.solCol = i;
+            Console.Error.WriteLine($"setting to {i}");
+            return;
           }
+        }
         Console.Error.WriteLine("found");
+        for (int i = cycle; i < analyzedRow.Length; ++i) {
+
+        }
         // for (int i = 0; i < (analyzedRow.Length - cycle + 1); ++i) {
         //   string sub = analyzedRow.Substring(i, cycle);
 
