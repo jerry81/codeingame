@@ -41,17 +41,20 @@ class Solution
       }
 
       private bool IsPalindrome(string s) {
-
+        return true;
       }
 
-      private bool GetLongestPalindrome() {
-        for (int i = this.len-2; i >= 0; --i) {
-          string s = this.palindrome.Substring(i, this.len-i-1);
+      private int GetLongestPalindrome() {
+        for (int i = this.len-1; i >= 0; --i) {
+          string s = this.palindrome.Substring(i, this.len-i);
+          Console.Error.WriteLine($"analyzing string {s}");
         }
+        return 0;
       }
 
-      public GetSolution() {
-
+      public int GetSolution() {
+        this.GetLongestPalindrome();
+        return 0;
       }
     }
 
