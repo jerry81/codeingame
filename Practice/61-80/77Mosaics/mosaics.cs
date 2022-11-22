@@ -112,26 +112,33 @@ class Solution
 
         */
         bool found = false;
-        for (int i = 0; i < (cycle); ++i) {
-          string sub = analyzedRow.Substring(i, cycle);
+        // for (int i = 0; i < (cycle); ++i) {
+          string sub = analyzedRow.Substring(0, cycle);
           bool contains = checkedLine.Contains(sub);
           if (!contains) {
             found = true;
           }
-          if (found && contains) {
+        if (found) {
+               Console.Error.WriteLine($"found");
+        for (int i = 1; i < cycle; ++i) {
+         sub = analyzedRow.Substring(0, cycle);
+         contains = checkedLine.Contains(sub);
+          if (contains) {
             this.solCol = i;
             Console.Error.WriteLine($"setting to {i}");
             return;
           }
-        }
+          }
+        // }
         Console.Error.WriteLine("found");
-        for (int i = cycle - ; i < analyzedRow.Length; ++i) {
-          string sub = analyzedRow.Substring(i, cycle);
-          bool contains = checkedLine.Contains(sub);
+        for (int i = 1 ; i < analyzedRow.Length; ++i) {
+           sub = analyzedRow.Substring(i, cycle);
+           contains = checkedLine.Contains(sub);
           if (!contains) {
             this.solCol = i + cycle;
             return;
           }
+        }
         }
         // for (int i = 0; i < (analyzedRow.Length - cycle + 1); ++i) {
         //   string sub = analyzedRow.Substring(i, cycle);
