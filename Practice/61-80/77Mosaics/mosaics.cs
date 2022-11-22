@@ -84,54 +84,24 @@ class Solution
 
         string analyzedRow = this.rows[this.solRow];
         string checkedLine = this.pattern + this.pattern;
-        Console.Error.WriteLine($"checkedLine {checkedLine}");
-        // int offset = 0;
         int cycle = this.pattern.Length;
-        // for (int i = 1; i <= this.pattern.Length; ++i) {
-        //   bool contains = checkedLine.Contains(analyzedRow.Substring(0,i));
-        //   Console.Error.WriteLine($"analyzing {analyzedRow.Substring(0,i)}");
-        //   if (!contains) {
-        //     this.solCol = i;
-        //     return;
-        //   }
-        // }
 
-        /*
-        next idea
-        loop until find a non-matching
-        then loop until find a matching
-        - the item before finding the matching breaks the pattern
-
-        TODO:
-        2 phases - step full patterns
-        if the first check is a bad pattern
-          - search for the first non-bad pattern
-          - return the first item in the previous substring
-        else
-          - search for the first bad pattern - return the last item in the substring
-
-        */
         bool found = false;
-        // for (int i = 0; i < (cycle); ++i) {
           string sub = analyzedRow.Substring(0, cycle);
           bool contains = checkedLine.Contains(sub);
           if (!contains) {
             found = true;
           }
         if (found) {
-               Console.Error.WriteLine($"found in original ");
         for (int i = 1; i < cycle; ++i) {
          sub = analyzedRow.Substring(i, cycle);
          contains = checkedLine.Contains(sub);
           if (contains) {
             this.solCol = i-1;
-            Console.Error.WriteLine($"setting to {i}");
             return;
           }
           }
         }
-        // }
-        Console.Error.WriteLine("found");
         for (int i = 1 ; i < analyzedRow.Length; ++i) {
            sub = analyzedRow.Substring(i, cycle);
            contains = checkedLine.Contains(sub);
@@ -140,26 +110,6 @@ class Solution
             return;
           }
         }
-
-        // for (int i = 0; i < (analyzedRow.Length - cycle + 1); ++i) {
-        //   string sub = analyzedRow.Substring(i, cycle);
-
-        //   if (sub == this.pattern) {
-        //     offset = i;
-        //     break;
-        //   }
-        // }
-        // for (int i = 0; i < analyzedRow.Length; ++i) {
-        //   char cur = analyzedRow[i];
-        //   int adjusted = (i%cycle) - offset;
-        //   if (adjusted < 0) {
-        //     adjusted = cycle + adjusted;
-        //   }
-        //   if (cur != this.pattern[adjusted]) {
-        //     this.solCol = i;
-        //     break;
-        //   }
-        // }
       }
 
       public string GetSolution() {
@@ -183,14 +133,3 @@ class Solution
         Console.WriteLine(pf.GetSolution());
     }
 }
-
-/*
-
-Validator 7 is the only case where the line containing the messed up pattern
- is in the form of
- “partial end of correct pattern” +
- “incorrect pattern” +
- “correct patterns up to the end of the line”.
-  This is not featured in the other cases.
-
-*/
