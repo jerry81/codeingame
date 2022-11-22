@@ -121,10 +121,10 @@ class Solution
         if (found) {
                Console.Error.WriteLine($"found in original ");
         for (int i = 1; i < cycle; ++i) {
-         sub = analyzedRow.Substring(0, cycle);
+         sub = analyzedRow.Substring(i, cycle);
          contains = checkedLine.Contains(sub);
           if (contains) {
-            this.solCol = i;
+            this.solCol = i-1;
             Console.Error.WriteLine($"setting to {i}");
             return;
           }
