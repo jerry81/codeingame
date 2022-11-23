@@ -40,23 +40,20 @@ class Solution
         this.len = len;
       }
 
-      private string Rev(string s) {
-        string ret = "";
-        for (int i = s.Length-1; i >=0; --i) {
-          ret+=s[i];
-        }
-        return ret;
-      }
+      string curForward = "";
+      string curBackwards = "";
 
-      public bool IsPalindrome(string s) {
-        return s == Rev(s);
+      public bool IsPalindrome(char c) {
+        curForward = curForward+c;
+        curBackwards=c+curBackwards;
+        return curForward==curBackwards;
       }
 
       private int GetLongestPalindrome() {
         int longest = 0;
         for (int i = this.len-1; i >= 0; --i) {
-          string s = this.palindrome.Substring(i, this.len-i);
-          if (IsPalindrome(s)) {
+          char c = this.palindrome[i];
+          if (IsPalindrome(c)) {
             longest = this.len-i;
           }
         }
@@ -64,7 +61,6 @@ class Solution
       }
 
       public int GetSolution() {
-        Console.Error.WriteLine($"len is {len}");
         return len - this.GetLongestPalindrome();
       }
     }
