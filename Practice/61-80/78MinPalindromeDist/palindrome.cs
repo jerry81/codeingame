@@ -57,14 +57,15 @@ class Solution
         for (int i = this.len-1; i >= 0; --i) {
           string s = this.palindrome.Substring(i, this.len-i);
           if (IsPalindrome(s)) {
-            longest = this.len-1;
+            longest = this.len-i;
           }
         }
         return longest;
       }
 
       public int GetSolution() {
-        return this.GetLongestPalindrome();
+        Console.Error.WriteLine($"len is {len}");
+        return len - this.GetLongestPalindrome();
       }
     }
 
