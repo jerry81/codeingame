@@ -71,12 +71,9 @@ class Solution
         string[] split = this.input.Split(" ");
         bool black = true;
         string l = "";
-        int lineIndex = 0;
         int actualWidth = this.w;
         foreach (string s in split) {
           int curTask = Int32.Parse(s);
-          Console.Error.WriteLine($"curtask is {curTask}");
-          Console.Error.WriteLine($"line is  is {l}");
 
           while (curTask > 0) {
             curTask--;
@@ -107,7 +104,6 @@ class Solution
 
           black = !black;
         }
-        Console.Error.WriteLine($"Line is finally {l}");
         l+="|";
         Console.WriteLine(l);
       }
@@ -120,8 +116,5 @@ class Solution
         string T = Console.ReadLine();
         Fax f = new Fax(W,H,T);
         f.P();
-        // Console.WriteLine("|********|");
-        // Console.WriteLine("|**      |");
-        // Console.WriteLine("|    ****|");
     }
 }
