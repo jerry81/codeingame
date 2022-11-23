@@ -68,6 +68,15 @@ class Solution
       }
 
       public void P() {
+        string[] split = this.input.Split(" ");
+        foreach (string s in split) {
+          Console.Error.WriteLine($"s is {Int32.Parse(s)}");
+        }
+        String line = "";
+        line+="|";
+        int actualWidth = this.w-2;
+
+
         Console.WriteLine("|********|");
       }
     }
