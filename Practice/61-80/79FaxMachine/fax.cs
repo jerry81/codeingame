@@ -57,6 +57,17 @@ using System.Collections.Generic;
  **/
 class Solution
 {
+    class Fax {
+      int w;
+      int h;
+      string input;
+      public Fax(int w, int h, string input) {
+        this.w = w;
+        this.h = h;
+        this.input=input;
+      }
+    }
+
     static void Main(string[] args)
     {
         int W = int.Parse(Console.ReadLine());
