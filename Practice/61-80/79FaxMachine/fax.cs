@@ -66,6 +66,10 @@ class Solution
         this.h = h;
         this.input=input;
       }
+
+      public void P() {
+        Console.WriteLine("|********|");
+      }
     }
 
     static void Main(string[] args)
@@ -73,12 +77,10 @@ class Solution
         int W = int.Parse(Console.ReadLine());
         int H = int.Parse(Console.ReadLine());
         string T = Console.ReadLine();
-
-        // Write an answer using Console.WriteLine()
-        // To debug: Console.Error.WriteLine("Debug messages...");
-
-        Console.WriteLine("|********|");
-        Console.WriteLine("|**      |");
-        Console.WriteLine("|    ****|");
+        Fax f = new Fax(W,H,T);
+        f.P();
+        // Console.WriteLine("|********|");
+        // Console.WriteLine("|**      |");
+        // Console.WriteLine("|    ****|");
     }
 }
