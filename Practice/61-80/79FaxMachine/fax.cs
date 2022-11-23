@@ -69,12 +69,30 @@ class Solution
 
       public void P() {
         string[] split = this.input.Split(" ");
+        bool black = true;
+        string l = "";
+        int lineIndex = 0;
+        int actualWidth = this.w-1;
         foreach (string s in split) {
-          Console.Error.WriteLine($"s is {Int32.Parse(s)}");
+          int curTask = Int32.Parse(s);
+          while (curTask > 0) {
+            curTask--;
+            if (l.Length < actualWidth) {
+              if (l.Length == 0) {
+                if (black) {
+                  l+="|*";
+                } else {
+                  l+= "| ";
+                }
+              } {
+
+              }
+            } else {
+            }
+          }
+
+          black = !black;
         }
-        String line = "";
-        line+="|";
-        int actualWidth = this.w-2;
 
 
         Console.WriteLine("|********|");
