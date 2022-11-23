@@ -72,30 +72,44 @@ class Solution
         bool black = true;
         string l = "";
         int lineIndex = 0;
-        int actualWidth = this.w-1;
+        int actualWidth = this.w;
         foreach (string s in split) {
           int curTask = Int32.Parse(s);
+          Console.Error.WriteLine($"curtask is {curTask}");
+          Console.Error.WriteLine($"line is  is {l}");
+
           while (curTask > 0) {
             curTask--;
-            if (l.Length < actualWidth) {
+            if (l.Length <= actualWidth) {
               if (l.Length == 0) {
                 if (black) {
                   l+="|*";
                 } else {
                   l+= "| ";
                 }
-              } {
-
+              } else {
+                if (black) {
+                  l+="*";
+                } else {
+                  l+= " ";
+                }
               }
             } else {
+              l+="|";
+              Console.WriteLine(l);
+              if (black) {
+                l="|*";
+              } else {
+                l="| ";
+              }
             }
           }
 
           black = !black;
         }
-
-
-        Console.WriteLine("|********|");
+        Console.Error.WriteLine($"Line is finally {l}");
+        l+="|";
+        Console.WriteLine(l);
       }
     }
 
