@@ -43,10 +43,6 @@ using System.Text;
 using System.Collections;
 using System.Collections.Generic;
 
-/**
- * Auto-generated code below aims at helping you parse
- * the standard input according to the problem statement.
- **/
 class Solution
 {
     static void Main(string[] args)
@@ -60,9 +56,6 @@ class Solution
             int row = int.Parse(inputs[0]);
             int col = int.Parse(inputs[1]);
             int isWhite = int.Parse(inputs[2]);
-            // count down rows until 8
-            // cont down cols until 8
-            // keep track of right-most color
             int rows = row-7;
             int cols = col-7;
             bool cOdd = cols%2 == 1;
@@ -84,10 +77,6 @@ class Solution
             }
             Console.WriteLine(ans);
         }
-
-        // Write an answer using Console.WriteLine()
-        // To debug: Console.Error.WriteLine("Debug messages...");
-
 
     }
 }
