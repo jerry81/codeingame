@@ -65,18 +65,13 @@ class Solution
             // keep track of right-most color
             int rows = row-7;
             int cols = col-7;
-            Console.Error.WriteLine($"rows {rows} cols {cols}");
             bool cOdd = cols%2 == 1;
-            Console.Error.WriteLine($"codd {cOdd}");
 
             int perRow = cols/2;
-             Console.Error.WriteLine($"pRow {perRow}");
             int otherRow = perRow+1;
-             Console.Error.WriteLine($"other {otherRow}");
 
             bool curOdd = isWhite == 1;
             while (rows > 0) {
-              Console.Error.WriteLine("iterate row");
               if (cOdd) {
                 int addend = curOdd ? otherRow : perRow;
                 ans+=addend;
@@ -87,19 +82,6 @@ class Solution
 
               rows--;
             }
-            Console.Error.WriteLine($"rows {rows} cols {cols}");
-            // bool rowcolor = isWhite == 1;
-            // bool colcolor = isWhite == 1;
-            // for (int r = row; r >=8; --r) {
-            //   for (int c = col; c >=8; --c) {
-            //     if (colcolor) {
-            //       ++ans;
-            //     }
-            //     colcolor = !colcolor;
-            //   }
-            //   rowcolor = !rowcolor;
-            //   colcolor = rowcolor;
-            // }
             Console.WriteLine(ans);
         }
 
