@@ -58,13 +58,30 @@ class Solution
 {
     static void Main(string[] args)
     {
+        class Radar {
+          private const int DIST = 13;
+          private const int SPEED_LIMIT = 130;
+          private const long MS_IN_HOUR = 1000*60*60;
+          private int numberOfPlates;
+          public Radar(int number) {
+            this.numberOfPlates = number;
+          }
+          public void AddReading(string plate, string radar, long timestamp) {
+          }
+          public string FindTickets() {
+            return "";
+          }
+        }
+
         int N = int.Parse(Console.ReadLine());
+        Radar r = new Radar(N);
         for (int i = 0; i < N; i++)
         {
             string[] inputs = Console.ReadLine().Split(' ');
             string plate = inputs[0];
             string radarname = inputs[1];
             long timestamp = long.Parse(inputs[2]);
+
         }
 
         // Write an answer using Console.WriteLine()
