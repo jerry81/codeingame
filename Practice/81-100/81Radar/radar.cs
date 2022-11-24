@@ -82,7 +82,6 @@ class Solution
             long time1 = R1Lookup[plate];
             long time2 = R2Lookup[plate];
             long diff = time2 - time1;
-            Console.Error.WriteLine(diff);
             double hours = (double)diff/(double)MS_IN_HOUR;
             int speed = (int)((double)DIST/hours);
             return speed;
@@ -116,8 +115,6 @@ class Solution
         }
         List<string> answer = r.FindTickets();
 
-        // Write an answer using Console.WriteLine()
-        // To debug: Console.Error.WriteLine("Debug messages...");
         foreach (var a in answer) {
           Console.WriteLine(a);
         }
