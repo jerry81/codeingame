@@ -54,15 +54,31 @@ class Solution
         int n = int.Parse(Console.ReadLine());
         for (int i = 0; i < n; i++)
         {
+            int ans = 0;
             string[] inputs = Console.ReadLine().Split(' ');
             int row = int.Parse(inputs[0]);
             int col = int.Parse(inputs[1]);
             int isWhite = int.Parse(inputs[2]);
+            // count down rows until 8
+            // cont down cols until 8
+            // keep track of right-most color
+            int rowcolor = isWhite == 1;
+            bool colcolor = isWhite == 1;
+            for (int r = row; r >=8; --r) {
+              for (int c = col; c >=8; --c) {
+                if (colcolor) {
+                  ++ans;
+                }
+                colcolor = !colcolor;
+              }
+              rowcolor = !rowcolor;
+              colcolor = rowcolor;
+            }
         }
 
         // Write an answer using Console.WriteLine()
         // To debug: Console.Error.WriteLine("Debug messages...");
 
-        Console.WriteLine("answer");
+        Console.WriteLine(ans);
     }
 }
