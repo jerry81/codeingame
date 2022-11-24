@@ -64,11 +64,11 @@ class Solution
         this.w = w;
       }
 
-      public AddLine(string s) {
+      public void AddLine(string s) {
         this.picture.Add(s);
       }
 
-      public Test() {
+      public void Test() {
         Console.Error.WriteLine($"pattern {this.pattern}");
         Console.Error.WriteLine($"picture");
         foreach (var v in picture) {
