@@ -65,7 +65,28 @@ class Solution
             // keep track of right-most color
             int rows = row-7;
             int cols = col-7;
-            int perRow = rows/2; // default: floor division
+            Console.Error.WriteLine($"rows {rows} cols {cols}");
+            bool cOdd = cols%2 == 1;
+            Console.Error.WriteLine($"codd {cOdd}");
+
+            int perRow = cols/2;
+             Console.Error.WriteLine($"pRow {perRow}");
+            int otherRow = perRow+1;
+             Console.Error.WriteLine($"other {otherRow}");
+
+            bool curOdd = isWhite == 1;
+            while (rows > 0) {
+              Console.Error.WriteLine("iterate row");
+              if (cOdd) {
+                int addend = curOdd ? otherRow : perRow;
+                ans+=addend;
+                curOdd = !curOdd;
+              } else {
+                ans+=perRow;
+              }
+
+              rows--;
+            }
             Console.Error.WriteLine($"rows {rows} cols {cols}");
             // bool rowcolor = isWhite == 1;
             // bool colcolor = isWhite == 1;
