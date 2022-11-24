@@ -63,8 +63,8 @@ class Solution
           private const string R1 = "A21-42";
           private const string R2 = "A21-55";
           private int numberOfPlates;
-          private Dictionary<string, long> R1Lookup = new Dictionary<string,long>();
-          private Dictionary<string, long> R2Lookup = new Dictionary<string,long>();
+          private SortedDictionary<string, long> R1Lookup = new SortedDictionary<string,long>();
+          private SortedDictionary<string, long> R2Lookup = new SortedDictionary<string,long>();
 
           public Radar(int number) {
             this.numberOfPlates = number;
@@ -78,14 +78,25 @@ class Solution
             }
           }
 
-          public string FindTickets() {
+          private int getSpeed(string plate) {
+            long time1 = R1Lookup[plate];
+            long time2 = R2Lookup[plate];
+            long diff = time2 - time1;
+            Console.Error.WriteLine(diff);
+            double hours = (double)diff/(double)MS_IN_HOUR;
+            int speed = (int)((double)DIST/hours);
+            return speed;
+          }
+
+          public List<string> FindTickets() {
+            List<string> tickets = new List<string>();
             foreach (var v in R1Lookup) {
-              Console.Error.WriteLine($"plate: {v.Key} time: {v.Value}");
+              int speed = getSpeed(v.Key);
+              if (speed > SPEED_LIMIT) {
+                tickets.Add($"{v.Key} {speed}");
+              }
             }
-            foreach (var v in R2Lookup) {
-              Console.Error.WriteLine($"finish plate: {v.Key} time: {v.Value}");
-            }
-            return "";
+            return tickets;
           }
         }
 
@@ -103,11 +114,13 @@ class Solution
             long timestamp = long.Parse(inputs[2]);
             r.AddReading(plate, radarname, timestamp);
         }
-        string answer = r.FindTickets();
+        List<string> answer = r.FindTickets();
 
         // Write an answer using Console.WriteLine()
         // To debug: Console.Error.WriteLine("Debug messages...");
+        foreach (var a in answer) {
+          Console.WriteLine(a);
+        }
 
-        Console.WriteLine("ticket");
     }
 }
