@@ -52,6 +52,7 @@ class Solution
     static void Main(string[] args)
     {
         int n = int.Parse(Console.ReadLine());
+
         for (int i = 0; i < n; i++)
         {
             int ans = 0;
@@ -62,7 +63,7 @@ class Solution
             // count down rows until 8
             // cont down cols until 8
             // keep track of right-most color
-            int rowcolor = isWhite == 1;
+            bool rowcolor = isWhite == 1;
             bool colcolor = isWhite == 1;
             for (int r = row; r >=8; --r) {
               for (int c = col; c >=8; --c) {
@@ -74,11 +75,12 @@ class Solution
               rowcolor = !rowcolor;
               colcolor = rowcolor;
             }
+            Console.WriteLine(ans);
         }
 
         // Write an answer using Console.WriteLine()
         // To debug: Console.Error.WriteLine("Debug messages...");
 
-        Console.WriteLine(ans);
+
     }
 }
