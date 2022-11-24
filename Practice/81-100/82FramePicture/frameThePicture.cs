@@ -57,6 +57,8 @@ class Solution
       int h;
       int w;
       List<string> picture = new List<string>();
+      int ph;
+      int pw;
 
       public Frame(string p, int h, int w) {
         this.pattern = p;
@@ -68,12 +70,16 @@ class Solution
         this.picture.Add(s);
       }
 
+      public void AnalyzePicture() {
+        this.ph = this.picture.Count;
+        this.pw = this.picture[0].Length;
+      }
+
       public void Test() {
         Console.Error.WriteLine($"pattern {this.pattern}");
-        Console.Error.WriteLine($"picture");
+        Console.Error.WriteLine($"picture dim h {this.ph} w {this.pw}");
         foreach (var v in picture) {
-                  Console.Error.WriteLine(v);
-
+            Console.Error.WriteLine(v);
         }
       }
     }
@@ -90,6 +96,7 @@ class Solution
             string line = Console.ReadLine(); // the ASCII art picture line by line
             f.AddLine(line);
         }
+        f.AnalyzePicture();
         f.Test();
         // Write an answer using Console.WriteLine()
         // To debug: Console.Error.WriteLine("Debug messages...");
