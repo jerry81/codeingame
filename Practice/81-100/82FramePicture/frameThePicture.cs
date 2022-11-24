@@ -52,17 +52,45 @@ using System.Collections.Generic;
  **/
 class Solution
 {
+    class Frame {
+      string pattern;
+      int h;
+      int w;
+      List<string> picture = new List<string>();
+
+      public Frame(string p, int h, int w) {
+        this.pattern = p;
+        this.h = h;
+        this.w = w;
+      }
+
+      public AddLine(string s) {
+        this.picture.Add(s);
+      }
+
+      public Test() {
+        Console.Error.WriteLine($"pattern {this.pattern}");
+        Console.Error.WriteLine($"picture");
+        foreach (var v in picture) {
+                  Console.Error.WriteLine(v);
+
+        }
+      }
+    }
+
     static void Main(string[] args)
     {
         string framePattern = Console.ReadLine(); // the ASCII art pattern to use to frame the picture
         string[] inputs = Console.ReadLine().Split(' ');
         int h = int.Parse(inputs[0]); // the height of the picture
         int w = int.Parse(inputs[1]); // the width  of the picture
+        Frame f = Frame(framePattern,h,w);
         for (int i = 0; i < h; i++)
         {
             string line = Console.ReadLine(); // the ASCII art picture line by line
+            f.AddLine(line);
         }
-
+        f.Test();
         // Write an answer using Console.WriteLine()
         // To debug: Console.Error.WriteLine("Debug messages...");
 
