@@ -62,13 +62,28 @@ class Solution
           private const int DIST = 13;
           private const int SPEED_LIMIT = 130;
           private const long MS_IN_HOUR = 1000*60*60;
+          private const string R1 = "A21-42";
+          private const string R2 = "A21-55";
           private int numberOfPlates;
+          private Dictionary<string, long> R1Lookup = new Dictionary<string,long>();
+          private Dictionary<string, long> R2Lookup = new Dictionary<string,long>();
           public Radar(int number) {
             this.numberOfPlates = number;
           }
           public void AddReading(string plate, string radar, long timestamp) {
+            if (radar == R1) {
+              R1Lookup.Add(plate, timestamp);
+            } else {
+              R2Lookup.Add(plate, timestamp);
+            }
           }
           public string FindTickets() {
+            foreach (val v in R1Lookup) {
+              Console.Error.WriteLine($"plate: {v.First} time: {v.Second}");
+            }
+            foreach (val v in R2Lookup) {
+              Console.Error.WriteLine($"finish plate: {v.First} time: {v.Second}");
+            }
             return "";
           }
         }
@@ -81,8 +96,9 @@ class Solution
             string plate = inputs[0];
             string radarname = inputs[1];
             long timestamp = long.Parse(inputs[2]);
-
+            r.AddReading(plate, radarname, timestamp);
         }
+        string answer = r.FindTickets();
 
         // Write an answer using Console.WriteLine()
         // To debug: Console.Error.WriteLine("Debug messages...");
