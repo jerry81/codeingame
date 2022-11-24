@@ -53,6 +53,7 @@ using System.Collections.Generic;
 class Solution
 {
     class Frame {
+      // TIL: default accessibility private in class, public in struct
       string pattern;
       int h;
       int w;
