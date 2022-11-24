@@ -84,7 +84,7 @@ class Solution
         string[] inputs = Console.ReadLine().Split(' ');
         int h = int.Parse(inputs[0]); // the height of the picture
         int w = int.Parse(inputs[1]); // the width  of the picture
-        Frame f = Frame(framePattern,h,w);
+        Frame f = new Frame(framePattern,h,w);
         for (int i = 0; i < h; i++)
         {
             string line = Console.ReadLine(); // the ASCII art picture line by line
