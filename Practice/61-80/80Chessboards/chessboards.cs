@@ -63,18 +63,22 @@ class Solution
             // count down rows until 8
             // cont down cols until 8
             // keep track of right-most color
-            bool rowcolor = isWhite == 1;
-            bool colcolor = isWhite == 1;
-            for (int r = row; r >=8; --r) {
-              for (int c = col; c >=8; --c) {
-                if (colcolor) {
-                  ++ans;
-                }
-                colcolor = !colcolor;
-              }
-              rowcolor = !rowcolor;
-              colcolor = rowcolor;
-            }
+            int rows = row-7;
+            int cols = col-7;
+            int perRow = rows/2; // default: floor division
+            Console.Error.WriteLine($"rows {rows} cols {cols}");
+            // bool rowcolor = isWhite == 1;
+            // bool colcolor = isWhite == 1;
+            // for (int r = row; r >=8; --r) {
+            //   for (int c = col; c >=8; --c) {
+            //     if (colcolor) {
+            //       ++ans;
+            //     }
+            //     colcolor = !colcolor;
+            //   }
+            //   rowcolor = !rowcolor;
+            //   colcolor = rowcolor;
+            // }
             Console.WriteLine(ans);
         }
 
