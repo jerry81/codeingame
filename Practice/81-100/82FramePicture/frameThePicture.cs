@@ -110,10 +110,24 @@ class Solution
         }
       }
 
+      public void AddPicture() {
+        // count pattern + 1 down
+        // count pattern + 1 right
+        int offset = this.pattern.Length + 1;
+        Console.Error.WriteLine($"offset is {offset}");
+        Console.Error.WriteLine($"w is {this.w}");
+        for (int i = 0; i < this.h; ++i) {
+          for (int j = 0; j < this.w; ++j) {
+            Console.Error.WriteLine($"i+offset {i+offset} and j {j+offset}");
+            this.frame[i+offset][j+offset] = this.picture[i][j];
+          }
+        }
+      }
+
       public void PrintFrame() {
         foreach (List<char> s in this.frame) {
           string t = new string(s.ToArray());
-          Console.Error.WriteLine(t);
+          Console.WriteLine(t);
         }
       }
     }
@@ -132,8 +146,8 @@ class Solution
         }
         f.Test();
         f.BuildFrame();
+        f.AddPicture();
         f.PrintFrame();
 
-        Console.WriteLine("Write framed picture line by line here");
     }
 }
