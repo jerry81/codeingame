@@ -54,12 +54,12 @@ class Solution
 {
     class Frame {
       // TIL: default accessibility private in class, public in struct
+      // but in c# also struct pass by value, class pass by reference
       string pattern;
       int h;
       int w;
       List<string> picture = new List<string>();
-      int ph;
-      int pw;
+      List<string> frame = new List<string>();
 
       public Frame(string p, int h, int w) {
         this.pattern = p;
@@ -71,16 +71,29 @@ class Solution
         this.picture.Add(s);
       }
 
-      public void AnalyzePicture() {
-        this.ph = this.picture.Count;
-        this.pw = this.picture[0].Length;
-      }
 
       public void Test() {
         Console.Error.WriteLine($"pattern {this.pattern}");
-        Console.Error.WriteLine($"picture dim h {this.ph} w {this.pw}");
         foreach (var v in picture) {
             Console.Error.WriteLine(v);
+        }
+      }
+
+      public void buildOuterRing() {
+        int frameW = this.pattern.Length + 2 + this.w;
+        this.frame.Add("");
+        for (int i = 0; i < frameW; ++i) {
+          this.frame[0]+=this.pattern[0];
+        }
+      }
+
+      public void BuildFrame() {
+        this.buildOuterRing();
+      }
+
+      public void PrintFrame() {
+        foreach (string s in this.frame) {
+          Console.Error.WriteLine(s);
         }
       }
     }
@@ -97,8 +110,9 @@ class Solution
             string line = Console.ReadLine(); // the ASCII art picture line by line
             f.AddLine(line);
         }
-        f.AnalyzePicture();
         f.Test();
+        f.BuildFrame();
+        f.PrintFrame();
         // Write an answer using Console.WriteLine()
         // To debug: Console.Error.WriteLine("Debug messages...");
 
