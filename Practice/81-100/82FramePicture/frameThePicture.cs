@@ -73,14 +73,6 @@ class Solution
         this.picture.Add(s);
       }
 
-
-      public void Test() {
-        Console.Error.WriteLine($"pattern {this.pattern}");
-        foreach (var v in picture) {
-            Console.Error.WriteLine(v);
-        }
-      }
-
       public void buildRing(int offset) {
         char patternItem = this.pattern[offset];
         for (int i = offset; i < (this.frameH - offset); ++i) {
@@ -114,11 +106,8 @@ class Solution
         // count pattern + 1 down
         // count pattern + 1 right
         int offset = this.pattern.Length + 1;
-        Console.Error.WriteLine($"offset is {offset}");
-        Console.Error.WriteLine($"w is {this.w}");
         for (int i = 0; i < this.h; ++i) {
           for (int j = 0; j < this.w; ++j) {
-            Console.Error.WriteLine($"i+offset {i+offset} and j {j+offset}");
             this.frame[i+offset][j+offset] = this.picture[i][j];
           }
         }
@@ -144,7 +133,6 @@ class Solution
             string line = Console.ReadLine(); // the ASCII art picture line by line
             f.AddLine(line);
         }
-        f.Test();
         f.BuildFrame();
         f.AddPicture();
         f.PrintFrame();
