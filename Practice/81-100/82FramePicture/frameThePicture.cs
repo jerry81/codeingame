@@ -59,7 +59,9 @@ class Solution
       int h;
       int w;
       List<string> picture = new List<string>();
-      List<string> frame = new List<string>();
+      List<List<char>> frame = new List<List<char>>();
+      int frameH;
+      int frameW;
 
       public Frame(string p, int h, int w) {
         this.pattern = p;
@@ -80,23 +82,38 @@ class Solution
       }
 
       public void buildRing(int offset) {
-        int frameW = (this.pattern.Length * 2) + this.w + 2;
-        int frameH = (this.pattern.Length * 2) + this.h + 2;
-        this.frame.Add("");
-        for (int i = 0; i < frameW; ++i) {
-          this.frame[0]+=this.pattern[0];
+        char patternItem = this.pattern[offset];
+        for (int i = offset; i < (this.frameH - offset); ++i) {
+          if ((i == offset) || (i == (this.frameH - offset - 1))) {
+            for (int j = offset; j < (this.frameW - offset); ++j) {
+                this.frame[i][j] = patternItem;
+            }
+          } else {
+            this.frame[i][offset] = patternItem;
+            this.frame[i][this.frameW - offset - 1] = patternItem;
+          }
         }
       }
 
       public void BuildFrame() {
+        // initialize the frame
+        this.frameW = (this.pattern.Length * 2) + this.w + 2;
+        this.frameH = (this.pattern.Length * 2) + this.h + 2;
+        for (int i = 0; i < frameH; ++i) {
+          this.frame.Add(new List<char>());
+          for (int j = 0; j < this.frameW; ++j) {
+            this.frame[i].Add(' ');
+          }
+        }
         for (int offset = 0; offset < this.pattern.Length; ++offset) {
           this.buildRing(offset);
         }
       }
 
       public void PrintFrame() {
-        foreach (string s in this.frame) {
-          Console.Error.WriteLine(s);
+        foreach (List<char> s in this.frame) {
+          string t = new string(s.ToArray());
+          Console.Error.WriteLine(t);
         }
       }
     }
@@ -116,8 +133,6 @@ class Solution
         f.Test();
         f.BuildFrame();
         f.PrintFrame();
-        // Write an answer using Console.WriteLine()
-        // To debug: Console.Error.WriteLine("Debug messages...");
 
         Console.WriteLine("Write framed picture line by line here");
     }
