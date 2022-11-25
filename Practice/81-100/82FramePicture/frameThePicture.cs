@@ -79,8 +79,9 @@ class Solution
         }
       }
 
-      public void buildOuterRing() {
-        int frameW = this.pattern.Length + 2 + this.w;
+      public void buildRing(int offset) {
+        int frameW = (this.pattern.Length * 2) + this.w + 2;
+        int frameH = (this.pattern.Length * 2) + this.h + 2;
         this.frame.Add("");
         for (int i = 0; i < frameW; ++i) {
           this.frame[0]+=this.pattern[0];
@@ -88,7 +89,9 @@ class Solution
       }
 
       public void BuildFrame() {
-        this.buildOuterRing();
+        for (int offset = 0; offset < this.pattern.Length; ++offset) {
+          this.buildRing(offset);
+        }
       }
 
       public void PrintFrame() {
