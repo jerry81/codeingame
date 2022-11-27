@@ -38,7 +38,7 @@ class Solution
     class Mountains {
       int height = 0;
       int width;
-      List<int> mountains = List<int>();
+      List<int> mountains = new List<int>();
       List<List<char>> output = new List<List<char>>();
       public Mountains(int n) {
         this.width = n;
@@ -62,13 +62,14 @@ class Solution
     static void Main(string[] args)
     {
         int n = int.Parse(Console.ReadLine()); // the number of mountains
-        Mountain m = new Mountain(n);
+        Mountains m = new Mountains(n);
         string[] inputs = Console.ReadLine().Split(' ');
         for (int i = 0; i < n; i++)
         {
             int height = int.Parse(inputs[i]);// height of the mountain
             m.ProcessMountain(height);
         }
+        m.Test();
 
         Console.WriteLine("answer");
     }
