@@ -35,6 +35,21 @@ using System.Collections.Generic;
  **/
 class Solution
 {
+    class Mountains {
+      int count;
+      int height;
+      int width;
+      List<int> mountains = List<int>();
+      List<List<char>> mountains = new List<List<char>>();
+      public Mountains(int n) {
+        this.count = n;
+      }
+
+      public void ProcessMountain(string mountain) {
+
+      }
+    }
+
     static void Main(string[] args)
     {
         int n = int.Parse(Console.ReadLine()); // the number of mountains
