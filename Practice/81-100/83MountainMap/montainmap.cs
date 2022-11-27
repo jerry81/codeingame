@@ -59,8 +59,8 @@ class Solution
       }
 
       void Render() {
-        foreach (var o in this.output) {
-          Console.WriteLine(new string(o.ToArray()));
+        for (int i = this.output.Count-1; i >=0; --i) {
+          Console.WriteLine(new string(this.output[i].ToArray()));
         }
       }
 
