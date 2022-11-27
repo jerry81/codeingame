@@ -60,7 +60,7 @@ class Solution
 
       void Render() {
         foreach (var o in this.output) {
-          Console.Write(new string(o.ToArray()));
+          Console.WriteLine(new string(o.ToArray()));
         }
       }
 
@@ -70,7 +70,7 @@ class Solution
         foreach (int m in this.mountains) {
           for (int j = 0; j < m; ++j) {
             this.output[j][j+i] = '/';
-            this.output[j+m][j+i+m] = '\\';
+            this.output[j][j+i+m] = '\\';
           }
           i+=(m*2);
         }
