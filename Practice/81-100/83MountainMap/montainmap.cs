@@ -70,7 +70,7 @@ class Solution
         foreach (int m in this.mountains) {
           for (int j = 0; j < m; ++j) {
             this.output[j][j+i] = '/';
-            this.output[j][j+i+m] = '\\';
+            this.output[j][(m*2+i-1)-j] = '\\';
           }
           i+=(m*2);
         }
