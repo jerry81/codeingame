@@ -54,13 +54,22 @@ class Solution
         foreach (var m in this.mountains) {
           Console.Error.WriteLine($"mountain {m}");
         }
+        for (int i = 0; i < this.height; ++i) {
+          this.output.Add(new List<char>());
+          for (int j = 0; j < this.width; ++j) {
+            this.output[i].Add('-');
+          }
+        }
+        foreach (List<char> listchar in this.output) {
+          Console.Error.WriteLine($"line is {new string(listchar.ToArray())}");
+        }
       }
     }
 
     static void Main(string[] args)
     {
         int n = int.Parse(Console.ReadLine()); // the number of mountains
-        Mountains m = new Mountains(n);
+        Mountains m = new Mountains();
         string[] inputs = Console.ReadLine().Split(' ');
         for (int i = 0; i < n; i++)
         {
