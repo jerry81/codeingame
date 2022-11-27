@@ -37,18 +37,16 @@ class Solution
 {
     class Mountains {
       int height = 0;
-      int width;
+      int width = 0;
       List<int> mountains = new List<int>();
       List<List<char>> output = new List<List<char>>();
-      public Mountains(int n) {
-        this.width = n;
-      }
 
       public void ProcessMountain(int ht) {
         mountains.Add(ht);
         if (ht > this.height) {
           this.height = ht;
         }
+        this.width+=2*ht;
       }
 
       public void Test() {
