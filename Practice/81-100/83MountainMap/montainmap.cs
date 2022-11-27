@@ -49,19 +49,19 @@ class Solution
         this.width+=2*ht;
       }
 
-      public void Test() {
-        Console.Error.WriteLine($"height is {height}, width is {width}");
-        foreach (var m in this.mountains) {
-          Console.Error.WriteLine($"mountain {m}");
-        }
+      private void setupDraw() {
         for (int i = 0; i < this.height; ++i) {
           this.output.Add(new List<char>());
           for (int j = 0; j < this.width; ++j) {
-            this.output[i].Add('-');
+            this.output[i].Add(' ');
           }
         }
-        foreach (List<char> listchar in this.output) {
-          Console.Error.WriteLine($"line is {new string(listchar.ToArray())}");
+      }
+
+      public void Draw() {
+        this.setupDraw();
+        for (int m in this.mountains) {
+          Console.Error.WriteLine($"will draw mountain height {m}");
         }
       }
     }
@@ -76,7 +76,7 @@ class Solution
             int height = int.Parse(inputs[i]);// height of the mountain
             m.ProcessMountain(height);
         }
-        m.Test();
+        m.Draw();
 
         Console.WriteLine("answer");
     }
