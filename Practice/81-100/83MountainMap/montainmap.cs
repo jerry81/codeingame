@@ -60,7 +60,8 @@ class Solution
 
       void Render() {
         for (int i = this.output.Count-1; i >=0; --i) {
-          Console.WriteLine(new string(this.output[i].ToArray()));
+          string s = new string(this.output[i].ToArray());
+          Console.WriteLine(s.TrimEnd());
         }
       }
 
