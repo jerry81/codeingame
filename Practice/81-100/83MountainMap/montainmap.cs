@@ -36,31 +36,39 @@ using System.Collections.Generic;
 class Solution
 {
     class Mountains {
-      int count;
-      int height;
+      int height = 0;
       int width;
       List<int> mountains = List<int>();
-      List<List<char>> mountains = new List<List<char>>();
+      List<List<char>> output = new List<List<char>>();
       public Mountains(int n) {
-        this.count = n;
+        this.width = n;
       }
 
-      public void ProcessMountain(string mountain) {
+      public void ProcessMountain(int ht) {
+        mountains.Add(ht);
+        if (ht > this.height) {
+          this.height = ht;
+        }
+      }
 
+      public void Test() {
+        Console.Error.WriteLine($"height is {height}, width is {width}");
+        foreach (var m in this.mountains) {
+          Console.Error.WriteLine($"mountain {m}");
+        }
       }
     }
 
     static void Main(string[] args)
     {
         int n = int.Parse(Console.ReadLine()); // the number of mountains
+        Mountain m = new Mountain(n);
         string[] inputs = Console.ReadLine().Split(' ');
         for (int i = 0; i < n; i++)
         {
             int height = int.Parse(inputs[i]);// height of the mountain
+            m.ProcessMountain(height);
         }
-
-        // Write an answer using Console.WriteLine()
-        // To debug: Console.Error.WriteLine("Debug messages...");
 
         Console.WriteLine("answer");
     }
