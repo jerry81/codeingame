@@ -49,7 +49,7 @@ class Solution
         this.width+=2*ht;
       }
 
-      private void setupDraw() {
+      void setupDraw() {
         for (int i = 0; i < this.height; ++i) {
           this.output.Add(new List<char>());
           for (int j = 0; j < this.width; ++j) {
@@ -58,11 +58,23 @@ class Solution
         }
       }
 
+      void Render() {
+        foreach (var o in this.output) {
+          Console.Write(new string(o.ToArray()));
+        }
+      }
+
       public void Draw() {
         this.setupDraw();
-        for (int m in this.mountains) {
-          Console.Error.WriteLine($"will draw mountain height {m}");
+        int i = 0;
+        foreach (int m in this.mountains) {
+          for (int j = 0; j < m; ++j) {
+            this.output[j][j+i] = '/';
+            this.output[j+m][j+i+m] = '\\';
+          }
+          i+=(m*2);
         }
+        this.Render();
       }
     }
 
@@ -78,6 +90,5 @@ class Solution
         }
         m.Draw();
 
-        Console.WriteLine("answer");
     }
 }
