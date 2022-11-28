@@ -110,11 +110,19 @@ class UnitCalculator {
 
     double add() {
       cerr << "n 0 is " << n[0] << endl;
+            cerr << "n 1 is " << n[1] << endl;
+      cerr << "u 0 is " << u[0] << endl;
+            cerr << "u 1 is " << u[1] << endl;
+      int unit1mag = lookup[u[0]];
+      int unit2mag = lookup[u[1]];
       double f = n[0] * lookup[u[0]];
       double s = n[1] * lookup[u[1]];
       cerr << "f is " << f << endl;
       cerr << "s is " << s << endl;
       double sum = f+s;
+      cerr << "unprocessedsum " << sum << endl;
+      sum /= (unit1mag <= unit2mag) ? lookup[u[0]] : lookup[u[1]];
+
       return sum;
     }
 };
