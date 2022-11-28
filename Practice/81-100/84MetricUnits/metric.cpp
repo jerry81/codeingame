@@ -52,8 +52,8 @@ using namespace std;
 
 class UnitCalculator {
   private:
-    double n[2];
-    string u[2];
+    vector<double> n;
+    vector<string> u;
     const long int um = 1;
     const long int mm = 1000;
     const long int cm = 10000;
@@ -79,8 +79,8 @@ class UnitCalculator {
       }
       string value = input.substr(0, unit_index);
       string unit = input.substr(unit_index); // no second param - to the end.
-      cerr << "subst is " << value << endl;
-      cerr << "unit is " << unit << endl;
+      n.push_back(stod(value));
+      u.push_back(unit);
     }
   public:
     UnitCalculator(string expression) {
@@ -90,6 +90,12 @@ class UnitCalculator {
       while (token != NULL) {
         parse(token);
         token = strtok(NULL, " + ");
+      }
+      for (double d: n) {
+        cerr << "double from vector " << d << endl;
+      }
+      for (string un:u) {
+        cerr << "unit from vector " << un << endl;
       }
     }
 };
