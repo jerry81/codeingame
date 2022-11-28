@@ -47,6 +47,7 @@ Output
 #include <vector>
 #include <algorithm>
 #include <string.h>
+#include <unordered_map>
 
 using namespace std;
 
@@ -54,12 +55,14 @@ class UnitCalculator {
   private:
     vector<double> n;
     vector<string> u;
-    const long int um = 1;
-    const long int mm = 1000;
-    const long int cm = 10000;
-    const long int dm = 100000;
-    const long int m = 1000000;
-    const long int km = 1000000000;
+    const long int UM = 1;
+    const long int MM = 1000;
+    const long int CM = 10000;
+    const long int DM = 100000;
+    const long int M = 1000000;
+    const long int KM = 1000000000;
+    unordered_map<string, const long int> lookup;
+
 
     bool is_digit_or_period(char c) {
       if (c == '.') return true;
@@ -82,20 +85,23 @@ class UnitCalculator {
       n.push_back(stod(value));
       u.push_back(unit);
     }
+    void init() {
+      lookup.insert({"um", UM});
+      lookup.insert({"mm", MM});
+      lookup.insert({"cm", CM});
+      lookup.insert({"dm", DM});
+      lookup.insert({"M", M});
+      lookup.insert({"km", KM});
+    }
   public:
     UnitCalculator(string expression) {
+      init();
       char str[expression.length()+1];
       strcpy(str,expression.c_str());
       char *token = strtok(str, " + ");
       while (token != NULL) {
         parse(token);
         token = strtok(NULL, " + ");
-      }
-      for (double d: n) {
-        cerr << "double from vector " << d << endl;
-      }
-      for (string un:u) {
-        cerr << "unit from vector " << un << endl;
       }
     }
 };
