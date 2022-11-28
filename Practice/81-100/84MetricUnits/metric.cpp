@@ -85,12 +85,15 @@ class UnitCalculator {
       n.push_back(stod(value));
       u.push_back(unit);
     }
+
+
+
     void init() {
       lookup.insert({"um", UM});
       lookup.insert({"mm", MM});
       lookup.insert({"cm", CM});
       lookup.insert({"dm", DM});
-      lookup.insert({"M", M});
+      lookup.insert({"m", M});
       lookup.insert({"km", KM});
     }
   public:
@@ -104,6 +107,16 @@ class UnitCalculator {
         token = strtok(NULL, " + ");
       }
     }
+
+    double add() {
+      cerr << "n 0 is " << n[0] << endl;
+      double f = n[0] * lookup[u[0]];
+      double s = n[1] * lookup[u[1]];
+      cerr << "f is " << f << endl;
+      cerr << "s is " << s << endl;
+      double sum = f+s;
+      return sum;
+    }
 };
 
 int main()
@@ -111,5 +124,7 @@ int main()
     string expression;
     getline(cin, expression); // the expression to calculate
     UnitCalculator u = UnitCalculator(expression);
+    double d = u.add();
+    cerr << "sum is " << d << endl;
     cout << "1cm" << endl;
 }
