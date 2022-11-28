@@ -52,8 +52,8 @@ using namespace std;
 
 class UnitCalculator {
   private:
-    double n1;
-    double n2;
+    double n[2];
+    string u[2];
     const long int um = 1;
     const long int mm = 1000;
     const long int cm = 10000;
@@ -61,7 +61,9 @@ class UnitCalculator {
     const long int m = 1000000;
     const long int km = 1000000000;
 
-    bool is_digit(char c) {
+    bool is_digit_or_period(char c) {
+      if (c == '.') return true;
+
       int ascii = c - '0';
       return (ascii >= 0) && (ascii < 10);
     }
@@ -70,7 +72,7 @@ class UnitCalculator {
       int unit_index = 0;
       for (int i = 0; i < input.length(); ++i) {
         char c = input[i];
-        if (!is_digit(c)) {
+        if (!is_digit_or_period(c)) {
           unit_index = i;
           break;
         }
