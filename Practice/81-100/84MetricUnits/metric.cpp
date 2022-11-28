@@ -67,12 +67,18 @@ class UnitCalculator {
     }
 
     void parse(string input) { // function did the conversion
+      int unit_index = 0;
       for (int i = 0; i < input.length(); ++i) {
         char c = input[i];
         if (!is_digit(c)) {
-
+          unit_index = i;
+          break;
         }
       }
+      string value = input.substr(0, unit_index);
+      string unit = input.substr(unit_index); // no second param - to the end.
+      cerr << "subst is " << value << endl;
+      cerr << "unit is " << unit << endl;
     }
   public:
     UnitCalculator(string expression) {
@@ -83,8 +89,6 @@ class UnitCalculator {
         parse(token);
         token = strtok(NULL, " + ");
       }
-      cerr << "expect true " << is_digit('9');
-      cerr << "expect false " << is_digit('c');
     }
 };
 
