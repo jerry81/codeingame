@@ -46,21 +46,39 @@ Output
 #include <string>
 #include <vector>
 #include <algorithm>
+#include <string.h>
 
 using namespace std;
 
-/**
- * Auto-generated code below aims at helping you parse
- * the standard input according to the problem statement.
- **/
+class UnitCalculator {
+  private:
+    double n1;
+    double n2;
+    const long int um = 1;
+    const long int mm = 1000;
+    const long int cm = 10000;
+    const long int dm = 100000;
+    const long int m = 1000000;
+    const long int km = 1000000000;
+
+    void parse(string input) {
+    }
+  public:
+    UnitCalculator(string expression) {
+      char str[expression.length()+1];
+      strcpy(str,expression.c_str());
+      char *token = strtok(str, " + ");
+      while (token != NULL) {
+        cout << "token is " << token << endl;
+        token = strtok(NULL, " + ");
+      }
+    }
+};
 
 int main()
 {
     string expression;
     getline(cin, expression); // the expression to calculate
-
-    // Write an answer using cout. DON'T FORGET THE "<< endl"
-    // To debug: cerr << "Debug messages..." << endl;
-
+    UnitCalculator u = UnitCalculator(expression);
     cout << "1cm" << endl;
 }
