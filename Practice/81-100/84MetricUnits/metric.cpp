@@ -61,7 +61,18 @@ class UnitCalculator {
     const long int m = 1000000;
     const long int km = 1000000000;
 
-    void parse(string input) {
+    bool is_digit(char c) {
+      int ascii = c - '0';
+      return (ascii >= 0) && (ascii < 10);
+    }
+
+    void parse(string input) { // function did the conversion
+      for (int i = 0; i < input.length(); ++i) {
+        char c = input[i];
+        if (!is_digit(c)) {
+
+        }
+      }
     }
   public:
     UnitCalculator(string expression) {
@@ -69,9 +80,11 @@ class UnitCalculator {
       strcpy(str,expression.c_str());
       char *token = strtok(str, " + ");
       while (token != NULL) {
-        cout << "token is " << token << endl;
+        parse(token);
         token = strtok(NULL, " + ");
       }
+      cerr << "expect true " << is_digit('9');
+      cerr << "expect false " << is_digit('c');
     }
 };
 
