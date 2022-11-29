@@ -194,24 +194,6 @@ class StateMachine {
 
       cout << "true" << endl;
     }
-
-    void print_all() {
-      for (char c: alphabet) {
-        cerr << "alpha " << c << endl;
-      }
-      for (auto x: state_lookup) {
-        cerr << "state " << x.first << endl;
-        for (auto y: x.second) {
-          cerr << "next char " << y.first << " next state " << y.second << endl;
-        }
-      }
-      for (char c: start_state) {
-        cerr << "start state " << c << endl;
-      }
-      for (char c: end_state) {
-        cerr << "end state " << c << endl;
-      }
-    }
 };
 
 int main()
@@ -233,7 +215,6 @@ int main()
     string end_states;
     getline(cin, end_states);
     sm.set_conditions(start_state, end_states);
-    // sm.print_all();
     int number_of_words;
     cin >> number_of_words; cin.ignore();
     for (int i = 0; i < number_of_words; i++) {
