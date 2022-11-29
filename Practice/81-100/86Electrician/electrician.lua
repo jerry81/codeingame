@@ -58,10 +58,23 @@ LIGHT is ON
 ]]--
 -- Auto-generated code below aims at helping you parse
 -- the standard input according to the problem statement.
+function mysplit (inputstr, sep)
+  if sep == nil then
+     sep = "%s"
+  end
+  local t={}
+  for str in string.gmatch(inputstr, "([^"..sep.."]+)") do
+     table.insert(t, str)
+  end
+  return t
+end
 
+devices = {}
 C = tonumber(io.read())
 for i=0,C-1 do
     WIRING = io.read()
+    tokens = mysplit(WIRING)
+    for _,v in ipairs(tokens) do print(v) end
 end
 A = tonumber(io.read())
 for i=0,A-1 do
