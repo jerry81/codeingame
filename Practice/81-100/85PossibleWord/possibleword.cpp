@@ -165,14 +165,33 @@ class StateMachine {
     }
 
     void check_word(string word) {
-      if (!in_alpha(word)) cout << "false" << endl;
+      if (!in_alpha(word)) {
+        cout << "false" << endl;
+        return;
+      }
 
       // foreach letter in word
       // keep track of current state
       char current_state = start_state[0];
       for (char c:word) {
+        if (state_lookup.find(current_state) == state_lookup.end()) {
+          cout << "false" << endl;
+          return;
+        }
 
+        auto next_lookup = state_lookup[current_state];
+        if (next_lookup.find(c) == next_lookup.end()) {
+          cout << "false" << endl;
+          return;
+        }
+
+        current_state = next_lookup[c];
       }
+      if (find(end_state.begin(), end_state.end(), current_state) == end_state.end()) {
+          cout << "false" << endl;
+          return;
+      }
+
       cout << "true" << endl;
     }
 
@@ -214,7 +233,7 @@ int main()
     string end_states;
     getline(cin, end_states);
     sm.set_conditions(start_state, end_states);
-    sm.print_all();
+    // sm.print_all();
     int number_of_words;
     cin >> number_of_words; cin.ignore();
     for (int i = 0; i < number_of_words; i++) {
