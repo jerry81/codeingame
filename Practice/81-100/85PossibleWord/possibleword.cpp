@@ -130,14 +130,14 @@ class StateMachine {
     vector<char> alphabet;
     unordered_map<char,vector<Transition>> state_lookup;
   public:
-    StateMachine(string states, string alphabet) {
+    StateMachine(string states, string alpha) {
       for (char c:states) {
         if (c != ' ') {
           vector<Transition> t;
           state_lookup.insert({c,t});
         }
       }
-      for (char c:alphabet) {
+      for (char c:alpha) {
         if (c != ' ') {
           alphabet.push_back(c);
         }
