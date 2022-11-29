@@ -110,6 +110,7 @@ false
 #include <string>
 #include <vector>
 #include <algorithm>
+#include <unordered_map>
 
 using namespace std;
 
@@ -117,6 +118,25 @@ using namespace std;
  * Auto-generated code below aims at helping you parse
  * the standard input according to the problem statement.
  **/
+
+class StateMachine {
+  private:
+    struct Transition {
+      char nc;
+      char ns;
+    };
+    char start_state;
+    char end_state;
+    vector<char> alphabet;
+    unordered_map<char,Transition> state_lookup;
+  public:
+    StateMachine(string states) {
+      for (char c:states) {
+        cerr << "c is " << c << endl;
+      }
+    }
+
+};
 
 int main()
 {
