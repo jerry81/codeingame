@@ -71,14 +71,20 @@ end
 
 tokens_list = {}
 devices = {}
+switches = {}
 
 function p()
   for i,v in pairs(devices) do
     io.stderr:write("iterating devices i is \n")
     io.stderr:write(i)
     io.stderr:write("\n")
-    for _,vv in pairs(v) do
-      io.stderr:write("circuit is\n")
+    for _,vv in pairs(v.parallel) do
+      io.stderr:write("parallel is\n")
+      io.stderr:write(vv)
+      io.stderr:write("\n")
+    end
+    for _,vv in pairs(v.series) do
+      io.stderr:write("series is\n")
       io.stderr:write(vv)
       io.stderr:write("\n")
     end
@@ -93,12 +99,18 @@ for i=0,C-1 do
       tokens_list[i] = tostring(v)
     end
     curDevice = ""
+    curType = ""
     for i,v in ipairs(tokens_list) do
       if (i == 1) then
         curDevice = v
-        devices[v] = {}
+        devices[v] = {series={}, parallel={}}
+      elseif v == "-" then
+        curType = "series"
+      elseif v == "=" then
+        curType = "parallel"
       else
-        devices[curDevice][i-1] = v
+        cd = devices[curDevice]
+        table.insert(cd[curType], v)
       end
     end
 end
