@@ -125,8 +125,8 @@ class StateMachine {
       char nc;
       char ns;
     };
-    char start_state;
-    char end_state;
+    vector<char> start_state;
+    vector<char> end_state;
     vector<char> alphabet;
     unordered_map<char,vector<Transition>> state_lookup;
   public:
@@ -151,6 +151,19 @@ class StateMachine {
       state_lookup[transition[0]].push_back(t);
     }
 
+    void set_conditions(string s, string e) {
+      for (char c:s) {
+        if (c != ' ') {
+          start_state.push_back(c);
+        }
+      }
+      for (char c:e) {
+        if (c != ' ') {
+          end_state.push_back(c);
+        }
+      }
+    }
+
     void print_all() {
       for (char c: alphabet) {
         cerr << "alpha " << c << endl;
@@ -160,6 +173,12 @@ class StateMachine {
         for (auto y: x.second) {
           cerr << "next char " << y.nc << " next state " << y.ns << endl;
         }
+      }
+      for (char c: start_state) {
+        cerr << "start state " << c << endl;
+      }
+      for (char c: end_state) {
+        cerr << "end state " << c << endl;
       }
     }
 };
@@ -178,11 +197,12 @@ int main()
         getline(cin, transition);
         sm.add_transition(transition);
     }
-    sm.print_all();
     string start_state;
     getline(cin, start_state);
     string end_states;
     getline(cin, end_states);
+    sm.set_conditions(start_state, end_states);
+    sm.print_all();
     int number_of_words;
     cin >> number_of_words; cin.ignore();
     for (int i = 0; i < number_of_words; i++) {
