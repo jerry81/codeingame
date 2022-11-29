@@ -121,20 +121,16 @@ using namespace std;
 
 class StateMachine {
   private:
-    struct Transition {
-      char nc;
-      char ns;
-    };
     vector<char> start_state;
     vector<char> end_state;
     vector<char> alphabet;
-    unordered_map<char,vector<Transition>> state_lookup;
+    unordered_map<char,unordered_map<char,char>> state_lookup;
   public:
     StateMachine(string states, string alpha) {
       for (char c:states) {
         if (c != ' ') {
-          vector<Transition> t;
-          state_lookup.insert({c,t});
+          unordered_map<char,char> next_lookup;
+          state_lookup.insert({c,next_lookup});
         }
       }
       for (char c:alpha) {
@@ -145,10 +141,7 @@ class StateMachine {
     }
 
     void add_transition(string transition) {
-      Transition t;
-      t.nc = transition[2];
-      t.ns = transition[4];
-      state_lookup[transition[0]].push_back(t);
+      state_lookup[transition[0]][transition[2]] = transition[4];
     }
 
     void set_conditions(string s, string e) {
@@ -174,6 +167,12 @@ class StateMachine {
     void check_word(string word) {
       if (!in_alpha(word)) cout << "false" << endl;
 
+      // foreach letter in word
+      // keep track of current state
+      char current_state = start_state[0];
+      for (char c:word) {
+
+      }
       cout << "true" << endl;
     }
 
@@ -184,7 +183,7 @@ class StateMachine {
       for (auto x: state_lookup) {
         cerr << "state " << x.first << endl;
         for (auto y: x.second) {
-          cerr << "next char " << y.nc << " next state " << y.ns << endl;
+          cerr << "next char " << y.first << " next state " << y.second << endl;
         }
       }
       for (char c: start_state) {
