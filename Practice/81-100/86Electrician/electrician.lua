@@ -125,17 +125,28 @@ for i=0,C-1 do
     end
 end
 
-p()
-
 A = tonumber(io.read())
 for i=0,A-1 do
     SWITCH = io.read()
     switches[SWITCH] = not switches[SWITCH]
 end
 p()
-for i=0,C-1 do
-    -- Write an answer using print()
-    -- To debug: io.stderr:write("Debug message\n")
-
-    print("ANSWER")
+for i,v in pairs(devices) do
+  device_on = "ON"
+  for i,_ in pairs(v.series) do
+    if not switches[i] then
+      device_on = "OFF"
+    end
+  end
+  for i,_ in pairs(v.parallel) do
+    if switches[i] then
+      device_on = "ON"
+    end
+  end
+  print(i.." is "..device_on)
 end
+
+--[[
+TODO: there may be multiple seperate parallel
+ and multiple seperate series
+]]--
