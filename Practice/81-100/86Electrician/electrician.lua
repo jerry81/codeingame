@@ -78,7 +78,15 @@ for i=0,C-1 do
     for i,v in ipairs(tokens) do
       tokens_list[i] = tostring(v)
     end
-    io.stderr:write("device "..tokens_list[1].."\n")
+    curDevice = ""
+    for i,v in ipairs(tokens_list) do
+      if (i == 1) do
+        curDevice = v
+        devices[v] = {}
+      else
+        devices[v][i-1] = v
+      end
+    end
 end
 A = tonumber(io.read())
 for i=0,A-1 do
