@@ -89,6 +89,15 @@ function p()
       io.stderr:write("\n")
     end
   end
+
+  for i,v in pairs(switches) do
+    io.stderr:write("switch i is \n")
+    io.stderr:write(i)
+    io.stderr:write("\n")
+    io.stderr:write("status is \n")
+    io.stderr:write(tostring(v))
+    io.stderr:write("\n")
+  end
 end
 
 C = tonumber(io.read())
@@ -109,6 +118,7 @@ for i=0,C-1 do
       elseif v == "=" then
         curType = "parallel"
       else
+        switches[v] = false
         cd = devices[curDevice]
         table.insert(cd[curType], v)
       end
@@ -120,9 +130,10 @@ p()
 A = tonumber(io.read())
 for i=0,A-1 do
     SWITCH = io.read()
+    switches[SWITCH] = not switches[SWITCH]
 end
+p()
 for i=0,C-1 do
-
     -- Write an answer using print()
     -- To debug: io.stderr:write("Debug message\n")
 
