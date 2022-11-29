@@ -164,6 +164,19 @@ class StateMachine {
       }
     }
 
+    bool in_alpha(string word) {
+      for (char c: word) {
+        if (find(alphabet.begin(), alphabet.end(), c) == alphabet.end()) return false;
+      }
+      return true;
+    }
+
+    void check_word(string word) {
+      if (!in_alpha(word)) cout << "false" << endl;
+
+      cout << "true" << endl;
+    }
+
     void print_all() {
       for (char c: alphabet) {
         cerr << "alpha " << c << endl;
@@ -208,10 +221,6 @@ int main()
     for (int i = 0; i < number_of_words; i++) {
         string word;
         getline(cin, word);
+        sm.check_word(word);
     }
-
-    // Write an answer using cout. DON'T FORGET THE "<< endl"
-    // To debug: cerr << "Debug messages..." << endl;
-
-    cout << "true or false" << endl;
 }
