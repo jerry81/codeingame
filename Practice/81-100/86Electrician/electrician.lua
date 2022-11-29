@@ -71,6 +71,20 @@ end
 
 tokens_list = {}
 devices = {}
+
+function p()
+  for i,v in pairs(devices) do
+    io.stderr:write("iterating devices i is \n")
+    io.stderr:write(i)
+    io.stderr:write("\n")
+    for _,vv in pairs(v) do
+      io.stderr:write("circuit is\n")
+      io.stderr:write(vv)
+      io.stderr:write("\n")
+    end
+  end
+end
+
 C = tonumber(io.read())
 for i=0,C-1 do
     WIRING = io.read()
@@ -80,14 +94,17 @@ for i=0,C-1 do
     end
     curDevice = ""
     for i,v in ipairs(tokens_list) do
-      if (i == 1) do
+      if (i == 1) then
         curDevice = v
         devices[v] = {}
       else
-        devices[v][i-1] = v
+        devices[curDevice][i-1] = v
       end
     end
 end
+
+p()
+
 A = tonumber(io.read())
 for i=0,A-1 do
     SWITCH = io.read()
