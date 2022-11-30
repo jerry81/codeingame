@@ -31,14 +31,32 @@ function p()
         io.stderr:write("\n")
     end
 end
+
+function analyze()
+    for i,v in ipairs(lines) do
+        io.stderr:write(i)
+        io.stderr:write("\n")
+        io.stderr:write(v)
+        io.stderr:write("\n")
+        for ii=1,#v do
+            io.stderr:write(ii)
+            io.stderr:write("\n")
+            io.stderr:write(v:sub(ii,ii))
+            io.stderr:write("\n")
+        end
+    end
+end
+
 next_token = string.gmatch(io.read(), "[^%s]+")
 H = tonumber(next_token())
 W = tonumber(next_token())
 lines = {}
+arrows = {}
 for i=0,H-1 do
     line = io.read()
     table.insert(lines,line)
 end
+analyze()
 p()
 
 
