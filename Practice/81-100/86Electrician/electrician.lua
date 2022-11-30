@@ -79,11 +79,22 @@ function p()
     io.stderr:write(i)
     io.stderr:write("\n")
     for _,vv in pairs(v.parallel) do
-      io.stderr:write("parallel is\n")
-      io.stderr:write(vv)
+      io.stderr:write("new parallel circuit")
       io.stderr:write("\n")
+      for _,vvv in pairs(vv) do
+        io.stderr:write("parallel is\n")
+        io.stderr:write(vvv)
+        io.stderr:write("\n")
+      end
     end
     for _,vv in pairs(v.series) do
+      io.stderr:write("new series circuit")
+      io.stderr:write("\n")
+      for _,vvv in pairs(vv) do
+        io.stderr:write("series is\n")
+        io.stderr:write(vvv)
+        io.stderr:write("\n")
+      end
       io.stderr:write("series is\n")
       io.stderr:write(vv)
       io.stderr:write("\n")
@@ -113,14 +124,16 @@ for i=0,C-1 do
       if (i == 1) then
         curDevice = v
         devices[v] = {series={}, parallel={}}
+        cd = devices[curDevice]
       elseif v == "-" then
         curType = "series"
+        table.insert(cd[curType],{})
       elseif v == "=" then
         curType = "parallel"
+        table.insert(cd[curType],{})
       else
         switches[v] = false
-        cd = devices[curDevice]
-        table.insert(cd[curType], v)
+        table.insert(cd[curType][#cd[curType]], v)
       end
     end
 end
