@@ -162,16 +162,13 @@ end
 
 for i,v in pairs(devices) do
   device_on = "ON"
-  for i,v in pairs(v.series) do
-    for (ii,vv) in pairs(v) do
-      if not switches[i] then
-        device_on = "OFF"
-      end
+  for _,vv in pairs(v.series) do
+    series_on = is_series_on(v)
+    if not series_on then device_on = false end
   end
-  for i,_ in pairs(v.parallel) do
-    if switches[i] then
-      device_on = "ON"
-    end
+  for _,vv in pairs(v.parallel) do
+    parallel_on = is_parallel_on(vv)
+    if not parallel_on then device_on = false end
   end
   print(i.." is "..device_on)
 end
