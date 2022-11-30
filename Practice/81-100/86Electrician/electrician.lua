@@ -95,9 +95,6 @@ function p()
         io.stderr:write(vvv)
         io.stderr:write("\n")
       end
-      io.stderr:write("series is\n")
-      io.stderr:write(vv)
-      io.stderr:write("\n")
     end
   end
 
@@ -144,12 +141,32 @@ for i=0,A-1 do
     switches[SWITCH] = not switches[SWITCH]
 end
 p()
+
+function is_parallel_on(parallel_t)
+  for _,v in pairs(parallel_t) do
+    if switches[i] then
+      return true
+    end
+  end
+  return false
+end
+
+function is_series_on(series_t)
+  for _,v in pairs(series_t) do
+    if switches[i] then
+      return false
+    end
+  end
+  return true
+end
+
 for i,v in pairs(devices) do
   device_on = "ON"
-  for i,_ in pairs(v.series) do
-    if not switches[i] then
-      device_on = "OFF"
-    end
+  for i,v in pairs(v.series) do
+    for (ii,vv) in pairs(v) do
+      if not switches[i] then
+        device_on = "OFF"
+      end
   end
   for i,_ in pairs(v.parallel) do
     if switches[i] then
