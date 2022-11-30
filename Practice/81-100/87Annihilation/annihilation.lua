@@ -23,6 +23,11 @@ Output
 -- Auto-generated code below aims at helping you parse
 -- the standard input according to the problem statement.
 function p()
+    io.stderr:write("nil count test \n") --- ugh! we found out that we have to manage non-integer counts ourselves
+    test = {a=nil, b=nil, c="ya"}
+    io.stderr:write(#test)
+    io.stderr:write("\n")
+
     io.stderr:write("lines\n")
     for i,v in ipairs(lines) do
         io.stderr:write(i)
