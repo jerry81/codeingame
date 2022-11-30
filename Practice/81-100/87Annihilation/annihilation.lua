@@ -32,6 +32,8 @@ function p()
     end
 end
 
+ARROWS = {['>']="x+1", ['^']="y-1", ['v']="y+1", ['<']="x-1"}
+
 function analyze()
     for i,v in ipairs(lines) do
         io.stderr:write(i)
@@ -39,6 +41,14 @@ function analyze()
         io.stderr:write(v)
         io.stderr:write("\n")
         for ii=1,#v do
+            c = v:sub(ii,ii)
+            if ARROWS[c] ~= nil then
+                io.stderr:write("arrow found at \n")
+                io.stderr:write(i)
+                io.stderr:write(",")
+                io.stderr:write(ii)
+                io.stderr:write("\n")
+            end
             io.stderr:write(ii)
             io.stderr:write("\n")
             io.stderr:write(v:sub(ii,ii))
