@@ -22,13 +22,25 @@ Output
 
 -- Auto-generated code below aims at helping you parse
 -- the standard input according to the problem statement.
-
+function p()
+    io.stderr:write("lines\n")
+    for i,v in ipairs(lines) do
+        io.stderr:write(i)
+        io.stderr:write("\n")
+        io.stderr:write(v)
+        io.stderr:write("\n")
+    end
+end
 next_token = string.gmatch(io.read(), "[^%s]+")
 H = tonumber(next_token())
 W = tonumber(next_token())
+lines = {}
 for i=0,H-1 do
     line = io.read()
+    table.insert(lines,line)
 end
+p()
+
 
 -- simulation approach
 -- just lay down the rules and iterate until end condition
