@@ -72,48 +72,11 @@ end
 devices = {}
 switches = {}
 
-function p()
-  for i,v in pairs(devices) do
-    io.stderr:write("iterating devices i is \n")
-    io.stderr:write(i)
-    io.stderr:write("\n")
-    for _,vv in pairs(v.parallel) do
-      io.stderr:write("new parallel circuit")
-      io.stderr:write("\n")
-      for _,vvv in pairs(vv) do
-        io.stderr:write("parallel is\n")
-        io.stderr:write(vvv)
-        io.stderr:write("\n")
-      end
-    end
-    for _,vv in pairs(v.series) do
-      io.stderr:write("new series circuit")
-      io.stderr:write("\n")
-      for _,vvv in pairs(vv) do
-        io.stderr:write("series is\n")
-        io.stderr:write(vvv)
-        io.stderr:write("\n")
-      end
-    end
-  end
-
-  for i,v in pairs(switches) do
-    io.stderr:write("switch i is \n")
-    io.stderr:write(i)
-    io.stderr:write("\n")
-    io.stderr:write("status is \n")
-    io.stderr:write(tostring(v))
-    io.stderr:write("\n")
-  end
-end
 
 devices_order = {}
 C = tonumber(io.read())
 for i=0,C-1 do
     WIRING = io.read()
-    io.stderr:write("WIRING ")
-    io.stderr:write(WIRING)
-    io.stderr:write("\n")
     tokens = mysplit(WIRING)
     tokens_list = {}
     for ii,v in ipairs(tokens) do
@@ -125,14 +88,6 @@ for i=0,C-1 do
       if (iii == 1) then
         table.insert(devices_order, v)
         curDevice = v
-        if (v == "Bathroom-WashingMachine" or v == "Room2-TV") then
-          io.stderr:write("setting up washing machine")
-          for _,tl in ipairs(tokens_list) do
-            io.stderr:write("token ")
-            io.stderr:write(tl)
-            io.stderr:write("\n")
-          end
-        end
         devices[v] = {series={}, parallel={}}
         cd = devices[curDevice]
       elseif v == "-" then
@@ -142,11 +97,6 @@ for i=0,C-1 do
         curType = "parallel"
         table.insert(cd[curType],{})
       else
-        if (curDevice == "Bathroom-WashingMachine") then
-          io.stderr:write("v is ")
-          io.stderr:write(v)
-          io.stderr:write("\n")
-        end
         switches[v] = false
         table.insert(cd[curType][#cd[curType]], v)
       end
@@ -158,7 +108,6 @@ for i=0,A-1 do
     SWITCH = io.read()
     switches[SWITCH] = not switches[SWITCH]
 end
---- p()
 
 function is_parallel_on(parallel_t)
   for _,v in pairs(parallel_t) do
@@ -179,9 +128,6 @@ function is_series_on(series_t)
 end
 
 for _,v in ipairs(devices_order) do
-  if (v == "Bathroom-WashingMachine") then
-    io.stderr:write("hello")
-  end
   device_on = "ON"
   for _,vv in pairs(devices[v].series) do
     series_on = is_series_on(vv)
