@@ -144,7 +144,7 @@ p()
 
 function is_parallel_on(parallel_t)
   for _,v in pairs(parallel_t) do
-    if switches[i] then
+    if switches[v] then
       return true
     end
   end
@@ -153,7 +153,7 @@ end
 
 function is_series_on(series_t)
   for _,v in pairs(series_t) do
-    if switches[i] then
+    if switches[v] then
       return false
     end
   end
@@ -164,11 +164,11 @@ for i,v in pairs(devices) do
   device_on = "ON"
   for _,vv in pairs(v.series) do
     series_on = is_series_on(v)
-    if not series_on then device_on = false end
+    if not series_on then device_on = "OFF" end
   end
   for _,vv in pairs(v.parallel) do
     parallel_on = is_parallel_on(vv)
-    if not parallel_on then device_on = false end
+    if not parallel_on then device_on = "OFF" end
   end
   print(i.." is "..device_on)
 end
