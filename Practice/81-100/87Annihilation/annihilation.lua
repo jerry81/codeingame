@@ -30,6 +30,12 @@ for i=0,H-1 do
     line = io.read()
 end
 
+-- simulation approach
+-- just lay down the rules and iterate until end condition
+
+-- math approach
+-- do an O(1) calculation - not equipped to do this yet
+
 -- Write an answer using print()
 -- To debug: io.stderr:write("Debug message\n")
 
