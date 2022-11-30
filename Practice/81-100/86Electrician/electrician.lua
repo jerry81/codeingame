@@ -69,7 +69,6 @@ function mysplit (inputstr, sep)
   return t
 end
 
-tokens_list = {}
 devices = {}
 switches = {}
 
@@ -112,16 +111,28 @@ devices_order = {}
 C = tonumber(io.read())
 for i=0,C-1 do
     WIRING = io.read()
+    io.stderr:write("WIRING ")
+    io.stderr:write(WIRING)
+    io.stderr:write("\n")
     tokens = mysplit(WIRING)
-    for i,v in ipairs(tokens) do
-      tokens_list[i] = tostring(v)
+    tokens_list = {}
+    for ii,v in ipairs(tokens) do
+      tokens_list[ii] = tostring(v)
     end
     curDevice = ""
     curType = ""
-    for i,v in ipairs(tokens_list) do
-      if (i == 1) then
+    for iii,v in ipairs(tokens_list) do
+      if (iii == 1) then
         table.insert(devices_order, v)
         curDevice = v
+        if (v == "Bathroom-WashingMachine" or v == "Room2-TV") then
+          io.stderr:write("setting up washing machine")
+          for _,tl in ipairs(tokens_list) do
+            io.stderr:write("token ")
+            io.stderr:write(tl)
+            io.stderr:write("\n")
+          end
+        end
         devices[v] = {series={}, parallel={}}
         cd = devices[curDevice]
       elseif v == "-" then
@@ -131,6 +142,11 @@ for i=0,C-1 do
         curType = "parallel"
         table.insert(cd[curType],{})
       else
+        if (curDevice == "Bathroom-WashingMachine") then
+          io.stderr:write("v is ")
+          io.stderr:write(v)
+          io.stderr:write("\n")
+        end
         switches[v] = false
         table.insert(cd[curType][#cd[curType]], v)
       end
@@ -142,7 +158,7 @@ for i=0,A-1 do
     SWITCH = io.read()
     switches[SWITCH] = not switches[SWITCH]
 end
-p()
+--- p()
 
 function is_parallel_on(parallel_t)
   for _,v in pairs(parallel_t) do
@@ -154,7 +170,7 @@ function is_parallel_on(parallel_t)
 end
 
 function is_series_on(series_t)
-  for _,v in ipairs(series_t) do
+  for _,v in pairs(series_t) do
     if not switches[v] then
       return false
     end
@@ -162,7 +178,10 @@ function is_series_on(series_t)
   return true
 end
 
-for i,v in ipairs(devices_order) do
+for _,v in ipairs(devices_order) do
+  if (v == "Bathroom-WashingMachine") then
+    io.stderr:write("hello")
+  end
   device_on = "ON"
   for _,vv in pairs(devices[v].series) do
     series_on = is_series_on(vv)
