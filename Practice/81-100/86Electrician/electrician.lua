@@ -153,7 +153,7 @@ end
 
 function is_series_on(series_t)
   for _,v in pairs(series_t) do
-    if switches[v] then
+    if not switches[v] then
       return false
     end
   end
@@ -163,7 +163,7 @@ end
 for i,v in pairs(devices) do
   device_on = "ON"
   for _,vv in pairs(v.series) do
-    series_on = is_series_on(v)
+    series_on = is_series_on(vv)
     if not series_on then device_on = "OFF" end
   end
   for _,vv in pairs(v.parallel) do
