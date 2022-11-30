@@ -30,29 +30,35 @@ function p()
         io.stderr:write(v)
         io.stderr:write("\n")
     end
+    io.stderr:write("arrowsy size\n")
+    sy = #arrowsy
+    io.stderr:write(sy)
+    io.stderr:write("\n")
+    for k,v in pairs(arrowsy) do
+        io.stderr:write("key\n")
+        io.stderr:write(k)
+        io.stderr:write("\n")
+        for kk,vv in pairs(v) do
+            io.stderr:write("key2\n")
+            io.stderr:write(kk)
+            io.stderr:write("\n")
+            io.stderr:write("value\n")
+            io.stderr:write(vv)
+            io.stderr:write("\n")
+        end
+    end
 end
 
 ARROWS = {['>']="x+1", ['^']="y-1", ['v']="y+1", ['<']="x-1"}
 
 function analyze()
     for i,v in ipairs(lines) do
-        io.stderr:write(i)
-        io.stderr:write("\n")
-        io.stderr:write(v)
-        io.stderr:write("\n")
         for ii=1,#v do
             c = v:sub(ii,ii)
             if ARROWS[c] ~= nil then
-                io.stderr:write("arrow found at \n")
-                io.stderr:write(i)
-                io.stderr:write(",")
-                io.stderr:write(ii)
-                io.stderr:write("\n")
+                arrowsy[i] = arrowsy[i] or {}
+                arrowsy[i][ii] = c
             end
-            io.stderr:write(ii)
-            io.stderr:write("\n")
-            io.stderr:write(v:sub(ii,ii))
-            io.stderr:write("\n")
         end
     end
 end
@@ -61,7 +67,7 @@ next_token = string.gmatch(io.read(), "[^%s]+")
 H = tonumber(next_token())
 W = tonumber(next_token())
 lines = {}
-arrows = {}
+arrowsy = { }
 for i=0,H-1 do
     line = io.read()
     table.insert(lines,line)
