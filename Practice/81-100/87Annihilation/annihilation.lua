@@ -83,9 +83,26 @@ for i=0,H-1 do
     line = io.read()
     table.insert(lines,line)
 end
+
 analyze()
 p()
-
+count = 0
+while next(arrowsy) do
+    count = count+1
+    io.stderr:write("arrowsy\n")
+    for y,ax in pairs(arrowsy) do
+        for x,c in pairs(ax) do
+            io.stderr:write("update position for \n")
+            io.stderr:write(y)
+            io.stderr:write(",")
+            io.stderr:write(x)
+            io.stderr:write(" with value\n")
+            io.stderr:write(c)
+            io.stderr:write("\n")
+        end
+    end
+    break
+end
 
 -- simulation approach
 -- just lay down the rules and iterate until end condition
