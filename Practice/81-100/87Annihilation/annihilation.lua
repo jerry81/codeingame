@@ -25,8 +25,14 @@ Output
 function p()
     io.stderr:write("nil count test \n") --- ugh! we found out that we have to manage non-integer counts ourselves
     test = {a=nil, b=nil, c="ya"}
-    io.stderr:write(#test)
-    io.stderr:write("\n")
+    if next(test) then
+        io.stderr:write("test yes\n")
+    end
+
+    test2 = {a=nil}
+    if not next(test2) then
+        io.stderr:write("test2 yes\n")
+    end
 
     io.stderr:write("lines\n")
     for i,v in ipairs(lines) do
