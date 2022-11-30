@@ -108,6 +108,7 @@ function p()
   end
 end
 
+devices_order = {}
 C = tonumber(io.read())
 for i=0,C-1 do
     WIRING = io.read()
@@ -119,6 +120,7 @@ for i=0,C-1 do
     curType = ""
     for i,v in ipairs(tokens_list) do
       if (i == 1) then
+        table.insert(devices_order, v)
         curDevice = v
         devices[v] = {series={}, parallel={}}
         cd = devices[curDevice]
@@ -152,7 +154,7 @@ function is_parallel_on(parallel_t)
 end
 
 function is_series_on(series_t)
-  for _,v in pairs(series_t) do
+  for _,v in ipairs(series_t) do
     if not switches[v] then
       return false
     end
@@ -160,20 +162,22 @@ function is_series_on(series_t)
   return true
 end
 
-for i,v in pairs(devices) do
+for i,v in ipairs(devices_order) do
   device_on = "ON"
-  for _,vv in pairs(v.series) do
+  for _,vv in pairs(devices[v].series) do
     series_on = is_series_on(vv)
     if not series_on then device_on = "OFF" end
   end
-  for _,vv in pairs(v.parallel) do
+  for _,vv in pairs(devices[v].parallel) do
     parallel_on = is_parallel_on(vv)
     if not parallel_on then device_on = "OFF" end
   end
-  print(i.." is "..device_on)
+  print(v.." is "..device_on)
 end
 
 --[[
-TODO: there may be multiple seperate parallel
- and multiple seperate series
+analysis: was getting randomness in correctness
+it was because items were not being printed in proper order
+TIL: pairs vs ipairs: ipairs in order
 ]]--
+
