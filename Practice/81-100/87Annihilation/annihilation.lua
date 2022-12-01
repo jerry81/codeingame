@@ -20,45 +20,6 @@ Output
 1
 ]]--
 
--- Auto-generated code below aims at helping you parse
--- the standard input according to the problem statement.
-function p(arrowmap)
-    io.stderr:write("nil count test \n") --- ugh! we found out that we have to manage non-integer counts ourselves
-    test = {a=nil, b=nil, c="ya"}
-    if next(test) then
-        io.stderr:write("test yes\n")
-    end
-
-    test2 = {a=nil}
-    if not next(test2) then
-        io.stderr:write("test2 yes\n")
-    end
-
-    io.stderr:write("lines\n")
-    for i,v in ipairs(lines) do
-        io.stderr:write(i)
-        io.stderr:write("\n")
-        io.stderr:write(v)
-        io.stderr:write("\n")
-    end
-    io.stderr:write("arrowsy size\n")
-    sy = #arrowmap
-    io.stderr:write(sy)
-    io.stderr:write("\n")
-    for k,v in pairs(arrowmap) do
-        io.stderr:write("key\n")
-        io.stderr:write(k)
-        io.stderr:write("\n")
-        for kk,vv in pairs(v) do
-            io.stderr:write("key2\n")
-            io.stderr:write(kk)
-            io.stderr:write("\n")
-            io.stderr:write("value\n")
-            io.stderr:write(vv)
-            io.stderr:write("\n")
-        end
-    end
-end
 
 ARROWS = {['>']="x+1", ['^']="y-1", ['v']="y+1", ['<']="x-1"}
 
@@ -96,21 +57,12 @@ for i=0,H-1 do
 end
 
 analyze()
-p(arrowsy)
 count = 0
 while next(arrowsy) do
     count = count+1
     newPositions = {}
-    io.stderr:write("arrowsy\n")
     for y,ax in pairs(arrowsy) do
         for x,c in pairs(ax) do
-            io.stderr:write("update position for \n")
-            io.stderr:write(y)
-            io.stderr:write(",")
-            io.stderr:write(x)
-            io.stderr:write(" with value\n")
-            io.stderr:write(c)
-            io.stderr:write("\n")
             nxt = nextPosition(c,x,y)
             newPositions[nxt.y] = newPositions[nxt.y] or {}
             newPositions[nxt.y][nxt.x] = newPositions[nxt.y][nxt.x] and 'delete' or c
@@ -128,14 +80,5 @@ while next(arrowsy) do
     end
     arrowsy = newPositions
 end
-
--- simulation approach
--- just lay down the rules and iterate until end condition
-
--- math approach
--- do an O(1) calculation - not equipped to do this yet
-
--- Write an answer using print()
--- To debug: io.stderr:write("Debug message\n")
 
 print(count)
