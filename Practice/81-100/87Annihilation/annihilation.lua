@@ -113,7 +113,7 @@ while next(arrowsy) do
             io.stderr:write("\n")
             nxt = nextPosition(c,x,y)
             newPositions[nxt.y] = newPositions[nxt.y] or {}
-            newPositions[nxt.y][nxt.x] = 'delete' or c
+            newPositions[nxt.y][nxt.x] = newPositions[nxt.y][nxt.x] and 'delete' or c
         end
     end
     for y,v in pairs(newPositions) do
