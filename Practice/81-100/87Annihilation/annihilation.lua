@@ -22,7 +22,7 @@ Output
 
 -- Auto-generated code below aims at helping you parse
 -- the standard input according to the problem statement.
-function p()
+function p(arrowmap)
     io.stderr:write("nil count test \n") --- ugh! we found out that we have to manage non-integer counts ourselves
     test = {a=nil, b=nil, c="ya"}
     if next(test) then
@@ -42,10 +42,10 @@ function p()
         io.stderr:write("\n")
     end
     io.stderr:write("arrowsy size\n")
-    sy = #arrowsy
+    sy = #arrowmap
     io.stderr:write(sy)
     io.stderr:write("\n")
-    for k,v in pairs(arrowsy) do
+    for k,v in pairs(arrowmap) do
         io.stderr:write("key\n")
         io.stderr:write(k)
         io.stderr:write("\n")
@@ -96,12 +96,11 @@ for i=0,H-1 do
 end
 
 analyze()
-p()
+p(arrowsy)
 count = 0
 while next(arrowsy) do
     count = count+1
     newPositions = {}
-    deletedPositions = {}
     io.stderr:write("arrowsy\n")
     for y,ax in pairs(arrowsy) do
         for x,c in pairs(ax) do
@@ -113,15 +112,21 @@ while next(arrowsy) do
             io.stderr:write(c)
             io.stderr:write("\n")
             nxt = nextPosition(c,x,y)
-            print("next x is "..nxt.x.." next y is "..nxt.y)
-            --- keep track of old position
-            --- add new position
-            -- remove old position
-            -- list of new positions
-            -- list of deleted positions
+            newPositions[nxt.y] = newPositions[nxt.y] or {}
+            newPositions[nxt.y][nxt.x] = 'delete' or c
         end
     end
-    break
+    for y,v in pairs(newPositions) do
+        for x,vv in pairs(v) do
+            if vv == 'delete' then
+                newPositions[y][x] = nil
+            end
+        end
+        if not next(newPositions[y]) then
+            newPositions[y] = nil
+        end
+    end
+    arrowsy = newPositions
 end
 
 -- simulation approach
