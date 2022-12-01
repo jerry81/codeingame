@@ -74,6 +74,17 @@ function analyze()
     end
 end
 
+function nextPosition(c,x,y)
+  uy = y > 1 and y-1 or H
+  dy = y < H and y+1 or 1
+  rx = x < W and x+1 or 1
+  lx = x > 1 and x-1 or W
+  if c == '>' then return { x=rx, y=y } end
+  if c == '<' then return { x=lx, y=y } end
+  if c == 'v' then return { x=x, y=dy } end
+  if c == '^' then return { x=x, y=uy } end
+end
+
 next_token = string.gmatch(io.read(), "[^%s]+")
 H = tonumber(next_token())
 W = tonumber(next_token())
@@ -89,6 +100,8 @@ p()
 count = 0
 while next(arrowsy) do
     count = count+1
+    newPositions = {}
+    deletedPositions = {}
     io.stderr:write("arrowsy\n")
     for y,ax in pairs(arrowsy) do
         for x,c in pairs(ax) do
@@ -99,6 +112,13 @@ while next(arrowsy) do
             io.stderr:write(" with value\n")
             io.stderr:write(c)
             io.stderr:write("\n")
+            nxt = nextPosition(c,x,y)
+            print("next x is "..nxt.x.." next y is "..nxt.y)
+            --- keep track of old position
+            --- add new position
+            -- remove old position
+            -- list of new positions
+            -- list of deleted positions
         end
     end
     break
@@ -113,4 +133,4 @@ end
 -- Write an answer using print()
 -- To debug: io.stderr:write("Debug message\n")
 
-print("timesteps")
+print(count)
