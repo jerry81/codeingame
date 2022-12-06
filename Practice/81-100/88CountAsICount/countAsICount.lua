@@ -79,44 +79,36 @@ for _,v in ipairs(lookup) do
   end
 end
 
-for i,v in pairs(valmap) do
-  io.stderr:write("valmap i is "..i.." and ")
-  io.stderr:write("v is "..v)
-  io.stderr:write("\n")
-end
-
-for i,v in ipairs(lookup) do
-  io.stderr:write("i is "..i.." and ")
-  io.stderr:write("v is "..v)
-  io.stderr:write("\n")
-end
 
 function generic_permute(target, accum, limit, sum, results)
-  if limit == 1 then
-    for i=1,23 do
-
-      if (sum + valmap[lookup[i]]) == target then
-        accum=accum..i
-      end
+  if limit == 0 then
+    if sum==target then
+      results[accum] = true
     end
-    results[accum] = true
+    return
   end
   for i=1,23 do
     nextv = valmap[lookup[i]]
-    generic_permute(target, accum..i, limit-1, sum+nextv)
+    generic_permute(target, accum..lookup[i], limit-1, sum+nextv, results)
   end
-  return results
 end
 
 
-
-res = generic_permute(5, "", 4, 0, {})
+res={}
+generic_permute(5, "", 4, 0, res)
 
 for i,v in pairs(res) do
   io.stderr:write('results iteration\n')
   io.stderr:write("i "..i.."\n")
 end
 
+res2={}
+generic_permute(5, "", 3, 0, res2)
+
+for i,v in pairs(res2) do
+  io.stderr:write('results iteration 2\n')
+  io.stderr:write("i "..i.."\n")
+end
 
 function count_sums(target, slots)
   if slots==1 then
