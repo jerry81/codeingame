@@ -94,59 +94,28 @@ end
 function permute_four_slots(limit)
   results = {}
   cur = {}
-  for i=1,9 do
-    sum1 = i
-    for j=1,9 do
-      sum2=sum1+j
-      for k=1,9 do
-        sum3=sum2+k
-        for l=1,9 do
-          sum4=sum3+l
+  for i=1,23 do
+    vi = lookup[i]
+    sum1 = valmap[vi]
+    for j=1,23 do
+      vj = lookup[j]
+      sum2=sum1+valmap[vj]
+      for k=1,23 do
+        vk = lookup[k]
+        sum3=sum2+valmap[vk]
+        for l=1,23 do
+          vl = lookup[l]
+          sum4=sum3+valmap[vl]
           --io.stderr:write("sum"..sum.."\n")
           if sum4 == limit then
-            results[i..j..k..l]=true
+            results[vi..vj..vk..vl]=true
           end
         end
       end
     end
   end
-  return results
 end
 
-function permute_three_slots(limit)
-  results = {}
-  cur = {}
-  for j=1,9 do
-      sum2=j
-      for k=1,9 do
-        sum3=sum2+k
-        for l=1,9 do
-          sum4=sum3+l
-          --io.stderr:write("sum"..sum.."\n")
-          if sum4 == limit then
-            results[j..k..l]=true
-          end
-        end
-      end
-    end
-  return results
-end
-
-function permute_two_slots(limit)
-  results = {}
-  cur = {}
-      for k=1,9 do
-        sum3=k
-        for l=1,9 do
-          sum4=sum3+l
-          --io.stderr:write("sum"..sum.."\n")
-          if sum4 == limit then
-            results[j..k..l]=true
-          end
-        end
-      end
-  return results
-end
 
 res = permute_four_slots(5)
 
@@ -155,12 +124,6 @@ for i,v in pairs(res) do
   io.stderr:write("i "..i.."\n")
 end
 
-res = permute_three_slots(5)
-
-for i,v in pairs(res) do
-  io.stderr:write('results iteration 2 \n')
-  io.stderr:write("i "..i.."\n")
-end
 
 function count_sums(target, slots)
   if slots==1 then
