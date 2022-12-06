@@ -91,33 +91,26 @@ for i,v in ipairs(lookup) do
   io.stderr:write("\n")
 end
 
-function permute_four_slots(limit)
-  results = {}
-  cur = {}
-  for i=1,23 do
-    vi = lookup[i]
-    sum1 = valmap[vi]
-    for j=1,23 do
-      vj = lookup[j]
-      sum2=sum1+valmap[vj]
-      for k=1,23 do
-        vk = lookup[k]
-        sum3=sum2+valmap[vk]
-        for l=1,23 do
-          vl = lookup[l]
-          sum4=sum3+valmap[vl]
-          --io.stderr:write("sum"..sum.."\n")
-          if sum4 == limit then
-            results[vi..vj..vk..vl]=true
-          end
-        end
+function generic_permute(target, accum, limit, sum, results)
+  if limit == 1 then
+    for i=1,23 do
+
+      if (sum + valmap[lookup[i]]) == target then
+        accum=accum..i
       end
     end
+    results[accum] = true
   end
+  for i=1,23 do
+    nextv = valmap[lookup[i]]
+    generic_permute(target, accum..i, limit-1, sum+nextv)
+  end
+  return results
 end
 
 
-res = permute_four_slots(5)
+
+res = generic_permute(5, "", 4, 0, {})
 
 for i,v in pairs(res) do
   io.stderr:write('results iteration\n')
