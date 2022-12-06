@@ -83,6 +83,7 @@ end
 function generic_permute(target, accum, limit, sum, results)
   if limit == 0 then
     if sum==target then
+      if results[accum]
       results[accum] = true
     end
     return
@@ -128,7 +129,22 @@ end
 
 n = tonumber(io.read())
 
-print("answer")
+target = 50 - n
+
+io.stderr:write("target is "..target.."\n")
+
+
+count = 0
+
+for i=1,4 do
+  res = {}
+  generic_permute(target, "", i, 0, res)
+  for _,_ in pairs(res) do
+    count++
+  end  -- same ol gotcha: "#" for count only counts int indexes
+end
+
+print(count)
 
 --[[
 
