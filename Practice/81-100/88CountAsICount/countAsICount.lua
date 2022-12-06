@@ -52,7 +52,7 @@ function count_sums(target, slots)
     end
   end
 
-  if (slots * 12) > target then
+  if (slots * 12) < target then
     return 0
   end
 end
@@ -70,3 +70,18 @@ for k,v in ipairs(alloptions) do
 end
 
 print("answer")
+
+--[[
+
+review: combinations and permutations
+
+permutation - order matters
+combination - order does not matter
+
+- permutation formula: choose r things from set of n things WITHOUT REPLACMENT - not this problem
+n! / (n-r)!
+
+- combination - choose r from n without replacement - order doesn't matter
+n!/r!(n-r)!
+
+]]--
