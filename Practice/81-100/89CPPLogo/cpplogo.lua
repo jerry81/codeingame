@@ -87,12 +87,14 @@ end
 function stri(str,i)
     return string.sub(str,i,i)
 end
-
+tdarr = {}
 function init(height,width)
-    io.stderr:write("height \n")
-    io.stderr:write(height)
-    io.stderr:write("\n width \n")
-    io.stderr:write(width)
+    for i=1,height do
+        table.insert(tdarr,{})
+        for j=1,width do
+            table.insert(tdarr[i],"a")
+        end
+    end
 end
 
 init(size * N, size * maxw)
@@ -102,20 +104,11 @@ io.stderr:write("lua join expect abc: ")
 joined = {"a", "b","c"}
 res = table.concat(joined, "")
 io.stderr:write(res)
-tdarr = {}
-table.insert(tdarr, {})
-table.insert(tdarr, {})
-tdarr[1][1] = "a"
-tdarr[1][2] = "b"
-tdarr[1][3] = "c"
-tdarr[2][1] = "d"
-tdarr[2][2] = "e"
-tdarr[2][3] = "f"
-joined1 = table.concat(tdarr[1], "")
-joined2 = table.concat(tdarr[2], "")
-io.stderr:write("\nlua 2d array join expect:\n".."abc\n".."def".."\n")
-io.stderr:write(joined1)
+
+for i,v in ipairs(tdarr) do
+  joined = table.concat(v, "")
 io.stderr:write("\n")
-io.stderr:write(joined2)
+io.stderr:write(joined)
 io.stderr:write("\n")
+end
 print("The Logo")
