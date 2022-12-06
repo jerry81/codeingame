@@ -77,8 +77,8 @@ N = tonumber(io.read())
 ref = {}
 maxw = 0
 for i=0,N-1 do
-    table.insert(ref, logoLine)
     logoLine = io.read()
+    table.insert(ref, logoLine)
     if #logoLine > maxw then
         maxw = #logoLine
     end
@@ -92,12 +92,32 @@ function init(height,width)
     for i=1,height do
         table.insert(tdarr,{})
         for j=1,width do
-            table.insert(tdarr[i],"a")
+            table.insert(tdarr[i]," ")
         end
     end
 end
 
 init(size * N, size * maxw)
+
+function paintAt(y,x)
+    starty = 1 + (y-1)*size
+    startx = 1 + (x-1)*size
+    io.stderr:write("starty\n")
+    io.stderr:write(starty)
+    io.stderr:write("\n")
+    io.stderr:write("startx\n")
+    io.stderr:write(startx)
+    io.stderr:write("\n")
+end
+
+for i,v in ipairs(ref) do
+  io.stderr:write("row!"..v)
+  for j=1,#v do
+    if stri(v,j) == '+' then
+        paintAt(i,j)
+    end
+  end
+end
 -- Write an answer using print()
 -- To debug: io.stderr:write("Debug message\n")
 io.stderr:write("lua join expect abc: ")
@@ -105,10 +125,4 @@ joined = {"a", "b","c"}
 res = table.concat(joined, "")
 io.stderr:write(res)
 
-for i,v in ipairs(tdarr) do
-  joined = table.concat(v, "")
-io.stderr:write("\n")
-io.stderr:write(joined)
-io.stderr:write("\n")
-end
 print("The Logo")
