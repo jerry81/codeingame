@@ -84,6 +84,9 @@ for i=0,N-1 do
     end
 end
 
+rem = size - thickness
+hrem = rem / 2
+
 function stri(str,i)
     return string.sub(str,i,i)
 end
@@ -108,6 +111,12 @@ function paintAt(y,x)
     io.stderr:write("startx\n")
     io.stderr:write(startx)
     io.stderr:write("\n")
+    -- draw hrem spaces
+    -- draw thickness
+    -- draw hrem spaces
+    -- next hrem-1 spaces
+    -- draw at hrem+1
+    -- draw at hrem+thickness
 end
 
 for i,v in ipairs(ref) do
