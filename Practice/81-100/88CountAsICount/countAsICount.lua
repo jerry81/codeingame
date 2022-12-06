@@ -73,9 +73,10 @@ valmap={}
 
 for _,v in ipairs(lookup) do
   if string.find(v, "p") then
-    valmap[v]=tonumber(sub(v,2))
+    valmap[v]=tonumber(string.sub(v,2))
+  else
+    valmap[v]=tonumber(v)
   end
-  valmap[v]=tonumber(v)
 end
 
 for i,v in pairs(valmap) do
