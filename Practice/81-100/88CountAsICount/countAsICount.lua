@@ -41,6 +41,111 @@ Output
 
 ]]--
 
+--[[
+brute force it
+make the whole set
+2,3,4,5,6,7,8,..12, P1,...P12
+- map P1-P12 to values
+- make function to convert a "permutaton" into sum
+- get all permutations with repeats for 1-4 digits
+- dedup permutations
+- convert all into sums
+- filter the sums
+
+]]--
+
+--[[
+easier brute force?
+loop x 4
+1 to 23
+  1 to 23
+    1 to 23
+      1 to 23
+]]--
+
+lookup = {["P1"]=1}
+for i = 2,12 do
+  lookup[tostring(i)] = i;
+  lookup["P"..i] = i
+end
+
+for i,v in pairs(lookup) do
+  io.stderr:write("i is "..i.." and ")
+  io.stderr:write("v is "..v)
+  io.stderr:write("\n")
+end
+
+function permute_four_slots(limit)
+  results = {}
+  cur = {}
+  for i=1,9 do
+    sum1 = i
+    for j=1,9 do
+      sum2=sum1+j
+      for k=1,9 do
+        sum3=sum2+k
+        for l=1,9 do
+          sum4=sum3+l
+          --io.stderr:write("sum"..sum.."\n")
+          if sum4 == limit then
+            results[i..j..k..l]=true
+          end
+        end
+      end
+    end
+  end
+  return results
+end
+
+function permute_three_slots(limit)
+  results = {}
+  cur = {}
+  for j=1,9 do
+      sum2=j
+      for k=1,9 do
+        sum3=sum2+k
+        for l=1,9 do
+          sum4=sum3+l
+          --io.stderr:write("sum"..sum.."\n")
+          if sum4 == limit then
+            results[j..k..l]=true
+          end
+        end
+      end
+    end
+  return results
+end
+
+function permute_two_slots(limit)
+  results = {}
+  cur = {}
+      for k=1,9 do
+        sum3=k
+        for l=1,9 do
+          sum4=sum3+l
+          --io.stderr:write("sum"..sum.."\n")
+          if sum4 == limit then
+            results[j..k..l]=true
+          end
+        end
+      end
+  return results
+end
+
+res = permute_four_slots(5)
+
+for i,v in pairs(res) do
+  io.stderr:write('results iteration\n')
+  io.stderr:write("i "..i.."\n")
+end
+
+res = permute_three_slots(5)
+
+for i,v in pairs(res) do
+  io.stderr:write('results iteration 2 \n')
+  io.stderr:write("i "..i.."\n")
+end
+
 function count_sums(target, slots)
   if slots==1 then
     if target == 1 then
@@ -58,16 +163,6 @@ function count_sums(target, slots)
 end
 
 n = tonumber(io.read())
-alloptions = { 1: 1 }
-for i=1,12 do
-  for j=1,2 do
-    alloptions.insert(i)
-  end
-end
-
-for k,v in ipairs(alloptions) do
-  io.stderr:write("v"..v..",")
-end
 
 print("answer")
 
