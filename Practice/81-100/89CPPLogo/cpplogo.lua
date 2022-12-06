@@ -74,17 +74,24 @@ Output
 size = tonumber(io.read())
 thickness = tonumber(io.read())
 N = tonumber(io.read())
+ref = {}
 for i=0,N-1 do
+    table.insert(ref, logoLine)
     logoLine = io.read()
 end
 
+function stri(str,i)
+    return string.sub(str,i,i)
+end
 -- Write an answer using print()
 -- To debug: io.stderr:write("Debug message\n")
 io.stderr:write("lua join expect abc: ")
 joined = {"a", "b","c"}
-table.concat(joined, "")
-io.stderr:write(joined)
-tdarr = {{}}
+res = table.concat(joined, "")
+io.stderr:write(res)
+tdarr = {}
+table.insert(tdarr, {})
+table.insert(tdarr, {})
 tdarr[1][1] = "a"
 tdarr[1][2] = "b"
 tdarr[1][3] = "c"
@@ -98,5 +105,4 @@ io.stderr:write(joined1)
 io.stderr:write("\n")
 io.stderr:write(joined2)
 io.stderr:write("\n")
-
 print("The Logo")
