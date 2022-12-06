@@ -63,13 +63,12 @@ loop x 4
       1 to 23
 ]]--
 
-lookup = {["P1"]=1}
-for i = 2,12 do
-  lookup[tostring(i)] = i;
-  lookup["P"..i] = i
+lookup={'1'}
+for i=2,12 do
+  table.insert(lookup,tostring(i))
+  table.insert(lookup,"p"..i)
 end
-
-for i,v in pairs(lookup) do
+for i,v in ipairs(lookup) do
   io.stderr:write("i is "..i.." and ")
   io.stderr:write("v is "..v)
   io.stderr:write("\n")
