@@ -68,6 +68,22 @@ for i=2,12 do
   table.insert(lookup,tostring(i))
   table.insert(lookup,"p"..i)
 end
+
+valmap={}
+
+for _,v in ipairs(lookup) do
+  if string.find(v, "p") then
+    valmap[v]=tonumber(sub(v,2))
+  end
+  valmap[v]=tonumber(v)
+end
+
+for i,v in pairs(valmap) do
+  io.stderr:write("valmap i is "..i.." and ")
+  io.stderr:write("v is "..v)
+  io.stderr:write("\n")
+end
+
 for i,v in ipairs(lookup) do
   io.stderr:write("i is "..i.." and ")
   io.stderr:write("v is "..v)
