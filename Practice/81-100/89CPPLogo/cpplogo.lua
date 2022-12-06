@@ -80,5 +80,23 @@ end
 
 -- Write an answer using print()
 -- To debug: io.stderr:write("Debug message\n")
+io.stderr:write("lua join expect abc: ")
+joined = {"a", "b","c"}
+table.concat(joined, "")
+io.stderr:write(joined)
+tdarr = {{}}
+tdarr[1][1] = "a"
+tdarr[1][2] = "b"
+tdarr[1][3] = "c"
+tdarr[2][1] = "d"
+tdarr[2][2] = "e"
+tdarr[2][3] = "f"
+joined1 = table.concat(tdarr[1], "")
+joined2 = table.concat(tdarr[2], "")
+io.stderr:write("\nlua 2d array join expect:\n".."abc\n".."def".."\n")
+io.stderr:write(joined1)
+io.stderr:write("\n")
+io.stderr:write(joined2)
+io.stderr:write("\n")
 
 print("The Logo")
