@@ -41,12 +41,32 @@ Output
 
 ]]--
 
--- Auto-generated code below aims at helping you parse
--- the standard input according to the problem statement.
+function count_sums(target, slots)
+  if slots==1 then
+    if target == 1 then
+      return 1
+    elseif target < 13 then
+      return 2
+    else
+      return 0
+    end
+  end
+
+  if (slots * 12) > target then
+    return 0
+  end
+end
 
 n = tonumber(io.read())
+alloptions = { 1: 1 }
+for i=1,12 do
+  for j=1,2 do
+    alloptions.insert(i)
+  end
+end
 
--- Write an answer using print()
--- To debug: io.stderr:write("Debug message\n")
+for k,v in ipairs(alloptions) do
+  io.stderr:write("v"..v..",")
+end
 
 print("answer")
