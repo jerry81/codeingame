@@ -63,27 +63,22 @@ loop x 4
       1 to 23
 ]]--
 
-lookup={'1'}
+lookup={'n1'}
 for i=2,12 do
-  table.insert(lookup,tostring(i))
+  table.insert(lookup,"n"..i)
   table.insert(lookup,"p"..i)
 end
 
 valmap={}
 
 for _,v in ipairs(lookup) do
-  if string.find(v, "p") then
     valmap[v]=tonumber(string.sub(v,2))
-  else
-    valmap[v]=tonumber(v)
-  end
 end
 
 
 function generic_permute(target, accum, limit, sum, results)
   if limit == 0 then
     if sum==target then
-      if results[accum]
       results[accum] = true
     end
     return
@@ -94,69 +89,20 @@ function generic_permute(target, accum, limit, sum, results)
   end
 end
 
-
-res={}
-generic_permute(5, "", 4, 0, res)
-
-for i,v in pairs(res) do
-  io.stderr:write('results iteration\n')
-  io.stderr:write("i "..i.."\n")
-end
-
-res2={}
-generic_permute(5, "", 3, 0, res2)
-
-for i,v in pairs(res2) do
-  io.stderr:write('results iteration 2\n')
-  io.stderr:write("i "..i.."\n")
-end
-
-function count_sums(target, slots)
-  if slots==1 then
-    if target == 1 then
-      return 1
-    elseif target < 13 then
-      return 2
-    else
-      return 0
-    end
-  end
-
-  if (slots * 12) < target then
-    return 0
-  end
-end
-
 n = tonumber(io.read())
 
 target = 50 - n
 
-io.stderr:write("target is "..target.."\n")
-
-
 count = 0
 
 for i=1,4 do
+  subcount = 0
   res = {}
   generic_permute(target, "", i, 0, res)
-  for _,_ in pairs(res) do
-    count++
+  for i,v in pairs(res) do
+    subcount=subcount+1
   end  -- same ol gotcha: "#" for count only counts int indexes
+  count = count + subcount
 end
 
 print(count)
-
---[[
-
-review: combinations and permutations
-
-permutation - order matters
-combination - order does not matter
-
-- permutation formula: choose r things from set of n things WITHOUT REPLACMENT - not this problem
-n! / (n-r)!
-
-- combination - choose r from n without replacement - order doesn't matter
-n!/r!(n-r)!
-
-]]--
