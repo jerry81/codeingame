@@ -75,14 +75,27 @@ size = tonumber(io.read())
 thickness = tonumber(io.read())
 N = tonumber(io.read())
 ref = {}
+maxw = 0
 for i=0,N-1 do
     table.insert(ref, logoLine)
     logoLine = io.read()
+    if #logoLine > maxw then
+        maxw = #logoLine
+    end
 end
 
 function stri(str,i)
     return string.sub(str,i,i)
 end
+
+function init(height,width)
+    io.stderr:write("height \n")
+    io.stderr:write(height)
+    io.stderr:write("\n width \n")
+    io.stderr:write(width)
+end
+
+init(size * N, size * maxw)
 -- Write an answer using print()
 -- To debug: io.stderr:write("Debug message\n")
 io.stderr:write("lua join expect abc: ")
