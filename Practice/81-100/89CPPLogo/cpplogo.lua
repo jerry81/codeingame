@@ -95,7 +95,7 @@ function init(height,width)
     for i=1,height do
         table.insert(tdarr,{})
         for j=1,width do
-            table.insert(tdarr[i],"a")
+            table.insert(tdarr[i]," ")
         end
     end
 end
@@ -140,7 +140,13 @@ function paintAt(y,x)
     for i=startx+hrem+thickness, startx+size do
         tdarr[starty+hrem+hrem][i] = "+"
     end
-
+    for i=starty+hrem+hrem, starty+size-1 do
+        tdarr[i][startx+hrem] = "+"
+        tdarr[i][startx+hrem+thickness] = "+"
+    end
+    for i=startx+hrem, startx+hrem+thickness do
+        tdarr[starty+size-1][i] = "+"
+    end
 end
 
 for i,v in ipairs(ref) do
