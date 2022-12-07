@@ -105,12 +105,6 @@ init(size * N, size * maxw)
 function paintAt(y,x)
     starty = 1 + (y-1)*size
     startx = 1 + (x-1)*size
-    io.stderr:write("starty\n")
-    io.stderr:write(starty)
-    io.stderr:write("\n")
-    io.stderr:write("startx\n")
-    io.stderr:write(startx)
-    io.stderr:write("\n")
     for i=startx,startx + hrem do
         tdarr[starty][i] = " "
     end
@@ -149,6 +143,17 @@ function paintAt(y,x)
     end
 end
 
+function remove_border(x1,x2,y1,y2)
+    if x1==x2 then
+        -- h border
+        io.stderr:write("\nhandle vertical border\n")
+    else
+        -- v border
+        io.stderr:write("\nhandle horizontal border\n")
+
+    end
+end
+
 for i,v in ipairs(ref) do
   io.stderr:write("row!"..v)
   for j=1,#v do
@@ -157,8 +162,23 @@ for i,v in ipairs(ref) do
     end
   end
 end
--- Write an answer using print()
--- To debug: io.stderr:write("Debug message\n")
+
+-- remove borders
+
+for i,v in ipairs(ref) do
+    for j=1,#v do -- remove horizontal borders
+        if j > 1 and stri(v,j) == '+' and stri(v,j-1) == '+' then
+          remove_border(j, j-1, i, i)
+        end
+    end
+end
+for i=1,maxw do
+    for j=1,N do
+        if j > 1 and stri(ref[j],i) == '+' and stri(ref[j-1],i) == '+' then
+            remove_border(i,i,j, j-1)
+        end
+    end
+end
 io.stderr:write("lua join expect abc: ")
 joined = {"a", "b","c"}
 res = table.concat(joined, "")
