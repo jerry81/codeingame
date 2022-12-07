@@ -152,11 +152,11 @@ function remove_border(x1,x2,y1,y2)
         end
 
     else
-        for j=starty+hrem+1, starty+hrem+thickness-1 do
-            tdarr[j][startx] = " "
+        for i=startx-1, startx do
+          for j=starty+hrem+1, starty+hrem+thickness-2 do
+              tdarr[j][i] = " "
+          end
         end
-
-
     end
 end
 
