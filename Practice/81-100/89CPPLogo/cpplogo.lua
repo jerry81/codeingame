@@ -144,12 +144,17 @@ function paintAt(y,x)
 end
 
 function remove_border(x1,x2,y1,y2)
+    starty = 1 + (y1-1)*size
+    startx = 1 + (x1-1)*size
     if x1==x2 then
-        -- h border
-        io.stderr:write("\nhandle vertical border\n")
-    else
         -- v border
-        io.stderr:write("\nhandle horizontal border\n")
+        -- assume y1 > y2
+
+    else
+        for j=starty+hrem+1, starty+hrem+hrem-1 do
+            tdarr[j][startx] = " "
+        end
+
 
     end
 end
