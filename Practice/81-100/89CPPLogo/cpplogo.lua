@@ -105,18 +105,12 @@ init(size * N, size * maxw)
 function paintAt(y,x)
     starty = 1 + (y-1)*size
     startx = 1 + (x-1)*size
-    for i=startx,startx + hrem do
-        tdarr[starty][i] = " "
-    end
-    for i=startx+hrem, startx+hrem+thickness do
+    for i=startx+hrem, startx+hrem+thickness-1 do
         tdarr[starty][i] = "+"
-    end
-    for i=startx+hrem+thickness, startx+hrem+thickness+hrem do
-        tdarr[starty][i] = " "
     end
     for i=starty, starty+hrem do
         tdarr[i][startx+hrem] = "+"
-        tdarr[i][startx+hrem+thickness] = "+"
+        tdarr[i][startx+hrem+thickness-1] = "+"
     end
     for i=startx, startx+hrem do
         tdarr[starty+hrem][i] = "+"
@@ -136,9 +130,9 @@ function paintAt(y,x)
     end
     for i=starty+hrem+hrem, starty+size-1 do
         tdarr[i][startx+hrem] = "+"
-        tdarr[i][startx+hrem+thickness] = "+"
+        tdarr[i][startx+hrem+thickness-1] = "+"
     end
-    for i=startx+hrem, startx+hrem+thickness do
+    for i=startx+hrem, startx+hrem+thickness-1 do
         tdarr[starty+size-1][i] = "+"
     end
 end
@@ -147,11 +141,14 @@ function remove_border(x1,x2,y1,y2)
     starty = 1 + (y1-1)*size
     startx = 1 + (x1-1)*size
     if x1==x2 then
-        -- v border
-        -- assume y1 > y2
+        for i = starty-1, starty do
+            for j=startx+hrem+1, startx+hrem+thickness-1 do
+                tdarr[i][j] = " "
+            end
+        end
 
     else
-        for j=starty+hrem+1, starty+hrem+hrem-1 do
+        for j=starty+hrem+1, starty+hrem+thickness-1 do
             tdarr[j][startx] = " "
         end
 
@@ -192,8 +189,7 @@ io.stderr:write(res)
 io.stderr:write("print tdarr:\n")
 for i,v in ipairs(tdarr) do
 res = table.concat(v, "")
-io.stderr:write(res)
-io.stderr:write("\n")
+print(res)
+-- io.stderr:write("\n")
 
 end
-print("The Logo")
