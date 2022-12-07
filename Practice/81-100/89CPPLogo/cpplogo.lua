@@ -124,13 +124,23 @@ function paintAt(y,x)
         tdarr[i][startx+hrem] = "+"
         tdarr[i][startx+hrem+thickness] = "+"
     end
-    -- from starty to width
     for i=startx, startx+hrem do
-        tdarr[starty+hrem+1][i] = "+"
+        tdarr[starty+hrem][i] = "+"
     end
     for i=startx+hrem+thickness, startx+size do
-        tdarr[starty+hrem+1][i] = "+"
+        tdarr[starty+hrem][i] = "+"
     end
+    for i=starty+hrem, starty+hrem+hrem do
+        tdarr[i][startx] = "+"
+        tdarr[i][startx+size] = "+"
+    end
+    for i=startx, startx+hrem do
+        tdarr[starty+hrem+hrem][i] = "+"
+    end
+    for i=startx+hrem+thickness, startx+size do
+        tdarr[starty+hrem+hrem][i] = "+"
+    end
+
 end
 
 for i,v in ipairs(ref) do
