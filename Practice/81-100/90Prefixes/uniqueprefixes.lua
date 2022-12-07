@@ -51,13 +51,35 @@ p
 
 ]]
 
--- Auto-generated code below aims at helping you parse
--- the standard input according to the problem statement.
-
+-- build a crazy giant map
+giantmap={}
 N = tonumber(io.read())
+
+function processword(word)
+  cur = giantmap
+  for i=1,#word do
+    ch = string.sub(word,i,i)
+    io.stderr:write("ch is "..ch.."\n")
+    if not cur[ch] then cur[ch] = {} end
+    cur = cur[ch]
+  end
+end
+
 for i=0,N-1 do
     word = io.read()
+    processword(word)
 end
+function testgiantmap(map, accum)
+  io.stderr:write("accum is "..accum.."\n")
+  if not map then return end
+
+  for k,v in pairs(map) do
+    io.stderr:write("k is "..k.."\n")
+    testgiantmap(v, accum..k)
+  end
+end
+
+testgiantmap(giantmap, "")
 for i=0,N-1 do
 
     -- Write an answer using print()
