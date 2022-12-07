@@ -105,34 +105,38 @@ init(size * N, size * maxw)
 function paintAt(y,x)
     starty = 1 + (y-1)*size
     startx = 1 + (x-1)*size
-    for i=startx+hrem, startx+hrem+thickness-1 do
+    left = startx + hrem
+    right = left + thickness - 1
+    top = starty + hrem
+    bottom = top + thickness - 1
+    for i=left, right do
         tdarr[starty][i] = "+"
     end
-    for i=starty, starty+hrem do
-        tdarr[i][startx+hrem] = "+"
-        tdarr[i][startx+hrem+thickness-1] = "+"
+    for i=starty, top do
+        tdarr[i][left] = "+"
+        tdarr[i][right] = "+"
     end
-    for i=startx, startx+hrem do
-        tdarr[starty+hrem][i] = "+"
+    for i=startx, left do
+        tdarr[top][i] = "+"
     end
-    for i=startx+hrem+thickness, startx+size do
-        tdarr[starty+hrem][i] = "+"
+    for i=right, startx+size-1 do
+        tdarr[top][i] = "+"
     end
-    for i=starty+hrem, starty+hrem+hrem do
+    for i=top, bottom do
         tdarr[i][startx] = "+"
-        tdarr[i][startx+size] = "+"
+        tdarr[i][startx+size-1] = "+"
     end
-    for i=startx, startx+hrem do
-        tdarr[starty+hrem+hrem][i] = "+"
+    for i=startx, left do
+        tdarr[bottom][i] = "+"
     end
-    for i=startx+hrem+thickness, startx+size do
-        tdarr[starty+hrem+hrem][i] = "+"
+    for i=right, startx+size-1 do
+        tdarr[bottom][i] = "+"
     end
-    for i=starty+hrem+hrem, starty+size-1 do
-        tdarr[i][startx+hrem] = "+"
-        tdarr[i][startx+hrem+thickness-1] = "+"
+    for i=bottom, starty+size-1 do
+        tdarr[i][left] = "+"
+        tdarr[i][right] = "+"
     end
-    for i=startx+hrem, startx+hrem+thickness-1 do
+    for i=left, right do
         tdarr[starty+size-1][i] = "+"
     end
 end
@@ -142,7 +146,7 @@ function remove_border(x1,x2,y1,y2)
     startx = 1 + (x1-1)*size
     if x1==x2 then
         for i = starty-1, starty do
-            for j=startx+hrem+1, startx+hrem+thickness-1 do
+            for j=startx+hrem+1, startx+hrem+thickness-2 do
                 tdarr[i][j] = " "
             end
         end
@@ -165,7 +169,18 @@ for i,v in ipairs(ref) do
   end
 end
 
--- remove borders
+function trim(line)
+    for i=#line,1,-1 do
+        if stri(line,i) ~= " " then
+            return string.sub(line,0,i)
+        end
+    end
+    return line
+end
+
+trimmed = trim("hello  world  ")
+
+io.stderr:write("trimmed is: "..trimmed.."\n")
 
 for i,v in ipairs(ref) do
     for j=1,#v do -- remove horizontal borders
@@ -189,7 +204,7 @@ io.stderr:write(res)
 io.stderr:write("print tdarr:\n")
 for i,v in ipairs(tdarr) do
 res = table.concat(v, "")
-print(res)
+print(trim(res))
 -- io.stderr:write("\n")
 
 end
