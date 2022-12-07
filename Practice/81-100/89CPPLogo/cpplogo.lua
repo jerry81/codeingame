@@ -161,7 +161,6 @@ function remove_border(x1,x2,y1,y2)
 end
 
 for i,v in ipairs(ref) do
-  io.stderr:write("row!"..v)
   for j=1,#v do
     if stri(v,j) == '+' then
         paintAt(i,j)
@@ -175,12 +174,10 @@ function trim(line)
             return string.sub(line,0,i)
         end
     end
-    return line
+    return ""
 end
 
-trimmed = trim("hello  world  ")
 
-io.stderr:write("trimmed is: "..trimmed.."\n")
 
 for i,v in ipairs(ref) do
     for j=1,#v do -- remove horizontal borders
@@ -196,15 +193,9 @@ for i=1,maxw do
         end
     end
 end
-io.stderr:write("lua join expect abc: ")
-joined = {"a", "b","c"}
-res = table.concat(joined, "")
-io.stderr:write(res)
 
-io.stderr:write("print tdarr:\n")
 for i,v in ipairs(tdarr) do
 res = table.concat(v, "")
 print(trim(res))
--- io.stderr:write("\n")
 
 end
