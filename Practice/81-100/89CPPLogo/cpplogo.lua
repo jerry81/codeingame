@@ -95,7 +95,7 @@ function init(height,width)
     for i=1,height do
         table.insert(tdarr,{})
         for j=1,width do
-            table.insert(tdarr[i]," ")
+            table.insert(tdarr[i],"a")
         end
     end
 end
@@ -111,10 +111,19 @@ function paintAt(y,x)
     io.stderr:write("startx\n")
     io.stderr:write(startx)
     io.stderr:write("\n")
-    -- draw hrem spaces
-    -- draw thickness
-    -- draw hrem spaces
-    -- next hrem-1 spaces
+    for i=startx,startx + hrem do
+        tdarr[starty][i] = " "
+    end
+    for i=startx+hrem, startx+hrem+thickness do
+        tdarr[starty][i] = "+"
+    end
+    for i=startx+hrem+thickness, startx+hrem+thickness+hrem do
+        tdarr[starty][i] = " "
+    end
+    for i=starty, starty+hrem do
+        tdarr[i][startx+hrem] = "+"
+        tdarr[i][startx+hrem+thickness] = "+"
+    end
     -- draw at hrem+1
     -- draw at hrem+thickness
 end
@@ -134,4 +143,11 @@ joined = {"a", "b","c"}
 res = table.concat(joined, "")
 io.stderr:write(res)
 
+io.stderr:write("print tdarr:\n")
+for i,v in ipairs(tdarr) do
+res = table.concat(v, "")
+io.stderr:write(res)
+io.stderr:write("\n")
+
+end
 print("The Logo")
