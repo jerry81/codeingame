@@ -1096,7 +1096,8 @@ for i=0,N-1 do
 end
 
 for i,v in ipairs(freq) do
-  io.stderr:write("i is "..i.." and v is "..v.."\n")
+  f = v/N * 100
+  io.stderr:write("f is "..f.."\n")
 end
 
 -- Write an answer using print()
