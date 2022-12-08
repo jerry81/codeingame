@@ -1064,7 +1064,30 @@ Output
 false
 ]]--
 
+benford = {
+  30.1,
+  17.6,
+  12.5,
+  9.7,
+  7.9,
+  6.7,
+  5.8,
+  5.1,
+  4.6
+}
 
+freq = {0,0,0,0,0,0,0,0,0}
+
+function getFirstNumber(str)
+  for i=1,#str do
+    c = string.sub(str,i,1)
+    if pcall(tonumber, c) then
+      io.stderr:write("number!"..tonumber(c))
+    else
+      io.stderr:write("not a num\n")
+    end
+  end
+end
 
 N = tonumber(io.read())
 for i=0,N-1 do
