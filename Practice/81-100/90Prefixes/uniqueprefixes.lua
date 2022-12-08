@@ -60,8 +60,9 @@ function processword(word)
   for i=1,#word do
     ch = string.sub(word,i,i)
     io.stderr:write("ch is "..ch.."\n")
-    if not cur[ch] then cur[ch] = {} end
+    if not cur[ch] then cur[ch] = {["_LENGTH"]=0} end
     cur = cur[ch]
+    cur["_LENGTH"]=cur["_LENGTH"]+1
   end
 end
 
@@ -72,10 +73,12 @@ end
 function testgiantmap(map, accum)
   io.stderr:write("accum is "..accum.."\n")
   if not map then return end
-
+  io.stderr:write("map len is "..(tostring(map["_LENGTH"]) or "nil").."\n")
   for k,v in pairs(map) do
+    if k == "_LENGTH" then goto continue end
     io.stderr:write("k is "..k.."\n")
     testgiantmap(v, accum..k)
+    ::continue::
   end
 end
 
