@@ -54,12 +54,12 @@ p
 -- build a crazy giant map
 giantmap={}
 N = tonumber(io.read())
-
+words={}
 function processword(word)
   cur = giantmap
   for i=1,#word do
     ch = string.sub(word,i,i)
-    io.stderr:write("ch is "..ch.."\n")
+    --  io.stderr:write("ch is "..ch.."\n")
     if not cur[ch] then cur[ch] = {["_LENGTH"]=0} end
     cur = cur[ch]
     cur["_LENGTH"]=cur["_LENGTH"]+1
@@ -68,25 +68,51 @@ end
 
 for i=0,N-1 do
     word = io.read()
+    table.insert(words,word)
     processword(word)
 end
+prefixes = {}
 function testgiantmap(map, accum)
-  io.stderr:write("accum is "..accum.."\n")
+  -- io.stderr:write("accum is "..accum.."\n")
   if not map then return end
-  io.stderr:write("map len is "..(tostring(map["_LENGTH"]) or "nil").."\n")
+  numItems = map["_LENGTH"] or 0
+  -- if numItems == 1 then
+  --   table.insert(prefixes, accum)
+  --   return
+  -- end
+  -- io.stderr:write("map len is "..(tostring(map["_LENGTH"]) or "nil").."\n")
   for k,v in pairs(map) do
     if k == "_LENGTH" then goto continue end
-    io.stderr:write("k is "..k.."\n")
+    -- io.stderr:write("k is "..k.."\n")
     testgiantmap(v, accum..k)
     ::continue::
   end
 end
 
 testgiantmap(giantmap, "")
-for i=0,N-1 do
+-- for i=1,#prefixes do
+--   print(prefixes[i])
+-- end
 
+function findprefix(remainingSubstring, map, accum)
+  if not map then return end
+  nextChar = string.sub(remainingSubstring, 1,1)
+  rem = string.sub(remainingSubstring,2)
+  io.stderr:write("nextc is "..nextChar.." and rem is "..rem.."\n")
+  num = map["_LENGTH"] or 0
+  if num == 1 then
+    print(accum)
+    return
+  end
+  nmap = map[nextChar]
+  naccum = accum..nextChar
+  findprefix(rem, nmap, naccum)
+end
+
+for i=0,N-1 do
+    w = words[i+1]
+    -- print(w)
     -- Write an answer using print()
     -- To debug: io.stderr:write("Debug message\n")
-
-    print("<word_prefix>")
+    findprefix(w, giantmap, "")
 end
