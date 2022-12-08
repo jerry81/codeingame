@@ -1095,6 +1095,10 @@ for i=0,N-1 do
     freq[n] = freq[n]+1
 end
 
+for i,v in ipairs(freq) do
+  io.stderr:write("i is "..i.." and v is "..v.."\n")
+end
+
 -- Write an answer using print()
 -- To debug: io.stderr:write("Debug message\n")
 
