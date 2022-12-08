@@ -1081,8 +1081,9 @@ freq = {0,0,0,0,0,0,0,0,0}
 function getFirstNumber(str)
   for i=1,#str do
     c = string.sub(str,i,1)
-    if pcall(tonumber, c) then
-      io.stderr:write("number!"..tonumber(c))
+    num = tonumber(c)
+    if num then
+      io.stderr:write("number! "..tostring(tonumber(c)).."\n")
     else
       io.stderr:write("not a num\n")
     end
@@ -1092,6 +1093,7 @@ end
 N = tonumber(io.read())
 for i=0,N-1 do
     transaction = io.read()
+    getFirstNumber(transaction)
 end
 
 -- Write an answer using print()
