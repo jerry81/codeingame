@@ -95,10 +95,12 @@ testgiantmap(giantmap, "")
 -- end
 
 function findprefix(remainingSubstring, map, accum)
-  if not map then return end
+  if not map then
+    print(accum)
+    return
+  end
   nextChar = string.sub(remainingSubstring, 1,1)
   rem = string.sub(remainingSubstring,2)
-  io.stderr:write("nextc is "..nextChar.." and rem is "..rem.."\n")
   num = map["_LENGTH"] or 0
   if num == 1 then
     print(accum)
