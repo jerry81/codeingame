@@ -1079,21 +1079,20 @@ benford = {
 freq = {0,0,0,0,0,0,0,0,0}
 
 function getFirstNumber(str)
+
   for i=1,#str do
-    c = string.sub(str,i,1)
+    c = string.sub(str,i,i)
     num = tonumber(c)
-    if num then
-      io.stderr:write("number! "..tostring(tonumber(c)).."\n")
-    else
-      io.stderr:write("not a num\n")
-    end
+
+    if num ~= nil and num~=0 then return num end
   end
 end
 
 N = tonumber(io.read())
 for i=0,N-1 do
     transaction = io.read()
-    getFirstNumber(transaction)
+    n = getFirstNumber(transaction)
+    freq[n] = freq[n]+1
 end
 
 -- Write an answer using print()
