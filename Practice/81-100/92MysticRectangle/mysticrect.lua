@@ -51,14 +51,14 @@ goal = {}
 goal["x"] = u
 start["y"] = v
 
-function getYDist(y,v,limit)
+function getDist(y,v,limit)
   gy = y >= v and y or v
   ly = y < v and y or v
-  return min(gy-ly,limit-gy+ly)
+  return math.min(gy-ly,limit-gy+ly)
 end
 
-yDist = getYDist(y,v,150)
-xDist = getXDist(x,u,200)
+yDist = getDist(y,v,150)
+xDist = getDist(x,u,200)
 
 lItem = yDist > xDist and yDist or xDist
 
@@ -73,7 +73,6 @@ else
   total = total + xDist * EW
 end
 
-io.stderr:write("gy: "..gy..", gx: "..gx.."ly: "..ly..", lx: "..lx.."\n")
 -- To debug: io.stderr:write("Debug message\n")
 
 print(total)
