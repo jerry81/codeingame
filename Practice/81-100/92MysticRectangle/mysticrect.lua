@@ -38,18 +38,12 @@ EW = .3
 NS = .4
 DIA = .5
 
-start = {}
 next_token = string.gmatch(io.read(), "[^%s]+")
 x = tonumber(next_token())
 y = tonumber(next_token())
-start["x"] = x
-start["y"] = y
 next_token = string.gmatch(io.read(), "[^%s]+")
 u = tonumber(next_token())
 v = tonumber(next_token())
-goal = {}
-goal["x"] = u
-start["y"] = v
 
 function getDist(y,v,limit)
   g = y >= v and y or v
@@ -60,7 +54,6 @@ end
 yDist = getDist(y,v,150)
 xDist = getDist(x,u,200)
 
-io.stderr:write("yd "..yDist.." and xd "..xDist.."\n")
 lItem = yDist < xDist and yDist or xDist
 
 total = DIA * lItem
@@ -69,13 +62,9 @@ yDist = yDist - lItem
 xDist = xDist - lItem
 
 if yDist > 0 then
-  io.stderr:write("adding "..yDist*NS.."\n")
-
   total = total + (yDist * NS)
 else
   total = total + (xDist * EW)
 end
-
--- To debug: io.stderr:write("Debug message\n")
 
 print(total)
