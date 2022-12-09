@@ -66,10 +66,26 @@ function getnextallascending()
     end
 end
 
+function getsuffixhappy(prev, bk)
+    len = #n - bk + 1
+    ret = {}
+    for _=1,len do
+        table.insert(ret, tostring(prev))
+    end
+    return table.concat(ret, "")
+end
+
+function getnexthappy(bk)
+  prev = string.sub(n,bk-1,bk-1)
+  return string.sub(n,1,bk-1)..getsuffixhappy(prev, bk)
+end
+
 function getnext(bk)
 	if bk==0 then
         return getnextallascending()
     end
+
+    return getnexthappy(bk)
 end
 ans = getnext(breakpoint)
 -- Write an answer using print()
