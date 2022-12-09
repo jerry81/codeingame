@@ -47,9 +47,33 @@ start["y"] = y
 next_token = string.gmatch(io.read(), "[^%s]+")
 u = tonumber(next_token())
 v = tonumber(next_token())
+goal = {}
 goal["x"] = u
 start["y"] = v
-goal Write an answer using print()
+
+function getYDist(y,v,limit)
+  gy = y >= v and y or v
+  ly = y < v and y or v
+  return min(gy-ly,limit-gy+ly)
+end
+
+yDist = getYDist(y,v,150)
+xDist = getXDist(x,u,200)
+
+lItem = yDist > xDist and yDist or xDist
+
+total = DIA * lItem
+
+yDist = yDist - lItem
+xDist = xDist - lItem
+
+if yDist > 0 then
+  total = total + yDist * NS
+else
+  total = total + xDist * EW
+end
+
+io.stderr:write("gy: "..gy..", gx: "..gx.."ly: "..ly..", lx: "..lx.."\n")
 -- To debug: io.stderr:write("Debug message\n")
 
-print("0.0")
+print(total)
