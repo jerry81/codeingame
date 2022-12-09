@@ -26,7 +26,7 @@ Output
 
 n = io.read()
 io.stderr:write("type is "..type(n).."\n")
-function findbreakpoint(n)
+function findbreakpoint()
     previous = 0
 	for i=1,#n do
 		num=tonumber(string.sub(n,i,i))
@@ -38,9 +38,41 @@ function findbreakpoint(n)
     return 0
 end
 
-breakpoint = findbreakpoint(n)
+breakpoint = findbreakpoint()
 io.stderr:write("breakpoint is "..breakpoint.."\n")
+
+function getsuffix(remaining, baseline)
+    ret = ""
+    for i=1,#remaining do
+        c = string.sub(remaining,i,i)
+        appended = (tonumber(c) < baseline) and baseline or c
+        ret = ret..appended
+    end
+    return ret
+end
+
+function getnextallascending()
+    for i=#n,1,-1 do
+        local as_n = tonumber(string.sub(n,i,i))
+
+        if as_n ~= 9 then
+            io.stderr:write("i is "..i.."\n")
+            plusOne = as_n+1
+            newstr = i == 1 and "" or string.sub(n,1,i)
+            suff = getsuffix(string.sub(n,1,i), plusOne)
+            io.stderr:write("suffix is "..suff.."\n")
+            return newstr..tostring(plusOne)..suff
+        end
+    end
+end
+
+function getnext(bk)
+	if bk==0 then
+        return getnextallascending()
+    end
+end
+ans = getnext(breakpoint)
 -- Write an answer using print()
 -- To debug: io.stderr:write("Debug message\n")
 
-print("answer")
+print(ans)
