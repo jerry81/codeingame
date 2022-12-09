@@ -34,6 +34,9 @@ Output
 
 -- Auto-generated code below aims at helping you parse
 -- the standard input according to the problem statement.
+EW = .3
+NS = .4
+DIA = .5
 
 next_token = string.gmatch(io.read(), "[^%s]+")
 x = tonumber(next_token())
