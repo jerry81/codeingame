@@ -38,14 +38,18 @@ EW = .3
 NS = .4
 DIA = .5
 
+start = {}
 next_token = string.gmatch(io.read(), "[^%s]+")
 x = tonumber(next_token())
 y = tonumber(next_token())
+start["x"] = x
+start["y"] = y
 next_token = string.gmatch(io.read(), "[^%s]+")
 u = tonumber(next_token())
 v = tonumber(next_token())
-
--- Write an answer using print()
+goal["x"] = u
+start["y"] = v
+goal Write an answer using print()
 -- To debug: io.stderr:write("Debug message\n")
 
 print("0.0")
