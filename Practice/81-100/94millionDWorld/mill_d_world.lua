@@ -53,13 +53,25 @@ function split (inputstr, sep)
 end
 
 function parse(str)
-  ret = split(str, " ")
-  for k,v in pairs(ret) do
-    io.stderr:write("k is "..k.." and v is "..v.."\n")
-  end
+  return split(str, " ")
 end
 aa = parse(a)
 bb = parse(b)
+
+function dot(a,b)
+  ptr1 = 1
+  ptr2 = 1
+  at1 = a[ptr1*2-1]
+  at2 = a[ptr1*2]
+  io.stderr:write("at1 "..at1.."\n")
+  io.stderr:write("at2 "..at2.."\n")
+  bt1 = b[ptr2*2-1]
+  bt2 = b[ptr2*2]
+  io.stderr:write("bt1 "..bt1.."\n")
+  io.stderr:write("bt2 "..bt2.."\n")
+end
+
+dot(aa,bb)
 
 -- Write an answer using print()
 -- To debug: io.stderr:write("Debug message\n")
