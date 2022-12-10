@@ -52,6 +52,11 @@ function getsuffix(remaining, baseline)
 end
 
 function buildOnesString(len)
+	ret = ""
+	for i=1,len do
+    ret = ret.."1"
+	end
+	return ret
 end
 
 function getnextallascending()
