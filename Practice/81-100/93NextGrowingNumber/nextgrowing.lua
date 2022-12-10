@@ -41,22 +41,16 @@ end
 breakpoint = findbreakpoint()
 io.stderr:write("breakpoint is "..breakpoint.."\n")
 
-function getsuffix(remaining, baseline)
+function buildstr(len, baseline)
     ret = ""
-    for i=1,#remaining do
-        c = string.sub(remaining,i,i)
-        -- appended = (tonumber(c) < baseline) and baseline or c
+    for i=1,len do
         ret = ret..baseline
     end
     return ret
 end
 
 function buildOnesString(len)
-	ret = ""
-	for i=1,len do
-    ret = ret.."1"
-	end
-	return ret
+	return buildstr(len,"1")
 end
 
 function getnextallascending()
@@ -64,16 +58,9 @@ function getnextallascending()
         local as_n = tonumber(string.sub(n,i,i))
 
         if as_n ~= 9 then -- code smell - nesting (extract)
-            io.stderr:write("i is "..i.."\n")
-            io.stderr:write("ASN is "..as_n.."\n")
-
             plusOne = as_n+1
             newstr = i == 1 and "" or string.sub(n,1,i-1)
-            io.stderr:write("newstr is "..newstr.."\n")
-            io.stderr:write("plus one is "..plusOne.."\n")
-            io.stderr:write("working on substring "..string.sub(n,i).."\n")
-            suff = getsuffix(string.sub(n,i), plusOne)
-            io.stderr:write("suffix is "..suff.."\n")
+            suff = buildstr(#n-i+1, plusOne)
             return newstr..suff
         end
     end
@@ -114,7 +101,5 @@ if n=="0" then
 	return
 end
 ans = getnext(breakpoint)
--- Write an answer using print()
--- To debug: io.stderr:write("Debug message\n")
 
 print(ans)
