@@ -41,6 +41,25 @@ Output
 
 a = io.read()
 b = io.read()
+function split (inputstr, sep)
+  if sep == nil then
+     sep = "%s"
+  end
+  local t={}
+  for str in string.gmatch(inputstr, "([^"..sep.."]+)") do
+     table.insert(t, str)
+  end
+  return t
+end
+
+function parse(str)
+  ret = split(str, " ")
+  for k,v in pairs(ret) do
+    io.stderr:write("k is "..k.." and v is "..v.."\n")
+  end
+end
+aa = parse(a)
+bb = parse(b)
 
 -- Write an answer using print()
 -- To debug: io.stderr:write("Debug message\n")
