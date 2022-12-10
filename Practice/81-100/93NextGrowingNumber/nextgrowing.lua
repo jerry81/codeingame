@@ -65,11 +65,15 @@ function getnextallascending()
 
         if as_n ~= 9 then -- code smell - nesting (extract)
             io.stderr:write("i is "..i.."\n")
+            io.stderr:write("ASN is "..as_n.."\n")
+
             plusOne = as_n+1
-            newstr = i == 1 and "" or string.sub(n,1,i)
-            suff = getsuffix(string.sub(n,1,i), plusOne)
+            newstr = i == 1 and "" or string.sub(n,1,i-1)
+            io.stderr:write("newstr is "..newstr.."\n")
+            io.stderr:write("working on substring "..string.sub(n,i).."\n")
+            suff = getsuffix(string.sub(n,i), plusOne)
             io.stderr:write("suffix is "..suff.."\n")
-            return newstr..tostring(plusOne)..suff
+            return newstr..suff
         end
     end
 
