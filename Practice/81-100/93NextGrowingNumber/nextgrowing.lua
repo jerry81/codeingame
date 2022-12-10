@@ -45,8 +45,8 @@ function getsuffix(remaining, baseline)
     ret = ""
     for i=1,#remaining do
         c = string.sub(remaining,i,i)
-        appended = (tonumber(c) < baseline) and baseline or c
-        ret = ret..appended
+        -- appended = (tonumber(c) < baseline) and baseline or c
+        ret = ret..baseline
     end
     return ret
 end
@@ -70,6 +70,7 @@ function getnextallascending()
             plusOne = as_n+1
             newstr = i == 1 and "" or string.sub(n,1,i-1)
             io.stderr:write("newstr is "..newstr.."\n")
+            io.stderr:write("plus one is "..plusOne.."\n")
             io.stderr:write("working on substring "..string.sub(n,i).."\n")
             suff = getsuffix(string.sub(n,i), plusOne)
             io.stderr:write("suffix is "..suff.."\n")
