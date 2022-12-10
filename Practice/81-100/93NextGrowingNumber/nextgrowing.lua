@@ -25,7 +25,6 @@ Output
 -- the standard input according to the problem statement.
 
 n = io.read()
-io.stderr:write("type is "..type(n).."\n")
 function findbreakpoint()
     previous = 0
 	for i=1,#n do
@@ -39,7 +38,6 @@ function findbreakpoint()
 end
 
 breakpoint = findbreakpoint()
-io.stderr:write("breakpoint is "..breakpoint.."\n")
 
 function buildstr(len, baseline)
     ret = ""
@@ -52,6 +50,7 @@ end
 function buildOnesString(len)
 	return buildstr(len,"1")
 end
+
 
 function getnextallascending()
     for i=#n,1,-1 do
