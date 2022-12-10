@@ -51,11 +51,14 @@ function getsuffix(remaining, baseline)
     return ret
 end
 
+function buildOnesString(len)
+end
+
 function getnextallascending()
     for i=#n,1,-1 do
         local as_n = tonumber(string.sub(n,i,i))
 
-        if as_n ~= 9 then
+        if as_n ~= 9 then -- code smell - nesting (extract)
             io.stderr:write("i is "..i.."\n")
             plusOne = as_n+1
             newstr = i == 1 and "" or string.sub(n,1,i)
@@ -64,6 +67,10 @@ function getnextallascending()
             return newstr..tostring(plusOne)..suff
         end
     end
+
+    len = #n+1
+    return buildOnesString(len)
+
 end
 
 function getsuffixhappy(prev, bk)
