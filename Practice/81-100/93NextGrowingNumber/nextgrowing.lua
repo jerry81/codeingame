@@ -99,8 +99,14 @@ function getnext(bk)
 
     return getnexthappy(bk)
 end
+if (#n == 1 and n ~= "9") then
+    print(tonumber(n)+1)
+    return
+end
+
 if n=="0" then
-	io.stderr:write("n is 0")
+	print(1)
+	return
 end
 ans = getnext(breakpoint)
 -- Write an answer using print()
