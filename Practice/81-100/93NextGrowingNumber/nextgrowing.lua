@@ -99,6 +99,9 @@ function getnext(bk)
 
     return getnexthappy(bk)
 end
+if n=="0" then
+	io.stderr:write("n is 0")
+end
 ans = getnext(breakpoint)
 -- Write an answer using print()
 -- To debug: io.stderr:write("Debug message\n")
