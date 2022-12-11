@@ -59,32 +59,36 @@ aa = parse(a)
 bb = parse(b)
 
 function dot(a,b)
+  ea = #a / 2
+  eb = #b / 2
+
   ptr1 = 1
   ptr2 = 1
-  acount = tonumber(a[ptr1*2-1])
-  avalue = tonumber(a[ptr1*2])
-  io.stderr:write("acount "..acount.."\n")
-  io.stderr:write("avalue "..avalue.."\n")
-  bcount = tonumber(b[ptr2*2-1])
-  bvalue = tonumber(b[ptr2*2])
-  sum = 0
-  io.stderr:write("bcount "..bcount.."\n")
-  io.stderr:write("bvalue "..bvalue.."\n")
-  multiplier = acount
-  difference = bcount - acount
-  if acount > bcount then
-    multiplier = bcount
-    difference = acount - bcount
-    a[ptr1*2] = difference
-    ptr2=ptr2+1
-  else
-    ptr1=ptr1+1
-    b[ptr2*2] = difference
+  while ptr1 <= ea and ptr2 <= eb do
+    acount = tonumber(a[ptr1*2-1])
+    avalue = tonumber(a[ptr1*2])
+    io.stderr:write("acount "..acount.."\n")
+    io.stderr:write("avalue "..avalue.."\n")
+    bcount = tonumber(b[ptr2*2-1])
+    bvalue = tonumber(b[ptr2*2])
+    sum = 0
+    io.stderr:write("bcount "..bcount.."\n")
+    io.stderr:write("bvalue "..bvalue.."\n")
+    multiplier = acount
+    difference = bcount - acount
+    if acount > bcount then
+      multiplier = bcount
+      difference = acount - bcount
+      a[ptr1*2] = difference
+      ptr2=ptr2+1
+    else
+      ptr1=ptr1+1
+      b[ptr2*2] = difference
+    end
+    sum = sum + ((avalue * bvalue) * multiplier)
+    io.stderr:write("after one round sum is "..sum.."\n")
+    io.stderr:write("after one round difference is "..difference.."\n")
   end
-  sum = sum + ((avalue * bvalue) * multiplier)
-  io.stderr:write("after one round sum is "..sum.."\n")
-  io.stderr:write("after one round difference is "..difference.."\n")
-
   -- find larger repeater
 end
 
