@@ -64,6 +64,7 @@ function dot(a,b)
 
   ptr1 = 1
   ptr2 = 1
+  sum = 0
   while ptr1 <= ea and ptr2 <= eb do
     acount = tonumber(a[ptr1*2-1])
     avalue = tonumber(a[ptr1*2])
@@ -71,7 +72,6 @@ function dot(a,b)
     io.stderr:write("avalue "..avalue.."\n")
     bcount = tonumber(b[ptr2*2-1])
     bvalue = tonumber(b[ptr2*2])
-    sum = 0
     io.stderr:write("bcount "..bcount.."\n")
     io.stderr:write("bvalue "..bvalue.."\n")
     multiplier = acount
@@ -81,9 +81,12 @@ function dot(a,b)
       difference = acount - bcount
       a[ptr1*2] = difference
       ptr2=ptr2+1
+      io.stderr:write("updating a count \n")
+
     else
       ptr1=ptr1+1
-      b[ptr2*2] = difference
+      io.stderr:write("updating b count \n")
+      b[ptr2*2-1] = difference
     end
     sum = sum + ((avalue * bvalue) * multiplier)
     io.stderr:write("after one round sum is "..sum.."\n")
@@ -97,4 +100,4 @@ dot(aa,bb)
 -- Write an answer using print()
 -- To debug: io.stderr:write("Debug message\n")
 
-print("a DOT b")
+print(sum)
