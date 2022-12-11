@@ -61,17 +61,17 @@ bb = parse(b)
 function dot(a,b)
   ptr1 = 1
   ptr2 = 1
-  acount = a[ptr1*2-1]
-  avalue = a[ptr1*2]
+  acount = tonumber(a[ptr1*2-1])
+  avalue = tonumber(a[ptr1*2])
   io.stderr:write("acount "..acount.."\n")
   io.stderr:write("avalue "..avalue.."\n")
-  bcount = b[ptr2*2-1]
-  bvalue = b[ptr2*2]
+  bcount = tonumber(b[ptr2*2-1])
+  bvalue = tonumber(b[ptr2*2])
   sum = 0
   io.stderr:write("bcount "..bcount.."\n")
   io.stderr:write("bvalue "..bvalue.."\n")
   multiplier = acount > bcount and acount or bcount
-  difference = acount > bcount and acount - bcount or bcount - acount
+  difference = (acount > bcount) and (acount - bcount) or (bcount - acount)
   sum = sum + ((avalue * bvalue) * multiplier)
   io.stderr:write("after one round sum is "..sum.."\n")
   io.stderr:write("after one round difference is "..difference.."\n")
