@@ -61,14 +61,15 @@ bb = parse(b)
 function dot(a,b)
   ptr1 = 1
   ptr2 = 1
-  at1 = a[ptr1*2-1]
-  at2 = a[ptr1*2]
-  io.stderr:write("at1 "..at1.."\n")
-  io.stderr:write("at2 "..at2.."\n")
-  bt1 = b[ptr2*2-1]
-  bt2 = b[ptr2*2]
-  io.stderr:write("bt1 "..bt1.."\n")
-  io.stderr:write("bt2 "..bt2.."\n")
+  acount = a[ptr1*2-1]
+  avalue = a[ptr1*2]
+  io.stderr:write("acount "..acount.."\n")
+  io.stderr:write("avalue "..avalue.."\n")
+  bcount = b[ptr2*2-1]
+  bvalue = b[ptr2*2]
+  io.stderr:write("bcount "..bcount.."\n")
+  io.stderr:write("bvalue "..bvalue.."\n")
+  -- find larger repeater
 end
 
 dot(aa,bb)
