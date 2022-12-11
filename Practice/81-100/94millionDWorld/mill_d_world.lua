@@ -70,8 +70,12 @@ function dot(a,b)
   sum = 0
   io.stderr:write("bcount "..bcount.."\n")
   io.stderr:write("bvalue "..bvalue.."\n")
-  multiplier = acount > bcount and acount or bcount
-  difference = (acount > bcount) and (acount - bcount) or (bcount - acount)
+  multiplier = acount
+  difference = bcount - acount
+  if acount > bcount then
+    multiplier = bcount
+    difference = acount - bcount
+  end
   sum = sum + ((avalue * bvalue) * multiplier)
   io.stderr:write("after one round sum is "..sum.."\n")
   io.stderr:write("after one round difference is "..difference.."\n")
