@@ -75,6 +75,11 @@ function dot(a,b)
   if acount > bcount then
     multiplier = bcount
     difference = acount - bcount
+    a[ptr1*2] = difference
+    ptr2=ptr2+1
+  else
+    ptr1=ptr1+1
+    b[ptr2*2] = difference
   end
   sum = sum + ((avalue * bvalue) * multiplier)
   io.stderr:write("after one round sum is "..sum.."\n")
