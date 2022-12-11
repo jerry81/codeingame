@@ -59,43 +59,38 @@ aa = parse(a)
 bb = parse(b)
 
 function dot(a,b)
-  ea = #a / 2
-  eb = #b / 2
+  local ea = #a / 2
+  local eb = #b / 2
 
-  ptr1 = 1
-  ptr2 = 1
-  sum = 0
+  local ptr1 = 1
+  local ptr2 = 1
+  local sum = 0
   while ptr1 <= ea and ptr2 <= eb do
     acount = tonumber(a[ptr1*2-1])
     avalue = tonumber(a[ptr1*2])
-    io.stderr:write("acount "..acount.."\n")
-    io.stderr:write("avalue "..avalue.."\n")
     bcount = tonumber(b[ptr2*2-1])
     bvalue = tonumber(b[ptr2*2])
-    io.stderr:write("bcount "..bcount.."\n")
-    io.stderr:write("bvalue "..bvalue.."\n")
     multiplier = acount
     difference = bcount - acount
     if acount > bcount then
       multiplier = bcount
       difference = acount - bcount
-      a[ptr1*2] = difference
+      a[ptr1*2-1] = difference
       ptr2=ptr2+1
-      io.stderr:write("updating a count \n")
 
+    elseif acount == bcount then
+        ptr1 = ptr1+1
+        ptr2 = ptr2+1
     else
       ptr1=ptr1+1
-      io.stderr:write("updating b count \n")
       b[ptr2*2-1] = difference
     end
     sum = sum + ((avalue * bvalue) * multiplier)
-    io.stderr:write("after one round sum is "..sum.."\n")
-    io.stderr:write("after one round difference is "..difference.."\n")
   end
-  -- find larger repeater
+  return sum
 end
 
-dot(aa,bb)
+sum = dot(aa,bb)
 
 -- Write an answer using print()
 -- To debug: io.stderr:write("Debug message\n")
