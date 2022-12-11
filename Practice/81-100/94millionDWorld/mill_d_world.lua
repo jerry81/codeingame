@@ -67,8 +67,15 @@ function dot(a,b)
   io.stderr:write("avalue "..avalue.."\n")
   bcount = b[ptr2*2-1]
   bvalue = b[ptr2*2]
+  sum = 0
   io.stderr:write("bcount "..bcount.."\n")
   io.stderr:write("bvalue "..bvalue.."\n")
+  multiplier = acount > bcount and acount or bcount
+  difference = acount > bcount and acount - bcount or bcount - acount
+  sum = sum + ((avalue * bvalue) * multiplier)
+  io.stderr:write("after one round sum is "..sum.."\n")
+  io.stderr:write("after one round difference is "..difference.."\n")
+
   -- find larger repeater
 end
 
