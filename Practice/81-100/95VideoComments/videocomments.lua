@@ -36,12 +36,32 @@ user2|06:00|0|none
 user1|05:00|0|none
 ]]--
 
--- Auto-generated code below aims at helping you parse
--- the standard input according to the problem statement.
+--[[
+comment:
+  time:
+  name:
+  likes:
+  replies: {...} -- comment objects
+]]--
+
+function split (inputstr, sep)
+  if sep == nil then
+     sep = "%s"
+  end
+  local t={}
+  for str in string.gmatch(inputstr, "([^"..sep.."]+)") do
+     table.insert(t, str)
+  end
+  return t
+end
 
 n = tonumber(io.read())
 for i=0,n-1 do
     comment = io.read()
+    spl = split(comment,"|")
+    for k,v in pairs(spl) do
+      io.stderr:write("k is "..k.." and v is "..v.."\n")
+    end
 end
 
 -- Write an answer using print()
