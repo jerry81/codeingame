@@ -90,21 +90,32 @@ end
 
 -- Derived class method printArea
 
-function Comment:addReply (comment)
-   table.insert(self.replies, comment)
+function Comment:addReply (commReply)
+   table.insert(self.replies, commReply)
 end
 
 
 
+function applyComment(commentstr, curcomment)
+  local spl = split(commentstr,"|")
+  newComment = Comment:new(spl[1], spl[2], spl[3], spl[4])
+  if string.sub(commentstr, 1,1) == " " then
+    curcomment:addReply(newComment)
+    io.stderr:write("added reply\n")
+    return curcomment
+  end
+  io.stderr:write("non reply \n")
+  return newComment
+end
+
+cur = {}
+
 n = tonumber(io.read())
+io.stderr:write('n is '..n..'\n')
 for i=0,n-1 do
     comment = io.read()
-    if string.sub(comment, 1,1) == " " then
-      io.stderr:write("i am a reply!\n")
-    end
-    spl = split(comment,"|")
-    c = Comment:new(spl[1], spl[2], spl[3], spl[4])
-    c:pr()
+    io.stderr:write("applying\n")
+    cur = applyComment(comment, cur)
 end
 
 -- Write an answer using print()
