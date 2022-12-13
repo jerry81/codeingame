@@ -79,13 +79,20 @@ function compareComments(c1,c2)
   if hcomp ~= 0 then
     return hcomp < 0
   end
+
+  mcomp = c1.min - c2.min
+  if mcomp ~= 0 then
+    return mcomp < 0
+  end
+
+  return c1.idx < c2.idx
 end
 
 Comment = {name = "", likes = 0, hr = 0, min = 0, idx = 0, replies = {}}
 
 function Comment:new (name,time,likes,priority,idx)
-   comment = {}
-   setmetatable(comment, self)
+   local lcomment = {}
+   setmetatable(lcomment, self)
    self.__index = self
    hr,min = parseTime(time)
    self.hr = hr or 0
@@ -94,7 +101,7 @@ function Comment:new (name,time,likes,priority,idx)
    self.likes = likes or 0
    self.priority = priority or "none"
    self.idx = idx
-   return comment
+   return lcomment
 end
 
 function Comment:pr()
@@ -113,10 +120,10 @@ function Comment:addReply (commReply)
 end
 
 
-
+allcomments = {}
 function applyComment(commentstr, curcomment, idx)
   local spl = split(commentstr,"|")
-  newComment = Comment:new(spl[1], spl[2], spl[3], spl[4], idx)
+  local newComment = Comment:new(spl[1], spl[2], spl[3], spl[4], idx)
   newComment:pr()
   if string.sub(commentstr, 1,1) == " " then
     curcomment:addReply(newComment)
@@ -124,21 +131,22 @@ function applyComment(commentstr, curcomment, idx)
     return curcomment
   end
   io.stderr:write("non reply \n")
+  table.insert(allcomments, newComment)
+  allcomments[1]:pr()
   return newComment
 end
 
 cur = {}
-
 n = tonumber(io.read())
-io.stderr:write('n is '..n..'\n')
 for i=0,n-1 do
     comment = io.read()
-    io.stderr:write("applying\n")
     cur = applyComment(comment, cur, i)
 end
 
-ptest = "none"
-io.stderr:write("test enum"..PRIORITIES[ptest])
+for k,c in ipairs(allcomments) do
+  io.stderr:write("printing "..k.."\n")
+  c:pr()
+end
 
 -- Write an answer using print()
 -- To debug: io.stderr:write("Debug message\n")
