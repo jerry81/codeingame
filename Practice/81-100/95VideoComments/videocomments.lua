@@ -59,12 +59,12 @@ function parseTime(time)
   local spl = split(time, ":")
   local hr = spl[1]
   local min = spl[2]
-  return tonumber(hr), tonumber(min)
+  return hr,min
 end
 
 PRIORITIES = { Followed = 2, Pinned = 3, none = 1 }
 
-function compareComments(c1,c2)
+function compareComments(c2,c1)
   pcomp = PRIORITIES[c1.priority] - PRIORITIES[c2.priority]
   if pcomp ~= 0 then
     return pcomp < 0
@@ -75,12 +75,12 @@ function compareComments(c1,c2)
     return lcomp < 0
   end
 
-  hcomp = c1.hr - c2.hr
+  hcomp = tonumber(c1.hr) - tonumber(c2.hr)
   if hcomp ~= 0 then
     return hcomp < 0
   end
 
-  mcomp = c1.min - c2.min
+  mcomp = tonumber(c1.min) - tonumber(c2.min)
   if mcomp ~= 0 then
     return mcomp < 0
   end
@@ -95,8 +95,8 @@ function Comment:new (name,time,likes,priority,idx)
    setmetatable(lcomment, self)
    self.__index = self
    hr,min = parseTime(time)
-   lcomment.hr = hr or 0
-   lcomment.min = min or 0
+   lcomment.hr = hr or "00"
+   lcomment.min = min or "00"
    lcomment.name = name or ""
    lcomment.likes = likes or 0
    lcomment.priority = priority or "none"
@@ -105,12 +105,13 @@ function Comment:new (name,time,likes,priority,idx)
 end
 
 function Comment:pr()
-  io.stderr:write("comment name: "..self.name.."\n")
-  io.stderr:write("hr: "..self.hr.."\n")
-  io.stderr:write("min: "..self.min.."\n")
-  io.stderr:write("likes: "..self.likes.."\n")
-  io.stderr:write("priority: "..self.priority.."\n")
-  io.stderr:write("idx: "..self.idx.."\n")
+  print(self.name.."|"..self.hr..":"..self.min.."|"..self.likes.."|"..self.priority)
+  -- io.stderr:write("comment name: "..self.name.."\n")
+  -- io.stderr:write("hr: "..self.hr.."\n")
+  -- io.stderr:write("min: "..self.min.."\n")
+  -- io.stderr:write("likes: "..self.likes.."\n")
+  -- io.stderr:write("priority: "..self.priority.."\n")
+  -- io.stderr:write("idx: "..self.idx.."\n")
 end
 
 -- Derived class method printArea
@@ -126,10 +127,10 @@ function applyComment(commentstr, curcomment, idx)
   local newComment = Comment:new(spl[1], spl[2], spl[3], spl[4], idx)
   if string.sub(commentstr, 1,1) == " " then
     curcomment:addReply(newComment)
-    io.stderr:write("added reply\n")
+    -- io.stderr:write("added reply\n")
     return curcomment
   end
-  io.stderr:write("non reply \n")
+  -- io.stderr:write("non reply \n")
   table.insert(allcomments, newComment)
   return newComment
 end
@@ -141,9 +142,11 @@ for i=0,n-1 do
     cur = applyComment(comment, cur, i)
 end
 
+table.sort(allcomments, compareComments)
+
 for k,c in ipairs(allcomments) do
-   io.stderr:write("printing "..k.."\n")
+   -- io.stderr:write("printing "..k.."\n")
    c:pr()
 end
 
-print("answer")
+-- print()
