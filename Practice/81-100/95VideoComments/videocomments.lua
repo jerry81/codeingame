@@ -55,19 +55,32 @@ function split (inputstr, sep)
   return t
 end
 
--- Meta class
-Comment = {time = 0, name = "", likes = 0, replies = {}}
+function parseTime(time)
+  local spl = split(time, ":")
+  local hr = spl[1]
+  local min = spl[2]
+  return tonumber(hr), tonumber(min)
+end
 
--- Derived class method new
+Comment = {name = "", likes = 0, hr = 0, min = 0, replies = {}}
 
-function Comment:new (time,name,likes)
+function Comment:new (name,time,likes)
    comment = {}
    setmetatable(comment, self)
    self.__index = self
-   self.time = time or 0
+   hr,min = parseTime(time)
+   self.hr = hr or 0
+   self.min = min or 0
    self.name = name or ""
    self.likes = likes or 0;
    return comment
+end
+
+function Comment:pr()
+  io.stderr:write("comment name: "..self.name.."\n")
+  io.stderr:write("hr: "..self.hr.."\n")
+  io.stderr:write("min: "..self.min.."\n")
+  io.stderr:write("likes: "..self.likes.."\n")
 end
 
 -- Derived class method printArea
@@ -80,9 +93,8 @@ n = tonumber(io.read())
 for i=0,n-1 do
     comment = io.read()
     spl = split(comment,"|")
-    for k,v in pairs(spl) do
-      io.stderr:write("k is "..k.." and v is "..v.."\n")
-    end
+    c = Comment:new(spl[1], spl[2], spl[3])
+    c:pr()
 end
 
 -- Write an answer using print()
