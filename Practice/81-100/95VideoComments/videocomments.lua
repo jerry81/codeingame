@@ -95,12 +95,12 @@ function Comment:new (name,time,likes,priority,idx)
    setmetatable(lcomment, self)
    self.__index = self
    hr,min = parseTime(time)
-   self.hr = hr or 0
-   self.min = min or 0
-   self.name = name or ""
-   self.likes = likes or 0
-   self.priority = priority or "none"
-   self.idx = idx
+   lcomment.hr = hr or 0
+   lcomment.min = min or 0
+   lcomment.name = name or ""
+   lcomment.likes = likes or 0
+   lcomment.priority = priority or "none"
+   lcomment.idx = idx
    return lcomment
 end
 
@@ -124,7 +124,6 @@ allcomments = {}
 function applyComment(commentstr, curcomment, idx)
   local spl = split(commentstr,"|")
   local newComment = Comment:new(spl[1], spl[2], spl[3], spl[4], idx)
-  newComment:pr()
   if string.sub(commentstr, 1,1) == " " then
     curcomment:addReply(newComment)
     io.stderr:write("added reply\n")
@@ -132,7 +131,6 @@ function applyComment(commentstr, curcomment, idx)
   end
   io.stderr:write("non reply \n")
   table.insert(allcomments, newComment)
-  allcomments[1]:pr()
   return newComment
 end
 
@@ -144,11 +142,8 @@ for i=0,n-1 do
 end
 
 for k,c in ipairs(allcomments) do
-  io.stderr:write("printing "..k.."\n")
-  c:pr()
+   io.stderr:write("printing "..k.."\n")
+   c:pr()
 end
-
--- Write an answer using print()
--- To debug: io.stderr:write("Debug message\n")
 
 print("answer")
