@@ -62,12 +62,28 @@ function parseTime(time)
   return tonumber(hr), tonumber(min)
 end
 
+PRIORITIES = { Followed = 2, Pinned = 3, none = 1 }
+
 function compareComments(c1,c2)
+  pcomp = PRIORITIES[c1.priority] - PRIORITIES[c2.priority]
+  if pcomp ~= 0 then
+    return pcomp < 0
+  end
+
+  lcomp = c1.likes - c2.likes
+  if lcomp ~= 0 then
+    return lcomp < 0
+  end
+
+  hcomp = c1.hr - c2.hr
+  if hcomp ~= 0 then
+    return hcomp < 0
+  end
 end
 
-Comment = {name = "", likes = 0, hr = 0, min = 0, replies = {}}
+Comment = {name = "", likes = 0, hr = 0, min = 0, idx = 0, replies = {}}
 
-function Comment:new (name,time,likes,priority)
+function Comment:new (name,time,likes,priority,idx)
    comment = {}
    setmetatable(comment, self)
    self.__index = self
@@ -77,6 +93,7 @@ function Comment:new (name,time,likes,priority)
    self.name = name or ""
    self.likes = likes or 0
    self.priority = priority or "none"
+   self.idx = idx
    return comment
 end
 
@@ -86,6 +103,7 @@ function Comment:pr()
   io.stderr:write("min: "..self.min.."\n")
   io.stderr:write("likes: "..self.likes.."\n")
   io.stderr:write("priority: "..self.priority.."\n")
+  io.stderr:write("idx: "..self.idx.."\n")
 end
 
 -- Derived class method printArea
@@ -96,9 +114,10 @@ end
 
 
 
-function applyComment(commentstr, curcomment)
+function applyComment(commentstr, curcomment, idx)
   local spl = split(commentstr,"|")
-  newComment = Comment:new(spl[1], spl[2], spl[3], spl[4])
+  newComment = Comment:new(spl[1], spl[2], spl[3], spl[4], idx)
+  newComment:pr()
   if string.sub(commentstr, 1,1) == " " then
     curcomment:addReply(newComment)
     io.stderr:write("added reply\n")
@@ -115,8 +134,11 @@ io.stderr:write('n is '..n..'\n')
 for i=0,n-1 do
     comment = io.read()
     io.stderr:write("applying\n")
-    cur = applyComment(comment, cur)
+    cur = applyComment(comment, cur, i)
 end
+
+ptest = "none"
+io.stderr:write("test enum"..PRIORITIES[ptest])
 
 -- Write an answer using print()
 -- To debug: io.stderr:write("Debug message\n")
