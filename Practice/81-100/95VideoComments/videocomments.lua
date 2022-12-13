@@ -62,9 +62,12 @@ function parseTime(time)
   return tonumber(hr), tonumber(min)
 end
 
+function compareComments(c1,c2)
+end
+
 Comment = {name = "", likes = 0, hr = 0, min = 0, replies = {}}
 
-function Comment:new (name,time,likes)
+function Comment:new (name,time,likes,priority)
    comment = {}
    setmetatable(comment, self)
    self.__index = self
@@ -72,7 +75,8 @@ function Comment:new (name,time,likes)
    self.hr = hr or 0
    self.min = min or 0
    self.name = name or ""
-   self.likes = likes or 0;
+   self.likes = likes or 0
+   self.priority = priority or "none"
    return comment
 end
 
@@ -81,6 +85,7 @@ function Comment:pr()
   io.stderr:write("hr: "..self.hr.."\n")
   io.stderr:write("min: "..self.min.."\n")
   io.stderr:write("likes: "..self.likes.."\n")
+  io.stderr:write("priority: "..self.priority.."\n")
 end
 
 -- Derived class method printArea
@@ -89,11 +94,16 @@ function Comment:addReply (comment)
    table.insert(self.replies, comment)
 end
 
+
+
 n = tonumber(io.read())
 for i=0,n-1 do
     comment = io.read()
+    if string.sub(comment, 1,1) == " " then
+      io.stderr:write("i am a reply!\n")
+    end
     spl = split(comment,"|")
-    c = Comment:new(spl[1], spl[2], spl[3])
+    c = Comment:new(spl[1], spl[2], spl[3], spl[4])
     c:pr()
 end
 
