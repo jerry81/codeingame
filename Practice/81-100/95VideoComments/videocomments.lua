@@ -55,6 +55,27 @@ function split (inputstr, sep)
   return t
 end
 
+-- Meta class
+Comment = {time = 0, name = "", likes = 0, replies = {}}
+
+-- Derived class method new
+
+function Comment:new (time,name,likes)
+   comment = {}
+   setmetatable(comment, self)
+   self.__index = self
+   self.time = time or 0
+   self.name = name or ""
+   self.likes = likes or 0;
+   return comment
+end
+
+-- Derived class method printArea
+
+function Comment:addReply (comment)
+   table.insert(self.replies, comment)
+end
+
 n = tonumber(io.read())
 for i=0,n-1 do
     comment = io.read()
