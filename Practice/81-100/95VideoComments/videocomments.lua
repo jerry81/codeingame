@@ -85,7 +85,7 @@ function compareComments(c2,c1)
     return mcomp < 0
   end
 
-  return c1.idx < c2.idx
+  return c1.idx > c2.idx
 end
 
 Comment = {name = "", likes = 0, hr = 0, min = 0, idx = 0, replies = {}}
@@ -101,17 +101,15 @@ function Comment:new (name,time,likes,priority,idx)
    lcomment.likes = likes or 0
    lcomment.priority = priority or "none"
    lcomment.idx = idx
+   lcomment.replies = {}
    return lcomment
 end
 
 function Comment:pr()
   print(self.name.."|"..self.hr..":"..self.min.."|"..self.likes.."|"..self.priority)
-  -- io.stderr:write("comment name: "..self.name.."\n")
-  -- io.stderr:write("hr: "..self.hr.."\n")
-  -- io.stderr:write("min: "..self.min.."\n")
-  -- io.stderr:write("likes: "..self.likes.."\n")
-  -- io.stderr:write("priority: "..self.priority.."\n")
-  -- io.stderr:write("idx: "..self.idx.."\n")
+  for _,v in ipairs(self.replies) do
+    v:pr()
+  end
 end
 
 -- Derived class method printArea
@@ -127,10 +125,8 @@ function applyComment(commentstr, curcomment, idx)
   local newComment = Comment:new(spl[1], spl[2], spl[3], spl[4], idx)
   if string.sub(commentstr, 1,1) == " " then
     curcomment:addReply(newComment)
-    -- io.stderr:write("added reply\n")
     return curcomment
   end
-  -- io.stderr:write("non reply \n")
   table.insert(allcomments, newComment)
   return newComment
 end
@@ -145,8 +141,6 @@ end
 table.sort(allcomments, compareComments)
 
 for k,c in ipairs(allcomments) do
-   -- io.stderr:write("printing "..k.."\n")
+   table.sort(c.replies, compareComments)
    c:pr()
 end
-
--- print()
