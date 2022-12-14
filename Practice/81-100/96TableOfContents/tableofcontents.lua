@@ -41,10 +41,27 @@ Output
 -- Auto-generated code below aims at helping you parse
 -- the standard input according to the problem statement.
 
+
+function countArrows(str)
+  count = 0
+  for i=1,#str do
+    c = string.sub(str,i,i)
+    io.stderr:write("c is "..c.."\n")
+    if c == '>' then
+        count = count+1
+    else
+        return count
+    end
+  end
+end
+
+levels = {}
 lengthofline = tonumber(io.read())
 N = tonumber(io.read())
 for i=0,N-1 do
     entry = io.read()
+    io.stderr:write("entry is "..entry.."\n")
+    io.stderr:write("arrows are "..countArrows(entry).."\n")
 end
 
 -- Write an answer using print()
