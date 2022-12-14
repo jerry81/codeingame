@@ -44,22 +44,52 @@ Fuse was blown.
 
 -- Auto-generated code below aims at helping you parse
 -- the standard input according to the problem statement.
+current_load = 0
+next_token = string.gmatch(io.read(), "[^%s]+")
+n = tonumber(next_token()) -- num of devices
+m = tonumber(next_token()) -- toggle count
+c = tonumber(next_token()) -- capacity
+
+function overload()
+    return current_load > c
+end
 
 next_token = string.gmatch(io.read(), "[^%s]+")
-n = tonumber(next_token())
-m = tonumber(next_token())
-c = tonumber(next_token())
-next_token = string.gmatch(io.read(), "[^%s]+")
+dpower = {}
+dstatus = {}
 for i=0,n-1 do
     nx = tonumber(next_token())
+    table.insert(dpower,nx)
+    table.insert(dstatus,false)
 end
 next_token = string.gmatch(io.read(), "[^%s]+")
+maxpow = 0
 for i=0,m-1 do
     mx = tonumber(next_token())
+    newstatus = ~dstatus[mx]
+    if newstatus then
+        current_load = current_load + dpower[mx]
+        if overload() then
+            pblown()
+            return
+        end
+        if current_load > maxpow then
+            maxpow = currentload
+        end
+    else
+        current_load = current_load - dpower[mx]
+    end
+end
+
+p(maxpow)
+
+function pblown()
+    print("Fuse was blown.")
 end
 
 -- Write an answer using print()
 -- To debug: io.stderr:write("Debug message\n")
-
-print("Fuse was not blown.")
-print("Maximal consumed current was XX A.")
+function p(maxpower)
+  print("Fuse was not blown.")
+  print("Maximal consumed current was"..maxpower.." A.")
+end
