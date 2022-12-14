@@ -89,13 +89,17 @@ for i=0,N-1 do
     numspaces = obj.arrows * 4
     numdots = lengthofline-numspaces-#obj.title-3
     spaces = ""
-    for j=0,numspaces do
+    for j=1,numspaces do
         spaces = spaces.." "
     end
-    pr(obj)
+    dots = ""
+    for k=1,numdots do
+        dots = dots.."."
+    end
+    print(spaces..marker.." "..obj.title..dots..obj.page)
 end
 
 -- Write an answer using print()
 -- To debug: io.stderr:write("Debug message\n")
 
-print("Format error")
+-- print("Format error")
