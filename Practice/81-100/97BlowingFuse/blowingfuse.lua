@@ -58,11 +58,9 @@ function pblown()
     print("Fuse was blown.")
 end
 
--- Write an answer using print()
--- To debug: io.stderr:write("Debug message\n")
 function p(maxpower)
   print("Fuse was not blown.")
-  print("Maximal consumed current was"..maxpower.." A.")
+  print("Maximal consumed current was "..maxpower.." A.")
 end
 
 next_token = string.gmatch(io.read(), "[^%s]+")
@@ -78,6 +76,7 @@ maxpow = 0
 for i=0,m-1 do
     mx = tonumber(next_token())
     newstatus = not dstatus[mx]
+    dstatus[mx] = newstatus
     if newstatus then
         current_load = current_load + dpower[mx]
         if overload() then
