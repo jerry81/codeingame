@@ -78,11 +78,22 @@ function countArrows(str)
   end
 
   levels = {}
+
+  function cleanlevels(level)
+    --  clear levels deeper than level
+    start = level+1
+    repeat
+        levels[start] = nil
+        start = start + 1
+    until (not levels[start])
+  end
+
   lengthofline = tonumber(io.read())
   N = tonumber(io.read())
   for i=0,N-1 do
       entry = io.read()
       obj = processstr(entry)
+      cleanlevels(obj.arrows)
       levels[obj.arrows] = levels[obj.arrows] and levels[obj.arrows] + 1 or 1
       nextstr = ""
       marker = levels[obj.arrows]
@@ -99,8 +110,3 @@ function countArrows(str)
       end
       print(spaces..marker.." "..obj.title..dots..obj.page)
   end
-
-  -- Write an answer using print()
-  -- To debug: io.stderr:write("Debug message\n")
-
-  -- print("Format error")
