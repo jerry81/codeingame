@@ -46,7 +46,6 @@ function countArrows(str)
     count = 0
     for i=1,#str do
       c = string.sub(str,i,i)
-      io.stderr:write("c is "..c.."\n")
       if c == '>' then
           count = count+1
       else
@@ -73,9 +72,6 @@ function countArrows(str)
       return {arrows=arrows, title=spl[1], page=spl[2]}
   end
 
-  function pr(obj)
-      io.stderr:write("arrows are : "..obj.arrows.." title is "..obj.title.." and page is "..obj.page.."\n")
-  end
 
   levels = {}
 
