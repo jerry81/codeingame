@@ -83,6 +83,15 @@ N = tonumber(io.read())
 for i=0,N-1 do
     entry = io.read()
     obj = processstr(entry)
+    levels[obj.arrows] = levels[obj.arrows] and levels[obj.arrows] + 1 or 1
+    nextstr = ""
+    marker = levels[obj.arrows]
+    numspaces = obj.arrows * 4
+    numdots = lengthofline-numspaces-#obj.title-3
+    spaces = ""
+    for j=0,numspaces do
+        spaces = spaces.." "
+    end
     pr(obj)
 end
 
