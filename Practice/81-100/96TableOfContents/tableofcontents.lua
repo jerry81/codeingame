@@ -55,13 +55,35 @@ function countArrows(str)
   end
 end
 
+function split (inputstr, sep)
+    if sep == nil then
+       sep = "%s"
+    end
+    local t={}
+    for str in string.gmatch(inputstr, "([^"..sep.."]+)") do
+       table.insert(t, str)
+    end
+    return t
+  end
+
+function processstr(str)
+    arrows = countArrows(str)
+    rest = string.sub(str,arrows+1)
+    spl = split(rest," ")
+    return {arrows=arrows, title=spl[1], page=spl[2]}
+end
+
+function pr(obj)
+    io.stderr:write("arrows are : "..obj.arrows.." title is "..obj.title.." and page is "..obj.page.."\n")
+end
+
 levels = {}
 lengthofline = tonumber(io.read())
 N = tonumber(io.read())
 for i=0,N-1 do
     entry = io.read()
-    io.stderr:write("entry is "..entry.."\n")
-    io.stderr:write("arrows are "..countArrows(entry).."\n")
+    obj = processstr(entry)
+    pr(obj)
 end
 
 -- Write an answer using print()
