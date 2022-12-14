@@ -43,63 +43,64 @@ Output
 
 
 function countArrows(str)
-  count = 0
-  for i=1,#str do
-    c = string.sub(str,i,i)
-    io.stderr:write("c is "..c.."\n")
-    if c == '>' then
-        count = count+1
-    else
-        return count
+    count = 0
+    for i=1,#str do
+      c = string.sub(str,i,i)
+      io.stderr:write("c is "..c.."\n")
+      if c == '>' then
+          count = count+1
+      else
+          return count
+      end
     end
   end
-end
 
-function split (inputstr, sep)
-    if sep == nil then
-       sep = "%s"
+  function split (inputstr, sep)
+      if sep == nil then
+         sep = "%s"
+      end
+      local t={}
+      for str in string.gmatch(inputstr, "([^"..sep.."]+)") do
+         table.insert(t, str)
+      end
+      return t
     end
-    local t={}
-    for str in string.gmatch(inputstr, "([^"..sep.."]+)") do
-       table.insert(t, str)
-    end
-    return t
+
+  function processstr(str)
+      arrows = countArrows(str)
+      rest = string.sub(str,arrows+1)
+      spl = split(rest," ")
+      return {arrows=arrows, title=spl[1], page=spl[2]}
   end
 
-function processstr(str)
-    arrows = countArrows(str)
-    rest = string.sub(str,arrows+1)
-    spl = split(rest," ")
-    return {arrows=arrows, title=spl[1], page=spl[2]}
-end
+  function pr(obj)
+      io.stderr:write("arrows are : "..obj.arrows.." title is "..obj.title.." and page is "..obj.page.."\n")
+  end
 
-function pr(obj)
-    io.stderr:write("arrows are : "..obj.arrows.." title is "..obj.title.." and page is "..obj.page.."\n")
-end
+  levels = {}
+  lengthofline = tonumber(io.read())
+  N = tonumber(io.read())
+  for i=0,N-1 do
+      entry = io.read()
+      obj = processstr(entry)
+      levels[obj.arrows] = levels[obj.arrows] and levels[obj.arrows] + 1 or 1
+      nextstr = ""
+      marker = levels[obj.arrows]
+      lenpage = #obj.page
+      numspaces = obj.arrows * 4
+      numdots = lengthofline-numspaces-#obj.title-lenpage-2
+      spaces = ""
+      for j=1,numspaces do
+          spaces = spaces.." "
+      end
+      dots = ""
+      for k=1,numdots do
+          dots = dots.."."
+      end
+      print(spaces..marker.." "..obj.title..dots..obj.page)
+  end
 
-levels = {}
-lengthofline = tonumber(io.read())
-N = tonumber(io.read())
-for i=0,N-1 do
-    entry = io.read()
-    obj = processstr(entry)
-    levels[obj.arrows] = levels[obj.arrows] and levels[obj.arrows] + 1 or 1
-    nextstr = ""
-    marker = levels[obj.arrows]
-    numspaces = obj.arrows * 4
-    numdots = lengthofline-numspaces-#obj.title-3
-    spaces = ""
-    for j=1,numspaces do
-        spaces = spaces.." "
-    end
-    dots = ""
-    for k=1,numdots do
-        dots = dots.."."
-    end
-    print(spaces..marker.." "..obj.title..dots..obj.page)
-end
+  -- Write an answer using print()
+  -- To debug: io.stderr:write("Debug message\n")
 
--- Write an answer using print()
--- To debug: io.stderr:write("Debug message\n")
-
--- print("Format error")
+  -- print("Format error")
