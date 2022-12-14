@@ -72,7 +72,6 @@ function countArrows(str)
       return {arrows=arrows, title=spl[1], page=spl[2]}
   end
 
-
   levels = {}
 
   function cleanlevels(level)
@@ -93,9 +92,9 @@ function countArrows(str)
       levels[obj.arrows] = levels[obj.arrows] and levels[obj.arrows] + 1 or 1
       nextstr = ""
       marker = levels[obj.arrows]
-      lenpage = #obj.page
+      lenpage = #(tostring(obj.page))
       numspaces = obj.arrows * 4
-      numdots = lengthofline-numspaces-#obj.title-lenpage-2
+      numdots = lengthofline-numspaces-#(tostring(obj.title))-lenpage-1-#(tostring(marker))
       spaces = ""
       for j=1,numspaces do
           spaces = spaces.." "
