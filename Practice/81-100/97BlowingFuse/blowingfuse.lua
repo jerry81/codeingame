@@ -54,6 +54,17 @@ function overload()
     return current_load > c
 end
 
+function pblown()
+    print("Fuse was blown.")
+end
+
+-- Write an answer using print()
+-- To debug: io.stderr:write("Debug message\n")
+function p(maxpower)
+  print("Fuse was not blown.")
+  print("Maximal consumed current was"..maxpower.." A.")
+end
+
 next_token = string.gmatch(io.read(), "[^%s]+")
 dpower = {}
 dstatus = {}
@@ -66,7 +77,7 @@ next_token = string.gmatch(io.read(), "[^%s]+")
 maxpow = 0
 for i=0,m-1 do
     mx = tonumber(next_token())
-    newstatus = ~dstatus[mx]
+    newstatus = not dstatus[mx]
     if newstatus then
         current_load = current_load + dpower[mx]
         if overload() then
@@ -74,7 +85,7 @@ for i=0,m-1 do
             return
         end
         if current_load > maxpow then
-            maxpow = currentload
+            maxpow = current_load
         end
     else
         current_load = current_load - dpower[mx]
@@ -82,14 +93,3 @@ for i=0,m-1 do
 end
 
 p(maxpow)
-
-function pblown()
-    print("Fuse was blown.")
-end
-
--- Write an answer using print()
--- To debug: io.stderr:write("Debug message\n")
-function p(maxpower)
-  print("Fuse was not blown.")
-  print("Maximal consumed current was"..maxpower.." A.")
-end
