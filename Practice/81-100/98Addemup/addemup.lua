@@ -47,8 +47,15 @@ Output
 
 N = tonumber(io.read())
 next_token = string.gmatch(io.read(), "[^%s]+")
+-- strat: sort then merge left to right recursively
+initial = {}
 for i=0,N-1 do
     x = tonumber(next_token())
+    table.insert(initial,x)
+end
+table.sort(initial)
+for i=1,#initial do
+    io.stderr:write("table item "..initial[i].."\n")
 end
 
 -- Write an answer using print()
