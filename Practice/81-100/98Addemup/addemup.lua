@@ -59,11 +59,14 @@ sum = 0
 
 function reduceCards(cards, start)
     if start == #cards then return end
-
-    sum = cards[start]+cards[start+1]
-    cards[start+1] = sum
+    io.stderr:write("will add "..cards[start].." and "..cards[start+1].."\n")
+    presum = cards[start]+cards[start+1]
+    sum = presum+sum
+    io.stderr:write("sum is now "..sum.."\n")
+    cards[start+1] = presum
+    reduceCards(cards,start+1)
 end
 
-reduceCards(initial)
+reduceCards(initial, 1)
 
 print(sum)
