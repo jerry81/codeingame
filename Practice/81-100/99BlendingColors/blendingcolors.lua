@@ -110,13 +110,28 @@ function createShape(shape)
 end
 
 function hitTestCircle(x,y,v)
-    returned = false
-    return returned
+    border = false
+    wrap = false
+    -- border case
+
+    return border,wrap
 end
 
 function hitTestSquare(x,y,v)
-    returned = false
-    return returned
+    border = false
+    wrap = false
+    sqx = v.x
+    sqy = v.y
+    l = v.l
+    if sqx == x or sqy == y or x == sqx+l or y == sqy+l then
+        border = true
+        wrap = false
+    end
+
+    xin = x > sqx and x < sqx+l
+    yin = y > sqy and y < sqy+l
+    if xin and yin then wrap = true end
+    return border,wrap
 end
 
 function hitTest(x,y)
@@ -125,11 +140,15 @@ function hitTest(x,y)
     for _,v in ipairs(shapes) do
         hit = false
         if v.type == CIRCLE then
-            hit = hitTestCircle(x,y,v)
+            hit, border = hitTestCircle(x,y,v)
         else
-            hit = hitTestSquare(x,y,v)
+            hit, border = hitTestSquare(x,y,v)
+        end
+        if border then
+            table.insert(borders, 1)
         end
         if hit then
+            table.insert(wrapped, {r=v.r, g=v.g,b=v.b})
         end
     end
 end
