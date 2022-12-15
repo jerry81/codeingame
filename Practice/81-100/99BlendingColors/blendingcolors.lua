@@ -109,6 +109,16 @@ function createShape(shape)
     table.insert(shapes, sh)
 end
 
+function hitTestCircle(x,y,v)
+    returned = false
+    return returned
+end
+
+function hitTestSquare(x,y,v)
+    returned = false
+    return returned
+end
+
 function hitTest(x,y)
     wrapped = {}
     borders = {}
