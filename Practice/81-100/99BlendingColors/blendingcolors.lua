@@ -65,6 +65,9 @@ Output
 -- Auto-generated code below aims at helping you parse
 -- the standard input according to the problem statement.
 
+function round(num)
+    return math.floor(num+0.5)
+end
 function avg(colors)
     rs = 0
     gs = 0
@@ -74,6 +77,7 @@ function avg(colors)
         gs = gs+colors[i].g + gs
         bs = bs+colors[i].b + bs
     end
+    return {r=round(rs/#colors, gs/#colors, bs/#colors)}
 end
 next_token = string.gmatch(io.read(), "[^%s]+")
 S = tonumber(next_token())
