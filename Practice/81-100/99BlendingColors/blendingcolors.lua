@@ -65,6 +65,18 @@ Output
 -- Auto-generated code below aims at helping you parse
 -- the standard input according to the problem statement.
 
+
+function split (inputstr, sep)
+    if sep == nil then
+       sep = "%s"
+    end
+    local t={}
+    for str in string.gmatch(inputstr, "([^"..sep.."]+)") do
+       table.insert(t, str)
+    end
+    return t
+  end
+
 function round(num)
     return math.floor(num+0.5)
 end
@@ -78,13 +90,23 @@ function avg(colors)
         gs = gs+colors[i].g + gs
         bs = bs+colors[i].b + bs
     end
-    return {r=round(rs/#colors, gs/#colors, bs/#colors)}
+    return {r=round(rs/#colors), g=round(gs/#colors), b=round(bs/#colors)}
 end
 
 shapes = {}
 
 function createShape(shape)
-    io.stderr:write("will create shape from "..shape.."\n")
+    spl = split(shape)
+    sh = {
+        type=spl[1],
+        x=spl[2],
+        y=spl[3],
+        l=spl[4],
+        r=spl[5],
+        g=spl[6],
+        b=spl[7]
+    }
+    table.insert(shapes, sh)
 end
 
 function hitTest(x,y)
@@ -102,6 +124,13 @@ for i=0,S-1 do
     line = io.read()
     createShape(line)
 end
+
+-- testing
+
+for _,v in ipairs(shapes) do
+    io.stderr:write("pretty printing "..v.type.." "..v.x.." "..v.y.." "..v.l.." "..v.r.." "..v.g.." "..v.b.."\n")
+end
+
 for i=0,P-1 do
     next_token = string.gmatch(io.read(), "[^%s]+")
     x = tonumber(next_token())
