@@ -68,6 +68,7 @@ Output
 function round(num)
     return math.floor(num+0.5)
 end
+
 function avg(colors)
     rs = 0
     gs = 0
@@ -79,16 +80,34 @@ function avg(colors)
     end
     return {r=round(rs/#colors, gs/#colors, bs/#colors)}
 end
+
+shapes = {}
+
+function createShape(shape)
+    io.stderr:write("will create shape from "..shape.."\n")
+end
+
+function hitTest(x,y)
+    io.stderr:write("will hit test for "..x.." , "..y.."\n")
+end
+
+function pp(shape)
+  print("("..shape.r..", "..shape.g..", "..shape.b..")")
+end
+
 next_token = string.gmatch(io.read(), "[^%s]+")
 S = tonumber(next_token())
 P = tonumber(next_token())
 for i=0,S-1 do
     line = io.read()
+    createShape(line)
 end
 for i=0,P-1 do
     next_token = string.gmatch(io.read(), "[^%s]+")
     x = tonumber(next_token())
     y = tonumber(next_token())
+    shapes = hitTest(x,y)
+    pp(avg(shapes))
 end
 
 -- Write an answer using print()
