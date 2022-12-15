@@ -54,11 +54,16 @@ for i=0,N-1 do
     table.insert(initial,x)
 end
 table.sort(initial)
-for i=1,#initial do
-    io.stderr:write("table item "..initial[i].."\n")
+
+sum = 0
+
+function reduceCards(cards, start)
+    if start == #cards then return end
+
+    sum = cards[start]+cards[start+1]
+    cards[start+1] = sum
 end
 
--- Write an answer using print()
--- To debug: io.stderr:write("Debug message\n")
+reduceCards(initial)
 
-print("0")
+print(sum)
