@@ -110,10 +110,32 @@ function createShape(shape)
 end
 
 function hitTest(x,y)
-    io.stderr:write("will hit test for "..x.." , "..y.."\n")
+    wrapped = {}
+    borders = {}
+    for _,v in ipairs(shapes) do
+        hit = false
+        if v.type == CIRCLE then
+            hit = hitTestCircle(x,y,v)
+        else
+            hit = hitTestSquare(x,y,v)
+        end
+        if hit then
+        end
+    end
 end
 
-function pp(shape)
+function pp(w,b)
+  if #b != 0 then
+    print("(0, 0, 0)")
+    return
+  end
+
+  if #w == 0 then
+    print("(255, 255, 255)")
+    return
+  end
+
+  shape = avg(w)
   print("("..shape.r..", "..shape.g..", "..shape.b..")")
 end
 
@@ -135,8 +157,8 @@ for i=0,P-1 do
     next_token = string.gmatch(io.read(), "[^%s]+")
     x = tonumber(next_token())
     y = tonumber(next_token())
-    shapes = hitTest(x,y)
-    pp(avg(shapes))
+    wrap, border = hitTest(x,y)
+    pp(wrap, border)
 end
 
 -- Write an answer using print()
