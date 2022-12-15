@@ -56,15 +56,15 @@ end
 table.sort(initial)
 
 sum = 0
-
-function reduceCards(cards, start)
-    if start == #cards then return end
-    io.stderr:write("will add "..cards[start].." and "..cards[start+1].."\n")
-    presum = cards[start]+cards[start+1]
+-- need to resort the arr after each iteration
+function reduceCards(cards)
+    if #cards == 1 then return end
+    presum = cards[1]+cards[2]
     sum = presum+sum
-    io.stderr:write("sum is now "..sum.."\n")
-    cards[start+1] = presum
-    reduceCards(cards,start+1)
+    cards[2] = presum
+    table.remove(cards,1)
+    table.sort(cards)
+    reduceCards(cards)
 end
 
 reduceCards(initial, 1)
