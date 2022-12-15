@@ -65,6 +65,16 @@ Output
 -- Auto-generated code below aims at helping you parse
 -- the standard input according to the problem statement.
 
+function avg(colors)
+    rs = 0
+    gs = 0
+    bs = 0
+    for i=1,#colors do
+        rs = rs+colors[i].r + rs
+        gs = gs+colors[i].g + gs
+        bs = bs+colors[i].b + bs
+    end
+end
 next_token = string.gmatch(io.read(), "[^%s]+")
 S = tonumber(next_token())
 P = tonumber(next_token())
