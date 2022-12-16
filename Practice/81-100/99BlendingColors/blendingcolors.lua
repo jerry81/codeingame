@@ -124,6 +124,11 @@ function hitTestCircle(x,y,v)
     ntesty = -1 * testy
     max = testy > ntesty and testy or ntesty
     min = testy < ntesty and testy or ntesty
+    miny = oy + min
+    maxy = oy + max
+    if miny == y or minx == y then border = true end
+
+    if y < maxy and y > miny then wrap = true end
     return border,wrap
 end
 
