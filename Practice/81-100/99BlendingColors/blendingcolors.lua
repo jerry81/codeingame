@@ -113,7 +113,17 @@ function hitTestCircle(x,y,v)
     border = false
     wrap = false
     -- border case
-
+    ox = v.x
+    oy = v.y
+    cx = x - ox
+    cy = y - oy
+    cxsq = cx * cx
+    rsq = v.l * v.l
+    diff = rsq - cxsq
+    testy = math.sqrt(diff)
+    ntesty = -1 * testy
+    max = testy > ntesty and testy or ntesty
+    min = testy < ntesty and testy or ntesty
     return border,wrap
 end
 
