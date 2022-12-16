@@ -99,12 +99,12 @@ function createShape(shape)
     spl = split(shape)
     sh = {
         type=spl[1],
-        x=spl[2],
-        y=spl[3],
-        l=spl[4],
-        r=spl[5],
-        g=spl[6],
-        b=spl[7]
+        x=tonumber(spl[2]),
+        y=tonumber(spl[3]),
+        l=tonumber(spl[4]),
+        r=tonumber(spl[5]),
+        g=tonumber(spl[6]),
+        b=tonumber(spl[7])
     }
     table.insert(shapes, sh)
 end
@@ -126,13 +126,15 @@ function hitTestCircle(x,y,v)
     min = testy < ntesty and testy or ntesty
     miny = oy + min
     maxy = oy + max
-    if miny == y or minx == y then border = true end
+    if miny == y or miny == y then border = true end
 
     if y < maxy and y > miny then wrap = true end
     return border,wrap
 end
 
 function hitTestSquare(x,y,v)
+    local x = tonumber(x)
+    local y = tonumber(y)
     border = false
     wrap = false
     sqx = v.x
@@ -154,7 +156,7 @@ function hitTest(x,y)
     borders = {}
     for _,v in ipairs(shapes) do
         hit = false
-        if v.type == CIRCLE then
+        if v.type == "CIRCLE" then
             hit, border = hitTestCircle(x,y,v)
         else
             hit, border = hitTestSquare(x,y,v)
@@ -169,7 +171,7 @@ function hitTest(x,y)
 end
 
 function pp(w,b)
-  if #b != 0 then
+  if #b ~= 0 then
     print("(0, 0, 0)")
     return
   end
