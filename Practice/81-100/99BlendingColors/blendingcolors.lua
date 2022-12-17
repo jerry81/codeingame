@@ -86,9 +86,10 @@ function avg(colors)
     gs = 0
     bs = 0
     for i=1,#colors do
-        rs = rs+colors[i].r + rs
-        gs = gs+colors[i].g + gs
-        bs = bs+colors[i].b + bs
+        io.stderr:write("taking color red: "..colors[i].r.."\n")
+        rs = rs+colors[i].r
+        gs = gs+colors[i].g
+        bs = bs+colors[i].b
     end
     return {r=round(rs/#colors), g=round(gs/#colors), b=round(bs/#colors)}
 end
@@ -140,13 +141,14 @@ function hitTestSquare(x,y,v)
     sqx = v.x
     sqy = v.y
     l = v.l
-    if sqx == x or sqy == y or x == sqx+l or y == sqy+l then
+
+    xin = x >= sqx and x <= sqx+l
+    yin = y >= sqy and y <= sqy+l
+    if (sqx == x and yin) or (sqy == y and xin) or (x == sqx+l and yin) or (y == sqy+l and xin) then
         border = true
         wrap = false
+        return border, wrap
     end
-
-    xin = x > sqx and x < sqx+l
-    yin = y > sqy and y < sqy+l
     if xin and yin then wrap = true end
     return border,wrap
 end
@@ -156,10 +158,11 @@ function hitTest(x,y)
     borders = {}
     for _,v in ipairs(shapes) do
         hit = false
+        border = false
         if v.type == "CIRCLE" then
-            hit, border = hitTestCircle(x,y,v)
+            border, hit = hitTestCircle(x,y,v)
         else
-            hit, border = hitTestSquare(x,y,v)
+            border, hit = hitTestSquare(x,y,v)
         end
         if border then
             table.insert(borders, 1)
@@ -168,6 +171,7 @@ function hitTest(x,y)
             table.insert(wrapped, {r=v.r, g=v.g,b=v.b})
         end
     end
+    return wrapped, borders
 end
 
 function pp(w,b)
@@ -204,10 +208,12 @@ for i=0,P-1 do
     x = tonumber(next_token())
     y = tonumber(next_token())
     wrap, border = hitTest(x,y)
+    for i,v in pairs(wrap) do
+        io.stderr:write("wrap r,g,b: "..v.r.." "..v.g.." "..v.b.."\n")
+    end
+
     pp(wrap, border)
 end
 
 -- Write an answer using print()
 -- To debug: io.stderr:write("Debug message\n")
-
-print("answer")
