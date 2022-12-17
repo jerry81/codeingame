@@ -86,7 +86,6 @@ function avg(colors)
     gs = 0
     bs = 0
     for i=1,#colors do
-        io.stderr:write("taking color red: "..colors[i].r.."\n")
         rs = rs+colors[i].r
         gs = gs+colors[i].g
         bs = bs+colors[i].b
@@ -197,23 +196,12 @@ for i=0,S-1 do
     createShape(line)
 end
 
--- testing
-
-for _,v in ipairs(shapes) do
-    io.stderr:write("pretty printing "..v.type.." "..v.x.." "..v.y.." "..v.l.." "..v.r.." "..v.g.." "..v.b.."\n")
-end
 
 for i=0,P-1 do
     next_token = string.gmatch(io.read(), "[^%s]+")
     x = tonumber(next_token())
     y = tonumber(next_token())
     wrap, border = hitTest(x,y)
-    for i,v in pairs(wrap) do
-        io.stderr:write("wrap r,g,b: "..v.r.." "..v.g.." "..v.b.."\n")
-    end
 
     pp(wrap, border)
 end
-
--- Write an answer using print()
--- To debug: io.stderr:write("Debug message\n")
