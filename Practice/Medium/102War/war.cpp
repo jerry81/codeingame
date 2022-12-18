@@ -62,33 +62,53 @@ Output
 
 #include <iostream>
 #include <string>
-#include <vector>
+#include <queue>
 #include <algorithm>
 
 using namespace std;
 
-/**
- * Auto-generated code below aims at helping you parse
- * the standard input according to the problem statement.
- **/
+int processCard(string card) {
+  if (card.size() == 3) {
+    return 10;
+  }
+
+  char first_char = card[0];
+  switch (first_char) {
+    case 'A':
+      return 14;
+    case 'K':
+      return 13;
+    case 'Q':
+      return 12;
+    case 'J':
+      return 11;
+    default:
+      return first_char - '0';
+  }
+}
 
 int main()
 {
     int n; // the number of cards for player 1
     cin >> n; cin.ignore();
+    queue<int> p1;
+    queue<int> p2;
     for (int i = 0; i < n; i++) {
         string cardp_1; // the n cards of player 1
         cin >> cardp_1; cin.ignore();
+        int processed = processCard(cardp_1);
+        p1.push(processed);
     }
     int m; // the number of cards for player 2
     cin >> m; cin.ignore();
     for (int i = 0; i < m; i++) {
         string cardp_2; // the m cards of player 2
         cin >> cardp_2; cin.ignore();
+        int processed = processCard(cardp_2);
+        p2.push(processed);
     }
 
-    // Write an answer using cout. DON'T FORGET THE "<< endl"
-    // To debug: cerr << "Debug messages..." << endl;
+    int rounds = 0;
 
     cout << "PAT" << endl;
 }
