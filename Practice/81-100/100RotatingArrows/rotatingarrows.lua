@@ -57,15 +57,15 @@ x = tonumber(next_token())
 y = tonumber(next_token())
 grid = {}
 
-function at(x,y)
-  return string.sub(grid[x],y,y)
-end
 
 for i=0,H-1 do
+    table.insert(grid,{})
     line = io.read() -- The line of w arrows represented by ascii char ^v<>
-    table.insert(grid, line)
+    for j=1,#line do
+      table.insert(grid[i+1], string.sub(line,j,j))
+    end
 end
 
-io.stderr:write("testing at: expect v: "..at(1,1))
+io.stderr:write("testing at: expect upper left: "..grid[1][1])
 
 print("0")
