@@ -133,11 +133,11 @@ int main()
         continue;
       } else if (c1 < c2) {
         while (winstack1.size() > 0) {
-          p1.push(winstack1.front());
+          p2.push(winstack1.front());
           winstack1.pop();
         }
         while (winstack2.size() > 0) {
-          p1.push(winstack2.front());
+          p2.push(winstack2.front());
           winstack2.pop();
         }
         continue;
