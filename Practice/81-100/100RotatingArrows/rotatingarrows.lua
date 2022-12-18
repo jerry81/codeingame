@@ -68,35 +68,42 @@ end
 
 count = 0
 
+X_ORIGINAL = x+1
+Y_ORIGINAL = y+1
 
 function getnext(x,y)
-    local nx, ny =  nil, nil
-  current_arrow = grid[x][y]
+  local nx, ny =  nil, nil
+  current_arrow = grid[y][x]
   if current_arrow == '<' then
     io.stderr:write("left case\n")
   elseif current_arrow == '>' then
     io.stderr:write("right case\n")
   elseif current_arrow == 'v' then
-    io.stderr:write("down case\n")
+    grid[y][x] = '<'
+    if (y+1) > H then return -1,-1 end
+
+    nx = x
+    ny = y+1
   else
-    io.stderr:write("up case\n")
     -- turn the arrow, set nextx, nexty
-    grid[x][y] = '>'
-    if (x+1) <= W then
-      nx = x+1
-      ny = y
-    end
+    grid[y][x] = '>'
+    if (x+1) > W then return -1,-1 end
+
+    nx = x+1
+    ny = y
   end
+  if nx == X_ORIGINAL and Y_ORIGINAL == ny then return -1,-1 end
+
   return nx,ny
 end
 
-x1 = x+1
-y1 = y+1
-nextx, nexty = x1, y1
+
+nextx, nexty = X_ORIGINAL, Y_ORIGINAL
 io.stderr:write("nextx is "..nextx.."\n")
 repeat
   count = count+1
   nextx,nexty = getnext(nextx,nexty)
-until not nextx
+  io.stderr:write("nextx is now "..nextx.."\n")
+until (nextx < 0)
 
 print(count)
