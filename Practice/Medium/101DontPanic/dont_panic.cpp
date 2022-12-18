@@ -93,7 +93,9 @@ int main()
     int nb_total_clones; // number of generated clones
     int nb_additional_elevators; // ignore (always zero)
     int nb_elevators; // number of elevators
+
     cin >> nb_floors >> width >> nb_rounds >> exit_floor >> exit_pos >> nb_total_clones >> nb_additional_elevators >> nb_elevators; cin.ignore();
+    cerr << "width is " << width << endl;
     for (int i = 0; i < nb_elevators; i++) {
         int elevator_floor; // floor on which this elevator is found
         int elevator_pos; // position of the elevator on its floor
@@ -106,9 +108,16 @@ int main()
         int clone_pos; // position of the leading clone on its floor
         string direction; // direction of the leading clone: LEFT or RIGHT
         cin >> clone_floor >> clone_pos >> direction; cin.ignore();
+        cerr << "debugging: clonepos " << clone_pos << endl;
+        if (clone_pos == (width-1)) {
+          cout << "BLOCK" << endl;
+          continue;
+        }
 
-        // Write an action using cout. DON'T FORGET THE "<< endl"
-        // To debug: cerr << "Debug messages..." << endl;
+        if (clone_pos == 0) {
+          cout << "BLOCK" << endl;
+          continue;
+        }
 
         cout << "WAIT" << endl; // action: WAIT or BLOCK
     }
