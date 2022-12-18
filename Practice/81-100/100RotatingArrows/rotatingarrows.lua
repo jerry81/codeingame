@@ -82,10 +82,10 @@ function getnext(x,y)
     ny = y-1
   elseif current_arrow == '>' then
     grid[y][x] = 'v'
-    if (x-1) < 1 then return -1,-1 end
+    if (y+1) > H then return -1,-1 end
 
-    nx = x-1
-    ny = y
+    nx = x
+    ny = y+1
   elseif current_arrow == 'v' then
     grid[y][x] = '<'
     if (x-1) < 1 then return -1,-1 end
@@ -107,11 +107,9 @@ end
 
 
 nextx, nexty = X_ORIGINAL, Y_ORIGINAL
-io.stderr:write("nextx is "..nextx.."\n")
 repeat
   count = count+1
   nextx,nexty = getnext(nextx,nexty)
-  io.stderr:write("nextx is now "..nextx.."\n")
 until (nextx < 0)
 
 print(count)
