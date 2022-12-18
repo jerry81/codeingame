@@ -110,5 +110,41 @@ int main()
 
     int rounds = 0;
 
-    cout << "PAT" << endl;
+    while (p1.size() > 0 && p2.size() > 0) {
+      rounds = rounds+1;
+      // pop
+      queue<int> winstack1;
+      queue<int> winstack2;
+      int c1 = p1.front();
+      p1.pop();
+      int c2 = p2.front();
+      p2.pop();
+      winstack1.push(c1);
+      winstack2.push(c2);
+      if (c1 > c2) {
+        while (winstack1.size() > 0) {
+          p1.push(winstack1.front());
+          winstack1.pop();
+        }
+        while (winstack2.size() > 0) {
+          p1.push(winstack2.front());
+          winstack2.pop();
+        }
+        continue;
+      } else if (c1 < c2) {
+        while (winstack1.size() > 0) {
+          p1.push(winstack1.front());
+          winstack1.pop();
+        }
+        while (winstack2.size() > 0) {
+          p1.push(winstack2.front());
+          winstack2.pop();
+        }
+        continue;
+      }
+    }
+
+    int winner = (p1.size() == 0) ? 2 : 1;
+
+    cout << winner << " " << rounds << endl;
 }
