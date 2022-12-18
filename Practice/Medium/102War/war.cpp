@@ -141,7 +141,56 @@ int main()
           winstack2.pop();
         }
         continue;
+      } else {
+        // war
+        int winner = 0;
+        while (winner < 1) {
+          for (int i = 0; i < 3; ++i) {
+            if (p1.size() == 0 || p2.size() == 0) {
+              cout << "PAT" << endl;
+              return 0;
+            }
+
+            int c1 = p1.front();
+            p1.pop();
+            int c2 = p2.front();
+            p2.pop();
+            winstack1.push(c1);
+            winstack2.push(c2);
+          }
+          int c1 = p1.front();
+          p1.pop();
+          int c2 = p2.front();
+          p2.pop();
+          winstack1.push(c1);
+          winstack2.push(c2);
+          if (c1 > c2) {
+            winner = 1;
+          } else if (c2 > c1) {
+            winner = 2;
+          }
+        }
+        if (winner == 1) {
+        while (winstack1.size() > 0) {
+          p1.push(winstack1.front());
+          winstack1.pop();
+        }
+        while (winstack2.size() > 0) {
+          p1.push(winstack2.front());
+          winstack2.pop();
+        }
+        continue;
+      } else {
+        while (winstack1.size() > 0) {
+          p2.push(winstack1.front());
+          winstack1.pop();
+        }
+        while (winstack2.size() > 0) {
+          p2.push(winstack2.front());
+          winstack2.pop();
+        }
       }
+    }
     }
 
     int winner = (p1.size() == 0) ? 2 : 1;
