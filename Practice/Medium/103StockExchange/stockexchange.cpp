@@ -34,7 +34,6 @@ Output
 0
 
 */
-
 #include <iostream>
 #include <string>
 #include <vector>
@@ -49,11 +48,16 @@ using namespace std;
 
 int main()
 {
+    vector<int> maxes;
+    int max = 0;
+    vector<int> mins;
+    int min = 2147483647;
     int n;
     cin >> n; cin.ignore();
     for (int i = 0; i < n; i++) {
         int v;
         cin >> v; cin.ignore();
+        if (v)
     }
 
     // Write an answer using cout. DON'T FORGET THE "<< endl"
