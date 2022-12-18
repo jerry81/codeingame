@@ -48,8 +48,6 @@ Output
 
 ]]--
 
--- Auto-generated code below aims at helping you parse
--- the standard input according to the problem statement.
 
 next_token = string.gmatch(io.read(), "[^%s]+")
 W = tonumber(next_token())
@@ -57,11 +55,17 @@ H = tonumber(next_token())
 next_token = string.gmatch(io.read(), "[^%s]+")
 x = tonumber(next_token())
 y = tonumber(next_token())
-for i=0,H-1 do
-    line = io.read() -- The line of w arrows represented by ascii char ^v<>
+grid = {}
+
+function at(x,y)
+  return string.sub(grid[x],y,y)
 end
 
--- Write an answer using print()
--- To debug: io.stderr:write("Debug message\n")
+for i=0,H-1 do
+    line = io.read() -- The line of w arrows represented by ascii char ^v<>
+    table.insert(grid, line)
+end
+
+io.stderr:write("testing at: expect v: "..at(1,1))
 
 print("0")
