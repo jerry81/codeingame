@@ -111,6 +111,13 @@ void collect_cards(queue<int>& p1, queue<int> winstack1, queue<int> winstack2) {
   }
 }
 
+int flip_card(queue<int>& p, queue<int>& stck) {
+    int c1 = p.front();
+    p.pop();
+    stck.push(c1);
+    return c1;
+}
+
 int main() {
   int n;  // the number of cards for player 1
   cin >> n;
@@ -142,12 +149,9 @@ int main() {
     // pop
     queue<int> winstack1;
     queue<int> winstack2;
-    int c1 = p1.front();
-    p1.pop();
-    int c2 = p2.front();
-    p2.pop();
-    winstack1.push(c1);
-    winstack2.push(c2);
+    int c1 = flip_card(p1,winstack1);
+    int c2 = flip_card(p2,winstack2);
+
     if (c1!=c2) {
       if (c1 > c2) {
         collect_cards(p1, winstack1, winstack2);
@@ -165,25 +169,18 @@ int main() {
             return 0;
           }
 
-          int c1 = p1.front();
-          p1.pop();
-          int c2 = p2.front();
-          p2.pop();
-          winstack1.push(c1);
-          winstack2.push(c2);
+          flip_card(p1,winstack1);
+          flip_card(p2,winstack2);
         }
-        int c1 = p1.front();
-        p1.pop();
-        int c2 = p2.front();
-        p2.pop();
-        winstack1.push(c1);
-        winstack2.push(c2);
+        int c1 = flip_card(p1,winstack1);
+        int c2 = flip_card(p2,winstack2);
         if (c1 > c2) {
           winner = 1;
         } else if (c2 > c1) {
           winner = 2;
         }
       }
+
       if (winner == 1) {
         collect_cards(p1, winstack1, winstack2);
       } else {
