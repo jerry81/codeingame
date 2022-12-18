@@ -75,15 +75,23 @@ function getnext(x,y)
   local nx, ny =  nil, nil
   current_arrow = grid[y][x]
   if current_arrow == '<' then
-    io.stderr:write("left case\n")
-  elseif current_arrow == '>' then
-    io.stderr:write("right case\n")
-  elseif current_arrow == 'v' then
-    grid[y][x] = '<'
-    if (y+1) > H then return -1,-1 end
+    grid[y][x] = '^'
+    if (y-1) < 1 then return -1,-1 end
 
     nx = x
-    ny = y+1
+    ny = y-1
+  elseif current_arrow == '>' then
+    grid[y][x] = 'v'
+    if (x-1) < 1 then return -1,-1 end
+
+    nx = x-1
+    ny = y
+  elseif current_arrow == 'v' then
+    grid[y][x] = '<'
+    if (x-1) < 1 then return -1,-1 end
+
+    nx = x-1
+    ny = y
   else
     -- turn the arrow, set nextx, nexty
     grid[y][x] = '>'
