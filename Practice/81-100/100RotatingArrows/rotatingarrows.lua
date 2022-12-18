@@ -66,6 +66,37 @@ for i=0,H-1 do
     end
 end
 
-io.stderr:write("testing at: expect upper left: "..grid[1][1])
+count = 0
 
-print("0")
+
+function getnext(x,y)
+    local nx, ny =  nil, nil
+  current_arrow = grid[x][y]
+  if current_arrow == '<' then
+    io.stderr:write("left case\n")
+  elseif current_arrow == '>' then
+    io.stderr:write("right case\n")
+  elseif current_arrow == 'v' then
+    io.stderr:write("down case\n")
+  else
+    io.stderr:write("up case\n")
+    -- turn the arrow, set nextx, nexty
+    grid[x][y] = '>'
+    if (x+1) <= W then
+      nx = x+1
+      ny = y
+    end
+  end
+  return nx,ny
+end
+
+x1 = x+1
+y1 = y+1
+nextx, nexty = x1, y1
+io.stderr:write("nextx is "..nextx.."\n")
+repeat
+  count = count+1
+  nextx,nexty = getnext(nextx,nexty)
+until not nextx
+
+print(count)
