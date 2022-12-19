@@ -124,15 +124,31 @@ using namespace std;
  * the standard input according to the problem statement.
  **/
 
+vector<string> lines;
+
 struct Point {
   int x;
   int y;
 };
 
+
 Point get_next(int x, int y) {
   Point p;
-  p.x = 0;
-  p.y = 0;
+  char c = lines.at(y)[2*x];
+  switch (c) {
+    case '0':
+      break;
+    case '1':
+      break;
+    case '2':
+      break;
+    case '3':
+      p.x = x;
+      p.y = y+1;
+      break;
+    default:
+      break;
+  }
   return p;
 }
 
@@ -140,7 +156,7 @@ int main()
 {
     int w; // number of columns.
     int h; // number of rows.
-    vector<string> lines;
+
     cin >> w >> h; cin.ignore();
     for (int i = 0; i < h; i++) {
         string line;
@@ -159,6 +175,6 @@ int main()
         Point p = get_next(xi,yi);
 
 
-        cout << "0 0" << endl;
+        cout << p.x << " " << p.y << endl;
     }
 }
