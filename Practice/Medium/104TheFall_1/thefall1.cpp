@@ -148,12 +148,20 @@ Point get_next(int x, int y, int px, int py) {
     cerr << "handle 0 " << endl;
   }
   else if (str == "1") {
-    cerr << "handle 1 " << endl;
+    p.y = y + 1;
+    p.x = x;
   }
   else if (str == "2") {
     p.x = (px < x) ? x+1 : x-1;
     p.y = y;
   } else if (str == "3") {
+    p.x = x;
+    p.y = y + 1;
+  } else if (str == "4") {
+    cerr << "handle 4 " << endl;
+    p.y = py < y ? y : y+1; // from top : from right
+    p.x = py < y ? x - 1 : x;
+  } else if (str == "8" ) {
     p.x = x;
     p.y = y + 1;
   } else if (str=="10") {
