@@ -158,9 +158,17 @@ Point get_next(int x, int y, int px, int py) {
     p.x = x;
     p.y = y + 1;
   } else if (str == "4") {
-    cerr << "handle 4 " << endl;
     p.y = py < y ? y : y+1; // from top : from right
     p.x = py < y ? x - 1 : x;
+  } else if (str == "5" ) {
+    p.y = py < y ? y : y + 1; // from top: from left
+    p.x = py < y ? x + 1 : x;
+  } else if (str == "6" ) {
+    p.y = py < y ? y : y + 1; // from top: from left
+    p.x = py < y ? x + 1 : x;
+  } else if (str == "7" ) {
+    p.x = x;
+    p.y = y + 1;
   } else if (str == "8" ) {
     p.x = x;
     p.y = y + 1;
