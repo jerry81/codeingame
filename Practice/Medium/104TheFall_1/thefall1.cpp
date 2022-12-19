@@ -133,10 +133,6 @@ And so on until Indy reaches the exit at (1, 3)...
 
 using namespace std;
 
-/**
- * Auto-generated code below aims at helping you parse
- * the standard input according to the problem statement.
- **/
 
 vector<vector<string>> lines;
 
@@ -145,17 +141,28 @@ struct Point {
   int y;
 };
 
-Point get_next(int x, int y) {
+Point get_next(int x, int y, int px, int py) {
   Point p;
   string str = lines.at(y).at(x);
-  if (str == "0") {}
-  else if (str == "1") {}
-  else if (str == "2") {}
+  if (str == "0") {
+    cerr << "handle 0 " << endl;
+  }
+  else if (str == "1") {
+    cerr << "handle 1 " << endl;
+  }
+  else if (str == "2") {
+    cerr << "handle 2 " << endl;
+  }
   else if (str == "3") {
     p.x = x;
     p.y = y + 1;
+  } else if (str == "11") {
+    p.y = y;
+    p.x = x + 1;
   }
-  else {}
+  else {
+    cerr << "unhandled " << str << endl;
+  }
   return p;
 }
 
@@ -185,6 +192,8 @@ int main() {
   cin >> ex;
   cin.ignore();
 
+  int prev_x = -1;
+  int prev_y = -1;
   // game loop
   while (1) {
     int xi;
@@ -192,7 +201,7 @@ int main() {
     string pos;
     cin >> xi >> yi >> pos;
     cin.ignore();
-    Point p = get_next(xi, yi);
+    Point p = get_next(xi, yi, prev_x, prev_y);
 
     cout << p.x << " " << p.y << endl;
   }
