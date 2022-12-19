@@ -48,6 +48,7 @@ using namespace std;
 
 int main()
 {
+    vector<int> original;
     vector<int> maxes;
     int max = 0;
     vector<int> mins;
@@ -57,7 +58,29 @@ int main()
     for (int i = 0; i < n; i++) {
         int v;
         cin >> v; cin.ignore();
-        if (v)
+        original.push_back(max);
+        if (v > max) {
+          max = v;
+        }
+        maxes.push_back(max);
+    }
+    for (int i = n-1; i >-1; --i) {
+      int o = original.at(i);
+      if (o < min) {
+        min = o;
+      }
+      mins.push_back(o);
+    }
+
+    reverse(mins.begin(), mins.end());
+    cerr << "printing maxes"<<endl;
+    for (int i:maxes) {
+      cerr << i << endl;
+    }
+    cerr << "printing mins"<<endl;
+
+    for (int i:mins) {
+      cerr << i << endl;
     }
 
     // Write an answer using cout. DON'T FORGET THE "<< endl"
