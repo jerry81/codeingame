@@ -58,7 +58,7 @@ int main()
     for (int i = 0; i < n; i++) {
         int v;
         cin >> v; cin.ignore();
-        original.push_back(max);
+        original.push_back(v);
         if (v > max) {
           max = v;
         }
@@ -69,7 +69,7 @@ int main()
       if (o < min) {
         min = o;
       }
-      mins.push_back(o);
+      mins.push_back(min);
     }
 
     reverse(mins.begin(), mins.end());
