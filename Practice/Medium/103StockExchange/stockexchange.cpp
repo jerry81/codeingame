@@ -73,18 +73,13 @@ int main()
     }
 
     reverse(mins.begin(), mins.end());
-    cerr << "printing maxes"<<endl;
-    for (int i:maxes) {
-      cerr << i << endl;
-    }
-    cerr << "printing mins"<<endl;
 
-    for (int i:mins) {
-      cerr << i << endl;
+    int maxdiff = 0;
+    for (int i = 0; i < mins.size(); ++i) {
+      int diff = mins.at(i) - maxes.at(i);
+      if (diff < maxdiff) maxdiff=diff;
     }
 
-    // Write an answer using cout. DON'T FORGET THE "<< endl"
-    // To debug: cerr << "Debug messages..." << endl;
 
-    cout << "answer" << endl;
+    cout << maxdiff << endl;
 }
