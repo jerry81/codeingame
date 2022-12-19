@@ -151,7 +151,9 @@ Point get_next(int x, int y, int px, int py) {
     cerr << "handle 1 " << endl;
   }
   else if (str == "2") {
-    cerr << "handle 2 " << endl;
+    p.x = x;
+    p.x += px < x ? 1 : -1;
+    p.y = y;
   }
   else if (str == "3") {
     p.x = x;
@@ -159,6 +161,8 @@ Point get_next(int x, int y, int px, int py) {
   } else if (str == "11") {
     p.y = y;
     p.x = x + 1;
+  } else if (str == "13") {
+
   }
   else {
     cerr << "unhandled " << str << endl;
@@ -202,7 +206,8 @@ int main() {
     cin >> xi >> yi >> pos;
     cin.ignore();
     Point p = get_next(xi, yi, prev_x, prev_y);
-
+    prev_x = p.x;
+    prev_y = p.y;
     cout << p.x << " " << p.y << endl;
   }
 }
