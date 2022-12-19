@@ -172,12 +172,18 @@ Point get_next(int x, int y, int px, int py) {
   } else if (str == "8" ) {
     p.x = x;
     p.y = y + 1;
+  } else if (str == "9" ) {
+    p.x = x;
+    p.y = y + 1;
   } else if (str=="10") {
     p.y = y;
     p.x = x-1;
   } else if (str == "11") {
     p.y = y;
     p.x = x + 1;
+  } else if (str == "12") {
+    p.y = y+1;
+    p.x = x;
   } else if (str == "13") {
     p.y = y + 1;
     p.x = x;
