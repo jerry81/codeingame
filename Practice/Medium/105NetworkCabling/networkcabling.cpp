@@ -74,6 +74,10 @@ int main()
         p.y = y;
         homes.push_back(p);
     }
+    if (homes.size() == 1) {
+      cout << "0" << endl;
+      return 0;
+    }
 
-    cout << "answer" << endl;
+
 }
