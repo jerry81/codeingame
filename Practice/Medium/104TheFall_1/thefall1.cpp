@@ -151,17 +151,20 @@ Point get_next(int x, int y, int px, int py) {
     cerr << "handle 1 " << endl;
   }
   else if (str == "2") {
-    cerr << "px ix " << px << " and x is " << x << endl;
     p.x = (px < x) ? x+1 : x-1;
     p.y = y;
   } else if (str == "3") {
     p.x = x;
     p.y = y + 1;
+  } else if (str=="10") {
+    p.y = y;
+    p.x = x-1;
   } else if (str == "11") {
     p.y = y;
     p.x = x + 1;
   } else if (str == "13") {
-
+    p.y = y + 1;
+    p.x = x;
   } else {
     cerr << "unhandled " << str << endl;
   }
