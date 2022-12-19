@@ -55,14 +55,24 @@ Output
 using namespace std;
 
 
+struct Point {
+  int x;
+  int y;
+};
+
 int main()
 {
     int n;
     cin >> n; cin.ignore();
+    vector<Point> homes;
     for (int i = 0; i < n; i++) {
         int x;
         int y;
         cin >> x >> y; cin.ignore();
+        Point p;
+        p.x = x;
+        p.y = y;
+        homes.push_back(p);
     }
 
     cout << "answer" << endl;
