@@ -124,14 +124,28 @@ using namespace std;
  * the standard input according to the problem statement.
  **/
 
+struct Point {
+  int x;
+  int y;
+};
+
+Point get_next(int x, int y) {
+  Point p;
+  p.x = 0;
+  p.y = 0;
+  return p;
+}
+
 int main()
 {
     int w; // number of columns.
     int h; // number of rows.
+    vector<string> lines;
     cin >> w >> h; cin.ignore();
     for (int i = 0; i < h; i++) {
         string line;
         getline(cin, line); // represents a line in the grid and contains W integers. Each integer represents one room of a given type.
+        lines.push_back(line);
     }
     int ex; // the coordinate along the X axis of the exit (not useful for this first mission, but must be read).
     cin >> ex; cin.ignore();
@@ -142,12 +156,9 @@ int main()
         int yi;
         string pos;
         cin >> xi >> yi >> pos; cin.ignore();
-
-        // Write an action using cout. DON'T FORGET THE "<< endl"
-        // To debug: cerr << "Debug messages..." << endl;
+        Point p = get_next(xi,yi);
 
 
-        // One line containing the X Y coordinates of the room in which you believe Indy will be on the next turn.
         cout << "0 0" << endl;
     }
 }
