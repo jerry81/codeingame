@@ -164,8 +164,8 @@ Point get_next(int x, int y, int px, int py) {
     p.y = py < y ? y : y + 1; // from top: from left
     p.x = py < y ? x + 1 : x;
   } else if (str == "6" ) {
-    p.y = py < y ? y : y + 1; // from top: from left
-    p.x = py < y ? x + 1 : x;
+    p.y = y;
+    p.x = px > x ? x-1: x+1; // from r:l
   } else if (str == "7" ) {
     p.x = x;
     p.y = y + 1;
