@@ -93,7 +93,7 @@ int main()
     int avg_as_int = round(avg);
     int sum = 0;
     for (Point p:homes) {
-      sum+=p.y;
+      sum+=abs(avg_as_int - p.y);
     }
     sum += max_x;
     sum -= min_x;
