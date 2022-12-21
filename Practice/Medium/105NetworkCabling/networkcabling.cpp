@@ -96,8 +96,8 @@ int main()
 
     float avg = n / (float)2.0f;
     if (n % 2 == 0) {
-      int avg_as_int = homes.at((int)avg).y;
-      int sum = 0;
+      long avg_as_int = homes.at((int)avg).y;
+      long sum = 0;
     for (Point p:homes) {
       sum+=abs(avg_as_int - p.y);
     }
@@ -105,10 +105,10 @@ int main()
     sum -= min_x;
     cout << sum << endl;
     } else {
-        int avg_as_int = homes.at(ceil(avg)).y;
-        int avg_as_int2 = homes.at(floor(avg)).y;
-        int sum = 0;
-    int sum2 = 0;
+        long avg_as_int = homes.at(ceil(avg)).y;
+        long avg_as_int2 = homes.at(floor(avg)).y;
+        long sum = 0;
+    long sum2 = 0;
     for (Point p:homes) {
       sum+=abs(avg_as_int - p.y);
       sum2 +=abs(avg_as_int2 - p.y);
