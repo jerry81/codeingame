@@ -51,6 +51,7 @@ Output
 #include <string>
 #include <vector>
 #include <algorithm>
+#include <math.h>
 
 using namespace std;
 
@@ -63,8 +64,12 @@ struct Point {
 int main()
 {
     int n;
+
     cin >> n; cin.ignore();
     vector<Point> homes;
+    float total_y = 0.0f;
+    int min_x = INT_MAX;
+    int max_x = INT_MIN;
     for (int i = 0; i < n; i++) {
         int x;
         int y;
@@ -73,11 +78,22 @@ int main()
         p.x = x;
         p.y = y;
         homes.push_back(p);
+        total_y += y;
+        if (x < min_x) min_x = x;
+        if (x > max_x) max_x = x;
     }
+
+    float avg = total_y / (float) n;
+    cerr <<"avg is " << avg << endl;
     if (homes.size() == 1) {
       cout << "0" << endl;
       return 0;
     }
-
-
+    int avg_as_int = round(avg);
+    int sum = 0;
+    for (Point p:homes) {
+      sum+=p.y;
+    }
+    sum += max_x
+    sum -= min_x;
 }
