@@ -53,6 +53,7 @@ Output
 #include <algorithm>
 #include <math.h>
 #include <limits.h>
+#include <unordered_map>
 
 using namespace std;
 
@@ -61,6 +62,10 @@ struct Point {
   int x;
   int y;
 };
+
+bool compare_homes(Point p1, Point p2) {
+  return p1.y < p2.y;
+}
 
 int main()
 {
@@ -83,16 +88,26 @@ int main()
         if (x < min_x) min_x = x;
         if (x > max_x) max_x = x;
     }
-
-    float avg = total_y / (float) n;
-    cerr <<"avg is " << avg << endl;
     if (homes.size() == 1) {
       cout << "0" << endl;
       return 0;
     }
-    int avg_as_int = ceil(avg);
-    int avg_as_int2 = floor(avg);
-    int sum = 0;
+    sort(homes.begin(), homes.end(), compare_homes);
+
+    float avg = n / (float)2.0f;
+    if (n % 2 == 0) {
+      int avg_as_int = homes.at((int)avg).y;
+      int sum = 0;
+    for (Point p:homes) {
+      sum+=abs(avg_as_int - p.y);
+    }
+    sum += max_x;
+    sum -= min_x;
+    cout << sum << endl;
+    } else {
+        int avg_as_int = homes.at(ceil(avg)).y;
+        int avg_as_int2 = homes.at(floor(avg)).y;
+        int sum = 0;
     int sum2 = 0;
     for (Point p:homes) {
       sum+=abs(avg_as_int - p.y);
@@ -103,4 +118,12 @@ int main()
     sum2 += max_x;
     sum2 -= min_x;
     cout << min(sum,sum2) << endl;
+    }
+    // cerr <<"avg is " << avg << endl;
+    // if (homes.size() == 1) {
+    //   cout << "0" << endl;
+    //   return 0;
+    // }
+
+
 }
