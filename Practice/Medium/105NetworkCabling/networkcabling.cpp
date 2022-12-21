@@ -90,12 +90,17 @@ int main()
       cout << "0" << endl;
       return 0;
     }
-    int avg_as_int = round(avg);
+    int avg_as_int = ceil(avg);
+    int avg_as_int2 = floor(avg);
     int sum = 0;
+    int sum2 = 0;
     for (Point p:homes) {
       sum+=abs(avg_as_int - p.y);
+      sum2 +=abs(avg_as_int2 - p.y);
     }
     sum += max_x;
     sum -= min_x;
-    cout << sum << endl;
+    sum2 += max_x;
+    sum2 -= min_x;
+    cout << min(sum,sum2) << endl;
 }
