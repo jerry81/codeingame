@@ -52,6 +52,7 @@ Output
 #include <vector>
 #include <algorithm>
 #include <math.h>
+#include <limits.h>
 
 using namespace std;
 
@@ -94,6 +95,7 @@ int main()
     for (Point p:homes) {
       sum+=p.y;
     }
-    sum += max_x
+    sum += max_x;
     sum -= min_x;
+    cout << sum << endl;
 }
