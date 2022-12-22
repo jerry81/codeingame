@@ -75,11 +75,10 @@ using namespace std;
  **/
 
 struct Node {
-  int val;
   unordered_map<int, Node*> children;
 };
 
-unordered_map<int, Node> roots;
+Node root;
 
 int main()
 {
@@ -92,7 +91,9 @@ int main()
         cin >> telephone; cin.ignore();
         for (char c: telephone) {
           int as_i = c - '0';
-          if (roots.empty()) {
+          if (root.empty()) {
+            Node n;
+            roots[i] = n;
           }
 
           if (roots.find(as_i) == roots.end()) {
