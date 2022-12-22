@@ -42,7 +42,7 @@ Output
 
 #include <iostream>
 #include <string>
-#include <vector>
+#include <queue>
 #include <algorithm>
 
 using namespace std;
@@ -52,10 +52,31 @@ using namespace std;
  * the standard input according to the problem statement.
  **/
 
-vector<int> get_next_sequence(vector<int> seq) {
-    vector<int> next_sequence;
+queue<int> get_next_sequence(queue<int> seq) {
+    queue<int> next_sequence;
+    bool should_print = false;
+    int cur_item = -1;
+    int cur_count = 0;
+    while (!seq.empty()) {
+      int item =  seq.front();
+      seq.pop();
+      if (item == cur_item) {
+        cur_count += 1;
+        should_print = false;
+      } else {
+        cur_count = 1;
+        cur_item = item;
+        should_print = true;
+      }
+      if (should_print) {
+        next_sequence.push(cur_count);
+        next_sequence.push(cur_item);
+      }
+    }
+
     return next_sequence;
 }
+
 
 int main()
 {
@@ -63,8 +84,17 @@ int main()
     cin >> r; cin.ignore();
     int l; // nth row
     cin >> l; cin.ignore();
-    vector<int> cur_sequence;
-
+    queue<int> initial_seq;
+    initial_seq.push(r);
+    while (l >=0) {
+        cerr <<"initial size is "<<initial_seq.size()<< endl;
+        initial_seq = get_next_sequence(initial_seq);
+        --l;
+    }
+    while (!initial_seq.empty()) {
+      cerr <<"queeue item " << initial_seq.front() << endl;
+      initial_seq.pop();
+    }
     // Write an answer using cout. DON'T FORGET THE "<< endl"
     // To debug: cerr << "Debug messages..." << endl;
 
