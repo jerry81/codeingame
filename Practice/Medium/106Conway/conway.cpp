@@ -53,26 +53,36 @@ using namespace std;
  **/
 
 queue<int> get_next_sequence(queue<int> seq) {
-    queue<int> next_sequence;
+    vector<int> counts;
+    vector<int> values;
     bool should_print = false;
-    int cur_item = -1;
     int cur_count = 0;
     while (!seq.empty()) {
       int item =  seq.front();
       seq.pop();
-      if (item == cur_item) {
-        cur_count += 1;
-        should_print = false;
-      } else {
-        cur_count = 1;
-        cur_item = item;
-        should_print = true;
+      if (counts.empty()) {
+        counts.push_back(1);
+        values.push_back(item);
+        continue;
       }
-      if (should_print) {
-        next_sequence.push(cur_count);
-        next_sequence.push(cur_item);
+
+
+      int last_item = values.front();
+      if (last_item == item) {
+        ++counts.at(counts.size() - 1);
+        continue;
       }
+
+      counts.push_back(1);
+      values.push_back(item);
     }
+
+    queue<int> next_sequence;
+    for (int i = 0; i < counts.size(); ++i) {
+      next_sequence.push(counts[i]);
+      next_sequence.push(values[i])
+    }
+
 
     return next_sequence;
 }
