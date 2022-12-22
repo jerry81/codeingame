@@ -79,7 +79,7 @@ struct Node {
   unordered_map<int, Node*> children;
 };
 
-vector<Node> roots;
+unordered_map<int, Node> roots;
 
 int main()
 {
@@ -90,6 +90,17 @@ int main()
     for (int i = 0; i < n; i++) {
         string telephone;
         cin >> telephone; cin.ignore();
+        for (char c: telephone) {
+          int as_i = c - '0';
+          if (roots.empty()) {
+          }
+
+          if (roots.find(as_i) == roots.end()) {
+            // not found
+          }
+
+          // found
+        }
     }
 
     // Write an answer using cout. DON'T FORGET THE "<< endl"
