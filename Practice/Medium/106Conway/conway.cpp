@@ -67,7 +67,7 @@ queue<int> get_next_sequence(queue<int> seq) {
       }
 
 
-      int last_item = values.front();
+      int last_item = values.back();
       if (last_item == item) {
         ++counts.at(counts.size() - 1);
         continue;
@@ -80,11 +80,30 @@ queue<int> get_next_sequence(queue<int> seq) {
     queue<int> next_sequence;
     for (int i = 0; i < counts.size(); ++i) {
       next_sequence.push(counts[i]);
-      next_sequence.push(values[i])
+      next_sequence.push(values[i]);
     }
 
 
     return next_sequence;
+}
+
+void pq(queue<int> q) {
+                while (!q.empty()) {
+            cerr <<"queeue item " << q.front() << endl;
+            q.pop();
+    }
+}
+
+void panswer(queue<int> q) {
+  string s = to_string(q.front());
+  q.pop();
+  while (!q.empty()) {
+      int i = q.front();
+      q.pop();
+      s+=i;
+      q.pop();
+  }
+  cout << s << endl;
 }
 
 
@@ -96,17 +115,14 @@ int main()
     cin >> l; cin.ignore();
     queue<int> initial_seq;
     initial_seq.push(r);
-    while (l >=0) {
-        cerr <<"initial size is "<<initial_seq.size()<< endl;
+    while (l > 1) {
         initial_seq = get_next_sequence(initial_seq);
         --l;
+        // pq(initial_seq);
     }
-    while (!initial_seq.empty()) {
-      cerr <<"queeue item " << initial_seq.front() << endl;
-      initial_seq.pop();
-    }
+
     // Write an answer using cout. DON'T FORGET THE "<< endl"
     // To debug: cerr << "Debug messages..." << endl;
 
-    cout << "answer" << endl; // print nth row
+    panswer(initial_seq); // print nth row
 }
