@@ -87,13 +87,6 @@ queue<int> get_next_sequence(queue<int> seq) {
   return next_sequence;
 }
 
-void pq(queue<int> q) {
-  while (!q.empty()) {
-    cerr << "queeue item " << q.front() << endl;
-    q.pop();
-  }
-}
-
 void panswer(queue<int> q) {
   string s = to_string(q.front());
   q.pop();
