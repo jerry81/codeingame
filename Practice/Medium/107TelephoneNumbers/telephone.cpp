@@ -65,6 +65,7 @@ Output
 #include <string>
 #include <vector>
 #include <algorithm>
+#include <unordered_map>
 
 using namespace std;
 
@@ -73,9 +74,18 @@ using namespace std;
  * the standard input according to the problem statement.
  **/
 
+struct Node {
+  int val;
+  unordered_map<int, Node> children;
+};
+
+vector<Node> roots;
+
 int main()
 {
     int n;
+    Node ntest;
+    cerr << "expect 0, no seg: "<<ntest.children.size()<<endl;
     cin >> n; cin.ignore();
     for (int i = 0; i < n; i++) {
         string telephone;
