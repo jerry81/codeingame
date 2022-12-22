@@ -76,7 +76,7 @@ using namespace std;
 
 struct Node {
   int val;
-  unordered_map<int, Node> children;
+  unordered_map<int, Node*> children;
 };
 
 vector<Node> roots;
@@ -84,8 +84,8 @@ vector<Node> roots;
 int main()
 {
     int n;
-    Node ntest;
-    cerr << "expect 0, no seg: "<<ntest.children.size()<<endl;
+    Node *ntest = new Node();
+    cerr << "expect 0, no seg: "<<ntest->children.size()<<endl;
     cin >> n; cin.ignore();
     for (int i = 0; i < n; i++) {
         string telephone;
