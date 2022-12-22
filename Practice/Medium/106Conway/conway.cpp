@@ -52,15 +52,21 @@ using namespace std;
  * the standard input according to the problem statement.
  **/
 
+vector<int> get_next_sequence(vector<int> seq) {
+    vector<int> next_sequence;
+    return next_sequence;
+}
+
 int main()
 {
-    int r;
+    int r; // first number
     cin >> r; cin.ignore();
-    int l;
+    int l; // nth row
     cin >> l; cin.ignore();
+    vector<int> cur_sequence;
 
     // Write an answer using cout. DON'T FORGET THE "<< endl"
     // To debug: cerr << "Debug messages..." << endl;
 
-    cout << "answer" << endl;
+    cout << "answer" << endl; // print nth row
 }
