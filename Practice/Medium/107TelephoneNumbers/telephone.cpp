@@ -81,7 +81,8 @@ struct Node {
 Node* root = new Node();
 
 void populate_tree_r(Node* cur, string remaining) {
-  if (remaining.size() == 0) {}
+  if (remaining.size() == 0) return;
+
   char c = remaining[0];
   cerr << "c is " << c << endl;
   if (cur->children.empty()) {
@@ -89,6 +90,9 @@ void populate_tree_r(Node* cur, string remaining) {
   }
   string next_string = remaining.substr(1,string::npos);
   cerr << "next string is " << next_string<<endl;
+}
+
+void tally_r(int agg, Node* cur) {
 }
 
 int main()
@@ -102,11 +106,13 @@ int main()
         cin >> telephone; cin.ignore();
         populate_tree_r(root, telephone);
     }
+    int sum = 0;
+    tally_r(sum,root);
 
     // Write an answer using cout. DON'T FORGET THE "<< endl"
     // To debug: cerr << "Debug messages..." << endl;
 
 
     // The number of elements (referencing a number) stored in the structure.
-    cout << "number" << endl;
+    cout << sum << endl;
 }
