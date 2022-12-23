@@ -66,13 +66,16 @@ Output
 #include <string>
 #include <vector>
 #include <algorithm>
+#include <unordered_map>
 
 using namespace std;
 
-/**
- * Auto-generated code below aims at helping you parse
- * the standard input according to the problem statement.
- **/
+struct Node {
+  vector<Node*> parents;
+  int max_rel;
+};
+
+unordered_map<int, Node*> node_lookup;
 
 int main()
 {
@@ -81,7 +84,28 @@ int main()
     for (int i = 0; i < n; i++) {
         int x; // a relationship of influence between two people (x influences y)
         int y;
+        int ycount = -1;
+        int xcount = -1;
         cin >> x >> y; cin.ignore();
+
+
+        if (node_lookup.find(y) == node_lookup.end()) {
+          node_lookup[y] = new Node();
+          ycount = 0;
+        } else {
+          ycount = node_lookup[y]->max_rel;
+        }
+
+        if (node_lookup.find(x) == node_lookup.end()) {
+          node_lookup[x] = new Node();
+        }
+
+        xcount = max(node_lookup[x]->max_rel, ycount + 1);
+
+        Node* xn = node_lookup[x];
+        Node* yn = node_lookup[y];
+
+        yn->parents.push_back(xn);
     }
 
     // Write an answer using cout. DON'T FORGET THE "<< endl"
