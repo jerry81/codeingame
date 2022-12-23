@@ -89,10 +89,14 @@ void populate_tree_r(Node* cur, string remaining) {
      cur->children[c]=new Node();
   }
   string next_string = remaining.substr(1,string::npos);
-  cerr << "next string is " << next_string<<endl;
+  populate_tree_r(cur->children[c],next_string);
 }
 
-void tally_r(int agg, Node* cur) {
+void tally_r(int& agg, Node* cur) {
+  agg+=cur->children.size();
+  for (pair<char, Node*> p: cur->children) {
+    tally_r(agg, p.second);
+  }
 }
 
 int main()
