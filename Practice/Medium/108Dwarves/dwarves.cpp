@@ -123,10 +123,5 @@ int main()
         if (_max_rel > max_rel_g) max_rel_g = _max_rel;
     }
 
-    // Write an answer using cout. DON'T FORGET THE "<< endl"
-    // To debug: cerr << "Debug messages..." << endl;
-
-
-    // The number of people involved in the longest succession of influences
     cout << max_rel_g << endl;
 }
