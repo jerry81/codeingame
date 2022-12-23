@@ -78,7 +78,10 @@ struct Node {
   unordered_map<int, Node*> children;
 };
 
-Node root;
+Node* root = new Node();
+
+void populate_tree_r(Node* cur, string remaining) {
+}
 
 int main()
 {
@@ -89,19 +92,7 @@ int main()
     for (int i = 0; i < n; i++) {
         string telephone;
         cin >> telephone; cin.ignore();
-        for (char c: telephone) {
-          int as_i = c - '0';
-          if (root.empty()) {
-            Node n;
-            roots[i] = n;
-          }
-
-          if (roots.find(as_i) == roots.end()) {
-            // not found
-          }
-
-          // found
-        }
+        populate_tree_r(root, telephone);
     }
 
     // Write an answer using cout. DON'T FORGET THE "<< endl"
