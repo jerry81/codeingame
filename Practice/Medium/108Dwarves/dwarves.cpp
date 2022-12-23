@@ -90,7 +90,7 @@ int walk_parents_r(Node* n) {
     node_lookup[id]->max_rel = max(n->max_rel, cur_rel + 1);
     int _max_r = walk_parents_r(node_lookup[id]);
     if (_max_r > _max) {
-      _max = n->max_rel;
+      _max = _max_r;
     }
   }
   return _max;
