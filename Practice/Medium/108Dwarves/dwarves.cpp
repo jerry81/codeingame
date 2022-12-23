@@ -71,41 +71,55 @@ Output
 using namespace std;
 
 struct Node {
-  vector<Node*> parents;
+  vector<int> parents;
   int max_rel;
+  int id;
+
+  Node(int i = -1, int mr = 0) :
+    id(i), max_rel(mr) {}
 };
 
 unordered_map<int, Node*> node_lookup;
+
+void walk_parents_r(Node* n, int &cur_rel) {
+}
 
 int main()
 {
     int n; // the number of relationships of influence
     cin >> n; cin.ignore();
+
+    int max_rel_g = 0;
     for (int i = 0; i < n; i++) {
         int x; // a relationship of influence between two people (x influences y)
         int y;
-        int ycount = -1;
-        int xcount = -1;
         cin >> x >> y; cin.ignore();
-
+        Node* xn;
+        Node* yn;
 
         if (node_lookup.find(y) == node_lookup.end()) {
-          node_lookup[y] = new Node();
-          ycount = 0;
+          yn = new Node(y,0);
+          node_lookup[y] = yn;
         } else {
-          ycount = node_lookup[y]->max_rel;
+          yn = node_lookup[y];
         }
 
         if (node_lookup.find(x) == node_lookup.end()) {
-          node_lookup[x] = new Node();
+          xn = new Node(x,1);
+          node_lookup[x] = xn;
+        } else {
+          xn = node_lookup[x];
         }
 
-        xcount = max(node_lookup[x]->max_rel, ycount + 1);
+        xn->max_rel = max(xn->max_rel, yn->max_rel + 1);
 
-        Node* xn = node_lookup[x];
-        Node* yn = node_lookup[y];
 
-        yn->parents.push_back(xn);
+
+        yn->parents.push_back(xn->id);
+        int _max_rel = xn->max_rel;
+        walk_parents_r(xn, _max_rel);
+        // walk parents
+        if (_max_rel > max_rel_g) max_rel_g = _max_rel;
     }
 
     // Write an answer using cout. DON'T FORGET THE "<< endl"
@@ -113,5 +127,5 @@ int main()
 
 
     // The number of people involved in the longest succession of influences
-    cout << "2" << endl;
+    cout << max_rel_g << endl;
 }
