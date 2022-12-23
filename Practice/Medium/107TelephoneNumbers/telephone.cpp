@@ -85,7 +85,7 @@ void populate_tree_r(Node* cur, string remaining) {
   char c = remaining[0];
   cerr << "c is " << c << endl;
   if (cur->children.empty()) {
-     // cur->children.insert(c,new Node());
+     cur->children[c]=new Node();
   }
   string next_string = remaining.substr(1,string::npos);
   cerr << "next string is " << next_string<<endl;
