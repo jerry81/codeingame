@@ -81,7 +81,19 @@ struct Node {
 
 unordered_map<int, Node*> node_lookup;
 
-void walk_parents_r(Node* n, int &cur_rel) {
+int walk_parents_r(Node* n) {
+  int cur_rel = n->max_rel;
+  if (n->parents.empty() == 0) return max(cur_rel+1, n->max_rel);
+
+  int _max = 0;
+  for (int id: n->parents) {
+    node_lookup[id]->max_rel = max(n->max_rel, cur_rel + 1);
+    int _max_r = walk_parents_r(node_lookup[id]);
+    if (_max_r > _max) {
+      _max = n->max_rel;
+    }
+  }
+  return _max;
 }
 
 int main()
@@ -116,8 +128,7 @@ int main()
 
 
         yn->parents.push_back(xn->id);
-        int _max_rel = xn->max_rel;
-        walk_parents_r(xn, _max_rel);
+        int _max_rel = walk_parents_r(xn);
         // walk parents
         if (_max_rel > max_rel_g) max_rel_g = _max_rel;
     }
