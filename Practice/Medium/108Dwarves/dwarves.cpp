@@ -81,14 +81,14 @@ struct Node {
 
 unordered_map<int, Node*> node_lookup;
 
-int walk_parents_r(Node* n) {
-  int cur_rel = n->max_rel;
-  if (n->parents.empty() == 0) return max(cur_rel+1, n->max_rel);
+int walk_parents_r(int n) {
+  int cur_rel = node_lookup[n]->max_rel;
+  if (node_lookup[n]->parents.empty() == 0) return max(cur_rel+1, node_lookup[n]->max_rel);
 
   int _max = 0;
-  for (int id: n->parents) {
-    node_lookup[id]->max_rel = max(n->max_rel, cur_rel + 1);
-    int _max_r = walk_parents_r(node_lookup[id]);
+  for (int id: node_lookup[n]->parents) {
+    node_lookup[id]->max_rel = max(node_lookup[n]->max_rel, cur_rel + 1);
+    int _max_r = walk_parents_r(id);
     if (_max_r > _max) {
       _max = _max_r;
     }
@@ -106,29 +106,19 @@ int main()
         int x; // a relationship of influence between two people (x influences y)
         int y;
         cin >> x >> y; cin.ignore();
-        Node* xn;
-        Node* yn;
 
         if (node_lookup.find(y) == node_lookup.end()) {
-          yn = new Node(y,0);
-          node_lookup[y] = yn;
-        } else {
-          yn = node_lookup[y];
+          node_lookup[y] = new Node(y,0);
         }
 
         if (node_lookup.find(x) == node_lookup.end()) {
-          xn = new Node(x,1);
-          node_lookup[x] = xn;
-        } else {
-          xn = node_lookup[x];
+          node_lookup[x] = new Node(x,1);
         }
 
-        xn->max_rel = max(xn->max_rel, yn->max_rel + 1);
+        node_lookup[x]->max_rel = max(node_lookup[x]->max_rel, node_lookup[y]->max_rel + 1);
 
-
-
-        yn->parents.push_back(xn->id);
-        int _max_rel = walk_parents_r(xn);
+        node_lookup[y]->parents.push_back(node_lookup[x]->id);
+        int _max_rel = walk_parents_r(x);
         // walk parents
         if (_max_rel > max_rel_g) max_rel_g = _max_rel;
     }
