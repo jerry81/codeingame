@@ -84,7 +84,6 @@ void populate_tree_r(Node* cur, string remaining) {
   if (remaining.size() == 0) return;
 
   char c = remaining[0];
-  cerr << "c is " << c << endl;
   bool new_node = cur->children.find(c) == cur->children.end();
   if (cur->children.empty() || new_node) {
      cur->children[c]=new Node();
@@ -105,7 +104,6 @@ int main()
 {
     int n;
     Node *ntest = new Node();
-    cerr << "expect 0, no seg: "<<ntest->children.size()<<endl;
     cin >> n; cin.ignore();
     for (int i = 0; i < n; i++) {
         string telephone;
@@ -114,10 +112,6 @@ int main()
     }
     int sum = 0;
     tally_r(sum,root);
-
-    // Write an answer using cout. DON'T FORGET THE "<< endl"
-    // To debug: cerr << "Debug messages..." << endl;
-
 
     // The number of elements (referencing a number) stored in the structure.
     cout << sum << endl;
