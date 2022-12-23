@@ -85,9 +85,11 @@ void populate_tree_r(Node* cur, string remaining) {
 
   char c = remaining[0];
   cerr << "c is " << c << endl;
-  if (cur->children.empty()) {
+  bool new_node = cur->children.find(c) == cur->children.end();
+  if (cur->children.empty() || new_node) {
      cur->children[c]=new Node();
   }
+
   string next_string = remaining.substr(1,string::npos);
   populate_tree_r(cur->children[c],next_string);
 }
