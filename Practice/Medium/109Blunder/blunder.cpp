@@ -106,6 +106,7 @@ struct Point {
   void print_me() {
     cerr << "Point x is: " << x << ", y is: " << y << endl;
   }
+  Point(int x=0, int y=0) : x(x),y(y) {}
 };
 
 class Board {
@@ -113,20 +114,22 @@ class Board {
   bool berserk;
   int cols;
   int rows;
-  Point current;
+  Point* current = new Point();
+  Point* endpoint = new Point();
   vector<string> grid;
-  Point get_initial_position(vector<string> g) {
-    Point ret;
+
+  Point* get_position_of_unique_char(vector<string> g, string searched) {
+    Point* ret = new Point();
     for (int i = 0; i < g.size(); ++i) {
       string row = g[i];
-      size_t found = row.find("@");
+      size_t found = row.find(searched);
       // https://stackoverflow.com/questions/131803/unsigned-int-vs-size-t
       // size_t is unsigned integer type result of sizeof operator
       // guaranteed to be big enough for largest obj in system
       // auto conversion seems flexible
       if (found != string::npos) {
-        ret.y = i;
-        ret.x = found;
+        ret->y = i;
+        ret->x = found;
         break;
       }
     }
@@ -136,8 +139,12 @@ class Board {
   public:
     Board(vector<string> g, int r, int c) :
       inverted(false), berserk(false), grid(g), rows(r), cols(c) {
-        current = get_initial_position(g);
-        current.print_me();
+        current = get_position_of_unique_char(g, "@");
+        cerr << "current"<<endl;
+        current->print_me();
+        endpoint = get_position_of_unique_char(g, "$");
+        cerr << "endpoint"<<endl;
+        endpoint->print_me();
       }
 
 };
