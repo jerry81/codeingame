@@ -138,23 +138,52 @@ class Board {
     return ret;
   }
 
-  int next_dir(int i) {
-    int mod = i % 4;
+  int next_dir() {
+    int mod = counter % 4;
     mod = (mod < 0) ? 4 + mod : mod;
   }
 
-  Point next_point(int dir) {
+  void next_point() {
     int ny = current->y;
     int nx = current->x;
-    switch (dir) {
+    char next_sq;
+    switch (next_dir()) {
       case 0: // S
+        ny = ny+1;
+        if (ny >= rows) {
+          move_counter();
+          return next_point();
+        }
 
+        next_sq = grid[ny][nx];
+        cerr << "next_sq is " << next_sq<< endl;
         break;
       case 1: // E
+        nx = nx+1;
+        if (nx >= cols) {
+          move_counter();
+          return next_point();
+        }
+        next_sq = grid[ny][nx];
+        cerr << "next_sq is " << next_sq<< endl;
         break;
       case 2: // N
+        ny = ny-1;
+        if (ny < 0) {
+          move_counter();
+          return next_point();
+        }
+        next_sq = grid[ny][nx];
+        cerr << "next_sq is " << next_sq<< endl;
         break;
       default: // W
+        nx = nx-1;
+        if (nx < 0) {
+          move_counter();
+          return next_point();
+        }
+        next_sq = grid[ny][nx];
+        cerr << "next_sq is " << next_sq<< endl;
         return;
     }
   }
@@ -176,7 +205,7 @@ class Board {
 
     void move() {
       // lots of logic here
-        int d = next_dir(counter);
+        int d = next_dir();
     }
 };
 
