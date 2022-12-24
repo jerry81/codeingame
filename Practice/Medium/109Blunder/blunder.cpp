@@ -178,7 +178,6 @@ class Board {
 
   bool next_point(bool direction_change = true) {
     bool premptive_print = false;
-    cerr << "current is at " << current->y << ", " << current->x << endl;
     int ny = current->y;
     int nx = current->x;
     char next_sq;
@@ -233,9 +232,8 @@ class Board {
     }
 
     next_sq = grid[ny][nx];
-    cerr << "next_sq is " << next_sq << endl;
-    bool cannotBreak = next_sq == 'X' && !berserk;
-    bool isUnbreakableObstacle = next_sq == '#' || cannotBreak;
+    bool breakableSq = next_sq == 'X';;
+    bool isUnbreakableObstacle = next_sq == '#' || (breakableSq && !berserk);
 
     if (isUnbreakableObstacle) {
       if (direction_change) {
@@ -244,6 +242,10 @@ class Board {
         move_counter();
       }
       return next_point(false);
+    }
+
+    if (breakableSq) {
+      grid[ny][nx] = ' ';
     }
 
     if (next_sq == 'S') {
@@ -287,7 +289,6 @@ class Board {
   void move_counter() { counter += inverted ? -1 : 1; }
 
   void print_move() {
-    cerr << "counter is " << counter << endl;
     switch (next_dir()) {
       case 0:
         cout << "SOUTH" << endl;
