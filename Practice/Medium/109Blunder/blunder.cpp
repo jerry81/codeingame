@@ -190,6 +190,11 @@ class Board {
       return next_point();
     }
 
+    if (next_sq == 'X' && !berserk) {
+      move_counter();
+      return next_point();
+    }
+
     if (next_sq == 'S') counter = 0;
     if (next_sq == 'E') counter = 1;
     if (next_sq == 'N') counter = 2;
@@ -202,11 +207,12 @@ class Board {
   }
 
   void move_counter() {
-    counter += inverted ? -1: +1;
+    counter += inverted ? -1: 1;
   }
 
   void print_move() {
-    switch (counter) {
+    cerr << "counter is " << counter << endl;
+    switch (next_dir()) {
         case 0:
           cout << "SOUTH" << endl;
           break;
@@ -233,6 +239,7 @@ class Board {
     }
 
     void move() {
+        counter = 0;
         next_point();
         print_move();
     }
