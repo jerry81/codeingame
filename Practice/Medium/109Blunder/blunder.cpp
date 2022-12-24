@@ -144,11 +144,12 @@ class Board {
 
   Point* current = new Point();
   Point* endpoint = new Point();
+  vector<Point*> teleporters;
   vector<string> grid;
   int counter = 0;
 
-  Point* get_position_of_unique_char(vector<string> g, string searched) {
-    Point* ret = new Point();
+  vector<Point*> get_position_of_unique_char(vector<string> g, string searched) {
+    vector<Point*> ret;
     for (int i = 0; i < g.size(); ++i) {
       string row = g[i];
       size_t found = row.find(searched);
@@ -157,9 +158,10 @@ class Board {
       // guaranteed to be big enough for largest obj in system
       // auto conversion seems flexible
       if (found != string::npos) {
-        ret->y = i;
-        ret->x = found;
-        break;
+        Point* p = new Point();
+        p->y = i;
+        p->x = found;
+        ret.push_back(p);
       }
     }
     return ret;
@@ -296,8 +298,9 @@ class Board {
  public:
   Board(vector<string> g, int r, int c)
       : inverted(false), berserk(false), grid(g), rows(r), cols(c) {
-    current = get_position_of_unique_char(g, "@");
-    endpoint = get_position_of_unique_char(g, "$");
+    current = get_position_of_unique_char(g, "@")[0];
+    endpoint = get_position_of_unique_char(g, "$")[0];
+    teleporters = get_position_of_unique_char(g, "T");
   }
 
   bool should_continue() {
@@ -307,6 +310,13 @@ class Board {
   void move() {
     if (!next_point()) {
       print_move();
+    }
+  }
+
+  void print_teleporters() {
+    if (teleporters.empty()) cerr << "no teleporters in this maze" << endl;
+    for (Point *p : teleporters) {
+      cerr << "teleporter " << p->y << " " << p->x << endl;
     }
   }
 };
@@ -323,7 +333,7 @@ int main() {
     g.push_back(row);
   }
   Board* b = new Board(g, l, c);
-
+  b->print_teleporters();
   while (b->should_continue()) {
     b->move();
   }
