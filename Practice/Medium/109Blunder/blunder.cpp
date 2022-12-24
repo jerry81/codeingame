@@ -170,6 +170,10 @@ class Board {
     mod = (mod < 0) ? 4 + mod : mod;
   }
 
+  void reset_counter() {
+    counter = inverted ? 3 : 0;
+  }
+
   bool next_point(bool direction_change = true) {
     bool premptive_print = false;
     cerr << "current is at " << current->y << ", " << current->x << endl;
@@ -182,7 +186,7 @@ class Board {
         ny = ny + 1;
         if (ny >= rows) {
           if (direction_change) {
-            counter = 0;
+            reset_counter();
           } else {
             move_counter();
           }
@@ -193,7 +197,7 @@ class Board {
         nx = nx + 1;
         if (nx >= cols) {
           if (direction_change) {
-            counter = 0;
+            reset_counter();
           } else {
             move_counter();
           }
@@ -205,7 +209,7 @@ class Board {
         ny = ny - 1;
         if (ny < 0) {
           if (direction_change) {
-            counter = 0;
+            reset_counter();
           } else {
             move_counter();
           }
@@ -217,7 +221,7 @@ class Board {
         nx = nx - 1;
         if (nx < 0) {
           if (direction_change) {
-            counter = 0;
+            reset_counter();
           } else {
             move_counter();
           }
@@ -233,15 +237,10 @@ class Board {
 
     if (isUnbreakableObstacle) {
       if (direction_change) {
-        counter = 0;
+        reset_counter();
       } else {
         move_counter();
       }
-      return next_point(false);
-    }
-
-    if (next_sq == 'X' && !berserk) {
-      move_counter();
       return next_point(false);
     }
 
@@ -265,6 +264,8 @@ class Board {
       premptive_print = true;
       counter = 3;
     }
+
+    if (next_sq == 'B') berserk = !berserk;
 
     if (next_sq == 'I') inverted = !inverted;
 
