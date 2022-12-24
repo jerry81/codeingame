@@ -140,13 +140,16 @@ class Board {
     Board(vector<string> g, int r, int c) :
       inverted(false), berserk(false), grid(g), rows(r), cols(c) {
         current = get_position_of_unique_char(g, "@");
-        cerr << "current"<<endl;
-        current->print_me();
         endpoint = get_position_of_unique_char(g, "$");
-        cerr << "endpoint"<<endl;
-        endpoint->print_me();
       }
 
+    bool should_continue() {
+      return (current->x != endpoint->x || current->y != endpoint->y);
+    }
+
+    void move() {
+      // lots of logic here
+    }
 };
 
 
@@ -163,8 +166,9 @@ int main()
     }
     Board* b = new Board(g,l,c);
 
-    // Write an answer using cout. DON'T FORGET THE "<< endl"
-    // To debug: cerr << "Debug messages..." << endl;
+    while (b->should_continue()) {
+      b->move();
+    }
 
     cout << "answer" << endl;
 }
