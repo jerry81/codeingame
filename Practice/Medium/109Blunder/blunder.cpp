@@ -100,13 +100,45 @@ using namespace std;
  * the standard input according to the problem statement.
  **/
 
+struct Point {
+  int x;
+  int y;
+  void print_me() {
+    cerr << "Point x is: " << x << ", y is: " << y << endl;
+  }
+};
+
 class Board {
   bool inverted;
   bool berserk;
+  int cols;
+  int rows;
+  Point current;
   vector<string> grid;
+  Point get_initial_position(vector<string> g) {
+    Point ret;
+    for (int i = 0; i < g.size(); ++i) {
+      string row = g[i];
+      size_t found = row.find("@");
+      // https://stackoverflow.com/questions/131803/unsigned-int-vs-size-t
+      // size_t is unsigned integer type result of sizeof operator
+      // guaranteed to be big enough for largest obj in system
+      // auto conversion seems flexible
+      if (found != string::npos) {
+        ret.y = i;
+        ret.x = found;
+        break;
+      }
+    }
+    return ret;
+  }
+
   public:
-    Board(vector<string> g) :
-      inverted(false), berserk(false), grid(g) {}
+    Board(vector<string> g, int r, int c) :
+      inverted(false), berserk(false), grid(g), rows(r), cols(c) {
+        current = get_initial_position(g);
+        current.print_me();
+      }
 
 };
 
@@ -122,7 +154,7 @@ int main()
         getline(cin, row);
         g.push_back(row);
     }
-    Board* b = new Board(g);
+    Board* b = new Board(g,l,c);
 
     // Write an answer using cout. DON'T FORGET THE "<< endl"
     // To debug: cerr << "Debug messages..." << endl;
