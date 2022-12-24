@@ -92,6 +92,7 @@ SOUTH
 #include <string>
 #include <vector>
 #include <algorithm>
+#include <unordered_map>
 
 using namespace std;
 
@@ -117,6 +118,7 @@ class Board {
   Point* current = new Point();
   Point* endpoint = new Point();
   vector<string> grid;
+  int counter = 0;
 
   Point* get_position_of_unique_char(vector<string> g, string searched) {
     Point* ret = new Point();
@@ -136,6 +138,31 @@ class Board {
     return ret;
   }
 
+  int next_dir(int i) {
+    int mod = i % 4;
+    mod = (mod < 0) ? 4 + mod : mod;
+  }
+
+  Point next_point(int dir) {
+    int ny = current->y;
+    int nx = current->x;
+    switch (dir) {
+      case 0: // S
+
+        break;
+      case 1: // E
+        break;
+      case 2: // N
+        break;
+      default: // W
+        return;
+    }
+  }
+
+  void move_counter() {
+    counter += inverted ? -1: +1;
+  }
+
   public:
     Board(vector<string> g, int r, int c) :
       inverted(false), berserk(false), grid(g), rows(r), cols(c) {
@@ -149,6 +176,7 @@ class Board {
 
     void move() {
       // lots of logic here
+        int d = next_dir(counter);
     }
 };
 
