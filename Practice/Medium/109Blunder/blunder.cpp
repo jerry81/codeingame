@@ -100,15 +100,29 @@ using namespace std;
  * the standard input according to the problem statement.
  **/
 
+class Board {
+  bool inverted;
+  bool berserk;
+  vector<string> grid;
+  public:
+    Board(vector<string> g) :
+      inverted(false), berserk(false), grid(g) {}
+
+};
+
+
 int main()
 {
     int l;
     int c;
     cin >> l >> c; cin.ignore();
+    vector<string> g;
     for (int i = 0; i < l; i++) {
         string row;
         getline(cin, row);
+        g.push_back(row);
     }
+    Board* b = new Board(g);
 
     // Write an answer using cout. DON'T FORGET THE "<< endl"
     // To debug: cerr << "Debug messages..." << endl;
