@@ -144,7 +144,7 @@ class Board {
     mod = (mod < 0) ? 4 + mod : mod;
   }
 
-  void next_point() {
+  void next_point(bool direction_change=true) {
     cerr << "current is at " << current->y << ", " << current->x << endl;
     int ny = current->y;
     int nx = current->x;
@@ -154,45 +154,69 @@ class Board {
       case 0: // S
         ny = ny+1;
         if (ny >= rows) {
-          move_counter();
-          return next_point();
+          if (direction_change) {
+            counter = 0;
+          } else {
+            move_counter();
+          }
+          return next_point(false);
         }
         break;
       case 1: // E
         nx = nx+1;
         if (nx >= cols) {
-          move_counter();
-          return next_point();
+          if (direction_change) {
+            counter = 0;
+          } else {
+            move_counter();
+          }
+          return next_point(false);
         }
 
         break;
       case 2: // N
         ny = ny-1;
         if (ny < 0) {
-          move_counter();
-          return next_point();
+          if (direction_change) {
+            counter = 0;
+          } else {
+            move_counter();
+          }
+          return next_point(false);
         }
 
         break;
       default: // W
         nx = nx-1;
         if (nx < 0) {
-          move_counter();
-          return next_point();
+          if (direction_change) {
+            counter = 0;
+          } else {
+            move_counter();
+          }
+
+          return next_point(false);
         }
 
     }
 
     next_sq = grid[ny][nx];
     cerr << "next_sq is " << next_sq<< endl;
-    if (next_sq == '#') {
-      move_counter();
-      return next_point();
+    bool cannotBreak = next_sq == 'X' && !berserk;
+    bool isUnbreakableObstacle = next_sq == '#' || cannotBreak;
+
+    if (isUnbreakableObstacle) {
+      if (direction_change) {
+        counter = 0;
+      } else {
+        move_counter();
+      }
+      return next_point(false);
     }
 
     if (next_sq == 'X' && !berserk) {
       move_counter();
-      return next_point();
+      return next_point(false);
     }
 
     if (next_sq == 'S') counter = 0;
@@ -239,7 +263,6 @@ class Board {
     }
 
     void move() {
-        counter = 0;
         next_point();
         print_move();
     }
