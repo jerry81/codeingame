@@ -115,6 +115,7 @@ class Board {
   bool berserk;
   int cols;
   int rows;
+
   Point* current = new Point();
   Point* endpoint = new Point();
   vector<string> grid;
@@ -144,46 +145,48 @@ class Board {
   }
 
   void next_point() {
+    cerr << "current is at " << current->y << ", " << current->x << endl;
     int ny = current->y;
     int nx = current->x;
     char next_sq;
-    move_counter();
+
     switch (next_dir()) {
       case 0: // S
         ny = ny+1;
         if (ny >= rows) {
+          move_counter();
           return next_point();
         }
-
-        cerr << "next_sq is " << next_sq<< endl;
         break;
       case 1: // E
         nx = nx+1;
         if (nx >= cols) {
+          move_counter();
           return next_point();
         }
 
-        cerr << "next_sq is " << next_sq<< endl;
         break;
       case 2: // N
         ny = ny-1;
         if (ny < 0) {
+          move_counter();
           return next_point();
         }
 
-        cerr << "next_sq is " << next_sq<< endl;
         break;
       default: // W
         nx = nx-1;
         if (nx < 0) {
+          move_counter();
           return next_point();
         }
 
-        cerr << "next_sq is " << next_sq<< endl;
     }
 
     next_sq = grid[ny][nx];
+    cerr << "next_sq is " << next_sq<< endl;
     if (next_sq == '#') {
+      move_counter();
       return next_point();
     }
 
@@ -191,10 +194,31 @@ class Board {
     if (next_sq == 'E') counter = 1;
     if (next_sq == 'N') counter = 2;
     if (next_sq == 'W') counter = 3;
+
+    if (next_sq == 'I') inverted = !inverted;
+
+    current->x = nx;
+    current->y = ny;
   }
 
   void move_counter() {
     counter += inverted ? -1: +1;
+  }
+
+  void print_move() {
+    switch (counter) {
+        case 0:
+          cout << "SOUTH" << endl;
+          break;
+        case 1:
+          cout << "EAST" << endl;
+          break;
+        case 2:
+          cout << "NORTH" << endl;
+          break;
+        default:
+          cout << "WEST" << endl;
+    }
   }
 
   public:
@@ -209,8 +233,8 @@ class Board {
     }
 
     void move() {
-      // lots of logic here
-        int d = next_dir();
+        next_point();
+        print_move();
     }
 };
 
@@ -228,9 +252,7 @@ int main()
     }
     Board* b = new Board(g,l,c);
 
-    while (b->should_continue()) {
+   while (b->should_continue()) {
       b->move();
     }
-
-    cout << "answer" << endl;
 }
