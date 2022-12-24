@@ -146,7 +146,29 @@ class Board {
   Point* endpoint = new Point();
   vector<Point*> teleporters;
   vector<string> grid;
+  vector<vector<string>> state;
+
+  bool LOOP = false;
+
   int counter = 0;
+
+  void reset_state() {
+    for (int i = 0; i < rows; ++i){
+      vector<string> r;
+      state[i] = r;
+      for (int j = 0; j < cols; ++j) {
+        string s = "";
+        state[i].push_back(s);
+      }
+    }
+  }
+
+  string hash_state() {
+    string inv = inverted ? "I":"i";
+    string ber = berserk ? "B":"b";
+    string direction = std::to_string(next_dir());
+    return inv+ber+direction;
+  }
 
   vector<Point*> get_position_of_unique_char(vector<string> g, string searched) {
     vector<Point*> ret;
