@@ -147,45 +147,50 @@ class Board {
     int ny = current->y;
     int nx = current->x;
     char next_sq;
+    move_counter();
     switch (next_dir()) {
       case 0: // S
         ny = ny+1;
         if (ny >= rows) {
-          move_counter();
           return next_point();
         }
 
-        next_sq = grid[ny][nx];
         cerr << "next_sq is " << next_sq<< endl;
         break;
       case 1: // E
         nx = nx+1;
         if (nx >= cols) {
-          move_counter();
           return next_point();
         }
-        next_sq = grid[ny][nx];
+
         cerr << "next_sq is " << next_sq<< endl;
         break;
       case 2: // N
         ny = ny-1;
         if (ny < 0) {
-          move_counter();
           return next_point();
         }
-        next_sq = grid[ny][nx];
+
         cerr << "next_sq is " << next_sq<< endl;
         break;
       default: // W
         nx = nx-1;
         if (nx < 0) {
-          move_counter();
           return next_point();
         }
-        next_sq = grid[ny][nx];
+
         cerr << "next_sq is " << next_sq<< endl;
-        return;
     }
+
+    next_sq = grid[ny][nx];
+    if (next_sq == '#') {
+      return next_point();
+    }
+
+    if (next_sq == 'S') counter = 0;
+    if (next_sq == 'E') counter = 1;
+    if (next_sq == 'N') counter = 2;
+    if (next_sq == 'W') counter = 3;
   }
 
   void move_counter() {
