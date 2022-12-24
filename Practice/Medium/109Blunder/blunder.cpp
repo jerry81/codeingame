@@ -271,8 +271,16 @@ class Board {
 
     if (next_sq == 'I') inverted = !inverted;
 
+
+
     current->x = nx;
     current->y = ny;
+
+    if (next_sq == 'T') {
+      Point* target = get_other_teleporter(ny, nx);
+      current->x = target->x;
+      current->y = target->y;
+    }
     return premptive_print;
   }
 
@@ -295,6 +303,11 @@ class Board {
     }
   }
 
+  Point* get_other_teleporter(int y, int x) {
+    bool isT0 = teleporters[0]->x == x && teleporters[0]->y == y;
+    return  teleporters[isT0 ? 1 : 0];
+  }
+
  public:
   Board(vector<string> g, int r, int c)
       : inverted(false), berserk(false), grid(g), rows(r), cols(c) {
@@ -312,13 +325,6 @@ class Board {
       print_move();
     }
   }
-
-  void print_teleporters() {
-    if (teleporters.empty()) cerr << "no teleporters in this maze" << endl;
-    for (Point *p : teleporters) {
-      cerr << "teleporter " << p->y << " " << p->x << endl;
-    }
-  }
 };
 
 int main() {
@@ -333,7 +339,6 @@ int main() {
     g.push_back(row);
   }
   Board* b = new Board(g, l, c);
-  b->print_teleporters();
   while (b->should_continue()) {
     b->move();
   }
