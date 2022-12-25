@@ -76,8 +76,6 @@ using namespace std;
 
 unordered_map<char, int> lookup;
 
-unordered_map<int, int> index_points_dict;
-
 int tally_points(string s) {
   int tally = 0;
   for (char c:s) {
@@ -85,6 +83,9 @@ int tally_points(string s) {
   }
   return tally;
 }
+
+int max_points = 0;
+string best_string = "";
 
 void build_lookup() {
   lookup['e'] = 1;
@@ -127,6 +128,16 @@ void build_freq_in_hand(string letters) {
     }
   }
 }
+vector<string> dict_items;
+
+int get_points(string w) {
+  int pts = 0;
+  return pts;
+}
+
+bool can_build(string w) {
+  return false;
+}
 
 int main() {
   int n;
@@ -135,12 +146,21 @@ int main() {
   for (int i = 0; i < n; i++) {
     string w;
     getline(cin, w);
+    dict_items.push_back(w);
   }
+
+
   string letters;
   getline(cin, letters);
 
-  // Write an answer using cout. DON'T FORGET THE "<< endl"
-  // To debug: cerr << "Debug messages..." << endl;
+  for (string word:dict_items) {
+    int pts = get_points(word);
+    if (pts > max_points) {
+      max_points = pts;
+      best_string = word;
+    }
+  }
 
-  cout << "invalid word" << endl;
+
+  cout << best_string << endl;
 }
