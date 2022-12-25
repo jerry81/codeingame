@@ -89,12 +89,16 @@ int main()
     cin >> n; cin.ignore();
     int c;
     int sum = 0;
+    vector<int> items;
     cin >> c; cin.ignore();
     for (int i = 0; i < n; i++) {
         int b;
         cin >> b; cin.ignore();
         sum+=b;
+        items.push_back(b);
     }
+    sort(items.begin(), items.end());
+
     if (sum < c) {
       cout << "IMPOSSIBLE" << endl;
     } else {
