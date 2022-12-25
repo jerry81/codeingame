@@ -132,10 +132,6 @@ unordered_map<char, int> build_freq(string letters) {
 }
 vector<string> dict_items;
 
-int get_points(string w) {
-  return can_build(w) ? tally_points(w):0;
-}
-
 bool can_build(string w) {
   unordered_map<char, int> temp = freq_in_hand;
   for (char c:w) {
@@ -150,6 +146,12 @@ bool can_build(string w) {
   return true;
 }
 
+
+int get_points(string w) {
+  bool test = can_build(w);
+  return can_build(w) ? tally_points(w):0;
+}
+
 int main() {
   int n;
   cin >> n;
@@ -160,7 +162,7 @@ int main() {
     dict_items.push_back(w);
   }
 
-
+  build_lookup();
   string letters;
   getline(cin, letters);
   freq_in_hand = build_freq(letters);
