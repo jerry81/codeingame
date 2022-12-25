@@ -76,6 +76,16 @@ using namespace std;
 
 unordered_map<char, int> lookup;
 
+unordered_map<int, int> index_points_dict;
+
+int tally_points(string s) {
+  int tally = 0;
+  for (char c:s) {
+    tally+=lookup[c];
+  }
+  return tally;
+}
+
 void build_lookup() {
   lookup['e'] = 1;
   lookup['a'] = 1;
@@ -103,6 +113,19 @@ void build_lookup() {
   lookup['x'] = 8;
   lookup['q'] = 10;
   lookup['z'] = 10;
+}
+
+unordered_map<char, int> freq_in_hand;
+
+void build_freq_in_hand(string letters) {
+  for (char c:letters) {
+    bool contains = freq_in_hand.find(c)!=freq_in_hand.end();
+    if (contains) {
+      ++freq_in_hand[c];
+    } else {
+      freq_in_hand[c] = 1;
+    }
+  }
 }
 
 int main() {
