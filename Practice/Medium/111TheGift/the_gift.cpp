@@ -82,6 +82,24 @@ Output
 
 using namespace std;
 
+vector<int> results;
+
+void getRemainderR(int sum, vector<int> remaining) {
+  if (remaining.size() == 0) {
+    results.push_back(sum);
+    return;
+  }
+
+  int avg = sum / remaining.size();
+  cerr << "avg is " << avg << endl;
+  int min = remaining.back();
+  int new_sum = sum - avg;
+  if (min < avg) {
+    new_sum = sum-min;
+  }
+  remaining.pop_back();
+  getRemainderR(new_sum, remaining);
+}
 
 int main()
 {
@@ -98,11 +116,15 @@ int main()
         items.push_back(b);
     }
     sort(items.begin(), items.end());
-
+    reverse(items.begin(), items.end());
     if (sum < c) {
       cout << "IMPOSSIBLE" << endl;
     } else {
-      cout << "not impossible" << endl;
+      getRemainderR(sum, items);
+      sort(results.begin(), results.end());
+      for (int i:results) {
+        cout << i << endl;
+      }
     }
 
 }
