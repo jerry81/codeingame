@@ -84,19 +84,21 @@ using namespace std;
 
 vector<int> results;
 
-void getRemainderR(int sum, vector<int> remaining) {
-  if (remaining.size() == 0) {
-    results.push_back(sum);
+void getRemainderR(int target, vector<int> remaining) {
+  if (remaining.size() == 1) {
+    results.push_back(target);
     return;
   }
 
-  int avg = sum / remaining.size();
-  cerr << "avg is " << avg << endl;
+  int avg = target / remaining.size();
   int min = remaining.back();
-  int new_sum = sum - avg;
+  int new_sum = target - avg;
+  int contribution = avg;
   if (min < avg) {
-    new_sum = sum-min;
+    new_sum = target-min;
+    contribution = min;
   }
+  results.push_back(contribution);
   remaining.pop_back();
   getRemainderR(new_sum, remaining);
 }
@@ -120,7 +122,7 @@ int main()
     if (sum < c) {
       cout << "IMPOSSIBLE" << endl;
     } else {
-      getRemainderR(sum, items);
+      getRemainderR(c, items);
       sort(results.begin(), results.end());
       for (int i:results) {
         cout << i << endl;
