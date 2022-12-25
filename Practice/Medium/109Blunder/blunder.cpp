@@ -156,7 +156,7 @@ class Board {
   void reset_state() {
     for (int i = 0; i < rows; ++i){
       vector<string> r;
-      state[i] = r;
+      state.push_back(r);
       for (int j = 0; j < cols; ++j) {
         string s = "";
         state[i].push_back(s);
@@ -346,17 +346,26 @@ class Board {
     current = get_position_of_unique_char(g, "@")[0];
     endpoint = get_position_of_unique_char(g, "$")[0];
     teleporters = get_position_of_unique_char(g, "T");
+    reset_state();
   }
 
   bool should_continue() {
-    return (current->x != endpoint->x || current->y != endpoint->y);
+    return (current->x != endpoint->x || current->y != endpoint->y) && !LOOP;
   }
 
   void move() {
     if (!next_point()) {
       print_move();
-
     }
+
+    if (check_state(current->y, current->x)) {
+      LOOP = true;
+      moves.clear();
+      moves.push_back("LOOP");
+    }
+
+    save_state(current->y, current->x);
+
   }
 
   void dump() {
