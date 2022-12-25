@@ -154,6 +154,7 @@ class Board {
   int counter = 0;
 
   void reset_state() {
+    state.clear();
     for (int i = 0; i < rows; ++i){
       vector<string> r;
       state.push_back(r);
@@ -277,6 +278,7 @@ class Board {
 
     if (breakableSq) {
       grid[ny][nx] = ' ';
+      reset_state();
     }
 
     if (next_sq == 'S') {
