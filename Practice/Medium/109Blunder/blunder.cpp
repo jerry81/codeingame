@@ -163,11 +163,19 @@ class Board {
     }
   }
 
-  string hash_state() {
+  string make_state() {
     string inv = inverted ? "I":"i";
     string ber = berserk ? "B":"b";
     string direction = std::to_string(next_dir());
     return inv+ber+direction;
+  }
+
+  void save_state(int y, int x) {
+    state[y][x] = make_state();
+  }
+
+  bool check_state(int y, int x) {
+    return state[y][x] == make_state();
   }
 
   vector<Point*> get_position_of_unique_char(vector<string> g, string searched) {
@@ -346,6 +354,7 @@ class Board {
   void move() {
     if (!next_point()) {
       print_move();
+
     }
   }
 };
