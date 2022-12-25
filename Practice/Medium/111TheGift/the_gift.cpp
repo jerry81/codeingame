@@ -82,24 +82,23 @@ Output
 
 using namespace std;
 
-/**
- * Auto-generated code below aims at helping you parse
- * the standard input according to the problem statement.
- **/
 
 int main()
 {
     int n;
     cin >> n; cin.ignore();
     int c;
+    int sum = 0;
     cin >> c; cin.ignore();
     for (int i = 0; i < n; i++) {
         int b;
         cin >> b; cin.ignore();
+        sum+=b;
+    }
+    if (sum < c) {
+      cout << "IMPOSSIBLE" << endl;
+    } else {
+      cout << "not impossible" << endl;
     }
 
-    // Write an answer using cout. DON'T FORGET THE "<< endl"
-    // To debug: cerr << "Debug messages..." << endl;
-
-    cout << "IMPOSSIBLE" << endl;
 }
