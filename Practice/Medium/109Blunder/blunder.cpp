@@ -147,6 +147,7 @@ class Board {
   vector<Point*> teleporters;
   vector<string> grid;
   vector<vector<string>> state;
+  vector<string> moves;
 
   bool LOOP = false;
 
@@ -321,16 +322,16 @@ class Board {
   void print_move() {
     switch (next_dir()) {
       case 0:
-        cout << "SOUTH" << endl;
+        moves.push_back("SOUTH");
         break;
       case 1:
-        cout << "EAST" << endl;
+        moves.push_back("EAST");
         break;
       case 2:
-        cout << "NORTH" << endl;
+        moves.push_back("NORTH");
         break;
       default:
-        cout << "WEST" << endl;
+        moves.push_back("WEST");
     }
   }
 
@@ -357,6 +358,12 @@ class Board {
 
     }
   }
+
+  void dump() {
+    for (string move:moves) {
+      cout << move << endl;
+    }
+  }
 };
 
 int main() {
@@ -374,4 +381,5 @@ int main() {
   while (b->should_continue()) {
     b->move();
   }
+  b->dump();
 }
