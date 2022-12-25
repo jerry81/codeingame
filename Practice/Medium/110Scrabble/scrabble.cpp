@@ -118,25 +118,36 @@ void build_lookup() {
 
 unordered_map<char, int> freq_in_hand;
 
-void build_freq_in_hand(string letters) {
+unordered_map<char, int> build_freq(string letters) {
+  unordered_map<char, int> freq;
   for (char c:letters) {
-    bool contains = freq_in_hand.find(c)!=freq_in_hand.end();
+    bool contains = freq.find(c)!=freq_in_hand.end();
     if (contains) {
-      ++freq_in_hand[c];
+      ++freq[c];
     } else {
-      freq_in_hand[c] = 1;
+      freq[c] = 1;
     }
   }
+  return freq;
 }
 vector<string> dict_items;
 
 int get_points(string w) {
-  int pts = 0;
-  return pts;
+  return can_build(w) ? tally_points(w):0;
 }
 
 bool can_build(string w) {
-  return false;
+  unordered_map<char, int> temp = freq_in_hand;
+  for (char c:w) {
+    if (temp.find(c) == temp.end()) {
+      return false;
+    }
+
+    if (--temp[c] < 0) {
+      return false;
+    }
+  }
+  return true;
 }
 
 int main() {
@@ -152,7 +163,7 @@ int main() {
 
   string letters;
   getline(cin, letters);
-
+  freq_in_hand = build_freq(letters);
   for (string word:dict_items) {
     int pts = get_points(word);
     if (pts > max_points) {
