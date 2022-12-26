@@ -133,6 +133,7 @@ oo..
 #include <string>
 #include <vector>
 #include <algorithm>
+#include <unordered_map>
 
 using namespace std;
 
@@ -146,9 +147,24 @@ int main()
     int l;
     int h;
     cin >> l >> h; cin.ignore();
+    vector<string> fullinput;
+    unordered_map<string, int> lookup;
+
     for (int i = 0; i < h; i++) {
         string numeral;
         cin >> numeral; cin.ignore();
+        fullinput.push_back(numeral);
+    }
+    cerr << "len is " << fullinput[0].size() << endl;
+    for (int i = 0; i < 20; ++i) {
+      string hash = "";
+      for (int j = 0; j < 4; ++j) {
+        hash+=fullinput[j].substr(i*l, l);
+      }
+      lookup[hash] = i;
+    }
+    for (auto x: lookup) {
+      cerr << "key is " << x << endl;
     }
     int s1;
     cin >> s1; cin.ignore();
