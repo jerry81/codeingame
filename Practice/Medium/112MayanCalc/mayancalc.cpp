@@ -163,15 +163,29 @@ int main()
       }
       lookup[hash] = i;
     }
-    for (auto x: lookup) {
-      cerr << "key is " << x << endl;
-    }
     int s1;
     cin >> s1; cin.ignore();
+    int units1 = s1/l;
+    cerr << "units 1 are " << units1 << endl;
+    vector<string> num1full;
     for (int i = 0; i < s1; i++) {
         string num_1line;
         cin >> num_1line; cin.ignore();
+        num1full.push_back(num_1line);
     }
+    vector<int> num1;
+    for (int i = 0; i < units1; ++i) {
+      string hash = "";
+      for (int j = 0; j < 4; ++j) {
+        hash+=num1full[j].substr(i*l, l);
+      }
+      num1.push_back(lookup[hash]);
+    }
+
+    for (auto a:num1) {
+      cerr << "unit is " << a << endl;
+    }
+
     int s2;
     cin >> s2; cin.ignore();
     for (int i = 0; i < s2; i++) {
