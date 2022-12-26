@@ -182,8 +182,10 @@ int main()
       num1.push_back(lookup[hash]);
     }
 
-    for (auto a:num1) {
-      cerr << "unit is " << a << endl;
+    int as_decimal = 0;
+    for (int i = 0; i < num1.size(); ++i) {
+      int power = num1.size() - 1 - i;
+      num1[power];
     }
 
     int s2;
