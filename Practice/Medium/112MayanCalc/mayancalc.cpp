@@ -140,8 +140,8 @@ using namespace std;
 
 unordered_map<string, int> lookup;
 unordered_map<int, string> revlookup;
-vector<int> convert_base_20(int decimal) {
-  vector<int> res;
+vector<long int> convert_base_20(long int decimal) {
+  vector<long int> res;
   while (decimal > 0) {
     res.push_back(decimal%20);
     decimal = decimal / 20;
@@ -172,7 +172,6 @@ int main()
         cin >> numeral; cin.ignore();
         fullinput.push_back(numeral);
     }
-    cerr << "len is " << fullinput[0].size() << endl;
     for (int i = 0; i < 20; ++i) {
       string hash = "";
       for (int j = 0; j < h; ++j) {
@@ -184,7 +183,6 @@ int main()
     int s1;
     cin >> s1; cin.ignore();
     int units1 = s1/l;
-    cerr << "units 1 are " << units1 << endl;
     vector<string> num1full;
     for (int i = 0; i < s1; i++) {
         string num_1line;
@@ -200,7 +198,7 @@ int main()
       num1.push_back(lookup[hash]);
     }
 
-    int as_decimal_1 = 0;
+    long int as_decimal_1 = 0;
     for (int i = 0; i < num1.size(); ++i) {
       int idx = num1.size() - 1 - i;
       as_decimal_1+=num1[idx]*pow(20, i);
@@ -215,7 +213,7 @@ int main()
         num2full.push_back(num_2line);
     }
 
-    vector<int> num2;
+    vector<long int> num2;
     for (int i = 0; i < units2; ++i) {
       string hash = "";
       for (int j = 0; j < h; ++j) {
@@ -224,12 +222,12 @@ int main()
       num2.push_back(lookup[hash]);
     }
 
-    int as_decimal_2 = 0;
+    long int as_decimal_2 = 0;
     for (int i = 0; i < num2.size(); ++i) {
       int idx = num2.size() - 1 - i;
       as_decimal_2+=num2[idx]*pow(20, i);
     }
-    int result = 0;
+    long int result = 0;
     string operation;
     cin >> operation; cin.ignore();
     if (operation == "+") {
@@ -241,15 +239,9 @@ int main()
     } else {
       result = as_decimal_1 / as_decimal_2;
     }
-    cerr << "result is " << result << endl;
-    vector<int> res = convert_base_20(result);
-    for (int i : res ) {
-      cerr << "res item " << i << endl;
-    }
+    vector<long int> res = convert_base_20(result);
     reverse(res.begin(), res.end());
 
-    // Write an answer using cout. DON'T FORGET THE "<< endl"
-    // To debug: cerr << "Debug messages..." << endl;
     for (int i: res) {
         print_mayan(i,l,h);
     }
