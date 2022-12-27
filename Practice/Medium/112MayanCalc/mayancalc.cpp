@@ -134,6 +134,7 @@ oo..
 #include <vector>
 #include <algorithm>
 #include <unordered_map>
+#include <cmath>
 
 using namespace std;
 
@@ -184,9 +185,10 @@ int main()
 
     int as_decimal = 0;
     for (int i = 0; i < num1.size(); ++i) {
-      int power = num1.size() - 1 - i;
-      num1[power];
+      int idx = num1.size() - 1 - i;
+      as_decimal+=pow(num1[idx], i);
     }
+    cerr << "as decimal is " << as_decimal << endl;
 
     int s2;
     cin >> s2; cin.ignore();
