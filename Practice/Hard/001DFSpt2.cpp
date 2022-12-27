@@ -88,13 +88,23 @@ Response time per turn ≤ 150ms
 #include <string>
 #include <vector>
 #include <algorithm>
+#include <unordered_map>
 
 using namespace std;
 
-/**
- * Auto-generated code below aims at helping you parse
- * the standard input according to the problem statement.
- **/
+struct Node {
+  int index;
+  vector<int> links;
+  bool exit;
+  Node(int i, bool ex) : index(i), exit(ex) {};
+  void addLink(int i) {
+    if (find(links.begin(), links.end(), i) != links.end()) {
+      links.push_back(i);
+    }
+  }
+};
+
+unordered_map<int, Node> nodes;
 
 int main()
 {
@@ -105,6 +115,11 @@ int main()
     for (int i = 0; i < l; i++) {
         int n1; // N1 and N2 defines a link between these nodes
         int n2;
+        if (nodes.find(n1) == nodes.end()) {
+          nodes[n1] = new Node(n1, false);
+        }
+        if (nodes.find(n2) == nodes.end()) {
+        }
         cin >> n1 >> n2; cin.ignore();
     }
     for (int i = 0; i < e; i++) {
@@ -117,8 +132,6 @@ int main()
         int si; // The index of the node on which the Bobnet agent is positioned this turn
         cin >> si; cin.ignore();
 
-        // Write an action using cout. DON'T FORGET THE "<< endl"
-        // To debug: cerr << "Debug messages..." << endl;
 
 
         // Example: 3 4 are the indices of the nodes you wish to sever the link between
