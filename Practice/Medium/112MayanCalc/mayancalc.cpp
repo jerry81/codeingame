@@ -146,6 +146,9 @@ vector<int> convert_base_20(int decimal) {
     res.push_back(decimal%20);
     decimal = decimal / 20;
   }
+  if (res.empty()) {
+    res.push_back(0);
+  }
   return res;
 }
 
@@ -172,7 +175,7 @@ int main()
     cerr << "len is " << fullinput[0].size() << endl;
     for (int i = 0; i < 20; ++i) {
       string hash = "";
-      for (int j = 0; j < 4; ++j) {
+      for (int j = 0; j < h; ++j) {
         hash+=fullinput[j].substr(i*l, l);
       }
       lookup[hash] = i;
@@ -188,27 +191,20 @@ int main()
         cin >> num_1line; cin.ignore();
         num1full.push_back(num_1line);
     }
-    for (string s : num1full) {
-      cerr << " num1 full is " << s << endl;
-    }
     vector<int> num1;
     for (int i = 0; i < units1; ++i) {
       string hash = "";
-      for (int j = 0; j < 4; ++j) {
+      for (int j = 0; j < h; ++j) {
         hash+=num1full[i*h+j];
       }
-      cerr << "hash is " << hash << endl;
       num1.push_back(lookup[hash]);
     }
 
     int as_decimal_1 = 0;
-    cerr << "num1 size " << num1.size() << endl;
     for (int i = 0; i < num1.size(); ++i) {
       int idx = num1.size() - 1 - i;
-      cerr << "num1 is " << num1[idx] << endl;
       as_decimal_1+=num1[idx]*pow(20, i);
     }
-    cerr << "expect 123 " << as_decimal_1 << endl;
     int s2;
     vector<string> num2full;
     cin >> s2; cin.ignore();
@@ -222,8 +218,8 @@ int main()
     vector<int> num2;
     for (int i = 0; i < units2; ++i) {
       string hash = "";
-      for (int j = 0; j < 4; ++j) {
-        hash+=num2full[j].substr(i*l, l);
+      for (int j = 0; j < h; ++j) {
+        hash+=num2full[i*h+j];
       }
       num2.push_back(lookup[hash]);
     }
@@ -245,8 +241,11 @@ int main()
     } else {
       result = as_decimal_1 / as_decimal_2;
     }
-
+    cerr << "result is " << result << endl;
     vector<int> res = convert_base_20(result);
+    for (int i : res ) {
+      cerr << "res item " << i << endl;
+    }
     reverse(res.begin(), res.end());
 
     // Write an answer using cout. DON'T FORGET THE "<< endl"
