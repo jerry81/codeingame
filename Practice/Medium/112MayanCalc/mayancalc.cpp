@@ -183,21 +183,49 @@ int main()
       num1.push_back(lookup[hash]);
     }
 
-    int as_decimal = 0;
+    int as_decimal_1 = 0;
     for (int i = 0; i < num1.size(); ++i) {
       int idx = num1.size() - 1 - i;
-      as_decimal+=pow(num1[idx], i);
+      as_decimal_1+=num1[idx]*pow(20, i);
     }
-    cerr << "as decimal is " << as_decimal << endl;
 
     int s2;
+    vector<string> num2full;
     cin >> s2; cin.ignore();
+    int units2 = s2/l;
     for (int i = 0; i < s2; i++) {
         string num_2line;
         cin >> num_2line; cin.ignore();
+        num2full.push_back(num_2line);
     }
+
+    vector<int> num2;
+    for (int i = 0; i < units2; ++i) {
+      string hash = "";
+      for (int j = 0; j < 4; ++j) {
+        hash+=num2full[j].substr(i*l, l);
+      }
+      num2.push_back(lookup[hash]);
+    }
+
+    int as_decimal_2 = 0;
+    for (int i = 0; i < num2.size(); ++i) {
+      int idx = num2.size() - 1 - i;
+      as_decimal_1+=num2[idx]*pow(20, i);
+    }
+    int result = 0;
     string operation;
     cin >> operation; cin.ignore();
+    if (operation == "+") {
+      result = as_decimal_1 + as_decimal_2;
+    } else if (operation == "-") {
+      result = as_decimal_1 - as_decimal_2;
+    } else if (operation == "*") {
+      result = as_decimal_1 * as_decimal_2;
+    } else {
+      result = as_decimal_1 / as_decimal_2;
+    }
+
 
     // Write an answer using cout. DON'T FORGET THE "<< endl"
     // To debug: cerr << "Debug messages..." << endl;
