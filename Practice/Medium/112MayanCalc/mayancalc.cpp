@@ -138,10 +138,23 @@ oo..
 
 using namespace std;
 
-/**
- * Auto-generated code below aims at helping you parse
- * the standard input according to the problem statement.
- **/
+unordered_map<string, int> lookup;
+unordered_map<int, string> revlookup;
+vector<int> convert_base_20(int decimal) {
+  vector<int> res;
+  while (decimal > 0) {
+    res.push_back(decimal%20);
+    decimal = decimal / 20;
+  }
+  return res;
+}
+
+void print_mayan(int base20, int l, int h) {
+  string hashed = revlookup[base20];
+  for (int i = 0; i < h; ++i) {
+    cout << hashed.substr(i*l, l) << endl;
+  }
+}
 
 int main()
 {
@@ -149,7 +162,7 @@ int main()
     int h;
     cin >> l >> h; cin.ignore();
     vector<string> fullinput;
-    unordered_map<string, int> lookup;
+
 
     for (int i = 0; i < h; i++) {
         string numeral;
@@ -163,6 +176,7 @@ int main()
         hash+=fullinput[j].substr(i*l, l);
       }
       lookup[hash] = i;
+      revlookup[i] = hash;
     }
     int s1;
     cin >> s1; cin.ignore();
@@ -211,7 +225,7 @@ int main()
     int as_decimal_2 = 0;
     for (int i = 0; i < num2.size(); ++i) {
       int idx = num2.size() - 1 - i;
-      as_decimal_1+=num2[idx]*pow(20, i);
+      as_decimal_2+=num2[idx]*pow(20, i);
     }
     int result = 0;
     string operation;
@@ -226,9 +240,13 @@ int main()
       result = as_decimal_1 / as_decimal_2;
     }
 
+    vector<int> res = convert_base_20(result);
+
 
     // Write an answer using cout. DON'T FORGET THE "<< endl"
     // To debug: cerr << "Debug messages..." << endl;
+    for (int i: res) {
+        print_mayan(i,l,h);
+    }
 
-    cout << "result" << endl;
 }
