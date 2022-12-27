@@ -241,7 +241,7 @@ int main()
     }
 
     vector<int> res = convert_base_20(result);
-
+    reverse(res.begin(), res.end());
 
     // Write an answer using cout. DON'T FORGET THE "<< endl"
     // To debug: cerr << "Debug messages..." << endl;
