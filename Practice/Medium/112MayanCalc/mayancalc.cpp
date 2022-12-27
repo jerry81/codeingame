@@ -188,21 +188,27 @@ int main()
         cin >> num_1line; cin.ignore();
         num1full.push_back(num_1line);
     }
+    for (string s : num1full) {
+      cerr << " num1 full is " << s << endl;
+    }
     vector<int> num1;
     for (int i = 0; i < units1; ++i) {
       string hash = "";
       for (int j = 0; j < 4; ++j) {
-        hash+=num1full[j].substr(i*l, l);
+        hash+=num1full[i*h+j];
       }
+      cerr << "hash is " << hash << endl;
       num1.push_back(lookup[hash]);
     }
 
     int as_decimal_1 = 0;
+    cerr << "num1 size " << num1.size() << endl;
     for (int i = 0; i < num1.size(); ++i) {
       int idx = num1.size() - 1 - i;
+      cerr << "num1 is " << num1[idx] << endl;
       as_decimal_1+=num1[idx]*pow(20, i);
     }
-
+    cerr << "expect 123 " << as_decimal_1 << endl;
     int s2;
     vector<string> num2full;
     cin >> s2; cin.ignore();
