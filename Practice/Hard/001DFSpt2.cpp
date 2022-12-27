@@ -102,6 +102,9 @@ struct Node {
       links.push_back(i);
     }
   }
+  void setExit(bool input) {
+    exit = input;
+  }
 };
 
 unordered_map<int, Node> nodes;
@@ -115,16 +118,20 @@ int main()
     for (int i = 0; i < l; i++) {
         int n1; // N1 and N2 defines a link between these nodes
         int n2;
-        if (nodes.find(n1) == nodes.end()) {
-          nodes[n1] = new Node(n1, false);
-        }
-        if (nodes.find(n2) == nodes.end()) {
-        }
         cin >> n1 >> n2; cin.ignore();
+        if (nodes.find(n1) == nodes.end()) {
+          nodes[n1] = Node(n1, false);
+        }
+        nodes[n1].addLink(n2);
+        if (nodes.find(n2) == nodes.end()) {
+          nodes[n2] = Node(n2, false);
+        }
+        nodes[n2].addLink(n1);
     }
     for (int i = 0; i < e; i++) {
         int ei; // the index of a gateway node
         cin >> ei; cin.ignore();
+        nodes[ei].setExit(true);
     }
 
     // game loop
