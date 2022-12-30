@@ -110,6 +110,11 @@ void dfs(vector<int> &path, int target, unordered_map<int, bool> visited, int cu
   if (cur == target) path.push_back(target);
 }
 
+void sever_link(int a, int b) {
+            nodes[a].links.erase(b);
+            nodes[b].links.erase(a);
+}
+
 int main()
 {
     int n; // the total number of nodes in the level, including the gateways
@@ -144,11 +149,12 @@ int main()
     while (1) {
         int si; // The index of the node on which the Bobnet agent is positioned this turn
         cin >> si; cin.ignore();
-
+        int lowest_len = 1000;
         for (int ex : exits) {
           Node n = nodes[ex];
           if (n.links.find(si) != n.links.end()) {
             cout << ex << " " << si << endl;
+            sever_link(ex,si);
           }
 
         }
