@@ -98,7 +98,7 @@ struct Node {
   bool exit;
   Node(int i = -1, bool ex = false) : index(i), exit(ex) {};
   void addLink(int i) {
-    if (links.find(i) != links.end()) {
+    if (links.find(i) == links.end()) {
       links[i] = true;
     }
   }
@@ -114,10 +114,10 @@ int dfs(int target, unordered_map<int, bool> visited, int cur) {
   vector<int> group;
   for (auto a: nodes[cur].links) {
     if (visited.find(a.first) == visited.end()) {
-      group.push_back(1+dfs(target, visited, a.first));
+      return 1+dfs(target, visited, a.first);
     }
   }
-  return *min_element(group.begin(), group.end());
+  //return *min_element(group.begin(), group.end());
 }
 
 void sever_link(int a, int b) {
@@ -164,14 +164,11 @@ int main()
         int closest_b;
         for (int ex : exits) {
           Node n = nodes[ex];
-          if (n.links.find(si) != n.links.end()) {
-            cout << ex << " " << si << endl;
-            sever_link(ex,si);
-          } else {
             for (auto a : n.links) {
               unordered_map<int, bool> visited;
               visited[ex] = true;
               int dist = dfs(si, visited, a.first);
+              cerr << "dist is " << dist << endl;
               if (dist < lowest_len) {
                 lowest_len = dist;
                 closest_a = ex;
@@ -179,7 +176,7 @@ int main()
               }
             }
           }
-        }
+
         sever_link(closest_a, closest_b);
         // Example: 3 4 are the indices of the nodes you wish to sever the link between
         cout << closest_a << " " << closest_b << endl;
