@@ -106,8 +106,8 @@ struct Node {
 
 unordered_map<int, Node> nodes;
 
-void dfs(vector<int> &path, int target, unordered_map<int, bool> visited, int cur) {
-  if (cur == target) path.push_back(target);
+int dfs(int target, unordered_map<int, bool> visited, int cur) {
+  if (cur == target) return 0;
 }
 
 void sever_link(int a, int b) {
@@ -150,16 +150,28 @@ int main()
         int si; // The index of the node on which the Bobnet agent is positioned this turn
         cin >> si; cin.ignore();
         int lowest_len = 1000;
+        int closest_a;
+        int closest_b;
         for (int ex : exits) {
           Node n = nodes[ex];
           if (n.links.find(si) != n.links.end()) {
             cout << ex << " " << si << endl;
             sever_link(ex,si);
+          } else {
+            for (auto a : n.links) {
+              unordered_map<int, bool> visited;
+              visited[ex] = true;
+              int dist = dfs(si, visited, a.first);
+              if (dist < lowest_len) {
+                lowest_len = dist;
+                closest_a = ex;
+                closest_b = a.first;
+              }
+            }
           }
-
         }
-
+        sever_link(closest_a, closest_b)
         // Example: 3 4 are the indices of the nodes you wish to sever the link between
-        // cout << "3 4" << endl;
+        cout << closest_a << " " << closest_b << endl;
     }
 }
