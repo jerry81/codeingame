@@ -94,20 +94,21 @@ using namespace std;
 
 struct Node {
   int index;
-  vector<int> links;
+  unordered_map<int, bool> links;
   bool exit;
-  Node(int i, bool ex) : index(i), exit(ex) {};
+  Node(int i = -1, bool ex = false) : index(i), exit(ex) {};
   void addLink(int i) {
-    if (find(links.begin(), links.end(), i) != links.end()) {
-      links.push_back(i);
+    if (links.find(i) != links.end()) {
+      links[i] = true;
     }
-  }
-  void setExit(bool input) {
-    exit = input;
   }
 };
 
 unordered_map<int, Node> nodes;
+
+void dfs(vector<int> &path, int target, unordered_map<int, bool> visited, int cur) {
+  if (cur == target) path.push_back(target);
+}
 
 int main()
 {
@@ -127,11 +128,16 @@ int main()
           nodes[n2] = Node(n2, false);
         }
         nodes[n2].addLink(n1);
+        cerr << "n1 " << n1 << " n2 " << n2 << endl;
     }
+    vector<int> exits;
     for (int i = 0; i < e; i++) {
         int ei; // the index of a gateway node
         cin >> ei; cin.ignore();
-        nodes[ei].setExit(true);
+        exits.push_back(ei);
+    }
+    for (int e: exits) {
+      cerr << "exit " << e << endl;
     }
 
     // game loop
@@ -139,9 +145,15 @@ int main()
         int si; // The index of the node on which the Bobnet agent is positioned this turn
         cin >> si; cin.ignore();
 
+        for (int ex : exits) {
+          Node n = nodes[ex];
+          if (n.links.find(si) != n.links.end()) {
+            cout << ex << " " << si << endl;
+          }
 
+        }
 
         // Example: 3 4 are the indices of the nodes you wish to sever the link between
-        cout << "3 4" << endl;
+        // cout << "3 4" << endl;
     }
 }
