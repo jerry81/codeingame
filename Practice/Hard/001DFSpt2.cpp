@@ -89,6 +89,7 @@ Response time per turn ≤ 150ms
 #include <vector>
 #include <algorithm>
 #include <unordered_map>
+#include <queue>
 
 using namespace std;
 
@@ -106,18 +107,30 @@ struct Node {
 
 unordered_map<int, Node> nodes;
 
-int dfs(int target, unordered_map<int, bool> visited, int cur) {
+int bfs(int target, unordered_map<int, bool> visited, int cur) {
   if (cur == target) return 0;
 
-  visited[cur] = true;
+  queue<int> neighbors;
+  bool found = false;
 
-  vector<int> group;
-  for (auto a: nodes[cur].links) {
-    if (visited.find(a.first) == visited.end()) {
-      return 1+dfs(target, visited, a.first);
+  neighbors.push(cur);
+  int dist = 0;
+  while (!found) {
+    queue<int> next_neighbors;
+    while (!neighbors.empty()) {
+      int item = neighbors.front();
+      if (item == target) return dist;
+      visited[item] = true;
+      neighbors.pop();
+      for (auto i:nodes[item].links) {
+        if (visited.find(i.first) == visited.end()) {
+          next_neighbors.push(i.first);
+        }
+      }
     }
+    dist+=1;
   }
-  //return *min_element(group.begin(), group.end());
+
 }
 
 void sever_link(int a, int b) {
@@ -172,7 +185,7 @@ int main()
             for (auto a : n.links) {
               unordered_map<int, bool> visited;
               visited[ex] = true;
-              int dist = dfs(si, visited, a.first);
+              int dist = bfs(si, visited, a.first);
               if (dist < lowest_len) {
                 lowest_len = dist;
                 closest_a = ex;
