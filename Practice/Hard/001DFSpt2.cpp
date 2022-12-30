@@ -129,6 +129,7 @@ int bfs(int target, unordered_map<int, bool> visited, int cur) {
       }
     }
     dist+=1;
+    neighbors = next_neighbors;
   }
 
 }
