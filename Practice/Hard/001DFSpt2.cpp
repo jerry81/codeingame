@@ -108,6 +108,16 @@ unordered_map<int, Node> nodes;
 
 int dfs(int target, unordered_map<int, bool> visited, int cur) {
   if (cur == target) return 0;
+
+  visited[cur] = true;
+
+  vector<int> group;
+  for (auto a: nodes[cur].links) {
+    if (visited.find(a.first) == visited.end()) {
+      group.push_back(1+dfs(target, visited, a.first));
+    }
+  }
+  return *min_element(group.begin(), group.end());
 }
 
 void sever_link(int a, int b) {
@@ -170,7 +180,7 @@ int main()
             }
           }
         }
-        sever_link(closest_a, closest_b)
+        sever_link(closest_a, closest_b);
         // Example: 3 4 are the indices of the nodes you wish to sever the link between
         cout << closest_a << " " << closest_b << endl;
     }
