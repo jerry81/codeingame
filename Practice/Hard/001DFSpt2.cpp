@@ -164,11 +164,15 @@ int main()
         int closest_b;
         for (int ex : exits) {
           Node n = nodes[ex];
+          if (n.links.find(si) != n.links.end()) {
+            closest_a = si;
+            closest_b = ex;
+            break;
+          } else {
             for (auto a : n.links) {
               unordered_map<int, bool> visited;
               visited[ex] = true;
               int dist = dfs(si, visited, a.first);
-              cerr << "dist is " << dist << endl;
               if (dist < lowest_len) {
                 lowest_len = dist;
                 closest_a = ex;
@@ -176,7 +180,7 @@ int main()
               }
             }
           }
-
+        }
         sever_link(closest_a, closest_b);
         // Example: 3 4 are the indices of the nodes you wish to sever the link between
         cout << closest_a << " " << closest_b << endl;
