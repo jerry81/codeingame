@@ -96,8 +96,8 @@ using namespace std;
 struct Node {
   int index;
   unordered_map<int, bool> links;
-  bool exit;
-  Node(int i = -1, bool ex = false) : index(i), exit(ex) {};
+  int exit_count;
+  Node(int i = -1, int ex = 0, int d = 0) : index(i), exit_count(ex) {};
   void addLink(int i) {
     if (links.find(i) == links.end()) {
       links[i] = true;
@@ -106,6 +106,7 @@ struct Node {
 };
 
 unordered_map<int, Node> nodes;
+vector<int> exits;
 
 int bfs(int target, unordered_map<int, bool> visited, int cur) {
   if (cur == target) return 0;
@@ -159,7 +160,7 @@ int main()
         nodes[n2].addLink(n1);
         cerr << "n1 " << n1 << " n2 " << n2 << endl;
     }
-    vector<int> exits;
+
     for (int i = 0; i < e; i++) {
         int ei; // the index of a gateway node
         cin >> ei; cin.ignore();
@@ -187,6 +188,8 @@ int main()
               unordered_map<int, bool> visited;
               visited[ex] = true;
               int dist = bfs(si, visited, a.first);
+              cerr << "dist to " << a.first << " is " << dist << endl;
+
               if (dist < lowest_len) {
                 lowest_len = dist;
                 closest_a = ex;
