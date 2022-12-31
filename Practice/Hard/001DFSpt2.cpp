@@ -98,7 +98,7 @@ struct Node {
   unordered_map<int, bool> links;
   int exit_count;
   bool isExit;
-  Node(int i = -1, int ex = 0, int d = 0, bool e) : index(i), exit_count(ex), isExit(e) {};
+  Node(int i = -1, int ex = 0, int d = 0, bool e=false) : index(i), exit_count(ex), isExit(e) {};
   void addLink(int i) {
     if (links.find(i) == links.end()) {
       links[i] = true;
@@ -185,6 +185,7 @@ int main()
         int si; // The index of the node on which the Bobnet agent is positioned this turn
         cin >> si; cin.ignore();
         int lowest_len = 1000;
+        int most_gw = 0;
         int closest_a;
         int closest_b;
         for (int ex : exits) {
@@ -198,12 +199,20 @@ int main()
               unordered_map<int, bool> visited;
               visited[ex] = true;
               int dist = bfs(si, visited, a.first);
+
               cerr << "dist to " << a.first << " is " << dist << endl;
               cerr << "exit count is " << nodes[a.first].exit_count << endl;
               if (dist < lowest_len) {
                 lowest_len = dist;
                 closest_a = ex;
                 closest_b = a.first;
+                most_gw = nodes[a.first].exit_count;
+              } else if (dist == lowest_len) {
+                if (nodes[a.first].exit_count > most_gw) {
+                  closest_a = ex;
+                  closest_b = a.first;
+                  most_gw = nodes[a.first].exit_count;
+                }
               }
             }
           }
