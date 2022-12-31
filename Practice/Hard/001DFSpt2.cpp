@@ -97,11 +97,15 @@ struct Node {
   int index;
   unordered_map<int, bool> links;
   int exit_count;
-  Node(int i = -1, int ex = 0, int d = 0) : index(i), exit_count(ex) {};
+  bool isExit;
+  Node(int i = -1, int ex = 0, int d = 0, bool e) : index(i), exit_count(ex), isExit(e) {};
   void addLink(int i) {
     if (links.find(i) == links.end()) {
       links[i] = true;
     }
+  }
+  void make_exit() {
+    isExit = true;
   }
 };
 
@@ -138,6 +142,8 @@ int bfs(int target, unordered_map<int, bool> visited, int cur) {
 void sever_link(int a, int b) {
             nodes[a].links.erase(b);
             nodes[b].links.erase(a);
+            if (nodes[a].isExit) --nodes[b].exit_count;
+            if (nodes[b].isExit) --nodes[a].exit_count;
 }
 
 int main()
@@ -164,6 +170,10 @@ int main()
     for (int i = 0; i < e; i++) {
         int ei; // the index of a gateway node
         cin >> ei; cin.ignore();
+        nodes[ei].make_exit();
+        for (auto a: nodes[ei].links) {
+          nodes[a.first].exit_count+=1;
+        }
         exits.push_back(ei);
     }
     for (int e: exits) {
@@ -189,7 +199,7 @@ int main()
               visited[ex] = true;
               int dist = bfs(si, visited, a.first);
               cerr << "dist to " << a.first << " is " << dist << endl;
-
+              cerr << "exit count is " << nodes[a.first].exit_count << endl;
               if (dist < lowest_len) {
                 lowest_len = dist;
                 closest_a = ex;
