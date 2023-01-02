@@ -202,13 +202,9 @@ int main()
 
               cerr << "dist to " << a.first << " is " << dist << endl;
               cerr << "exit count is " << nodes[a.first].exit_count << endl;
-              if (dist < lowest_len) {
-                lowest_len = dist;
-                closest_a = ex;
-                closest_b = a.first;
-                most_gw = nodes[a.first].exit_count;
-              } else if (dist == lowest_len) {
-                if (nodes[a.first].exit_count > most_gw) {
+              if (nodes[a.first].exit_count >= most_gw)  {
+                if (lowest_len >= dist) {
+                  lowest_len = dist;
                   closest_a = ex;
                   closest_b = a.first;
                   most_gw = nodes[a.first].exit_count;
