@@ -112,7 +112,21 @@ struct Node {
 unordered_map<int, Node> nodes;
 vector<int> exits;
 
+bool dfs(int target, unordered_map<int, bool> visited, int cur, vector<int> &path) {
+  if (cur == target) {
+    path.push_back(cur);
+    return true;
+  }
+
+  for (auto a: nodes[cur].links) {
+    visited[a.first] = true;
+    if ()
+  }
+  return false;
+}
+
 int bfs(int target, unordered_map<int, bool> visited, int cur) {
+  vector<int> path;
   if (cur == target) return 0;
 
   queue<int> neighbors;
@@ -218,3 +232,10 @@ int main()
         cout << closest_a << " " << closest_b << endl;
     }
 }
+
+/*
+
+try - consider # of connected exits in distance calc
+- if connected, doesn't count
+
+*/
