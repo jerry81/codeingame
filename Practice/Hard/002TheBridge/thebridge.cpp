@@ -89,13 +89,24 @@ The bike is out of trouble
 
 using namespace std;
 
-/**
- * Auto-generated code below aims at helping you parse
- * the standard input according to the problem statement.
- **/
+class Map {
+  vector<string> grid;
+
+  public:
+    void AddLine(string line) {
+      grid.push_back(line);
+    }
+    void Print() {
+      cerr << "printing map... " << endl;
+      for (string s: grid) {
+        cerr << s << endl;
+      }
+    }
+};
 
 int main()
 {
+    Map map;
     int m; // the amount of motorbikes to control
     cin >> m; cin.ignore();
     int v; // the minimum amount of motorbikes that must survive
@@ -108,6 +119,11 @@ int main()
     cin >> l2; cin.ignore();
     string l3;
     cin >> l3; cin.ignore();
+    map.AddLine(l0);
+    map.AddLine(l1);
+    map.AddLine(l2);
+    map.AddLine(l3);
+    map.Print();
 
     // game loop
     while (1) {
@@ -128,3 +144,9 @@ int main()
         cout << "SPEED" << endl;
     }
 }
+
+/* step 1:
+  representation
+  a.  map
+
+*/
