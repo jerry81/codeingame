@@ -131,18 +131,17 @@ int bfs(int target, unordered_map<int, bool> visited, int cur) {
   starter.path = p;
   starter.val = cur;
   neighbors.push(starter);
-  int dist = 0;
   while (!found) {
     queue<Linked> next_neighbors;
     while (!neighbors.empty()) {
       Linked item = neighbors.front();
 
       if (item.val == target) {
-        cerr << "about to iterate the path" << endl;
+        int tally = 0;
         for (auto a: item.path) {
-          cerr << "pth item is " << a << endl;
+          (nodes[a].exit_count == 0) && tally++;
         }
-        return dist;
+        return tally;
       }
       visited[item.val] = true;
       neighbors.pop();
@@ -157,7 +156,6 @@ int bfs(int target, unordered_map<int, bool> visited, int cur) {
         }
       }
     }
-    dist+=1;
     neighbors = next_neighbors;
   }
 
