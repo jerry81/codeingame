@@ -112,44 +112,48 @@ struct Node {
 unordered_map<int, Node> nodes;
 vector<int> exits;
 
-vector<int> dfs(int target, unordered_map<int, bool> visited, int cur, vector<int> path) {
-  if (cur == target) {
-    path.push_back(cur);
-    return path;
-  }
 
-  visited[cur] = true;
-
-  path.push_back(cur);
-
-  for (auto a: nodes[cur].links) {
-    if (visited.find(a.first) == visited.end()) {
-      return dfs(target, visited, a.first, path);
-    }
-  }
-  vector<int> empty;
-  return empty;
-}
+struct Linked {
+  vector<int> path;
+  int val;
+};
 
 int bfs(int target, unordered_map<int, bool> visited, int cur) {
-  vector<int> path;
-  if (cur == target) return 0;
+  if (cur == target) {
+    return 0;
+  }
 
-  queue<int> neighbors;
+  queue<Linked> neighbors;
   bool found = false;
 
-  neighbors.push(cur);
+  Linked starter;
+  vector<int> p;
+  starter.path = p;
+  starter.val = cur;
+  neighbors.push(starter);
   int dist = 0;
   while (!found) {
-    queue<int> next_neighbors;
+    queue<Linked> next_neighbors;
     while (!neighbors.empty()) {
-      int item = neighbors.front();
-      if (item == target) return dist;
-      visited[item] = true;
+      Linked item = neighbors.front();
+
+      if (item.val == target) {
+        cerr << "about to iterate the path" << endl;
+        for (auto a: item.path) {
+          cerr << "pth item is " << a << endl;
+        }
+        return dist;
+      }
+      visited[item.val] = true;
       neighbors.pop();
-      for (auto i:nodes[item].links) {
+      for (auto i:nodes[item.val].links) {
         if (visited.find(i.first) == visited.end()) {
-          next_neighbors.push(i.first);
+          Linked l;
+          l.val = i.first;
+          vector<int> v = item.path;
+          v.push_back(item.val);
+          l.path = v;
+          next_neighbors.push(l);
         }
       }
     }
@@ -222,11 +226,6 @@ int main()
               unordered_map<int, bool> visited_d;
               visited_d[ex] = true;
               vector<int> p;
-              vector<int> path = dfs(si, visited_d, a.first, p);
-              cerr << "dump path for target " << si << " and start " << a.first << endl;
-              for (auto pth:path) {
-              cerr << "pth is " << pth << endl;
-              }
               cerr << "dist to " << a.first << " is " << dist << endl;
               cerr << "exit count is " << nodes[a.first].exit_count << endl;
               if (nodes[a.first].exit_count >= most_gw)  {
