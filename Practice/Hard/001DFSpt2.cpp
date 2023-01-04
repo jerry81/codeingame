@@ -118,10 +118,12 @@ vector<int> dfs(int target, unordered_map<int, bool> visited, int cur, vector<in
     return path;
   }
 
+  visited[cur] = true;
+
+  path.push_back(cur);
+
   for (auto a: nodes[cur].links) {
-    if (!visited[a.first]) {
-      visited[a.first] = true;
-      path.push_back(a.first);
+    if (visited.find(a.first) == visited.end()) {
       return dfs(target, visited, a.first, path);
     }
   }
@@ -217,7 +219,14 @@ int main()
               unordered_map<int, bool> visited;
               visited[ex] = true;
               int dist = bfs(si, visited, a.first);
-
+              unordered_map<int, bool> visited_d;
+              visited_d[ex] = true;
+              vector<int> p;
+              vector<int> path = dfs(si, visited_d, a.first, p);
+              cerr << "dump path for target " << si << " and start " << a.first << endl;
+              for (auto pth:path) {
+              cerr << "pth is " << pth << endl;
+              }
               cerr << "dist to " << a.first << " is " << dist << endl;
               cerr << "exit count is " << nodes[a.first].exit_count << endl;
               if (nodes[a.first].exit_count >= most_gw)  {
