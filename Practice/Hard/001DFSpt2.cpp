@@ -186,7 +186,6 @@ int main()
           nodes[n2] = Node(n2, false);
         }
         nodes[n2].addLink(n1);
-        cerr << "n1 " << n1 << " n2 " << n2 << endl;
     }
 
     for (int i = 0; i < e; i++) {
@@ -197,9 +196,6 @@ int main()
           nodes[a.first].exit_count+=1;
         }
         exits.push_back(ei);
-    }
-    for (int e: exits) {
-      cerr << "exit " << e << endl;
     }
 
     // game loop
@@ -221,11 +217,6 @@ int main()
               unordered_map<int, bool> visited;
               visited[ex] = true;
               int dist = bfs(si, visited, a.first);
-              unordered_map<int, bool> visited_d;
-              visited_d[ex] = true;
-              vector<int> p;
-              cerr << "dist to " << a.first << " is " << dist << endl;
-              cerr << "exit count is " << nodes[a.first].exit_count << endl;
               if (nodes[a.first].exit_count >= most_gw)  {
                 if (lowest_len >= dist) {
                   lowest_len = dist;
@@ -238,14 +229,6 @@ int main()
           }
         }
         sever_link(closest_a, closest_b);
-        // Example: 3 4 are the indices of the nodes you wish to sever the link between
         cout << closest_a << " " << closest_b << endl;
     }
 }
-
-/*
-
-try - consider # of connected exits in distance calc
-- if connected, doesn't count
-
-*/
