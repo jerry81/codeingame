@@ -91,6 +91,7 @@ using namespace std;
 
 class Map {
   vector<string> grid;
+  vector<string> backup;
   int bikes;
 
   public:
@@ -99,6 +100,7 @@ class Map {
     }
     void AddLine(string line) {
       grid.push_back(line);
+      backup = grid;
     }
     void Print() {
       cerr << "printing map... " << endl;
@@ -106,6 +108,15 @@ class Map {
         cerr << s << endl;
       }
     }
+
+    void Reset() {
+      grid = backup;
+    }
+
+    void AddBike(int y, int x, int id) {
+      grid[y][x] = id + '0';
+    }
+
 };
 
 int main()
@@ -131,6 +142,7 @@ int main()
 
     // game loop
     while (1) {
+        map->Reset();
         int s; // the motorbikes' speed
         cin >> s; cin.ignore();
         for (int i = 0; i < m; i++) {
@@ -138,6 +150,10 @@ int main()
             int y; // y coordinate of the motorbike
             int a; // indicates whether the motorbike is activated "1" or detroyed "0"
             cin >> x >> y >> a; cin.ignore();
+            if (a) {
+              map->AddBike(y,x,i);
+              map->Print();
+            }
         }
 
         // Write an action using cout. DON'T FORGET THE "<< endl"
