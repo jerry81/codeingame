@@ -91,8 +91,12 @@ using namespace std;
 
 class Map {
   vector<string> grid;
+  int bikes;
 
   public:
+    Map(int b) {
+      bikes = b;
+    }
     void AddLine(string line) {
       grid.push_back(line);
     }
@@ -106,9 +110,9 @@ class Map {
 
 int main()
 {
-    Map map;
     int m; // the amount of motorbikes to control
     cin >> m; cin.ignore();
+    Map* map = new Map(m);
     int v; // the minimum amount of motorbikes that must survive
     cin >> v; cin.ignore();
     string l0; // L0 to L3 are lanes of the road. A dot character . represents a safe space, a zero 0 represents a hole in the road.
@@ -119,11 +123,11 @@ int main()
     cin >> l2; cin.ignore();
     string l3;
     cin >> l3; cin.ignore();
-    map.AddLine(l0);
-    map.AddLine(l1);
-    map.AddLine(l2);
-    map.AddLine(l3);
-    map.Print();
+    map->AddLine(l0);
+    map->AddLine(l1);
+    map->AddLine(l2);
+    map->AddLine(l3);
+    map->Print();
 
     // game loop
     while (1) {
