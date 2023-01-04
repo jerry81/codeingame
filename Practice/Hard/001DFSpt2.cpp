@@ -112,17 +112,21 @@ struct Node {
 unordered_map<int, Node> nodes;
 vector<int> exits;
 
-bool dfs(int target, unordered_map<int, bool> visited, int cur, vector<int> &path) {
+vector<int> dfs(int target, unordered_map<int, bool> visited, int cur, vector<int> path) {
   if (cur == target) {
     path.push_back(cur);
-    return true;
+    return path;
   }
 
   for (auto a: nodes[cur].links) {
-    visited[a.first] = true;
-    if ()
+    if (!visited[a.first]) {
+      visited[a.first] = true;
+      path.push_back(a.first);
+      return dfs(target, visited, a.first, path);
+    }
   }
-  return false;
+  vector<int> empty;
+  return empty;
 }
 
 int bfs(int target, unordered_map<int, bool> visited, int cur) {
