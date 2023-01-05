@@ -93,6 +93,8 @@ class Map {
   vector<string> grid;
   vector<string> backup;
   int bikes;
+  vector<int> bikeRows;
+  int curx;
 
   public:
     Map(int b) {
@@ -111,10 +113,31 @@ class Map {
 
     void Reset() {
       grid = backup;
+      bikeRows.clear();
     }
 
     void AddBike(int y, int x, int id) {
-      grid[y][x] = id + '0';
+      grid[y][x] = id + 'a';
+      bikeRows.push_back(y);
+      curx = x;
+    }
+
+    int getNextHole(int row) {
+      string r = grid[row];
+      for (int cur = curx; cur < grid[row].size(); ++cur) {
+        if (r[cur] == '0') {
+          return cur;
+        }
+      }
+      return -1;
+    }
+
+    vector<int> DangerRow(int speed) {
+      vector<int> ret;
+      for (auto a: bikeRows) {
+        int nextHole = getNextHole(a);
+        cerr << "next hole is " << nextHole << endl;
+      }
     }
 
 };
@@ -154,6 +177,7 @@ int main()
               map->AddBike(y,x,i);
               map->Print();
             }
+            vector<int> danger = map->DangerRow(s);
         }
 
         // Write an action using cout. DON'T FORGET THE "<< endl"
