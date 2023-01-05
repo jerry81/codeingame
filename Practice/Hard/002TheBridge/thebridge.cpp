@@ -143,7 +143,7 @@ class Map {
     vector<int> ret;
     for (auto a : bikeRows) {
       int nextHole = getNextHole(a);
-      if (nextHole <= (speed + curx)) {
+      if (nextHole > 0 && nextHole <= (speed + curx)) {
         ret.push_back(a);
       }
     }
