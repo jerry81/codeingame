@@ -104,6 +104,7 @@ class Map {
   int bikes;
   vector<int> bikeRows;
   int curx;
+  int speed;
 
   int getNextHole(int row) {
     string r = grid[row];
@@ -126,6 +127,8 @@ class Map {
     for (string s : grid) {
       cerr << s << endl;
     }
+    cerr << "speed is " << speed << endl;
+    cerr << "curx is " << curx << endl;
   }
 
   void Reset() {
@@ -139,7 +142,7 @@ class Map {
     curx = x;
   }
 
-  vector<int> DangerRow(int speed) {
+  vector<int> DangerRow() {
     vector<int> ret;
     for (auto a : bikeRows) {
       int nextHole = getNextHole(a);
@@ -150,7 +153,12 @@ class Map {
     return ret;
   }
 
+  void SetSpeed(int sp) {
+    speed = sp;
+  }
+
   int SimulateMove(int move) {
+    int nextx = curx + speed;
     switch (move) {  // 0 wait, 1 up, 2 down, 3 speed, 4 slow, 5 jump
       case 0: {
         break;
@@ -207,6 +215,7 @@ int main() {
     int s;  // the motorbikes' speed
     cin >> s;
     cin.ignore();
+    map->SetSpeed(s);
     for (int i = 0; i < m; i++) {
       int x;  // x coordinate of the motorbike
       int y;  // y coordinate of the motorbike
@@ -216,13 +225,13 @@ int main() {
       cin.ignore();
       if (a) {
         map->AddBike(y, x, i);
-        map->Print();
       }
       danger = map->DangerRow(s);
       for (auto a : danger) {
         cerr << "danger " << a << endl;
       }
     }
+    map->Print();
 
     // A single line containing one of 6 keywords: SPEED, SLOW, JUMP, WAIT, UP,
     // DOWN.
