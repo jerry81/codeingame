@@ -157,10 +157,15 @@ class Map {
     speed = sp;
   }
 
+  bool survives(int x, int y) {
+    return grid[y][x] != '0';
+  }
+
   int SimulateMove(int move) {
     int nextx = curx + speed;
     switch (move) {  // 0 wait, 1 up, 2 down, 3 speed, 4 slow, 5 jump
       case 0: {
+
         break;
       }
       case 1: {
@@ -170,9 +175,11 @@ class Map {
         break;
       }
       case 3: {
+        nextx+=1;
         break;
       }
       case 4: {
+        nextx=1;
         break;
       }
       default: {
@@ -255,4 +262,8 @@ step 2:
     simulate move (count bike deaths)
     - simulate n moves (input - series of moves)
     - then need to simulate n permutations of different moves
+
+Notes:
+
+When you speed up, it applies to the next turn.
 */
