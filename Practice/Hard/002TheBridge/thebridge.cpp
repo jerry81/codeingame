@@ -157,15 +157,24 @@ class Map {
     speed = sp;
   }
 
-  bool survives(int x, int y) {
-    return grid[y][x] != '0';
+  bool survives(int x, int y, bool jumped=false) {
+    if (jumped) return grid[y][x+speed] != '0';
+
+    for (int i = x; i < (x+speed); ++i) {
+      if (grid[y][i] == '0') return false;
+    }
+
+    return true;
   }
 
   int SimulateMove(int move) {
     int nextx = curx + speed;
+    int survivors = 0;
     switch (move) {  // 0 wait, 1 up, 2 down, 3 speed, 4 slow, 5 jump
       case 0: {
-
+        for (int y:bikeRows) {
+          survives(curx, y) && survivors++;
+        }
         break;
       }
       case 1: {
