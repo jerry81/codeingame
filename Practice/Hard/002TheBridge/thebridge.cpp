@@ -149,6 +149,28 @@ class Map {
     }
     return ret;
   }
+
+  int SimulateMove(int move) {
+    switch (move) {  // 0 wait, 1 up, 2 down, 3 speed, 4 slow, 5 jump
+      case 0: {
+        break;
+      }
+      case 1: {
+        break;
+      }
+      case 2: {
+        break;
+      }
+      case 3: {
+        break;
+      }
+      case 4: {
+        break;
+      }
+      default: {
+      }
+    }
+  }
 };
 
 int main() {
@@ -202,9 +224,6 @@ int main() {
       }
     }
 
-    // Write an action using cout. DON'T FORGET THE "<< endl"
-    // To debug: cerr << "Debug messages..." << endl;
-
     // A single line containing one of 6 keywords: SPEED, SLOW, JUMP, WAIT, UP,
     // DOWN.
     if (danger.size() > 0) {
@@ -219,4 +238,12 @@ int main() {
   representation
   a.  map
 
+step 2:
+  - decision making
+  - simpler:
+    simulate 1 move - take least deaths from that move
+  - complex:
+    simulate move (count bike deaths)
+    - simulate n moves (input - series of moves)
+    - then need to simulate n permutations of different moves
 */
