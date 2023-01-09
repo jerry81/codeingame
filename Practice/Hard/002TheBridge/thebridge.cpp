@@ -178,6 +178,9 @@ class Map {
         break;
       }
       case 1: {
+        for (int y:bikeRows) {
+          survives(curx, y) && survivors++;
+        }
         break;
       }
       case 2: {
@@ -271,6 +274,9 @@ step 2:
     simulate move (count bike deaths)
     - simulate n moves (input - series of moves)
     - then need to simulate n permutations of different moves
+  - okay after looking at the skill tags (DFS, backgracking, tree, tree traversal, associative array) -
+  looks like we should be doing a simulation of all possible moves branches as an optimaztion algorithm
+  - however the tree nodes explode after 8 turns - (6^8 = 1679616)
 
 Notes:
 
