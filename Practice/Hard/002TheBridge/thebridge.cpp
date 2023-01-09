@@ -98,6 +98,12 @@ The bike is out of trouble
 
 using namespace std;
 
+struct SimulatedMove {
+  vector<int> bikeRows;
+  int nextSpeed;
+  int nextx;
+};
+
 class Map {
   vector<string> grid;
   vector<string> backup;
@@ -157,14 +163,17 @@ class Map {
     speed = sp;
   }
 
-  bool survives(int x, int y, bool jumped=false) {
-    if (jumped) return grid[y][x+speed] != '0';
+  SimulatedMove survives(SimulatedMove state, bool jumped=false) {
+    SimulatedMove sm;
+    if (jumped) {
 
-    for (int i = x; i < (x+speed); ++i) {
+    }
+
+    for (int i = x; i < (x+sp); ++i) {
       if (grid[y][i] == '0') return false;
     }
 
-    return true;
+    return sm;
   }
 
   int SimulateMove(int move) {
@@ -277,6 +286,8 @@ step 2:
   - okay after looking at the skill tags (DFS, backgracking, tree, tree traversal, associative array) -
   looks like we should be doing a simulation of all possible moves branches as an optimaztion algorithm
   - however the tree nodes explode after 8 turns - (6^8 = 1679616)
+    - but can be optimized by not building nodes if there all bikes dead.
+  - heuristic should be tried first
 
 Notes:
 
