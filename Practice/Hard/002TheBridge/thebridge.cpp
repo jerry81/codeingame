@@ -251,7 +251,7 @@ class Map {
       }
       default: {
         for (int y: state.bikeRows) {
-          if (survivesJump(y, state.x, state.speed, 0)) {
+          if (survivesJump(y, state.x, state.speed)) {
             sm.bikeRows.push_back(y);
           }
         }
