@@ -95,6 +95,8 @@ The bike is out of trouble
 #include <iostream>
 #include <string>
 #include <vector>
+#include <queue>
+
 
 using namespace std;
 
@@ -161,22 +163,24 @@ class Map {
     state.speed = sp;
   }
 
-  MapState survives(MapState state, bool jumped=false) {
+  MapState survives(MapState state, int move) {
     MapState sm;
-    if (jumped) {
-
-    }
-
-
-    return sm;
-  }
-
-  int SimulateMove(int move) {
-    int nextx = state.x + state.speed;
-    int survivors = 0;
+    sm.x = state.x + state.speed;
+    sm.speed = state.speed;
     switch (move) {  // 0 wait, 1 up, 2 down, 3 speed, 4 slow, 5 jump
       case 0: {
-
+        for (int y:state.bikeRows) {
+          for (int xc = state.x; xc < state.x + state.speed; ++xc) {
+            bool death = false;
+            if (grid[y][xc] == '0') {
+              death = true;
+              break;
+            }
+            if (!death) {
+              sm.bikeRows.push_back(y);
+            }
+          }
+        }
         break;
       }
       case 1: {
@@ -187,15 +191,24 @@ class Map {
         break;
       }
       case 3: {
-        nextx+=1;
         break;
       }
       case 4: {
-        nextx=1;
         break;
       }
       default: {
       }
+
+
+    return sm;
+  }
+
+  int SimulateMoves(queue<int> moves) {
+    MapState cur = state;
+    while (!moves.empty()) {
+      int move = moves.front();
+      moves.pop();
+      cur = survives(cur, move);
     }
   }
 };
