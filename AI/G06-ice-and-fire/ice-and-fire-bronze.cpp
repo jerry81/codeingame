@@ -153,11 +153,14 @@ using namespace std;
 struct Point {
   int x;
   int y;
+  Point(int x=-1,int y=-1):x(x), y(y) {};
 };
 
 class GameMap {
   vector<string> grid;
   vector<Point> mines;
+  vector<Point> friendlySquares;
+
 
   public:
     void resetGrid() {
@@ -181,6 +184,22 @@ class GameMap {
       for (string s:grid) {
         cerr << s << endl;
       }
+    }
+
+    void populateFriendlySquares() {
+      for (int i = 0; i < grid.size(); ++i) {
+        for (int j = 0; j < grid[i].size(); ++j) {
+          char c = grid[i][j];
+          if (c == 'o') {
+            Point p = Point(j,i);
+            friendlySquares.push_back(p);
+          }
+        }
+      }
+    }
+
+    vector<Point> getFriendlySquares() {
+      return friendlySquares;
     }
 };
 
@@ -213,11 +232,21 @@ class Game {
   unordered_map<int, Unit> units;
   vector<Building> buildings;
   GameMap map;
+  int myMoney;
+  int myIncome;
 
 
   public:
     void setMap(GameMap gm) {
       map = gm;
+    }
+
+    void setMyMoney(int money) {
+      myMoney = money;
+    }
+
+    void setMyIncome(int money) {
+      myIncome = money;
     }
 
     void addUnit(int id, int y, int x, int owner, int level) {
@@ -240,6 +269,33 @@ class Game {
       for (auto b: buildings) {
         b.print();
       }
+      cerr << "Map " << endl;
+      map.print();
+      cerr << "My gold " << myMoney<<endl;
+      cerr << "My income " << myIncome<<endl;
+    }
+
+    int getTrainableCount() {
+      return (int)(myMoney / 10);
+    }
+
+    bool occupied(Point p) {
+      for (auto u: units) {
+        if (u.second.x == p.x && u.second.y == p.y) return true;
+      }
+
+      for (Building b: buildings) {
+        if (b.x == p.x && b.y == p.y) return true;
+      }
+
+      return false;
+    }
+
+    int getTrainableSquares() {
+      vector<Point> friendlySqs = map.getFriendlySquares();
+      for (Point p: friendlySqs) {
+
+      }
     }
 };
 
@@ -260,8 +316,10 @@ int main()
     while (1) {
         int gold;
         cin >> gold; cin.ignore();
+        g.setMyMoney(gold);
         int income;
         cin >> income; cin.ignore();
+        g.setMyIncome(income);
         int opponent_gold;
         cin >> opponent_gold; cin.ignore();
         int opponent_income;
@@ -295,7 +353,13 @@ int main()
             g.addUnit(unit_id, y,x,owner,level);
         }
         g.print();
-
+        int trainable = g.getTrainableCount();
+        cerr << "trainable " << trainable << endl;
         cout << "WAIT" << endl; // MOVE TRAIN WAIT
     }
 }
+
+/*
+  step 1:  train!
+    - get trainables
+*/
