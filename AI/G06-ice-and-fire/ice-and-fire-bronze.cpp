@@ -146,6 +146,7 @@ In Bronze, you can build towers.
 #include <string>
 #include <vector>
 #include <algorithm>
+#include <unordered_map>
 
 using namespace std;
 
@@ -154,7 +155,7 @@ struct Point {
   int y;
 };
 
-class Map {
+class GameMap {
   vector<string> grid;
   vector<Point> mines;
 
@@ -174,10 +175,28 @@ class Map {
     void addMine(Point p) {
       mines.push_back(p);
     }
+
+    void print() {
+      cerr << "Printing map: " << endl;
+      for (string s:grid) {
+        cerr << s << endl;
+      }
+    }
+};
+
+struct Unit {
+  int id;
+  int x;
+  int y;
+};
+class Game {
+  unordered_map<Unit> friendlies;
+
 };
 
 int main()
 {
+    GameMap gm;
     int number_mine_spots;
     cin >> number_mine_spots; cin.ignore();
     for (int i = 0; i < number_mine_spots; i++) {
@@ -187,6 +206,7 @@ int main()
     }
 
     // game loop
+
     while (1) {
         int gold;
         cin >> gold; cin.ignore();
@@ -196,10 +216,13 @@ int main()
         cin >> opponent_gold; cin.ignore();
         int opponent_income;
         cin >> opponent_income; cin.ignore();
+        gm.resetGrid();
         for (int i = 0; i < 12; i++) {
             string line;
             cin >> line; cin.ignore();
+            gm.updateGrid(line);
         }
+        gm.print();
         int building_count;
         cin >> building_count; cin.ignore();
         for (int i = 0; i < building_count; i++) {
@@ -220,6 +243,6 @@ int main()
             cin >> owner >> unit_id >> level >> x >> y; cin.ignore();
         }
 
-        cout << "WAIT" << endl;
+        cout << "WAIT" << endl; // MOVE TRAIN WAIT
     }
 }
