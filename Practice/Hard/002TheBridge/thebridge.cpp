@@ -93,10 +93,9 @@ The bike is out of trouble
 
 #include <algorithm>
 #include <iostream>
+#include <queue>
 #include <string>
 #include <vector>
-#include <queue>
-
 
 using namespace std;
 
@@ -159,81 +158,72 @@ class Map {
     return ret;
   }
 
-  void SetSpeed(int sp) {
-    state.speed = sp;
+  void SetSpeed(int sp) { state.speed = sp; }
+
+  bool survives(int y, int x, int speed, int dy = 0) {
+    bool survives = true;
+    // up
+    if ((dy + y) >= grid.size()) {
+      return false;
+    }
+
+    if ((dy + y) < 0) {
+      return false;
+    }
+
+    for (int xc = x; xc < x + speed; ++xc) {
+      if (grid[y][xc] == '0') {
+        survives = false;
+        break;
+      }
+
+      if (dy == 0) {
+        continue;
+      }
+
+      if ((xc != (x + speed - 1)) && grid[y + dy][xc] == '0') {
+        survives = false;
+        break;
+      }
+    }
+    return survives;
   }
 
-  MapState survives(MapState state, int move) {
+  MapState nextState(MapState state, int move) {
     MapState sm;
     sm.x = state.x + state.speed;
     sm.speed = state.speed;
     switch (move) {  // 0 wait, 1 up, 2 down, 3 speed, 4 slow, 5 jump
       case 0: {
-        for (int y:state.bikeRows) {
-          for (int xc = state.x; xc < state.x + state.speed; ++xc) {
-            bool death = false;
-            if (grid[y][xc] == '0') {
-              death = true;
-              break;
-            }
-            if (!death) {
-              sm.bikeRows.push_back(y);
-            }
+        for (int y : state.bikeRows) {
+          bool sur = survives(y, state.x, state.speed);
+          if (sur) {
+            sm.bikeRows.push_back(y);
           }
         }
         break;
       }
       case 1: {
-        for (int y: state.bikeRows) {
-          int cy = y+1;
-          bool death = false;
-          if (cy >= grid.size()) {
-            death = true;
-            continue;
-          }
-          for (int xc = state.x; xc < state.x + state.speed; ++xc) {
-            if (grid[cy][xc] == '0') {
-              death = true;
-              break;
-            }
-
-            if (y != (xc+state.speed-1) && grid[y][xc] == '0') {
-              death = true;
-              break;
-            }
-          }
-          if (!death) {
-            sm.bikeRows.push_back(cy);
+        for (int y : state.bikeRows) {
+          bool sur = survives(y, state.x, state.speed, 1);
+          if (sur) {
+            sm.bikeRows.push_back((y + 1));
           }
         }
         break;
       }
       case 2: {
-        for (int y: state.bikeRows) {
-            int cy = y-1;
-            bool death = false;
-            if (cy < 0) {
-              death = true;
-              continue;
-            }
-            for (int xc = state.x; xc < state.x + state.speed; ++xc) {
-              if (grid[cy][xc] == '0') {
-                death = true;
-                break;
-              }
-
-              if (y != (xc+state.speed-1) && grid[y][xc] == '0') {
-                death = true;
-                break;
-              }
-            }
-            if (!death) {
-              sm.bikeRows.push_back(cy);
-            }
+        for (int y : state.bikeRows) {
+          bool sur = survives(y, state.x, state.speed, -1);
+          if (sur) {
+            sm.bikeRows.push_back((y - 1));
+          }
         }
         break;
       }
       case 3: {
+        sm.speed += 1;
+
         break;
       }
       case 4: {
@@ -241,7 +231,7 @@ class Map {
       }
       default: {
       }
-
+    }
 
     return sm;
   }
@@ -264,8 +254,8 @@ int main() {
   int v;  // the minimum amount of motorbikes that must survive
   cin >> v;
   cin.ignore();
-  string l0;  // L0 to L3 are lanes of the road. A dot character . represents a
-              // safe space, a zero 0 represents a hole in the road.
+  string l0;  // L0 to L3 are lanes of the road. A dot character . represents
+              // a safe space, a zero 0 represents a hole in the road.
   cin >> l0;
   cin.ignore();
   string l1;
@@ -294,8 +284,8 @@ int main() {
     for (int i = 0; i < m; i++) {
       int x;  // x coordinate of the motorbike
       int y;  // y coordinate of the motorbike
-      int a;  // indicates whether the motorbike is activated "1" or detroyed
-              // "0"
+      int a;  // indicates whether the motorbike is activated "1" or
+              // detroyed "0"
       cin >> x >> y >> a;
       cin.ignore();
       if (a) {
@@ -308,8 +298,8 @@ int main() {
     }
     map->Print();
 
-    // A single line containing one of 6 keywords: SPEED, SLOW, JUMP, WAIT, UP,
-    // DOWN.
+    // A single line containing one of 6 keywords: SPEED, SLOW, JUMP, WAIT,
+    // UP, DOWN.
     if (danger.size() > 0) {
       cout << "JUMP" << endl;
     } else {
@@ -330,8 +320,9 @@ step 2:
     simulate move (count bike deaths)
     - simulate n moves (input - series of moves)
     - then need to simulate n permutations of different moves
-  - okay after looking at the skill tags (DFS, backgracking, tree, tree traversal, associative array) -
-  looks like we should be doing a simulation of all possible moves branches as an optimaztion algorithm
+  - okay after looking at the skill tags (DFS, backgracking, tree, tree
+traversal, associative array) - looks like we should be doing a simulation
+of all possible moves branches as an optimaztion algorithm
   - however the tree nodes explode after 8 turns - (6^8 = 1679616)
     - but can be optimized by not building nodes if there all bikes dead.
   - heuristic should be tried first
