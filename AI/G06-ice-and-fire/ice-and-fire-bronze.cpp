@@ -149,10 +149,32 @@ In Bronze, you can build towers.
 
 using namespace std;
 
-/**
- * Auto-generated code below aims at helping you parse
- * the standard input according to the problem statement.
- **/
+struct Point {
+  int x;
+  int y;
+};
+
+class Map {
+  vector<string> grid;
+  vector<Point> mines;
+
+  public:
+    void resetGrid() {
+      grid.clear();
+    }
+
+    void updateGrid(string line) {
+      grid.push_back(line);
+    }
+
+    void resetMines() {
+      mines.clear();
+    }
+
+    void addMine(Point p) {
+      mines.push_back(p);
+    }
+};
 
 int main()
 {
@@ -197,9 +219,6 @@ int main()
             int y;
             cin >> owner >> unit_id >> level >> x >> y; cin.ignore();
         }
-
-        // Write an action using cout. DON'T FORGET THE "<< endl"
-        // To debug: cerr << "Debug messages..." << endl;
 
         cout << "WAIT" << endl;
     }
