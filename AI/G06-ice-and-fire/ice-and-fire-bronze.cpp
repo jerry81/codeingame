@@ -188,15 +188,65 @@ struct Unit {
   int id;
   int x;
   int y;
+  int owner;
+  int level;
+  Unit(int i = -1, int x = -1, int y = -1, int owner = -1, int level = -1) : id(i), x(x), y(y), owner(owner), level(level) {};
+  void print() {
+    cerr << "unit" << endl;
+    cerr << "id " << id << " x: " << x << " y: " << y << " owner: " << owner <<  " level: " << level << endl;
+  };
 };
-class Game {
-  unordered_map<Unit> friendlies;
 
+struct Building {
+  int type;
+  int owner;
+  int x;
+  int y;
+  void print() {
+    cerr << "building" << endl;
+    cerr << "type: " << type << " owner: " << owner << " x: " << x << " y: " << y << endl;
+  };
+  Building(int t = -1, int owner = -1, int x = -1, int y = -1): type(t), owner(owner), x(x), y(y) {};
+};
+
+class Game {
+  unordered_map<int, Unit> units;
+  vector<Building> buildings;
+  GameMap map;
+
+
+  public:
+    void setMap(GameMap gm) {
+      map = gm;
+    }
+
+    void addUnit(int id, int y, int x, int owner, int level) {
+      Unit u = Unit(id, x, y, owner, level);
+      units[id]=u;
+    }
+
+    void addBuilding(int type, int owner, int x, int y) {
+      Building b = Building(type, owner, x, y);
+      buildings.push_back(b);
+    }
+
+    void print() {
+      cerr << "Printing game status" << endl;
+      cerr << "Units" << endl;
+      for (auto pair: units) {
+        pair.second.print();
+      }
+      cerr << "Buildings" << endl;
+      for (auto b: buildings) {
+        b.print();
+      }
+    }
 };
 
 int main()
 {
     GameMap gm;
+    Game g;
     int number_mine_spots;
     cin >> number_mine_spots; cin.ignore();
     for (int i = 0; i < number_mine_spots; i++) {
@@ -221,8 +271,8 @@ int main()
             string line;
             cin >> line; cin.ignore();
             gm.updateGrid(line);
+            g.setMap(gm);
         }
-        gm.print();
         int building_count;
         cin >> building_count; cin.ignore();
         for (int i = 0; i < building_count; i++) {
@@ -231,6 +281,7 @@ int main()
             int x;
             int y;
             cin >> owner >> building_type >> x >> y; cin.ignore();
+            g.addBuilding(building_type, owner, x, y);
         }
         int unit_count;
         cin >> unit_count; cin.ignore();
@@ -241,7 +292,9 @@ int main()
             int x;
             int y;
             cin >> owner >> unit_id >> level >> x >> y; cin.ignore();
+            g.addUnit(unit_id, y,x,owner,level);
         }
+        g.print();
 
         cout << "WAIT" << endl; // MOVE TRAIN WAIT
     }
