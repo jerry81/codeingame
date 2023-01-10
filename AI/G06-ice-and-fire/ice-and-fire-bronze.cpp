@@ -214,6 +214,10 @@ class GameMap {
     }
   }
 
+  char at(Point p) {
+    return grid[p.y][p.x];
+  }
+
   vector<Point> getFriendlySquares() { return friendlySquares; }
 };
 
@@ -230,6 +234,13 @@ struct Unit {
     cerr << "id " << id << " x: " << x << " y: " << y << " owner: " << owner
          << " level: " << level << endl;
   };
+};
+
+struct Move {
+  int id;
+  int x;
+  int y;
+  Move(int id = -1, int x = -1, int y = -1) : id(id), x(x), y(y) {};
 };
 
 struct Building {
@@ -343,6 +354,16 @@ class Game {
     return res;
   }
 
+  bool isValidTrainingGround(Point p) {
+    char c = map.at(p);
+    return c == 'O' || c == 'o' || c == '.';
+  }
+
+  bool isValidMove(Point p) {
+    char c = map.at(p);
+    return c == '.' || c == 'X' || c == 'x';
+  }
+
   vector<Point> getTrainableSquares() {
     vector<Point> ret;
     vector<Point> friendlySqs = map.getFriendlySquares();
@@ -355,7 +376,7 @@ class Game {
     for (auto y: ptsMap) {
       for (auto x: y.second) {
         Point p = Point(y.first, x.first);
-        if (!occupied(p)) {
+        if (isValidTrainingGround(p) && !occupied(p)) {
           ret.push_back(p);
         }
       }
@@ -366,17 +387,53 @@ class Game {
   void analyzeMap() {
     map.populateFriendlySquares();
   }
+
+  vector<Move> getMoves() {
+    vector<Move> ret;
+    for (auto u: units) {
+      Move m = Move(u.second.id);
+      if (u.second.owner != 0) {
+        continue;
+      }
+
+      // get neighbors
+      Point p = Point(u.second.x, u.second.y);
+      auto neighbors = getNeighbors(p);
+      for (auto y: neighbors) {
+        bool should_break = false;
+        for (auto x: y.second) {
+          Point p = Point(y.first,x.first);
+          if (isValidMove(p)) {
+            m.x = x.first;
+            m.y = y.first;
+            ret.push_back(m);
+            should_break = true;
+            break;
+          }
+        }
+        if (should_break) break;
+      }
+    }
+    return ret;
+  }
 };
 
-string makeCommand(vector<Point> trainable) {
+string makeCommand(vector<Point> trainable, vector<Move> moves) {
   string ret = "";
   for (Point p: trainable) {
     string segment = "TRAIN 1 " + std::to_string(p.x) + " " + std::to_string(p.y) + ";";
     ret+=segment;
   }
+
+  for (Move m: moves) {
+    string segment = "MOVE " + std::to_string(m.id) + " " + std::to_string(m.x) + " " + std::to_string(m.y) + ";";
+    ret+= segment;
+  }
+
   if (ret.empty()) {
     ret = "WAIT";
   }
+
   return ret;
 }
 
@@ -447,7 +504,12 @@ int main() {
     g.print();
     int trainable = g.getTrainableCount();
     vector<Point> trainableSqs = g.getTrainableSquares();
-    string command = makeCommand(trainableSqs);
+    vector<Move> moves = g.getMoves();
+    cerr << "moves " << endl;
+    for (Move m: moves) {
+      cerr << "Move id " << m.id << " x: " << m.x << " y: " << m.y << endl;
+    }
+    string command = makeCommand(trainableSqs, moves);
     // cerr << "trainable " << trainable << endl;
     cout << command << endl;  // MOVE TRAIN WAIT
   }
@@ -456,4 +518,11 @@ int main() {
 /*
   step 1:  train!
     - get trainables
+
+  step 2: move!
+    - for each unit
+    - get the unit's neighbors
+      - favor unvisited nodes
+      - favor enemy nodes
+
 */
