@@ -98,23 +98,21 @@ The bike is out of trouble
 
 using namespace std;
 
-struct SimulatedMove {
+struct MapState {
   vector<int> bikeRows;
-  int nextSpeed;
-  int nextx;
+  int speed;
+  int x;
 };
 
 class Map {
   vector<string> grid;
   vector<string> backup;
   int bikes;
-  vector<int> bikeRows;
-  int curx;
-  int speed;
+  MapState state;
 
   int getNextHole(int row) {
     string r = grid[row];
-    for (int cur = curx; cur < grid[row].size(); ++cur) {
+    for (int cur = state.x; cur < grid[row].size(); ++cur) {
       if (r[cur] == '0') {
         return cur;
       }
@@ -133,26 +131,26 @@ class Map {
     for (string s : grid) {
       cerr << s << endl;
     }
-    cerr << "speed is " << speed << endl;
-    cerr << "curx is " << curx << endl;
+    cerr << "speed is " << state.speed << endl;
+    cerr << "curx is " << state.x << endl;
   }
 
   void Reset() {
     grid = backup;
-    bikeRows.clear();
+    state.bikeRows.clear();
   }
 
   void AddBike(int y, int x, int id) {
     grid[y][x] = id + 'a';
-    bikeRows.push_back(y);
-    curx = x;
+    state.bikeRows.push_back(y);
+    state.x = x;
   }
 
   vector<int> DangerRow() {
     vector<int> ret;
-    for (auto a : bikeRows) {
+    for (auto a : state.bikeRows) {
       int nextHole = getNextHole(a);
-      if (nextHole > 0 && nextHole <= (speed + curx)) {
+      if (nextHole > 0 && nextHole <= (state.speed + state.curx)) {
         ret.push_back(a);
       }
     }
@@ -160,35 +158,32 @@ class Map {
   }
 
   void SetSpeed(int sp) {
-    speed = sp;
+    state.speed = sp;
   }
 
-  SimulatedMove survives(SimulatedMove state, bool jumped=false) {
-    SimulatedMove sm;
+  MapState survives(MapState state, bool jumped=false) {
+    MapState sm;
     if (jumped) {
 
     }
 
-    for (int i = x; i < (x+sp); ++i) {
-      if (grid[y][i] == '0') return false;
-    }
 
     return sm;
   }
 
   int SimulateMove(int move) {
-    int nextx = curx + speed;
+    int nextx = state.x + state.speed;
     int survivors = 0;
     switch (move) {  // 0 wait, 1 up, 2 down, 3 speed, 4 slow, 5 jump
       case 0: {
-        for (int y:bikeRows) {
-          survives(curx, y) && survivors++;
+        for (int y:state.bikeRows) {
+          survives(state.x, y) && survivors++;
         }
         break;
       }
       case 1: {
-        for (int y:bikeRows) {
-          survives(curx, y) && survivors++;
+        for (int y:state.bikeRows) {
+          survives(state.x, y) && survivors++;
         }
         break;
       }
