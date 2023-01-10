@@ -209,6 +209,28 @@ class Map {
         break;
       }
       case 2: {
+        for (int y: state.bikeRows) {
+            int cy = y-1;
+            bool death = false;
+            if (cy < 0) {
+              death = true;
+              continue;
+            }
+            for (int xc = state.x; xc < state.x + state.speed; ++xc) {
+              if (grid[cy][xc] == '0') {
+                death = true;
+                break;
+              }
+
+              if (y != (xc+state.speed-1) && grid[y][xc] == '0') {
+                death = true;
+                break;
+              }
+            }
+            if (!death) {
+              sm.bikeRows.push_back(cy);
+            }
+        }
         break;
       }
       case 3: {
