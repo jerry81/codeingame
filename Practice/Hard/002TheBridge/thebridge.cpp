@@ -189,6 +189,12 @@ class Map {
     return survives;
   }
 
+  bool survivesJump(int y, int x, int speed) {
+    if ((x + speed) >= grid[0].size()) return true;
+
+    return grid[y][x+speed] != '0';
+  }
+
   MapState nextState(MapState state, int move) {
     MapState sm;
     sm.x = state.x + state.speed;
@@ -223,13 +229,32 @@ class Map {
       }
       case 3: {
         sm.speed += 1;
-
+        for (int y: state.bikeRows) {
+          bool sur = survives(y, state.x, sm.speed, 0);
+          if (sur) {
+            sm.bikeRows.push_back(y);
+          }
+        }
         break;
       }
       case 4: {
+        //slow
+        // TODO: handle speed already 0
+        sm.speed -= 1;
+        for (int y: state.bikeRows) {
+          bool sur = survives(y, state.x, sm.speed, 0);
+          if (sur) {
+            sm.bikeRows.push_back(y);
+          }
+        }
         break;
       }
       default: {
+        for (int y: state.bikeRows) {
+          if (survivesJump(y, state.x, state.speed, 0)) {
+            sm.bikeRows.push_back(y);
+          }
+        }
       }
     }
 
@@ -241,7 +266,7 @@ class Map {
     while (!moves.empty()) {
       int move = moves.front();
       moves.pop();
-      cur = survives(cur, move);
+      cur = nextState(cur, move);
     }
   }
 };
