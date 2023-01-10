@@ -150,7 +150,7 @@ class Map {
     vector<int> ret;
     for (auto a : state.bikeRows) {
       int nextHole = getNextHole(a);
-      if (nextHole > 0 && nextHole <= (state.speed + state.curx)) {
+      if (nextHole > 0 && nextHole <= (state.speed + state.x)) {
         ret.push_back(a);
       }
     }
@@ -176,15 +176,11 @@ class Map {
     int survivors = 0;
     switch (move) {  // 0 wait, 1 up, 2 down, 3 speed, 4 slow, 5 jump
       case 0: {
-        for (int y:state.bikeRows) {
-          survives(state.x, y) && survivors++;
-        }
+
         break;
       }
       case 1: {
-        for (int y:state.bikeRows) {
-          survives(state.x, y) && survivors++;
-        }
+
         break;
       }
       case 2: {
@@ -249,7 +245,7 @@ int main() {
       if (a) {
         map->AddBike(y, x, i);
       }
-      danger = map->DangerRow(s);
+      danger = map->DangerRow();
       for (auto a : danger) {
         cerr << "danger " << a << endl;
       }
