@@ -348,16 +348,16 @@ class Game {
     vector<Point> friendlySqs = map.getFriendlySquares();
     unordered_map<int, unordered_map<int, bool>> ptsMap;
     for (Point p : friendlySqs) {
-      ptsMap = getNeighbors(p);
+      ptsMap.merge(getNeighbors(p));
       cerr << "neighbors "<<endl;
-      for (auto y: ptsMap) {
-        cerr << "y is " << y.first << endl;
-        for (auto x: y.second) {
-          cerr << "x is " << x.first << endl;
+    }
+
+    for (auto y: ptsMap) {
+      for (auto x: y.second) {
+        Point p = Point(y.first, x.first);
+        if (!occupied(p)) {
+          ret.push_back(p);
         }
-      }
-      if (!occupied(p)) {
-        ret.push_back(p);
       }
     }
     return ret;
@@ -367,6 +367,18 @@ class Game {
     map.populateFriendlySquares();
   }
 };
+
+string makeCommand(vector<Point> trainable) {
+  string ret = "";
+  for (Point p: trainable) {
+    string segment = "TRAIN 1 " + std::to_string(p.x) + " " + std::to_string(p.y) + ";";
+    ret+=segment;
+  }
+  if (ret.empty()) {
+    ret = "WAIT";
+  }
+  return ret;
+}
 
 int main() {
   GameMap gm;
@@ -435,12 +447,9 @@ int main() {
     g.print();
     int trainable = g.getTrainableCount();
     vector<Point> trainableSqs = g.getTrainableSquares();
-    for (Point p : trainableSqs) {
-      cerr << "trainable at: " << endl;
-      p.print();
-    }
-    cerr << "trainable " << trainable << endl;
-    cout << "WAIT" << endl;  // MOVE TRAIN WAIT
+    string command = makeCommand(trainableSqs);
+    // cerr << "trainable " << trainable << endl;
+    cout << command << endl;  // MOVE TRAIN WAIT
   }
 }
 
