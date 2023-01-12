@@ -361,6 +361,7 @@ class Game {
 
   bool isValidMove(Point p) {
     char c = map.at(p);
+    cerr << "at is " << c << endl;
     return c == '.' || c == 'X' || c == 'x';
   }
 
@@ -375,7 +376,7 @@ class Game {
 
     for (auto y: ptsMap) {
       for (auto x: y.second) {
-        Point p = Point(y.first, x.first);
+        Point p = Point(x.first, y.first);
         if (isValidTrainingGround(p) && !occupied(p)) {
           ret.push_back(p);
         }
@@ -398,12 +399,21 @@ class Game {
 
       // get neighbors
       Point p = Point(u.second.x, u.second.y);
+      cerr << "we are getting moves for p " << endl;
+      p.print();
       auto neighbors = getNeighbors(p);
+      for (auto y: neighbors) {
+        for (auto x: y.second) {
+          cerr << "neighbor y: " << y.first << " x: " << x.first << endl;
+        }
+      }
       for (auto y: neighbors) {
         bool should_break = false;
         for (auto x: y.second) {
-          Point p = Point(y.first,x.first);
+          Point p = Point(x.first,y.first);
           if (isValidMove(p)) {
+            p.print();
+            cerr << "is a valid move " << endl;
             m.x = x.first;
             m.y = y.first;
             ret.push_back(m);
