@@ -4,6 +4,16 @@
 - rotate the direction order for new units (don't all start with right)
 - units just sit idly often
 - when enemies come to attack, we never attack them, we only try to grab unfriendly unoccupied squares
+- no mining
+  - check if there are minable squares
+- no filtered data structures make for longer searches
+  - refactor - more "specific" data structures (friendly units, level 1 units, mines, hqs)
+- no pathfinding
+  - add shortest path to point from target method
+- units should always have a goal and not be idle
+  - level 1 units, the scouts, should be grabbing the closest unoccupied square not targeted by another level 1)  need shortest paths to find the closest unoccupied square
+  - level 2 units should hunt enemy level 1 units
+  - level 3 units should defend mines and hq and defend against enemy level 3 units
 
 # wood 3 to wood 2
 
