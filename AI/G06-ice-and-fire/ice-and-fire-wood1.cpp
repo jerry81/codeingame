@@ -3,17 +3,19 @@
 
 Welcome to the Wood1 league!
 
-You are now able to build mines (BUILD MINE) to generate more income. They can be built only on mine spots.
+You are now able to build mines (BUILD MINE) to generate more income. They can
+be built only on mine spots.
 
-Starter AIs are available in the Starter Kit. They can help you get started with coding your own bot. Check out the community events this week and have fun coding!
- 	The Goal
-Build armies to defeat your opponent by destroying their headquarters.
- 	Rules
-The map
+Starter AIs are available in the Starter Kit. They can help you get started with
+coding your own bot. Check out the community events this week and have fun
+coding! The Goal Build armies to defeat your opponent by destroying their
+headquarters. Rules The map
 
-The map is a grid of size 12x12, where the top-left corner is the cell (0,0). The map is randomly generated at the start of each game.
+The map is a grid of size 12x12, where the top-left corner is the cell (0,0).
+The map is randomly generated at the start of each game.
 
-Both players start with headquarters (HQ) from opposite edges of the map ((0,0) and (11,11)).
+Both players start with headquarters (HQ) from opposite edges of the map ((0,0)
+and (11,11)).
 
 A map cell can be either:
 
@@ -23,17 +25,25 @@ captured (O or X): belongs to a player.
 inactive (o or x): belongs to a player but inactive.
 Territory ownership
 
-Throughout the game, each player will capture cells to enlarge their territory. A player territory is composed of all the cells owned by the player that are active.
+Throughout the game, each player will capture cells to enlarge their territory.
+A player territory is composed of all the cells owned by the player that are
+active.
 
-A cell is said to be active if and only if the cell is connected to the headquarters. That is, there exists a path of owned cells from the headquarters to this cell.
+A cell is said to be active if and only if the cell is connected to the
+headquarters. That is, there exists a path of owned cells from the headquarters
+to this cell.
 
 territory-ownership
-The red territory is composed of 6 cells. The 3 red-dark cells are now inactive because the blue player interrupted part of this territory. By capturing, for example, the cell marked by an X, the red player can make these cells active again.
+The red territory is composed of 6 cells. The 3 red-dark cells are now inactive
+because the blue player interrupted part of this territory. By capturing, for
+example, the cell marked by an X, the red player can make these cells active
+again.
 
 
 Income
 
-At the beginning of each turn, a player gains or loses gold based on their income. A player has +1 income for each active cell owned.
+At the beginning of each turn, a player gains or loses gold based on their
+income. A player has +1 income for each active cell owned.
 
 Every turn, army units cost some income (upkeep).
 
@@ -42,40 +52,52 @@ Level 2 units reduce income by 4 per unit.
 Level 3 units reduce income by 20 per unit.
 Players has +4 income for each mine they control.
 
-If a player has negative income and cannot pay their upkeep using their gold, all of the player's units die and the player's gold is reset to 0.
+If a player has negative income and cannot pay their upkeep using their gold,
+all of the player's units die and the player's gold is reset to 0.
 
 
 Buildings
 
-Players can BUILD buildings to improve their economy or military power. A player can only build on owned active cells that are unoccupied.
+Players can BUILD buildings to improve their economy or military power. A player
+can only build on owned active cells that are unoccupied.
 
 In this league, players can only build one building: the MINE.
 
-MINE: mines produce gold each turn and can only be built on mine spots. Mines cost 15 to build. A mine's income is always +4.
-If a building is on an inactive cell, it is not destroyed; it is just inactive.
+MINE: mines produce gold each turn and can only be built on mine spots. Mines
+cost 15 to build. A mine's income is always +4. If a building is on an inactive
+cell, it is not destroyed; it is just inactive.
 
 
 Armies
 
-Army units can move to capture cells and to destroy opponent's buildings and units.
+Army units can move to capture cells and to destroy opponent's buildings and
+units.
 
-Army units of different levels (1, 2 or 3) can be trained using the command TRAIN level x y. The target cell (x,y) must be in the player's territory or its direct neighbourhood (adjacent cells).
+Army units of different levels (1, 2 or 3) can be trained using the command
+TRAIN level x y. The target cell (x,y) must be in the player's territory or its
+direct neighbourhood (adjacent cells).
 
-Army units can only destroy units of inferior level, except level 3 units which can destroy any unit.
+Army units can only destroy units of inferior level, except level 3 units which
+can destroy any unit.
 
 Every unit can destroy every building.
 
 Each unit can only move one cell per turn by using the command MOVE id x y.
 
-It's not possible to train or move on a cell with a friendly building or unit on it.
+It's not possible to train or move on a cell with a friendly building or unit on
+it.
 
 An army unit cannot move on the same turn it's trained.
 
-When using MOVE id x y, if the distance between the unit and the target coordinates (x,y) is greater than 1, the unit moves towards the target.
+When using MOVE id x y, if the distance between the unit and the target
+coordinates (x,y) is greater than 1, the unit moves towards the target.
 
-To train a unit or move it on an enemy unit or building, the attacking unit must be able to destroy the defending unit or building. If so, the attacking unit always survives. Else, the action is invalid; nothing happens.
+To train a unit or move it on an enemy unit or building, the attacking unit must
+be able to destroy the defending unit or building. If so, the attacking unit
+always survives. Else, the action is invalid; nothing happens.
 
-If a unit is on an inactive cell at the beginning of a turn, the unit is instantly destroyed.
+If a unit is on an inactive cell at the beginning of a turn, the unit is
+instantly destroyed.
 
 Level	1	2	3
 Recruitment cost	10	20	30
@@ -92,13 +114,11 @@ All actions are processed sequentially. Invalid actions are ignored.
 action-sequence-diagram
 Victory Conditions
 Destroy the enemy headquarters.
-After 100 turns, you have more military power than your opponent. The military power is computed by the sum of the cost of all of your units + your amount of gold.
-Lose Conditions
-You fail to provide a valid command in time.
-You provide a unrecognized command.
- 	Game Input
-Initialization input
-Line 1: one integer numberMineSpots: the number of mine spots on the map.
+After 100 turns, you have more military power than your opponent. The military
+power is computed by the sum of the cost of all of your units + your amount of
+gold. Lose Conditions You fail to provide a valid command in time. You provide a
+unrecognized command. Game Input Initialization input Line 1: one integer
+numberMineSpots: the number of mine spots on the map.
 
 Next numberMineSpots lines: two integers
 x and y: coordinates of the mine spot.
@@ -146,7 +166,8 @@ MOVE id x y
 TRAIN level x y where level is either 1, 2 or 3
 BUILD building-type x y where the building-type can only be MINE.
 WAIT to do nothing.
-You can add a message to display in the viewer by appending the command MSG my message.
+You can add a message to display in the viewer by appending the command MSG my
+message.
 
 Example: "MOVE 1 2 3; TRAIN 3 3 3; BUILD MINE 0 1; MSG Team Fire"
 Constraints
@@ -199,6 +220,12 @@ class GameMap {
     for (string s : grid) {
       cerr << s << endl;
     }
+
+    cerr << "Printing mines" << endl;
+    for (Point p : mines) {
+      cerr << "mine" << endl;
+      p.print();
+    }
   }
 
   void populateFriendlySquares() {
@@ -214,9 +241,7 @@ class GameMap {
     }
   }
 
-  char at(Point p) {
-    return grid[p.y][p.x];
-  }
+  char at(Point p) { return grid[p.y][p.x]; }
 
   vector<Point> getFriendlySquares() { return friendlySquares; }
 };
@@ -240,7 +265,11 @@ struct Move {
   int id;
   int x;
   int y;
-  Move(int id = -1, int x = -1, int y = -1) : id(id), x(x), y(y) {};
+  Move(int id = -1, int x = -1, int y = -1) : id(id), x(x), y(y){};
+  void print() {
+    cerr << "printing Move" << endl;
+    cerr << "move id: " << id << " x: " << x << " y: " << y << endl;
+  }
 };
 
 struct Building {
@@ -361,7 +390,6 @@ class Game {
 
   bool isValidMove(Point p) {
     char c = map.at(p);
-    cerr << "at is " << c << endl;
     return c == '.' || c == 'X' || c == 'x';
   }
 
@@ -371,11 +399,10 @@ class Game {
     unordered_map<int, unordered_map<int, bool>> ptsMap;
     for (Point p : friendlySqs) {
       ptsMap.merge(getNeighbors(p));
-      cerr << "neighbors "<<endl;
     }
 
-    for (auto y: ptsMap) {
-      for (auto x: y.second) {
+    for (auto y : ptsMap) {
+      for (auto x : y.second) {
         Point p = Point(x.first, y.first);
         if (isValidTrainingGround(p) && !occupied(p)) {
           ret.push_back(p);
@@ -385,13 +412,16 @@ class Game {
     return ret;
   }
 
-  void analyzeMap() {
-    map.populateFriendlySquares();
+  void analyzeMap() { map.populateFriendlySquares(); }
+
+  vector<Point> getOccupiedMines() {
+    vector<Point> ret;
+    return ret;
   }
 
   vector<Move> getMoves() {
     vector<Move> ret;
-    for (auto u: units) {
+    for (auto u : units) {
       Move m = Move(u.second.id);
       if (u.second.owner != 0) {
         continue;
@@ -399,21 +429,14 @@ class Game {
 
       // get neighbors
       Point p = Point(u.second.x, u.second.y);
-      cerr << "we are getting moves for p " << endl;
       p.print();
       auto neighbors = getNeighbors(p);
-      for (auto y: neighbors) {
-        for (auto x: y.second) {
-          cerr << "neighbor y: " << y.first << " x: " << x.first << endl;
-        }
-      }
-      for (auto y: neighbors) {
+      for (auto y : neighbors) {
         bool should_break = false;
-        for (auto x: y.second) {
-          Point p = Point(x.first,y.first);
+        for (auto x : y.second) {
+          Point p = Point(x.first, y.first);
           if (isValidMove(p)) {
             p.print();
-            cerr << "is a valid move " << endl;
             m.x = x.first;
             m.y = y.first;
             ret.push_back(m);
@@ -428,19 +451,25 @@ class Game {
   }
 };
 
-void getOccupiedMines() {
-}
-
-string makeCommand(vector<Point> trainable, vector<Move> moves) {
+string makeCommand(vector<Point> trainable, vector<Move> moves,
+                   vector<Point> mines) {
   string ret = "";
-  for (Point p: trainable) {
-    string segment = "TRAIN 1 " + std::to_string(p.x) + " " + std::to_string(p.y) + ";";
-    ret+=segment;
+  for (Point p : trainable) {
+    string segment =
+        "TRAIN 1 " + std::to_string(p.x) + " " + std::to_string(p.y) + ";";
+    ret += segment;
   }
 
-  for (Move m: moves) {
-    string segment = "MOVE " + std::to_string(m.id) + " " + std::to_string(m.x) + " " + std::to_string(m.y) + ";";
-    ret+= segment;
+  for (Move m : moves) {
+    string segment = "MOVE " + std::to_string(m.id) + " " +
+                     std::to_string(m.x) + " " + std::to_string(m.y) + ";";
+    ret += segment;
+  }
+
+  for (Point m : mines) {
+    string segment =
+        "BUILD MINE " + std::to_string(m.x) + " " + std::to_string(m.y) + ";";
+    ret += segment
   }
 
   if (ret.empty()) {
@@ -460,7 +489,7 @@ int main() {
     int x;
     int y;
     cin >> x >> y;
-    Point p = Point(x,y);
+    Point p = Point(x, y);
     gm.addMine(p);
     cin.ignore();
   }
@@ -520,12 +549,8 @@ int main() {
     int trainable = g.getTrainableCount();
     vector<Point> trainableSqs = g.getTrainableSquares();
     vector<Move> moves = g.getMoves();
-    cerr << "moves " << endl;
-    for (Move m: moves) {
-      cerr << "Move id " << m.id << " x: " << m.x << " y: " << m.y << endl;
-    }
-    string command = makeCommand(trainableSqs, moves);
-    // cerr << "trainable " << trainable << endl;
+    vector<Point> mines = g.getOccupiedMines();
+    string command = makeCommand(trainableSqs, moves, mines);
     cout << command << endl;  // MOVE TRAIN WAIT
   }
 }
