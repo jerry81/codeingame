@@ -192,6 +192,8 @@ class GameMap {
 
   void addMine(Point p) { mines.push_back(p); }
 
+  vector<Point> getMines() { return mines; }
+
   void print() {
     cerr << "Printing map: " << endl;
     for (string s : grid) {
@@ -426,6 +428,9 @@ class Game {
   }
 };
 
+void getOccupiedMines() {
+}
+
 string makeCommand(vector<Point> trainable, vector<Move> moves) {
   string ret = "";
   for (Point p: trainable) {
@@ -455,6 +460,8 @@ int main() {
     int x;
     int y;
     cin >> x >> y;
+    Point p = Point(x,y);
+    gm.addMine(p);
     cin.ignore();
   }
 
@@ -532,5 +539,8 @@ int main() {
     - get the unit's neighbors
       - favor unvisited nodes
       - favor enemy nodes
+
+  step 3:  build mines
+
 
 */
