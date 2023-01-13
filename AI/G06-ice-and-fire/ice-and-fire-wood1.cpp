@@ -186,6 +186,7 @@ In Bronze, you can build towers.
 #include <string>
 #include <unordered_map>
 #include <vector>
+#include <queue>
 
 using namespace std;
 
@@ -198,6 +199,11 @@ struct Point {
     cerr << "y: " << y << " x: " << x << endl;
   }
 };
+
+struct BFSPoint {
+  Point p;
+  vector<Point> path_to_point;
+}
 
 class GameMap {
   vector<string> grid;
@@ -504,6 +510,40 @@ class Game {
     return ret;
   }
 
+  Point firstItemOfShortestPath(Point a, Point b) {
+    queue<BFSPoint> q;
+    BFSPoint firstPoint;
+    firstPoint.p = a;
+    vector<Point> vec;
+    firstPoint.path_to_point = vec;
+    unordered_map<int,unordered_map<int, bool>> visited;
+    unordered_map<int, bool> xMap;
+    visited[a.y] = xMap;
+    visited[a.y][a.x] = true;
+    q.push(firstPoint);
+    while (!q.empty()) {
+      queue<BFSPoint> next;
+      BFSPoint bfsp = q.front();
+      q.pop();
+      vector<Point> curPath = bfsp.path_to_point;
+      curPath.push_back(bfsp.p);
+      auto n = getNeighbors(bfsp.p);
+      for (auto y: n) {
+        for (auto x: y.second) {
+          if (!visited[y.first][x.first]) {
+
+          }
+        }
+      }
+
+    }
+  }
+
+  Move getBestMoveForL2(Unit u) {
+    Move ret;
+
+  }
+
   vector<Move> getMoves() {
     vector<Move> ret;
     for (auto u : f1units) {
@@ -518,7 +558,6 @@ class Game {
         for (auto x : y.second) {
           Point p = Point(x.first, y.first);
           if (isValidMove(p)) {
-            p.print();
             m.x = x.first;
             m.y = y.first;
             ret.push_back(m);
@@ -529,6 +568,11 @@ class Game {
         if (should_break) break;
       }
     }
+
+    for (auto u: f2units) {
+      ret.push_back(getBestMoveForL2(u.second));
+    }
+
     return ret;
   }
 };

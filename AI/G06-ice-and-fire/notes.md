@@ -30,7 +30,9 @@
 - new action: TRAIN {2/3} x y
 
 - build level 2 units - already have 5 level 1, have enough money, limit 3.
+  - build level 2 and 3 (done)
   - level 2 units should find enemy level 1 units mostly
+  - level 3 units should kill enemy units and never walk to a square adjacent to a level 3 enemy unit
 
 # wood 2 to wood 1
 
