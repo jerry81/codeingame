@@ -187,6 +187,7 @@ In Bronze, you can build towers.
 #include <unordered_map>
 #include <vector>
 #include <queue>
+#include <unordered_set>
 
 using namespace std;
 
@@ -198,12 +199,24 @@ struct Point {
     cerr << "printing point" << endl;
     cerr << "y: " << y << " x: " << x << endl;
   }
+  string hash() {
+    return std::to_string(x) + "," + std::to_string(y);
+  }
 };
 
 struct BFSPoint {
   Point p;
   vector<Point> path_to_point;
-}
+};
+
+struct PointMap {
+  unordered_map<string, Point> lookup;
+  void addPoint(Point p) {
+    if (lookup.find(p.hash()) == lookup.end()) {
+      lookup[p.hash()] = p;
+    }
+  }
+};
 
 class GameMap {
   vector<string> grid;
@@ -529,10 +542,8 @@ class Game {
       curPath.push_back(bfsp.p);
       auto n = getNeighbors(bfsp.p);
       for (auto y: n) {
-        for (auto x: y.second) {
-          if (!visited[y.first][x.first]) {
 
-          }
+        for (auto x: y.second) {
         }
       }
 

@@ -57,3 +57,6 @@
       - second priority: build level 1 units
       - third priority: build level 2 units
       - fourth priority: build level 3 units.
+
+- the nested unordered_maps used as Point hash table are terrible
+  - refactor it
