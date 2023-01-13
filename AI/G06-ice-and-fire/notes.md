@@ -8,6 +8,9 @@
   - check if there are minable squares
 - no filtered data structures make for longer searches
   - refactor - more "specific" data structures (friendly units, level 1 units, mines, hqs)
+    - friendly/enemy units  (done)
+    - level 1/2/3 units (done, dont feel like it helps much)
+    - mines/hqs (done)
 - no pathfinding
   - add shortest path to point from target method
 - units should always have a goal and not be idle
@@ -29,3 +32,5 @@
 - built only on mines
   - provided by a seperate loop (not on the map)
 - new action: BUILD MINE x y
+- build mines whenever friendly unit is on mine (done)
+- destroy enemy mines

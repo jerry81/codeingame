@@ -287,8 +287,16 @@ struct Building {
 };
 
 class Game {
-  unordered_map<int, Unit> units;
-  vector<Building> buildings;
+  unordered_map<int, Unit> f1units;
+  unordered_map<int, Unit> f2units;
+  unordered_map<int, Unit> f3units;
+  unordered_map<int, Unit> e1units;
+  unordered_map<int, Unit> e2units;
+  unordered_map<int, Unit> e3units;
+  vector<Building> friendlyMines;
+  vector<Building> enemyMines;
+  Building friendlyHQ;
+  Building enemyHQ;
   GameMap map;
   int myMoney;
   int myIncome;
@@ -302,22 +310,76 @@ class Game {
 
   void addUnit(int id, int y, int x, int owner, int level) {
     Unit u = Unit(id, x, y, owner, level);
-    units[id] = u;
+    if (owner == 0) {
+      if (level == 1) {
+        f1units[id] = u;
+      } else if (level == 2) {
+        f2units[id] = u;
+      } else {
+        f3units[id] = u;
+      }
+    } else {
+      if (level == 1) {
+        e1units[id] = u;
+      } else if (level == 2) {
+        e2units[id] = u;
+      } else {
+        e3units[id] = u;
+      }
+    }
   }
 
   void addBuilding(int type, int owner, int x, int y) {
     Building b = Building(type, owner, x, y);
-    buildings.push_back(b);
+    if (type == 0) {
+      if (owner == 0) {
+        friendlyHQ = b;
+      } else {
+        enemyHQ = b;
+      }
+    } else {
+      if (owner == 0) {
+        friendlyMines.push_back(b);
+      } else {
+        enemyMines.push_back(b);
+      }
+    }
   }
 
   void print() {
     cerr << "Printing game status" << endl;
-    cerr << "Units" << endl;
-    for (auto pair : units) {
+    cerr << "Friendly Units L1" << endl;
+    for (auto pair : f1units) {
       pair.second.print();
     }
-    cerr << "Buildings" << endl;
-    for (auto b : buildings) {
+    cerr << "Friendly Units L2" << endl;
+    for (auto pair : f2units) {
+      pair.second.print();
+    }
+    cerr << "Friendly Units L3" << endl;
+    for (auto pair : f3units) {
+      pair.second.print();
+    }
+    cerr << "Enemy Units L1" << endl;
+    for (auto pair : e1units) {
+      pair.second.print();
+    }
+    cerr << "Enemy Units L2" << endl;
+    for (auto pair : e2units) {
+      pair.second.print();
+    }
+    cerr << "Enemy Units L3" << endl;
+    for (auto pair : e3units) {
+      pair.second.print();
+    }
+    cerr << "F HQ" << endl;
+    friendlyHQ.print();
+    cerr << "F mines" << endl;
+    for (auto b : friendlyMines) {
+      b.print();
+    }
+    cerr << "E Mines" << endl;
+    for (auto b : enemyMines) {
       b.print();
     }
     cerr << "Map " << endl;
@@ -329,13 +391,19 @@ class Game {
   int getTrainableCount() { return (int)(myMoney / 10); }
 
   bool occupied(Point p) {
-    for (auto u : units) {
+    for (auto u : f1units) {
       if (u.second.x == p.x && u.second.y == p.y) return true;
     }
 
-    for (Building b : buildings) {
-      if (b.x == p.x && b.y == p.y) return true;
+    for (auto u : f2units) {
+      if (u.second.x == p.x && u.second.y == p.y) return true;
     }
+
+    for (auto u : f3units) {
+      if (u.second.x == p.x && u.second.y == p.y) return true;
+    }
+
+    if (friendlyHQ.x == p.x && friendlyHQ.y == p.y) return true;
 
     return false;
   }
@@ -417,10 +485,26 @@ class Game {
   vector<Point> getOccupiedMines() {
     vector<Point> ret;
     vector<Point> mines = map.getMines();
-    for (auto u: units) {
+    for (auto u : f1units) {
       Unit un = u.second;
-      for (Point mine:mines) {
-        if (mine.x == un.x && mine.y == un.y && un.owner == 0) {
+      for (Point mine : mines) {
+        if (mine.x == un.x && mine.y == un.y) {
+          ret.push_back(mine);
+        }
+      }
+    }
+    for (auto u : f2units) {
+      Unit un = u.second;
+      for (Point mine : mines) {
+        if (mine.x == un.x && mine.y == un.y) {
+          ret.push_back(mine);
+        }
+      }
+    }
+    for (auto u : f3units) {
+      Unit un = u.second;
+      for (Point mine : mines) {
+        if (mine.x == un.x && mine.y == un.y) {
           ret.push_back(mine);
         }
       }
@@ -430,11 +514,8 @@ class Game {
 
   vector<Move> getMoves() {
     vector<Move> ret;
-    for (auto u : units) {
+    for (auto u : f1units) {
       Move m = Move(u.second.id);
-      if (u.second.owner != 0) {
-        continue;
-      }
 
       // get neighbors
       Point p = Point(u.second.x, u.second.y);
