@@ -183,11 +183,11 @@ In Bronze, you can build towers.
 
 #include <algorithm>
 #include <iostream>
+#include <queue>
 #include <string>
 #include <unordered_map>
-#include <vector>
-#include <queue>
 #include <unordered_set>
+#include <vector>
 
 using namespace std;
 
@@ -199,8 +199,9 @@ struct Point {
     cerr << "printing point" << endl;
     cerr << "y: " << y << " x: " << x << endl;
   }
-  string hash() {
-    return std::to_string(x) + "," + std::to_string(y);
+  string hash() { return std::to_string(x) + "," + std::to_string(y); }
+  bool equals(Point compared) {
+    return hash() == compared.hash();
   }
 };
 
@@ -215,6 +216,15 @@ struct PointMap {
     if (lookup.find(p.hash()) == lookup.end()) {
       lookup[p.hash()] = p;
     }
+  }
+  void merge(PointMap toMerge) {
+    for (auto item : toMerge.lookup) {
+      addPoint(item.second);
+    }
+  }
+
+  bool contains(Point p) {
+    return (lookup.find(p.hash()) != lookup.end());
   }
 };
 
@@ -439,8 +449,8 @@ class Game {
     return false;
   }
 
-  unordered_map<int, unordered_map<int, bool>> getNeighbors(Point p) {
-    unordered_map<int, unordered_map<int, bool>> res;
+  PointMap getNeighbors(Point p) {
+    PointMap res;
     int py = p.y;
     int px = p.x;
     int uy = py - 1;
@@ -448,35 +458,19 @@ class Game {
     int lx = px - 1;
     int rx = px + 1;
     if (uy >= 0) {
-      if (res.find(uy) == res.end()) {
-        unordered_map<int, bool> um;
-        res[uy] = um;
-      }
-      res[uy][px] = true;
+      res.addPoint(Point(px, uy));
     }
 
     if (dy <= 11) {
-      if (res.find(uy) == res.end()) {
-        unordered_map<int, bool> um;
-        res[dy] = um;
-      }
-      res[dy][px] = true;
+      res.addPoint(Point(px, dy));
     }
 
     if (lx >= 0) {
-      if (res.find(py) == res.end()) {
-        unordered_map<int, bool> um;
-        res[py] = um;
-      }
-      res[py][lx] = true;
+      res.addPoint(Point(lx, py));
     }
 
     if (rx >= 0) {
-      if (res.find(py) == res.end()) {
-        unordered_map<int, bool> um;
-        res[py] = um;
-      }
-      res[py][rx] = true;
+      res.addPoint(Point(rx, py));
     }
 
     return res;
@@ -495,19 +489,18 @@ class Game {
   vector<Point> getTrainableSquares() {
     vector<Point> ret;
     vector<Point> friendlySqs = map.getFriendlySquares();
-    unordered_map<int, unordered_map<int, bool>> ptsMap;
+    PointMap pm;
     for (Point p : friendlySqs) {
-      ptsMap.merge(getNeighbors(p));
+      pm.merge(getNeighbors(p));
     }
 
-    for (auto y : ptsMap) {
-      for (auto x : y.second) {
-        Point p = Point(x.first, y.first);
-        if (isValidTrainingGround(p) && !occupied(p)) {
-          ret.push_back(p);
-        }
+    for (auto y : pm.lookup) {
+      Point p = y.second;
+      if (isValidTrainingGround(p) && !occupied(p)) {
+        ret.push_back(p);
       }
     }
+
     return ret;
   }
 
@@ -529,31 +522,31 @@ class Game {
     firstPoint.p = a;
     vector<Point> vec;
     firstPoint.path_to_point = vec;
-    unordered_map<int,unordered_map<int, bool>> visited;
-    unordered_map<int, bool> xMap;
-    visited[a.y] = xMap;
-    visited[a.y][a.x] = true;
+    PointMap visited;
     q.push(firstPoint);
     while (!q.empty()) {
       queue<BFSPoint> next;
       BFSPoint bfsp = q.front();
+
+      if (bfsp.p.equals(b)) return bfsp.path_to_point[0];
+
       q.pop();
-      vector<Point> curPath = bfsp.path_to_point;
-      curPath.push_back(bfsp.p);
-      auto n = getNeighbors(bfsp.p);
-      for (auto y: n) {
+      visited.addPoint(bfsp.p);
+      PointMap pm = getNeighbors(bfsp.p);
+      for (auto a: pm.lookup) {
+        if (visited.contains(a.second)) continue;
 
-        for (auto x: y.second) {
-        }
+        BFSPoint neighborBFSP;
+        neighborBFSP.p = a.second;
+        neighborBFSP.path_to_point = bfsp.path_to_point;
+        neighborBFSP.path_to_point.push_back(a.second);
+        next.push(neighborBFSP);
       }
-
+      q = next;
     }
   }
 
-  Move getBestMoveForL2(Unit u) {
-    Move ret;
-
-  }
+  Move getBestMoveForL2(Unit u) { Move ret; }
 
   vector<Move> getMoves() {
     vector<Move> ret;
@@ -564,23 +557,19 @@ class Game {
       Point p = Point(u.second.x, u.second.y);
       p.print();
       auto neighbors = getNeighbors(p);
-      for (auto y : neighbors) {
+      for (auto y : neighbors.lookup) {
         bool should_break = false;
-        for (auto x : y.second) {
-          Point p = Point(x.first, y.first);
-          if (isValidMove(p)) {
-            m.x = x.first;
-            m.y = y.first;
-            ret.push_back(m);
-            should_break = true;
-            break;
-          }
+        Point p = y.second;
+        if (isValidMove(p)) {
+          m.x = p.x;
+          m.y = p.y;
+          ret.push_back(m);
+          break;
         }
-        if (should_break) break;
       }
     }
 
-    for (auto u: f2units) {
+    for (auto u : f2units) {
       ret.push_back(getBestMoveForL2(u.second));
     }
 
