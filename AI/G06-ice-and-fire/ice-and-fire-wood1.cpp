@@ -416,6 +416,15 @@ class Game {
 
   vector<Point> getOccupiedMines() {
     vector<Point> ret;
+    vector<Point> mines = map.getMines();
+    for (auto u: units) {
+      Unit un = u.second;
+      for (Point mine:mines) {
+        if (mine.x == un.x && mine.y == un.y && un.owner == 0) {
+          ret.push_back(mine);
+        }
+      }
+    }
     return ret;
   }
 
@@ -469,7 +478,7 @@ string makeCommand(vector<Point> trainable, vector<Move> moves,
   for (Point m : mines) {
     string segment =
         "BUILD MINE " + std::to_string(m.x) + " " + std::to_string(m.y) + ";";
-    ret += segment
+    ret += segment;
   }
 
   if (ret.empty()) {
