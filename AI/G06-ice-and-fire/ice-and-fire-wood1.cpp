@@ -308,6 +308,18 @@ class Game {
 
   void setMyIncome(int money) { myIncome = money; }
 
+  int friendlyL1Count() { return f1units.size(); }
+
+  int friendlyL2Count() { return f2units.size(); }
+
+  int friendlyL3Count() { return f3units.size(); }
+
+  int enemyL1Count() { return e1units.size(); }
+
+  int enemyL2Count() { return e2units.size(); }
+
+  int enemyL3Count() { return e3units.size(); }
+
   void addUnit(int id, int y, int x, int owner, int level) {
     Unit u = Unit(id, x, y, owner, level);
     if (owner == 0) {

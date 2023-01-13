@@ -11,6 +11,9 @@
     - friendly/enemy units  (done)
     - level 1/2/3 units (done, dont feel like it helps much)
     - mines/hqs (done)
+    - unit counts and limits
+      - counts helpers - done
+
 - no pathfinding
   - add shortest path to point from target method
 - units should always have a goal and not be idle
