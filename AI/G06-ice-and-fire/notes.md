@@ -34,6 +34,9 @@
 - can build mines
 - built only on mines
   - provided by a seperate loop (not on the map)
+  - rule update: mines built on if owned and not occupied!
+    - build if owned (done)
+    - move unit away if on friendly mine that hasn't been built
 - new action: BUILD MINE x y
 - build mines whenever friendly unit is on mine (done)
 - destroy enemy mines

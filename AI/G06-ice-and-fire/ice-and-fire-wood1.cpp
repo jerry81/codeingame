@@ -497,30 +497,10 @@ class Game {
   vector<Point> getOccupiedMines() {
     vector<Point> ret;
     vector<Point> mines = map.getMines();
-    for (auto u : f1units) {
-      Unit un = u.second;
-      for (Point mine : mines) {
-        if (mine.x == un.x && mine.y == un.y) {
-          ret.push_back(mine);
-        }
-      }
+    for (Point p : mines) {
+      if (map.at(p) == 'o' || map.at(p) == 'O') ret.push_back(p);
     }
-    for (auto u : f2units) {
-      Unit un = u.second;
-      for (Point mine : mines) {
-        if (mine.x == un.x && mine.y == un.y) {
-          ret.push_back(mine);
-        }
-      }
-    }
-    for (auto u : f3units) {
-      Unit un = u.second;
-      for (Point mine : mines) {
-        if (mine.x == un.x && mine.y == un.y) {
-          ret.push_back(mine);
-        }
-      }
-    }
+
     return ret;
   }
 
@@ -553,14 +533,22 @@ class Game {
   }
 };
 
-string makeCommand(vector<Point> trainable, vector<Move> moves,
-                   vector<Point> mines) {
+string getTrainableCommand(vector<Point> trainable, Game g) {
   string ret = "";
+  if (g.friendlyL1Count() > 5) return ret;
+
   for (Point p : trainable) {
     string segment =
         "TRAIN 1 " + std::to_string(p.x) + " " + std::to_string(p.y) + ";";
     ret += segment;
   }
+  return ret;
+}
+
+string makeCommand(vector<Point> trainable, vector<Move> moves,
+                   vector<Point> mines, Game g) {
+  string ret = "";
+  ret+=getTrainableCommand(trainable, g);
 
   for (Move m : moves) {
     string segment = "MOVE " + std::to_string(m.id) + " " +
@@ -652,7 +640,7 @@ int main() {
     vector<Point> trainableSqs = g.getTrainableSquares();
     vector<Move> moves = g.getMoves();
     vector<Point> mines = g.getOccupiedMines();
-    string command = makeCommand(trainableSqs, moves, mines);
+    string command = makeCommand(trainableSqs, moves, mines, g);
     cout << command << endl;  // MOVE TRAIN WAIT
   }
 }
