@@ -533,22 +533,41 @@ class Game {
   }
 };
 
+string getTrainingSegment(string level, Point p) {
+  return "TRAIN " + level + " " + std::to_string(p.x) + " " +
+         std::to_string(p.y) + ";";
+}
+
 string getTrainableCommand(vector<Point> trainable, Game g) {
   string ret = "";
-  if (g.friendlyL1Count() > 5) return ret;
-
-  for (Point p : trainable) {
-    string segment =
-        "TRAIN 1 " + std::to_string(p.x) + " " + std::to_string(p.y) + ";";
-    ret += segment;
+  if (g.friendlyL1Count() <= 5) {
+    for (Point p : trainable) {
+      string segment = getTrainingSegment("1", p);
+      ret += segment;
+    }
   }
+
+  if (g.friendlyL2Count() <= 3) {
+    for (Point p : trainable) {
+      string segment = getTrainingSegment("2", p);
+      ret += segment;
+    }
+  }
+
+  if (g.friendlyL3Count() <= 2) {
+    for (Point p : trainable) {
+      string segment = getTrainingSegment("3", p);
+      ret += segment;
+    }
+  }
+
   return ret;
 }
 
 string makeCommand(vector<Point> trainable, vector<Move> moves,
                    vector<Point> mines, Game g) {
   string ret = "";
-  ret+=getTrainableCommand(trainable, g);
+  ret += getTrainableCommand(trainable, g);
 
   for (Move m : moves) {
     string segment = "MOVE " + std::to_string(m.id) + " " +

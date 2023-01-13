@@ -29,6 +29,9 @@
 - level 3 costs 30, costs 20 upkeep, and can kill any unit
 - new action: TRAIN {2/3} x y
 
+- build level 2 units - already have 5 level 1, have enough money, limit 3.
+  - level 2 units should find enemy level 1 units mostly
+
 # wood 2 to wood 1
 
 - can build mines
@@ -40,3 +43,15 @@
 - new action: BUILD MINE x y
 - build mines whenever friendly unit is on mine (done)
 - destroy enemy mines
+
+
+# other improvements
+
+- economy management
+  - don't send unnecessary commands
+    - if money limited, prioritize.
+      - get unbuilt viable mines helper
+      - top priority: build unbuilt viable mines
+      - second priority: build level 1 units
+      - third priority: build level 2 units
+      - fourth priority: build level 3 units.
