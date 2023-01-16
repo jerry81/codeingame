@@ -221,6 +221,10 @@ struct PointMap {
     }
   }
 
+  void clear() {
+    lookup.clear();
+  }
+
   bool contains(Point p) { return (lookup.find(p.hash()) != lookup.end()); }
 };
 
@@ -318,6 +322,7 @@ class Game {
   unordered_map<int, Unit> e1units;
   unordered_map<int, Unit> e2units;
   unordered_map<int, Unit> e3units;
+  PointMap e1map;
   vector<Building> friendlyMines;
   vector<Building> enemyMines;
   Building friendlyHQ;
@@ -358,6 +363,7 @@ class Game {
     } else {
       if (level == 1) {
         e1units[id] = u;
+        e1map.addPoint(Point(u.x, u.y));
       } else if (level == 2) {
         e2units[id] = u;
       } else {
@@ -381,6 +387,16 @@ class Game {
         enemyMines.push_back(b);
       }
     }
+  }
+
+  void resetUnits() {
+    f1units.clear();
+    f2units.clear();
+    f3units.clear();
+    e1units.clear();
+    e2units.clear();
+    e3units.clear();
+    e1map.clear();
   }
 
   void print() {
@@ -512,7 +528,7 @@ class Game {
     return ret;
   }
 
-  vector<Point> shortestPath(Point a, Point b) {
+  vector<Point> shortestPath(Point a) {
     queue<BFSPoint> q;
     BFSPoint firstPoint;
     firstPoint.p = a;
@@ -525,7 +541,7 @@ class Game {
       while (!q.empty()) {
         BFSPoint bfsp = q.front();
 
-        if (bfsp.p.equals(b)) {
+        if (e1map.contains(bfsp.p)) {
           // cerr << "path found!  length is " << bfsp.path_to_point.size() <<
           // endl;
           return bfsp.path_to_point;
@@ -547,17 +563,17 @@ class Game {
           next.push(neighborBFSP);
         }
       }
+      cerr << "next size is " << next.size() << endl;
       q = next;
     }
+    return vec;
   }
 
   Move getBestMoveForL2(Unit u) {
     Move ret;
     Point source = Point(u.x, u.y);
-    for (auto enPair : e1units) {
-      Unit target = enPair.second;
       vector<Point> sp =
-          shortestPath(Point(source.x, source.y), Point(target.x, target.y));
+          shortestPath(Point(source.x, source.y));
       // cerr << "shortest path from ";
       // source.print();
       // cerr << " to " <<endl;
@@ -568,7 +584,7 @@ class Game {
       ret.id = u.id;
       ret.x = sp[0].x;
       ret.y = sp[0].y;
-    }
+
 
     return ret;
   }
@@ -612,21 +628,30 @@ string getTrainingSegment(string level, Point p) {
 string getTrainableCommand(vector<Point> trainable, Game g) {
   string ret = "";
   if (g.friendlyL1Count() <= 5) {
+    int counts = g.friendlyL1Count();
     for (Point p : trainable) {
+      if (counts > 5) break;
+      ++counts;
       string segment = getTrainingSegment("1", p);
       ret += segment;
     }
   }
 
-  if (g.friendlyL2Count() <= 3) {
+  if (g.friendlyL2Count() <= 2) {
+    int counts = g.friendlyL2Count();
     for (Point p : trainable) {
+      if (counts > 2) break;
+      ++counts;
       string segment = getTrainingSegment("2", p);
       ret += segment;
     }
   }
 
-  if (g.friendlyL3Count() <= 2) {
+  if (g.friendlyL3Count() <= 1) {
+    int counts = g.friendlyL3Count();
     for (Point p : trainable) {
+      if (counts > 1) break;
+      ++counts;
       string segment = getTrainingSegment("3", p);
       ret += segment;
     }
@@ -639,19 +664,20 @@ string makeCommand(vector<Point> trainable, vector<Move> moves,
                    vector<Point> mines, Game g) {
   string ret = "";
   ret += getTrainableCommand(trainable, g);
-
+  cerr << "anal on moves" << endl;
   for (Move m : moves) {
     string segment = "MOVE " + std::to_string(m.id) + " " +
                      std::to_string(m.x) + " " + std::to_string(m.y) + ";";
     ret += segment;
   }
-
+  cerr << "anal on mines" << endl;
   for (Point m : mines) {
     string segment =
         "BUILD MINE " + std::to_string(m.x) + " " + std::to_string(m.y) + ";";
     ret += segment;
   }
 
+  cerr << "wait check" << endl;
   if (ret.empty()) {
     ret = "WAIT";
   }
@@ -715,6 +741,7 @@ int main() {
     int unit_count;
     cin >> unit_count;
     cin.ignore();
+    g.resetUnits();
     for (int i = 0; i < unit_count; i++) {
       int owner;
       int unit_id;
