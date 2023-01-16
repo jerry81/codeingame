@@ -572,11 +572,14 @@ class Game {
       while (!q.empty()) {
         BFSPoint bfsp = q.front();
         q.pop();
-        if (e1map.contains(bfsp.p)) {
-          // cerr << "path found!  length is " << bfsp.path_to_point.size() <<
-          // endl;
-          return bfsp.path_to_point;
+        if (level == 1) {
+          if (map.at(bfsp.p) == '.') return bfsp.path_to_point;
         }
+
+        if (level == 2) {
+          if (e1map.contains(bfsp.p)) return bfsp.path_to_point;
+        }
+
 
         visited.addPoint(bfsp.p);
         PointMap pm = getNeighbors(bfsp.p);
@@ -602,18 +605,11 @@ class Game {
     return vec;
   }
 
-  Move getBestMoveForL2(Unit u) {
+  Move getBestMoveForUnit(Unit u, int level) {
     Move ret;
     Point source = Point(u.x, u.y);
-    vector<Point> sp = shortestPath(Point(source.x, source.y), 2);
+    vector<Point> sp = shortestPath(Point(source.x, source.y), level);
     if (sp.empty()) return ret;
-    // cerr << "shortest path from ";
-    // source.print();
-    // cerr << " to " <<endl;
-    // target.print();
-    // for (Point p:sp) {
-    //   p.print();
-    // }
     ret.id = u.id;
     ret.x = sp[0].x;
     ret.y = sp[0].y;
@@ -624,27 +620,13 @@ class Game {
   vector<Move> getMoves() {
     vector<Move> ret;
     for (auto u : f1units) {
-      Move m = Move(u.second.id);
+      Move m = getBestMoveForUnit(u.second,1);
 
-      // get neighbors
-      Point p = Point(u.second.x, u.second.y);
-      cerr << "move " << endl;
-      p.print();
-      auto neighbors = getNeighbors(p);
-      for (auto y : neighbors.lookup) {
-        bool should_break = false;
-        Point p = y.second;
-        if (isValidMove(p)) {
-          m.x = p.x;
-          m.y = p.y;
-          ret.push_back(m);
-          break;
-        }
-      }
+      if (!m.isUninitialized()) ret.push_back(m);
     }
     for (auto u : f2units) {
       if (enemyL1Count() <= 0) break;
-      Move m = getBestMoveForL2(u.second);
+      Move m = getBestMoveForUnit(u.second,2);
 
       if (!m.isUninitialized()) ret.push_back(m);
     }

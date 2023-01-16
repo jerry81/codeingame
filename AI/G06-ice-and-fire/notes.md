@@ -33,6 +33,7 @@
 - units just sit idly often
 - units should always have a goal and not be idle
   - level 1 units, the scouts, should be grabbing the closest unoccupied square not targeted by another level 1)  need shortest paths to find the closest unoccupied square
+    - use shortest paths for level 1 units?
 
   - level 3 units should defend mines and hq and defend against enemy level 3 units
 
