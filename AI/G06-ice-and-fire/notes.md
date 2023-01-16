@@ -48,7 +48,8 @@
   - build level 2 and 3 (done)
   - level 2 units should find enemy level 1 units mostly
   - level 3 units should kill enemy units and never walk to a square adjacent to a level 3 enemy unit
-
+    - helper - is adjacent to level3 enemy unit (done)
+    - kill priority
 
 # wood 2 to wood 1
 

@@ -221,9 +221,7 @@ struct PointMap {
     }
   }
 
-  void clear() {
-    lookup.clear();
-  }
+  void clear() { lookup.clear(); }
 
   bool contains(Point p) { return (lookup.find(p.hash()) != lookup.end()); }
 };
@@ -323,6 +321,7 @@ class Game {
   unordered_map<int, Unit> e2units;
   unordered_map<int, Unit> e3units;
   PointMap e1map;
+  PointMap e3map;
   vector<Building> friendlyMines;
   vector<Building> enemyMines;
   Building friendlyHQ;
@@ -368,6 +367,7 @@ class Game {
         e2units[id] = u;
       } else {
         e3units[id] = u;
+        e3map.addPoint(Point(u.x, u.y));
       }
     }
   }
@@ -397,6 +397,7 @@ class Game {
     e2units.clear();
     e3units.clear();
     e1map.clear();
+    e3map.clear();
   }
 
   void print() {
@@ -528,6 +529,16 @@ class Game {
     return ret;
   }
 
+  bool isSquareAdjacentToEL3(Point p) {
+    PointMap neighbors;
+    for (auto a: e3units) {
+      neighbors.merge(getNeighbors(Point(a.second.x, a.second.y)));
+    }
+    return neighbors.contains(p);
+  }
+
+
+
   vector<Point> shortestPath(Point a) {
     int limiter = 500000;
     int counter = 0;
@@ -577,19 +588,17 @@ class Game {
   Move getBestMoveForL2(Unit u) {
     Move ret;
     Point source = Point(u.x, u.y);
-      vector<Point> sp =
-          shortestPath(Point(source.x, source.y));
-      // cerr << "shortest path from ";
-      // source.print();
-      // cerr << " to " <<endl;
-      // target.print();
-      // for (Point p:sp) {
-      //   p.print();
-      // }
-      ret.id = u.id;
-      ret.x = sp[0].x;
-      ret.y = sp[0].y;
-
+    vector<Point> sp = shortestPath(Point(source.x, source.y));
+    // cerr << "shortest path from ";
+    // source.print();
+    // cerr << " to " <<endl;
+    // target.print();
+    // for (Point p:sp) {
+    //   p.print();
+    // }
+    ret.id = u.id;
+    ret.x = sp[0].x;
+    ret.y = sp[0].y;
 
     return ret;
   }
