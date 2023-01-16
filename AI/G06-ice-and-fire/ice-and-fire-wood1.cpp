@@ -575,17 +575,23 @@ class Game {
         BFSPoint bfsp = q.front();
         q.pop();
         if (level == 1) {
-          if (map.at(bfsp.p) == '.') return bfsp.path_to_point;
+          if (isValidMove(bfsp.p)) return bfsp.path_to_point;
         }
 
         if (level == 2) {
           if (e1map.contains(bfsp.p)) return bfsp.path_to_point;
+
+          if (isValidMove(bfsp.p)) return bfsp.path_to_point;
+
+
         }
 
         if (level == 3) {
           if (e2map.contains(bfsp.p)) return bfsp.path_to_point;
 
           if (e1map.contains(bfsp.p)) return bfsp.path_to_point;
+
+          if (isValidMove(bfsp.p)) return bfsp.path_to_point;
         }
 
 

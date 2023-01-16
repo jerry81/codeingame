@@ -28,6 +28,17 @@
 - the nested unordered_maps used as Point hash table are terrible
   - refactor it (done)
 
+
+- we run out of money!
+  - only build lvl 3 units if enemy has level 2 or level 3 units. (done)
+
+
+- shortest paths doesn't take into account obstacles.
+  - canuseinpath helper (done)
+
+  - level 3 units should kill enemy units and never walk to a square adjacent to a level 3 enemy unit
+    - helper - is adjacent to level3 enemy unit (done)
+    - kill priority (done)
 # issues
 
 - units just sit idly often
@@ -37,8 +48,7 @@
 
   - level 3 units should defend mines and hq and defend against enemy level 3 units
 
-- shortest paths doesn't take into account obstacles.
-  - canuseinpath helper
+
 
 # wood 3 to wood 2
 
@@ -51,9 +61,7 @@
 - build level 2 units - already have 5 level 1, have enough money, limit 3.
   - build level 2 and 3 (done)
   - level 2 units should find enemy level 1 units mostly
-  - level 3 units should kill enemy units and never walk to a square adjacent to a level 3 enemy unit
-    - helper - is adjacent to level3 enemy unit (done)
-    - kill priority
+
 
 # wood 2 to wood 1
 
@@ -73,8 +81,6 @@
       - second priority: build level 1 units
       - third priority: build level 2 units
       - fourth priority: build level 3 units.
-- we run out of money!
-  - only build lvl 3 units if enemy has level 2 or level 3 units.
 
 
 - on wood 1, we get overwhelmed by the number of l1 units that the "night boss" creates
