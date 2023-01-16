@@ -469,7 +469,7 @@ class Game {
       res.addPoint(Point(lx, py));
     }
 
-    if (rx >= 0) {
+    if (rx <= 11) {
       res.addPoint(Point(rx, py));
     }
 
