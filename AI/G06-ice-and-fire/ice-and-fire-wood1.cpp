@@ -529,6 +529,8 @@ class Game {
   }
 
   vector<Point> shortestPath(Point a) {
+    int limiter = 500000;
+    int counter = 0;
     queue<BFSPoint> q;
     BFSPoint firstPoint;
     firstPoint.p = a;
@@ -537,6 +539,8 @@ class Game {
     PointMap visited;
     q.push(firstPoint);
     while (!q.empty()) {
+      if (counter > limiter) return vec;
+
       queue<BFSPoint> next;
       while (!q.empty()) {
         BFSPoint bfsp = q.front();
@@ -551,6 +555,7 @@ class Game {
         visited.addPoint(bfsp.p);
         PointMap pm = getNeighbors(bfsp.p);
         for (auto a : pm.lookup) {
+          ++counter;
           if (visited.contains(a.second)) continue;
           visited.addPoint(a.second);
 
@@ -612,6 +617,7 @@ class Game {
     }
     cerr << "f2 units " << endl;
     for (auto u : f2units) {
+      if (enemyL1Count() == 0) break;
       ret.push_back(getBestMoveForL2(u.second));
     }
     cerr << "finish f2 units " << endl;
