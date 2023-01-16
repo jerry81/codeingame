@@ -525,23 +525,32 @@ class Game {
     PointMap visited;
     q.push(firstPoint);
     while (!q.empty()) {
-      queue<BFSPoint> next;
+          queue<BFSPoint> next;
+    while (!q.empty()) {
+
       BFSPoint bfsp = q.front();
 
-      if (bfsp.p.equals(b)) return bfsp.path_to_point;
+      if (bfsp.p.equals(b)) {
+        // cerr << "path found!  length is " << bfsp.path_to_point.size() << endl;
+        return bfsp.path_to_point;
+      }
 
       q.pop();
       visited.addPoint(bfsp.p);
       PointMap pm = getNeighbors(bfsp.p);
       for (auto a: pm.lookup) {
         if (visited.contains(a.second)) continue;
+        visited.addPoint(a.second);
 
         BFSPoint neighborBFSP;
+        vector<Point> neighborPath;
         neighborBFSP.p = a.second;
-        neighborBFSP.path_to_point = bfsp.path_to_point;
-        neighborBFSP.path_to_point.push_back(a.second);
+        neighborPath = bfsp.path_to_point;
+        neighborPath.push_back(a.second);
+        neighborBFSP.path_to_point = neighborPath;
         next.push(neighborBFSP);
       }
+    }
       q = next;
     }
   }
