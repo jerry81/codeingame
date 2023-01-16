@@ -531,13 +531,11 @@ class Game {
 
   bool isSquareAdjacentToEL3(Point p) {
     PointMap neighbors;
-    for (auto a: e3units) {
+    for (auto a : e3units) {
       neighbors.merge(getNeighbors(Point(a.second.x, a.second.y)));
     }
     return neighbors.contains(p);
   }
-
-
 
   vector<Point> shortestPath(Point a) {
     int limiter = 500000;
@@ -640,34 +638,31 @@ string getTrainingSegment(string level, Point p) {
 
 string getTrainableCommand(vector<Point> trainable, Game g) {
   string ret = "";
-  if (g.friendlyL1Count() <= 5) {
-    int counts = g.friendlyL1Count();
-    for (Point p : trainable) {
-      if (counts > 5) break;
-      ++counts;
-      string segment = getTrainingSegment("1", p);
-      ret += segment;
-    }
+  int L1LIMIT = 7;
+
+  int counts = g.friendlyL1Count();
+  for (Point p : trainable) {
+    if (counts > L1LIMIT) break;
+    ++counts;
+    string segment = getTrainingSegment("1", p);
+    ret += segment;
+  }
+  int L2LIMIT = 4;
+  counts = g.friendlyL2Count();
+  for (Point p : trainable) {
+    if (counts > L2LIMIT) break;
+    ++counts;
+    string segment = getTrainingSegment("2", p);
+    ret += segment;
   }
 
-  if (g.friendlyL2Count() <= 2) {
-    int counts = g.friendlyL2Count();
-    for (Point p : trainable) {
-      if (counts > 2) break;
-      ++counts;
-      string segment = getTrainingSegment("2", p);
-      ret += segment;
-    }
-  }
-
-  if (g.friendlyL3Count() <= 1) {
-    int counts = g.friendlyL3Count();
-    for (Point p : trainable) {
-      if (counts > 1) break;
-      ++counts;
-      string segment = getTrainingSegment("3", p);
-      ret += segment;
-    }
+  int L3LIMIT = 2;
+  counts = g.friendlyL3Count();
+  for (Point p : trainable) {
+    if (counts > L3LIMIT) break;
+    ++counts;
+    string segment = getTrainingSegment("3", p);
+    ret += segment;
   }
 
   return ret;
