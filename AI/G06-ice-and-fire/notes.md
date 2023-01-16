@@ -36,6 +36,9 @@
 
   - level 3 units should defend mines and hq and defend against enemy level 3 units
 
+- shortest paths doesn't take into account obstacles.
+  - canuseinpath helper
+
 # wood 3 to wood 2
 
 - can build level 2 and 3 units

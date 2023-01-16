@@ -537,6 +537,20 @@ class Game {
     return neighbors.contains(p);
   }
 
+  bool canUseInPath(Point p, int level) {
+    char c = map.at(p);
+    if (c == '#') return false;
+    switch (level) {
+      case 1:
+        return !occupied(p);
+      case 2:
+        return !occupied(p);
+      default:
+        return !isSquareAdjacentToEL3(p);
+    }
+    return true;
+  }
+
   vector<Point> shortestPath(Point a) {
     int limiter = 500000;
     int counter = 0;
@@ -566,6 +580,9 @@ class Game {
         for (auto a : pm.lookup) {
           ++counter;
           if (visited.contains(a.second)) continue;
+
+          if (!canUseInPath(a.second, 2)) continue;
+
           visited.addPoint(a.second);
 
           BFSPoint neighborBFSP;
@@ -577,7 +594,6 @@ class Game {
           next.push(neighborBFSP);
         }
       }
-      cerr << "next size is " << next.size() << endl;
       q = next;
     }
     return vec;
@@ -638,7 +654,7 @@ string getTrainingSegment(string level, Point p) {
 
 string getTrainableCommand(vector<Point> trainable, Game g) {
   string ret = "";
-  int L1LIMIT = 7;
+  int L1LIMIT = 5; // convert to a function
 
   int counts = g.friendlyL1Count();
   for (Point p : trainable) {
@@ -647,7 +663,7 @@ string getTrainableCommand(vector<Point> trainable, Game g) {
     string segment = getTrainingSegment("1", p);
     ret += segment;
   }
-  int L2LIMIT = 4;
+  int L2LIMIT = 2;
   counts = g.friendlyL2Count();
   for (Point p : trainable) {
     if (counts > L2LIMIT) break;
@@ -656,7 +672,7 @@ string getTrainableCommand(vector<Point> trainable, Game g) {
     ret += segment;
   }
 
-  int L3LIMIT = 2;
+  int L3LIMIT = 1;
   counts = g.friendlyL3Count();
   for (Point p : trainable) {
     if (counts > L3LIMIT) break;
@@ -760,7 +776,7 @@ int main() {
       cin.ignore();
       g.addUnit(unit_id, y, x, owner, level);
     }
-    // g.print();
+     g.print();
     int trainable = g.getTrainableCount();
     vector<Point> trainableSqs = g.getTrainableSquares();
     vector<Move> moves = g.getMoves();
