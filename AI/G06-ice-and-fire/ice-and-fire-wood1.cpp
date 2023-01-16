@@ -200,9 +200,7 @@ struct Point {
     cerr << "y: " << y << " x: " << x << endl;
   }
   string hash() { return std::to_string(x) + "," + std::to_string(y); }
-  bool equals(Point compared) {
-    return hash() == compared.hash();
-  }
+  bool equals(Point compared) { return hash() == compared.hash(); }
 };
 
 struct BFSPoint {
@@ -223,9 +221,7 @@ struct PointMap {
     }
   }
 
-  bool contains(Point p) {
-    return (lookup.find(p.hash()) != lookup.end());
-  }
+  bool contains(Point p) { return (lookup.find(p.hash()) != lookup.end()); }
 };
 
 class GameMap {
@@ -525,32 +521,32 @@ class Game {
     PointMap visited;
     q.push(firstPoint);
     while (!q.empty()) {
-          queue<BFSPoint> next;
-    while (!q.empty()) {
+      queue<BFSPoint> next;
+      while (!q.empty()) {
+        BFSPoint bfsp = q.front();
 
-      BFSPoint bfsp = q.front();
+        if (bfsp.p.equals(b)) {
+          // cerr << "path found!  length is " << bfsp.path_to_point.size() <<
+          // endl;
+          return bfsp.path_to_point;
+        }
 
-      if (bfsp.p.equals(b)) {
-        // cerr << "path found!  length is " << bfsp.path_to_point.size() << endl;
-        return bfsp.path_to_point;
+        q.pop();
+        visited.addPoint(bfsp.p);
+        PointMap pm = getNeighbors(bfsp.p);
+        for (auto a : pm.lookup) {
+          if (visited.contains(a.second)) continue;
+          visited.addPoint(a.second);
+
+          BFSPoint neighborBFSP;
+          vector<Point> neighborPath;
+          neighborBFSP.p = a.second;
+          neighborPath = bfsp.path_to_point;
+          neighborPath.push_back(a.second);
+          neighborBFSP.path_to_point = neighborPath;
+          next.push(neighborBFSP);
+        }
       }
-
-      q.pop();
-      visited.addPoint(bfsp.p);
-      PointMap pm = getNeighbors(bfsp.p);
-      for (auto a: pm.lookup) {
-        if (visited.contains(a.second)) continue;
-        visited.addPoint(a.second);
-
-        BFSPoint neighborBFSP;
-        vector<Point> neighborPath;
-        neighborBFSP.p = a.second;
-        neighborPath = bfsp.path_to_point;
-        neighborPath.push_back(a.second);
-        neighborBFSP.path_to_point = neighborPath;
-        next.push(neighborBFSP);
-      }
-    }
       q = next;
     }
   }
@@ -558,16 +554,17 @@ class Game {
   Move getBestMoveForL2(Unit u) {
     Move ret;
     Point source = Point(u.x, u.y);
-    for (auto enPair: e1units) {
+    for (auto enPair : e1units) {
       Unit target = enPair.second;
-      vector<Point> sp = shortestPath(Point(source.x, source.y), Point(target.x, target.y));
-      cerr << "shortest path from ";
-      source.print();
-      cerr << " to " <<endl;
-      target.print();
-      for (Point p:sp) {
-        p.print();
-      }
+      vector<Point> sp =
+          shortestPath(Point(source.x, source.y), Point(target.x, target.y));
+      // cerr << "shortest path from ";
+      // source.print();
+      // cerr << " to " <<endl;
+      // target.print();
+      // for (Point p:sp) {
+      //   p.print();
+      // }
       ret.id = u.id;
       ret.x = sp[0].x;
       ret.y = sp[0].y;
@@ -583,6 +580,7 @@ class Game {
 
       // get neighbors
       Point p = Point(u.second.x, u.second.y);
+      cerr << "move " << endl;
       p.print();
       auto neighbors = getNeighbors(p);
       for (auto y : neighbors.lookup) {
@@ -596,10 +594,11 @@ class Game {
         }
       }
     }
-
+    cerr << "f2 units " << endl;
     for (auto u : f2units) {
       ret.push_back(getBestMoveForL2(u.second));
     }
+    cerr << "finish f2 units " << endl;
 
     return ret;
   }
@@ -726,7 +725,7 @@ int main() {
       cin.ignore();
       g.addUnit(unit_id, y, x, owner, level);
     }
-    g.print();
+    // g.print();
     int trainable = g.getTrainableCount();
     vector<Point> trainableSqs = g.getTrainableSquares();
     vector<Move> moves = g.getMoves();
