@@ -324,6 +324,7 @@ class Game {
   unordered_map<int, Unit> e2units;
   unordered_map<int, Unit> e3units;
   PointMap e1map;
+  PointMap e2map;
   PointMap e3map;
   vector<Building> friendlyMines;
   vector<Building> enemyMines;
@@ -368,6 +369,7 @@ class Game {
         e1map.addPoint(Point(u.x, u.y));
       } else if (level == 2) {
         e2units[id] = u;
+        e2map.addPoint(Point(u.x, u.y));
       } else {
         e3units[id] = u;
         e3map.addPoint(Point(u.x, u.y));
@@ -580,6 +582,12 @@ class Game {
           if (e1map.contains(bfsp.p)) return bfsp.path_to_point;
         }
 
+        if (level == 3) {
+          if (e2map.contains(bfsp.p)) return bfsp.path_to_point;
+
+          if (e1map.contains(bfsp.p)) return bfsp.path_to_point;
+        }
+
 
         visited.addPoint(bfsp.p);
         PointMap pm = getNeighbors(bfsp.p);
@@ -627,6 +635,12 @@ class Game {
     for (auto u : f2units) {
       if (enemyL1Count() <= 0) break;
       Move m = getBestMoveForUnit(u.second,2);
+
+      if (!m.isUninitialized()) ret.push_back(m);
+    }
+
+    for (auto u : f3units) {
+      Move m = getBestMoveForUnit(u.second,3);
 
       if (!m.isUninitialized()) ret.push_back(m);
     }
