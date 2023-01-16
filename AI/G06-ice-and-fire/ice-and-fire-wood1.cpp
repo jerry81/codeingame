@@ -516,7 +516,7 @@ class Game {
     return ret;
   }
 
-  Point firstItemOfShortestPath(Point a, Point b) {
+  vector<Point> shortestPath(Point a, Point b) {
     queue<BFSPoint> q;
     BFSPoint firstPoint;
     firstPoint.p = a;
@@ -528,7 +528,7 @@ class Game {
       queue<BFSPoint> next;
       BFSPoint bfsp = q.front();
 
-      if (bfsp.p.equals(b)) return bfsp.path_to_point[0];
+      if (bfsp.p.equals(b)) return bfsp.path_to_point;
 
       q.pop();
       visited.addPoint(bfsp.p);
@@ -546,7 +546,23 @@ class Game {
     }
   }
 
-  Move getBestMoveForL2(Unit u) { Move ret; }
+  Move getBestMoveForL2(Unit u) {
+    Move ret;
+    Point source = Point(u.x, u.y);
+    for (auto enPair: e1units) {
+      Unit target = enPair.second;
+      vector<Point> sp = shortestPath(Point(source.x, source.y), Point(target.x, target.y));
+      cerr << "shortest path from ";
+      source.print();
+      cerr << " to " <<endl;
+      target.print();
+      for (Point p:sp) {
+        p.print();
+      }
+    }
+
+    return ret;
+  }
 
   vector<Move> getMoves() {
     vector<Move> ret;
