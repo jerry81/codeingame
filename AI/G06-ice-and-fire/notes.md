@@ -72,6 +72,8 @@
       - second priority: build level 1 units
       - third priority: build level 2 units
       - fourth priority: build level 3 units.
+- we run out of money!
+  - only build lvl 3 units if enemy has level 2 or level 3 units.
 
 
 - on wood 1, we get overwhelmed by the number of l1 units that the "night boss" creates

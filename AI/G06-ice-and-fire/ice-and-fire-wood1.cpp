@@ -297,6 +297,9 @@ struct Move {
     cerr << "printing Move" << endl;
     cerr << "move id: " << id << " x: " << x << " y: " << y << endl;
   }
+  bool isUninitialized() {
+    return x == -1;
+  }
 };
 
 struct Building {
@@ -540,6 +543,7 @@ class Game {
   bool canUseInPath(Point p, int level) {
     char c = map.at(p);
     if (c == '#') return false;
+
     switch (level) {
       case 1:
         return !occupied(p);
@@ -551,7 +555,7 @@ class Game {
     return true;
   }
 
-  vector<Point> shortestPath(Point a) {
+  vector<Point> shortestPath(Point a, int level = 1) {
     int limiter = 500000;
     int counter = 0;
     queue<BFSPoint> q;
@@ -567,21 +571,20 @@ class Game {
       queue<BFSPoint> next;
       while (!q.empty()) {
         BFSPoint bfsp = q.front();
-
+        q.pop();
         if (e1map.contains(bfsp.p)) {
           // cerr << "path found!  length is " << bfsp.path_to_point.size() <<
           // endl;
           return bfsp.path_to_point;
         }
 
-        q.pop();
         visited.addPoint(bfsp.p);
         PointMap pm = getNeighbors(bfsp.p);
         for (auto a : pm.lookup) {
           ++counter;
           if (visited.contains(a.second)) continue;
 
-          if (!canUseInPath(a.second, 2)) continue;
+          if (!canUseInPath(a.second, level)) continue;
 
           visited.addPoint(a.second);
 
@@ -602,7 +605,8 @@ class Game {
   Move getBestMoveForL2(Unit u) {
     Move ret;
     Point source = Point(u.x, u.y);
-    vector<Point> sp = shortestPath(Point(source.x, source.y));
+    vector<Point> sp = shortestPath(Point(source.x, source.y), 2);
+    if (sp.empty()) return ret;
     // cerr << "shortest path from ";
     // source.print();
     // cerr << " to " <<endl;
@@ -640,7 +644,9 @@ class Game {
     }
     for (auto u : f2units) {
       if (enemyL1Count() <= 0) break;
-      ret.push_back(getBestMoveForL2(u.second));
+      Move m = getBestMoveForL2(u.second);
+
+      if (!m.isUninitialized()) ret.push_back(m);
     }
 
     return ret;
@@ -673,6 +679,8 @@ string getTrainableCommand(vector<Point> trainable, Game g) {
   }
 
   int L3LIMIT = 1;
+  if (g.enemyL2Count() == 0 && g.enemyL3Count() == 0) return ret;
+
   counts = g.friendlyL3Count();
   for (Point p : trainable) {
     if (counts > L3LIMIT) break;
