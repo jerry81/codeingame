@@ -559,6 +559,9 @@ class Game {
       for (Point p:sp) {
         p.print();
       }
+      ret.id = u.id;
+      ret.x = sp[0].x;
+      ret.y = sp[0].y;
     }
 
     return ret;
