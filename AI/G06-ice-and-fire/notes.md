@@ -18,6 +18,16 @@
 
 - when the unit goes all the way right, it doesn't change direction (done)
 
+ - rule update: mines built on if owned and not occupied!
+    - build if owned (done)
+    - move unit away if on friendly mine that hasn't been built
+
+- new action: BUILD MINE x y
+- build mines whenever friendly unit is on mine (done)
+
+- the nested unordered_maps used as Point hash table are terrible
+  - refactor it (done)
+
 # issues
 
 - units just sit idly often
@@ -39,16 +49,12 @@
   - level 2 units should find enemy level 1 units mostly
   - level 3 units should kill enemy units and never walk to a square adjacent to a level 3 enemy unit
 
+
 # wood 2 to wood 1
 
 - can build mines
 - built only on mines
   - provided by a seperate loop (not on the map)
-  - rule update: mines built on if owned and not occupied!
-    - build if owned (done)
-    - move unit away if on friendly mine that hasn't been built
-- new action: BUILD MINE x y
-- build mines whenever friendly unit is on mine (done)
 - destroy enemy mines
 
 
@@ -63,8 +69,6 @@
       - third priority: build level 2 units
       - fourth priority: build level 3 units.
 
-- the nested unordered_maps used as Point hash table are terrible
-  - refactor it
 
 - on wood 1, we get overwhelmed by the number of l1 units that the "night boss" creates
   - our unit counts are limited
