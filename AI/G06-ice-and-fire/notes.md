@@ -60,3 +60,7 @@
 
 - the nested unordered_maps used as Point hash table are terrible
   - refactor it
+
+- on wood 1, we get overwhelmed by the number of l1 units that the "night boss" creates
+  - our unit counts are limited
+  - our units are idle

@@ -615,12 +615,10 @@ class Game {
         }
       }
     }
-    cerr << "f2 units " << endl;
     for (auto u : f2units) {
-      if (enemyL1Count() == 0) break;
+      if (enemyL1Count() <= 0) break;
       ret.push_back(getBestMoveForL2(u.second));
     }
-    cerr << "finish f2 units " << endl;
 
     return ret;
   }
