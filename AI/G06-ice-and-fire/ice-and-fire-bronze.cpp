@@ -504,6 +504,20 @@ class Game {
     return c == '.' || c == 'X' || c == 'x';
   }
 
+  bool isUnexploredMine(Point p) {
+    char c = map.at(p);
+    bool isUnexplored = c == '.';
+    bool isMine = false;
+    for (Building b: friendlyMines) {
+      Point bp = Point(b.x, b.y);
+      if (p.equals(bp)) {
+        isMine = true;
+        break;
+      }
+    }
+    return isMine && isUnexplored;
+  }
+
   vector<Point> getTrainableSquares() {
     vector<Point> ret;
     vector<Point> friendlySqs = map.getFriendlySquares();
@@ -575,6 +589,7 @@ class Game {
         BFSPoint bfsp = q.front();
         q.pop();
         if (level == 1) {
+          if (isUnexploredMine(bfsp.p)) return bfsp.path_to_point;
           if (isValidMove(bfsp.p)) return bfsp.path_to_point;
         }
 

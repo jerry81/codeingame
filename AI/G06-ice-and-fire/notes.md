@@ -38,6 +38,10 @@
   - level 3 units should kill enemy units and never walk to a square adjacent to a level 3 enemy unit
     - helper - is adjacent to level3 enemy unit (done)
     - kill priority (done)
+
+- level 1 units - prioritize unexplored mines
+  - helper: isUnexploredMine (done)
+  - use the helper
 # issues
 
 - units just sit idly often
@@ -74,6 +78,7 @@
 - new command BUILD TOWER x y
 - towers only destroyed by lvl 3 units
 - towers protect friendly cells adjacent (non-diagonal)
+- towers cost 15 gold
 
 # other improvements
 
@@ -91,10 +96,18 @@
   - our unit counts are limited
   - our units are idle
 
-- level 1 units - prioritize unexplored mines
+- tower tracking
+  - store towers
+  - if enemy has tower then allow l3 unit
+  - l3 unit target towers priority
+  - l1 and l2 units avoid tower protected squares
+
+- tower building
+
 
 # observations
 
 - built mines on chokepoints
 - running out of money still an issue
 - when unit has no path it may block other possibly more useful units
+- in a long game, the enemy built lots of towers
