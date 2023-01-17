@@ -404,6 +404,15 @@ class Game {
 
   bool enemyHasTower() { return enemyTowers.size() > 0; }
 
+  bool pointControlledByEnemyTower(Point p) {
+    PointMap pm = getNeighbors(p);
+    for (auto a: pm.lookup) {
+      if (eTowersMap.contains(a.second)) return true;
+    }
+
+    return false;
+  }
+
   void resetUnits() {
     f1units.clear();
     f2units.clear();
@@ -597,9 +606,9 @@ class Game {
 
     switch (level) {
       case 1:
-        return !occupied(p);
+        return !occupied(p) && !pointControlledByEnemyTower(p);
       case 2:
-        return !occupied(p);
+        return !occupied(p) && !pointControlledByEnemyTower(p);
       default:
         return !isSquareAdjacentToEL3(p);
     }

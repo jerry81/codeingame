@@ -42,6 +42,13 @@
 - level 1 units - prioritize unexplored mines
   - helper: isUnexploredMine (done)
   - use the helper
+
+  - level 3 units not moving (fixed)
+- units dont capture the enemyhq! (fixed)
+
+- l1 and l2 units avoid tower protected squares
+    - enemy controlled by tower helper - done
+  - enemy towers and their controlled squares should not be considered for l1 and l2 units' paths - done
 # issues
 
 - units just sit idly often
@@ -51,8 +58,7 @@
 
   - level 3 units should defend mines and hq and defend against enemy level 3 units
 
-- level 3 units not moving (fixed)
-- units dont capture the enemyhq!
+
 
 # wood 3 to wood 2
 
@@ -101,8 +107,7 @@
   - store towers - done
   - if enemy has tower then allow l3 unit - done
   - l3 unit target towers priority - done
-  - l1 and l2 units avoid tower protected squares
-  - enemy towers and their controlled squares should not be considered for l1 and l2 units' paths
+
 
 - tower building
 
