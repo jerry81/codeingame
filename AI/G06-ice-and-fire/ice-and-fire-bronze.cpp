@@ -416,6 +416,7 @@ class Game {
     e2units.clear();
     e3units.clear();
     e1map.clear();
+    e2map.clear();
     e3map.clear();
   }
 
@@ -624,13 +625,31 @@ class Game {
         }
 
         if (level == 3) {
-          if (eTowersMap.contains(bfsp.p)) return bfsp.path_to_point;
+          if (eTowersMap.contains(bfsp.p)) {
+            cerr << "returning due to tower found " << endl;
+            cerr << "len " << bfsp.path_to_point.size() << endl;
+            return bfsp.path_to_point;
+          }
 
-          if (e2map.contains(bfsp.p)) return bfsp.path_to_point;
+          if (e2map.contains(bfsp.p)) {
 
-          if (e1map.contains(bfsp.p)) return bfsp.path_to_point;
+          cerr << "returning due to e2 found " << endl;
+          bfsp.p.print();
+            cerr << "len " << bfsp.path_to_point.size() << endl;
+            return bfsp.path_to_point;
+          }
 
-          if (isValidMove(bfsp.p)) return bfsp.path_to_point;
+          if (e1map.contains(bfsp.p)) {
+                    cerr << "returning due to e1 found " << endl;
+            cerr << "len " << bfsp.path_to_point.size() << endl;
+            return bfsp.path_to_point;
+          }
+
+          if (isValidMove(bfsp.p)) {
+            cerr << "valid move found " << endl;
+                        cerr << "len " << bfsp.path_to_point.size() << endl;
+            return bfsp.path_to_point;
+          }
         }
 
 
@@ -685,8 +704,10 @@ class Game {
     }
 
     for (auto u : f3units) {
+      cerr << "getting best move for f3 unit " << u.second.id << endl;
       Move m = getBestMoveForUnit(u.second,3);
-
+      cerr << "move result " << endl;
+      m.print();
       if (!m.isUninitialized()) ret.push_back(m);
     }
 
@@ -701,7 +722,7 @@ string getTrainingSegment(string level, Point p) {
 
 string getTrainableCommand(vector<Point> trainable, Game g) {
   string ret = "";
-  int L1LIMIT = 5; // convert to a function
+  int L1LIMIT = 4; // convert to a function
 
   int counts = g.friendlyL1Count();
   for (Point p : trainable) {

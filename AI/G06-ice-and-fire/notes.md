@@ -51,7 +51,7 @@
 
   - level 3 units should defend mines and hq and defend against enemy level 3 units
 
-
+- level 3 units not moving
 
 # wood 3 to wood 2
 
@@ -101,10 +101,13 @@
   - if enemy has tower then allow l3 unit - done
   - l3 unit target towers priority - done
   - l1 and l2 units avoid tower protected squares
+  - enemy towers and their controlled squares should not be considered for l1 and l2 units' paths
 
 - tower building
 
 - refactor anything that uses a point to use a point
+
+- prioritize taking mines
 
 
 # observations
