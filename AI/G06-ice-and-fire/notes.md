@@ -62,12 +62,14 @@
   - helper - adjacent unprotected squares (done)
   - build tower command (done)
 
-# issues
+- prioritize taking mines (done?)
 
-- units just sit idly often
+- units just sit idly often (done)
 - units should always have a goal and not be idle
-  - level 1 units, the scouts, should be grabbing the closest unoccupied square not targeted by another level 1)  need shortest paths to find the closest unoccupied square
-    - use shortest paths for level 1 units?
+  - level 1 units, the scouts, should be grabbing the closest unoccupied square not targeted by another level 1)  need shortest paths to find the closest unoccupied square (done)
+    - use shortest paths for level 1 units? (done)
+
+# issues
 
   - level 3 units should defend mines and hq and defend against enemy level 3 units
 
@@ -120,7 +122,6 @@
 
 - refactor anything that uses a point to use a point
 
-- prioritize taking mines
 
 # observations
 
