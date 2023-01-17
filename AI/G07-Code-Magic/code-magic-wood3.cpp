@@ -157,6 +157,22 @@ struct GameMove {
   }
 };
 
+struct GameMoves {
+  vector<GameMove> moves;
+  void add(GameMove gm) {
+    moves.push_back(gm);
+  }
+  stringify stringify() {
+    string ret = "";
+    for (GameMove gm: moves) {
+      ret+=gm;
+      ret+=";";
+    }
+    ret+="PASS";
+    return ret;
+  }
+}
+
 struct Card {
   int id;
   int instance_id;
@@ -175,6 +191,8 @@ struct Card {
     return std::to_string(id) + "," + std::to_string(instance_id);
   }
   int totalStrength() { return attack + defense; }
+
+  int costEffectiveness() { return totalStrength() - cost; }
 };
 
 struct CardMap {
@@ -219,6 +237,7 @@ class Game {
   Player me;
   vector<Card> drafting;
   CardMap hand;
+  CardMap soldiers;
 
  public:
   void reset() {
@@ -241,7 +260,7 @@ class Game {
     for (int i = 0; i < 3; ++i) {
       Card c = drafting[i];
       c.print();
-      int val = c.totalStrength();
+      int val = c.costEffectiveness();
       if (val > maxVal) {
         maxVal = val;
         maxIdx = i;
@@ -250,24 +269,35 @@ class Game {
     return maxIdx;
   };
 
-  GameMove battle() {
-    hand.print();
+  GameMoves battle() {
+    GameMove res;
     Card c = getLowestCard();
     cerr << "battle card" << endl;
     c.print();
-    GameMove res;
     cerr << "me mana " << me.mana << endl;
     cerr << "c.cost " << c.cost << endl;
     if (me.mana >= c.cost) {
-      res.type = 0;
-      res.id = c.instance_id;
-    } else {
-      res.type = 3;
+      GameMove gm;
+      gm.type = 0;
+      gm.id = c.instance_id;
+      res.push_back(gm);
     }
+
+    for (auto a: soldiers.lookup) {
+      Card c = a.second;
+      GameMove gm;
+      gm.type = 1;
+      gm.id = c.instance_id;
+      gm.id2 = -1;
+      GameMoves.push_back(gm);
+    }
+
     return res;
   }
 
   void addCardToHand(Card c) { hand.addCard(c); }
+
+  void addCardToField(Card c) { soldiers.addCard(c); }
 
   Card getHighestCard() {
     Card highest;
@@ -348,28 +378,27 @@ int main() {
         g.addDraft(c);
       } else if (c.location == 0) {
         g.addCardToHand(c);
+      } else if (c.location == 1) {
+        g.addCardToField(c);
       }
     }
 
     int choice = g.pickCard();
-    GameMove gm;
+    GameMoves gms;
     if (g.draft()) {
+      GameMove gm;
       gm.id = choice;
       gm.type = 2;
+      gms.add(gm);
     } else {
-      gm = g.battle();
+      gms = g.battle();
     }
 
-    cout << gm.stringify() << endl;
+    cout << gms.stringify() << endl;
   }
 }
 
 /*
 
-current plan
-highest mana card
-
-store cards in 3 arays
-- hand array
-
+multiple actions per turn
 */
