@@ -655,12 +655,7 @@ class Game {
       while (!q.empty()) {
         BFSPoint bfsp = q.front();
         q.pop();
-        cerr << "enemy hq " << endl;
-        enemyHQ.print();
-        if (isEnemyHQ(bfsp.p)) {
-          cerr << "enemy hq !" << endl;
-          return bfsp.path_to_point;  // win now
-        }
+        if (isEnemyHQ(bfsp.p))  return bfsp.path_to_point;  // win now
 
         if (level == 1) {
           if (isUnexploredMine(bfsp.p)) return bfsp.path_to_point;
@@ -675,30 +670,16 @@ class Game {
         }
 
         if (level == 3) {
-          if (eTowersMap.contains(bfsp.p)) {
-            cerr << "returning due to tower found " << endl;
-            cerr << "len " << bfsp.path_to_point.size() << endl;
-            return bfsp.path_to_point;
-          }
+          if (eTowersMap.contains(bfsp.p)) return bfsp.path_to_point;
 
-          if (e2map.contains(bfsp.p)) {
-            cerr << "returning due to e2 found " << endl;
-            bfsp.p.print();
-            cerr << "len " << bfsp.path_to_point.size() << endl;
-            return bfsp.path_to_point;
-          }
+          if (e2map.contains(bfsp.p)) return bfsp.path_to_point;
 
-          if (e1map.contains(bfsp.p)) {
-            cerr << "returning due to e1 found " << endl;
-            cerr << "len " << bfsp.path_to_point.size() << endl;
-            return bfsp.path_to_point;
-          }
 
-          if (isValidMove(bfsp.p)) {
-            cerr << "valid move found " << endl;
-            cerr << "len " << bfsp.path_to_point.size() << endl;
-            return bfsp.path_to_point;
-          }
+          if (e1map.contains(bfsp.p)) return bfsp.path_to_point;
+
+
+          if (isValidMove(bfsp.p)) return bfsp.path_to_point;
+
         }
 
         visited.addPoint(bfsp.p);
@@ -752,10 +733,7 @@ class Game {
     }
 
     for (auto u : f3units) {
-      cerr << "getting best move for f3 unit " << u.second.id << endl;
       Move m = getBestMoveForUnit(u.second, 3);
-      cerr << "move result " << endl;
-      m.print();
       if (!m.isUninitialized()) ret.push_back(m);
     }
 
@@ -914,7 +892,7 @@ int main() {
       cin.ignore();
       g.addUnit(unit_id, y, x, owner, level);
     }
-    g.print();
+    // g.print();
     int trainable = g.getTrainableCount();
     vector<Point> trainableSqs = g.getTrainableSquares();
     vector<Move> moves = g.getMoves();
