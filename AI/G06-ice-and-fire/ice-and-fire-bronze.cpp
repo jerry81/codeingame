@@ -330,6 +330,7 @@ class Game {
   vector<Building> enemyMines;
   vector<Building> friendlyTowers;
   vector<Building> enemyTowers;
+  PointMap eTowersMap;
   Building friendlyHQ;
   Building enemyHQ;
   GameMap map;
@@ -398,6 +399,7 @@ class Game {
         friendlyTowers.push_back(b);
       } else {
         enemyTowers.push_back(b);
+        eTowersMap.addPoint(Point(b.x, b.y));
       }
     }
   }
@@ -422,6 +424,7 @@ class Game {
     enemyMines.clear();
     friendlyTowers.clear();
     enemyTowers.clear();
+    eTowersMap.clear();
   }
 
   void print() {
@@ -621,6 +624,8 @@ class Game {
         }
 
         if (level == 3) {
+          if (eTowersMap.contains(bfsp.p)) return bfsp.path_to_point;
+
           if (e2map.contains(bfsp.p)) return bfsp.path_to_point;
 
           if (e1map.contains(bfsp.p)) return bfsp.path_to_point;

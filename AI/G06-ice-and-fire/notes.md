@@ -99,7 +99,7 @@
 - tower tracking
   - store towers - done
   - if enemy has tower then allow l3 unit - done
-  - l3 unit target towers priority
+  - l3 unit target towers priority - done
   - l1 and l2 units avoid tower protected squares
 
 - tower building
