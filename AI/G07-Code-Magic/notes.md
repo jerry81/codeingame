@@ -9,3 +9,8 @@
   - breakthru - extra damage when they attack enemy creatures
   - charge - attack the turn they are summoned
   - guard - enemies forced to attack creatures with guard first
+
+# wood 2 to wood 1
+
+- item cards now unlocked
+
