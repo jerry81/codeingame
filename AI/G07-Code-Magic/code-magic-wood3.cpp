@@ -131,10 +131,24 @@ In Bronze, more abilities for creatures!
 
 using namespace std;
 
-/**
- * Auto-generated code below aims at helping you parse
- * the standard input according to the problem statement.
- **/
+struct GameMove {
+  int type; // 0 SUMMON, 1 ATTACK, 2 PICK, other PASS
+  int id;
+  int id2;
+  GameMove(int i1 = -1,int i2=-1, int m=2): id(i1), id2(i2), type(m){};
+  string stringify() {
+    switch (type) {
+      case 0:
+        return "SUMMON " + std::to_string(id);
+      case 1:
+        return "ATTACK " + std::to_string(id) + " " + std::to_string(id2);
+      case 2:
+        return "PICK " + std::to_string(id);
+      default:
+        return "PASS";
+    }
+  }
+};
 
 int main()
 {
