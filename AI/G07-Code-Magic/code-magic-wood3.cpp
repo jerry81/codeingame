@@ -159,19 +159,25 @@ struct GameMove {
 
 struct GameMoves {
   vector<GameMove> moves;
+  bool draft = false;
   void add(GameMove gm) {
     moves.push_back(gm);
   }
-  stringify stringify() {
+  string stringify() {
     string ret = "";
     for (GameMove gm: moves) {
-      ret+=gm;
+      ret+= gm.stringify();
       ret+=";";
     }
-    ret+="PASS";
+    if (!draft) {
+      ret+="PASS";
+    }
     return ret;
   }
-}
+  void setDraft(bool d) {
+    draft = d;
+  }
+};
 
 struct Card {
   int id;
@@ -270,7 +276,7 @@ class Game {
   };
 
   GameMoves battle() {
-    GameMove res;
+    GameMoves res;
     Card c = getLowestCard();
     cerr << "battle card" << endl;
     c.print();
@@ -280,7 +286,7 @@ class Game {
       GameMove gm;
       gm.type = 0;
       gm.id = c.instance_id;
-      res.push_back(gm);
+      res.add(gm);
     }
 
     for (auto a: soldiers.lookup) {
@@ -289,7 +295,7 @@ class Game {
       gm.type = 1;
       gm.id = c.instance_id;
       gm.id2 = -1;
-      GameMoves.push_back(gm);
+      res.add(gm);
     }
 
     return res;
@@ -390,6 +396,7 @@ int main() {
       gm.id = choice;
       gm.type = 2;
       gms.add(gm);
+      gms.setDraft(true);
     } else {
       gms = g.battle();
     }
