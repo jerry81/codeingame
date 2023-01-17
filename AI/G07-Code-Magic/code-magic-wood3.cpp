@@ -150,6 +150,24 @@ struct GameMove {
   }
 };
 
+class Card {
+  int id;
+  int instance_id;
+  int location; // 0 player hand / draft, 1 player side, 2 opponent side
+  int cost;
+  int attack;
+  int defense;
+  Card(int i, int ii, int loc, int c, int a, int d):id(i), instance_id(ii), location(loc), cost(c), attack(a), defense(d){};
+};
+
+class Player {
+  int health;
+  int mana;
+  bool me;
+  int deck_size;
+  Player(int h, int m, int d, bool me = false) : health(h), mana(m), deck_size(d), me(me) {};
+};
+
 int main()
 {
 
