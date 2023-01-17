@@ -150,7 +150,7 @@ struct GameMove {
   }
 };
 
-class Card {
+struct Card {
   int id;
   int instance_id;
   int location; // 0 player hand / draft, 1 player side, 2 opponent side
@@ -160,13 +160,37 @@ class Card {
   Card(int i, int ii, int loc, int c, int a, int d):id(i), instance_id(ii), location(loc), cost(c), attack(a), defense(d){};
 };
 
-class Player {
+struct Player {
   int health;
   int mana;
   bool me;
   int deck_size;
-  Player(int h, int m, int d, bool me = false) : health(h), mana(m), deck_size(d), me(me) {};
+  Player(int h = 0, int m = 0, int d = 0, bool me = false) : health(h), mana(m), deck_size(d), me(me) {};
+  void print() {
+    cerr << "my health " << health << " mana " << mana << " deck size " << deck_size << endl;
+  };
 };
+
+class Game {
+  Player me;
+
+  public:
+    void setMe(int h, int m, int d) {
+      me = Player(h, m, d, true);
+    };
+    bool draft() {
+      return me.mana == 0;
+    };
+    void print() {
+      cerr << "me" << endl;
+      me.print();
+      string phase = (draft() ? "draft" : "battle");
+      cerr << "phase: " << phase << endl;
+    };
+
+};
+
+Game g;
 
 int main()
 {
@@ -179,6 +203,7 @@ int main()
             int player_deck;
             int player_rune;
             int player_draw;
+            g.setMe(player_health, player_mana, player_deck);
             cin >> player_health >> player_mana >> player_deck >> player_rune >> player_draw; cin.ignore();
         }
         int opponent_hand;
@@ -204,6 +229,8 @@ int main()
             int card_draw;
             cin >> card_number >> instance_id >> location >> card_type >> cost >> attack >> defense >> abilities >> my_health_change >> opponent_health_change >> card_draw; cin.ignore();
         }
+
+        g.print();
 
         // Write an action using cout. DON'T FORGET THE "<< endl"
         // To debug: cerr << "Debug messages..." << endl;
