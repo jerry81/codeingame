@@ -105,6 +105,10 @@
 - towers protect friendly cells adjacent (non-diagonal)
 - towers cost 15 gold
 
+# bronze to silver
+
+- nasty ai builds right in my territory quickly straight to the hq
+
 # other improvements
 
 - economy management
@@ -121,9 +125,19 @@
   - our unit counts are limited
   - our units are idle
 
+
+
+- l2 units are just passing up opportunities to capture
+
+- l2 unit shouldn't consider l2 or l3 adjacent squares in their paths
+
 # observations
 
 - built towers on chokepoints
 - running out of money still an issue
 - when unit has no path it may block other possibly more useful units
 - in a long game, the enemy built lots of towers
+
+- seems we can directly train on enemy ground
+  - and u can train an unlimitedly long path in one turn?? yes
+  - prioritize training on enemy units

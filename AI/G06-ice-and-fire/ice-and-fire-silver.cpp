@@ -206,6 +206,11 @@ struct Point {
   }
 };
 
+struct TrainingGround {
+  Point p;
+  bool hasEnemyUnit;
+  TrainingGround(Point p, bool e = false) : p(p), hasEnemyUnit(e){};
+};
 struct BFSPoint {
   Point p;
   vector<Point> path_to_point;
@@ -378,6 +383,10 @@ class Game {
         e3map.addPoint(p);
       }
     }
+  }
+
+  GameMap getMap() {
+    return map;
   }
 
   void addBuilding(int type, int owner, int x, int y) {
@@ -556,7 +565,7 @@ class Game {
 
   bool isValidTrainingGround(Point p) {
     char c = map.at(p);
-    return c == 'O' || c == 'o' || c == '.';
+    return c == 'O' || c == 'o' || c == '.' || c == 'x' || c == 'X';
   }
 
   bool isValidMove(Point p) {
@@ -578,6 +587,10 @@ class Game {
     return isMine && isUnexplored;
   }
 
+  static bool compareTrainingGrounds(TrainingGround a, TrainingGround b) {
+    return a.hasEnemyUnit;
+  }
+
   static bool compareTrainingPoints(Point a, Point b) {
     return a.distFromHQ() > b.distFromHQ();
   }
@@ -593,6 +606,7 @@ class Game {
     for (auto y : pm.lookup) {
       Point p = y.second;
       if (isValidTrainingGround(p) && !occupied(p)) {
+
         ret.push_back(p);
       }
     }
@@ -665,7 +679,7 @@ class Game {
         if (level == 2) {
           if (e1map.contains(bfsp.p)) return bfsp.path_to_point;
 
-          if (isValidMove(bfsp.p)) return bfsp.path_to_point;
+          // if (isValidMove(bfsp.p)) return bfsp.path_to_point;
         }
 
         if (level == 3) {
@@ -759,12 +773,31 @@ string getTrainingSegment(string level, Point p) {
          std::to_string(p.y) + ";";
 }
 
+string extendSegmentR(Point p, Game g, string ret, PointMap visited) {
+  if (visited.contains(p)) return ret;
+
+  visited.addPoint(p);
+  PointMap n = g.getNeighbors(p);
+  ret += getTrainingSegment("1", p);
+  for (auto a: n.lookup) {
+    if (!visited.contains(a.second)) {
+      visited.addPoint(a.second);
+      ret += extendSegmentR(a.second,g, ret, visited);
+    }
+  }
+  return ret;
+}
+
 string getTrainableCommand(vector<Point> trainable, Game g) {
   string ret = "";
   int L1LIMIT = 4;  // convert to a function
 
   int counts = g.friendlyL1Count();
   for (Point p : trainable) {
+    if (g.getMap().at(p) == 'x' || g.getMap().at(p) == 'X') {
+    PointMap visited;
+      ret += extendSegmentR(p,g,"", visited);
+    }
     if (counts > L1LIMIT) break;
     ++counts;
     string segment = getTrainingSegment("1", p);
