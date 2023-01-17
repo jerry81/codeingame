@@ -254,6 +254,8 @@ class Game {
   void reset() {
     drafting.clear();
     hand.clear();
+    soldiers.clear();
+    enemyGuards.clear();
   }
   void addEnemyGuard(Card c) { enemyGuards.addCard(c); }
   void addDraft(Card c) { drafting.push_back(c); }
