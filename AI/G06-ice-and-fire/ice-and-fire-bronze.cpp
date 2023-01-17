@@ -278,43 +278,40 @@ class GameMap {
 
 struct Unit {
   int id;
-  int x;
-  int y;
+  Point p;
   int owner;
   int level;
-  Unit(int i = -1, int x = -1, int y = -1, int owner = -1, int level = -1)
-      : id(i), x(x), y(y), owner(owner), level(level){};
+  Unit(int i = -1, Point p=Point(-1,-1), int owner = -1, int level = -1)
+      : id(i), p(p), owner(owner), level(level){};
   void print() {
     cerr << "unit" << endl;
-    cerr << "id " << id << " x: " << x << " y: " << y << " owner: " << owner
+    cerr << "id " << id << " x: " << p.x << " y: " << p.y << " owner: " << owner
          << " level: " << level << endl;
   };
 };
 
 struct Move {
   int id;
-  int x;
-  int y;
-  Move(int id = -1, int x = -1, int y = -1) : id(id), x(x), y(y){};
+  Point p;
+  Move(int id = -1, Point p = Point(-1,-1)) : id(id), p(p){};
   void print() {
     cerr << "printing Move" << endl;
-    cerr << "move id: " << id << " x: " << x << " y: " << y << endl;
+    cerr << "move id: " << id << " x: " << p.x << " y: " << p.y << endl;
   }
-  bool isUninitialized() { return x == -1; }
+  bool isUninitialized() { return p.x == -1; }
 };
 
 struct Building {
   int type;
   int owner;
-  int x;
-  int y;
+  Point p;
   void print() {
     cerr << "building" << endl;
-    cerr << "type: " << type << " owner: " << owner << " x: " << x
-         << " y: " << y << endl;
+    cerr << "type: " << type << " owner: " << owner << " x: " << p.x
+         << " y: " << p.y << endl;
   };
-  Building(int t = -1, int owner = -1, int x = -1, int y = -1)
-      : type(t), owner(owner), x(x), y(y){};
+  Building(int t = -1, int owner = -1, Point p = Point(-1,-1))
+      : type(t), owner(owner), p(p){};
 };
 
 class Game {
@@ -359,7 +356,8 @@ class Game {
   int enemyL3Count() { return e3units.size(); }
 
   void addUnit(int id, int y, int x, int owner, int level) {
-    Unit u = Unit(id, x, y, owner, level);
+    Unit u = Unit(id, Point(x,y), owner, level);
+    Point p = Point(x,y);
     if (owner == 0) {
       if (level == 1) {
         f1units[id] = u;
@@ -371,20 +369,21 @@ class Game {
     } else {
       if (level == 1) {
         e1units[id] = u;
-        e1map.addPoint(Point(u.x, u.y));
+        e1map.addPoint(p);
       } else if (level == 2) {
         e2units[id] = u;
-        e2map.addPoint(Point(u.x, u.y));
+        e2map.addPoint(p);
       } else {
         e3units[id] = u;
-        e3map.addPoint(Point(u.x, u.y));
+        e3map.addPoint(p);
       }
     }
   }
 
   void addBuilding(int type, int owner, int x, int y) {
-    Building b = Building(type, owner, x, y);
-    Point asPoint = Point(b.x, b.y);
+    Point asPoint = Point(x, y);
+    Building b = Building(type, owner, asPoint);
+
     if (type == 0) {
       if (owner == 0) {
         friendlyHQ = b;
@@ -493,22 +492,22 @@ class Game {
 
   int getTrainableCount() { return (int)(myMoney / 10); }
 
-  bool isEnemyHQ(Point p) { return p.equals(Point(enemyHQ.x, enemyHQ.y)); }
+  bool isEnemyHQ(Point p) { return p.equals(enemyHQ.p); }
 
   bool occupied(Point p) {
     for (auto u : f1units) {
-      if (u.second.x == p.x && u.second.y == p.y) return true;
+      if (u.second.p.equals(p)) return true;
     }
 
     for (auto u : f2units) {
-      if (u.second.x == p.x && u.second.y == p.y) return true;
+      if (u.second.p.equals(p)) return true;
     }
 
     for (auto u : f3units) {
-      if (u.second.x == p.x && u.second.y == p.y) return true;
+      if (u.second.p.equals(p)) return true;
     }
 
-    if (friendlyHQ.x == p.x && friendlyHQ.y == p.y) return true;
+    if (friendlyHQ.p.equals(p)) return true;
 
     return false;
   }
@@ -570,7 +569,7 @@ class Game {
     bool isUnexplored = c == '.';
     bool isMine = false;
     for (Building b : friendlyMines) {
-      Point bp = Point(b.x, b.y);
+      Point bp = b.p;
       if (p.equals(bp)) {
         isMine = true;
         break;
@@ -618,7 +617,7 @@ class Game {
   bool isSquareAdjacentToEL3(Point p) {
     PointMap neighbors;
     for (auto a : e3units) {
-      neighbors.merge(getNeighbors(Point(a.second.x, a.second.y)));
+      neighbors.merge(getNeighbors(a.second.p));
     }
     return neighbors.contains(p);
   }
@@ -708,12 +707,11 @@ class Game {
 
   Move getBestMoveForUnit(Unit u, int level) {
     Move ret;
-    Point source = Point(u.x, u.y);
+    Point source = u.p;
     vector<Point> sp = shortestPath(Point(source.x, source.y), level);
     if (sp.empty()) return ret;
     ret.id = u.id;
-    ret.x = sp[0].x;
-    ret.y = sp[0].y;
+    ret.p = sp[0];
 
     return ret;
   }
@@ -802,7 +800,7 @@ string makeCommand(vector<Point> trainable, vector<Move> moves,
   ret += getTrainableCommand(trainable, g);
   for (Move m : moves) {
     string segment = "MOVE " + std::to_string(m.id) + " " +
-                     std::to_string(m.x) + " " + std::to_string(m.y) + ";";
+                     std::to_string(m.p.x) + " " + std::to_string(m.p.y) + ";";
     ret += segment;
   }
   for (Point m : mines) {

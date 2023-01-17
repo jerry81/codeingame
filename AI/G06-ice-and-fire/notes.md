@@ -69,6 +69,9 @@
   - level 1 units, the scouts, should be grabbing the closest unoccupied square not targeted by another level 1)  need shortest paths to find the closest unoccupied square (done)
     - use shortest paths for level 1 units? (done)
 
+- refactor anything that uses a point to use a point - done
+
+
 # issues
 
   - level 3 units should defend mines and hq and defend against enemy level 3 units
@@ -117,11 +120,6 @@
 - on wood 1, we get overwhelmed by the number of l1 units that the "night boss" creates
   - our unit counts are limited
   - our units are idle
-
-
-
-- refactor anything that uses a point to use a point
-
 
 # observations
 
