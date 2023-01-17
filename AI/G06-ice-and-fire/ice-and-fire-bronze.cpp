@@ -192,8 +192,8 @@ In Bronze, you can build towers.
 using namespace std;
 
 struct Point {
-  int x;
-  int y;
+  int x = -1;
+  int y = -1;
   Point(int x = -1, int y = -1) : x(x), y(y){};
   void print() {
     cerr << "printing point" << endl;
@@ -328,6 +328,8 @@ class Game {
   PointMap e3map;
   vector<Building> friendlyMines;
   vector<Building> enemyMines;
+  vector<Building> friendlyTowers;
+  vector<Building> enemyTowers;
   Building friendlyHQ;
   Building enemyHQ;
   GameMap map;
@@ -385,13 +387,23 @@ class Game {
       } else {
         enemyHQ = b;
       }
-    } else {
+    } else if (type == 1) {
       if (owner == 0) {
         friendlyMines.push_back(b);
       } else {
         enemyMines.push_back(b);
       }
+    } else {
+      if (owner == 0) {
+        friendlyTowers.push_back(b);
+      } else {
+        enemyTowers.push_back(b);
+      }
     }
+  }
+
+  bool enemyHasTower() {
+    return enemyTowers.size() > 0;
   }
 
   void resetUnits() {
@@ -403,6 +415,13 @@ class Game {
     e3units.clear();
     e1map.clear();
     e3map.clear();
+  }
+
+  void resetBuildings() {
+    friendlyMines.clear();
+    enemyMines.clear();
+    friendlyTowers.clear();
+    enemyTowers.clear();
   }
 
   void print() {
@@ -696,7 +715,7 @@ string getTrainableCommand(vector<Point> trainable, Game g) {
   }
 
   int L3LIMIT = 1;
-  if (g.enemyL2Count() == 0 && g.enemyL3Count() == 0) return ret;
+  if (g.enemyL2Count() == 0 && g.enemyL3Count() == 0 && !g.enemyHasTower()) return ret;
 
   counts = g.friendlyL3Count();
   for (Point p : trainable) {
@@ -778,6 +797,7 @@ int main() {
     int building_count;
     cin >> building_count;
     cin.ignore();
+    g.resetBuildings();
     for (int i = 0; i < building_count; i++) {
       int owner;
       int building_type;

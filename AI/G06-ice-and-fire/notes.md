@@ -97,17 +97,19 @@
   - our units are idle
 
 - tower tracking
-  - store towers
-  - if enemy has tower then allow l3 unit
+  - store towers - done
+  - if enemy has tower then allow l3 unit - done
   - l3 unit target towers priority
   - l1 and l2 units avoid tower protected squares
 
 - tower building
 
+- refactor anything that uses a point to use a point
+
 
 # observations
 
-- built mines on chokepoints
+- built towers on chokepoints
 - running out of money still an issue
 - when unit has no path it may block other possibly more useful units
 - in a long game, the enemy built lots of towers
