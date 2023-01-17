@@ -28,8 +28,7 @@
 - the nested unordered_maps used as Point hash table are terrible
   - refactor it (done)
 
-
-- we run out of money!
+- we run out of money
   - only build lvl 3 units if enemy has level 2 or level 3 units. (done)
 
 
@@ -70,6 +69,11 @@
   - provided by a seperate loop (not on the map)
 - destroy enemy mines
 
+# wood 1 to bronze
+
+- new command BUILD TOWER x y
+- towers only destroyed by lvl 3 units
+- towers protect friendly cells adjacent (non-diagonal)
 
 # other improvements
 
@@ -86,3 +90,11 @@
 - on wood 1, we get overwhelmed by the number of l1 units that the "night boss" creates
   - our unit counts are limited
   - our units are idle
+
+- level 1 units - prioritize unexplored mines
+
+# observations
+
+- built mines on chokepoints
+- running out of money still an issue
+- when unit has no path it may block other possibly more useful units
