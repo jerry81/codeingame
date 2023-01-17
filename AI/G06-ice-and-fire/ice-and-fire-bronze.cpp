@@ -297,9 +297,7 @@ struct Move {
     cerr << "printing Move" << endl;
     cerr << "move id: " << id << " x: " << x << " y: " << y << endl;
   }
-  bool isUninitialized() {
-    return x == -1;
-  }
+  bool isUninitialized() { return x == -1; }
 };
 
 struct Building {
@@ -404,9 +402,7 @@ class Game {
     }
   }
 
-  bool enemyHasTower() {
-    return enemyTowers.size() > 0;
-  }
+  bool enemyHasTower() { return enemyTowers.size() > 0; }
 
   void resetUnits() {
     f1units.clear();
@@ -472,6 +468,8 @@ class Game {
 
   int getTrainableCount() { return (int)(myMoney / 10); }
 
+  bool isEnemyHQ(Point p) { return p.equals(Point(enemyHQ.x, enemyHQ.y)); }
+
   bool occupied(Point p) {
     for (auto u : f1units) {
       if (u.second.x == p.x && u.second.y == p.y) return true;
@@ -498,6 +496,9 @@ class Game {
     int dy = py + 1;
     int lx = px - 1;
     int rx = px + 1;
+
+    // randomize rx or dy
+
     if (uy >= 0) {
       res.addPoint(Point(px, uy));
     }
@@ -513,6 +514,17 @@ class Game {
     if (rx <= 11) {
       res.addPoint(Point(rx, py));
     }
+    // int randomval = rand() % 2;  // 0 or 1
+    // int randomx, randomy, randomx2, randomy2;
+    // randomx = (randomval > 0) ? rx : px;
+    // randomy = (randomval > 0) ? py : dy;
+    // randomx2 = (randomval > 0) ? px : rx;
+    // randomy2 = (randomval > 0) ? dy : py;
+
+    // if (randomx <= 11 && randomy <= 11) {
+    //   res.addPoint(Point(randomx, randomy));
+    //   res.addPoint(Point(randomy, randomy2));
+    // }
 
     return res;
   }
@@ -531,7 +543,7 @@ class Game {
     char c = map.at(p);
     bool isUnexplored = c == '.';
     bool isMine = false;
-    for (Building b: friendlyMines) {
+    for (Building b : friendlyMines) {
       Point bp = Point(b.x, b.y);
       if (p.equals(bp)) {
         isMine = true;
@@ -611,8 +623,16 @@ class Game {
       while (!q.empty()) {
         BFSPoint bfsp = q.front();
         q.pop();
+        cerr << "enemy hq " << endl;
+        enemyHQ.print();
+        if (isEnemyHQ(bfsp.p)) {
+          cerr << "enemy hq !" << endl;
+          return bfsp.path_to_point;  // win now
+        }
+
         if (level == 1) {
           if (isUnexploredMine(bfsp.p)) return bfsp.path_to_point;
+
           if (isValidMove(bfsp.p)) return bfsp.path_to_point;
         }
 
@@ -620,8 +640,6 @@ class Game {
           if (e1map.contains(bfsp.p)) return bfsp.path_to_point;
 
           if (isValidMove(bfsp.p)) return bfsp.path_to_point;
-
-
         }
 
         if (level == 3) {
@@ -632,26 +650,24 @@ class Game {
           }
 
           if (e2map.contains(bfsp.p)) {
-
-          cerr << "returning due to e2 found " << endl;
-          bfsp.p.print();
+            cerr << "returning due to e2 found " << endl;
+            bfsp.p.print();
             cerr << "len " << bfsp.path_to_point.size() << endl;
             return bfsp.path_to_point;
           }
 
           if (e1map.contains(bfsp.p)) {
-                    cerr << "returning due to e1 found " << endl;
+            cerr << "returning due to e1 found " << endl;
             cerr << "len " << bfsp.path_to_point.size() << endl;
             return bfsp.path_to_point;
           }
 
           if (isValidMove(bfsp.p)) {
             cerr << "valid move found " << endl;
-                        cerr << "len " << bfsp.path_to_point.size() << endl;
+            cerr << "len " << bfsp.path_to_point.size() << endl;
             return bfsp.path_to_point;
           }
         }
-
 
         visited.addPoint(bfsp.p);
         PointMap pm = getNeighbors(bfsp.p);
@@ -692,20 +708,20 @@ class Game {
   vector<Move> getMoves() {
     vector<Move> ret;
     for (auto u : f1units) {
-      Move m = getBestMoveForUnit(u.second,1);
+      Move m = getBestMoveForUnit(u.second, 1);
 
       if (!m.isUninitialized()) ret.push_back(m);
     }
     for (auto u : f2units) {
       if (enemyL1Count() <= 0) break;
-      Move m = getBestMoveForUnit(u.second,2);
+      Move m = getBestMoveForUnit(u.second, 2);
 
       if (!m.isUninitialized()) ret.push_back(m);
     }
 
     for (auto u : f3units) {
       cerr << "getting best move for f3 unit " << u.second.id << endl;
-      Move m = getBestMoveForUnit(u.second,3);
+      Move m = getBestMoveForUnit(u.second, 3);
       cerr << "move result " << endl;
       m.print();
       if (!m.isUninitialized()) ret.push_back(m);
@@ -722,7 +738,7 @@ string getTrainingSegment(string level, Point p) {
 
 string getTrainableCommand(vector<Point> trainable, Game g) {
   string ret = "";
-  int L1LIMIT = 4; // convert to a function
+  int L1LIMIT = 4;  // convert to a function
 
   int counts = g.friendlyL1Count();
   for (Point p : trainable) {
@@ -741,7 +757,8 @@ string getTrainableCommand(vector<Point> trainable, Game g) {
   }
 
   int L3LIMIT = 1;
-  if (g.enemyL2Count() == 0 && g.enemyL3Count() == 0 && !g.enemyHasTower()) return ret;
+  if (g.enemyL2Count() == 0 && g.enemyL3Count() == 0 && !g.enemyHasTower())
+    return ret;
 
   counts = g.friendlyL3Count();
   for (Point p : trainable) {
@@ -847,7 +864,7 @@ int main() {
       cin.ignore();
       g.addUnit(unit_id, y, x, owner, level);
     }
-     g.print();
+    g.print();
     int trainable = g.getTrainableCount();
     vector<Point> trainableSqs = g.getTrainableSquares();
     vector<Move> moves = g.getMoves();

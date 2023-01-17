@@ -51,7 +51,8 @@
 
   - level 3 units should defend mines and hq and defend against enemy level 3 units
 
-- level 3 units not moving
+- level 3 units not moving (fixed)
+- units dont capture the enemyhq!
 
 # wood 3 to wood 2
 
