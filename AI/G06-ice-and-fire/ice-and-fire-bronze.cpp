@@ -332,6 +332,7 @@ class Game {
   vector<Building> friendlyTowers;
   vector<Building> enemyTowers;
   PointMap eTowersMap;
+  PointMap fTowersMap;
   Building friendlyHQ;
   Building enemyHQ;
   GameMap map;
@@ -383,6 +384,7 @@ class Game {
 
   void addBuilding(int type, int owner, int x, int y) {
     Building b = Building(type, owner, x, y);
+    Point asPoint = Point(b.x, b.y);
     if (type == 0) {
       if (owner == 0) {
         friendlyHQ = b;
@@ -398,14 +400,24 @@ class Game {
     } else {
       if (owner == 0) {
         friendlyTowers.push_back(b);
+        fTowersMap.addPoint(asPoint);
       } else {
         enemyTowers.push_back(b);
-        eTowersMap.addPoint(Point(b.x, b.y));
+        eTowersMap.addPoint(asPoint);
       }
     }
   }
 
   bool enemyHasTower() { return enemyTowers.size() > 0; }
+
+  bool pointControlledByFriendlyTower(Point p) {
+    PointMap pm = getNeighbors(p);
+    for (auto a: pm.lookup) {
+      if (fTowersMap.contains(a.second)) return true;
+    }
+
+    return false;
+  }
 
   bool pointControlledByEnemyTower(Point p) {
     PointMap pm = getNeighbors(p);
@@ -434,6 +446,7 @@ class Game {
     friendlyTowers.clear();
     enemyTowers.clear();
     eTowersMap.clear();
+    fTowersMap.clear();
   }
 
   void print() {
@@ -499,6 +512,7 @@ class Game {
 
     return false;
   }
+
 
   PointMap getNeighbors(Point p) {
     PointMap res;
@@ -747,6 +761,21 @@ class Game {
 
     return ret;
   }
+
+  vector<Point> getTowerSpots() {
+    vector<Point> ret;
+    vector<Point> friendlySqs = map.getFriendlySquares();
+
+    for (Point p : friendlySqs) {
+      if (!pointControlledByFriendlyTower(p)) {
+        ret.push_back(p);
+      }
+    }
+
+    sort(ret.begin(), ret.end(), compareTrainingPoints);
+
+    return ret;
+  }
 };
 
 string getTrainingSegment(string level, Point p) {
@@ -790,23 +819,26 @@ string getTrainableCommand(vector<Point> trainable, Game g) {
 }
 
 string makeCommand(vector<Point> trainable, vector<Move> moves,
-                   vector<Point> mines, Game g) {
+                   vector<Point> mines, Game g, vector<Point> towers) {
   string ret = "";
   ret += getTrainableCommand(trainable, g);
-  cerr << "anal on moves" << endl;
   for (Move m : moves) {
     string segment = "MOVE " + std::to_string(m.id) + " " +
                      std::to_string(m.x) + " " + std::to_string(m.y) + ";";
     ret += segment;
   }
-  cerr << "anal on mines" << endl;
   for (Point m : mines) {
     string segment =
         "BUILD MINE " + std::to_string(m.x) + " " + std::to_string(m.y) + ";";
     ret += segment;
   }
 
-  cerr << "wait check" << endl;
+  for (Point m: towers) {
+    string segment =
+        "BUILD TOWER " + std::to_string(m.x) + " " + std::to_string(m.y) + ";";
+    ret += segment;
+  }
+
   if (ret.empty()) {
     ret = "WAIT";
   }
@@ -887,7 +919,8 @@ int main() {
     vector<Point> trainableSqs = g.getTrainableSquares();
     vector<Move> moves = g.getMoves();
     vector<Point> mines = g.getOccupiedMines();
-    string command = makeCommand(trainableSqs, moves, mines, g);
+    vector<Point> towers = g.getTowerSpots();
+    string command = makeCommand(trainableSqs, moves, mines, g, towers);
     cout << command << endl;  // MOVE TRAIN WAIT
   }
 }

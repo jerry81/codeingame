@@ -52,6 +52,16 @@
 
 - distfromhq helper (manhattan)
   - always build units at location farthest from hq - done
+
+- tower tracking
+  - store towers - done
+  - if enemy has tower then allow l3 unit - done
+  - l3 unit target towers priority - done
+
+- tower building
+  - helper - adjacent unprotected squares (done)
+  - build tower command (done)
+
 # issues
 
 - units just sit idly often
@@ -106,18 +116,11 @@
   - our unit counts are limited
   - our units are idle
 
-- tower tracking
-  - store towers - done
-  - if enemy has tower then allow l3 unit - done
-  - l3 unit target towers priority - done
 
-
-- tower building
 
 - refactor anything that uses a point to use a point
 
 - prioritize taking mines
-
 
 # observations
 
