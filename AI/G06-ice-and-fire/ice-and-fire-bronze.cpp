@@ -201,6 +201,9 @@ struct Point {
   }
   string hash() { return std::to_string(x) + "," + std::to_string(y); }
   bool equals(Point compared) { return hash() == compared.hash(); }
+  int distFromHQ() {
+    return x+y;
+  }
 };
 
 struct BFSPoint {
@@ -562,6 +565,10 @@ class Game {
     return isMine && isUnexplored;
   }
 
+  static bool compareTrainingPoints(Point a, Point b) {
+    return a.distFromHQ() > b.distFromHQ();
+  }
+
   vector<Point> getTrainableSquares() {
     vector<Point> ret;
     vector<Point> friendlySqs = map.getFriendlySquares();
@@ -576,6 +583,8 @@ class Game {
         ret.push_back(p);
       }
     }
+
+    sort(ret.begin(), ret.end(), compareTrainingPoints);
 
     return ret;
   }

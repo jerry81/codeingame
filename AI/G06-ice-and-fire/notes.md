@@ -49,6 +49,9 @@
 - l1 and l2 units avoid tower protected squares
     - enemy controlled by tower helper - done
   - enemy towers and their controlled squares should not be considered for l1 and l2 units' paths - done
+
+- distfromhq helper (manhattan)
+  - always build units at location farthest from hq - done
 # issues
 
 - units just sit idly often
