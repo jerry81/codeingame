@@ -167,11 +167,10 @@ struct GameMoves {
     string ret = "";
     for (GameMove gm: moves) {
       ret+= gm.stringify();
-      ret+=";";
+      if (!draft) ret+=";";
     }
-    if (!draft) {
-      ret+="PASS";
-    }
+    if (!draft) ret+="PASS";
+
     return ret;
   }
   void setDraft(bool d) {
