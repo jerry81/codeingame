@@ -134,6 +134,7 @@ In Bronze, more abilities for creatures!
 #include <iostream>
 #include <string>
 #include <vector>
+#include <unordered_map>
 
 using namespace std;
 
@@ -169,6 +170,30 @@ struct Card {
   void print() {
     cerr << "id " << id << " attack " << attack << " defense " << defense << endl;
   }
+  string hash() {
+    return std::to_string(id)+","+std::to_string(instance_id);
+  }
+  int totalStrength() {
+    return attack+defense;
+  }
+};
+
+struct CardMap {
+  unordered_map<string, Card> lookup;
+  void addCard(Card c) {
+    if (lookup.find(p.hash()) == lookup.end()) {
+      lookup[p.hash()] = p;
+    }
+  }
+  void merge(CardMap toMerge) {
+    for (auto item : toMerge.lookup) {
+      addCard(item.second);
+    }
+  }
+
+  void clear() { lookup.clear(); }
+
+  bool contains(Card p) { return (lookup.find(p.hash()) != lookup.end()); }
 };
 
 struct Player {
@@ -184,13 +209,17 @@ struct Player {
   };
 };
 
+
+
 class Game {
   Player me;
   vector<Card> drafting;
+  CardMap hand;
 
  public:
   void reset() {
     drafting.clear();
+    hand.clear();
   }
   void addDraft(Card c) {
     drafting.push_back(c);
@@ -203,13 +232,14 @@ class Game {
     string phase = (draft() ? "draft" : "battle");
     cerr << "phase: " << phase << endl;
   };
+
   int pickCard() {
     int maxVal = 0;
     int maxIdx = 0;
     for (int i = 0; i < 3; ++i) {
      Card c = drafting[i];
      c.print();
-      int val = c.attack + c.defense;
+      int val = c.totalStrength();
       if (val > maxVal) {
         maxVal = val;
         maxIdx = i;
@@ -217,6 +247,34 @@ class Game {
     }
     return maxIdx;
   };
+
+  GameMove battle() {
+    Card c = getHighestCard();
+    GameMove res;
+    if (me.mana >= c.cost) {
+      res.type = 0;
+      res.id = c.id;
+    } else {
+      res.type = 3;
+    }
+  }
+
+  void addCardToHand(Card c) {
+    hand.addCard(c);
+  }
+
+  Card getHighestCard() {
+    Card highest;
+    int highestStr = 0;
+    for (auto a:hand) {
+      Card c = a.second;
+      if (c.totalStrength() > highest.totalStrength()) {
+        highest = c;
+        highestStr = highest.totalStrength();
+      }
+    }
+    return highest;
+  }
 };
 
 Game g;
@@ -227,7 +285,7 @@ int main()
 
     // game loop
     while (1) {
-      g.reset();
+        g.reset();
         for (int i = 0; i < 2; i++) {
             int player_health;
             int player_mana;
@@ -263,23 +321,32 @@ int main()
             int card_draw;
             cin >> card_number >> instance_id >> location >> card_type >> cost >> attack >> defense >> abilities >> my_health_change >> opponent_health_change >> card_draw; cin.ignore();
             Card c = Card(card_number,instance_id, location, cost, attack, defense);
-            c.print();
-            g.addDraft(c);
+            if (g.draft()) {
+              g.addDraft(c);
+            } else if (c.location == 0) {
+              g.addCardToHand(c);
+            }
         }
 
        int choice = g.pickCard();
-       cerr <<  "choice" << choice << endl;
        GameMove gm;
        if (g.draft()) {
          gm.id = choice;
          gm.type = 2;
        } else {
-         gm.type = 3;
+         gm = g.battle();
        }
-
-        // Write an action using cout. DON'T FORGET THE "<< endl"
-        // To debug: cerr << "Debug messages..." << endl;
 
         cout << gm.stringify() << endl;
     }
 }
+
+/*
+
+current plan
+highest mana card
+
+store cards in 3 arays
+- hand array
+
+*/
