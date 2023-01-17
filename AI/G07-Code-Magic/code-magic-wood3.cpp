@@ -133,8 +133,8 @@ In Bronze, more abilities for creatures!
 #include <algorithm>
 #include <iostream>
 #include <string>
-#include <vector>
 #include <unordered_map>
+#include <vector>
 
 using namespace std;
 
@@ -168,21 +168,20 @@ struct Card {
        int d = -1)
       : id(i), instance_id(ii), location(loc), cost(c), attack(a), defense(d){};
   void print() {
-    cerr << "id " << id << " attack " << attack << " defense " << defense << endl;
+    cerr << "id " << id << " attack " << attack << " defense " << defense
+         << endl;
   }
   string hash() {
-    return std::to_string(id)+","+std::to_string(instance_id);
+    return std::to_string(id) + "," + std::to_string(instance_id);
   }
-  int totalStrength() {
-    return attack+defense;
-  }
+  int totalStrength() { return attack + defense; }
 };
 
 struct CardMap {
   unordered_map<string, Card> lookup;
   void addCard(Card c) {
-    if (lookup.find(p.hash()) == lookup.end()) {
-      lookup[p.hash()] = p;
+    if (lookup.find(c.hash()) == lookup.end()) {
+      lookup[c.hash()] = c;
     }
   }
   void merge(CardMap toMerge) {
@@ -194,6 +193,13 @@ struct CardMap {
   void clear() { lookup.clear(); }
 
   bool contains(Card p) { return (lookup.find(p.hash()) != lookup.end()); }
+
+  void print() {
+    for (auto a : lookup) {
+      cerr << "map item " << endl;
+      a.second.print();
+    }
+  }
 };
 
 struct Player {
@@ -209,8 +215,6 @@ struct Player {
   };
 };
 
-
-
 class Game {
   Player me;
   vector<Card> drafting;
@@ -221,9 +225,7 @@ class Game {
     drafting.clear();
     hand.clear();
   }
-  void addDraft(Card c) {
-    drafting.push_back(c);
-  }
+  void addDraft(Card c) { drafting.push_back(c); }
   void setMe(int h, int m, int d) { me = Player(h, m, d, true); };
   bool draft() { return me.mana == 0; };
   void print() {
@@ -237,8 +239,8 @@ class Game {
     int maxVal = 0;
     int maxIdx = 0;
     for (int i = 0; i < 3; ++i) {
-     Card c = drafting[i];
-     c.print();
+      Card c = drafting[i];
+      c.print();
       int val = c.totalStrength();
       if (val > maxVal) {
         maxVal = val;
@@ -249,96 +251,117 @@ class Game {
   };
 
   GameMove battle() {
-    Card c = getHighestCard();
+    hand.print();
+    Card c = getLowestCard();
+    cerr << "battle card" << endl;
+    c.print();
     GameMove res;
+    cerr << "me mana " << me.mana << endl;
+    cerr << "c.cost " << c.cost << endl;
     if (me.mana >= c.cost) {
       res.type = 0;
-      res.id = c.id;
+      res.id = c.instance_id;
     } else {
       res.type = 3;
     }
+    return res;
   }
 
-  void addCardToHand(Card c) {
-    hand.addCard(c);
-  }
+  void addCardToHand(Card c) { hand.addCard(c); }
 
   Card getHighestCard() {
     Card highest;
     int highestStr = 0;
-    for (auto a:hand) {
+    for (auto a : hand.lookup) {
       Card c = a.second;
-      if (c.totalStrength() > highest.totalStrength()) {
+      if (c.cost > highestStr) {
         highest = c;
-        highestStr = highest.totalStrength();
+        highestStr = highest.cost;
       }
     }
     return highest;
+  }
+
+  Card getLowestCard() {
+    Card lowest;
+    int lowestStr = 10000;
+    for (auto a : hand.lookup) {
+      Card c = a.second;
+      if (c.cost < lowestStr) {
+        lowest = c;
+        lowestStr = c.cost;
+      }
+    }
+    return lowest;
   }
 };
 
 Game g;
 
-
-int main()
-{
-
-    // game loop
-    while (1) {
-        g.reset();
-        for (int i = 0; i < 2; i++) {
-            int player_health;
-            int player_mana;
-            int player_deck;
-            int player_rune;
-            int player_draw;
-            cin >> player_health >> player_mana >> player_deck >> player_rune >> player_draw; cin.ignore();
-            if (i == 0) {
-              g.setMe(player_health, player_mana, player_deck);
-            }
-        }
-        int opponent_hand;
-        int opponent_actions;
-        cin >> opponent_hand >> opponent_actions; cin.ignore();
-        for (int i = 0; i < opponent_actions; i++) {
-            string card_number_and_action;
-            getline(cin, card_number_and_action);
-        }
-        int card_count;
-        cin >> card_count; cin.ignore();
-
-        for (int i = 0; i < card_count; i++) {
-            int card_number;
-            int instance_id;
-            int location;
-            int card_type;
-            int cost;
-            int attack;
-            int defense;
-            string abilities;
-            int my_health_change;
-            int opponent_health_change;
-            int card_draw;
-            cin >> card_number >> instance_id >> location >> card_type >> cost >> attack >> defense >> abilities >> my_health_change >> opponent_health_change >> card_draw; cin.ignore();
-            Card c = Card(card_number,instance_id, location, cost, attack, defense);
-            if (g.draft()) {
-              g.addDraft(c);
-            } else if (c.location == 0) {
-              g.addCardToHand(c);
-            }
-        }
-
-       int choice = g.pickCard();
-       GameMove gm;
-       if (g.draft()) {
-         gm.id = choice;
-         gm.type = 2;
-       } else {
-         gm = g.battle();
-       }
-
-        cout << gm.stringify() << endl;
+int main() {
+  // game loop
+  while (1) {
+    g.reset();
+    for (int i = 0; i < 2; i++) {
+      int player_health;
+      int player_mana;
+      int player_deck;
+      int player_rune;
+      int player_draw;
+      cin >> player_health >> player_mana >> player_deck >> player_rune >>
+          player_draw;
+      cin.ignore();
+      if (i == 0) {
+        g.setMe(player_health, player_mana, player_deck);
+      }
     }
+    int opponent_hand;
+    int opponent_actions;
+    cin >> opponent_hand >> opponent_actions;
+    cin.ignore();
+    for (int i = 0; i < opponent_actions; i++) {
+      string card_number_and_action;
+      getline(cin, card_number_and_action);
+    }
+    int card_count;
+    cin >> card_count;
+    cin.ignore();
+
+    for (int i = 0; i < card_count; i++) {
+      int card_number;
+      int instance_id;
+      int location;
+      int card_type;
+      int cost;
+      int attack;
+      int defense;
+      string abilities;
+      int my_health_change;
+      int opponent_health_change;
+      int card_draw;
+      cin >> card_number >> instance_id >> location >> card_type >> cost >>
+          attack >> defense >> abilities >> my_health_change >>
+          opponent_health_change >> card_draw;
+      cin.ignore();
+      Card c = Card(card_number, instance_id, location, cost, attack, defense);
+      if (g.draft()) {
+        g.addDraft(c);
+      } else if (c.location == 0) {
+        g.addCardToHand(c);
+      }
+    }
+
+    int choice = g.pickCard();
+    GameMove gm;
+    if (g.draft()) {
+      gm.id = choice;
+      gm.type = 2;
+    } else {
+      gm = g.battle();
+    }
+
+    cout << gm.stringify() << endl;
+  }
 }
 
 /*
