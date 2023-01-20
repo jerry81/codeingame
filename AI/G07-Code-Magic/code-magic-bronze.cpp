@@ -409,14 +409,20 @@ class Game {
   GameMoves battle() {
     GameMoves res;
     Card c = getLowestCard();
-    if (me.mana >= c.cost) {
+    int curMana = me.mana;
+    CardMap attackable = soldiers;
+    if (curMana >= c.cost) {
       GameMove gm;
       gm.type = 0;
       gm.id = c.instance_id;
       res.add(gm);
+      curMana== c.cost;
+      attackable.addCard(c);
     }
 
-    for (auto a : soldiers.lookup) {
+
+
+    for (auto a : attackable.lookup) {
       Card c = a.second;
       GameMove gm;
       gm.type = 1;
@@ -439,7 +445,8 @@ class Game {
 
     for (auto a : items_hand.lookup) {
       Card c = a.second;
-      if (me.mana >= c.cost) {
+      if (curMana >= c.cost) {
+        curMana-=c.cost;
         GameMove gm;
         gm.type = 3;
         gm.id = c.instance_id;

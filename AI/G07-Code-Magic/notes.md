@@ -44,3 +44,11 @@
 
 - runes that can impact card draw
   - automatic
+
+# improvements
+  - wasting mana
+  - no strategy
+  -
+# refactor
+
+- battle() getting a little too big.
