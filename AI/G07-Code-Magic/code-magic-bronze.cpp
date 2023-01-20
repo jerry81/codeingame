@@ -435,6 +435,8 @@ class Game {
       res.add(gm);
     }
 
+    if (soldiers.lookup.empty()) return res;
+
     for (auto a : items_hand.lookup) {
       Card c = a.second;
       if (me.mana >= c.cost) {
