@@ -336,7 +336,7 @@ class Game {
       Card c = drafting[i];
       if (c.isCreature()) {
         int val = c.costEffectiveness();
-        if (c.hasGuard()) val += 2;
+        if (c.hasGuard()) val += 4;
         if (val > maxVal) {
           maxVal = val;
           maxIdx = i;
@@ -375,7 +375,6 @@ class Game {
       res.add(gm);
     }
 
-    cerr << "res len is now " << res.moves.size() << endl;
 
     for (auto a : items_hand.lookup) {
       Card c = a.second;
@@ -383,23 +382,29 @@ class Game {
         GameMove gm;
         gm.type = 3;
         gm.id = c.instance_id;
-        cerr << "c type is " << c.kind << endl;
         switch (c.kind) {
           case 1: {  // green
             if (!soldiers.lookup.empty()) {
-              auto a = soldiers.lookup.begin();  // TODO: strategy
-              gm.id2 = a->second.instance_id;
-              res.add(gm);
+              if (c.hasGuard()) {
+                Card search = soldiers.firstNonGuard();
+                if (!search.undefined()) {
+                  gm.id2 = search.instance_id;
+                  res.add(gm);
+                }
+              } else {
+                gm.id2 = soldiers.first().instance_id;
+                res.add(gm);
+              }
             }
             break;
           }
           case 2: {  // red
             // guards first, then others
             if (!enemyGuards.lookup.empty()) {
-              gm.id2 = enemyGuards.lookup.begin()->second.instance_id;
+              gm.id2 = enemyGuards.first().instance_id;
               res.add(gm);
-            } else if (!otherEnemy.lookup.empty()) {
-              gm.id2 = otherEnemy.lookup.begin()->second.instance_id;
+            } else if (!otherEnemy.lookup.empty() && !c.hasGuard()) {
+              gm.id2 = otherEnemy.first().instance_id;
               res.add(gm);
             }
             break;
@@ -412,7 +417,6 @@ class Game {
       }
     }
 
-    cerr << "res len (after) is now " << res.moves.size() << endl;
 
     return res;
   }
