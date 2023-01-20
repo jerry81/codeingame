@@ -459,11 +459,13 @@ class Game {
           }
           case 2: {  // red
             // guards first, then others
-            if (!enemyGuards.lookup.empty()) {
-              gm.id2 = enemyGuards.first().instance_id;
+            Card search = enemies.firstGuard();
+            Card searchNG = enemies.firstNonGuard();
+            if (!search.undefined()) {
+              gm.id2 = search.instance_id;
               res.add(gm);
-            } else if (!otherEnemy.lookup.empty() && !c.hasGuard()) {
-              gm.id2 = otherEnemy.first().instance_id;
+            } else if (!searchNG.undefined() && !c.hasGuard()) {
+              gm.id2 = searchNG.instance_id;
               res.add(gm);
             }
             break;
@@ -572,11 +574,7 @@ int main() {
       } else if (c.location == 1) {
         g.addCardToField(c);
       } else {  // enemy
-        if (c.hasGuard()) {
-          g.addEnemyGuard(c);
-        } else {
-          g.addOtherEnemy(c);
-        }
+        g.addEnemy(c);
       }
     }
 
