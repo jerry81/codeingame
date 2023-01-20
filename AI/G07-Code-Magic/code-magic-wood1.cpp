@@ -270,14 +270,18 @@ class Game {
   CardMap items_hand;
   CardMap soldiers;
   CardMap enemyGuards;
+  CardMap otherEnemy;
 
  public:
   void reset() {
     drafting.clear();
-    hand.clear();
+    creatures_hand.clear();
+    items_hand.clear();
     soldiers.clear();
     enemyGuards.clear();
+    otherEnemy.clear();
   }
+  void addOtherEnemy(Card c) { otherEnemy.addCard(c); }
   void addEnemyGuard(Card c) { enemyGuards.addCard(c); }
   void addDraft(Card c) { drafting.push_back(c); }
   void setMe(int h, int m, int d) { me = Player(h, m, d, true); };
@@ -302,7 +306,7 @@ class Game {
           maxIdx = i;
         }
       } else {
-        return i; // take items first?
+        return i;  // take items first?
       }
     }
     return maxIdx;
@@ -311,11 +315,39 @@ class Game {
   GameMoves battle() {
     GameMoves res;
     Card c = getLowestCard();
-    if (me.mana >= c.cost) {
-      GameMove gm;
-      gm.type = 0;
-      gm.id = c.instance_id;
-      res.add(gm);
+    if (c.isCreature()) {
+      if (me.mana >= c.cost) {
+        GameMove gm;
+        gm.type = 0;
+        gm.id = c.instance_id;
+        res.add(gm);
+      }
+    } else {
+      if (me.mana >= c.cost) {
+        GameMove gm;
+        gm.type = 3;
+        gm.id = c.instance_id;
+        switch (c.kind) {
+          case 1: { // green
+            if (!soldiers.lookup.empty()) {
+              gm.id2 = soldiers.lookup[0].instance_id; // TODO: strategy
+            }
+
+            break;
+          }
+          case 2: { // red
+            // guards first, then others
+            if (!enemyGuards.lookup.empty()) {
+              gm.id2 = enemyGuards.lookup[0].instance_id;
+            } else if (!otherEnemy.lookup.empty()) {
+              gm.id2 = otherEnemy.lookup[0].instance_id;
+            }
+            break;
+          }
+          default: { // blue
+          }
+        }
+      }
     }
 
     for (auto a : soldiers.lookup) {
@@ -430,9 +462,11 @@ int main() {
         g.addCardToHand(c);
       } else if (c.location == 1) {
         g.addCardToField(c);
-      } else { // enemy
+      } else {  // enemy
         if (c.hasGuard()) {
           g.addEnemyGuard(c);
+        } else {
+          g.addOtherEnemy(c);
         }
       }
     }
