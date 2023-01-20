@@ -398,7 +398,7 @@ class Game {
           maxVal = val;
           maxIdx = i;
         }
-      } else if (!c.hasBreak() && !c.hasCharge() && itemsDrafted <= 10) {
+      } else if (!c.hasBreak() && !c.hasCharge() && !c.hasLethal() && !c.hasWard() && c.cost <= 1) {
         itemsDrafted += 1;
         return i;  // take items first?
       }
