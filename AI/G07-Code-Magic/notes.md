@@ -24,9 +24,12 @@
     - blue - wizard targeted
   - new command USE id1 id2
   - new command USE id -1
-- input parsing - card loop - cardType
+- input parsing - card loop - cardType - done
   - 0 creature
   - 1 green
   - 2 red
   - 3 blue
+- necessary logic:
+  - item to add or remove ability
+  - match to ability
 - must be able to distinguish item cards to not summon them in the attack phase

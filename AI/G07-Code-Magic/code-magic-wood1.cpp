@@ -220,9 +220,19 @@ struct Card {
 
   int costEffectiveness() { return totalStrength() - cost; }
 
-  bool hasGuard() { return abilities.find("G") != std::string::npos; }
+  bool hasGuard() { return hasX("G"); }
+
+  bool hasX(string a) { return abilities.find(a) != std::string::npos; }
+
+  bool hasCharge() { return hasX("C"); }
+
+  bool hasBreak() { return hasX("B"); }
 
   bool isCreature() { return kind == 0; }
+
+  bool undefined() {
+    return id==-1;
+  }
 };
 
 struct CardMap {
@@ -247,6 +257,32 @@ struct CardMap {
       cerr << "map item " << endl;
       a.second.print();
     }
+  }
+
+  Card first() {
+    return lookup.begin()->second;
+  }
+
+  Card firstGuard() {
+    for (auto a: lookup) {
+      Card temp = a.second;
+      if (temp.hasGuard()) {
+        return temp;
+      }
+    }
+    Card undefinedCard;
+    return undefinedCard;
+  }
+
+  Card firstNonGuard() {
+    for (auto a: lookup) {
+      Card temp = a.second;
+      if (!temp.hasGuard()) {
+        return temp;
+      }
+    }
+    Card undefinedCard;
+    return undefinedCard;
   }
 };
 
@@ -305,7 +341,7 @@ class Game {
           maxVal = val;
           maxIdx = i;
         }
-      } else {
+      } else if (!c.hasBreak() && !c.hasCharge()) {
         return i;  // take items first?
       }
     }
