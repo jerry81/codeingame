@@ -13,4 +13,20 @@
 # wood 2 to wood 1
 
 - item cards now unlocked
-
+  - have effects and are removed after being played
+    - buff/debuff
+    - exstra draws
+    - health effects
+    - add or remove abilities
+  - green, red, blue
+    - green friendly buffs
+    - red - debuffs
+    - blue - wizard targeted
+  - new command USE id1 id2
+  - new command USE id -1
+- input parsing - card loop - cardType
+  - 0 creature
+  - 1 green
+  - 2 red
+  - 3 blue
+- must be able to distinguish item cards to not summon them in the attack phase
