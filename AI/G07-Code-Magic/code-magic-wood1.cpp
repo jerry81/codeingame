@@ -315,39 +315,11 @@ class Game {
   GameMoves battle() {
     GameMoves res;
     Card c = getLowestCard();
-    if (c.isCreature()) {
-      if (me.mana >= c.cost) {
-        GameMove gm;
-        gm.type = 0;
-        gm.id = c.instance_id;
-        res.add(gm);
-      }
-    } else {
-      if (me.mana >= c.cost) {
-        GameMove gm;
-        gm.type = 3;
-        gm.id = c.instance_id;
-        switch (c.kind) {
-          case 1: { // green
-            if (!soldiers.lookup.empty()) {
-              gm.id2 = soldiers.lookup[0].instance_id; // TODO: strategy
-            }
-
-            break;
-          }
-          case 2: { // red
-            // guards first, then others
-            if (!enemyGuards.lookup.empty()) {
-              gm.id2 = enemyGuards.lookup[0].instance_id;
-            } else if (!otherEnemy.lookup.empty()) {
-              gm.id2 = otherEnemy.lookup[0].instance_id;
-            }
-            break;
-          }
-          default: { // blue
-          }
-        }
-      }
+    if (me.mana >= c.cost) {
+      GameMove gm;
+      gm.type = 0;
+      gm.id = c.instance_id;
+      res.add(gm);
     }
 
     for (auto a : soldiers.lookup) {
@@ -366,6 +338,45 @@ class Game {
 
       res.add(gm);
     }
+
+    cerr << "res len is now " << res.moves.size() << endl;
+
+    for (auto a : items_hand.lookup) {
+      Card c = a.second;
+      if (me.mana >= c.cost) {
+        GameMove gm;
+        gm.type = 3;
+        gm.id = c.instance_id;
+        cerr << "c type is " << c.kind << endl;
+        switch (c.kind) {
+          case 1: {  // green
+            if (!soldiers.lookup.empty()) {
+              auto a = soldiers.lookup.begin();  // TODO: strategy
+              gm.id2 = a->second.instance_id;
+              res.add(gm);
+            }
+            break;
+          }
+          case 2: {  // red
+            // guards first, then others
+            if (!enemyGuards.lookup.empty()) {
+              gm.id2 = enemyGuards.lookup.begin()->second.instance_id;
+              res.add(gm);
+            } else if (!otherEnemy.lookup.empty()) {
+              gm.id2 = otherEnemy.lookup.begin()->second.instance_id;
+              res.add(gm);
+            }
+            break;
+          }
+          default: {
+            res.add(gm);
+            break;
+          }
+        }
+      }
+    }
+
+    cerr << "res len (after) is now " << res.moves.size() << endl;
 
     return res;
   }
