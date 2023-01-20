@@ -222,7 +222,7 @@ struct Card {
 
   bool hasGuard() { return abilities.find("G") != std::string::npos; }
 
-  bool isCreature() { return type == 0; }
+  bool isCreature() { return kind == 0; }
 };
 
 struct CardMap {
