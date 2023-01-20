@@ -33,3 +33,14 @@
   - item to add or remove ability
   - match to ability
 - must be able to distinguish item cards to not summon them in the attack phase
+
+# wood1 to bronze
+
+- 3 new abilities
+  - drain - heal player according to damage dealt
+  - lethal - kill creatures instantly
+    - my lethals should target enemy with highest Defense
+  - ward - one-time shield
+
+- runes that can impact card draw
+  - automatic
