@@ -261,9 +261,9 @@ struct Card {
 
   int costEffectiveness() {
     int base = totalStrength() - cost;
-    if (goodDrain()) base+=3;
-    if (goodGuard()) base+=3;
-    if (goodLethal()) base+=1;
+    if (goodDrain()) base+=5;
+    if (goodGuard()) base+=5;
+    if (goodLethal()) base+=5;
     if (hasWard()) base+=1;
     return base;
   }
@@ -390,6 +390,7 @@ class Game {
   CardMap items_hand;
   CardMap soldiers;
   CardMap enemies;
+  int lowCostDrafted = 0;
 
  public:
   void reset() {
@@ -398,6 +399,9 @@ class Game {
     items_hand.clear();
     soldiers.clear();
     enemies.clear();
+  }
+  int costModifier(bool needLC) {
+    return needLC ? 6 : 0;
   }
   void addEnemy(Card c) { enemies.addCard(c); }
   void addDraft(Card c) { drafting.push_back(c); }
@@ -417,6 +421,8 @@ class Game {
       Card c = drafting[i];
       if (c.isCreature()) {
         int val = c.costEffectiveness();
+        bool needLC = lowCostDrafted < 10;
+        val += costModifier(needLC);
         if (val > maxVal) {
           maxVal = val;
           maxIdx = i;
@@ -449,7 +455,6 @@ class Game {
       gm.id = c.instance_id;
       Card search = enemies.firstGuard();
       Card deadly = enemies.highestAttack();
-      cerr << "deadliest id is " << deadly.instance_id;
       if (c.hasLethal() && !enemies.lookup.empty()) {
         gm.id2 = enemies.highestHealth().instance_id;
       } {
@@ -462,7 +467,6 @@ class Game {
         }
       }
 
-      cerr << "move is " << endl;
       cerr << gm.stringify() << endl;
 
       res.add(gm);

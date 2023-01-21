@@ -53,6 +53,7 @@
   - items seem to not be being used
   - summon best candidate
     - highest possible cost given mana
+  - favor drafting lowcost units
 
 # refactor
 
