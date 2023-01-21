@@ -268,7 +268,7 @@ struct Card {
     return base;
   }
 
-  bool goodDrain() { return hasDrain() && attack >= 5 }
+  bool goodDrain() { return hasDrain() && attack >= 5; }
   bool hasGuard() { return hasX("G"); }
 
   bool hasX(string a) { return abilities.find(a) != std::string::npos; }
@@ -447,8 +447,10 @@ class Game {
       cerr << "deadliest id is " << deadly.instance_id;
       if (c.hasLethal() && !enemies.lookup.empty()) {
         gm.id2 = enemies.highestHealth().instance_id;
-      } else {
-        if (deadly.undefined()) {
+      } {
+        if (!search.undefined()) {
+          gm.id2 = search.instance_id;
+        } else if (deadly.undefined()) {
           gm.id2 = -1;
         } else {
           gm.id2 = deadly.instance_id;
