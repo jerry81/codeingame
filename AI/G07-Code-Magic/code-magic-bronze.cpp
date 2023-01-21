@@ -259,8 +259,16 @@ struct Card {
   }
   int totalStrength() { return attack + defense; }
 
-  int costEffectiveness() { return totalStrength() - cost; }
+  int costEffectiveness() {
+    int base = totalStrength() - cost;
+    if (goodDrain()) base+=3;
+    if (hasGuard()) base+=2;
+    if (hasLethal()) base+=1;
+    if (hasWard()) base+=1;
+    return base;
+  }
 
+  bool goodDrain() { return hasDrain() && attack >= 5 }
   bool hasGuard() { return hasX("G"); }
 
   bool hasX(string a) { return abilities.find(a) != std::string::npos; }
@@ -351,6 +359,7 @@ struct CardMap {
         maxAttack = temp.attack;
       }
     }
+
     return highest;
   }
 };
@@ -403,10 +412,6 @@ class Game {
       Card c = drafting[i];
       if (c.isCreature()) {
         int val = c.costEffectiveness();
-        if (c.hasGuard()) val += 3;
-        if (c.hasLethal()) val += 1;
-        if (c.hasDrain()) val+= 1;
-        if (c.hasWard()) val += 1;
         if (val > maxVal) {
           maxVal = val;
           maxIdx = i;
@@ -422,7 +427,7 @@ class Game {
   GameMoves battle() {
     GameMoves res;
     int curMana = me.mana;
-    Card c = curMana == 12 ? getHighestCard():getLowestCard();
+    Card c = getHighestCardUnder(curMana);
     CardMap attackable = soldiers;
     if (curMana >= c.cost) {
       GameMove gm;
@@ -514,6 +519,22 @@ class Game {
   }
 
   void addCardToField(Card c) { soldiers.addCard(c); }
+
+
+  Card getHighestCardUnder(int x) {
+    Card highest;
+    int highestStr = 0;
+    for (auto a : creatures_hand.lookup) {
+      Card c = a.second;
+      if (c.cost >= x) continue;
+
+      if (c.cost > highestStr) {
+        highest = c;
+        highestStr = highest.cost;
+      }
+    }
+    return highest;
+  }
 
   Card getHighestCard() {
     Card highest;

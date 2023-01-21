@@ -51,6 +51,8 @@
   - attack creatures and if creatures all dead, then attack mage
     - attack enemy with highest attack
   - items seem to not be being used
+  - summon best candidate
+    - highest possible cost given mana
 
 # refactor
 
