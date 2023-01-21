@@ -262,14 +262,19 @@ struct Card {
   int costEffectiveness() {
     int base = totalStrength() - cost;
     if (goodDrain()) base+=3;
-    if (hasGuard()) base+=2;
-    if (hasLethal()) base+=1;
+    if (goodGuard()) base+=3;
+    if (goodLethal()) base+=1;
     if (hasWard()) base+=1;
     return base;
   }
 
+  bool goodLethal() { return hasLethal() && defense >= 5; }
+
   bool goodDrain() { return hasDrain() && attack >= 5; }
+
   bool hasGuard() { return hasX("G"); }
+
+  bool goodGuard() { return hasGuard() && defense >= 5; }
 
   bool hasX(string a) { return abilities.find(a) != std::string::npos; }
 
