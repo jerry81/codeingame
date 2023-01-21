@@ -277,7 +277,7 @@ struct Card {
 
   bool isCreature() { return kind == 0; }
 
-  bool undefined() { return id == -1; }
+  bool undefined() { return attack == -1; }
 };
 
 struct CardMap {
@@ -336,6 +336,19 @@ struct CardMap {
       if (temp.defense > maxDefense) {
         highest = temp;
         maxDefense = temp.defense;
+      }
+    }
+    return highest;
+  }
+
+  Card highestAttack() {
+    Card highest;
+    int maxAttack = -1;
+    for (auto a : lookup) {
+      Card temp = a.second;
+      if (temp.attack > maxAttack) {
+        highest = temp;
+        maxAttack = temp.attack;
       }
     }
     return highest;
@@ -416,11 +429,8 @@ class Game {
       gm.type = 0;
       gm.id = c.instance_id;
       res.add(gm);
-      curMana== c.cost;
       attackable.addCard(c);
     }
-
-
 
     for (auto a : attackable.lookup) {
       Card c = a.second;
@@ -428,15 +438,20 @@ class Game {
       gm.type = 1;
       gm.id = c.instance_id;
       Card search = enemies.firstGuard();
+      Card deadly = enemies.highestAttack();
+      cerr << "deadliest id is " << deadly.instance_id;
       if (c.hasLethal() && !enemies.lookup.empty()) {
         gm.id2 = enemies.highestHealth().instance_id;
       } else {
-        if (search.undefined()) {
+        if (deadly.undefined()) {
           gm.id2 = -1;
         } else {
-          gm.id2 = search.instance_id;
+          gm.id2 = deadly.instance_id;
         }
       }
+
+      cerr << "move is " << endl;
+      cerr << gm.stringify() << endl;
 
       res.add(gm);
     }

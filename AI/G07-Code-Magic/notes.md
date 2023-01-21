@@ -49,6 +49,7 @@
   - wasting mana
   - no strategy
   - attack creatures and if creatures all dead, then attack mage
+    - attack enemy with highest attack
   - items seem to not be being used
 
 # refactor
