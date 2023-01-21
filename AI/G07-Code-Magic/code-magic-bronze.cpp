@@ -401,7 +401,7 @@ class Game {
     enemies.clear();
   }
   int costModifier(bool needLC) {
-    return needLC ? 6 : 0;
+    return needLC ? 10 : 0;
   }
   void addEnemy(Card c) { enemies.addCard(c); }
   void addDraft(Card c) { drafting.push_back(c); }
@@ -432,6 +432,7 @@ class Game {
         return i;  // take items first?
       }
     }
+    if (drafting[maxVal].cost < 3) lowCostDrafted++;
     return maxIdx;
   };
 
