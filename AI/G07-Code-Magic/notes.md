@@ -48,7 +48,9 @@
 # improvements
   - wasting mana
   - no strategy
-  -
+  - attack creatures and if creatures all dead, then attack mage
+  - items seem to not be being used
+
 # refactor
 
 - battle() getting a little too big.

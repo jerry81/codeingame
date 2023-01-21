@@ -408,8 +408,8 @@ class Game {
 
   GameMoves battle() {
     GameMoves res;
-    Card c = getLowestCard();
     int curMana = me.mana;
+    Card c = curMana == 12 ? getHighestCard():getLowestCard();
     CardMap attackable = soldiers;
     if (curMana >= c.cost) {
       GameMove gm;
