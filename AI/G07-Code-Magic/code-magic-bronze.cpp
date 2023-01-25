@@ -475,7 +475,7 @@ class Game {
 
     for (auto a : attackable.lookup) {
       Card c = a.second;
-      if (c.hasGuard() || (c.defense > c.attack)) continue;
+      if (c.hasGuard() || (c.attack == 0)) continue;
       GameMove gm;
       gm.type = 1;
       gm.id = c.instance_id;
