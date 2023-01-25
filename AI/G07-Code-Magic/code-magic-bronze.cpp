@@ -415,16 +415,22 @@ class Game {
   };
 
   int pickCard() {
-    int maxVal = 0;
+    int maxVal = 100;
     int maxIdx = 0;
     for (int i = 0; i < 3; ++i) {
       Card c = drafting[i];
       if (c.isCreature()) {
-        int val = c.costEffectiveness();
-        bool needLC = lowCostDrafted < 10;
-        val += costModifier(needLC);
-        if (val > maxVal) {
-          maxVal = val;
+        // int val = c.costEffectiveness();
+        // bool needLC = lowCostDrafted < 10;
+        // // pick min cost
+        // val += costModifier(needLC);
+        // if (val > maxVal) {
+        //   maxVal = val;
+        //   maxIdx = i;
+        // }
+        int cost = c.cost;
+        if (cost<maxVal) {
+          maxVal = cost;
           maxIdx = i;
         }
       } else if (!c.hasBreak() && !c.hasCharge() && !c.hasLethal() && !c.hasWard() && c.cost <= 1) {
@@ -472,8 +478,6 @@ class Game {
 
       res.add(gm);
     }
-
-    if (soldiers.lookup.empty()) return res;
 
     for (auto a : items_hand.lookup) {
       Card c = a.second;
