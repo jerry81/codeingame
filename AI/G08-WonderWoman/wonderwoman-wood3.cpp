@@ -89,11 +89,18 @@ using namespace std;
 
 class Grid {
   vector<string> grid;
+  int size;
 
  public:
   void addRow(string row) { grid.push_back(row); }
 
   void reset() { grid.clear(); }
+
+  void setSize(int size) { size = size; }
+
+  int getSize() { return size; }
+
+  char at(Point p) { return grid[p.y][p.x]; }
 
   Grid(){};
 };
@@ -115,6 +122,9 @@ struct Action {
   int unit_id;
   string dir1;
   string dir2;
+  string stringify() {
+    return type + " " + std::to_string(unit_id) + " " + dir1 + " " + dir2;
+  }
   Action(string type = "MOVE&BUILD", int unit_id = 0, string d = "N",
          string d2 = "N")
       : type(type), unit_id(unit_id), dir1(d), dir2(d2){};
@@ -144,6 +154,50 @@ class Game {
   }
 
   Game() {}
+
+  char neighborFromMe(string dir) {
+    int mex = me.p.x;
+    int mey = me.p.y;
+    int u = mey - 1;
+    int d = mey + 1;
+    int l = mex - 1;
+    int r = mex + 1;
+    if (dir == "N") {
+      return g.at(Point(mex, u));
+    } else if (dir == "NE") {
+      return g.at(Point(r, u));
+    } else if (dir == "E") {
+      return g.at(Point(r, mey));
+    } else if (dir == "SE") {
+      return g.at(Point(r, d));
+    } else if (dir == "S") {
+      return g.at(Point(mex, d));
+    } else if (dir == "SW") {
+      return g.at(Point(l, d));
+    } else if (dir == "W") {
+      return g.at(Point(l, mey));
+    } else {  // NW
+      return g.at(Point(l, u));
+    }
+  }
+
+
+
+  Action getBestLegalMove() {
+    Action bestAction;
+
+    for (Action a : legal_actions) {
+      if (a.type == "MOVE&BUILD") {
+        char c = neighborFromMe(a.dir1);
+        if (c == '3') return a; // win.
+
+      } else {
+        cerr<<"unhandled case in bestLegalMove"<<endl;
+      }
+
+    }
+    return bestAction;
+  }
 };
 
 int main() {
@@ -155,6 +209,7 @@ int main() {
   cin.ignore();
   Grid g;
   Game gm;
+  g.setSize(size);
   // game loop
   while (1) {
     g.reset();
