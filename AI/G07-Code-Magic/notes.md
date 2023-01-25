@@ -55,6 +55,8 @@
     - highest possible cost given mana
   - favor drafting lowcost units
 
+  - attacks are not balanced, everyone focuses on an enemy even if overkill
+
 # refactor
 
 - battle() getting a little too big.

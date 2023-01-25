@@ -319,6 +319,10 @@ struct CardMap {
 
   Card first() { return lookup.begin()->second; }
 
+  void removeById(string hash) {
+    lookup.erase(hash);
+  }
+
   Card firstGuard() {
     for (auto a : lookup) {
       Card temp = a.second;
@@ -443,6 +447,10 @@ class Game {
     return maxIdx;
   };
 
+  int pickEnemy(int myAttack) {
+
+  }
+
   GameMoves battle() {
     GameMoves res;
     int curMana = me.mana;
@@ -467,20 +475,25 @@ class Game {
 
     for (auto a : attackable.lookup) {
       Card c = a.second;
+      if (c.hasGuard() || (c.defense > c.attack)) continue;
       GameMove gm;
       gm.type = 1;
       gm.id = c.instance_id;
       Card search = enemies.firstGuard();
       Card deadly = enemies.highestAttack();
+
       if (c.hasLethal() && !enemies.lookup.empty()) {
         gm.id2 = enemies.highestHealth().instance_id;
+
       } {
         if (!search.undefined()) {
           gm.id2 = search.instance_id;
+          if (a.second.attack > search.defense) { enemies.removeById(search.hash()); }
         } else if (deadly.undefined()) {
           gm.id2 = -1;
         } else {
           gm.id2 = deadly.instance_id;
+          if (a.second.attack > deadly.defense) { enemies.removeById(deadly.hash()); }
         }
       }
 
