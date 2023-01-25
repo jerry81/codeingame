@@ -452,7 +452,7 @@ class Game {
       gm.type = 0;
       gm.id = c.second.instance_id;
       res.add(gm);
-      attackable.addCard(c);
+      attackable.addCard(c.second);
     }
     // summon more than one card
 
