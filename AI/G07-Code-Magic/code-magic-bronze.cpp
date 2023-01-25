@@ -420,19 +420,19 @@ class Game {
     for (int i = 0; i < 3; ++i) {
       Card c = drafting[i];
       if (c.isCreature()) {
-        // int val = c.costEffectiveness();
-        // bool needLC = lowCostDrafted < 10;
-        // // pick min cost
-        // val += costModifier(needLC);
-        // if (val > maxVal) {
-        //   maxVal = val;
-        //   maxIdx = i;
-        // }
-        int cost = c.cost;
-        if (cost<maxVal) {
-          maxVal = cost;
+        int val = c.costEffectiveness();
+        bool needLC = lowCostDrafted < 20;
+        // pick min cost
+        val += costModifier(needLC);
+        if (val > maxVal) {
+          maxVal = val;
           maxIdx = i;
         }
+        // int cost = c.cost;
+        // if (cost<maxVal) {
+        //   maxVal = cost;
+        //   maxIdx = i;
+        // }
       } else if (!c.hasBreak() && !c.hasCharge() && !c.hasLethal() && !c.hasWard() && c.cost <= 1) {
         itemsDrafted += 1;
         return i;  // take items first?
@@ -550,8 +550,6 @@ class Game {
       if (a.second.cost <= x) {
         ret.addCard(a.second);
         x -= a.second.cost;
-      } else {
-        break;
       }
     }
     return ret;
