@@ -74,10 +74,50 @@ You'll only be able to see enemy units adjacent to one of yours.
 
 using namespace std;
 
-/**
- * Auto-generated code below aims at helping you parse
- * the standard input according to the problem statement.
- **/
+class Grid {
+  vector<string> grid;
+
+  public:
+    void addRow(string row) {
+      grid.push_back(row);
+    }
+
+    void reset() {
+      grid.clear();
+    }
+};
+
+struct Point {
+  int x;
+  int y;
+  Point(int x, int y): x(x), y(y){};
+};
+
+struct Unit {
+  Point p;
+  Unit(Point p): p(p) {};
+};
+
+
+struct Action {
+  string type;
+  int unit_id;
+  string dir1;
+  string dir2;
+  Action(string type = "MOVE&BUILD", int unit_id=0, string d = "N", string d2 = "N"): type(type), unit_id(unit_id), dir1(d), dir2(d2){};
+};
+
+class Game {
+  vector<Action> legal_actions;
+  public:
+    void reset() {
+      legal_actions.clear();
+    }
+
+    void addLegalAction(Action a) {
+      legal_actions.push_back(a);
+    }
+}
 
 int main()
 {
@@ -85,24 +125,30 @@ int main()
     cin >> size; cin.ignore();
     int units_per_player;
     cin >> units_per_player; cin.ignore();
-
+    Grid g;
     // game loop
     while (1) {
+        g.reset();
         for (int i = 0; i < size; i++) {
             string row;
             cin >> row; cin.ignore();
+            g.addRow(row);
         }
         for (int i = 0; i < units_per_player; i++) {
             int unit_x;
             int unit_y;
             cin >> unit_x >> unit_y; cin.ignore();
+            Unit me = Unit(Point(unit_x,unit_y));
         }
         for (int i = 0; i < units_per_player; i++) {
             int other_x;
             int other_y;
             cin >> other_x >> other_y; cin.ignore();
+            Unit him = Unit(Point(other_x, other_y));
         }
         int legal_actions;
+        Game gm;
+        gm.reset();
         cin >> legal_actions; cin.ignore();
         for (int i = 0; i < legal_actions; i++) {
             string atype;
@@ -110,6 +156,7 @@ int main()
             string dir_1;
             string dir_2;
             cin >> atype >> index >> dir_1 >> dir_2; cin.ignore();
+            gm.addLegalAction(Action(atype, index, dir_1, dir_2));
         }
 
         // Write an action using cout. DON'T FORGET THE "<< endl"
