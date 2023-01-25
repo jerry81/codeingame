@@ -109,6 +109,9 @@ struct Action {
 
 class Game {
   vector<Action> legal_actions;
+  Grid g;
+  Unit me;
+  Unit him;
   public:
     void reset() {
       legal_actions.clear();
@@ -117,6 +120,10 @@ class Game {
     void addLegalAction(Action a) {
       legal_actions.push_back(a);
     }
+
+    void setGrid(Grid gr){ g = gr; }
+
+    void setMe(Unit m) { me = m; }
 }
 
 int main()
@@ -159,9 +166,7 @@ int main()
             gm.addLegalAction(Action(atype, index, dir_1, dir_2));
         }
 
-        // Write an action using cout. DON'T FORGET THE "<< endl"
-        // To debug: cerr << "Debug messages..." << endl;
-
         cout << "MOVE&BUILD 0 N S" << endl;
     }
 }
+
