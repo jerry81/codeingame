@@ -445,15 +445,24 @@ class Game {
   GameMoves battle() {
     GameMoves res;
     int curMana = me.mana;
-    Card c = getHighestCardUnder(curMana);
     CardMap attackable = soldiers;
-    if (curMana >= c.cost) {
+    CardMap cards = getHighestCardsUnder(curMana);
+    for (auto c: cards.lookup) {
       GameMove gm;
       gm.type = 0;
-      gm.id = c.instance_id;
+      gm.id = c.second.instance_id;
       res.add(gm);
       attackable.addCard(c);
     }
+    // summon more than one card
+
+    // if (curMana >= c.cost) {
+    //   GameMove gm;
+    //   gm.type = 0;
+    //   gm.id = c.instance_id;
+    //   res.add(gm);
+    //   attackable.addCard(c);
+    // }
 
     for (auto a : attackable.lookup) {
       Card c = a.second;
@@ -474,7 +483,6 @@ class Game {
         }
       }
 
-      cerr << gm.stringify() << endl;
 
       res.add(gm);
     }
@@ -536,6 +544,18 @@ class Game {
 
   void addCardToField(Card c) { soldiers.addCard(c); }
 
+  CardMap getHighestCardsUnder(int x) {
+    CardMap ret;
+    for (auto a: creatures_hand.lookup) {
+      if (a.second.cost <= x) {
+        ret.addCard(a.second);
+        x -= a.second.cost;
+      } else {
+        break;
+      }
+    }
+    return ret;
+  }
 
   Card getHighestCardUnder(int x) {
     Card highest;
