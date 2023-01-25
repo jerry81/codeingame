@@ -415,7 +415,7 @@ class Game {
   };
 
   int pickCard() {
-    int maxVal = 100;
+    int maxVal = 0;
     int maxIdx = 0;
     for (int i = 0; i < 3; ++i) {
       Card c = drafting[i];
@@ -433,8 +433,9 @@ class Game {
         //   maxVal = cost;
         //   maxIdx = i;
         // }
-      } else if (!c.hasBreak() && !c.hasCharge() && !c.hasLethal() && !c.hasWard() && c.cost <= 1) {
+      } else if (!c.hasBreak() && !c.hasCharge() && !c.hasLethal() && !c.hasWard() && (c.cost <= 1) && (itemsDrafted < 5)) {
         itemsDrafted += 1;
+        cerr << "taking item, itemsDrafted is " << itemsDrafted << endl;
         return i;  // take items first?
       }
     }
