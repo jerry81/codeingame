@@ -87,6 +87,13 @@ You'll only be able to see enemy units adjacent to one of yours.
 
 using namespace std;
 
+
+struct Point {
+  int x;
+  int y;
+  Point(int x = -1, int y = -1) : x(x), y(y){};
+};
+
 class Grid {
   vector<string> grid;
   int size;
@@ -103,12 +110,6 @@ class Grid {
   char at(Point p) { return grid[p.y][p.x]; }
 
   Grid(){};
-};
-
-struct Point {
-  int x;
-  int y;
-  Point(int x = -1, int y = -1) : x(x), y(y){};
 };
 
 struct Unit {
@@ -195,7 +196,7 @@ class Game {
       }
 
     }
-    return bestAction;
+    return legal_actions[0];
   }
 };
 
