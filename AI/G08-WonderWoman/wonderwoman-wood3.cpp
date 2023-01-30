@@ -186,7 +186,10 @@ class Game {
 
   Action getBestLegalMove() {
     Action bestAction;
-
+    string highestMoveDir;
+    string highestBuildDir;
+    int highestMove = -1;
+    int highestBuild = -1;
     for (Action a : legal_actions) {
       if (a.type == "MOVE&BUILD") {
         char c = neighborFromMe(a.dir1);
