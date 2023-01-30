@@ -190,7 +190,6 @@ class Game {
       if (a.type == "MOVE&BUILD") {
         char c = neighborFromMe(a.dir1);
         if (c == '3') return a; // win.
-
       } else {
         cerr<<"unhandled case in bestLegalMove"<<endl;
       }
@@ -252,7 +251,6 @@ int main() {
       cin.ignore();
       gm.addLegalAction(Action(atype, index, dir_1, dir_2));
     }
-
-    cout << "MOVE&BUILD 0 N S" << endl;
+    cout << gm.getBestLegalMove().stringify() << endl;
   }
 }
