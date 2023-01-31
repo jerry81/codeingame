@@ -1,4 +1,10 @@
+# general
+
 - when enemy is adjacent to level 3, and i can build on it, build on it so it gets removed from play
 - will need shortest paths to find shortest path to a 3
 - may need some "turns to win" logic
 - possible to get trapped.
+
+# wood 3 to wood 2
+
+- game continues after one "win"
