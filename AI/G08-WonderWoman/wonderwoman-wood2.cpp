@@ -155,9 +155,37 @@ class Game {
 
   Game() {}
 
-  char neighborFromMe(string dir) {
-    int mex = me.p.x;
-    int mey = me.p.y;
+  char neighborFromMe(string dir) { return neighborFromPoint(dir, me.p); }
+
+  Point applyDirectionToPoint(Point p, string dir) {
+    Point ret = p;
+    if (dir == "N") {
+      ret.y -= 1;
+    } else if (dir == "NE") {
+      ret.y -= 1;
+      ret.x += 1;
+    } else if (dir == "E") {
+      ret.x += 1;
+    } else if (dir == "SE") {
+      ret.x += 1;
+      ret.y += 1;
+    } else if (dir == "S") {
+      ret.y += 1;
+    } else if (dir == "SW") {
+      ret.y += 1;
+      ret.x -= 1;
+    } else if (dir == "W") {
+      ret.x -= 1;
+    } else {  // NW
+      ret.y -= 1;
+      ret.x -= 1;
+    }
+    return ret;
+  }
+
+  char neighborFromPoint(string dir, Point p) {
+    int mex = p.x;
+    int mey = p.y;
     int u = mey - 1;
     int d = mey + 1;
     int l = mex - 1;
@@ -188,6 +216,7 @@ class Game {
     string bestMove = "";
     int bestBuild = -1;
     Action tempBestMove;
+    Point pointAfterMove;
     // 2 loops
     // bestMove
     for (Action a : legal_actions) {
@@ -204,11 +233,17 @@ class Game {
 
     // bestBuild
     if (!bestMove.empty()) {
+      cerr << "best move " << bestMove << endl;
       for (Action a : legal_actions) {
+        cerr << "a.dir1 " << a.dir1 << endl;
         if (a.dir1 != bestMove) continue;
+
+        cerr << "moving along " << endl;
+        cerr << "a.type is " << a.type << endl;
 
         if (a.type == "MOVE&BUILD") {
           char asC = neighborFromMe(a.dir2);
+          cerr << "asC is " << asC << endl;
           if (asC == '3') continue;
           if (asC == '2') return a;
           int asInt2 = asC + '0';
