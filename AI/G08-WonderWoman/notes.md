@@ -16,6 +16,8 @@
 
 1.  find best move, find best build - if no hit, then use current logic
 
+- detect trap and don't walk into it
+
 # issues
 
 - i don't even always grab the nearest 3 - perhaps because it was occupied and not provided as a legal move
