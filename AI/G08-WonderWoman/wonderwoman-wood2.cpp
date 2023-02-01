@@ -225,7 +225,6 @@ class Game {
     vector<string> movesToTest = { "N", "NE", "E", "SE", "S", "SW", "W", "NW" };
     cerr << "entering a loop" << endl;
     for (string dir: movesToTest) {
-      cerr << "loop " << endl;
       Point applied = applyDirectionToPoint(p, dir);
       char c = gridtemp.at(applied);
       if (applied.x >= gridtemp.getSize() || applied.x < 0) continue;
