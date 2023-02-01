@@ -87,7 +87,6 @@ You'll only be able to see enemy units adjacent to one of yours.
 
 using namespace std;
 
-
 struct Point {
   int x;
   int y;
@@ -182,23 +181,19 @@ class Game {
     }
   }
 
-
-
   Action getBestLegalMove() {
-    Action bestAction;
-    string highestMoveDir;
-    string highestBuildDir;
-    int highestMove = -1;
-    int highestBuild = -1;
+
+    return getBestLegalMoveBackup();
+  }
+
+  Action getBestLegalMoveBackup() {
     for (Action a : legal_actions) {
       if (a.type == "MOVE&BUILD") {
-        cerr << " hit " << endl;
         char c = neighborFromMe(a.dir1);
-        if (c == '3') return a; // win.
+        if (c == '3') return a;  // win.
       } else {
-        cerr<<"unhandled case in bestLegalMove"<<endl;
+        cerr << "unhandled case in bestLegalMove" << endl;
       }
-
     }
     return legal_actions[0];
   }
