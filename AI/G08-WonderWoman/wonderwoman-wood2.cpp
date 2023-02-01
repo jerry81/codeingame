@@ -110,6 +110,8 @@ class Grid {
 
   vector<string> getGrid() { return grid; }
 
+  void setGrid(vector<string> newGrid) { grid = newGrid; }
+
   Grid(){};
 };
 
@@ -223,11 +225,29 @@ class Game {
 
       if (c == '.') continue;
 
-      if (c == '4') continue;
+      int asInt = c - '0';
+
+      if (asInt >= 4) continue;
+
+      if (asInt < 0) continue;
 
       ++availableMoves;
     }
     return (availableMoves <= 0);
+  }
+
+  Grid getGridAfterAction(Action a) {
+    Grid copy = g;
+    vector<string> copyGrid = g.getGrid();
+    string moveDir = a.dir1;
+    string buildDir = a.dir2;
+    Point newPos = applyDirectionToPoint(me.p, moveDir);
+    Point buildPos = applyDirectionToPoint(newPos, buildDir);
+    int asInt = copy.at(buildPos) - '0';
+    ++asInt;
+    copyGrid[buildPos.y][buildPos.x] = asInt + '0';
+    copy.setGrid(copyGrid);
+    return copy;
   }
 
   Action getBestLegalMove() {
@@ -287,11 +307,19 @@ class Game {
   Action getBestLegalMoveBackup() {
     for (Action a : legal_actions) {
       if (a.type == "MOVE&BUILD") {
+        Grid after = getGridAfterAction(a);
+        Point afterP = applyDirectionToPoint(me.p, a.dir1);
+        if (doesMoveTrapUnit(afterP, after)) continue;
         char c = neighborFromMe(a.dir1);
         if (c == '3') return a;  // win.
       } else {
         cerr << "unhandled case in bestLegalMoveBackup" << endl;
       }
+    }
+    for (Action a: legal_actions) {
+        Grid after = getGridAfterAction(a);
+        Point afterP = applyDirectionToPoint(me.p, a.dir1);
+        if (!doesMoveTrapUnit(afterP, after)) return a;
     }
     return legal_actions[0];
   }
