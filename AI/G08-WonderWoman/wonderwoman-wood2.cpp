@@ -192,7 +192,8 @@ class Game {
     // bestMove
     for (Action a : legal_actions) {
       if (a.type == "MOVE&BUILD") {
-        if (asInt == 2 && a.dir1 == 3) {
+        char neighbor = neighborFromMe(a.dir1);
+        if (asInt == 2 && neighbor == '3') {
           bestMove = a.dir1;
           break;
         }
