@@ -22,3 +22,5 @@
 - or b/c i could only step up 1 level
 
 - big:  logic issue - the build calculation should be considering the position after the move
+
+- getting better, but still building on 3 squares

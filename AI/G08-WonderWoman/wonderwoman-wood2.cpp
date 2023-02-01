@@ -233,6 +233,7 @@ class Game {
 
     // bestBuild
     if (!bestMove.empty()) {
+      pointAfterMove = applyDirectionToPoint(me.p,bestMove);
       cerr << "best move " << bestMove << endl;
       for (Action a : legal_actions) {
         cerr << "a.dir1 " << a.dir1 << endl;
@@ -242,7 +243,7 @@ class Game {
         cerr << "a.type is " << a.type << endl;
 
         if (a.type == "MOVE&BUILD") {
-          char asC = neighborFromMe(a.dir2);
+          char asC = neighborFromPoint(a.dir2, pointAfterMove);
           cerr << "asC is " << asC << endl;
           if (asC == '3') continue;
           if (asC == '2') return a;
