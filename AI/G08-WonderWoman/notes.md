@@ -11,13 +11,21 @@
 
 # improvements
 
-- current logic: random move if no move to a 3 height
-- better logic - dont build on a 3 - build on a 2 - move close to a 3
+- current logic: random move if no move to a 3 height - done
+- better logic - dont build on a 3 - build on a 2 - move close to a 3 - done
 
 1.  find best move, find best build - if no hit, then use current logic
 
 - detect trap and don't walk into it
+  - snapshot of grid
+  - temp: grid state after move and build
+  - count movable squares
 - detect trap for opponent and trap him!
+
+- easiest way to do this is put a failsafe in the "random move" code
+  - don't make a move that traps me
+  - don't make a build on a 3 height
+  - make the least bad move
 
 # issues
 

@@ -108,6 +108,8 @@ class Grid {
 
   char at(Point p) { return grid[p.y][p.x]; }
 
+  vector<string> getGrid() { return grid; }
+
   Grid(){};
 };
 
@@ -207,6 +209,25 @@ class Game {
     } else {  // NW
       return g.at(Point(l, u));
     }
+  }
+
+  bool doesMoveTrapUnit(Point p, Grid g) {
+    int availableMoves = 0;
+    vector<string> movesToTest = { "NE", "E", "SE", "S", "SW", "W", "NW" };
+    for (string dir: movesToTest) {
+      Point applied = applyDirectionToPoint(p, dir);
+      char c = g.at(applied);
+      if (applied.x >= g.getSize() || applied.x < 0) continue;
+
+      if (applied.y >= g.getSize() || applied.y < 0) continue;
+
+      if (c == '.') continue;
+
+      if (c == '4') continue;
+
+      ++availableMoves;
+    }
+    return (availableMoves <= 0);
   }
 
   Action getBestLegalMove() {
