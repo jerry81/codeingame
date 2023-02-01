@@ -112,6 +112,13 @@ class Grid {
 
   void setGrid(vector<string> newGrid) { grid = newGrid; }
 
+  void print() {
+    cerr << "printing grid" << endl;
+    for (string gr: grid) {
+      cerr << gr << endl;
+    }
+  }
+
   Grid(){};
 };
 
@@ -213,15 +220,17 @@ class Game {
     }
   }
 
-  bool doesMoveTrapUnit(Point p, Grid g) {
+  bool doesMoveTrapUnit(Point p, Grid gridtemp) {
     int availableMoves = 0;
-    vector<string> movesToTest = { "NE", "E", "SE", "S", "SW", "W", "NW" };
+    vector<string> movesToTest = { "N", "NE", "E", "SE", "S", "SW", "W", "NW" };
+    cerr << "entering a loop" << endl;
     for (string dir: movesToTest) {
+      cerr << "loop " << endl;
       Point applied = applyDirectionToPoint(p, dir);
-      char c = g.at(applied);
-      if (applied.x >= g.getSize() || applied.x < 0) continue;
+      char c = gridtemp.at(applied);
+      if (applied.x >= gridtemp.getSize() || applied.x < 0) continue;
 
-      if (applied.y >= g.getSize() || applied.y < 0) continue;
+      if (applied.y >= gridtemp.getSize() || applied.y < 0) continue;
 
       if (c == '.') continue;
 
@@ -305,10 +314,13 @@ class Game {
   }
 
   Action getBestLegalMoveBackup() {
+    cerr << "finding backup" << endl;
     for (Action a : legal_actions) {
       if (a.type == "MOVE&BUILD") {
         Grid after = getGridAfterAction(a);
+        cerr << "after grid found " << endl;
         Point afterP = applyDirectionToPoint(me.p, a.dir1);
+        cerr << "after P found " << endl;
         if (doesMoveTrapUnit(afterP, after)) continue;
         char c = neighborFromMe(a.dir1);
         if (c == '3') return a;  // win.
@@ -318,6 +330,7 @@ class Game {
     }
     for (Action a: legal_actions) {
         Grid after = getGridAfterAction(a);
+        cerr << " grid found " << endl;
         Point afterP = applyDirectionToPoint(me.p, a.dir1);
         if (!doesMoveTrapUnit(afterP, after)) return a;
     }

@@ -35,3 +35,6 @@
 - big:  logic issue - the build calculation should be considering the position after the move
 
 - getting better, but still building on 3 squares
+
+- so timeouts happen b/c there can be 64 legal moves
+  - we put legal moves into a hashmap for fast lookup and stop looping thru legal moves
