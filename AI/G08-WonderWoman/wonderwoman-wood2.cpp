@@ -186,23 +186,42 @@ class Game {
     char myloc = g.at(me.p);
     int asInt = myloc - '0';
     string bestMove = "";
-    string bestBuild = "";
+    int bestBuild = -1;
+    Action tempBestMove;
     // 2 loops
     // bestMove
-    for (Action a: legal_actions) {
+    for (Action a : legal_actions) {
       if (a.type == "MOVE&BUILD") {
+        if (asInt == 2 && a.dir1 == 3) {
+          bestMove = a.dir1;
+          break;
+        }
       } else {
         cerr << "unhandled move type" << endl;
       }
     }
 
     // bestBuild
-    for (Action a: legal_actions) {
-      if (a.type == "MOVE&BUILD") {
-      } else {
-        cerr << "unhandled move type" << endl;
+    if (!bestMove.empty()) {
+      for (Action a : legal_actions) {
+        if (a.dir1 != bestMove) continue;
+
+        if (a.type == "MOVE&BUILD") {
+          char asC = neighborFromMe(a.dir2);
+          if (asC == '3') continue;
+          if (asC == '2') return a;
+          int asInt2 = asC + '0';
+          if (asInt2 > bestBuild) {
+            bestBuild = asInt2;
+            tempBestMove = a;
+          }
+        } else {
+          cerr << "unhandled move type" << endl;
+        }
       }
     }
+
+    if (bestBuild >= 0) return tempBestMove;
 
     return getBestLegalMoveBackup();
   }
