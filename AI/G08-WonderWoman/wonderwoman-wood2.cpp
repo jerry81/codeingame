@@ -222,7 +222,7 @@ class Game {
     for (Action a : legal_actions) {
       if (a.type == "MOVE&BUILD") {
         char neighbor = neighborFromMe(a.dir1);
-        if (asInt == 2 && neighbor == '3') {
+        if (asInt >= 2 && neighbor == '3') {
           bestMove = a.dir1;
           break;
         }
@@ -320,12 +320,14 @@ int main() {
     cin >> legal_actions;
     cin.ignore();
     for (int i = 0; i < legal_actions; i++) {
+
       string atype;
       int index;
       string dir_1;
       string dir_2;
       cin >> atype >> index >> dir_1 >> dir_2;
       cin.ignore();
+      cerr << "legal action: " << dir_1 << " " << dir_2 << endl;
       gm.addLegalAction(Action(atype, index, dir_1, dir_2));
     }
     cout << gm.getBestLegalMove().stringify() << endl;
