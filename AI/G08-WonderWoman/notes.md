@@ -17,6 +17,7 @@
 1.  find best move, find best build - if no hit, then use current logic
 
 - detect trap and don't walk into it
+- detect trap for opponent and trap him!
 
 # issues
 
