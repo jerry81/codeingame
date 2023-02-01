@@ -20,4 +20,3 @@
 
 - i don't even always grab the nearest 3 - perhaps because it was occupied and not provided as a legal move
 - or b/c i could only step up 1 level
--

@@ -182,6 +182,27 @@ class Game {
   }
 
   Action getBestLegalMove() {
+    // move
+    char myloc = g.at(me.p);
+    int asInt = myloc - '0';
+    string bestMove = "";
+    string bestBuild = "";
+    // 2 loops
+    // bestMove
+    for (Action a: legal_actions) {
+      if (a.type == "MOVE&BUILD") {
+      } else {
+        cerr << "unhandled move type" << endl;
+      }
+    }
+
+    // bestBuild
+    for (Action a: legal_actions) {
+      if (a.type == "MOVE&BUILD") {
+      } else {
+        cerr << "unhandled move type" << endl;
+      }
+    }
 
     return getBestLegalMoveBackup();
   }
@@ -192,7 +213,7 @@ class Game {
         char c = neighborFromMe(a.dir1);
         if (c == '3') return a;  // win.
       } else {
-        cerr << "unhandled case in bestLegalMove" << endl;
+        cerr << "unhandled case in bestLegalMoveBackup" << endl;
       }
     }
     return legal_actions[0];
