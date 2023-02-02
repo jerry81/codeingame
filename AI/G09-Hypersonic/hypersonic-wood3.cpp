@@ -298,6 +298,7 @@ int main() {
     int entities;
     cin >> entities;
     cin.ignore();
+    Point bestMove;
     for (int i = 0; i < entities; i++) {
       int entity_type;
       int owner;
@@ -307,11 +308,14 @@ int main() {
       int param_2;
       cin >> entity_type >> owner >> x >> y >> param_1 >> param_2;
       cin.ignore();
+      if (entity_type == 0 && owner == my_id) {
+        bestMove = g.highestInFiveMoves(Point(x,y));
+      }
     }
 
     // Write an action using cout. DON'T FORGET THE "<< endl"
     // To debug: cerr << "Debug messages..." << endl;
 
-    cout << "BOMB 6 5" << endl;
+    cout << "BOMB " << bestMove.x << " " << bestMove.y << endl;
   }
 }
