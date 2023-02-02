@@ -101,17 +101,17 @@ Response time for the first turn ≤ 1000 ms
 
 #include <algorithm>
 #include <iostream>
-#include <string>
-#include <vector>
 #include <queue>
+#include <string>
 #include <unordered_map>
+#include <vector>
 
 using namespace std;
 
 struct Point {
   int x;
   int y;
-  string hash() { return x+","+y; }
+  string hash() { return x + "," + y; }
   Point(int x = -1, int y = -1) : x(x), y(y){};
 };
 
@@ -174,7 +174,7 @@ class Grid {
     bool dObstacle = false;
     bool lObstacle = false;
     bool rObstacle = false;
-    for (int i = 1; i < 4; ++i) {
+    for (int i = 1; i < 3; ++i) {
       int uy = y - i;
       int dy = y + i;
       int lx = x - i;
@@ -184,15 +184,15 @@ class Grid {
       if (lx < 0) lObstacle = true;
       if (rx > 12) rObstacle = true;
 
-      if (!isSquareAPath(x,uy,processedGrid)) uObstacle = true;
-      if (!isSquareAPath(x,dy,processedGrid)) dObstacle = true;
-      if (!isSquareAPath(lx,y,processedGrid)) lObstacle = true;
-      if (!isSquareAPath(rx,y,processedGrid)) rObstacle = true;
+      if (!isSquareAPath(x, uy, processedGrid)) uObstacle = true;
+      if (!isSquareAPath(x, dy, processedGrid)) dObstacle = true;
+      if (!isSquareAPath(lx, y, processedGrid)) lObstacle = true;
+      if (!isSquareAPath(rx, y, processedGrid)) rObstacle = true;
 
-      if (!uObstacle) incrementSquare(x,uy);
-      if (!dObstacle) incrementSquare(x,dy);
-      if (!lObstacle) incrementSquare(lx,y);
-      if (!rObstacle) incrementSquare(rx,y);
+      if (!uObstacle) incrementSquare(x, uy);
+      if (!dObstacle) incrementSquare(x, dy);
+      if (!lObstacle) incrementSquare(lx, y);
+      if (!rObstacle) incrementSquare(rx, y);
     }
   }
 
@@ -200,15 +200,15 @@ class Grid {
     processedGrid = grid;  // copy
     for (int y = 0; y < grid.size(); ++y) {
       vector<int> boxes = findBoxesInRow(y);
-      for (int x: boxes) {
-        processSquare(x,y);
+      for (int x : boxes) {
+        processSquare(x, y);
       }
     }
   }
 
   void printProcessed() {
     cerr << "Processed grid:" << endl;
-    for (string s: processedGrid) {
+    for (string s : processedGrid) {
       cerr << s << endl;
     }
   }
@@ -241,6 +241,7 @@ class Grid {
         ret.push_back(Point(y, rx));
       }
     }
+    return ret;
   }
 
   Point highestInFiveMoves(Point cur) {
@@ -249,28 +250,32 @@ class Grid {
     queue<Point> neighbors;
     int highest = 0;
     Point highestPoint = cur;
+    visited[cur.hash()] = true;
     neighbors.push(cur);
-    for (int i = 0; i < 5; ++i) {
-        queue<Point> nextNeighbors;
-        Point p = neighbors.front();
-        char pgval = processedGrid[p.y][p.x];
-        int asInt = pgval - '0';
-        if (asInt == 4) return p;
-        if (asInt > highest) highestPoint = p;
+    for (int i = 0; i < 30; ++i) {
+      Point p = neighbors.front();
+      neighbors.pop();
+      char pgval = processedGrid[p.y][p.x];
+      int asInt = pgval == '.' ? 0 : pgval - '0';
+      cerr << "as int for " << p.y << " " << p.x << " is " << asInt << endl;
+      if (asInt == 4) return p;
+      if (asInt > highest) {
+        highestPoint = p;
+        highest = asInt;
+      }
 
-        neighbors.pop();
-        visited[p.hash()] = true;
-        vector<Point> neigh = viableNeighbors(p);
-        for (Point np: neigh) {
-          if (visited.find(np.hash()) == visited.end()) {
-            visited[np.hash()] = true;
-            neighbors.push(np);
-          }
+      visited[p.hash()] = true;
+      vector<Point> neigh = viableNeighbors(p);
+      cerr << "neighbors found " << neigh.size() << endl;
+      for (Point np : neigh) {
+        if (visited.find(np.hash()) == visited.end()) {
+          visited[np.hash()] = true;
+          neighbors.push(np);
         }
+      }
     }
 
     return highestPoint;
-
   }
 
   Grid(){};
@@ -309,7 +314,7 @@ int main() {
       cin >> entity_type >> owner >> x >> y >> param_1 >> param_2;
       cin.ignore();
       if (entity_type == 0 && owner == my_id) {
-        bestMove = g.highestInFiveMoves(Point(x,y));
+        bestMove = g.highestInFiveMoves(Point(x, y));
       }
     }
 
