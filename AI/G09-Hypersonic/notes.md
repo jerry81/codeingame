@@ -13,5 +13,9 @@
 
 - round 1
   - find squares nearby where a bomb explosion would break the most boxes
+    - find highest number within 5 moves
+
   - bombs don't go through other boxes, so max is 4
+
+
 # issues

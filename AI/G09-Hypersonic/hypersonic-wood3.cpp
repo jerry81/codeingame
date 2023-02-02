@@ -103,12 +103,15 @@ Response time for the first turn ≤ 1000 ms
 #include <iostream>
 #include <string>
 #include <vector>
+#include <queue>
+#include <unordered_map>
 
 using namespace std;
 
 struct Point {
   int x;
   int y;
+  string hash() { return x+","+y; }
   Point(int x = -1, int y = -1) : x(x), y(y){};
 };
 
@@ -130,12 +133,10 @@ class Grid {
 
   vector<int> findBoxesInRow(int row) {
     string r = grid[row];
-    cerr << "r is " << r << endl;
     vector<int> ret;
     for (int i = 0; i < r.length(); ++i) {
       if (r[i] == '0') ret.push_back(i);
     }
-    cerr << "ret found " << ret.size() << endl;
     return ret;
   }
 
@@ -147,11 +148,9 @@ class Grid {
   }
 
   bool isSquareAPath(int x, int y, vector<string> g) {
-   cerr << "is sq path called x" << x << " y " << y << endl;
     if (x < 0 || y < 0) return false;
     if (x > 12 || y > 10) return false;
     char c = g[y][x];
-    cerr << "c is " << c << endl;
 
     if (c == '0') return false;
 
@@ -165,19 +164,17 @@ class Grid {
     if (c == '.') c = '0';
 
     int i = c + '0';
-    i++;
+    ++i;
 
     processedGrid[y][x] = i - '0';
   }
 
   void processSquare(int x, int y) {
-    cerr << "processing square" << endl;
     bool uObstacle = false;
     bool dObstacle = false;
     bool lObstacle = false;
     bool rObstacle = false;
     for (int i = 1; i < 4; ++i) {
-            cerr<< "l start" << endl;
       int uy = y - i;
       int dy = y + i;
       int lx = x - i;
@@ -192,7 +189,6 @@ class Grid {
       if (!isSquareAPath(lx,y,processedGrid)) lObstacle = true;
       if (!isSquareAPath(rx,y,processedGrid)) rObstacle = true;
 
-      cerr<< "looppp" << endl;
       if (!uObstacle) incrementSquare(x,uy);
       if (!dObstacle) incrementSquare(x,dy);
       if (!lObstacle) incrementSquare(lx,y);
@@ -202,9 +198,7 @@ class Grid {
 
   void processGrid() {
     processedGrid = grid;  // copy
-    cerr << "processing grid" << endl;
     for (int y = 0; y < grid.size(); ++y) {
-      cerr << "row " << y << endl;
       vector<int> boxes = findBoxesInRow(y);
       for (int x: boxes) {
         processSquare(x,y);
@@ -217,6 +211,66 @@ class Grid {
     for (string s: processedGrid) {
       cerr << s << endl;
     }
+  }
+
+  vector<Point> viableNeighbors(Point p) {
+    vector<Point> ret;
+    int x = p.x;
+    int y = p.y;
+    int uy = y - 1;
+    int dy = y + 1;
+    int lx = x - 1;
+    int rx = x + 1;
+    if (uy >= 0) {
+      if (grid[uy][x] == '.') {
+        ret.push_back(Point(uy, x));
+      }
+    }
+    if (dy < 11) {
+      if (grid[dy][x] == '.') {
+        ret.push_back(Point(dy, x));
+      }
+    }
+    if (lx >= 0) {
+      if (grid[y][lx] == '.') {
+        ret.push_back(Point(y, lx));
+      }
+    }
+    if (rx < 13) {
+      if (grid[y][rx] == '.') {
+        ret.push_back(Point(y, rx));
+      }
+    }
+  }
+
+  Point highestInFiveMoves(Point cur) {
+    // bfs from cur for 5 moves.
+    unordered_map<string, bool> visited;
+    queue<Point> neighbors;
+    int highest = 0;
+    Point highestPoint = cur;
+    neighbors.push(cur);
+    for (int i = 0; i < 5; ++i) {
+        queue<Point> nextNeighbors;
+        Point p = neighbors.front();
+        char pgval = processedGrid[p.y][p.x];
+        int asInt = pgval - '0';
+        if (asInt == 4) return p;
+        if (asInt > highest) highestPoint = p;
+
+        neighbors.pop();
+        visited[p.hash()] = true;
+        vector<Point> neigh = viableNeighbors(p);
+        for (Point np: neigh) {
+          if (visited.find(np.hash()) == visited.end()) {
+            visited[np.hash()] = true;
+            neighbors.push(np);
+          }
+        }
+    }
+
+    return highestPoint;
+
   }
 
   Grid(){};
@@ -240,6 +294,7 @@ int main() {
     }
     g.print();
     g.processGrid();
+    g.printProcessed();
     int entities;
     cin >> entities;
     cin.ignore();
