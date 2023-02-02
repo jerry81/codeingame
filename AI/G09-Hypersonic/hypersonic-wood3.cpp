@@ -174,7 +174,20 @@ class Grid {
       int dy = y + i;
       int lx = x - i;
       int rx = x + i;
+      if (uy < 0) uObstacle = true;
+      if (dy > 10) dObstacle = true;
+      if (lx < 0) lObstacle = true;
+      if (rx > 12) rObstacle = true;
 
+      if (!isSquareAPath(x,uy,processedGrid)) uObstacle = true;
+      if (!isSquareAPath(x,dy,processedGrid)) dObstacle = true;
+      if (!isSquareAPath(lx,y,processedGrid)) lObstacle = true;
+      if (!isSquareAPath(rx,y,processedGrid)) rObstacle = true;
+
+      if (!uObstacle) incrementSquare(x,uy);
+      if (!dObstacle) incrementSquare(x,dy);
+      if (!lObstacle) incrementSquare(lx,y);
+      if (!rObstacle) incrementSquare(rx,y);
     }
   }
 
@@ -182,6 +195,16 @@ class Grid {
     processedGrid = grid;  // copy
     for (int y = 0; y < grid.size(); ++y) {
       vector<int> boxes = findBoxesInRow(y);
+      for (int x: boxes) {
+        processSquare(x,y);
+      }
+    }
+  }
+
+  void printProcessed() {
+    cerr << "Processed grid:" << endl;
+    for (string s: processedGrid) {
+      cerr << s << endl;
     }
   }
 
@@ -205,6 +228,7 @@ int main() {
       g.addRow(row);
     }
     g.print();
+    g.processGrid();
     int entities;
     cin >> entities;
     cin.ignore();
