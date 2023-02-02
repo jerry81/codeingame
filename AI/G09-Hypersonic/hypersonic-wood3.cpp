@@ -130,10 +130,12 @@ class Grid {
 
   vector<int> findBoxesInRow(int row) {
     string r = grid[row];
+    cerr << "r is " << r << endl;
     vector<int> ret;
     for (int i = 0; i < r.length(); ++i) {
       if (r[i] == '0') ret.push_back(i);
     }
+    cerr << "ret found " << ret.size() << endl;
     return ret;
   }
 
@@ -145,7 +147,11 @@ class Grid {
   }
 
   bool isSquareAPath(int x, int y, vector<string> g) {
+   cerr << "is sq path called x" << x << " y " << y << endl;
+    if (x < 0 || y < 0) return false;
+    if (x > 12 || y > 10) return false;
     char c = g[y][x];
+    cerr << "c is " << c << endl;
 
     if (c == '0') return false;
 
@@ -165,11 +171,13 @@ class Grid {
   }
 
   void processSquare(int x, int y) {
+    cerr << "processing square" << endl;
     bool uObstacle = false;
     bool dObstacle = false;
     bool lObstacle = false;
     bool rObstacle = false;
     for (int i = 1; i < 4; ++i) {
+            cerr<< "l start" << endl;
       int uy = y - i;
       int dy = y + i;
       int lx = x - i;
@@ -184,6 +192,7 @@ class Grid {
       if (!isSquareAPath(lx,y,processedGrid)) lObstacle = true;
       if (!isSquareAPath(rx,y,processedGrid)) rObstacle = true;
 
+      cerr<< "looppp" << endl;
       if (!uObstacle) incrementSquare(x,uy);
       if (!dObstacle) incrementSquare(x,dy);
       if (!lObstacle) incrementSquare(lx,y);
@@ -193,7 +202,9 @@ class Grid {
 
   void processGrid() {
     processedGrid = grid;  // copy
+    cerr << "processing grid" << endl;
     for (int y = 0; y < grid.size(); ++y) {
+      cerr << "row " << y << endl;
       vector<int> boxes = findBoxesInRow(y);
       for (int x: boxes) {
         processSquare(x,y);
