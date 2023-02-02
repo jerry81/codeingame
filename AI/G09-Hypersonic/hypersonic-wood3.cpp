@@ -96,10 +96,37 @@ Response time for the first turn ≤ 1000 ms
 
 using namespace std;
 
-/**
- * Auto-generated code below aims at helping you parse
- * the standard input according to the problem statement.
- **/
+struct Point {
+  int x;
+  int y;
+  Point(int x = -1, int y = -1) : x(x), y(y){};
+};
+
+
+class Grid {
+  vector<string> grid;
+  int size;
+
+ public:
+  void addRow(string row) { grid.push_back(row); }
+
+  void reset() { grid.clear(); }
+
+  void setSize(int size) { size = size; }
+
+  int getSize() { return size; }
+
+  char at(Point p) { return grid[p.y][p.x]; }
+
+  void print() {
+   cerr << "Grid: " << endl;
+    for (string s:grid) {
+       cerr << s << endl;
+    }
+  }
+
+  Grid(){};
+};
 
 int main()
 {
@@ -108,12 +135,16 @@ int main()
     int my_id;
     cin >> width >> height >> my_id; cin.ignore();
 
+
     // game loop
     while (1) {
+        Grid g;
         for (int i = 0; i < height; i++) {
             string row;
             cin >> row; cin.ignore();
+            g.addRow(row);
         }
+        g.print();
         int entities;
         cin >> entities; cin.ignore();
         for (int i = 0; i < entities; i++) {
