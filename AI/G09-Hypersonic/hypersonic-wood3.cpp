@@ -105,6 +105,7 @@ struct Point {
 
 class Grid {
   vector<string> grid;
+  vector<string> processedGrid;
   int size;
 
  public:
@@ -118,11 +119,41 @@ class Grid {
 
   char at(Point p) { return grid[p.y][p.x]; }
 
+  vector<int> findBombsInRow(int row) {
+    string r = grid[row];
+    vector<int> ret;
+    for (int i = 0; i < r.length(); ++i) {
+      if (r[i] == '0') ret.push_back(i);
+    }
+    return ret;
+  }
+
   void print() {
    cerr << "Grid: " << endl;
     for (string s:grid) {
        cerr << s << endl;
     }
+  }
+
+  bool isSquareAPath(int x, int y, vector<string> g) {
+    char c = g[y][x];
+    if (c == '0') return false;
+
+    if (c == '.') return true;
+    return isdigit(c);
+  }
+
+  bool incrementSquare(int x, int y) {
+    char c = processedGrid[y][x];
+    if (c == '.') c = '0';
+    int i = c + '0';
+    ++i;
+    processedGrid[y][x] = i - '0';
+  }
+
+  void processGrid() {
+    processedGrid = grid; // copy
+
   }
 
   Grid(){};
