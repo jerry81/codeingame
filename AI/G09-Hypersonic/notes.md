@@ -17,5 +17,7 @@
 
   - bombs don't go through other boxes, so max is 4
 
+- timing for bombs - don't poop before you get to the pot.
+- don't wait around for bomb to explode before moving to next ideal spot .
 
 # issues
