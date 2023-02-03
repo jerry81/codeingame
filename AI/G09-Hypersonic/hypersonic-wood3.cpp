@@ -111,7 +111,7 @@ using namespace std;
 struct Point {
   int x;
   int y;
-  string hash() { return x + "," + y; }
+  string hash() { return std::to_string(x) + "," + std::to_string(y); }
   Point(int x = -1, int y = -1) : x(x), y(y){};
 };
 
@@ -246,18 +246,17 @@ class Grid {
 
   Point highestInFiveMoves(Point cur) {
     // bfs from cur for 5 moves.
-    unordered_map<string, bool> visited;
+     unordered_map<string, bool> visited;
     queue<Point> neighbors;
     int highest = 0;
     Point highestPoint = cur;
     visited[cur.hash()] = true;
     neighbors.push(cur);
-    for (int i = 0; i < 30; ++i) {
+    for (int i = 0; i < 100; ++i) {
       Point p = neighbors.front();
       neighbors.pop();
       char pgval = processedGrid[p.y][p.x];
       int asInt = pgval == '.' ? 0 : pgval - '0';
-      cerr << "as int for " << p.y << " " << p.x << " is " << asInt << endl;
       if (asInt == 4) return p;
       if (asInt > highest) {
         highestPoint = p;
@@ -266,7 +265,6 @@ class Grid {
 
       visited[p.hash()] = true;
       vector<Point> neigh = viableNeighbors(p);
-      cerr << "neighbors found " << neigh.size() << endl;
       for (Point np : neigh) {
         if (visited.find(np.hash()) == visited.end()) {
           visited[np.hash()] = true;
@@ -276,6 +274,7 @@ class Grid {
     }
 
     return highestPoint;
+
   }
 
   Grid(){};
@@ -314,6 +313,7 @@ int main() {
       cin >> entity_type >> owner >> x >> y >> param_1 >> param_2;
       cin.ignore();
       if (entity_type == 0 && owner == my_id) {
+        cerr << "my x " << x << " my y " << y << endl;
         bestMove = g.highestInFiveMoves(Point(x, y));
       }
     }
