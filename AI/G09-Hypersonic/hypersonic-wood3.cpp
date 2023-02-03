@@ -222,7 +222,7 @@ class Grid {
     int lx = x - 1;
     int rx = x + 1;
     if (uy >= 0) {
-      if (grid[uy][x] == '.') {
+      if (processedGrid[uy][x] == '.') {
         ret.push_back(Point(uy, x));
       }
     }
@@ -244,38 +244,58 @@ class Grid {
     return ret;
   }
 
-  Point highestInFiveMoves(Point cur) {
-    // bfs from cur for 5 moves.
-     unordered_map<string, bool> visited;
-    queue<Point> neighbors;
+  Point highPointOnBoard() {
     int highest = 0;
-    Point highestPoint = cur;
-    visited[cur.hash()] = true;
-    neighbors.push(cur);
-    for (int i = 0; i < 100; ++i) {
-      Point p = neighbors.front();
-      neighbors.pop();
-      char pgval = processedGrid[p.y][p.x];
-      int asInt = pgval == '.' ? 0 : pgval - '0';
-      if (asInt == 4) return p;
-      if (asInt > highest) {
-        highestPoint = p;
-        highest = asInt;
-      }
+    Point highestP = Point(0,0);
+    for (int i = 0; i < processedGrid.size(); ++i) {
+      string s = processedGrid[i];
+      for (int j = 0; j < s.length(); ++j) {
+        char c = s[j];
+        if (!isdigit(c)) continue;
 
-      visited[p.hash()] = true;
-      vector<Point> neigh = viableNeighbors(p);
-      for (Point np : neigh) {
-        if (visited.find(np.hash()) == visited.end()) {
-          visited[np.hash()] = true;
-          neighbors.push(np);
+        int asI = c-'0';
+        cerr << "asI is " << asI << endl;
+        if (asI > highest) {
+          highest = asI;
+          highestP = Point(j,i);
+          if (highest == 4) return highestP;
         }
       }
     }
-
-    return highestPoint;
-
+    return highestP;
   }
+
+  // Point highestInFiveMoves(Point cur) {
+  //   // bfs from cur for 5 moves.
+  //    unordered_map<string, bool> visited;
+  //   queue<Point> neighbors;
+  //   int highest = 0;
+  //   Point highestPoint = cur;
+  //   visited[cur.hash()] = true;
+  //   neighbors.push(cur);
+  //   for (int i = 0; i < 15; ++i) {
+  //     Point p = neighbors.front();
+  //     neighbors.pop();
+  //     char pgval = processedGrid[p.y][p.x];
+  //     int asInt = pgval == '.' ? 0 : pgval - '0';
+  //     if (asInt == 4) return p;
+  //     if (asInt > highest) {
+  //       highestPoint = p;
+  //       highest = asInt;
+  //     }
+
+  //     vector<Point> neigh = viableNeighbors(p);
+  //     for (Point np : neigh) {
+  //       if (visited.find(np.hash()) == visited.end()) {
+  //         visited[np.hash()] = true;
+  //         neighbors.push(np);
+  //       }
+  //     }
+  //   }
+
+  //   return highPointOnBoard();
+
+  // }
 
   Grid(){};
 };
@@ -314,7 +334,8 @@ int main() {
       cin.ignore();
       if (entity_type == 0 && owner == my_id) {
         cerr << "my x " << x << " my y " << y << endl;
-        bestMove = g.highestInFiveMoves(Point(x, y));
+        bestMove = g.highPointOnBoard();
+        cerr << "found best move" << endl;
       }
     }
 
