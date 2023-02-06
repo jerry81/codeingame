@@ -5,13 +5,36 @@
 
 using namespace std;
 
-/**
- * Place and pick tiles to build the richest land.
- * You always have player id 0 and your grid is always given first.
- **/
+struct Tile {
+  char type = '_';
+  int crowns = 0;
+  void print() {
+    cerr << "tile type is " << type << " crowns is " << crowns << endl;
+  }
+};
+
+struct Grid {
+  vector<string> rawGrid;
+  vector<vector<Tile>> g;
+  void addLine(string line) {
+    // convert line to vector of tiles
+    vector<Tile> tiles;
+    rawGrid.push_back(line);
+    for (int i = 0; i < 13; ++i) {
+      Tile ti;
+      int start = i * 2;
+      ti.type = line[start];
+      ti.crowns = line[start+1] - '0';
+      tiles.push_back(ti);
+    }
+    g.push_back(tiles);
+  }
+};
 
 int main()
 {
+
+    Grid my_grid;
 
     // game loop
     while (1) {
@@ -19,8 +42,20 @@ int main()
             for (int j = 0; j < 13; j++) {
                 string grid_line;
                 cin >> grid_line; cin.ignore();
+                if (i == 0) {
+                  my_grid.addLine(grid_line);
+                }
             }
         }
+
+        for (int i = 0; i < 13; ++ i) {
+          for (int j = 0; j < 13; ++ j) {
+            cerr << "i " << i << endl;
+            cerr << "j " << j << endl;
+            my_grid.g[i][j].print();
+          }
+        }
+
         for (int i = 0; i < 4; i++) {
             int cur_tile_id; // id of a tile being played this turn
             string cur_first_square; // first square of a tile being played this turn
