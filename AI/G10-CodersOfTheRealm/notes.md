@@ -35,4 +35,5 @@ and then PICK tileId
 
 - fill in the remaining vertical line
 - pick items with more total crowns. - done
-- don't place the item if it has no crowns.
+- don't place the item if it has no crowns. - this was not a good strategy due to the "connected land mass" multiplier
+  - reverted to always keep building but with optimized picks.

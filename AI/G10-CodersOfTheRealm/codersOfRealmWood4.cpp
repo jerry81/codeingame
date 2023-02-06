@@ -18,6 +18,11 @@ struct Point {
   int x = -1;
 };
 
+  struct AvailablePoint {
+    Point p;
+    int rotation = 0;
+  };
+
 struct Grid {
   vector<string> rawGrid;
   vector<vector<Tile>> g;
@@ -40,16 +45,27 @@ struct Grid {
     g.push_back(tiles);
   }
 
-  Point getFirstAvaialble() {
-    Point ret;
+
+  AvailablePoint getFirstAvaialble() {
+    AvailablePoint ret;
     for (int i = 0; i < 7; ++i) {
       for (int j = 0; j < 6; ++j) {
         Tile t = g[i][j];
         if (t.type == '_') {
-          ret.y = i;
-          ret.x = j;
+          ret.p.y = i;
+          ret.p.x = j;
           return ret;
         }
+      }
+    }
+    // one last loop
+    for (int i = 0; i < 6; ++i) {
+      Tile t = g[i][6];
+      if (t.type == '_') {
+        ret.p.y = i;
+        ret.p.x = j;
+        ret.rotation = 1;
+        return ret;
       }
     }
     return ret;
@@ -127,12 +143,12 @@ int main() {
     // PUT x y rotation
     // PICK tileId
 
-    Point available = my_grid.getFirstAvaialble();
-    if (cur_crowns == 0) {
-      cout << "PUT " << -1 << " " << -1 << " 0" << endl;
-    } else {
-      cout << "PUT " << available.x << " " << available.y << " 0" << endl;
-    }
+    AvailablePoint available = my_grid.getFirstAvaialble();
+  //  if (cur_crowns == 0) {
+ //     cout << "PUT " << -1 << " " << -1 << " 0" << endl;
+  //  } else {
+      cout << "PUT " << available.p.x << " " << available.p.y << " " << available.rotation << endl;
+  //  }
     cout << "PICK " << my_pick << endl;  // always pick a pickable card.
   }
 }
