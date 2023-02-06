@@ -37,3 +37,14 @@ and then PICK tileId
 - pick items with more total crowns. - done
 - don't place the item if it has no crowns. - this was not a good strategy due to the "connected land mass" multiplier
   - reverted to always keep building but with optimized picks.
+
+# harder improvements
+- the multiplier works by connecting same exact land type and ensuring there are crowns on at least one of the squares in the land mass
+- finally understand:  must go for bigger "areas"
+
+# wood 3
+
+- new stipulations?
+  - cannot put a tile on top of another..
+- same code should work as well .
+  - only 4 people in this league lol
