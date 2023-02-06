@@ -85,6 +85,7 @@ int main()
         }
 
         int my_pick;
+        int highest_crown = 0;
         for (int i = 0; i < 4; i++) {
             int next_tile_id; // id of a tile to be picked for next turn
             string next_first_square; // first square of a tile to be picked for next turn
@@ -94,7 +95,12 @@ int main()
             cin >> next_tile_id >> next_first_square >> next_second_square >> next_player_id; cin.ignore();
             cerr << "next_player_id " << next_player_id << endl;
             if (next_player_id == -1) {
-              my_pick = next_tile_id;
+              int totalCrowns = (next_first_square[1] - '0') + (next_second_square[1] - '0');
+              if (totalCrowns >= highest_crown) {
+                            my_pick = next_tile_id;
+                            highest_crown = totalCrowns;
+              }
+
             }
         }
 

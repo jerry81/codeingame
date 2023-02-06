@@ -30,3 +30,8 @@
 - each turn write PUT x y rotation
   - rotation: 0,1,2,3 - right, below, left, above
 and then PICK tileId
+
+# immediate easy improvements
+
+- fill in the remaining vertical line
+- pick items with more total crowns.
