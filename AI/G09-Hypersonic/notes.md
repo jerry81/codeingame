@@ -21,3 +21,14 @@
 - don't wait around for bomb to explode before moving to next ideal spot .
 
 # issues
+
+# jumped from wood 3 to bronze
+
+- bombs kill players
+- up to 4 players
+- multiple bombs can be placed.
+- after all boxes destroyed, play continues
+
+# new improvements
+
+- don't get killed by bombs
