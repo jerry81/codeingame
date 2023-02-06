@@ -13,9 +13,19 @@ struct Tile {
   }
 };
 
+struct Point {
+  int y = -1;
+  int x = -1;
+};
+
 struct Grid {
   vector<string> rawGrid;
   vector<vector<Tile>> g;
+  void reset() {
+    rawGrid.clear();
+    g.clear();
+  }
+
   void addLine(string line) {
     // convert line to vector of tiles
     vector<Tile> tiles;
@@ -29,6 +39,21 @@ struct Grid {
     }
     g.push_back(tiles);
   }
+
+  Point getFirstAvaialble() {
+    Point ret;
+    for (int i = 0; i < 7; ++i) {
+      for (int j = 0; j < 6; ++j) {
+        Tile t = g[i][j];
+        if (t.type == '_') {
+          ret.y = i;
+          ret.x = j;
+          return ret;
+        }
+      }
+    }
+    return ret;
+  }
 };
 
 int main()
@@ -38,6 +63,7 @@ int main()
 
     // game loop
     while (1) {
+        my_grid.reset();
         for (int i = 0; i < 2; i++) {
             for (int j = 0; j < 13; j++) {
                 string grid_line;
@@ -48,13 +74,6 @@ int main()
             }
         }
 
-        for (int i = 0; i < 13; ++ i) {
-          for (int j = 0; j < 13; ++ j) {
-            cerr << "i " << i << endl;
-            cerr << "j " << j << endl;
-            my_grid.g[i][j].print();
-          }
-        }
 
         for (int i = 0; i < 4; i++) {
             int cur_tile_id; // id of a tile being played this turn
@@ -64,12 +83,19 @@ int main()
             int current; // 1 if the tile is in play this turn, 0 otherwise
             cin >> cur_tile_id >> cur_first_square >> cur_second_square >> cur_player_id >> current; cin.ignore();
         }
+
+        int my_pick;
         for (int i = 0; i < 4; i++) {
             int next_tile_id; // id of a tile to be picked for next turn
             string next_first_square; // first square of a tile to be picked for next turn
             string next_second_square; // second square of a tile to be picked for next turn
             int next_player_id; // id of the player who has picked that tile, -1 if the tile has not been picked yet
+
             cin >> next_tile_id >> next_first_square >> next_second_square >> next_player_id; cin.ignore();
+            cerr << "next_player_id " << next_player_id << endl;
+            if (next_player_id == -1) {
+              my_pick = next_tile_id;
+            }
         }
 
         // Write an action using cout. DON'T FORGET THE "<< endl"
@@ -78,7 +104,8 @@ int main()
 
         // PUT x y rotation
         // PICK tileId
-        cout << "PUT 0 0 0" << endl;
-        cout << "PICK 1" << endl;
+        Point available = my_grid.getFirstAvaialble();
+        cout << "PUT " << available.x << " " << available.y << " 0" << endl;
+        cout << "PICK " << my_pick << endl; // always pick a pickable card.
     }
 }
