@@ -54,13 +54,18 @@ int main()
 {
     int n;
     cin >> n; cin.ignore();
+
+    vector<int> right;
+    int len = 0;
     for (int i = 0; i < n; i++) {
         string line;
         cin >> line; cin.ignore();
+        len = line.length();
+        for (int j = 0; j < line.length(); ++j) {
+        }
     }
 
-    // Write an answer using cout. DON'T FORGET THE "<< endl"
-    // To debug: cerr << "Debug messages..." << endl;
+
 
     cout << "WAIT" << endl;
     cout << "SHOOT" << endl;
