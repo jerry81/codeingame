@@ -34,4 +34,5 @@ and then PICK tileId
 # immediate easy improvements
 
 - fill in the remaining vertical line
-- pick items with more total crowns.
+- pick items with more total crowns. - done
+- don't place the item if it has no crowns.
