@@ -63,7 +63,7 @@ struct Grid {
       Tile t = g[i][6];
       if (t.type == '_') {
         ret.p.y = i;
-        ret.p.x = j;
+        ret.p.x = 6;
         ret.rotation = 1;
         return ret;
       }
