@@ -50,18 +50,45 @@ using namespace std;
  * the standard input according to the problem statement.
  **/
 
+struct Point {
+  int x = -1;
+  int y = -1;
+}
+
 int main()
 {
     int n;
     cin >> n; cin.ignore();
 
-    vector<int> right;
+    vector<Point> right;
+    vector<Point> left;
+    Point me;
     int len = 0;
     for (int i = 0; i < n; i++) {
         string line;
         cin >> line; cin.ignore();
         len = line.length();
         for (int j = 0; j < line.length(); ++j) {
+          char c = line[j];
+
+          if (c == '>') {
+            Point p;
+            p.y = i;
+            p.x = j;
+            right.push_back(p);
+          }
+
+          if (c == '<') {
+            Point p;
+            p.y = i;
+            p.x = j;
+            left.push_back(p);
+          }
+
+          if (c == '^') {
+            me.y = i;
+            me.x = j;
+          }
         }
     }
 
