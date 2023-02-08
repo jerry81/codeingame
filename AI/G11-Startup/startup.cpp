@@ -11,8 +11,8 @@ using namespace std;
 
 int main()
 {
-    int dev_cap = 9;
-    int seller_cap = 9;
+    int dev_cap = 4;
+    int seller_cap = 4;
 
     // game loop
     while (1) {
@@ -46,15 +46,21 @@ int main()
             cin >> start_up_id >> market_share >> reputation; cin.ignore();
         }
 
+       cerr << "cash " << cash << endl;
         // Write an action using cout. DON'T FORGET THE "<< endl"
         // To debug: cerr << "Debug messages..." << endl;
+        cerr << "income is " << income << endl;
+        int salaries = 10 * devs + 10 * sellers + 20 * managers;
+                cerr << "salaries is " << salaries << endl;
 
-
+        int net = income - salaries;
+        cerr << "net is " << net << endl;
         // <devsToHire> <sellerToHire> <managersToHire> <maintenanceDevs> <competitiveSellers> <targetId>
         char maint = (devs/2) + '0';
         char comp = (sellers/2) + '0';
         int capacity = managers * 2;
         int toHire = min(capacity, 4);
+        int toHireSellers = min(capacity, 1);
         cerr << "features is " << features << endl;
         if (devs < dev_cap) {
             cout << toHire << " 0 1 " << maint << " 0" << endl;
