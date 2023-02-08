@@ -11,6 +11,8 @@ using namespace std;
 
 int main()
 {
+    int dev_cap = 9;
+    int seller_cap = 9;
 
     // game loop
     while (1) {
@@ -30,6 +32,7 @@ int main()
         cin >> sellers; cin.ignore();
         int managers;
         cin >> managers; cin.ignore();
+
         int features;
         cin >> features; cin.ignore();
         int tests; // Tests developed in your software
@@ -48,6 +51,16 @@ int main()
 
 
         // <devsToHire> <sellerToHire> <managersToHire> <maintenanceDevs> <competitiveSellers> <targetId>
-        cout << "0 0 0 0 0" << endl;
+        char maint = (devs/2) + '0';
+        char comp = (sellers/2) + '0';
+        if (devs < dev_cap) {
+            cout << "4 0 1 " << maint << " 0" << endl;
+        } else if (sellers < seller_cap) {
+            cout << "0 4 1 4 " << comp << endl;
+        } else {
+
+
+          cout << "0 0 0 4 0" << endl;
+        }
     }
 }

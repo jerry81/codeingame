@@ -26,3 +26,15 @@
 
 - sales
   - can only sell if at least 10 features
+
+
+# strategy
+
+## first phase
+
+- hire devs first (4 to 1)
+- cap the hiring
+- assign half to maintenence
+- when features > 10
+- start hiring sellers/manager
+- cap the hiring
