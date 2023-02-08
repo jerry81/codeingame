@@ -42,6 +42,15 @@ and then PICK tileId
 - the multiplier works by connecting same exact land type and ensuring there are crowns on at least one of the squares in the land mass
 - finally understand:  must go for bigger "areas"
 
+- picking
+  - favor pure "terrain type" tiles.
+  - favor terrain that we have most of
+  - easy beginnings - can focus on one terrain type.
+    - decision at each turn: extend the terrain or discard the tile.
+
+- build larger "islands"
+  - find islands of a land type
+  - find possible tiles to place that would extend the land type.
 # wood 3
 
 - new stipulations?
