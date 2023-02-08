@@ -53,13 +53,14 @@ int main()
         // <devsToHire> <sellerToHire> <managersToHire> <maintenanceDevs> <competitiveSellers> <targetId>
         char maint = (devs/2) + '0';
         char comp = (sellers/2) + '0';
+        int capacity = managers * 2;
+        int toHire = min(capacity, 4);
+        cerr << "features is " << features << endl;
         if (devs < dev_cap) {
-            cout << "4 0 1 " << maint << " 0" << endl;
+            cout << toHire << " 0 1 " << maint << " 0" << endl;
         } else if ((sellers < seller_cap) && (features >= 10)) {
-            cout << "0 4 1 4 " << comp << endl;
+            cout << "0 " << toHire << " 1 4 " << comp << endl;
         } else {
-
-
           cout << "0 0 0 4 0" << endl;
         }
     }
