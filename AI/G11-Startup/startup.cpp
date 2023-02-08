@@ -55,7 +55,7 @@ int main()
         char comp = (sellers/2) + '0';
         if (devs < dev_cap) {
             cout << "4 0 1 " << maint << " 0" << endl;
-        } else if (sellers < seller_cap) {
+        } else if ((sellers < seller_cap) && (features >= 10)) {
             cout << "0 4 1 4 " << comp << endl;
         } else {
 
