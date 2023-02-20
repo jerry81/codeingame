@@ -61,8 +61,10 @@ int main()
         int net = income - salaries;
         cerr << "net is " << net << endl;
         // <devsToHire> <sellerToHire> <managersToHire> <maintenanceDevs> <competitiveSellers> <targetId>
+        cerr << "devs is " << devs << endl;
         cerr << "devs-1 is " << (devs-1) << endl;
-        char maint = (devs/2) + '0';
+        int maintanenceCount = (devs-1 > 0) ? devs-1 : 0;
+        char maint = maintanenceCount + '0';
         char comp = (sellers/2) + '0';
         int capacity = managers * 2;
         int toHire = min(capacity, 4);
