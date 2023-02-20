@@ -65,6 +65,7 @@ int main()
         cerr << "devs-1 is " << (devs-1) << endl;
         int maintanenceCount = ((devs-1) > 0) ? (devs-1) : 0;
         cerr << "maintenence count is " << maintanenceCount << endl;
+        if (maintanenceCount > 10) maintanenceCount -= (maintanenceCount/4);
         string maint = to_string(maintanenceCount);
         string comp = to_string(sellers/2);
         int capacity = managers * 2;
