@@ -54,3 +54,10 @@
   - feature count, reputation, and competitive market share affect market share (# of sellers on competitive market)
   - unfilfilled market share depends on reputation and features and unfilledMarketSellers (# of sellers not on competitive market)
   - lower the bugs, the better the reputation.
+
+# observing other players
+
+- one guy super aggressively goes devs
+- reputation gets up to 1200
+- then fires his devs and goes all in on market
+-
