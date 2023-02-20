@@ -61,7 +61,8 @@ int main()
         int net = income - salaries;
         cerr << "net is " << net << endl;
         // <devsToHire> <sellerToHire> <managersToHire> <maintenanceDevs> <competitiveSellers> <targetId>
-        char maint = (devs - 1) + '0';
+        cerr << "devs-1 is " << (devs-1) << endl;
+        char maint = (devs/2) + '0';
         char comp = (sellers/2) + '0';
         int capacity = managers * 2;
         int toHire = min(capacity, 4);
@@ -72,7 +73,7 @@ int main()
         } else if ((sellers < seller_cap) && (features >= 10)) {
             cout << "0 " << toHire << " 1 4 " << comp << endl;
         } else {
-          cout << "0 0 0 4 0" << endl;
+          cout << "0 0 0 " << maint << " " << comp << endl;
         }
     }
 }
