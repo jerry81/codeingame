@@ -21,6 +21,7 @@ int main()
         int player_count; // Number of players
         cin >> player_count; cin.ignore();
         int turn; // Number of turns since the beginning
+        cerr << "we are on turn " << turn << endl;
         cin >> turn; cin.ignore();
         int income; // Your income for this turn
         cin >> income; cin.ignore();
@@ -28,17 +29,21 @@ int main()
         cin >> cash; cin.ignore();
         int devs;
         cin >> devs; cin.ignore();
+        cerr << " we have " << devs << " devs " << endl;
         int sellers;
         cin >> sellers; cin.ignore();
+        cerr << " we have " << sellers << " sellers " << endl;
         int managers;
         cin >> managers; cin.ignore();
-
+        cerr << " we have " << managers << " managers " << endl;
         int features;
         cin >> features; cin.ignore();
         int tests; // Tests developed in your software
         cin >> tests; cin.ignore();
+        cerr << " we have " << tests << " tests " << endl;
         int bugs; // Bugs in your software
         cin >> bugs; cin.ignore();
+        cerr << " we have " << bugs << " bugs " << endl;
         for (int i = 0; i < player_count; i++) {
             int start_up_id; // Start-up id
             int market_share; // Market share of the start-up in thousands
