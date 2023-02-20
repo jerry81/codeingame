@@ -63,18 +63,24 @@ int main()
         // <devsToHire> <sellerToHire> <managersToHire> <maintenanceDevs> <competitiveSellers> <targetId>
         cerr << "devs is " << devs << endl;
         cerr << "devs-1 is " << (devs-1) << endl;
-        int maintanenceCount = (devs-1 > 0) ? devs-1 : 0;
-        char maint = maintanenceCount + '0';
-        char comp = (sellers/2) + '0';
+        int maintanenceCount = ((devs-1) > 0) ? (devs-1) : 0;
+        cerr << "maintenence count is " << maintanenceCount << endl;
+        string maint = to_string(maintanenceCount);
+        string comp = to_string(sellers/2);
         int capacity = managers * 2;
         int toHire = min(capacity, 4);
         int toHireSellers = min(capacity, 1);
         cerr << "features is " << features << endl;
-        if (devs < dev_cap) {
+        if (net > 0 && cash > 500) {
+          dev_cap++;
+          seller_cap++;
+        }
+        if (devs < dev_cap && ((devs - sellers) < 8)) {
             cout << toHire << " 0 1 " << maint << " 0" << endl;
         } else if ((sellers < seller_cap) && (features >= 10)) {
-            cout << "0 " << toHire << " 1 4 " << comp << endl;
+            cout << "0 " << toHire << " 1 " << maint << " " << comp << endl;
         } else {
+          cerr << "printing last case " << endl;
           cout << "0 0 0 " << maint << " " << comp << endl;
         }
     }

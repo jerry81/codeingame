@@ -50,4 +50,7 @@
 
 - market:
   - market share can be stolen by higher rep competitor from lower rep
-  -
+  - income dependent on marketshare and later the game turn, the bigger the multiplier
+  - feature count, reputation, and competitive market share affect market share (# of sellers on competitive market)
+  - unfilfilled market share depends on reputation and features and unfilledMarketSellers (# of sellers not on competitive market)
+  - lower the bugs, the better the reputation.
