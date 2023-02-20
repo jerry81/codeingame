@@ -45,3 +45,9 @@
   3. 6 devs, 1 mgr, 6 to maintenence
   4. 8 sellers, 1 mgr, 6 maintenence, 4 competitiveSellers
   5.  0 hires, 8 maintenence, 4 competitive sellers
+
+- now our reputation is up, but unlike the AI we don't keep expanding the business.
+
+- market:
+  - market share can be stolen by higher rep competitor from lower rep
+  -
