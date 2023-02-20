@@ -44,12 +44,16 @@ int main()
         int bugs; // Bugs in your software
         cin >> bugs; cin.ignore();
         cerr << " we have " << bugs << " bugs " << endl;
+        int totalMktShare = 0;
         for (int i = 0; i < player_count; i++) {
             int start_up_id; // Start-up id
             int market_share; // Market share of the start-up in thousands
             int reputation; // Reputation of the start-up
             cin >> start_up_id >> market_share >> reputation; cin.ignore();
+            totalMktShare+=market_share;
         }
+
+        cerr << "total is " << totalMktShare << endl;
 
        cerr << "cash " << cash << endl;
         // Write an action using cout. DON'T FORGET THE "<< endl"
@@ -62,26 +66,29 @@ int main()
         cerr << "net is " << net << endl;
         // <devsToHire> <sellerToHire> <managersToHire> <maintenanceDevs> <competitiveSellers> <targetId>
         cerr << "devs is " << devs << endl;
-        cerr << "devs-1 is " << (devs-1) << endl;
         int maintanenceCount = ((devs-1) > 0) ? (devs-1) : 0;
-        cerr << "maintenence count is " << maintanenceCount << endl;
+
         if (maintanenceCount > 10) maintanenceCount -= (maintanenceCount/4);
         string maint = to_string(maintanenceCount);
-        string comp = to_string(sellers/2);
+       // string comp = to_string(sellers/2);
         int capacity = managers * 2;
         int toHire = min(capacity, 4);
+        int mgrs = ((managers*4) < (devs + sellers)) ? 0:1;
         int toHireSellers = min(capacity, 1);
         cerr << "features is " << features << endl;
         if (net > 0 && cash > 500) {
           dev_cap++;
           seller_cap++;
         }
+       int comp = sellers / 2;
+       //if (totalMktShare < 200) comp = 0;
+
+       if (totalMktShare > 900) comp = (sellers);
         if (devs < dev_cap && ((devs - sellers) < 8)) {
-            cout << toHire << " 0 1 " << maint << " 0" << endl;
+            cout << toHire << " 0 " << mgrs << " " << maint << " " << comp << endl;
         } else if ((sellers < seller_cap) && (features >= 10)) {
-            cout << "0 " << toHire << " 1 " << maint << " " << comp << endl;
+            cout << "0 " << toHire << " " << mgrs << " " << maint << " " << comp << endl;
         } else {
-          cerr << "printing last case " << endl;
           cout << "0 0 0 " << maint << " " << comp << endl;
         }
     }
