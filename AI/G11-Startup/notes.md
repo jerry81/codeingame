@@ -38,3 +38,10 @@
 - when features > 10
 - start hiring sellers/manager
 - cap the hiring
+
+- observing AI:
+  1. first turn, 2 devs, 1 mgr, 1 dev to maintenence
+  2. 4 devs, 1 mgr, 3 to maintenence
+  3. 6 devs, 1 mgr, 6 to maintenence
+  4. 8 sellers, 1 mgr, 6 maintenence, 4 competitiveSellers
+  5.  0 hires, 8 maintenence, 4 competitive sellers
