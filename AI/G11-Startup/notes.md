@@ -60,4 +60,13 @@
 - one guy super aggressively goes devs
 - reputation gets up to 1200
 - then fires his devs and goes all in on market
--
+- turns analysis
+  1.  1 0 1 0 0 (1 manager, 1 dev)
+  2.  2 0 1 3 0 (1 mgr, 2 devs, all to maintenence)
+  3.  3 0 1 4 0 (1 mgr, 3 devs, 4 to maintenence, 2 to features)
+  4.  4 0 1 8 0 (1 mgr) (4 managers, 10 devs, 8 to maintenence)
+  5.  5 0 1 12 0 (5 mgrs, 15 devs, 12 to maintenence)
+  6.  5 1 1 16 0 (6 mgrs, 20 devs, 1 sales, 16 maintainers)
+  7.  -7 7 1 13 0 (7 mgrs, 13 devs, 8 sales, 13 maintainers)
+  8.  -8 0 0 4 3 2 (no hires) 5 devs, 4 maintainers 3 competitive
+  9.
