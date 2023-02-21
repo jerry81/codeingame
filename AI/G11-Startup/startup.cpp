@@ -77,11 +77,13 @@ int main() {
     int devsH = 0;
     int sellersH = 0;
     int employees = devs + sellers;
-    bool devRound = (managers / 3) % 2 == 0;
-    if (devRound) {
+    if (managers <= 3) {
       devsH = min(hire_capacity,empCapacity - employees);
-    } else {
+    } else if (managers <= 3) {
       sellersH =  min(hire_capacity,empCapacity - employees);
+    } else {
+      devsH = min(hire_capacity/2, (empCapacity - employees)/2);
+      sellersH = min(hire_capacity/2, (empCapacity-employees)/2);
     }
     int devsP = devsH + devs;
     cerr << "devsP is " << devsP << endl;
