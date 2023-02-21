@@ -74,14 +74,21 @@ int main() {
     int hire_capacity = managers * 2;
     bool manager = true;
     int empCapacity = managers * 4;
-    int devsH, sellersH = 0;
-    if (managers <= 3) {
-      devsH = empCapacity - managers;
-    } else if (managers <= 6) {
-      sellersH = empCapacity - managers;
+    int devsH = 0;
+    int sellersH = 0;
+    int employees = devs + sellers;
+    bool devRound = (managers / 3) % 2 == 0;
+    if (devRound) {
+      devsH = min(hire_capacity,empCapacity - employees);
+    } else {
+      sellersH =  min(hire_capacity,empCapacity - employees);
     }
-    int maint = devsH * (3/4);
-    int comp = sellersH / 2;
+    int devsP = devsH + devs;
+    cerr << "devsP is " << devsP << endl;
+    int maint = (devsP * 3)/4;
+    cerr << "maint is " << maint << endl;
+    int sellersP = sellersH + sellers;
+    int comp = sellersP / 2;
     cout << devsH << " " << sellersH << " " << manager << " " << maint << " " << comp << endl;
     // if (totalMktShare < 200) comp = 0;
   }
