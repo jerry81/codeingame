@@ -88,6 +88,8 @@ int main() {
     }
     int devsP = devsH + devs;
     int maint = (devsP * 3)/4;
+
+    if (features < 10) maint = devsP / 2;
     int sellersP = sellersH + sellers;
     int comp = sellersP/2;
     cout << devsH << " " << sellersH << " " << manager << " " << maint << " " << comp << endl;

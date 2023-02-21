@@ -79,4 +79,22 @@
 - this doesn't work
 
 - rich get richer, poor get poorer.
-- after we get
+
+
+- another aggressive player, trictrac:
+
+1. 2 0 1 0 0
+2. 4 0 1 0 0
+3.  6 0 1 10 0
+4.  6 2 1 18 0
+
+
+- bigrooster agression
+
+1.  2 0 1 2 0
+2.  4 0 1 0 0
+3.  6 0 1 10 0
+4.  6 2 1 18 0
+5.  -1 1 0 16 0
+6.  -2 2 0 12 1
+7.  -5 1 -1 8 1
