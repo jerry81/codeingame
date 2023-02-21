@@ -69,4 +69,9 @@
   6.  5 1 1 16 0 (6 mgrs, 20 devs, 1 sales, 16 maintainers)
   7.  -7 7 1 13 0 (7 mgrs, 13 devs, 8 sales, 13 maintainers)
   8.  -8 0 0 4 3 2 (no hires) 5 devs, 4 maintainers 3 competitive
-  9.
+
+
+# actual strategy
+- keep hiring devs/managers until 3 managers (12 devs)
+- wait until 10 features
+- hire sellers/managers until 6 managers
