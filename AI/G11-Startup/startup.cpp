@@ -77,20 +77,19 @@ int main() {
     int devsH = 0;
     int sellersH = 0;
     int employees = devs + sellers;
+    if ((empCapacity - employees) > 4) manager = false;
     if (managers <= 3) {
       devsH = min(hire_capacity,empCapacity - employees);
-    } else if (managers <= 3) {
+    } else if (features >= 10 && managers <= 6) {
       sellersH =  min(hire_capacity,empCapacity - employees);
-    } else {
-      devsH = min(hire_capacity/2, (empCapacity - employees)/2);
-      sellersH = min(hire_capacity/2, (empCapacity-employees)/2);
+    } else if (net > 300) {
+      devsH = min((int)(hire_capacity/2), (int)((empCapacity - employees)/2));
+      sellersH = min((int)(hire_capacity/2), (int)((empCapacity - employees)/2));
     }
     int devsP = devsH + devs;
-    cerr << "devsP is " << devsP << endl;
     int maint = (devsP * 3)/4;
-    cerr << "maint is " << maint << endl;
     int sellersP = sellersH + sellers;
-    int comp = sellersP / 2;
+    int comp = sellersP/2;
     cout << devsH << " " << sellersH << " " << manager << " " << maint << " " << comp << endl;
     // if (totalMktShare < 200) comp = 0;
   }

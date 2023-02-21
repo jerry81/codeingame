@@ -75,3 +75,8 @@
 - keep hiring devs/managers until 3 managers (12 devs)
 - wait until 10 features
 - hire sellers/managers until 6 managers
+
+- this doesn't work
+
+- rich get richer, poor get poorer.
+- after we get
