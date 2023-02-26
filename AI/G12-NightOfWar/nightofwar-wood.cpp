@@ -40,13 +40,23 @@ class Game {
   int mapSize = 0;
 
   vector<vector<Block>> map;
+  vector<Soldier> my_s;
+  vector<Soldier> e_s;
 
  public:
   Game(int myId = 0, int mapSize = 0) : myId(myId), mapSize(mapSize){};
 
-  void reset() { map.clear(); };
+  void reset() {
+    map.clear();
+    my_s.clear();
+    e_s.clear();
+  };
 
   void addMapLine(vector<Block> line) { map.push_back(line); };
+
+  void addMySoldier(Soldier s) { my_s.push_back(s); };
+
+  void addESoldier(Soldier s) { e_s.push_back(s); }
 };
 
 int main() {
@@ -94,6 +104,15 @@ int main() {
       int direction;  // The side where the soldier is facing 0 = UP, 1 = LEFT ,
                       // 2 = DOWN, 3 = RIGHT
       cin >> owner_id >> x >> y >> soldier_id >> level >> direction;
+      bool me = owner_id == my_id;
+      Soldier s;
+      s.owner = owner_id;
+      s.p = Point(x,y);
+      s.level = level;
+      s.direction = direction;
+      s.id = soldier_id;
+      if (me) { g.addMySoldier(s); } else { g.addESoldier(s); }
+
       cin.ignore();
     }
 
