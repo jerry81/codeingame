@@ -2,6 +2,8 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <queue>
+#include <unordered_map>
 
 using namespace std;
 
@@ -36,6 +38,11 @@ struct Block {
   int owner = 0;
 };
 class Game {
+  struct Move {
+    Point p;
+    int dir;
+  };
+
   int myId = 0;
   int mapSize = 0;
 
@@ -58,6 +65,43 @@ class Game {
 
   void addESoldier(Soldier s) { e_s.push_back(s); }
 
+  // returned is dx, dy
+  Point delta(Soldier s, Soldier e) {
+    return Point(s.p.x - e.p.x, s.p.y - e.p.y);
+  }
+
+  Move getGoodMove(Soldier s) {
+    // bfs to get closest neutral square and move to it
+  }
+
+  struct BFSPoint {
+    Point firstPoint;
+    Point p;
+  };
+
+  vector<Point> getNeighbors(Point p) {
+    int lx = p.x-1;
+    int rx = p.x+1;
+    int uy = p.y-1;
+    int dy = p.y+1;
+
+  }
+
+  Point findClosestNeutralSq(Soldier s) {
+    // Point that moves towards the closest neutral square
+    unordered_map<string, bool> visited;
+    queue<BFSPoint> neighbors;
+    BFSPoint bp;
+    bp.p = s.p;
+    neighbors.push(bp);
+    int dist = 0;
+    // we only need to keep track of first node, but we still need, at every pop, to know which "first node" that node belongs to.
+    while (!neighbors.empty() && dist < 0) {
+      BFSPoint nextP = neighbors.front();
+      neighbors.pop();
+    }
+  }
+
   void debug() {
     cerr << "printing game map" << endl;
     for (auto line: map) {
@@ -73,6 +117,8 @@ class Game {
       cerr << "enemy soldiers " << es.id << endl;
     }
   }
+
+
 };
 
 int main() {
@@ -93,6 +139,8 @@ int main() {
     int opp_bucks;  // Opponent Money
     cin >> opp_bucks;
     cin.ignore();
+    cerr << "my bucks " << my_bucks << endl;
+    cerr << "opp bucks " << opp_bucks << endl;
     for (int i = 0; i < map_size; i++) {
       vector<Block> line;
       for (int j = 0; j < map_size; j++) {
