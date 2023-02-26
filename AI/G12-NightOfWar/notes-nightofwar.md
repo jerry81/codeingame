@@ -1,3 +1,10 @@
+# ideas
+
+- if have 35 bucks and can attack, attack
+  - can attack helper
+- if don't have enough money to attack, move to enemy territory/neutral territory
+  - move helper
+
 # instructions
 
 ```

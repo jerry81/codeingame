@@ -57,6 +57,22 @@ class Game {
   void addMySoldier(Soldier s) { my_s.push_back(s); };
 
   void addESoldier(Soldier s) { e_s.push_back(s); }
+
+  void debug() {
+    cerr << "printing game map" << endl;
+    for (auto line: map) {
+      for (auto block: line) {
+        cerr << "block " << block.owner << endl;
+        cerr << block.p.hash() << endl;
+      }
+    }
+    for (auto mys: my_s) {
+      cerr << "my soldiers " << mys.id << endl;
+    }
+    for (auto es:e_s) {
+      cerr << "enemy soldiers " << es.id << endl;
+    }
+  }
 };
 
 int main() {
@@ -91,6 +107,7 @@ int main() {
         line.push_back(b);
         cin.ignore();
       }
+      g.addMapLine(line);
     }
     int active_soldier_count;  // Total no. of active soldier in the game
     cin >> active_soldier_count;
@@ -119,6 +136,7 @@ int main() {
     // print any of actions - WAIT | MOVE <soldierId> <direction> | ATTACK
     // <soldierID> <soldierId to attack on> | LATER > UPGRADE <id> | DEGRADE
     // <opponent id> | SUICIDE <id>
+    g.debug();
     cout << "WAIT" << endl;
   }
 }
