@@ -1,0 +1,53 @@
+#include <iostream>
+#include <string>
+#include <vector>
+#include <algorithm>
+
+using namespace std;
+
+/**
+ * Jrke's special
+ * -Kill your enemy soldiers or Have more bucks than your enemy at end of game
+ **/
+
+int main()
+{
+    int my_id; // Your unique player Id
+    cin >> my_id; cin.ignore();
+    int map_size; // the size of map MapSize*MapSize
+    cin >> map_size; cin.ignore();
+
+    // game loop
+    while (1) {
+        int my_bucks; // Your Money
+        cin >> my_bucks; cin.ignore();
+        int opp_bucks; // Opponent Money
+        cin >> opp_bucks; cin.ignore();
+        for (int i = 0; i < map_size; i++) {
+            for (int j = 0; j < map_size; j++) {
+                int block_owner; // The playerId of this box owned player
+                int x; // This block's position x
+                int y; // This block's position y
+                cin >> block_owner >> x >> y; cin.ignore();
+            }
+        }
+        int active_soldier_count; // Total no. of active soldier in the game
+        cin >> active_soldier_count; cin.ignore();
+        for (int i = 0; i < active_soldier_count; i++) {
+            int owner_id; // owner of the soldier
+            int x; // This soldier's position x
+            int y; // This soldier's position y
+            int soldier_id; // The unique identifier of soldier
+            int level; // Level of the soldier ignore for first league
+            int direction; // The side where the soldier is facing 0 = UP, 1 = LEFT , 2 = DOWN, 3 = RIGHT
+            cin >> owner_id >> x >> y >> soldier_id >> level >> direction; cin.ignore();
+        }
+
+        // Write an action using cout. DON'T FORGET THE "<< endl"
+        // To debug: cerr << "Debug messages..." << endl;
+
+
+        // print any of actions - WAIT | MOVE <soldierId> <direction> | ATTACK <soldierID> <soldierId to attack on> | LATER > UPGRADE <id> | DEGRADE <opponent id> | SUICIDE <id>
+        cout << "WAIT" << endl;
+    }
+}
