@@ -80,11 +80,24 @@ class Game {
   };
 
   vector<Point> getNeighbors(Point p) {
+    vector<Point> ret;
+
     int lx = p.x-1;
     int rx = p.x+1;
     int uy = p.y-1;
     int dy = p.y+1;
 
+    if (lx >= 0) {
+      Point np = Point(lx,p.y);
+      ret.push_back(np);
+    }
+
+    if (rx < mapSize) {
+      Point np = Point(rx, p.y);
+      ret.push_back(np);
+    }
+
+    return ret;
   }
 
   Point findClosestNeutralSq(Soldier s) {
