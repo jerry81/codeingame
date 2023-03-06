@@ -40,7 +40,6 @@ GCD(25,3)=1
 
 using namespace std;
 
-
 int main()
 {
     int a;
@@ -49,8 +48,9 @@ int main()
     int oa = a;
     int ob = b;
     int r = -1;
-    int div = a / b;
+    int div = -1;
     while (r != 0) {
+      div=a/b;
       r = a % b;
       cout << a << "="<<b<<"*"<<div<<"+"<<r<<endl;
       a=b;
@@ -59,4 +59,3 @@ int main()
 
     cout << "GCD("<<oa<<","<<ob<<")"<<"="<<a<< endl;
 }
-
