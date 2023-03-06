@@ -46,9 +46,17 @@ int main()
     int a;
     int b;
     cin >> a >> b; cin.ignore();
+    int oa = a;
+    int ob = b;
+    int r = -1;
+    int div = a / b;
+    while (r != 0) {
+      r = a % b;
+      cout << a << "="<<b<<"*"<<div<<"+"<<r<<endl;
+      a=b;
+      b=r;
+    }
 
-    // Write an answer using cout. DON'T FORGET THE "<< endl"
-    // To debug: cerr << "Debug messages..." << endl;
-
-    cout << "GCD(a,b)" << endl;
+    cout << "GCD("<<oa<<","<<ob<<")"<<"="<<a<< endl;
 }
+
