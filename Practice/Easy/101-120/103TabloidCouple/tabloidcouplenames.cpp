@@ -82,10 +82,12 @@ class TabloidName {
     for (int i = 0; i < name1.length(); ++i) {
       char curc = name1[i];
       string prefix1 = name1.substr(0, i);
-      string suffix1 = name1.substr();
+      string suffix1 = name1.substr(i + 1);
+
       for (int j = 0; j < name2.length(); ++j) {
         char curc2 = name2[j];
         if (curc == curc2) {
+          // next rule: max overlapping characters
           // substring 1 + substring 2
         }
       }
