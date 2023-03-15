@@ -66,15 +66,50 @@ Mork plus Mindy = NONE
 
 using namespace std;
 
-/**
- * Auto-generated code below aims at helping you parse
- * the standard input according to the problem statement.
- **/
-string name1;
-string name2;
 
-bool rule1() {
-}
+class TabloidName {
+  string name1 = "";
+  string name2 = "";
+  vector<string> names;
+  bool rule1(string attempt) {
+    return (attempt != name1 && attempt != name2);
+  };
+  bool rule2(string attempt) {
+    int l = attempt.length();
+    return (l >= name1.length() || l >= name2.length());
+  };
+  void build() {
+    for (int i = 0; i < name1.length(); ++i) {
+      char curc = name1[i];
+      string prefix1 = name1.substr(0, i);
+      string suffix1 = name1.substr();
+      for (int j = 0; j < name2.length(); ++j) {
+        char curc2 = name2[j];
+        if (curc == curc2) {
+          // substring 1 + substring 2
+        }
+      }
+    }
+  };
+  public:
+    TabloidName(string n1, string n2) : name1(n1), name2(n2) {
+      build();
+    };
+    string getNamesAsString() {
+      string prefix = name1 + " plus " + name2 + " = ";
+      if (names.empty()) return prefix + "NONE";
+
+      string suffix = "";
+      for (string s: names) {
+        suffix += s;
+        suffix += " ";
+      }
+      suffix.pop_back();
+      return prefix + suffix;
+    }
+
+};
+
 
 int main()
 {
@@ -90,15 +125,12 @@ int main()
         while (getline(ss,str, ' ')) {
           names.push_back(str);
         }
-        name1 = names[0];
-        name2 = names[2];
-
-        cerr << "name1 is " << name1 << " and name 2 is " << name2 << endl;
-
+        TabloidName cur = TabloidName(names[0],names[2]);
+        cout << cur.getNamesAsString() << endl;
     }
 
-    // Write an answer using cout. DON'T FORGET THE "<< endl"
-    // To debug: cerr << "Debug messages..." << endl;
 
-    cout << "CoupleName(s)" << endl;
+
+
+
 }
