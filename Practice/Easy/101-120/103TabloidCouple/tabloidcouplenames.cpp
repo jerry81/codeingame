@@ -62,6 +62,7 @@ Mork plus Mindy = NONE
 #include <string>
 #include <vector>
 #include <algorithm>
+#include <sstream>
 
 using namespace std;
 
@@ -69,6 +70,11 @@ using namespace std;
  * Auto-generated code below aims at helping you parse
  * the standard input according to the problem statement.
  **/
+string name1;
+string name2;
+
+bool rule1() {
+}
 
 int main()
 {
@@ -77,6 +83,18 @@ int main()
     for (int i = 0; i < n; i++) {
         string a_couple;
         getline(cin, a_couple);
+        // forgot how to split, again!!
+        stringstream ss(a_couple);
+        vector<string> names;
+        string str;
+        while (getline(ss,str, ' ')) {
+          names.push_back(str);
+        }
+        name1 = names[0];
+        name2 = names[2];
+
+        cerr << "name1 is " << name1 << " and name 2 is " << name2 << endl;
+
     }
 
     // Write an answer using cout. DON'T FORGET THE "<< endl"
