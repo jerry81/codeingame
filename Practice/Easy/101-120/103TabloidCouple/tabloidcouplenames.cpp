@@ -71,6 +71,35 @@ class TabloidName {
   string name1 = "";
   string name2 = "";
   vector<string> names;
+  int longest = 0;
+  void checkConsecutive(int starti, int startj) {
+    if (starti > name1.length()) return;
+
+    if (startj > name2.length()) return;
+
+    int offset = 0;
+    int total = 1;
+    if (1 > longest) longest = 1;
+    while (((starti+offset) < name1.length()) || ((startj+offset) < name2.length())) {
+      if (name1[starti+offset] == name2[startj+offset]) {
+        total++;
+        if (total > longest) longest++;
+      }
+      offset++;
+    }
+  };
+  void setLongestSubstring() {
+    for (int i = 0; i < name1.length(); ++i) {
+      char curc = tolower(name1[i]);
+      int curlen = 0;
+      int offset = 0;
+      for (int j = 0; j < name2.length(); ++j) {
+        if (curc == tolower(name2[j])) {
+          checkConsecutive(i+1, j+1);
+        }
+      }
+    }
+  };
   bool rule1(string attempt) {
     return (attempt != name1 && attempt != name2);
   };
@@ -79,14 +108,16 @@ class TabloidName {
     return (l >= name1.length() || l >= name2.length());
   };
   void build() {
+    cerr << "name1 " << name1 << " " << name2 << endl;
+     cerr << "longest is " << longest << endl;
     for (int i = 0; i < name1.length(); ++i) {
-      char curc = name1[i];
+      char curc = tolower(name1[i]);
       string prefix1 = name1.substr(0, i);
       string suffix1 = name1.substr(i + 1);
-
       for (int j = 0; j < name2.length(); ++j) {
-        char curc2 = name2[j];
+        char curc2 = tolower(name2[j]);
         if (curc == curc2) {
+
           // next rule: max overlapping characters
           // substring 1 + substring 2
         }
@@ -95,9 +126,11 @@ class TabloidName {
   };
   public:
     TabloidName(string n1, string n2) : name1(n1), name2(n2) {
+      setLongestSubstring();
       build();
     };
     string getNamesAsString() {
+
       string prefix = name1 + " plus " + name2 + " = ";
       if (names.empty()) return prefix + "NONE";
 
