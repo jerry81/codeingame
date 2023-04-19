@@ -128,3 +128,9 @@ int main() {
   }
 
 }
+
+/*
+only the last case fails now
+1.  the entire string matching case is wrong
+2.  the having characters not in overlapping characters fails
+*/
