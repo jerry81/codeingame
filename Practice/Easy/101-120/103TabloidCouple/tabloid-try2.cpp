@@ -21,6 +21,8 @@ vector<string> split(string str) {
   return ret;
 }
 
+
+
 vector<string> getTabloid(string s1, string s2) {
   int longestMatch = 0;
   vector<string> matches;
@@ -90,6 +92,19 @@ void normalize(string &input) {
   input[0] = toupper(input[0]);
 }
 
+bool customLexo(string a, string b) {
+    for (int i = 0; i < a.size(); ++i) {
+      char ac = a[i];
+      if (i >= b.length()) return false;
+
+      if (ac < b[i]) return true;
+
+      if (ac > b[i]) return false;
+    }
+
+    return false;
+}
+
 int main() {
   int n;
   cin >> n;
@@ -100,15 +115,16 @@ int main() {
     vector<string> spl = split(a_couple);
     vector<string> res = getTabloid(spl[0], spl[2]);
     string suff = "";
-    sort(res.begin(), res.end());
+    for_each(res.begin(), res.end(), normalize);
+    sort(res.begin(), res.end(), customLexo);
     for (auto a: res) {
-      normalize(a);
       suff += a;
       suff += " ";
     }
     if (res.empty()) suff = "NONE ";
     suff.pop_back();
     cout << spl[0] << " plus " << spl[2] << " = " << suff << endl;
+
   }
 
 }
