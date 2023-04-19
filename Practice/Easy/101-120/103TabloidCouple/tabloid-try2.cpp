@@ -27,12 +27,12 @@ vector<string> getTabloid(string s1, string s2) {
   for (int i = 0; i < s1.size(); ++i) {
     char c1 = tolower(s1[i]);
     string prefix1 = s1.substr(0, i);
-    string suffix1 = s1.substr(i + 1);
+    string suffix1 = s1.substr(i);
     for (int j = 0; j < s2.size(); ++j) {
       char c2 = tolower(s2[j]);
-      string prefix2 = s2.substr(0, j);
-      string suffix2 = s2.substr(j + 1);
       if (c1 == c2) {
+        string prefix2 = s2.substr(0, j);
+        string suffix2 = s2.substr(j);
         // check overlap len
         int offset = 1;
         while ((offset + i) < s1.size() && (offset + j) < s2.size()) {
@@ -62,7 +62,16 @@ vector<string> getTabloid(string s1, string s2) {
         // make the two names
       }
     }
+
   }
+    return matches;
+}
+
+void normalize(string &input) {
+  for (int i = 1; i < input.size(); ++i) {
+    input[i] = tolower(input[i]);
+  }
+  input[0] = toupper(input[0]);
 }
 
 int main() {
@@ -74,7 +83,11 @@ int main() {
     getline(cin, a_couple);
     vector<string> spl = split(a_couple);
     vector<string> res = getTabloid(spl[0], spl[2]);
+
+    for (auto a: res) {
+      normalize(a);
+      cout << spl[0] << " plus " << spl[2] << " = " << a << endl;
+    }
   }
 
-  cerr << "CoupleName(s)" << endl;
 }
