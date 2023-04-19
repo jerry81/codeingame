@@ -63,39 +63,56 @@ Mork plus Mindy = NONE
 #include <vector>
 #include <algorithm>
 #include <sstream>
+#include <unordered_map>
 
 using namespace std;
 
 
-class TabloidName {
+class TabloidName { // pair of names
   string name1 = "";
   string name2 = "";
   vector<string> names;
+
   int longest = 0;
-  void checkConsecutive(int starti, int startj) {
+  int overlapa=0;
+  int overlapb=0;
+  int checkConsecutive(int starti, int startj) {
+    int count = 1;
+    int origA = starti;
+    int origB = startj;
     if (starti > name1.length()) return;
 
     if (startj > name2.length()) return;
 
     int offset = 0;
     int total = 1;
-    if (1 > longest) longest = 1;
     while (((starti+offset) < name1.length()) || ((startj+offset) < name2.length())) {
       if (name1[starti+offset] == name2[startj+offset]) {
-        total++;
-        if (total > longest) longest++;
+        count++;
       }
       offset++;
     }
+    return count;
   };
+  string mergeAt(int i, int j) {
+      string prefix1 = name1.substr(0, i);
+      string suffix1 = name1.substr(i + 1);
+  }
   void setLongestSubstring() {
-    for (int i = 0; i < name1.length(); ++i) {
+    for (int i = 0; i < name1.length(); ++i) { // every letter in kurt
       char curc = tolower(name1[i]);
       int curlen = 0;
       int offset = 0;
-      for (int j = 0; j < name2.length(); ++j) {
+      for (int j = 0; j < name2.length(); ++j) { // every letter in courtney
         if (curc == tolower(name2[j])) {
-          checkConsecutive(i+1, j+1);
+
+          int curcount = checkConsecutive(i+1, j+1); // count?
+          if (curcount > longest) {
+            names.clear();
+
+          } else if (curcount == longest) {
+            // names.push_back();
+          }
         }
       }
     }
@@ -107,27 +124,9 @@ class TabloidName {
     int l = attempt.length();
     return (l >= name1.length() || l >= name2.length());
   };
-  void build() {
-    cerr << "name1 " << name1 << " " << name2 << endl;
-     cerr << "longest is " << longest << endl;
-    for (int i = 0; i < name1.length(); ++i) {
-      char curc = tolower(name1[i]);
-      string prefix1 = name1.substr(0, i);
-      string suffix1 = name1.substr(i + 1);
-      for (int j = 0; j < name2.length(); ++j) {
-        char curc2 = tolower(name2[j]);
-        if (curc == curc2) {
-
-          // next rule: max overlapping characters
-          // substring 1 + substring 2
-        }
-      }
-    }
-  };
   public:
     TabloidName(string n1, string n2) : name1(n1), name2(n2) {
       setLongestSubstring();
-      build();
     };
     string getNamesAsString() {
 
@@ -160,7 +159,7 @@ int main()
         while (getline(ss,str, ' ')) {
           names.push_back(str);
         }
-        TabloidName cur = TabloidName(names[0],names[2]);
+        TabloidName cur = TabloidName(names[0],names[2]); // eg. kurt courtney
         cout << cur.getNamesAsString() << endl;
     }
 
