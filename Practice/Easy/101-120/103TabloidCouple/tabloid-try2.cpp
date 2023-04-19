@@ -83,11 +83,16 @@ int main() {
     getline(cin, a_couple);
     vector<string> spl = split(a_couple);
     vector<string> res = getTabloid(spl[0], spl[2]);
+    string suff = "";
 
     for (auto a: res) {
       normalize(a);
-      cout << spl[0] << " plus " << spl[2] << " = " << a << endl;
+      suff += a;
+      suff += " ";
     }
+    if (res.empty()) suff = "NONE ";
+    suff.pop_back();
+    cout << spl[0] << " plus " << spl[2] << " = " << suff << endl;
   }
 
 }
