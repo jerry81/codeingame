@@ -46,9 +46,22 @@ vector<string> getTabloid(string s1, string s2) {
         bool t1Pass = toTest1 != s1 && toTest1 != s2;
         t1Pass = t1Pass &&
                  (toTest1.size() >= s1.size() || toTest1.size() >= s2.size());
+
+        t1Pass = t1Pass && s1.find(toTest1) == std::string::npos;
+
+        t1Pass = t1Pass && s2.find(toTest1) == std::string::npos;
+
         bool t2Pass = toTest2 != s1 && toTest2 != s2;
+
+
         t2Pass = t2Pass &&
                  (toTest2.size() >= s1.size() || toTest2.size() >= s2.size());
+
+        t2Pass = t2Pass && s2.find(toTest2) == std::string::npos;
+
+        t2Pass = t2Pass && s1.find(toTest2) == std::string::npos;
+
+
         bool valid = t1Pass || t2Pass;
         if (!valid) continue;
         if (offset >= longestMatch) {
@@ -60,6 +73,9 @@ vector<string> getTabloid(string s1, string s2) {
           if (t2Pass) matches.push_back(toTest2);
         }
         // make the two names
+        // Lark
+        // Louis Clark
+        // only L
       }
     }
 
