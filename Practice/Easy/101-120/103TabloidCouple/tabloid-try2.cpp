@@ -45,10 +45,10 @@ vector<string> getTabloid(string s1, string s2) {
         string toTest2 = prefix2 + suffix1;
         bool t1Pass = toTest1 != s1 && toTest1 != s2;
         t1Pass = t1Pass &&
-                 (toTest1.size() >= s1.size() && toTest1.size() >= s2.size());
+                 (toTest1.size() >= s1.size() || toTest1.size() >= s2.size());
         bool t2Pass = toTest2 != s1 && toTest2 != s2;
         t2Pass = t2Pass &&
-                 (toTest2.size() >= s1.size() && toTest2.size() >= s2.size());
+                 (toTest2.size() >= s1.size() || toTest2.size() >= s2.size());
         bool valid = t1Pass || t2Pass;
         if (!valid) continue;
         if (offset >= longestMatch) {
@@ -84,7 +84,7 @@ int main() {
     vector<string> spl = split(a_couple);
     vector<string> res = getTabloid(spl[0], spl[2]);
     string suff = "";
-
+    sort(res.begin(), res.end());
     for (auto a: res) {
       normalize(a);
       suff += a;
