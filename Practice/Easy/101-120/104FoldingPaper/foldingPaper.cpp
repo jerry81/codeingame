@@ -32,20 +32,48 @@ Output
 
 using namespace std;
 
-/**
- * Auto-generated code below aims at helping you parse
- * the standard input according to the problem statement.
- **/
 
 int main()
 {
+    int counts[4] = {1,1,1,1}; // URDL
+    int curdir = -1;
     string order;
     getline(cin, order);
+    // folding order
     string side;
     getline(cin, side);
+    // which side we are viewing from
 
-    // Write an answer using cout. DON'T FORGET THE "<< endl"
-    // To debug: cerr << "Debug messages..." << endl;
+    for (char c: order) {
+      switch (c) {
+        case 'R':
+          cerr << "r " << endl;
+          break;
+        case 'L':
+          cerr << "l " << endl;
+          break;
+        case 'U':
+          cerr << "u " << endl;
+          break;
+        case 'D':
+          cerr << "d " << endl;
+          break;
+        default:
+          cerr << "unhandled " << endl;
+      }
+    }
+
 
     cout << "1" << endl;
 }
+
+// so we have 4 counts to keep track of
+// UL
+// start U1 L1 R1 D1
+// U -> 2 2 2 1
+// L -> 4 4 1 2
+
+// opposite becomes 1
+// target / different axis - doubles
+// target / same axis - adds 1
+// different axis - double
