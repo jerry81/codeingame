@@ -1,7 +1,8 @@
 /*
 
- 	Goal
-A sheet of paper is folded several times. The goal is to determine how many layers of paper are visible from one side of the obtained folding.
+        Goal
+A sheet of paper is folded several times. The goal is to determine how many
+layers of paper are visible from one side of the obtained folding.
 
 Folding motions are:
 R for Right: take the right side and fold it on the left side.
@@ -9,62 +10,79 @@ L for Left: take the left side and fold it on the right side.
 U for Up: take the high side and fold it on the low side.
 D for Down: take the low side and fold it on the high side.
 Input
-Line 1: a fold string order: several letters R, L, U and D with no space in-between
-Line 2: side: a single character R, L, U or D
-Output
-n: the number of layers of paper visible from side
-Constraints
-2 characters ≤ length of order ≤ 8 characters
-(Try to fold a sheet more than 6 times!)
-Example
-Input
-UL
+Line 1: a fold string order: several letters R, L, U and D with no space
+in-between Line 2: side: a single character R, L, U or D Output n: the number of
+layers of paper visible from side Constraints 2 characters ≤ length of order ≤ 8
+characters (Try to fold a sheet more than 6 times!) Example Input UL
 D
 Output
 4
 
 */
 
+#include <algorithm>
 #include <iostream>
 #include <string>
 #include <vector>
-#include <algorithm>
 
 using namespace std;
 
+const static int UP = 0;
+const static int RIGHT = 1;
+const static int DOWN = 2;
+const static int LEFT = 3;
+int main() {
+  int counts[4] = {1, 1, 1, 1};  // URDL
+  int curdir = -1;
 
-int main()
-{
-    int counts[4] = {1,1,1,1}; // URDL
-    int curdir = -1;
-    string order;
-    getline(cin, order);
-    // folding order
-    string side;
-    getline(cin, side);
-    // which side we are viewing from
+  string order;
+  getline(cin, order);
+  // folding order
+  string side;
+  getline(cin, side);
+  // which side we are viewing from
 
-    for (char c: order) {
-      switch (c) {
-        case 'R':
-          cerr << "r " << endl;
-          break;
-        case 'L':
-          cerr << "l " << endl;
-          break;
-        case 'U':
-          cerr << "u " << endl;
-          break;
-        case 'D':
-          cerr << "d " << endl;
-          break;
-        default:
-          cerr << "unhandled " << endl;
+  for (char c : order) {
+    switch (c) {
+      case 'R': {
+        if (curdir == RIGHT) {
+        } else if (curdir == LEFT) {
+        } else if (curdir == DOWN) {
+        } else if (curdir == UP) {
+        } else {
+        }
+        break;
       }
+      case 'L':
+                if (curdir == RIGHT) {
+        } else if (curdir == LEFT) {
+        } else if (curdir == DOWN) {
+        } else if (curdir == UP) {
+        } else {
+        }
+        break;
+      case 'U':
+                if (curdir == RIGHT) {
+        } else if (curdir == LEFT) {
+        } else if (curdir == DOWN) {
+        } else if (curdir == UP) {
+        } else {
+        }
+        break;
+      case 'D':
+                if (curdir == RIGHT) {
+        } else if (curdir == LEFT) {
+        } else if (curdir == DOWN) {
+        } else if (curdir == UP) {
+        } else {
+        }
+        break;
+      default:
+        cerr << "unhandled " << endl;
     }
+  }
 
-
-    cout << "1" << endl;
+  cout << "1" << endl;
 }
 
 // so we have 4 counts to keep track of
