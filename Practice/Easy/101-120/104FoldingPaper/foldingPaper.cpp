@@ -45,117 +45,52 @@ int main() {
   for (char c : order) {
     switch (c) {
       case 'R': {
-        if (curdir == RIGHT) {
-          counts[RIGHT]++;
+        if (curdir >= 0) {
           counts[DOWN] *= 2;
           counts[UP] *= 2;
-          counts[LEFT] = 1;
-        } else if (curdir == LEFT) {
-          counts[RIGHT] = 1;
-          counts[DOWN] *= 2;
-          counts[UP] *= 2;
-          counts[LEFT] += 1;
-        } else if (curdir == DOWN) {
-                    cerr << "2" << endl;
-          counts[RIGHT]=1;
-          counts[DOWN]*=2;
-          counts[UP]*=2;
-          counts[LEFT] *= 2;
-        } else if (curdir == UP) {
-          counts[RIGHT] *= 2;
-          counts[DOWN] = 1;
-          counts[UP] += 1;
-          counts[LEFT] *= 2;
+          counts[LEFT] += counts[RIGHT];
         } else {
-          counts[RIGHT] = 2;
+          counts[LEFT] = 2;
           counts[DOWN] = 2;
           counts[UP] = 2;
         }
+        counts[RIGHT] = 1;
         curdir = RIGHT;
         break;
       }
       case 'L': {
-        if (curdir == RIGHT) {
-          counts[RIGHT] = 1;
-          counts[DOWN] *= 2;
-          counts[UP] *= 2;
-          counts[LEFT] = 1;
-        } else if (curdir == LEFT) {
-          counts[LEFT]++;
-          counts[DOWN] *= 2;
-          counts[UP] *= 2;
-          counts[RIGHT] = 1;
-        } else if (curdir == DOWN) {
-          counts[RIGHT] = 1;
-          counts[DOWN] += 1;
-          counts[UP] = 1;
-          counts[LEFT] *= 2;
-        } else if (curdir == UP) {
-                    cerr << "4" << endl;
+        if (curdir >= 0) {
           // cross-axis
           counts[DOWN] *= 2;
           counts[UP] *= 2;
           counts[RIGHT] += counts[LEFT];
-          counts[LEFT]=1;
         } else {
-          counts[LEFT] = 2;
+          counts[RIGHT] = 2;
           counts[DOWN] = 2;
           counts[UP] = 2;
         }
+        counts[LEFT] = 1;
         curdir = LEFT;
         break;
       }
       case 'U': {
-        if (curdir == RIGHT) {
-                    cerr << "3" << endl;
-          counts[RIGHT] *=2;
+        if (curdir >= 0) {
+          counts[RIGHT] *= 2;
           counts[DOWN] += counts[UP];
-          counts[UP] = 1;
-          counts[LEFT] *=2;
-        } else if (curdir == LEFT) {
-          counts[RIGHT] = 1;
-          counts[DOWN] *= 2;
-          counts[UP] *= 2;
-          counts[LEFT] += 1;
-        } else if (curdir == DOWN) {
-          counts[RIGHT] *= 2;
-          counts[DOWN] += 1;
-          counts[UP] = 1;
           counts[LEFT] *= 2;
-        } else if (curdir == UP) {
-          counts[LEFT] *= 2;
-          counts[DOWN] = 1;
-          counts[UP]++;
-          counts[RIGHT] *= 2;
         } else {
-          cerr << "case 1 " << endl;
           counts[DOWN] = 2;
           counts[LEFT] = 2;
           counts[RIGHT] = 2;
         }
+        counts[UP] = 1;
         curdir = UP;
         break;
       }
       case 'D': {
-        if (curdir == RIGHT) {
-          counts[RIGHT] += 1;
-          counts[DOWN] *= 2;
-          counts[UP] *= 2;
-          counts[LEFT] = 1;
-        } else if (curdir == LEFT) {
-          counts[RIGHT] = 1;
-          counts[DOWN] *= 2;
-          counts[UP] *= 2;
-          counts[LEFT] += 1;
-        } else if (curdir == DOWN) {
+        if (curdir >= 0) {
           counts[LEFT] *= 2;
-          counts[DOWN] += 1;
-          counts[UP] = 1;
-          counts[RIGHT] *= 2;
-        } else if (curdir == UP) {
-          counts[LEFT] *= 2;
-          counts[DOWN] = 1;
-          counts[UP] += 1;
+          counts[UP] += counts[DOWN];
           counts[RIGHT] *= 2;
         } else {
           cerr << "1" << endl;
@@ -163,6 +98,7 @@ int main() {
           counts[UP] = 2;
           counts[LEFT] = 2;
         }
+        counts[DOWN] = 1;
         curdir = DOWN;
         break;
       }
@@ -188,7 +124,8 @@ int main() {
       resDir = 3;
       break;
     }
-    default: {}
+    default: {
+    }
   }
 
   cout << counts[resDir] << endl;
