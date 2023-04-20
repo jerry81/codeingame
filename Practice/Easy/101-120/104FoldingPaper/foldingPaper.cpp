@@ -50,39 +50,75 @@ int main() {
         } else if (curdir == DOWN) {
         } else if (curdir == UP) {
         } else {
+          counts[RIGHT] = 2;
+          counts[DOWN] = 2;
+          counts[UP] = 2;
         }
+        curdir = RIGHT;
         break;
       }
       case 'L':
-                if (curdir == RIGHT) {
+        if (curdir == RIGHT) {
         } else if (curdir == LEFT) {
         } else if (curdir == DOWN) {
         } else if (curdir == UP) {
         } else {
+          counts[LEFT] = 2;
+          counts[DOWN] = 2;
+          counts[UP] = 2;
         }
+        curdir = LEFT;
         break;
       case 'U':
-                if (curdir == RIGHT) {
+        if (curdir == RIGHT) {
         } else if (curdir == LEFT) {
         } else if (curdir == DOWN) {
         } else if (curdir == UP) {
         } else {
+          counts[UP] = 2;
+          counts[LEFT] = 2;
+          counts[RIGHT] = 2;
         }
+        curdir = UP;
         break;
       case 'D':
-                if (curdir == RIGHT) {
+        if (curdir == RIGHT) {
         } else if (curdir == LEFT) {
         } else if (curdir == DOWN) {
         } else if (curdir == UP) {
         } else {
+          counts[RIGHT] = 2;
+          counts[DOWN] = 2;
+          counts[LEFT] = 2;
         }
+        curdir = DOWN;
         break;
       default:
         cerr << "unhandled " << endl;
     }
   }
+  int resDir;
+  switch (side[0]) {
+    case 'U': {
+      resDir = 0;
+      break;
+    }
+    case 'R': {
+      resDir = 1;
+      break;
+    }
+    case 'D': {
+      resDir = 2;
+      break;
+    }
+    case 'L': {
+      resDir = 3;
+      break;
+    }
+    default:
+  }
 
-  cout << "1" << endl;
+  cout << counts[resDir] << endl;
 }
 
 // so we have 4 counts to keep track of
