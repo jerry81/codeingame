@@ -46,9 +46,25 @@ int main() {
     switch (c) {
       case 'R': {
         if (curdir == RIGHT) {
+          counts[RIGHT]++;
+          counts[DOWN] *= 2;
+          counts[UP] *= 2;
+          counts[LEFT] = 1;
         } else if (curdir == LEFT) {
+          counts[RIGHT] = 1;
+          counts[DOWN] *= 2;
+          counts[UP] *= 2;
+          counts[LEFT] += 1;
         } else if (curdir == DOWN) {
+          counts[RIGHT] *= 2;
+          counts[DOWN] += 1;
+          counts[UP] = 1;
+          counts[LEFT] *= 2;
         } else if (curdir == UP) {
+          counts[RIGHT] *= 2;
+          counts[DOWN] = 1;
+          counts[UP] += 1;
+          counts[LEFT] *= 2;
         } else {
           counts[RIGHT] = 2;
           counts[DOWN] = 2;
@@ -57,11 +73,28 @@ int main() {
         curdir = RIGHT;
         break;
       }
-      case 'L':
+      case 'L': {
         if (curdir == RIGHT) {
+          counts[RIGHT] = 1;
+          counts[DOWN] *= 2;
+          counts[UP] *= 2;
+          counts[LEFT] = 1;
         } else if (curdir == LEFT) {
+          counts[LEFT]++;
+          counts[DOWN] *= 2;
+          counts[UP] *= 2;
+          counts[RIGHT] = 1;
         } else if (curdir == DOWN) {
+          counts[RIGHT] = 1;
+          counts[DOWN] += 1;
+          counts[UP] = 1;
+          counts[LEFT] *= 2;
         } else if (curdir == UP) {
+          // cross-axis
+          counts[LEFT]=1;
+          counts[DOWN] *= 2;
+          counts[UP] *= 2;
+          counts[RIGHT] *= 2;
         } else {
           counts[LEFT] = 2;
           counts[DOWN] = 2;
@@ -69,30 +102,67 @@ int main() {
         }
         curdir = LEFT;
         break;
-      case 'U':
+      }
+      case 'U': {
+
         if (curdir == RIGHT) {
+          counts[RIGHT] += 1;
+          counts[DOWN] *= 2;
+          counts[UP] *= 2;
+          counts[LEFT] = 1;
         } else if (curdir == LEFT) {
+          counts[RIGHT] = 1;
+          counts[DOWN] *= 2;
+          counts[UP] *= 2;
+          counts[LEFT] += 1;
         } else if (curdir == DOWN) {
+          counts[RIGHT] *= 2;
+          counts[DOWN] += 1;
+          counts[UP] = 1;
+          counts[LEFT] *= 2;
         } else if (curdir == UP) {
+          counts[LEFT] *= 2;
+          counts[DOWN] = 1;
+          counts[UP]++;
+          counts[RIGHT] *= 2;
         } else {
-          counts[UP] = 2;
+          cerr << "case 1 " << endl;
+          counts[DOWN] = 2;
           counts[LEFT] = 2;
           counts[RIGHT] = 2;
         }
         curdir = UP;
         break;
-      case 'D':
+      }
+      case 'D': {
         if (curdir == RIGHT) {
+          counts[RIGHT] += 1;
+          counts[DOWN] *= 2;
+          counts[UP] *= 2;
+          counts[LEFT] = 1;
         } else if (curdir == LEFT) {
+          counts[RIGHT] = 1;
+          counts[DOWN] *= 2;
+          counts[UP] *= 2;
+          counts[LEFT] += 1;
         } else if (curdir == DOWN) {
+          counts[LEFT] *= 2;
+          counts[DOWN] += 1;
+          counts[UP] = 1;
+          counts[RIGHT] *= 2;
         } else if (curdir == UP) {
+          counts[LEFT] *= 2;
+          counts[DOWN] = 1;
+          counts[UP] += 1;
+          counts[RIGHT] *= 2;
         } else {
           counts[RIGHT] = 2;
-          counts[DOWN] = 2;
+          counts[UP] = 2;
           counts[LEFT] = 2;
         }
         curdir = DOWN;
         break;
+      }
       default:
         cerr << "unhandled " << endl;
     }
@@ -115,7 +185,7 @@ int main() {
       resDir = 3;
       break;
     }
-    default:
+    default: {}
   }
 
   cout << counts[resDir] << endl;
