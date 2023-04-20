@@ -56,9 +56,10 @@ int main() {
           counts[UP] *= 2;
           counts[LEFT] += 1;
         } else if (curdir == DOWN) {
-          counts[RIGHT] *= 2;
-          counts[DOWN] += 1;
-          counts[UP] = 1;
+                    cerr << "2" << endl;
+          counts[RIGHT]=1;
+          counts[DOWN]*=2;
+          counts[UP]*=2;
           counts[LEFT] *= 2;
         } else if (curdir == UP) {
           counts[RIGHT] *= 2;
@@ -90,11 +91,12 @@ int main() {
           counts[UP] = 1;
           counts[LEFT] *= 2;
         } else if (curdir == UP) {
+                    cerr << "4" << endl;
           // cross-axis
-          counts[LEFT]=1;
           counts[DOWN] *= 2;
           counts[UP] *= 2;
-          counts[RIGHT] *= 2;
+          counts[RIGHT] += counts[LEFT];
+          counts[LEFT]=1;
         } else {
           counts[LEFT] = 2;
           counts[DOWN] = 2;
@@ -104,12 +106,12 @@ int main() {
         break;
       }
       case 'U': {
-
         if (curdir == RIGHT) {
-          counts[RIGHT] += 1;
-          counts[DOWN] *= 2;
-          counts[UP] *= 2;
-          counts[LEFT] = 1;
+                    cerr << "3" << endl;
+          counts[RIGHT] *=2;
+          counts[DOWN] += counts[UP];
+          counts[UP] = 1;
+          counts[LEFT] *=2;
         } else if (curdir == LEFT) {
           counts[RIGHT] = 1;
           counts[DOWN] *= 2;
@@ -156,6 +158,7 @@ int main() {
           counts[UP] += 1;
           counts[RIGHT] *= 2;
         } else {
+          cerr << "1" << endl;
           counts[RIGHT] = 2;
           counts[UP] = 2;
           counts[LEFT] = 2;
@@ -201,3 +204,5 @@ int main() {
 // target / different axis - doubles
 // target / same axis - adds 1
 // different axis - double
+
+// DRUL
