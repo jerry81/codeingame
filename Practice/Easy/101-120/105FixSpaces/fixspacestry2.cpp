@@ -53,7 +53,23 @@ vector<string> split(string str, char* delimiter = " ") {
   return ret;
 }
 
-void solvecountR(string remainstring, vector<string> remainwords, vector<string> solutions&) {
+void solvecountR(string remainstring, vector<string> remainwords, string curstring, vector<string>& solutions) {
+  if (remainstring.size() == 0 && remainwords.size() == 0) {
+    solutions.push_back(curstring);
+    return;
+  }
+  bool hit = false;
+  for (int i = 0; i < remainwords.size(); ++i) {
+    int testSize = remainwords[i].size();
+    string substr = remainstring.substr(0,testSize);
+    vector<string> copied = remainwords;
+    if (substr == remainwords[i]) {
+      hit = true;
+      copied.erase(copied.begin()+i);
+      solvecountR(remainstring.substr(testSize+1), copied, curstring+"substr ", solutions);
+    }
+    if (!hit) return;
+  }
 }
 
 int main()
@@ -64,7 +80,7 @@ int main()
     getline(cin, words);
     vector<string> spl = split(words, " ");
     vector<string> solutions;
-    solvecountR(original, spl, solutions);
+    solvecountR(original, spl, "", solutions);
     if (solutions.size() == 1) {
       cout << solutions[0] << endl;
     } else {
