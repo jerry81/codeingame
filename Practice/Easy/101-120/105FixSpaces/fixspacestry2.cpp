@@ -54,21 +54,22 @@ vector<string> split(string str, char* delimiter = " ") {
 }
 
 void solvecountR(string remainstring, vector<string> remainwords, string curstring, vector<string>& solutions) {
+  cerr << "remain string is " << remainstring << endl;
   if (remainstring.size() == 0 && remainwords.size() == 0) {
     solutions.push_back(curstring);
     return;
   }
-  bool hit = false;
+
   for (int i = 0; i < remainwords.size(); ++i) {
+    vector<string> copied = remainwords;
     int testSize = remainwords[i].size();
     string substr = remainstring.substr(0,testSize);
-    vector<string> copied = remainwords;
+
+    cerr << "comparing " << substr << " and " << remainwords[i] << endl;
     if (substr == remainwords[i]) {
-      hit = true;
       copied.erase(copied.begin()+i);
-      solvecountR(remainstring.substr(testSize+1), copied, curstring+"substr ", solutions);
+      solvecountR(remainstring.substr(testSize), copied, curstring+substr+" ", solutions);
     }
-    if (!hit) return;
   }
 }
 
@@ -81,7 +82,12 @@ int main()
     vector<string> spl = split(words, " ");
     vector<string> solutions;
     solvecountR(original, spl, "", solutions);
+    cerr << "printing solutions" << endl;
+    for (auto a: solutions) {
+        cerr << "sol is " << a << endl;
+    }
     if (solutions.size() == 1) {
+      solutions[0].pop_back();
       cout << solutions[0] << endl;
     } else {
       cout << "Unsolvable" << endl;
