@@ -1,16 +1,20 @@
 /*
 
-	Goal
-You are given two strings, the first contains the original sentence, with words in the right order but no spaces. The second has the words in random order but with spaces to differentiate them. Fix the original sentence by adding spaces where they should be.
+        Goal
+You are given two strings, the first contains the original sentence, with words
+in the right order but no spaces. The second has the words in random order but
+with spaces to differentiate them. Fix the original sentence by adding spaces
+where they should be.
 
-Every test has at least one solution, but there are some cases where the original sentence can not unambiguously be deciphered. In those cases print Unsolvable.
+Every test has at least one solution, but there are some cases where the
+original sentence can not unambiguously be deciphered. In those cases print
+Unsolvable.
 
-NB: Tests 1-14 cover simple cases and should help you debug your program. Tests 15-16 check the performance.
-Input
-Line 1 : A string. The original sentence, with words in the right order but no spaces.
-Line 2 : A string containing the words in random order but with spaces to differentiate them.
-Output
-The original sentence with the necessary spaces added to it or the string Unsolvable.
+NB: Tests 1-14 cover simple cases and should help you debug your program. Tests
+15-16 check the performance. Input Line 1 : A string. The original sentence,
+with words in the right order but no spaces. Line 2 : A string containing the
+words in random order but with spaces to differentiate them. Output The original
+sentence with the necessary spaces added to it or the string Unsolvable.
 Constraints
 The original string only contains uppercase letters.
 The words string only contains uppercase letters and spaces.
@@ -26,22 +30,20 @@ ABC DEF GHI J
 
 */
 
-#include <iostream>
-#include <string>
-#include <vector>
 #include <algorithm>
 #include <cstring>
+#include <iostream>
+#include <string>
 #include <unordered_map>
+#include <vector>
 
 using namespace std;
-
-
 
 vector<string> split(string str, char* delimiter = " ") {
   // Returns first token
   vector<string> ret;
 
-  char *token = strtok(str.data(), delimiter);
+  char* token = strtok(str.data(), delimiter);
 
   // Keep printing tokens while one of the
   // delimiters present in str[].
@@ -53,8 +55,8 @@ vector<string> split(string str, char* delimiter = " ") {
   return ret;
 }
 
-void solvecountR(string remainstring, vector<string> remainwords, string curstring, vector<string>& solutions) {
-  cerr << "remain string is " << remainstring << endl;
+void solvecountR(string remainstring, vector<string> remainwords,
+                 string curstring, vector<string>& solutions) {
   if (remainstring.size() == 0 && remainwords.size() == 0) {
     solutions.push_back(curstring);
     return;
@@ -63,42 +65,37 @@ void solvecountR(string remainstring, vector<string> remainwords, string curstri
   for (int i = 0; i < remainwords.size(); ++i) {
     vector<string> copied = remainwords;
     int testSize = remainwords[i].size();
-    string substr = remainstring.substr(0,testSize);
+    string substr = remainstring.substr(0, testSize);
 
-    cerr << "comparing " << substr << " and " << remainwords[i] << endl;
     if (substr == remainwords[i]) {
-      copied.erase(copied.begin()+i);
-      solvecountR(remainstring.substr(testSize), copied, curstring+substr+" ", solutions);
+      copied.erase(copied.begin() + i);
+      solvecountR(remainstring.substr(testSize), copied,
+                  curstring + substr + " ", solutions);
     }
   }
 }
 
-int main()
-{
-    string original;
-    getline(cin, original);
-    string words;
-    getline(cin, words);
-    vector<string> spl = split(words, " ");
-    vector<string> solutions;
-    solvecountR(original, spl, "", solutions);
-    cerr << "printing solutions" << endl;
-    for (auto a: solutions) {
-        cerr << "sol is " << a << endl;
+int main() {
+  string original;
+  getline(cin, original);
+  string words;
+  getline(cin, words);
+  vector<string> spl = split(words, " ");
+  vector<string> solutions;
+  solvecountR(original, spl, "", solutions);
+
+  // look for uniqueness
+  string first = solutions[0];
+  for (int i = 1; i < solutions.size(); ++i) {
+    if (solutions[i] != first) {
+         cout << "Unsolvable" << endl;
+         return 0;
     }
-    if (solutions.size() == 1) {
-      solutions[0].pop_back();
-      cout << solutions[0] << endl;
-    } else {
-      // look for uniqueness
-      string first = solutions[0];
-      for (int i = 1; i < solutions.size(); ++i) {
-        if (solutions[i] != first) cout << "Unsolvable" << endl;
-      }
-      solutions[0].pop_back();
-      cout << solutions[0] << endl;
-    }
-    return 0;
+  }
+  solutions[0].pop_back();
+  cout << solutions[0] << endl;
+
+  return 0;
 }
 
 // ABCAFEAHI
@@ -108,7 +105,6 @@ int main()
 //       A
 //  H    F     B
 //  I    E     C
-
 
 /*
 
