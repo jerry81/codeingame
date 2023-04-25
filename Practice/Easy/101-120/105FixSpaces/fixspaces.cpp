@@ -38,7 +38,7 @@ using namespace std;
 
 struct TrieNode {
   unordered_map<char, TrieNode*> children;
-  string path;
+  string path = "";
 };
 
 vector<string> split(string str, char* delimiter = " ") {
@@ -59,17 +59,42 @@ vector<string> split(string str, char* delimiter = " ") {
 
 int main()
 {
-    unordered_map<char, TrieNode*> trie;
+    TrieNode* root = new TrieNode();
     string original;
     getline(cin, original);
     string words;
     getline(cin, words);
     vector<string> spl = split(words, " ");
-    for (string s: spl) cerr << "word is " << s << endl;
-    // Write an answer using cout. DON'T FORGET THE "<< endl"
-    // To debug: cerr << "Debug messages..." << endl;
 
-    cout << "original sentence with spaces" << endl;
+    for (string s: spl) {
+      TrieNode* cur = root;
+
+      for (char c: s) {
+        if (cur->children.find(c) == cur->children.end()) {
+          cur->children[c] = new TrieNode();
+          cur->children[c]->path = s;
+        }
+
+        cur = cur->children[c];
+      }
+    }
+    string ret = "";
+    TrieNode* cur = root;
+    for (char c: original) {
+      if (cur->children.find(c) == cur->children.end()) {
+        ret += ' ';
+        cur = root;
+      }
+
+      if (cur->children.find(c) == cur->children.end()) {
+        cout << "Unsolvable" << endl;
+      }
+
+
+      ret += c;
+      cur = cur->children[c];
+    }
+    cout << ret << endl;
 }
 
 // ABCAFEAHI
