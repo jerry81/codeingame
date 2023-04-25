@@ -90,7 +90,13 @@ int main()
       solutions[0].pop_back();
       cout << solutions[0] << endl;
     } else {
-      cout << "Unsolvable" << endl;
+      // look for uniqueness
+      string first = solutions[0];
+      for (int i = 1; i < solutions.size(); ++i) {
+        if (solutions[i] != first) cout << "Unsolvable" << endl;
+      }
+      solutions[0].pop_back();
+      cout << solutions[0] << endl;
     }
     return 0;
 }
