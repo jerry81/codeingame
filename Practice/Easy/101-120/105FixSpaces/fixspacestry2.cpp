@@ -36,10 +36,6 @@ ABC DEF GHI J
 using namespace std;
 
 
-struct TrieNode {
-  unordered_map<char, TrieNode*> children;
-  string path = "";
-};
 
 vector<string> split(string str, char* delimiter = " ") {
   // Returns first token
@@ -57,44 +53,24 @@ vector<string> split(string str, char* delimiter = " ") {
   return ret;
 }
 
+void solvecountR(string remainstring, vector<string> remainwords, vector<string> solutions&) {
+}
+
 int main()
 {
-    TrieNode* root = new TrieNode();
     string original;
     getline(cin, original);
     string words;
     getline(cin, words);
     vector<string> spl = split(words, " ");
-
-    for (string s: spl) {
-      TrieNode* cur = root;
-
-      for (char c: s) {
-        if (cur->children.find(c) == cur->children.end()) {
-          cur->children[c] = new TrieNode();
-          cur->children[c]->path = s;
-        }
-
-        cur = cur->children[c];
-      }
+    vector<string> solutions;
+    solvecountR(original, spl, solutions);
+    if (solutions.size() == 1) {
+      cout << solutions[0] << endl;
+    } else {
+      cout << "Unsolvable" << endl;
     }
-    string ret = "";
-    TrieNode* cur = root;
-    for (char c: original) {
-      if (cur->children.find(c) == cur->children.end()) {
-        ret += ' ';
-        cur = root;
-      }
-
-      if (cur->children.find(c) == cur->children.end()) {
-        cout << "Unsolvable" << endl;
-      }
-
-
-      ret += c;
-      cur = cur->children[c];
-    }
-    cout << ret << endl;
+    return 0;
 }
 
 // ABCAFEAHI
