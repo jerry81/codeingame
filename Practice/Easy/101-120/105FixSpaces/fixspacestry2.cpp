@@ -36,6 +36,7 @@ ABC DEF GHI J
 #include <string>
 #include <unordered_map>
 #include <vector>
+#include <set>
 
 using namespace std;
 
@@ -56,9 +57,9 @@ vector<string> split(string str, char* delimiter = " ") {
 }
 
 void solvecountR(string remainstring, vector<string> remainwords,
-                 string curstring, vector<string>& solutions) {
+                 string curstring, set<string>& solutions) {
   if (remainstring.size() == 0 && remainwords.size() == 0) {
-    solutions.push_back(curstring);
+    solutions.insert(curstring);
     return;
   }
 
@@ -81,19 +82,18 @@ int main() {
   string words;
   getline(cin, words);
   vector<string> spl = split(words, " ");
-  vector<string> solutions;
+  set<string> solutions;
   solvecountR(original, spl, "", solutions);
 
-  // look for uniqueness
-  string first = solutions[0];
-  for (int i = 1; i < solutions.size(); ++i) {
-    if (solutions[i] != first) {
-         cout << "Unsolvable" << endl;
-         return 0;
+  if (solutions.size() == 1) {
+    for (auto a: solutions) {
+        a.pop_back();
+        cout << a << endl;
     }
+  } else {
+    cout << "Unsolvable" << endl;
   }
-  solutions[0].pop_back();
-  cout << solutions[0] << endl;
+
 
   return 0;
 }
