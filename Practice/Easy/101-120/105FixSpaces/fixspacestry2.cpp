@@ -120,3 +120,7 @@ fails at: AB ABCD CDE ABCD
 // brute force
 
 // try fitting each
+
+// optimization options
+// index by first letter
+// then instead of deleting from array, we can just "mark" items as visited using bool
