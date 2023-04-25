@@ -30,23 +30,52 @@ ABC DEF GHI J
 #include <string>
 #include <vector>
 #include <algorithm>
+#include <cstring>
+#include <unordered_map>
 
 using namespace std;
 
-/**
- * Auto-generated code below aims at helping you parse
- * the standard input according to the problem statement.
- **/
+
+struct TrieNode {
+  unordered_map<char, TrieNode*> children;
+  string path;
+};
+
+vector<string> split(string str, char* delimiter = " ") {
+  // Returns first token
+  vector<string> ret;
+
+  char *token = strtok(str.data(), delimiter);
+
+  // Keep printing tokens while one of the
+  // delimiters present in str[].
+  while (token != nullptr) {
+    ret.push_back(token);
+    token = strtok(nullptr, " ");
+  }
+
+  return ret;
+}
 
 int main()
 {
+    unordered_map<char, TrieNode*> trie;
     string original;
     getline(cin, original);
     string words;
     getline(cin, words);
-
+    vector<string> spl = split(words, " ");
+    for (string s: spl) cerr << "word is " << s << endl;
     // Write an answer using cout. DON'T FORGET THE "<< endl"
     // To debug: cerr << "Debug messages..." << endl;
 
     cout << "original sentence with spaces" << endl;
 }
+
+// ABCAFEAHI
+// AHI AFE ABC
+
+// build trie?
+//       A
+//  H    F     B
+//  I    E     C
