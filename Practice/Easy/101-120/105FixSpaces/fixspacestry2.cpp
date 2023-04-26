@@ -69,9 +69,10 @@ void solvecountR(string remainstring,
   char fl = remainstring[0];
   if (remainwords.find(fl) == remainwords.end()) return;
 
-  unordered_map<char, vector<string>> nextmap = remainwords;
   vector<string> candidates = remainwords[fl];
   for (int i = 0; i < candidates.size(); ++i) {
+    unordered_map<char, vector<string>> nextmap = remainwords;
+
     string curword = candidates[i];
     int testSize = curword.size();
     string substr = remainstring.substr(0, testSize);
