@@ -33,12 +33,14 @@ ABC DEF GHI J
 #include <algorithm>
 #include <cstring>
 #include <iostream>
+#include <set>
 #include <string>
 #include <unordered_map>
 #include <vector>
-#include <set>
 
 using namespace std;
+
+unordered_map<char, vector<string>> stringmap;
 
 vector<string> split(string str, char* delimiter = " ") {
   // Returns first token
@@ -56,16 +58,21 @@ vector<string> split(string str, char* delimiter = " ") {
   return ret;
 }
 
-void solvecountR(string remainstring, vector<string> remainwords,
+void solvecountR(string remainstring,
+                 unordered_map<char, vector<string>> remainwords,
                  string curstring, set<string>& solutions) {
   if (remainstring.size() == 0 && remainwords.size() == 0) {
     solutions.insert(curstring);
     return;
   }
 
+  char fl = remainstring[0];
+
   for (int i = 0; i < remainwords.size(); ++i) {
+    string curword = remainwords[i];
+    if (curword[0] != fl) continue;
     vector<string> copied = remainwords;
-    int testSize = remainwords[i].size();
+    int testSize = curword.size();
     string substr = remainstring.substr(0, testSize);
 
     if (substr == remainwords[i]) {
@@ -76,24 +83,36 @@ void solvecountR(string remainstring, vector<string> remainwords,
   }
 }
 
+void processStrings(vector<string> spl) {
+  for (string s : spl) {
+    char first = s[0];
+    if (stringmap.find(first) == stringmap.end()) {
+      vector<string> emp;
+      stringmap[first] = emp;
+    }
+    stringmap[first].push_back(s);
+  }
+}
+
 int main() {
   string original;
   getline(cin, original);
   string words;
   getline(cin, words);
   vector<string> spl = split(words, " ");
+  processStrings(spl);
   set<string> solutions;
-  solvecountR(original, spl, "", solutions);
+
+  solvecountR(original, stringmap, "", solutions);
 
   if (solutions.size() == 1) {
-    for (auto a: solutions) {
-        a.pop_back();
-        cout << a << endl;
+    for (auto a : solutions) {
+      a.pop_back();
+      cout << a << endl;
     }
   } else {
     cout << "Unsolvable" << endl;
   }
-
 
   return 0;
 }
@@ -123,4 +142,5 @@ fails at: AB ABCD CDE ABCD
 
 // optimization options
 // index by first letter
-// then instead of deleting from array, we can just "mark" items as visited using bool
+// then instead of deleting from array, we can just "mark" items as visited
+// using bool
