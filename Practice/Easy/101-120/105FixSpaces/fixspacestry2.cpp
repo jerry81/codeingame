@@ -60,14 +60,15 @@ vector<string> split(string str, char* delimiter = " ") {
 
 void solvecountR(string remainstring,
                  unordered_map<char, vector<string>> remainwords,
-                 string curstring, set<string>& solutions) {
-  if (remainstring.size() == 0 && remainwords.size() == 0) {
+                 string curstring, set<string>& solutions, int remainingSize) {
+  if (remainstring.size() == 0 && remainingSize == 0) {
     solutions.insert(curstring);
     return;
   }
 
   char fl = remainstring[0];
   if (remainwords.find(fl) == remainwords.end()) return;
+
   unordered_map<char, vector<string>> nextmap = remainwords;
   vector<string> candidates = remainwords[fl];
   for (int i = 0; i < candidates.size(); ++i) {
@@ -78,7 +79,7 @@ void solvecountR(string remainstring,
     if (substr == curword) {
       nextmap[fl].erase(nextmap[fl].begin() + i);
       solvecountR(remainstring.substr(testSize), nextmap,
-                  curstring + substr + " ", solutions);
+                  curstring + substr + " ", solutions, remainingSize-1);
     }
   }
 }
@@ -103,7 +104,7 @@ int main() {
   processStrings(spl);
   set<string> solutions;
 
-  solvecountR(original, stringmap, "", solutions);
+  solvecountR(original, stringmap, "", solutions, spl.size());
 
   if (solutions.size() == 1) {
     for (auto a : solutions) {
