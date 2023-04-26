@@ -67,17 +67,17 @@ void solvecountR(string remainstring,
   }
 
   char fl = remainstring[0];
-
-  for (int i = 0; i < remainwords.size(); ++i) {
-    string curword = remainwords[i];
-    if (curword[0] != fl) continue;
-    vector<string> copied = remainwords;
+  if (remainwords.find(fl) == remainwords.end()) return;
+  unordered_map<char, vector<string>> nextmap = remainwords;
+  vector<string> candidates = remainwords[fl];
+  for (int i = 0; i < candidates.size(); ++i) {
+    string curword = candidates[i];
     int testSize = curword.size();
     string substr = remainstring.substr(0, testSize);
 
-    if (substr == remainwords[i]) {
-      copied.erase(copied.begin() + i);
-      solvecountR(remainstring.substr(testSize), copied,
+    if (substr == curword) {
+      nextmap[fl].erase(nextmap[fl].begin() + i);
+      solvecountR(remainstring.substr(testSize), nextmap,
                   curstring + substr + " ", solutions);
     }
   }
