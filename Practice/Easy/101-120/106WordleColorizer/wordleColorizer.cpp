@@ -19,7 +19,7 @@ int main()
     string answer;
     getline(cin, answer);
     for (char c: answer) {
-      presence_lookup[c] = true;
+      presence_lookup[c]++;
     }
     int n;
     cin >> n; cin.ignore();
@@ -27,15 +27,21 @@ int main()
         unordered_map<char, int> lookup = presence_lookup;
         string attempt;
         getline(cin, attempt);
-        string ans = "";
+        string ans = "zzzzz";
         for (int i = 0; i < attempt.size(); ++i) {
           if (answer[i] == attempt[i]) {
-            ans+='#';
-          } else if (lookup[attempt[i]] > 0) {
-            ans+= 'O';
+            ans[i] = '#';
+            lookup[attempt[i]]--;
+          }
+        }
+        for (int i = 0; i < attempt.size(); ++i) {
+          if (answer[i] == attempt[i]) continue;
+
+          if (lookup[attempt[i]] > 0) {
+            ans[i] = 'O';
             lookup[attempt[i]]--;
           } else {
-            ans+= 'X';
+            ans[i] = 'X';
           }
         }
         cout << ans << endl;
@@ -43,3 +49,5 @@ int main()
 }
 
 // 2 maps, position, presence
+
+// problem - word in correct spot should take precedence over the other thing, so two loops
