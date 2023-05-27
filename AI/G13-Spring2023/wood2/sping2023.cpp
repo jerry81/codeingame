@@ -24,12 +24,22 @@ int main()
         int neigh_4;
         int neigh_5;
         cin >> type >> initial_resources >> neigh_0 >> neigh_1 >> neigh_2 >> neigh_3 >> neigh_4 >> neigh_5; cin.ignore();
+        cerr << "type " << type << endl;
+                cerr << "neigh_0 " << neigh_0 << endl;
+                cerr << "neigh_1 " << neigh_1 << endl;
+                cerr << "neigh_2 " << neigh_2 << endl;
+                cerr << "neigh_3 " << neigh_3 << endl;
+                cerr << "neigh_4 " << neigh_4 << endl;
+                cerr << "neigh_5 " << neigh_5 << endl;
+
     }
     int number_of_bases;
+    int baseIdx = 0;
     cin >> number_of_bases; cin.ignore();
     for (int i = 0; i < number_of_bases; i++) {
         int my_base_index;
         cin >> my_base_index; cin.ignore();
+        baseIdx = my_base_index;
     }
     for (int i = 0; i < number_of_bases; i++) {
         int opp_base_index;
@@ -38,18 +48,31 @@ int main()
 
     // game loop
     while (1) {
+        int maxR = 0;
+        int maxIdx = 0;
         for (int i = 0; i < number_of_cells; i++) {
+
             int resources; // the current amount of eggs/crystals on this cell
             int my_ants; // the amount of your ants on this cell
             int opp_ants; // the amount of opponent ants on this cell
             cin >> resources >> my_ants >> opp_ants; cin.ignore();
+            cerr << "resources " << resources << endl;
+                        cerr << "myants " << my_ants << endl;
+            if (resources > maxR) {
+                maxR = resources;
+                maxIdx = i;
+            }
         }
 
-        // Write an action using cout. DON'T FORGET THE "<< endl"
-        // To debug: cerr << "Debug messages..." << endl;
 
 
         // WAIT | LINE <sourceIdx> <targetIdx> <strength> | BEACON <cellIdx> <strength> | MESSAGE <text>
-        cout << "WAIT" << endl;
+        cout << "LINE " + to_string(maxIdx) + " " + to_string(baseIdx) + " 5;" << endl;
     }
 }
+
+/*
+
+step 1: naive - put beacon on first available resource
+
+*/
