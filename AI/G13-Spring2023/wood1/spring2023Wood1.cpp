@@ -1,15 +1,15 @@
 #include <algorithm>
 #include <iostream>
+#include <queue>
 #include <string>
 #include <vector>
-#include <queue>
 
 using namespace std;
 vector<vector<int>> neighbors;
 vector<int> resourceMap;
 int _size;
 
-int bfs(int start) {
+int bfs(int start, vector<int> ignore) {
   vector<bool> visited(_size, false);
   queue<int> nn;
   visited[start] = true;
@@ -18,13 +18,23 @@ int bfs(int start) {
     int cur = nn.front();
     nn.pop();
 
-    if (resourceMap[cur] > 0) return cur;
+    if (resourceMap[cur] > 0) {
+      if (ignore.empty() ||
+          find(ignore.begin(), ignore.end(), cur) == ignore.end()) {
+        return cur;
+      }
+    }
 
-    for (int n: neighbors[cur]) {
+    for (int n : neighbors[cur]) {
       if (!visited[n]) nn.push(n);
     }
   }
   return start;
+}
+
+string writeLine(int start, int end, int weight) {
+  return "LINE " + to_string(start) + " " + to_string(end) + " " +
+         to_string(weight) + ";";
 }
 
 int main() {
@@ -55,7 +65,6 @@ int main() {
     }
   }
 
-
   int number_of_bases;
   int baseIdx = 0;
   cin >> number_of_bases;
@@ -72,7 +81,6 @@ int main() {
     cin.ignore();
   }
 
-
   // game loop
   while (1) {
     for (int i = 0; i < _size; i++) {
@@ -85,12 +93,18 @@ int main() {
     }
 
     // bfs to get closest resource to base.
-    int closest = bfs(baseIdx);
+    vector<int> ignore;
+    string output = "";
+    for (int i = 0; i < 5; ++i) {
+      int closest = bfs(baseIdx, ignore);
+      ignore.push_back(closest);
+      output += writeLine(closest, baseIdx, 5 - i);
+    }
 
     // WAIT | LINE <sourceIdx> <targetIdx> <strength> | BEACON <cellIdx>
     // <strength> | MESSAGE <text>
-    cout << "LINE " + to_string(closest) + " " + to_string(baseIdx) + " 5;"
-         << endl;
+
+    cout << output << endl;
   }
 }
 
@@ -101,4 +115,6 @@ step 1: naive - put beacon on first available resource
 step 2: build line to first beacon (base to resource)
 
 step 3: calc nearest
+
+step 4: try multitasking - two harvests at a time
 */
