@@ -98,11 +98,12 @@ int main() {
     // bfs to get closest resource to base.
     vector<int> ignore;
     string output = "";
-    for (int i = 0; i < 5; ++i) {
+    for (int i = 0; i < 4; ++i) {
       int closest = bfs(baseIdx, ignore);
       ignore.push_back(closest);
-      output += writeLine(closest, baseIdx, 5 - i);
+      output += writeLine(closest, baseIdx, 1);
     }
+
 
     // WAIT | LINE <sourceIdx> <targetIdx> <strength> | BEACON <cellIdx>
     // <strength> | MESSAGE <text>
