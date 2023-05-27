@@ -7,6 +7,7 @@
 using namespace std;
 vector<vector<int>> neighbors;
 vector<int> resourceMap;
+vector<int> types;
 int _size;
 
 int bfs(int start, vector<int> ignore) {
@@ -47,6 +48,7 @@ int main() {
   _size = number_of_cells;
   neighbors.resize(_size, vector<int>());
   resourceMap.resize(_size, 0);
+  types.resize(_size, 0);
   for (int i = 0; i < number_of_cells; i++) {
     int type;               // 0 for empty, 1 for eggs, 2 for crystal
     int initial_resources;  // the initial amount of eggs/crystals on this cell
@@ -59,6 +61,7 @@ int main() {
     cin >> type >> initial_resources >> neigh_0 >> neigh_1 >> neigh_2 >>
         neigh_3 >> neigh_4 >> neigh_5;
     cin.ignore();
+    types[i] = type;
     int neighbors_arr[] = {neigh_0, neigh_1, neigh_2,
                            neigh_3, neigh_4, neigh_5};
     for (int neigh : neighbors_arr) {
@@ -121,4 +124,10 @@ step 2: build line to first beacon (base to resource)
 step 3: calc nearest
 
 step 4: try multitasking - two harvests at a time
+
+step 5: calculate more data
+  - total ants
+  - distances
+  - average ants on path
+  - resource types
 */
