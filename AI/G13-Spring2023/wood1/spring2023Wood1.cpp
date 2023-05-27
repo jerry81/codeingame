@@ -134,8 +134,21 @@ step 3: calc nearest
 step 4: try multitasking - two harvests at a time
 
 step 5: calculate more data
-  - total ants
+  - total ants - done
   - distances
   - average ants on path
-  - resource types
+  - resource types - done
+
+step 6: simple case
+  - 4 eggs
+  - 1 resource
+
+step 7: compare at least 2 scenarios in a simulation for next turn
+
+step 8: compare 3 scenarios - next turn simulated
+
+step 9: look ahead 5 turns?
+
+step 10: look ahead 20 turns?
+
 */
