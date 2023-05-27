@@ -26,7 +26,10 @@ int bfs(int start, vector<int> ignore) {
     }
 
     for (int n : neighbors[cur]) {
-      if (!visited[n]) nn.push(n);
+      if (!visited[n]) {
+        nn.push(n);
+        visited[n] = true;
+      }
     }
   }
   return start;
