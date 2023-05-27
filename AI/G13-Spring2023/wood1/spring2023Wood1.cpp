@@ -10,7 +10,7 @@ vector<int> resourceMap;
 vector<int> types;
 int _size;
 
-int bfs(int start, vector<int> ignore) {
+int bfs(int start, vector<int> ignore, bool moarAnts = false) {
   vector<bool> visited(_size, false);
   queue<int> nn;
   visited[start] = true;
@@ -20,7 +20,8 @@ int bfs(int start, vector<int> ignore) {
     nn.pop();
 
     if (resourceMap[cur] > 0) {
-      if (ignore.empty() ||
+      bool moarHit = moarAnts && types[cur] == 1;
+      if (ignore.empty() || moarHit ||
           find(ignore.begin(), ignore.end(), cur) == ignore.end()) {
         return cur;
       }
@@ -89,11 +90,15 @@ int main() {
 
   // game loop
   while (1) {
+    int totalAnts = 0;
+    int oppTotalAnts = 0;
     for (int i = 0; i < _size; i++) {
       int resources;  // the current amount of eggs/crystals on this cell
       int my_ants;    // the amount of your ants on this cell
       int opp_ants;   // the amount of opponent ants on this cell
       cin >> resources >> my_ants >> opp_ants;
+      totalAnts += my_ants;
+      oppTotalAnts += opp_ants;
       cin.ignore();
       resourceMap[i] = resources;
     }
@@ -101,12 +106,15 @@ int main() {
     // bfs to get closest resource to base.
     vector<int> ignore;
     string output = "";
-    for (int i = 0; i < 4; ++i) {
-      int closest = bfs(baseIdx, ignore);
-      ignore.push_back(closest);
-      output += writeLine(closest, baseIdx, 1);
+    if (totalAnts > oppTotalAnts) {
+      for (int i = 0; i < 4; ++i) {
+        int closest = bfs(baseIdx, ignore);
+        ignore.push_back(closest);
+        output += writeLine(closest, baseIdx, 1);
+      }
+    } else {
+      output += writeLine(bfs(baseIdx, ignore, true), baseIdx, 1);
     }
-
 
     // WAIT | LINE <sourceIdx> <targetIdx> <strength> | BEACON <cellIdx>
     // <strength> | MESSAGE <text>
