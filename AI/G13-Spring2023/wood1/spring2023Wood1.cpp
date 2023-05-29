@@ -8,6 +8,7 @@ using namespace std;
 vector<vector<int>> neighbors;
 vector<int> resourceMap;
 vector<int> types;
+vector<pair<int, int>> distsFromBase;
 int _size;
 
 int bfs(int start, vector<int> ignore, bool moarAnts = false) {
@@ -35,6 +36,34 @@ int bfs(int start, vector<int> ignore, bool moarAnts = false) {
     }
   }
   return start;
+}
+
+void bfs2(int start) {
+  vector<bool> visited(_size, false);
+  queue<int> nn;
+  visited[start] = true;
+  nn.push(start);
+  int dist = 0;
+  while (!nn.empty()) {
+    queue<int> nextn;
+    dist++;
+    while (!nn.empty()) {
+      int cur = nn.front();
+      nn.pop();
+
+      if (resourceMap[cur] > 0) {
+        distsFromBase.push_back({dist, cur});
+      }
+
+      for (int n : neighbors[cur]) {
+        if (!visited[n]) {
+          nextn.push(n);
+          visited[n] = true;
+        }
+      }
+    }
+    nn=nextn;
+  }
 }
 
 string writeLine(int start, int end, int weight) {
@@ -106,6 +135,7 @@ int main() {
     // bfs to get closest resource to base.
     vector<int> ignore;
     string output = "";
+    bfs2(baseIdx);
     if (totalAnts > oppTotalAnts) {
       for (int i = 0; i < 4; ++i) {
         int closest = bfs(baseIdx, ignore);
@@ -114,6 +144,10 @@ int main() {
       }
     } else {
       output += writeLine(bfs(baseIdx, ignore, true), baseIdx, 1);
+    }
+
+    for (auto a : distsFromBase) {
+      cerr << "pair " << a.first << ", " << a.second << endl;
     }
 
     // WAIT | LINE <sourceIdx> <targetIdx> <strength> | BEACON <cellIdx>
@@ -136,6 +170,7 @@ step 4: try multitasking - two harvests at a time
 step 5: calculate more data
   - total ants - done
   - distances
+    // fix calculation
   - average ants on path
   - resource types - done
 
@@ -150,5 +185,7 @@ step 8: compare 3 scenarios - next turn simulated
 step 9: look ahead 5 turns?
 
 step 10: look ahead 20 turns?
+
+step 11: quick and dirty "hack" - havest distance 1 eggs.
 
 */
