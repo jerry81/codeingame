@@ -66,5 +66,5 @@ int main() {
   // Write an answer using cout. DON'T FORGET THE "<< endl"
   // To debug: cerr << "Debug messages..." << endl;
 
-  cout << "char charcount" << endl;
+  cout << maxChar << " " << maxCharCount << endl;
 }
