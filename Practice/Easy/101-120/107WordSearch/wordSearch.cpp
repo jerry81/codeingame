@@ -165,7 +165,6 @@ int main() {
       x++;
       y++;
     }
-    // diags.push_back(cur);
     string reversed = cur;
     reverse(reversed.begin(), reversed.end());
     for (string cl : cluesUpper) {
@@ -178,11 +177,10 @@ int main() {
       startpos = reversed.find(cl);
       if (startpos != std::string::npos) {
         for (int offset = 0; offset < cl.size(); ++offset) {
-          mat[size - startpos - offset ][size-i-offset-1-startpos] = true;
+          mat[size - startpos - offset-1][size-i-offset-1-startpos] = true;
         }
       }
     }
-    // diagsR.push_back(cur);
   }
   for (int i = 1; i < size; ++i) {
     int y = i;
@@ -193,11 +191,25 @@ int main() {
       x++;
       y++;
     }
-    // diags.push_back(cur);
     string reversed = cur;
     reverse(reversed.begin(), reversed.end());
 
-    // diagsR.push_back(cur);
+    for (string cl : cluesUpper) {
+      int startpos = cur.find(cl);
+      if (startpos != std::string::npos) {
+        for (int offset = 0; offset < cl.size(); ++offset) {
+          mat[i+offset+startpos][offset+startpos] = true;
+        }
+      }
+      startpos = reversed.find(cl);
+
+      if (startpos != std::string::npos) {
+              cerr << "reversed is " << reversed << endl;
+        for (int offset = 0; offset < cl.size(); ++offset) {
+          mat[size-1-startpos-offset][size-1-startpos-i-offset] = true;
+        }
+      }
+    }
   }
 
   vector<string> rdiags;
