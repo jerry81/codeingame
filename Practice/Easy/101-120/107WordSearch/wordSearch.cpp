@@ -188,13 +188,12 @@ int main()
     vector<string> rdiags;
     vector<string> rdiagsR;
 
-    vector<string> newrows;
-
-    for (auto a: mat) {
-        cout << endl;
-        for (bool b:a) {
-            cout << b;
+    for (int i = 0; i < size; ++i) {
+       string cur = "";
+        for (int j = 0; j < size; ++j) {
+            cur+=(mat[i][j])? string(1,rows[i][j]) : " ";
         }
+        cout << cur << endl;
     }
 
 
