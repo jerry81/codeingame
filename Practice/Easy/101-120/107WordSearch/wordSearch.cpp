@@ -68,12 +68,19 @@ using namespace std;
 int main()
 {
     int size;
+    vector<string> rows;
     cin >> size; cin.ignore();
     for (int i = 0; i < size; i++) {
         string row;
         getline(cin, row);
+        rows.push_back(row);
     }
     string clues;
+    vector<string> backwards;
+    for (string s: rows) {
+      reverse(s.begin(), s.end());
+      backwards.push_back(s);
+    }
     getline(cin, clues);
 
     // Write an answer using cout. DON'T FORGET THE "<< endl"
