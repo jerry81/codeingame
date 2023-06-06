@@ -177,7 +177,7 @@ int main() {
       startpos = reversed.find(cl);
       if (startpos != std::string::npos) {
         for (int offset = 0; offset < cl.size(); ++offset) {
-          mat[size - startpos - offset-1][size-i-offset-1-startpos] = true;
+          mat[size - startpos - offset-1-i][size-offset-1-startpos] = true;
         }
       }
     }
@@ -204,7 +204,6 @@ int main() {
       startpos = reversed.find(cl);
 
       if (startpos != std::string::npos) {
-              cerr << "reversed is " << reversed << endl;
         for (int offset = 0; offset < cl.size(); ++offset) {
           mat[size-1-startpos-offset][size-1-startpos-i-offset] = true;
         }
@@ -214,6 +213,35 @@ int main() {
 
   vector<string> rdiags;
   vector<string> rdiagsR;
+
+  // r -> l diagonals
+  for (int i = size-1; i >= 0; --i) {
+    int x = i;
+    int y = 0;
+    string cur = "";
+    while (x >= 0 && y < size) {
+      cur += rows[y][x];
+      x--;
+      y++;
+    }
+    string reversed = cur;
+    reverse(reversed.begin(), reversed.end());
+    for (string cl : cluesUpper) {
+      int startpos = cur.find(cl);
+      if (startpos != std::string::npos) {
+        for (int offset = 0; offset < cl.size(); ++offset) {
+          mat[offset+startpos][size-1-startpos-offset-i] = true;
+        }
+      }
+      startpos = reversed.find(cl);
+      if (startpos != std::string::npos) {
+        for (int offset = 0; offset < cl.size(); ++offset) {
+          mat[i - startpos - offset][offset+startpos] = true;
+        }
+      }
+    }
+  }
+  // t->b (r->l) diagonals
 
   for (int i = 0; i < size; ++i) {
     string cur = "";
