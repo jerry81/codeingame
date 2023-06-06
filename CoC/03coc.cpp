@@ -35,11 +35,6 @@ This is SOO easy XD
 
 using namespace std;
 
-/**
- * Auto-generated code below aims at helping you parse
- * the standard input according to the problem statement.
- **/
-
 
 
  vector<string> split(string str) {
@@ -57,6 +52,7 @@ using namespace std;
 
     return ret;
   }
+
   unordered_map<string,string> lookup;
 int main()
 {
