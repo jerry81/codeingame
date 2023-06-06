@@ -153,8 +153,6 @@ int main() {
     }
   }
 
-  // vector<string> diags;
-  // vector<string> diagsR;
   // 0 to size (l->r)
   for (int i = 0; i < size; ++i) {
     int x = i;
@@ -205,8 +203,7 @@ int main() {
 
       if (startpos != std::string::npos) {
         for (int offset = 0; offset < cl.size(); ++offset) {
-          mat[size-1-startpos-offset][size-1-startpos-i-offset] = true;
-        }
+ mat[size-1-startpos-offset][size-1-startpos-i-offset] = true;        }
       }
     }
   }
@@ -254,7 +251,7 @@ int main() {
       int startpos = cur.find(cl);
       if (startpos != std::string::npos) {
         for (int offset = 0; offset < cl.size(); ++offset) {
-          mat[offset+startpos+i][x-startpos-offset] = true;
+          mat[offset+startpos+i][size-1-startpos-offset] = true;
         }
       }
       startpos = reversed.find(cl);
@@ -274,3 +271,41 @@ int main() {
     cout << cur << endl;
   }
 }
+
+/*
+
+expected:
+KOKOD EOTOT   I
+   O   B      B
+  L     M     M
+ LTIUCSIBAESGLA
+Y K  A   SRA AB
+   EP   U RA S
+G  RRS O F  HS
+HRI WMM I    I
+ELUA YIEOTLABE
+D JME LT    M
+WA KPDTILIKUMA
+IKC  Y        H
+GI    C
+MA     A
+ L      T
+
+
+mine:
+KOKOD EOTOT   I
+   O   B      B
+  L     M     M
+ LTIUCSIBAES LA
+Y K  A   SR  AB
+   EP   U  A S
+G  RRS O    HS
+HRI WMM      I
+ELUA YI OTLABE
+D JME  T    M
+WA KP TILIKUMA
+IKC  Y        H
+GI    C
+MA     A
+ L      T
+*/
