@@ -69,19 +69,34 @@ int main()
 {
     int size;
     vector<string> rows;
+    vector<string> backwards;
     cin >> size; cin.ignore();
     for (int i = 0; i < size; i++) {
         string row;
         getline(cin, row);
         rows.push_back(row);
+        reverse(row.begin(), row.end());
+        backwards.push_back(row);
     }
+
     string clues;
-    vector<string> backwards;
-    for (string s: rows) {
-      reverse(s.begin(), s.end());
-      backwards.push_back(s);
-    }
     getline(cin, clues);
+
+
+
+    vector<string> vertical;
+    vector<string> verticalR;
+    for (int i = 0; i < size; ++i) {
+      string cur = "";
+      for (int j = 0; j < size; ++j) {
+        cur+=rows[j][i];
+      }
+      vertical.push_back(cur);
+      reverse(cur.begin(), cur.end());
+      verticalR.push_back(cur);
+    }
+
+
 
     // Write an answer using cout. DON'T FORGET THE "<< endl"
     // To debug: cerr << "Debug messages..." << endl;
