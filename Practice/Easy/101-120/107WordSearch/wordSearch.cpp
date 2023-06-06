@@ -141,7 +141,7 @@ int main() {
       int startpos = cur.find(cl);
       if (startpos != std::string::npos) {
         for (int y = 0; y < cl.size(); ++y) {
-          mat[y+startpos][i] = true;
+          mat[y + startpos][i] = true;
         }
       }
       startpos = reversed.find(cl);
@@ -169,13 +169,14 @@ int main() {
       int startpos = cur.find(cl);
       if (startpos != std::string::npos) {
         for (int offset = 0; offset < cl.size(); ++offset) {
-          mat[offset+startpos][i+offset+startpos] = true;
+          mat[offset + startpos][i + offset + startpos] = true;
         }
       }
       startpos = reversed.find(cl);
       if (startpos != std::string::npos) {
         for (int offset = 0; offset < cl.size(); ++offset) {
-          mat[size - startpos - offset-1-i][size-offset-1-startpos] = true;
+          mat[size - startpos - offset - 1 - i][size - offset - 1 - startpos] =
+              true;
         }
       }
     }
@@ -196,20 +197,22 @@ int main() {
       int startpos = cur.find(cl);
       if (startpos != std::string::npos) {
         for (int offset = 0; offset < cl.size(); ++offset) {
-          mat[i+offset+startpos][offset+startpos] = true;
+          mat[i + offset + startpos][offset + startpos] = true;
         }
       }
       startpos = reversed.find(cl);
 
       if (startpos != std::string::npos) {
         for (int offset = 0; offset < cl.size(); ++offset) {
- mat[size-1-startpos-offset][size-1-startpos-i-offset] = true;        }
+          mat[size - 1 - startpos - offset][size - 1 - startpos - i - offset] =
+              true;
+        }
       }
     }
   }
 
   // r -> l diagonals
-  for (int i = size-1; i >= 0; --i) {
+  for (int i = size - 1; i >= 0; --i) {
     int x = i;
     int y = 0;
     string cur = "";
@@ -224,20 +227,20 @@ int main() {
       int startpos = cur.find(cl);
       if (startpos != std::string::npos) {
         for (int offset = 0; offset < cl.size(); ++offset) {
-          mat[offset+startpos][i-startpos-offset] = true;
+          mat[offset + startpos][i - startpos - offset] = true;
         }
       }
       startpos = reversed.find(cl);
       if (startpos != std::string::npos) {
         for (int offset = 0; offset < cl.size(); ++offset) {
-          mat[i - startpos - offset][offset+startpos] = true;
+          mat[i - startpos - offset][offset + startpos] = true;
         }
       }
     }
   }
   // t->b (r->l) diagonals
-   for (int i = 1; i < size; ++i) {
-    int x = size-1;
+  for (int i = 1; i < size; ++i) {
+    int x = size - 1;
     int y = i;
     string cur = "";
     while (x >= 0 && y < size) {
@@ -251,13 +254,13 @@ int main() {
       int startpos = cur.find(cl);
       if (startpos != std::string::npos) {
         for (int offset = 0; offset < cl.size(); ++offset) {
-          mat[offset+startpos+i][size-1-startpos-offset] = true;
+          mat[offset + startpos + i][size - 1 - startpos - offset] = true;
         }
       }
       startpos = reversed.find(cl);
       if (startpos != std::string::npos) {
         for (int offset = 0; offset < cl.size(); ++offset) {
-          mat[size -1 - startpos - offset][offset+startpos+i] = true;
+          mat[size - 1 - startpos - offset][offset + startpos + i] = true;
         }
       }
     }
