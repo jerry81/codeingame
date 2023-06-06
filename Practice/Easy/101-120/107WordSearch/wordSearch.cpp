@@ -57,6 +57,8 @@ H        S
 #include <string>
 #include <vector>
 #include <algorithm>
+#include <cstring>
+#include <cctype>
 
 using namespace std;
 
@@ -64,6 +66,32 @@ using namespace std;
  * Auto-generated code below aims at helping you parse
  * the standard input according to the problem statement.
  **/
+
+
+vector<string> split(string str) {
+  // Returns first token
+  vector<string> ret;
+  char *token = strtok(str.data(), " ");
+
+  // Keep printing tokens while one of the
+  // delimiters present in str[].
+  while (token != nullptr) {
+    ret.push_back(token);
+    token = strtok(nullptr, " ");
+  }
+
+  return ret;
+}
+
+std::string toUpperCase(const std::string& str) {
+    std::string upperStr = str;
+
+    std::transform(upperStr.begin(), upperStr.end(), upperStr.begin(), [](unsigned char c) {
+        return std::toupper(c);
+    });
+
+    return upperStr;
+}
 
 int main()
 {
@@ -79,8 +107,34 @@ int main()
         backwards.push_back(row);
     }
 
+
     string clues;
     getline(cin, clues);
+
+    vector<string> cluesspl = split(clues);
+
+    vector<vector<bool>> mat(size, vector<bool>(size, false));
+
+    for (int i = 0; i < size; ++i) {
+      string s = rows[i];
+      string b = backwards[i];
+      for (string cl: cluesspl) {
+        cl = toUpperCase(cl);
+        int startpos = s.find(cl);
+        if (startpos != std::string::npos) {
+          cout << cl << " found at " << i << ", " << startpos << endl;
+          for (int x = 0; x < cl.size(); ++x) {
+            mat[i][x+startpos] = true;
+          }
+        }
+        startpos = b.find(cl);
+        if (startpos != std::string::npos) {
+          for (int x = 0; x < cl.size(); ++x) {
+            mat[i][size-startpos-x-1] = true;
+          }
+        }
+      }
+    }
 
 
 
@@ -96,10 +150,57 @@ int main()
       verticalR.push_back(cur);
     }
 
+    vector<string> diags;
+    vector<string> diagsR;
+    // 0 to size (l->r)
+    for (int i = 0; i < size; ++i) {
+      int x = i;
+      int y = 0;
+      string cur = "";
+      while (x < size && y < size) {
+        cur+=rows[y][x];
+        x++;
+        y++;
+      }
+      diags.push_back(cur);
+      reverse(cur.begin(), cur.end());
+      diagsR.push_back(cur);
+    }
+    for (int i = 1; i < size; ++i) {
+      int y = i;
+      int x = 0;
+      string cur = "";
+      while (x < size && y < size) {
+        cur+=rows[y][x];
+        x++;
+        y++;
+      }
+      diags.push_back(cur);
+      reverse(cur.begin(), cur.end());
+      diagsR.push_back(cur);
+    }
+
+
+    // 1 to size (t->b)
+
+
+
+    vector<string> rdiags;
+    vector<string> rdiagsR;
+
+    vector<string> newrows;
+
+    for (auto a: mat) {
+        cout << endl;
+        for (bool b:a) {
+            cout << b;
+        }
+    }
+
 
 
     // Write an answer using cout. DON'T FORGET THE "<< endl"
     // To debug: cerr << "Debug messages..." << endl;
 
-    cout << "grid with unused letters hidden" << endl;
+
 }
