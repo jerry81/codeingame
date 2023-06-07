@@ -186,20 +186,29 @@ int main() {
   // }
   // print frame
   cout << "+---[CODINGAME]---+" << endl;
-  for (auto line: chessboard) {
+  for (int i = 0; i < chessboard.size(); ++i) {
+    vector<int> line = chessboard[i];
     string s = "|";
-    for (int i: line) {
-      s+=visitMap[i%15];
+    for (int j = 0; j < line.size(); ++j) {
+      int freq = line[j];
+      if (i == 4 && j == 8) {
+        s+= "S";
+        continue;
+      }
+
+      if (i == cury && j == curx) {
+        s+= "E";
+        continue;
+      }
+
+      s+=visitMap[freq%15];
     }
     s+= "|";
     cout << s << endl;
   }
-  string fs = "+";
-  for (int i = 0; i < 15; ++i) {
-    fs+="-";
-  }
-  fs+="+";
-  cout << fs << endl;
+
+
+  cout << "+-----------------+" << endl;
 
 
 }
