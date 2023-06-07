@@ -150,7 +150,6 @@ int main() {
   string fingerprint;
   getline(cin, fingerprint);
   vector<string> tokens = split(fingerprint);
-  cerr << "expect 16 " << tokens.size() << endl;
   vector<int> moves;  // 0 UL, 1 UR, 2 DL, 3 DR
   vector<pair<int, int>> movesmap = {{-1, -1}, {-1, 1}, {1, -1}, {1, 1}};
   // 16 hex pairs - 8 bits
@@ -168,9 +167,7 @@ int main() {
     // cout << "move 3 " << move3 << endl;
     // cout << "move 4 " << move4 << endl;
   }
-  cerr << "moves count is " << moves.size() << endl;
   for (int move : moves) {
-    cerr << "move is " << move << endl;
     auto [dy,dx] = movesmap[move];
     curx += dx;
     curx = min(curx, 16);
@@ -180,13 +177,27 @@ int main() {
     cury = max(cury, 0);
     chessboard[cury][curx]++;
   }
-  cerr << "printing chessboard " << endl;
-  for (auto a: chessboard) {
-    cerr << endl;
-    for (int i: a) {
-      cerr << i;
+  // cerr << "printing chessboard " << endl;
+  // for (auto a: chessboard) {
+  //   cerr << endl;
+  //   for (int i: a) {
+  //     cerr << i;
+  //   }
+  // }
+  // print frame
+  cout << "+---[CODINGAME]---+" << endl;
+  for (auto line: chessboard) {
+    cout << "|";
+    for (int i: line) {
+      cout << visitMap[i%15];
     }
+    cout << "|";
   }
+  cout << endl << "+";
+  for (int i = 0; i < 15; ++i) {
+    cout << "-"<< endl;
+  }
+  cout << "+";
 
-  cout << "ASCII Art Image" << endl;
+
 }
