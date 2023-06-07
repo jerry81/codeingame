@@ -106,13 +106,15 @@ int main()
     string maxMove = "Rock";
     vector<string> possibilities = {"Rock", "Paper", "Scissors"};
     for (int i = 0; i < n; ++i) {
-      int cur = i;
-      int curcount = 0;
       for (string move: possibilities) {
+        int cur = i;
+        int curcount = 0;
         int opponentsFaced = 0;
         while (opponentsFaced < n) {
           opponentsFaced++;
           int res = play(move,moves[cur]);
+          if (opponentsFaced == 1 && res < 1) break;
+
           if (res < 0) break;
           if (res > 0) {
             curcount++;
@@ -131,7 +133,6 @@ int main()
 
     // Write an answer using cout. DON'T FORGET THE "<< endl"
     // To debug: cerr << "Debug messages..." << endl;
-
     cout << maxMove << endl;
     cout << maxIdx << endl;
 }
