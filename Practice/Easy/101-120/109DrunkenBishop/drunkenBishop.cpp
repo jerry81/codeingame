@@ -151,7 +151,8 @@ int main() {
   getline(cin, fingerprint);
   vector<string> tokens = split(fingerprint);
   cerr << "expect 16 " << tokens.size() << endl;
-  vector<int> moves(64, 0);  // 0 UL, 1 UR, 2 DL, 3 DR
+  vector<int> moves;  // 0 UL, 1 UR, 2 DL, 3 DR
+  vector<pair<int, int>> movesmap = {{-1, -1}, {-1, 1}, {1, -1}, {1, 1}};
   // 16 hex pairs - 8 bits
   // 4 moves
   // 4*16 = 64 moves.
@@ -166,6 +167,25 @@ int main() {
     // cout << "move 2 " << move2 << endl;
     // cout << "move 3 " << move3 << endl;
     // cout << "move 4 " << move4 << endl;
+  }
+  cerr << "moves count is " << moves.size() << endl;
+  for (int move : moves) {
+    cerr << "move is " << move << endl;
+    auto [dy,dx] = movesmap[move];
+    curx += dx;
+    curx = min(curx, 16);
+    curx = max(curx, 0);
+    cury += dy;
+    cury = min(cury, 8);
+    cury = max(cury, 0);
+    chessboard[cury][curx]++;
+  }
+  cerr << "printing chessboard " << endl;
+  for (auto a: chessboard) {
+    cerr << endl;
+    for (int i: a) {
+      cerr << i;
+    }
   }
 
   cout << "ASCII Art Image" << endl;
