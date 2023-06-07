@@ -78,7 +78,7 @@ using namespace std;
  * the standard input according to the problem statement.
  **/
 
-int wins(string p1, string p2) {
+int play(string p1, string p2) {
   if (p1 == p2) return 0;
 
   if (p1 == "Rock" && p2 == "Scissors") return 1;
@@ -103,11 +103,25 @@ int main()
 
     int maxWins = 0;
     int maxIdx = 0;
-    int maxMove = "Rock";
+    string maxMove = "Rock";
     vector<string> possibilities = {"Rock", "Paper", "Scissors"};
     for (int i = 0; i < n; ++i) {
+      int cur = i;
+      int curcount = 0;
       for (string move: possibilities) {
+        while (int res = play(move,moves[i]) >= 0) {
+          if (res > 0) {
+            curcount++;
+            if (curcount > maxWins) {
+              maxWins = curcount;
+              maxIdx = i;
+              maxMove = move;
+            }
+          }
 
+          cur++;
+          cur = cur % n;
+        }
       }
     }
 
