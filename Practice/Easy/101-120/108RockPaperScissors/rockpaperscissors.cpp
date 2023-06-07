@@ -78,6 +78,18 @@ using namespace std;
  * the standard input according to the problem statement.
  **/
 
+int wins(string p1, string p2) {
+  if (p1 == p2) return 0;
+
+  if (p1 == "Rock" && p2 == "Scissors") return 1;
+
+  if (p1 == "Scissors" && p2 == "Paper") return true;
+
+  if (p1 == "Paper" && p2 == "Rock") return true;
+
+  return false;
+}
+
 int main()
 {
     int n;
@@ -89,9 +101,19 @@ int main()
         moves[i] = a;
     }
 
+    int maxWins = 0;
+    int maxIdx = 0;
+    int maxMove = "Rock";
+    vector<string> possibilities = {"Rock", "Paper", "Scissors"};
+    for (int i = 0; i < n; ++i) {
+      for (string move: possibilities) {
+
+      }
+    }
+
     // Write an answer using cout. DON'T FORGET THE "<< endl"
     // To debug: cerr << "Debug messages..." << endl;
 
-    cout << "Rock" << endl;
-    cout << "4" << endl;
+    cout << maxMove << endl;
+    cout << maxIdx << endl;
 }
