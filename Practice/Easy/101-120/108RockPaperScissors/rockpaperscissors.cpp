@@ -83,11 +83,11 @@ int play(string p1, string p2) {
 
   if (p1 == "Rock" && p2 == "Scissors") return 1;
 
-  if (p1 == "Scissors" && p2 == "Paper") return true;
+  if (p1 == "Scissors" && p2 == "Paper") return 1;
 
-  if (p1 == "Paper" && p2 == "Rock") return true;
+  if (p1 == "Paper" && p2 == "Rock") return 1;
 
-  return false;
+  return -1;
 }
 
 int main()
@@ -109,7 +109,11 @@ int main()
       int cur = i;
       int curcount = 0;
       for (string move: possibilities) {
-        while (int res = play(move,moves[i]) >= 0) {
+        int opponentsFaced = 0;
+        while (opponentsFaced < n) {
+          opponentsFaced++;
+          int res = play(move,moves[cur]);
+          if (res < 0) break;
           if (res > 0) {
             curcount++;
             if (curcount > maxWins) {
@@ -120,7 +124,7 @@ int main()
           }
 
           cur++;
-          cur = cur % n;
+          cur%=n;
         }
       }
     }
