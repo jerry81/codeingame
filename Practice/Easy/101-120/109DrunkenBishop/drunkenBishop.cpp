@@ -187,17 +187,19 @@ int main() {
   // print frame
   cout << "+---[CODINGAME]---+" << endl;
   for (auto line: chessboard) {
-    cout << "|";
+    string s = "|";
     for (int i: line) {
-      cout << visitMap[i%15];
+      s+=visitMap[i%15];
     }
-    cout << "|";
+    s+= "|";
+    cout << s << endl;
   }
-  cout << endl << "+";
+  string fs = "+";
   for (int i = 0; i < 15; ++i) {
-    cout << "-"<< endl;
+    fs+="-";
   }
-  cout << "+";
+  fs+="+";
+  cout << fs << endl;
 
 
 }
