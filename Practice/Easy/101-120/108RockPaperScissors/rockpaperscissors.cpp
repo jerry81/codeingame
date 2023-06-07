@@ -82,9 +82,11 @@ int main()
 {
     int n;
     cin >> n; cin.ignore();
+    vector<string> moves(n, "");
     for (int i = 0; i < n; i++) {
         string a;
         getline(cin, a);
+        moves[i] = a;
     }
 
     // Write an answer using cout. DON'T FORGET THE "<< endl"
