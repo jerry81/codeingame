@@ -96,6 +96,9 @@ using namespace std;
 
 int main()
 {
+    vector<vector<char>> chessboard(9, vector<char>(17));
+    chessboard[4][8] = 'S';
+    vector<char> visitMap = { ' ', '.', 'o', '+', '=', '*', 'B', 'O', 'X', '@', '%', '&', '#', '/', '^' };
     string fingerprint;
     getline(cin, fingerprint);
 
