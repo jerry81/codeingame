@@ -107,7 +107,7 @@ int main()
       if (mid > i) {
         curindent+=indentTemplate;
       } else {
-        curindent = curindent.substr(curindent.size()-indent);
+        curindent = curindent.substr(0, curindent.size()-indent);
       }
     }
 }
