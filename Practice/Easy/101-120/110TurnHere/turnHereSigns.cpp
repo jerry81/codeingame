@@ -96,7 +96,18 @@ int main()
       compound += spacingStr;
     }
     compound += molecule;
-    cerr << "compound is " << compound << endl;
-
-    cout << "The Turn Here Sign" << endl;
+    int mid = height/2;
+    string indentTemplate = "";
+    for (int i = 0; i < indent; ++i) {
+      indentTemplate+=' ';
+    }
+    string curindent = "";
+    for (int i = 0; i < height; ++i) {
+      cout << curindent + compound << endl;
+      if (mid > i) {
+        curindent+=indentTemplate;
+      } else {
+        curindent = curindent.substr(curindent.size()-indent);
+      }
+    }
 }
