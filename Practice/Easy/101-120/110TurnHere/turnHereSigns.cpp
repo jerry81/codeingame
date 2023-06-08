@@ -46,7 +46,7 @@ Output
 #include <string>
 #include <vector>
 #include <algorithm>
-#inclue <cstring>
+#include <cstring>
 
 using namespace std;
 
@@ -80,6 +80,23 @@ int main()
     int thickness = spl[3][0] - '0';
     int spacing = spl[4][0] - '0';
     int indent = spl[5][0] - '0';
+
+    char atom = direction == "right" ? '>' : '<';
+    string molecule = "";
+    for (int i = 0; i < thickness; ++i) {
+      molecule+=atom;
+    }
+    string compound = "";
+    string spacingStr = "";
+    for (int i = 0; i < spacing; ++i) {
+      spacingStr+=' ';
+    }
+    for (int i = 0; i < numArrows-1; ++i) {
+      compound += molecule;
+      compound += spacingStr;
+    }
+    compound += molecule;
+    cerr << "compound is " << compound << endl;
 
     cout << "The Turn Here Sign" << endl;
 }
