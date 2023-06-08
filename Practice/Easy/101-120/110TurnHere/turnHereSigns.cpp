@@ -75,13 +75,13 @@ int main() {
   vector<string> spl = split(input);
 
   string direction = spl[0];
-  int numArrows = spl[1][0] - '0';
-  int height = spl[2][0] - '0';
-  int thickness = spl[3][0] - '0';
-  int spacing = spl[4][0] - '0';
-  int indent = spl[5][0] - '0';
-
-  char atom = direction == "right" ? '>' : '<';
+  int numArrows = stoi(spl[1]);
+  int height = stoi(spl[2]);
+  int thickness = stoi(spl[3]);
+  int spacing = stoi(spl[4]);
+  int indent = stoi(spl[5]);
+  bool isRight = direction == "right";
+  char atom = isRight ? '>' : '<';
   string molecule = "";
   for (int i = 0; i < thickness; ++i) {
     molecule += atom;
@@ -101,13 +101,28 @@ int main() {
   for (int i = 0; i < indent; ++i) {
     indentTemplate += ' ';
   }
-  string curindent = "";
-  for (int i = 0; i < height; ++i) {
-    cout << curindent + compound << endl;
-    if (mid > i) {
+  if (isRight) {
+    string curindent = "";
+    for (int i = 0; i < height; ++i) {
+      cout << curindent + compound << endl;
+      if (mid > i) {
+        curindent += indentTemplate;
+      } else {
+        curindent = curindent.substr(0, curindent.size() - indent);
+      }
+    }
+  } else {
+    string curindent = "";
+    for (int i = 0; i < mid; ++i) {
       curindent += indentTemplate;
-    } else {
-      curindent = curindent.substr(0, curindent.size() - indent);
+    }
+    for (int i = 0; i < height; ++i) {
+      cout << curindent + compound << endl;
+      if (mid <= i) {
+        curindent += indentTemplate;
+      } else {
+        curindent = curindent.substr(0, curindent.size() - indent);
+      }
     }
   }
 }
