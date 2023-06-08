@@ -46,21 +46,40 @@ Output
 #include <string>
 #include <vector>
 #include <algorithm>
+#inclue <cstring>
 
 using namespace std;
 
-/**
- * Auto-generated code below aims at helping you parse
- * the standard input according to the problem statement.
- **/
+
+vector<string> split(string str) {
+  // Returns first token
+  vector<string> ret;
+  char *token = strtok(str.data(), " ");
+
+  // Keep printing tokens while one of the
+  // delimiters present in str[].
+  while (token != nullptr) {
+    ret.push_back(token);
+    token = strtok(nullptr, " ");
+  }
+
+  return ret;
+}
+
 
 int main()
 {
     string input;
     getline(cin, input);
 
-    // Write an answer using cout. DON'T FORGET THE "<< endl"
-    // To debug: cerr << "Debug messages..." << endl;
+    vector<string> spl = split(input);
+
+    string direction = spl[0];
+    int numArrows = spl[1][0] - '0';
+    int height = spl[2][0] - '0';
+    int thickness = spl[3][0] - '0';
+    int spacing = spl[4][0] - '0';
+    int indent = spl[5][0] - '0';
 
     cout << "The Turn Here Sign" << endl;
 }
