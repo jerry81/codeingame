@@ -194,17 +194,31 @@ int main() {
     }
 
     if (cache[c] >= 0) {
-          if (c == ' ')  cerr << "cache space is " << cache[' '] << endl;
-
-      if (cache[c] > curRune) {
+      if (cache[c] > curRune) {  // 29, 1
+        int forwardDist = cache[c] - curRune;
+        int backwardsDist = (30 - cache[c]) + curRune;
         while (curRune != cache[c]) {
-          curRune++;
-          brainFork += '>';
+          if (forwardDist <= backwardsDist) {
+            curRune++;
+            brainFork += '>';
+          } else {
+            curRune--;
+            if (curRune < 0) curRune = 29;
+            brainFork += '<';
+          }
         }
-      } else {
+      } else {  // cache 1, curRune 29
+        int forwardDist = (30 - curRune) + cache[c];
+        int backwardsDist = curRune - cache[c];
         while (curRune != cache[c]) {
-          curRune--;
-          brainFork += '<';
+          if (backwardsDist < forwardDist) {
+            curRune--;
+            brainFork += '<';
+          } else {
+            curRune++;
+            if (curRune == 30) curRune = 0;
+            brainFork += '>';
+          }
         }
       }
       brainFork += '.';
@@ -245,5 +259,11 @@ Try again - this time, for sake of simplicity
 - if not, then create the letter in the next available space.
 
 characters used: 9536
+
+optimize wrap-around
+characters used: 9522
+
+finish optimize wrap-around:
+characters used: 9056
 
 */
