@@ -150,7 +150,7 @@ struct Register {
   bool hasCached(char c) { return !cache[c].empty(); }
 
   int getDistToCache(char c) {
-    if (!hasCached(c)) return -1;
+    if (!hasCached(c)) return 40;
 
     auto st = cache[c];
     int minDist = 40;
@@ -249,12 +249,33 @@ int main() {
     int forwardFromSpace = forwardDistance(' ', c);
     int backwardsFromSpace = backwardsDistance(' ', c);
     int fromSpace = min(forwardFromSpace, backwardsFromSpace);
-    if (fromCurRune <= fromSpace || reg.curRune >= 29) {
-      brainFork += getNextSection(forwardDist, backwardsDist);
+
+    int distFromCache = reg.getDistToCache(c);
+
+    if (reg.curRune >= 29) fromCurRune = 0;
+
+    int minCurRune = min(fromCurRune, fromSpace);
+
+    if (minCurRune < distFromCache) {
+      if (fromCurRune <= fromSpace) {
+        brainFork += getNextSection(forwardDist, backwardsDist);
+      } else {
+        brainFork += '>';
+        reg.moveForward();
+        brainFork += getNextSection(forwardFromSpace, backwardsFromSpace);
+      }
     } else {
-      brainFork += '>';
-      reg.moveForward();
-      brainFork += getNextSection(forwardFromSpace, backwardsFromSpace);
+      if (distFromCache >= 0) {
+        while (distFromCache > 0) {
+          distFromCache--;
+          brainFork+='>';
+        }
+      } else {
+        while (distFromCache < 0) {
+          distFromCache++;
+          brainFork+='<';
+        }
+      }
     }
 
     brainFork += ".";
