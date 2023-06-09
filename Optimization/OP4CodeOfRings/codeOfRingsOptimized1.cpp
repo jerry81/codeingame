@@ -156,6 +156,22 @@ int backwardsDistance(char cur, char target) {
   return 27 - (target - cur);
 }
 
+string getNextSection(int forwardDist, int backwardsDist) {
+  string brainFork = "";
+  if (forwardDist <= backwardsDist) { /* extract*/
+    for (int i = 0; i < forwardDist; ++i) {
+      brainFork += "+";
+      zones[curRune].plus();
+    }
+  } else {
+    for (int i = 0; i < backwardsDist; ++i) {
+      brainFork += "-";
+      zones[curRune].minus();
+    }
+  }
+  return brainFork;
+}
+
 int main() {
   // space - 32, A - 65, Z - 90
 
@@ -166,18 +182,18 @@ int main() {
     char current = zones[curRune].cur;
     int forwardDist = forwardDistance(current, c);
     int backwardsDist = backwardsDistance(current, c);
-    if (forwardDist <= backwardsDist) {
-      for (int i = 0; i < forwardDist; ++i) {
-        brainFork += "+";
-        zones[curRune].plus();
-      }
+    int fromCurRune = min(forwardDist, backwardsDist);
+    int forwardFromSpace = forwardDistance(' ', c);
+    int backwardsFromSpace = backwardsDistance(' ', c);
+    int fromSpace = min(forwardFromSpace, backwardsFromSpace);
+    if (fromCurRune <= fromSpace) {
+      brainFork += getNextSection(forwardDist, backwardsDist);
     } else {
-      for (int i = 0; i < backwardsDist; ++i) {
-        brainFork += "-";
-        zones[curRune].minus();
-      }
+      brainFork += '>';
+      brainFork += getNextSection(forwardFromSpace, backwardsFromSpace);
     }
-    brainFork+=".";
+
+    brainFork += ".";
   }
   cout << brainFork << endl;
 }
@@ -191,5 +207,7 @@ int main() {
 characters used: 11489
 
 6.5k characters is the goal
+
+- idea 1 - compare - steps to go from space or from current rune
 
 */
