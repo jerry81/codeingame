@@ -133,9 +133,7 @@ struct Register {
   unordered_map<char, set<int>> cache;
   Register() { zones.resize(30); }
 
-  char cur() {
-    return zones[curRune].cur;
-  }
+  char cur() { return zones[curRune].cur; }
 
   void moveForward() {
     curRune += 1;
@@ -147,6 +145,35 @@ struct Register {
     if (curRune < 0) {
       curRune += 29;
     }
+  }
+
+  bool hasCached(char c) { return !cache[c].empty(); }
+
+  int getDistToCache(char c) {
+    if (!hasCached(c)) return -1;
+
+    auto st = cache[c];
+    int minDist = 40;
+    for (int i : st) {
+      // forward distance
+      int forward = (i >= curRune) ? i - curRune : i + (29 - curRune);
+      // backwards distance
+      int backwards = (i <= curRune) ? curRune - i : curRune + (29 - i);
+      backwards *= -1;
+
+      int absbackwards = abs(backwards);
+      int absMinDist = abs(minDist);
+      if (absbackwards < forward) {
+        if (absMinDist > absbackwards) {
+          minDist = backwards;
+        }
+      } else {
+        if (absMinDist > forward) {
+          minDist = forward;
+        }
+      }
+    }
+    return minDist;
   }
 
   void incr() {
@@ -189,7 +216,6 @@ int backwardsDistance(char cur, char target) {
 
   return 27 - (target - cur);
 }
-
 
 Register reg;
 
