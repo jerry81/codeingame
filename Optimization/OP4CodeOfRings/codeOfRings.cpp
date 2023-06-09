@@ -86,13 +86,25 @@ using namespace std;
  * the standard input according to the problem statement.
  **/
 
+vector<int> zones;
+
 int main()
 {
+    char sp = ' ';
+    char a = 'A';
+    char z = 'Z';
+    cerr << "c is " << (int)sp << " A is " << (int)a << " and z is " << (int)z << endl;
     string magic_phrase;
     getline(cin, magic_phrase);
 
-    // Write an action using cout. DON'T FORGET THE "<< endl"
-    // To debug: cerr << "Debug messages..." << endl;
 
     cout << "+.>-." << endl;
 }
+
+/*
+
+26 chars + 1 space with wraparound
+
+30 runes with wraparound
+
+*/
