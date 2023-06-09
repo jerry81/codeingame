@@ -176,6 +176,15 @@ struct Register {
     return minDist;
   }
 
+  void printCache() {
+    for (auto a: cache) {
+      for (auto item: a.second) {
+        cerr << "checking cache for " << a.first << endl;
+        cerr << "item is " << item << endl;
+      }
+    }
+  }
+
   void incr() {
     cache[zones[curRune].cur].erase(curRune);
     zones[curRune].plus();
@@ -248,20 +257,34 @@ int main() {
     int fromCurRune = min(forwardDist, backwardsDist);
     int forwardFromSpace = forwardDistance(' ', c);
     int backwardsFromSpace = backwardsDistance(' ', c);
-    int fromSpace = min(forwardFromSpace, backwardsFromSpace);
+    int distToSpace = reg.getDistToCache(' ');
+    int fromSpace = min(forwardFromSpace, backwardsFromSpace) + abs(distToSpace);
 
     int distFromCache = reg.getDistToCache(c);
 
-    if (reg.curRune >= 29) fromCurRune = 0;
+
 
     int minCurRune = min(fromCurRune, fromSpace);
 
-    if (minCurRune < distFromCache) {
+
+    if (minCurRune < abs(distFromCache)) {
       if (fromCurRune <= fromSpace) {
         brainFork += getNextSection(forwardDist, backwardsDist);
       } else {
-        brainFork += '>';
-        reg.moveForward();
+        if (distToSpace >= 0) {
+          while (distToSpace > 0) {
+            distToSpace--;
+            reg.moveForward();
+            brainFork+=">";
+          }
+        } else {
+           while (distFromCache < 0) {
+          distFromCache++;
+          brainFork+='<';
+          reg.moveBackwards();
+        }
+        }
+
         brainFork += getNextSection(forwardFromSpace, backwardsFromSpace);
       }
     } else {
@@ -269,11 +292,13 @@ int main() {
         while (distFromCache > 0) {
           distFromCache--;
           brainFork+='>';
+          reg.moveForward();
         }
       } else {
         while (distFromCache < 0) {
           distFromCache++;
           brainFork+='<';
+          reg.moveBackwards();
         }
       }
     }
