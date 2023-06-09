@@ -186,10 +186,11 @@ int main() {
     int forwardFromSpace = forwardDistance(' ', c);
     int backwardsFromSpace = backwardsDistance(' ', c);
     int fromSpace = min(forwardFromSpace, backwardsFromSpace);
-    if (fromCurRune <= fromSpace) {
+    if (fromCurRune <= fromSpace || curRune >= 29) {
       brainFork += getNextSection(forwardDist, backwardsDist);
     } else {
       brainFork += '>';
+      curRune++;
       brainFork += getNextSection(forwardFromSpace, backwardsFromSpace);
     }
 
@@ -209,5 +210,7 @@ characters used: 11489
 6.5k characters is the goal
 
 - idea 1 - compare - steps to go from space or from current rune
+
+characters used in this: 9953
 
 */
