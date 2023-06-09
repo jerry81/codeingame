@@ -86,11 +86,44 @@ using namespace std;
  * the standard input according to the problem statement.
  **/
 
-vector<int> zones;
+
+struct Rune {
+  char cur = ' ';
+  char plus() {
+    if (cur == ' ') {
+      cur = 'A';
+      return cur;
+    }
+    if (cur == 'Z') {
+      cur = ' ';
+      return cur;
+    }
+
+    cur+=1;
+    return cur;
+  }
+  char minus() {
+    if (cur == 'A') {
+      cur = ' ';
+      return cur;
+    }
+
+    if (cur == ' ') {
+      cur = 'Z';
+      return cur;
+    }
+
+    cur-=1;
+    return cur;
+  }
+};
+
+vector<Rune> zones;
+
 
 int main()
 {
-    char sp = ' ';
+    char sp = ' '; // space - 32, A - 65, Z - 90
     char a = 'A';
     char z = 'Z';
     cerr << "c is " << (int)sp << " A is " << (int)a << " and z is " << (int)z << endl;
