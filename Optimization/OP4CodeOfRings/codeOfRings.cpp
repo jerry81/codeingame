@@ -169,10 +169,12 @@ int main() {
     if (forwardDist <= backwardsDist) {
       for (int i = 0; i < forwardDist; ++i) {
         brainFork += "+";
+        zones[curRune].plus();
       }
     } else {
       for (int i = 0; i < backwardsDist; ++i) {
         brainFork += "-";
+        zones[curRune].minus();
       }
     }
     brainFork+=".";
@@ -185,5 +187,7 @@ int main() {
 26 chars + 1 space with wraparound
 
 30 runes with wraparound
+
+characters used: 11489
 
 */
