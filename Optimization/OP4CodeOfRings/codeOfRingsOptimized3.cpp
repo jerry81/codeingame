@@ -270,4 +270,5 @@ characters used: 9056
 - fill in all the memory spots
 - if all filled and not one matches what is necessary, then change the current to what is needed
 
+
 */

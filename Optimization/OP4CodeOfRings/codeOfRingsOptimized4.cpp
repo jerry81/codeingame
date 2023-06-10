@@ -202,13 +202,26 @@ int main() {
     } else {
       // find c and move to it
       for (int i = 0; i < 29; ++i) {
-        int forwardI = curRune+i % 30;
-        int backwardsI = curRune-i;
+        int forwardI = curRune + i % 30;
+        int backwardsI = curRune - i;
         if (backwardsI < 0) backwardsI = 30 - backwardsI;
         Rune r = zones[forwardI];
         Rune r2 = zones[backwardsI];
-        if (r.cur == 'c') {
-
+        if (r.cur == c) {
+          for (int j = 0; j <= i; ++j) {
+            curRune++;
+            curRune %= 30;
+            brainFork += '>';
+          }
+          break;
+        }
+        if (r2.cur == c) {
+          for (int j = 0; j <= i; ++j) {
+            curRune--;
+            if (curRune < 0) curRune += 30;
+            brainFork += '<<';
+          }
+          break;
         }
       }
       // or make c
@@ -251,4 +264,5 @@ characters used: 9056
 - if all filled and not one matches what is necessary, then change the current
 to what is needed
 
+- add a "preview count - count every time."
 */
