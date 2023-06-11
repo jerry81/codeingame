@@ -201,30 +201,39 @@ int main() {
       brainFork += getNextSection(forwardFromSpace, backwardsFromSpace);
     } else {
       // find c and move to it
+      bool found = false;
       for (int i = 0; i < 29; ++i) {
-        int forwardI = curRune + i % 30;
+        int forwardI = (curRune + i) % 30;
         int backwardsI = curRune - i;
-        if (backwardsI < 0) backwardsI = 30 - backwardsI;
+        if (backwardsI < 0) backwardsI+=30;
         Rune r = zones[forwardI];
         Rune r2 = zones[backwardsI];
         if (r.cur == c) {
-          for (int j = 0; j <= i; ++j) {
+          for (int j = 0; j < i; ++j) {
             curRune++;
             curRune %= 30;
             brainFork += '>';
           }
+          found = true;
           break;
         }
         if (r2.cur == c) {
-          for (int j = 0; j <= i; ++j) {
+          for (int j = 0; j < i; ++j) {
             curRune--;
             if (curRune < 0) curRune += 30;
-            brainFork += '<<';
+            brainFork += '<';
           }
+          found = true;
           break;
         }
       }
+      if (!found) {
+        int forwardFromCur = forwardDistance(current, c);
+        int backwardsFromCur = backwardsDistance(current, c);
+        brainFork += getNextSection(forwardFromCur, backwardsFromCur);
+      }
       // or make c
+
     }
 
     brainFork += ".";
