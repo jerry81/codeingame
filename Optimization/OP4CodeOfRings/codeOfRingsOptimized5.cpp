@@ -187,7 +187,8 @@ int main() {
   string magic_phrase;
   getline(cin, magic_phrase);
   string brainFork = "";
-  if (magic_phrase.size() > 300) {
+  bool allFill = false;
+  if (magic_phrase.size() > 300 || allFill) {
     bool allFilled = false;
 
   for (char c : magic_phrase) {
@@ -253,9 +254,24 @@ int main() {
   }
 
   for (char c : magic_phrase) {
+    if (curRune == 29) allFill = true;
     char current = zones[curRune].cur;
     if (current == c) {
       brainFork += '.';
+      continue;
+    }
+
+    int forwardFromCur = forwardDistance(current, c);
+    int backwardsFromCur = backwardsDistance(current, c);
+
+    int distFromCur = min(forwardFromCur, backwardsFromCur);
+
+    if (distFromCur < 2) {
+      cache[current] = -1;
+      brainFork += getNextSection(forwardFromCur, backwardsFromCur);
+      brainFork += '.';
+
+      if (c != ' ' && cache[c] < 0) cache[zones[curRune].cur] = curRune;
       continue;
     }
 
@@ -342,6 +358,9 @@ to what is needed
 - now we at 9711 - worse than before...
 
 - combining with previous version - 8373
+
+- new strat - check if stepping from cur is <=1
+  - after this, no improvement, 8424...
 
 - new strat - work with freq map
 - lay out all the characters with most freq in center.
