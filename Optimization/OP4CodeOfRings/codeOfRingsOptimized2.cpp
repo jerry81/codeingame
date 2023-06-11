@@ -132,10 +132,9 @@ struct Register {
   int curRune = 0;
   unordered_map<char, set<int>> cache;
   Register() {
-
     zones.resize(30);
     for (int i = 0; i < 30; ++i) {
-        cache[' '].insert(i);
+      cache[' '].insert(i);
     }
   }
 
@@ -183,8 +182,8 @@ struct Register {
   }
 
   void printCache() {
-    for (auto a: cache) {
-      for (auto item: a.second) {
+    for (auto a : cache) {
+      for (auto item : a.second) {
         cerr << "checking cache for " << a.first << endl;
         cerr << "item is " << item << endl;
       }
@@ -264,32 +263,30 @@ int main() {
     int forwardFromSpace = forwardDistance(' ', c);
     int backwardsFromSpace = backwardsDistance(' ', c);
     int distToSpace = reg.getDistToCache(' ');
-    int fromSpace = min(forwardFromSpace, backwardsFromSpace) + abs(distToSpace);
+    int fromSpace =
+        min(forwardFromSpace, backwardsFromSpace) + abs(distToSpace);
 
     int distFromCache = reg.getDistToCache(c);
 
-cerr << "dist from " << reg.curRune << " to space is " << distToSpace << endl;
-
     int minCurRune = min(fromCurRune, fromSpace);
 
-
-    if (minCurRune < abs(distFromCache)) {
-      if (fromCurRune <= fromSpace) {
-        cerr << "using cur rune " << endl;
+    if (minCurRune <
+        abs(distFromCache)) {  // using current rune is better than using cache.
+      if (fromCurRune <= fromSpace) {  // starting new register
         brainFork += getNextSection(forwardDist, backwardsDist);
-      } else {
+      } else {  // using current register
         if (distToSpace >= 0) {
           while (distToSpace > 0) {
             distToSpace--;
             reg.moveForward();
-            brainFork+=">";
+            brainFork += ">";
           }
         } else {
-           while (distFromCache < 0) {
-          distFromCache++;
-          brainFork+='<';
-          reg.moveBackwards();
-        }
+          while (distToSpace < 0) {
+            distToSpace++;
+            brainFork += '<';
+            reg.moveBackwards();
+          }
         }
 
         brainFork += getNextSection(forwardFromSpace, backwardsFromSpace);
@@ -298,13 +295,13 @@ cerr << "dist from " << reg.curRune << " to space is " << distToSpace << endl;
       if (distFromCache >= 0) {
         while (distFromCache > 0) {
           distFromCache--;
-          brainFork+='>';
+          brainFork += '>';
           reg.moveForward();
         }
       } else {
         while (distFromCache < 0) {
           distFromCache++;
-          brainFork+='<';
+          brainFork += '<';
           reg.moveBackwards();
         }
       }
