@@ -95,6 +95,8 @@ Allotted response time to output is ≤ 2 seconds.
 
 using namespace std;
 
+unordered_map<char, int> cache;
+
 struct Rune {
   char cur = ' ';
   char plus() {
@@ -174,12 +176,20 @@ string getNextSection(int forwardDist, int backwardsDist) {
 }
 
 int main() {
+
   // space - 32, A - 65, Z - 90
+
+  cache[' '] = -1;
+  for (char c = 'A'; c <= 'Z'; ++c) {
+    cache[c] = -1;
+  }
 
   string magic_phrase;
   getline(cin, magic_phrase);
   string brainFork = "";
-  bool allFilled = false;
+  if (magic_phrase.size() > 300) {
+    bool allFilled = false;
+
   for (char c : magic_phrase) {
     char current = zones[curRune].cur;
     if (current == c) {
@@ -239,6 +249,60 @@ int main() {
     brainFork += ".";
   }
   cout << brainFork << endl;
+  return 0;
+  }
+
+  for (char c : magic_phrase) {
+    char current = zones[curRune].cur;
+    if (current == c) {
+      brainFork += '.';
+      continue;
+    }
+
+    if (cache[c] >= 0) {
+      if (cache[c] > curRune) {  // 29, 1
+        int forwardDist = cache[c] - curRune;
+        int backwardsDist = (30 - cache[c]) + curRune;
+        while (curRune != cache[c]) {
+          if (forwardDist <= backwardsDist) {
+            curRune++;
+            brainFork += '>';
+          } else {
+            curRune--;
+            if (curRune < 0) curRune = 29;
+            brainFork += '<';
+          }
+        }
+      } else {  // cache 1, curRune 29
+        int forwardDist = (30 - curRune) + cache[c];
+        int backwardsDist = curRune - cache[c];
+        while (curRune != cache[c]) {
+          if (backwardsDist < forwardDist) {
+            curRune--;
+            brainFork += '<';
+          } else {
+            curRune++;
+            if (curRune == 30) curRune = 0;
+            brainFork += '>';
+          }
+        }
+      }
+      brainFork += '.';
+      continue;
+    }
+    int forwardFromSpace = forwardDistance(' ', c);
+    int backwardsFromSpace = backwardsDistance(' ', c);
+    int fromSpace = min(forwardFromSpace, backwardsFromSpace);
+    while (zones[curRune].cur != ' ') {
+      curRune++;
+      brainFork += '>';
+    }
+    brainFork += getNextSection(forwardFromSpace, backwardsFromSpace);
+    if (c != ' ' && cache[c] < 0) cache[c] = curRune;
+
+    brainFork += ".";
+  }
+  cout << brainFork << endl;
 }
 
 /*
@@ -274,4 +338,10 @@ characters used: 9056
 to what is needed
 
 - add a "preview count - count every time."
+
+- now we at 9711 - worse than before...
+
+- combining with previous version - 8373
+
+
 */
