@@ -249,6 +249,54 @@ string getNextSection(int forwardDist, int backwardsDist) {
   return brainFork;
 }
 
+pair<int,int> getMaxCount(string& s) {
+  int longest = 0;
+  int startidx = 0;
+  int longestStart = 0;
+  char cur = '0';
+  int curcount = 0;
+  for (int i = 0; i < s.size(); ++i) {
+    char c = s[i];
+    if (c == cur) {
+      curcount++;
+      if (longest < curcount) {
+        longest = curcount;
+        longestStart = startidx;
+      }
+    } else {
+      curcount = 1;
+      startidx = i;
+      cur = c;
+    }
+  }
+  return {longest, longestStart};
+}
+
+string simplify(string s) {
+  auto [a,b] = getMaxCount(s);
+  int times = a/26;
+  if (times > 0) {
+
+  }
+  int rem = a%26;
+  char repeated = s[b];
+  string replace = "";
+  if (times > 0) replace+= '>';
+  for (int i = 0; i < times; ++i) {
+    replace += "-[<.>-]";
+  }
+  if (rem > 0) {
+    replace += '<';
+  }
+  for (int i = 0; i < rem; ++i) {
+    replace += repeated;
+  }
+  if (a > 26) {
+    s = s.substr(0,b) + replace  + s.substr(b+a);
+  }
+  return s;
+}
+
 int main() {
   // space - 32, A - 65, Z - 90
 
@@ -309,11 +357,16 @@ int main() {
 
     brainFork += ".";
   }
-  cout << brainFork << endl;
+
+  string processed = simplify(brainFork);
+
+  cout << processed << endl;
 }
 
 /*
 
 wow this gives 6833!
+
+if a pattern is repeated 26 times, then use a loop
 
 */
