@@ -131,7 +131,13 @@ struct Register {
   vector<Rune> zones;
   int curRune = 0;
   unordered_map<char, set<int>> cache;
-  Register() { zones.resize(30); }
+  Register() {
+
+    zones.resize(30);
+    for (int i = 0; i < 30; ++i) {
+        cache[' '].insert(i);
+    }
+  }
 
   char cur() { return zones[curRune].cur; }
 
@@ -155,10 +161,10 @@ struct Register {
     auto st = cache[c];
     int minDist = 40;
     for (int i : st) {
-      // forward distance
-      int forward = (i >= curRune) ? i - curRune : i + (29 - curRune);
+      // forward distance.  cur rune 29 , cache 0
+      int forward = (i >= curRune) ? i - curRune : i + (30 - curRune);
       // backwards distance
-      int backwards = (i <= curRune) ? curRune - i : curRune + (29 - i);
+      int backwards = (i <= curRune) ? curRune - i : curRune + (30 - i);
       backwards *= -1;
 
       int absbackwards = abs(backwards);
@@ -262,13 +268,14 @@ int main() {
 
     int distFromCache = reg.getDistToCache(c);
 
-
+cerr << "dist from " << reg.curRune << " to space is " << distToSpace << endl;
 
     int minCurRune = min(fromCurRune, fromSpace);
 
 
     if (minCurRune < abs(distFromCache)) {
       if (fromCurRune <= fromSpace) {
+        cerr << "using cur rune " << endl;
         brainFork += getNextSection(forwardDist, backwardsDist);
       } else {
         if (distToSpace >= 0) {
