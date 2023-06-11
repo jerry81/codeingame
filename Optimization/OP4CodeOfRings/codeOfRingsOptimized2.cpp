@@ -314,16 +314,6 @@ int main() {
 
 /*
 
-26 chars + 1 space with wraparound
-
-30 runes with wraparound
-
-characters used: 11489
-
-6.5k characters is the goal
-
-- idea 1 - compare - steps to go from space or from current rune
-
-characters used in this: 9953
+wow this gives 6833!
 
 */
