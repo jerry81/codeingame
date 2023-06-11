@@ -142,13 +142,13 @@ struct Register {
 
   void moveForward() {
     curRune += 1;
-    curRune %= 29;
+    curRune %= 30;
   }
 
   void moveBackwards() {
     curRune -= 1;
     if (curRune < 0) {
-      curRune += 29;
+      curRune += 30;
     }
   }
 
@@ -160,9 +160,9 @@ struct Register {
     auto st = cache[c];
     int minDist = 40;
     for (int i : st) {
-      // forward distance.  cur rune 29 , cache 0
+      // forward distance.  cur rune 29 , cache 0, expect 1
       int forward = (i >= curRune) ? i - curRune : i + (30 - curRune);
-      // backwards distance
+      // backwards distance  cur = 0 i = 29, expect 1
       int backwards = (i <= curRune) ? curRune - i : curRune + (30 - i);
       backwards *= -1;
 
