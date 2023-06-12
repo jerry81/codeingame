@@ -369,4 +369,7 @@ wow this gives 6833!
 
 if a pattern is repeated 26 times, then use a loop
 
+replacing the single chars - and shaky logic still got 100%.
+brings us down to 6744.
+
 */
