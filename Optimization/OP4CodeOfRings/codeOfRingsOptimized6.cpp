@@ -140,6 +140,18 @@ struct Register {
 
   char cur() { return zones[curRune].cur; }
 
+   char getF() {
+     int plusOne = curRune+1;
+     if (plusOne == 30) plusOne = 0;
+     return zones[plusOne].cur;
+   }
+
+    char getB() {
+      int minusOne = curRune -1;
+      if (minusOne < 0) minusOne = 29;
+      return zones[minusOne].cur;
+    }
+
   void moveForward() {
     curRune += 1;
     curRune %= 30;
@@ -313,10 +325,37 @@ int main() {
     int distToSpace = reg.getDistToCache(' ');
     int fromSpace =
         min(forwardFromSpace, backwardsFromSpace) + abs(distToSpace);
+    int fromFNeighbor = 1+forwardDistance(reg.getF(), c);
+    int fromFNeighborBack = 1+backwardsDistance(reg.getF(), c);
+    int fromF = min(fromFNeighbor,fromFNeighborBack);
+
+    int fromBNeighbor = 1+forwardDistance(reg.getB(), c);
+    int fromBNeighborBack = 1+backwardsDistance(reg.getB(), c);
+    int fromB = min(fromBNeighbor,fromBNeighborBack);
 
     int distFromCache = reg.getDistToCache(c);
 
     int minCurRune = min(fromCurRune, fromSpace);
+
+
+
+    if (fromB < minCurRune && fromB < fromSpace && fromB < distFromCache && fromB < fromF) {
+      // from forward logic
+      brainFork += '<';
+      reg.moveBackwards();
+      brainFork += getNextSection(fromBNeighbor-1, fromBNeighborBack-1);
+      brainFork += '.';
+      continue;
+    }
+
+    if (fromF < minCurRune && fromF < fromSpace && fromF < distFromCache && fromF < fromB) {
+      // from forward logic
+      brainFork += '>';
+      reg.moveForward();
+      brainFork += getNextSection(fromFNeighbor-1, fromFNeighborBack-1);
+      brainFork += '.';
+      continue;
+    }
 
     if (minCurRune <
         abs(distFromCache)) {  // using current rune is better than using cache.
@@ -386,10 +425,17 @@ replacing the single chars - and shaky logic still got 100%.
 brings us down to 6744.
 - eek out another 250?
 
+
 down to 6657.
 
 6655
 
+tweaking the last 150?
+- extra check - add neighbors
 
+gets us down to 6393!!!! great success
+- lets add the backwards check too
+
+- add back check gives us 6276
 
 */
