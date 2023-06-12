@@ -368,27 +368,33 @@ int main() {
         }
 
       } else {  // using current register
-        if (c == ' ' && abs(distToSpace) > 3) {
-          // just make space
-          brainFork+="[-]";
-          while (reg.cur() != ' ') reg.decr();
-        } else {
+
           if (distToSpace >= 0) {
+            bool shouldpr = true;
+            if (abs(distToSpace) > 3) {
+              shouldpr = false;
+              brainFork += "[>]";
+            }
           while (distToSpace > 0) {
             distToSpace--;
             reg.moveForward();
-            brainFork += ">";
+            if (shouldpr) brainFork += ">";
           }
         } else {
+          bool shouldpr = true;
+          if (abs(distToSpace) > 3) {
+            shouldpr = false;
+            brainFork += "[<]";
+          }
           while (distToSpace < 0) {
             distToSpace++;
-            brainFork += '<';
+            if (shouldpr) brainFork += '<';
             reg.moveBackwards();
           }
         }
 
         brainFork += getNextSection(forwardFromSpace, backwardsFromSpace);
-        }
+
 
       }
     } else {
@@ -438,4 +444,5 @@ gets us down to 6393!!!! great success
 
 - add back check gives us 6276
 
+- no changes
 */
