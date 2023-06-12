@@ -321,7 +321,7 @@ int main() {
     if (minCurRune <
         abs(distFromCache)) {  // using current rune is better than using cache.
       if (fromCurRune <= fromSpace) {  // starting new register
-        if (c == ' ') {
+        if (c == ' ' && abs(fromCurRune) > 3) {
          brainFork+="[-]";
          while (reg.cur() != ' ') reg.decr();
         } else {
@@ -329,9 +329,9 @@ int main() {
         }
 
       } else {  // using current register
-        if (c == ' ' && abs(distToSpace) > 5) {
+        if (c == ' ' && abs(distToSpace) > 3) {
           // just make space
-          brainFork+="[-].";
+          brainFork+="[-]";
           while (reg.cur() != ' ') reg.decr();
         } else {
           if (distToSpace >= 0) {
@@ -387,5 +387,9 @@ brings us down to 6744.
 - eek out another 250?
 
 down to 6657.
+
+6655
+
+
 
 */
