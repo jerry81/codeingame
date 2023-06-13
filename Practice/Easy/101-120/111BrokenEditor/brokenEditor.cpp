@@ -63,11 +63,12 @@ int main()
         if (cursorPosition < output.size()) cursorPosition++;
       } else {
         output.insert(output.begin()+cursorPosition, c);
+        cursorPosition++;
       }
     }
 
     // Write an answer using cout. DON'T FORGET THE "<< endl"
     // To debug: cerr << "Debug messages..." << endl;
 
-    cout << "computed text" << endl;
+    cout << output << endl;
 }
