@@ -57,7 +57,7 @@ int main()
     for (char c: typed_keys) {
       if (c == '-') {
         if (cursorPosition > 0) {
-            output.erase(cursorPosition, 1);
+            if (output[cursorPosition] == '-') output.erase(cursorPosition, 1);
             cursorPosition--;
             output.erase(cursorPosition, 1);
         }
