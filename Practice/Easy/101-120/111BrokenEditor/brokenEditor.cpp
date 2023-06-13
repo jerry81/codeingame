@@ -42,11 +42,6 @@ echo "Hello World!";
 
 using namespace std;
 
-/**
- * Auto-generated code below aims at helping you parse
- * the standard input according to the problem statement.
- **/
-
 int main()
 {
     string typed_keys;
@@ -57,7 +52,6 @@ int main()
     for (char c: typed_keys) {
       if (c == '-') {
         if (cursorPosition > 0) {
-            if (output[cursorPosition] == '-') output.erase(cursorPosition, 1);
             cursorPosition--;
             output.erase(cursorPosition, 1);
         }
@@ -70,9 +64,6 @@ int main()
         cursorPosition++;
       }
     }
-
-    // Write an answer using cout. DON'T FORGET THE "<< endl"
-    // To debug: cerr << "Debug messages..." << endl;
 
     cout << output << endl;
 }
