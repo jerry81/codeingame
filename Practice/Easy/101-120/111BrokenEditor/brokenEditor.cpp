@@ -51,6 +51,20 @@ int main()
 {
     string typed_keys;
     getline(cin, typed_keys);
+    string output = "";
+    int cursorPosition = 0;
+
+    for (char c: typed_keys) {
+      if (c == '-') {
+        if (cursorPosition > 0) output.erase(cursorPosition, 1);
+      } else if (c == '<') {
+        if (cursorPosition > 0) cursorPosition--;
+      } else if (c == '>') {
+        if (cursorPosition < output.size()) cursorPosition++;
+      } else {
+        output.insert(output.begin()+cursorPosition, c);
+      }
+    }
 
     // Write an answer using cout. DON'T FORGET THE "<< endl"
     // To debug: cerr << "Debug messages..." << endl;
