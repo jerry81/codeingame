@@ -80,21 +80,28 @@ vector<string> split(string str, char* seperator) {
   return ret;
 }
 
-int findYear(vector<unordered_map<string, int>> &lookup, vector<string> &wordspl) {
+pair<int, vector<int>> findYearAndIndexes(vector<unordered_map<string, int>> &lookup, vector<string> &wordspl) {
   int counter = 0;
+
   for (auto lk : lookup) {
     bool found = true;
+    vector<int> curVec;
     for (auto word : wordspl) {
+      int innerCounter = 0;
       if (lk.find(word) == lk.end()) {
         found = false;
         break;
       }
+      curVec.push_back(innerCounter);
+      innerCounter++;
     }
-    if (found) return counter;
+    if (found) {
+      return { counter, curVec };
+    }
 
     counter++;
   }
-  return -1;
+  return { -1, nullptr };
 }
 
 int main() {
@@ -132,6 +139,7 @@ int main() {
   getline(cin, a_word_spelled_out);
   vector<string> wordspl = split(a_word_spelled_out, " ");
   int curYear = findYear(lookup, wordspl);
+
   // get current year
   cout << "answer" << endl;
 }
