@@ -50,14 +50,31 @@ Apples Butter Charlie
 
 using namespace std;
 
-/**
- * Auto-generated code below aims at helping you parse
- * the standard input according to the problem statement.
- **/
+vector<string> split(string str) {
+  // Returns first token
+  vector<string> ret;
+  char *token = strtok(str.data(), ", ");
+
+  // Keep printing tokens while one of the
+  // delimiters present in str[].
+  while (token != nullptr) {
+    ret.push_back(token);
+    token = strtok(nullptr, ", ");
+  }
+
+  return ret;
+}
 
 int main()
 {
+    string first = "Authority, Bills, Capture, Destroy, Englishmen, Fractious, Galloping, High, Invariably, Juggling, Knights, Loose, Managing, Never, Owners, Play, Queen, Remarks, Support, The, Unless, Vindictive, When, Xpeditiously, Your, Zigzag";
+    string second = "Apples, Butter, Charlie, Duff, Edward, Freddy, George, Harry, Ink, Johnnie, King, London, Monkey, Nuts, Orange, Pudding, Queenie, Robert, Sugar, Tommy, Uncle, Vinegar, Willie, Xerxes, Yellow, Zebra";
+    string third = "Amsterdam, Baltimore, Casablanca, Denmark, Edison, Florida, Gallipoli, Havana, Italia, Jerusalem, Kilogramme, Liverpool, Madagascar, New-York, Oslo, Paris, Quebec, Roma, Santiago, Tripoli, Uppsala, Valencia, Washington, Xanthippe, Yokohama, Zurich";
+    string fourth = "Alfa, Bravo, Charlie, Delta, Echo, Foxtrot, Golf, Hotel, India, Juliett, Kilo, Lima, Mike, November, Oscar, Papa, Quebec, Romeo, Sierra, Tango, Uniform, Victor, Whiskey, X-ray, Yankee, Zulu";
     string a_word_spelled_out;
+    vector<vector<string>> alphabets;
+    vector<string> largeStrings = {first, second, third, fourth};
+
     getline(cin, a_word_spelled_out);
 
     // Write an answer using cout. DON'T FORGET THE "<< endl"
