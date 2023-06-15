@@ -141,14 +141,14 @@ int main() {
   getline(cin, a_word_spelled_out);
   vector<string> wordspl = split(a_word_spelled_out, " ");
   auto [yridx, positions] = findYearAndIndexes(lookup, wordspl);
-  cerr << "year is " << yridx << " and positions are " << endl;
+  int toprint = (yridx+1) % 4;
+  string output = "";
   for (int i:positions) {
-    cerr << i << ",";
+    output+=lookup[toprint][i];
   }
-  cerr << endl;
 
   // get current year
-  cout << "answer" << endl;
+  cout << output << endl;
 }
 
 // need way to lookup which index
