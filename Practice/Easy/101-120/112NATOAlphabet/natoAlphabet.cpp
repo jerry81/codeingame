@@ -143,9 +143,12 @@ int main() {
   auto [yridx, positions] = findYearAndIndexes(lookup, wordspl);
   int toprint = (yridx+1) % 4;
   string output = "";
+  auto lookupTable = alphabets[toprint];
   for (int i:positions) {
-    output+=lookup[toprint][i];
+    output+=lookupTable[i];
+    output+=" ";
   }
+  output.pop_back();
 
   // get current year
   cout << output << endl;
