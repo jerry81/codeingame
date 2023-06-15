@@ -80,29 +80,28 @@ vector<string> split(string str, char* seperator) {
   return ret;
 }
 
-pair<int, vector<int>> findYearAndIndexes(vector<unordered_map<string, int>> &lookup, vector<string> &wordspl) {
+pair<int, vector<int>> findYearAndIndexes(
+    vector<unordered_map<string, int>>& lookup, vector<string>& wordspl) {
   int counter = 0;
 
   for (auto lk : lookup) {
     bool found = true;
     vector<int> curVec;
-    int innerCounter = 0;
     for (auto word : wordspl) {
-
       if (lk.find(word) == lk.end()) {
         found = false;
+        break;
       } else {
-      curVec.push_back(innerCounter);
-      innerCounter++;
+        curVec.push_back(lk[word]);
       }
     }
     if (found) {
-      return { counter, curVec };
+      return {counter, curVec};
     }
 
     counter++;
   }
-  return { -1, vector<int>() };
+  return {-1, vector<int>()};
 }
 
 int main() {
@@ -141,12 +140,12 @@ int main() {
   getline(cin, a_word_spelled_out);
   vector<string> wordspl = split(a_word_spelled_out, " ");
   auto [yridx, positions] = findYearAndIndexes(lookup, wordspl);
-  int toprint = (yridx+1) % 4;
+  int toprint = (yridx + 1) % 4;
   string output = "";
   auto lookupTable = alphabets[toprint];
-  for (int i:positions) {
-    output+=lookupTable[i];
-    output+=" ";
+  for (int i : positions) {
+    output += lookupTable[i];
+    output += " ";
   }
   output.pop_back();
 
