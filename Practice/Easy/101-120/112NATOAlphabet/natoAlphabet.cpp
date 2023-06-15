@@ -86,14 +86,15 @@ pair<int, vector<int>> findYearAndIndexes(vector<unordered_map<string, int>> &lo
   for (auto lk : lookup) {
     bool found = true;
     vector<int> curVec;
+    int innerCounter = 0;
     for (auto word : wordspl) {
-      int innerCounter = 0;
+
       if (lk.find(word) == lk.end()) {
         found = false;
-        break;
-      }
+      } else {
       curVec.push_back(innerCounter);
       innerCounter++;
+      }
     }
     if (found) {
       return { counter, curVec };
@@ -101,7 +102,7 @@ pair<int, vector<int>> findYearAndIndexes(vector<unordered_map<string, int>> &lo
 
     counter++;
   }
-  return { -1, nullptr };
+  return { -1, vector<int>() };
 }
 
 int main() {
@@ -132,13 +133,19 @@ int main() {
     alphabets.push_back(spl);
     unordered_map<string, int> lookupTable;
     for (int i = 0; i < spl.size(); ++i) {
-      lookupTable[s] = i;
+      lookupTable[spl[i]] = i;
     }
     lookup.push_back(lookupTable);
   }
+
   getline(cin, a_word_spelled_out);
   vector<string> wordspl = split(a_word_spelled_out, " ");
-  int curYear = findYear(lookup, wordspl);
+  auto [yridx, positions] = findYearAndIndexes(lookup, wordspl);
+  cerr << "year is " << yridx << " and positions are " << endl;
+  for (int i:positions) {
+    cerr << i << ",";
+  }
+  cerr << endl;
 
   // get current year
   cout << "answer" << endl;
