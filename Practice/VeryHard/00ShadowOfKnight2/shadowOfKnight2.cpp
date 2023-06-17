@@ -189,16 +189,22 @@ int main() {
   double prevx = x0;
   // game loop
   while (1) {
-    int ct = getPossibilityCount(possibilities);
-    cerr << "possibilities now " << ct << endl;
-    if (ct < 5) printRemainingPoss(possibilities);
     string bomb_dir;  // Current distance to the bomb compared to previous
                       // distance (COLDER, WARMER, SAME or UNKNOWN)
     cin >> bomb_dir;
     cin.ignore();
     if (bomb_dir != "UNKNOWN") {
-      cerr << "bomb_dir is " << bomb_dir << endl;
       updatePoss(possibilities, prevy, prevx, cury, curx, STATES[bomb_dir]);
+    } else {
+      // ny nx can be calculated as 2*mid - cur
+      prevy = cury;
+      cury = h-cury-1;
+      prevx = curx;
+      curx = w-curx-1;
+
+      cout << curx << " " << cury << endl;
+
+      continue;
     }
     auto [ny, nx] = tgt(possibilities, cury, curx);
     prevy = cury;

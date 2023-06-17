@@ -23,3 +23,8 @@
 - get avg y of all unvisited squares
 - mid x = (curx + tgtx) / 2
 - tgtx = midx * 2 - curx
+
+# optimizing
+
+- initial avg calc unnecessary - done
+- only store remaining possibilities
