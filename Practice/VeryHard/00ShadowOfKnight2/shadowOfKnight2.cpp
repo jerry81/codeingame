@@ -77,16 +77,16 @@ You found the hostages. You can defuse the bombs in time. You win!
 
 using namespace std;
 
-/**
- * Auto-generated code below aims at helping you parse
- * the standard input according to the problem statement.
- **/
+pair<double,double> avg(vector<vector<bool>>& poss) {
+
+}
 
 int main()
 {
     int w; // width of the building.
     int h; // height of the building.
     cin >> w >> h; cin.ignore();
+    vector<vector<bool>> possibilities(h, vector<bool>(w, true));
     int n; // maximum number of turns before game over.
     cin >> n; cin.ignore();
     int x0;
@@ -98,9 +98,7 @@ int main()
         string bomb_dir; // Current distance to the bomb compared to previous distance (COLDER, WARMER, SAME or UNKNOWN)
         cin >> bomb_dir; cin.ignore();
 
-        // Write an action using cout. DON'T FORGET THE "<< endl"
-        // To debug: cerr << "Debug messages..." << endl;
-
         cout << "0 0" << endl;
     }
 }
+
