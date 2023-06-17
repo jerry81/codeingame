@@ -71,9 +71,10 @@ You found the hostages. You can defuse the bombs in time. You win!
 #include <algorithm>
 #include <cmath>
 #include <iostream>
+#include <map>
 #include <string>
 #include <vector>
-#include <map>
+#include <limits.h>
 
 using namespace std;
 
@@ -95,8 +96,8 @@ pair<double, double> tgt(vector<vector<bool>>& poss, double cury, double curx) {
   }
   double avgx = totalX / wcount;
   double avgy = totalY / wcount;
-  tgtx = avgx * 2 - curx;
-  tgty = avgy * 2 - cury;
+  tgtx = (avgx * 2) - curx;
+  tgty = (avgy * 2) - cury;
   return {tgty, tgtx};
 }
 
@@ -109,22 +110,22 @@ double dist(double y1, double x1, double y2, double x2) {
 }
 
 int getPossibilityCount(vector<vector<bool>>& poss) {
-    int total = 0;
-    for (auto a: poss) {
-        for (auto b: a) {
-            if (b) total++;
-        }
+  int total = 0;
+  for (auto a : poss) {
+    for (auto b : a) {
+      if (b) total++;
     }
-    return total;
+  }
+  return total;
 }
 
 void printRemainingPoss(vector<vector<bool>>& poss) {
-    for (int a = 0; a < poss.size(); ++a) {
-        auto row = poss[a];
-        for (int b = 0; b < row.size(); ++ b) {
-            if (b) cerr << "possibility at " << a << ", " << b << endl;
-        }
+  for (int a = 0; a < poss.size(); ++a) {
+    auto row = poss[a];
+    for (int b = 0; b < row.size(); ++b) {
+      if (row[b]) cerr << "possibility at " << a << ", " << b << endl;
     }
+  }
 }
 
 void updatePoss(vector<vector<bool>>& poss, double py, double px, double cy,
@@ -137,9 +138,9 @@ void updatePoss(vector<vector<bool>>& poss, double py, double px, double cy,
       double distToP = dist(py, px, y, x);
       double distToC = dist(cy, cx, y, x);
 
-      if (state == 0 && distToC < distToP) {
+      if (state == 0 && distToC > distToP) {
         poss[y][x] = false;
-      } else if (state == 1 && distToP < distToC) {
+      } else if (state == 1 && distToP > distToC) {
         poss[y][x] = false;
       } else if (state == 2 && distToP != distToC) {
         poss[y][x] = false;
@@ -148,8 +149,27 @@ void updatePoss(vector<vector<bool>>& poss, double py, double px, double cy,
   }
 }
 
+pair<int, int> getClosestPoss(vector<vector<bool>> possibilities, double ny,
+                              double nx) {
+  pair<int,int> closest;
+  double closestDist = INT_MAX;
+  for (int y = 0; y < possibilities.size(); ++y) {
+    vector<bool> row = possibilities[y];
+    for (int x = 0; x < row.size(); ++x) {
+      if (row[x]) {
+        double curD = dist(ny,nx, y,x);
+        if (curD < closestDist) {
+          closestDist = curD;
+          closest = {y,x};
+        }
+      }
+    }
+  }
+  return closest;
+}
+
 int main() {
-  map<string, int> STATES = {{"COLDER", 0}, {"WARMER", 1}, {"SAME", 2}};
+  map<string, int> STATES = {{"WARMER", 0}, {"COLDER", 1}, {"SAME", 2}};
   int w;  // width of the building.
   int h;  // height of the building.
   cin >> w >> h;
@@ -176,13 +196,15 @@ int main() {
     cin >> bomb_dir;
     cin.ignore();
     if (bomb_dir != "UNKNOWN") {
-      updatePoss(possibilities, prevy,prevx, cury, curx, STATES[bomb_dir]);
+      cerr << "bomb_dir is " << bomb_dir << endl;
+      updatePoss(possibilities, prevy, prevx, cury, curx, STATES[bomb_dir]);
     }
     auto [ny, nx] = tgt(possibilities, cury, curx);
     prevy = cury;
     prevx = curx;
-    cury = ny;
-    curx = nx;
-    cout << round(nx) << " " << round(ny) << endl;
+    auto [nyi, nxi] = getClosestPoss(possibilities, ny, nx);
+    cury = nyi;
+    curx = nxi;
+    cout << nxi << " " << nyi << endl;
   }
 }
