@@ -77,8 +77,27 @@ You found the hostages. You can defuse the bombs in time. You win!
 
 using namespace std;
 
-pair<double,double> avg(vector<vector<bool>>& poss) {
-
+pair<double,double> tgt(vector<vector<bool>>& poss, double cury, double curx) {
+  double tgtx = 0;
+  double tgty = 0;
+  double totalX = 0;
+  double totalY = 0;
+  double wcount = 0;
+  for (double y = 0; y < poss.size(); ++y) {
+    vector<bool> row = poss[y];
+    for (double x = 0; x < row.size(); ++x) {
+      if (row[x]) {
+        wcount++;
+        totalX += x;
+        totalY += y;
+      }
+    }
+  }
+  double avgx = totalX / wcount;
+  double avgy = totalY / wcount;
+  tgtx = avgx * 2 - curx;
+  tgty = avgy * 2 - cury;
+  return {tgty, tgtx};
 }
 
 int main()
