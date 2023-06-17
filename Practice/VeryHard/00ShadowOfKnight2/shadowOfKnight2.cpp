@@ -108,6 +108,25 @@ double dist(double y1, double x1, double y2, double x2) {
   return sqrt(dy + dx);
 }
 
+int getPossibilityCount(vector<vector<bool>>& poss) {
+    int total = 0;
+    for (auto a: poss) {
+        for (auto b: a) {
+            if (b) total++;
+        }
+    }
+    return total;
+}
+
+void printRemainingPoss(vector<vector<bool>>& poss) {
+    for (int a = 0; a < poss.size(); ++a) {
+        auto row = poss[a];
+        for (int b = 0; b < row.size(); ++ b) {
+            if (b) cerr << "possibility at " << a << ", " << b << endl;
+        }
+    }
+}
+
 void updatePoss(vector<vector<bool>>& poss, double py, double px, double cy,
                 double cx, int state /* 0 W 1 C 2 S*/) {
   for (double y = 0; y < poss.size(); ++y) {
@@ -149,6 +168,9 @@ int main() {
   double prevx = x0;
   // game loop
   while (1) {
+    int ct = getPossibilityCount(possibilities);
+    cerr << "possibilities now " << ct << endl;
+    if (ct < 5) printRemainingPoss(possibilities);
     string bomb_dir;  // Current distance to the bomb compared to previous
                       // distance (COLDER, WARMER, SAME or UNKNOWN)
     cin >> bomb_dir;
@@ -161,6 +183,6 @@ int main() {
     prevx = curx;
     cury = ny;
     curx = nx;
-    cout << nx << " " << ny << endl;
+    cout << round(nx) << " " << round(ny) << endl;
   }
 }
