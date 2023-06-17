@@ -130,6 +130,7 @@ void printRemainingPoss(vector<vector<bool>>& poss) {
 
 void updatePoss(vector<vector<bool>>& poss, double py, double px, double cy,
                 double cx, int state /* 0 W 1 C 2 S*/) {
+                    poss[cy][cx] = false;
   for (double y = 0; y < poss.size(); ++y) {
     vector<bool> row = poss[y];
     for (double x = 0; x < row.size(); ++x) {
