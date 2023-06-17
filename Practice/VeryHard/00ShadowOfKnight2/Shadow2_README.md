@@ -22,9 +22,76 @@
 - get average x of all unvisited squares
 - get avg y of all unvisited squares
 - mid x = (curx + tgtx) / 2
-- tgtx = midx * 2 - curx
+- tgtx = midx \* 2 - curx
 
 # optimizing
 
 - initial avg calc unnecessary - done
-- only store remaining possibilities
+- only store remaining possibilities - doesn't help the biggest loops
+- cut only one axis per turn - makes calculations much easier
+- you find midpoint and then you have 2 rectangles
+- instead of updating item by item you update the bounds
+- with 2 axis jumps, you can also update the bounded polygon and only need to store points of edges
+  - revisit this with point-in-polygon algorithm
+
+```
+To determine if a point is inside a polygon, you can use the "point-in-polygon" algorithm. Here's a general approach you can follow:
+
+Input the polygon with its vertices and the point you want to test.
+
+Determine the number of sides, n, in the polygon.
+
+Create a line segment from the given point to a point located outside the polygon, such as a point with coordinates (-infinity, y) or (max_x + 1, y), where max_x is the maximum x-coordinate of any vertex in the polygon. This line segment will be used for intersection tests.
+
+Initialize a count variable to 0.
+
+Iterate through each side of the polygon:
+
+a. Get the current side's vertices.
+
+b. Check if the line segment intersects the current side. You can use a line segment intersection algorithm for this check.
+
+c. If the line segment intersects the side, increment the count variable.
+
+After checking all the sides, if the count variable is odd, the point is inside the polygon. Otherwise, it's outside the polygon.
+
+Note: If the polygon has overlapping sides or self-intersections, the algorithm may not work correctly. In such cases, you may need to preprocess or handle the polygon differently.
+
+There are several algorithms available for line segment intersection tests and point-in-polygon checks, such as the ray casting algorithm or the winding number algorithm. You can choose an algorithm based on your requirements and the programming language you're using.
+```
+
+- and centroid of polygon algorithm
+
+```
+To find the centroid of a polygon, you can use the following steps:
+
+Input the polygon with its vertices.
+
+Determine the number of sides, n, in the polygon.
+
+Initialize variables for the centroid's x-coordinate (Cx) and y-coordinate (Cy) to 0.
+
+Iterate through each side of the polygon:
+
+a. Get the current side's vertices.
+
+b. Calculate the cross product of the current vertex and the next vertex:
+
+cross_product = (x[i] * y[i+1]) - (x[i+1] * y[i])
+
+c. Update the centroid variables:
+
+Cx += (x[i] + x[i+1]) * cross_product
+Cy += (y[i] + y[i+1]) * cross_product
+
+After iterating through all the sides, divide the centroid variables by 6 times the signed area of the polygon to get the centroid coordinates:
+
+Cx /= (6 * polygon_area)
+Cy /= (6 * polygon_area)
+
+Note: The signed area of the polygon can be calculated using the shoelace formula or any other method suitable for your programming language.
+
+The resulting Cx and Cy values represent the coordinates of the centroid of the polygon.
+
+Please note that this method assumes the polygon is not self-intersecting and has a non-zero area.
+```
