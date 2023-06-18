@@ -155,11 +155,11 @@ int main() {
         }
         default: {  // same
           if (horiz) {
-            xmin = (prevx + curx) / 2;
-            xmax = xmin;
-          } else {
             ymin = (prevy + cury) / 2;
             ymax = ymin;
+          } else {
+            xmin = (prevx + curx) / 2;
+            xmax = xmin;
           }
         }
       }
@@ -171,13 +171,15 @@ int main() {
     if (yspread < xspread) {
       horiz = true;
       int nextx = xmax - prevx;
+      prevx = curx;
       curx = nextx;
       cout << nextx << " " << prevy << endl;
     } else {
       horiz = false;
       int nexty = ymax - prevy;
+      prevy = cury;
       cury = nexty;
-      cout << curx << " " << nexty << endl;
+      cout << prevx << " " << nexty << endl;
     }
   }
 }
