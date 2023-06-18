@@ -79,7 +79,6 @@ You found the hostages. You can defuse the bombs in time. You win!
 
 using namespace std;
 
-
 double dist(double y1, double x1, double y2, double x2) {
   double dy = y2 - y1;
   double dx = x2 - x1;
@@ -87,7 +86,6 @@ double dist(double y1, double x1, double y2, double x2) {
   dx *= dx;
   return sqrt(dy + dx);
 }
-
 
 int main() {
   map<string, int> STATES = {{"WARMER", 0}, {"COLDER", 1}, {"SAME", 2}};
@@ -120,21 +118,7 @@ int main() {
 
     int hint = STATES[bomb_dir];
 
-    int xspread = xmax - xmin;
-    int yspread = ymax - ymin;
-    if (bomb_dir == "UNKNOWN") {
-      if (yspread < xspread) {
-        horiz = true;
-        int nextx = xmax - prevx;
-        curx = nextx;
-        cout << nextx << " " << prevy << endl;
-      } else {
-        horiz = false;
-        int nexty = ymax - prevy;
-        cury = nexty;
-        cout << curx << " " << nexty << endl;
-      }
-    } else {
+    if (bomb_dir != "UNKNOWN") {
       // update boundaries
       switch (hint) {
         case 0: {                         // warmer
@@ -181,21 +165,19 @@ int main() {
       }
     }
 
-    xspread = xmax - xmin;
-    yspread = ymax - ymin;
+    int xspread = xmax - xmin;
+    int yspread = ymax - ymin;
 
-    if (xspread > yspread) {
+    if (yspread < xspread) {
       horiz = true;
+      int nextx = xmax - prevx;
+      curx = nextx;
+      cout << nextx << " " << prevy << endl;
     } else {
       horiz = false;
+      int nexty = ymax - prevy;
+      cury = nexty;
+      cout << curx << " " << nexty << endl;
     }
-
-    auto [ny, nx] = tgt(possibilities, cury, curx, horiz);
-    prevy = cury;
-    prevx = curx;
-    auto [nyi, nxi] = getClosestPoss(possibilities, ny, nx);
-    cury = nyi;
-    curx = nxi;
-    cout << nxi << " " << nyi << endl;
   }
 }
