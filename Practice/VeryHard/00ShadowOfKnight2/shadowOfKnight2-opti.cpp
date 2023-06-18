@@ -69,7 +69,6 @@ You found the hostages. You can defuse the bombs in time. You win!
 */
 
 #include <limits.h>
-
 #include <algorithm>
 #include <cmath>
 #include <iostream>
@@ -100,17 +99,18 @@ int main() {
   int y0;
   cin >> x0 >> y0;
   cin.ignore();
-  double cury = y0;
-  double curx = x0;
-  double prevy = y0;
-  double prevx = x0;
+  int cury = y0;
+  int curx = x0;
+  int prevy = y0;
+  int prevx = x0;
   int xmax = w - 1;
   int ymax = h - 1;
   int xmin = 0;
   int ymin = 0;
+      bool horiz = false;
   // game loop
   while (1) {
-    bool horiz = false;
+
     string bomb_dir;  // Current distance to the bomb compared to previous
                       // distance (COLDER, WARMER, SAME or UNKNOWN)
     cin >> bomb_dir;
@@ -121,36 +121,47 @@ int main() {
     if (bomb_dir != "UNKNOWN") {
       // update boundaries
       switch (hint) {
-        case 0: {                         // warmer
-          if (horiz) {                    // may not be necessary
+
+        case 0: {
+           cerr << "toasties! " << endl;                     // warmer
+          if (horiz) {
+            cerr << "horiz jump" << endl;             // may not be necessary
             if (prevx < curx) {           // take right
-              xmin = (prevx + curx) / 2;  // cases where this is decimal (equal)
+              xmin = ((prevx + curx) / 2) + 1;  // cases where this is decimal (equal)
             } else {
-              xmax = (prevx + curx) / 2;  // take left
+              xmax = ((prevx + curx) / 2) - 1;  // take left
             }
           } else {
+            cerr << "vert jump " << endl;
+            int mid = (prevy + cury) / 2;
             if (prevy < cury) {  // take bottom
-              ymin = (prevy + cury) / 2;
+              ymin = mid + 1;
             } else {
-              ymax = (prevy + cury) / 2;
+              ymax = mid - 1;
             }
+            cerr << "ymin now "<< ymin << endl;
+            cerr << "ymax now " << ymax << endl;
           }
           break;
         }
         case 1: {                         // colder
+            cerr << "ymin was "<< ymin << endl;
+            cerr << "ymax was " << ymax << endl;
           if (horiz) {                    // may not be necessary
-            if (prevx < curx) {           // take right
-              xmax = (prevx + curx) / 2;  // cases where this is decimal (equal)
+            if (prevx < curx) {           // take left
+              xmax = ((prevx + curx) / 2) -1;  // cases where this is decimal (equal)
             } else {
-              xmin = (prevx + curx) / 2;  // take left
+              xmin = ((prevx + curx) / 2) + 1;  // take left
             }
           } else {
             if (prevy < cury) {  // take bottom
-              ymax = (prevy + cury) / 2;
+              ymax = ((prevy + cury) / 2)-1;
             } else {
-              ymin = (prevy + cury) / 2;
+              ymin = ((prevy + cury) / 2) + 1;
             }
           }
+                      cerr << "ymin now "<< ymin << endl;
+            cerr << "ymax now " << ymax << endl;
           break;
         }
         default: {  // same
@@ -168,18 +179,32 @@ int main() {
     int xspread = xmax - xmin;
     int yspread = ymax - ymin;
 
+    cerr << "xspread " << xspread << endl;
+    cerr << "yspread " << yspread << endl;
+    cerr << "maxy is " << ymax << endl;
+    cerr << "minx " << xmin << " max x " << xmax << endl;
+    cerr << "curx " << curx << " prev x " << prevx << endl;
+    cerr << "cury " << cury << " prev y " << prevy << endl;
     if (yspread < xspread) {
       horiz = true;
-      int nextx = xmax - prevx;
+      int nextx = (xmin + xmax - curx);
+      nextx = min(nextx, xmax);
+      nextx = max(xmin, nextx);
+      cury = min(cury, ymax);
+      cury = max(cury, ymin);
       prevx = curx;
       curx = nextx;
-      cout << nextx << " " << prevy << endl;
+      cout << nextx << " " << cury << endl;
     } else {
       horiz = false;
-      int nexty = ymax - prevy;
+      int nexty = ymin + ymax - cury;
+      nexty = max(nexty, ymin);
+      nexty = min(ymax, nexty);
+      curx = min(curx, xmax);
+      curx = max(curx, xmin);
       prevy = cury;
       cury = nexty;
-      cout << prevx << " " << nexty << endl;
+      cout << curx << " " << nexty << endl;
     }
   }
 }
