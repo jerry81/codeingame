@@ -68,38 +68,17 @@ You found the hostages. You can defuse the bombs in time. You win!
 
 */
 
+#include <limits.h>
+
 #include <algorithm>
 #include <cmath>
 #include <iostream>
 #include <map>
 #include <string>
 #include <vector>
-#include <limits.h>
 
 using namespace std;
 
-pair<double, double> tgt(vector<vector<bool>>& poss, double cury, double curx, bool axis) {
-  double tgtx = 0;
-  double tgty = 0;
-  double totalX = 0;
-  double totalY = 0;
-  double wcount = 0;
-  for (double y = 0; y < poss.size(); ++y) {
-    vector<bool> row = poss[y];
-    for (double x = 0; x < row.size(); ++x) {
-      if (row[x]) {
-        wcount++;
-        totalX += x;
-        totalY += y;
-      }
-    }
-  }
-  double avgx = totalX / wcount;
-  double avgy = totalY / wcount;
-  tgtx = (avgx * 2) - curx;
-  tgty = (avgy * 2) - cury;
-  return {tgty, tgtx};
-}
 
 double dist(double y1, double x1, double y2, double x2) {
   double dy = y2 - y1;
@@ -109,65 +88,6 @@ double dist(double y1, double x1, double y2, double x2) {
   return sqrt(dy + dx);
 }
 
-int getPossibilityCount(vector<vector<bool>>& poss) {
-  int total = 0;
-  for (auto a : poss) {
-    for (auto b : a) {
-      if (b) total++;
-    }
-  }
-  return total;
-}
-
-void printRemainingPoss(vector<vector<bool>>& poss) {
-  for (int a = 0; a < poss.size(); ++a) {
-    auto row = poss[a];
-    for (int b = 0; b < row.size(); ++b) {
-      if (row[b]) cerr << "possibility at " << a << ", " << b << endl;
-    }
-  }
-}
-
-void updatePoss(vector<vector<bool>>& poss, double py, double px, double cy,
-                double cx, int state /* 0 W 1 C 2 S*/) {
-                    poss[cy][cx] = false;
-  for (double y = 0; y < poss.size(); ++y) {
-    vector<bool> row = poss[y];
-    for (double x = 0; x < row.size(); ++x) {
-      if (!row[x]) continue;
-
-      double distToP = dist(py, px, y, x);
-      double distToC = dist(cy, cx, y, x);
-
-      if (state == 0 && distToC > distToP) {
-        poss[y][x] = false;
-      } else if (state == 1 && distToP > distToC) {
-        poss[y][x] = false;
-      } else if (state == 2 && distToP != distToC) {
-        poss[y][x] = false;
-      }
-    }
-  }
-}
-
-pair<int, int> getClosestPoss(vector<vector<bool>> possibilities, double ny,
-                              double nx) {
-  pair<int,int> closest;
-  double closestDist = INT_MAX;
-  for (int y = 0; y < possibilities.size(); ++y) {
-    vector<bool> row = possibilities[y];
-    for (int x = 0; x < row.size(); ++x) {
-      if (row[x]) {
-        double curD = dist(ny,nx, y,x);
-        if (curD < closestDist) {
-          closestDist = curD;
-          closest = {y,x};
-        }
-      }
-    }
-  }
-  return closest;
-}
 
 int main() {
   map<string, int> STATES = {{"WARMER", 0}, {"COLDER", 1}, {"SAME", 2}};
@@ -175,7 +95,6 @@ int main() {
   int h;  // height of the building.
   cin >> w >> h;
   cin.ignore();
-  vector<vector<bool>> possibilities(h, vector<bool>(w, true));
   int n;  // maximum number of turns before game over.
   cin >> n;
   cin.ignore();
@@ -187,34 +106,96 @@ int main() {
   double curx = x0;
   double prevy = y0;
   double prevx = x0;
+  int xmax = w - 1;
+  int ymax = h - 1;
+  int xmin = 0;
+  int ymin = 0;
   // game loop
   while (1) {
-    bool axis = false;
+    bool horiz = false;
     string bomb_dir;  // Current distance to the bomb compared to previous
                       // distance (COLDER, WARMER, SAME or UNKNOWN)
     cin >> bomb_dir;
     cin.ignore();
-    if (bomb_dir != "UNKNOWN") {
-      updatePoss(possibilities, prevy, prevx, cury, curx, STATES[bomb_dir]);
+
+    int hint = STATES[bomb_dir];
+
+    int xspread = xmax - xmin;
+    int yspread = ymax - ymin;
+    if (bomb_dir == "UNKNOWN") {
+      if (yspread < xspread) {
+        horiz = true;
+        int nextx = xmax - prevx;
+        curx = nextx;
+        cout << nextx << " " << prevy << endl;
+      } else {
+        horiz = false;
+        int nexty = ymax - prevy;
+        cury = nexty;
+        cout << curx << " " << nexty << endl;
+      }
     } else {
-      // ny nx can be calculated as 2*mid - cur
-      prevy = cury;
-      cury = h-cury-1;
-      prevx = curx;
-      curx = w-curx-1;
-
-      cout << curx << " " << cury << endl;
-
-      continue;
+      // update boundaries
+      switch (hint) {
+        case 0: {                         // warmer
+          if (horiz) {                    // may not be necessary
+            if (prevx < curx) {           // take right
+              xmin = (prevx + curx) / 2;  // cases where this is decimal (equal)
+            } else {
+              xmax = (prevx + curx) / 2;  // take left
+            }
+          } else {
+            if (prevy < cury) {  // take bottom
+              ymin = (prevy + cury) / 2;
+            } else {
+              ymax = (prevy + cury) / 2;
+            }
+          }
+          break;
+        }
+        case 1: {                         // colder
+          if (horiz) {                    // may not be necessary
+            if (prevx < curx) {           // take right
+              xmax = (prevx + curx) / 2;  // cases where this is decimal (equal)
+            } else {
+              xmin = (prevx + curx) / 2;  // take left
+            }
+          } else {
+            if (prevy < cury) {  // take bottom
+              ymax = (prevy + cury) / 2;
+            } else {
+              ymin = (prevy + cury) / 2;
+            }
+          }
+          break;
+        }
+        default: {  // same
+          if (horiz) {
+            xmin = (prevx + curx) / 2;
+            xmax = xmin;
+          } else {
+            ymin = (prevy + cury) / 2;
+            ymax = ymin;
+          }
+        }
+      }
     }
-    // alternate x and y axis
-    auto [ny, nx] = tgt(possibilities, cury, curx, axis);
+
+    xspread = xmax - xmin;
+    yspread = ymax - ymin;
+
+    if (xspread > yspread) {
+      horiz = true;
+    } else {
+      horiz = false;
+    }
+
+    auto [ny, nx] = tgt(possibilities, cury, curx, horiz);
     prevy = cury;
     prevx = curx;
     auto [nyi, nxi] = getClosestPoss(possibilities, ny, nx);
     cury = nyi;
     curx = nxi;
-    axis = !axis;
     cout << nxi << " " << nyi << endl;
   }
 }
