@@ -110,6 +110,7 @@ int main() {
   int ymin = 0;
   // game loop
   bool yfound = false;
+  bool xinit = false;
   while (1) {
     string bomb_dir;  // Current distance to the bomb compared to previous
                       // distance (COLDER, WARMER, SAME or UNKNOWN)
@@ -117,7 +118,7 @@ int main() {
     cin.ignore();
 
     int hint = STATES[bomb_dir];
-
+    if (ymin == ymax) yfound = true;
     if (bomb_dir != "UNKNOWN") {
       int ysum = prevy + cury;
       bool yodd = ysum % 2 != 0;
@@ -129,22 +130,23 @@ int main() {
       bool xodd = xsum % 2 != 0;
       double xmid = (double)(xsum) / (double)2;
       cerr << "xmid is " << xmid << endl;
+      cerr << "ymin " << ymin << endl;
+      cerr << "ymax " << ymax << endl;
+      cerr << "xmin " << xmin << endl;
+      cerr << "xmax " << xmax << endl;
       // update boundaries
       switch (hint) {
         case 0: {  // warmer
-          cerr << "ymin " << ymin << endl;
-          cerr << "ymax " << ymax << endl;
 
-          if (yfound) {  // may not be necessary
-
-            if (prevx < curx) {  // take right
-              xmin = xmid;  // cases where this is decimal (equal)
+          if (yfound && xinit) {  // may not be necessary
+            if (prevx < curx) {   // take right
+              xmin = xmid;        // cases where this is decimal (equal)
               if (xodd) xmin += 1;
             } else {
               xmax = xmid;  // take left
             }
+            cerr << "xmin now " << xmin << " max now " << xmax << endl;
           } else {
-
             if (prevy < cury) {  // take bottom
               ymin = ymid;
               if (yodd) ymin += 1;
@@ -154,17 +156,15 @@ int main() {
           }
           break;
         }
-        case 1: {        // colder
-          if (yfound) {  // may not be necessary
-            if (prevx < curx) {  // take left
-              xmax = xmid;  // cases where this is decimal (equal)
-
+        case 1: {                 // colder
+          if (yfound && xinit) {  // may not be necessary
+            if (prevx < curx) {   // take left
+              xmax = xmid;        // cases where this is decimal (equal)
             } else {
               xmin = xmid;  // take left
-              if (xodd) xmin+=1;
+              if (xodd) xmin += 1;
             }
           } else {
-
             if (prevy < cury) {  // take bottom
               ymax = ymid;
             } else {
@@ -178,9 +178,8 @@ int main() {
           if (!yfound) {
             yfound = true;
             ymin = ymid;
-            cerr << "Y FOUND AT " << ymin << endl;
             ymax = ymin;
-          } else {
+          } else if (xinit) {
             xmin = xmid;
             xmax = xmin;
           }
@@ -192,13 +191,23 @@ int main() {
     cerr << "ymax is now " << ymax << endl;
 
     if (yfound) {
+      xinit = true;
       int nextx = (xmin + xmax - curx);
       nextx = min(nextx, xmax);
       nextx = max(xmin, nextx);
       cury = min(cury, ymax);
       cury = max(cury, ymin);
       prevx = curx;
+
+      if (nextx == curx) {
+        if (nextx+1 <= xmax) {
+          nextx++;
+        } else if (nextx - 1 >= xmin) nextx--;
+
+      }
       curx = nextx;
+      cerr << "defaulting xmin now " << xmin << " max now " << xmax << endl;
+
       cout << nextx << " " << cury << endl;
     } else {
       int nexty = ymin + ymax - cury;
