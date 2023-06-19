@@ -95,3 +95,56 @@ The resulting Cx and Cy values represent the coordinates of the centroid of the 
 
 Please note that this method assumes the polygon is not self-intersecting and has a non-zero area.
 ```
+
+# first bsearch attempt ended up as flaming ball of shit
+
+- choose an axis and zero in
+```
+.          same
+
+      t
+
+.
+
+.          warmer
+
+
+      t
+.
+
+
+.        colder
+
+      t
+
+
+.
+
+there is a flaw:  midpoint between 5 and 10 is 7.5, not 7...
+- we cannot just discount the row/col at mid because it could have gone to both points of reference are equidistant from that row/col.
+
+5
+
+6
+
+7.5  - new range colder - 5 to 7 warmer 8 to 10 so if odd add the modifier
+  - same is impossible here
+
+8
+
+9
+
+10
+
+
+6
+
+7
+
+8          6 to 8 8 to 10  same case is 16/2 = 8
+
+9
+
+10
+
+```
