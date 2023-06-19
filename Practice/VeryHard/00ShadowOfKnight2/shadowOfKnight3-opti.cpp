@@ -149,7 +149,7 @@ int main() {
               ymin = ymid;
               if (yodd) ymin += 1;
             } else {
-              ymax = ymid - 1;
+              ymax = ymid;
             }
           }
           break;
@@ -187,6 +187,9 @@ int main() {
         }
       }
     }
+
+    cerr << "ymin is now " << ymin << endl;
+    cerr << "ymax is now " << ymax << endl;
 
     if (yfound) {
       int nextx = (xmin + xmax - curx);
