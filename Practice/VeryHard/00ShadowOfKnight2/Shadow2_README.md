@@ -167,3 +167,8 @@ there is a flaw:  midpoint between 5 and 10 is 7.5, not 7...
 
 
 - tricky - a diagonal jump during the transition from y jumps to x jumps pollutes the bounding box for x
+
+
+# back to the drawing board
+
+- try just jumping to xmax, xmin/ ymax/ymin

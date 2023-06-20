@@ -192,19 +192,10 @@ int main() {
     cerr << "ymax is now " << ymax << endl;
 
     if (yfound) {
-      // first center x
-      if (!xinit) {
-        xinit = true;
-        cury = ymax;
-        cout << curx << " " << cury << endl;
-        xmoved = false;
-        continue;
-      }
+      xinit = true;
       int nextx = (xmin + xmax - curx);
       nextx = min(nextx, xmax);
       nextx = max(xmin, nextx);
-      cury = min(cury, ymax);
-      cury = max(cury, ymin);
       prevx = curx;
 
       if (nextx == curx) {
@@ -220,10 +211,10 @@ int main() {
       cout << nextx << " " << cury << endl;
     } else {
       int nexty = ymin + ymax - cury;
-      nexty = max(nexty, 0);
-      nexty = min(h-1, nexty);
-      curx = min(curx, w-1);
-      curx = max(curx, 0);
+      nexty = max(nexty, ymin);
+      nexty = min(ymax, nexty);
+      curx = min(curx, xmax);
+      curx = max(curx, xmin);
       prevy = cury;
       cury = nexty;
       cout << curx << " " << nexty << endl;
