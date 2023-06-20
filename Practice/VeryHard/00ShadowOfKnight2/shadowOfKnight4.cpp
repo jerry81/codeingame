@@ -102,6 +102,7 @@ class Game {
   int ymax;
   bool yfound = false;
   bool xinit = false;
+  bool alreadyInit = false;
 
  public:
   Game(int y0, int x0, int h, int w)
@@ -112,11 +113,14 @@ class Game {
         h(h),
         w(w),
         xmax(w - 1),
-        ymax(h - 1) {
-    if (w <= 100 && h <= 100) init();
-  }
+        ymax(h - 1){}
+
 
   void init() {
+    if (alreadyInit) return;
+
+    alreadyInit = true;
+
     for (int i = ymin; i <= ymax; ++i) {
       for (int j = xmin; j <= xmax; ++j) {
         possibilities.push_back({i, j});
@@ -301,6 +305,7 @@ class Game {
     bool smallEnough = (xmax - xmin) < 100;
     smallEnough = smallEnough && (ymax - ymin) < 100;
     if (smallEnough) {
+      init();
       useDists(bomb_dir);
     } else {
       useOneDimension(bomb_dir);
