@@ -79,6 +79,28 @@ You found the hostages. You can defuse the bombs in time. You win!
 
 using namespace std;
 
+int _h;
+int _w;
+pair<double, double> tgt(vector<pair<int, int>> poss, double cury,
+                         double curx) {
+  double tgtx = 0;
+  double tgty = 0;
+  double totalX = 0;
+  double totalY = 0;
+  double wcount = 0;
+  for (auto [y, x] : poss) {
+    wcount++;
+    totalX += x;
+    totalY += y;
+  }
+
+  double avgx = totalX / wcount;
+  double avgy = totalY / wcount;
+  tgtx = (avgx * 2) - curx;
+  tgty = (avgy * 2) - cury;
+  return {tgty, tgtx};
+}
+
 double dist(double y1, double x1, double y2, double x2) {
   double dy = y2 - y1;
   double dx = x2 - x1;
@@ -87,12 +109,56 @@ double dist(double y1, double x1, double y2, double x2) {
   return sqrt(dy + dx);
 }
 
+vector<pair<int, int>> updatePoss(vector<pair<int, int>> poss, double py,
+                                  double px, double cy, double cx,
+                                  int state /* 0 W 1 C 2 S*/) {
+  vector<pair<int, int>> nxt;
+  for (auto [y, x] : poss) {
+    if (y == cy && cx == x) continue;
+    // if (y == py && px == x) continue;
+
+    double distToP = dist(py, px, y, x);
+    double distToC = dist(cy, cx, y, x);
+    if (state == 0 && distToC <= distToP) {
+      nxt.push_back({y, x});
+    } else if (state == 1 && distToP <= distToC) {
+      nxt.push_back({y, x});
+    } else if (state == 2 && distToP == distToC) {
+      nxt.push_back({y, x});
+    }
+  }
+  return nxt;
+}
+
+pair<int, int> getClosestPoss(vector<pair<int, int>> possibilities, double ny,
+                              double nx) {
+  pair<int, int> closest;
+  double closestDist = INT_MAX;
+  for (auto [y, x] : possibilities) {
+    double curD = dist(ny, nx, y, x);
+    if (curD < closestDist) {
+      closestDist = curD;
+      closest = {y, x};
+    }
+  }
+  return closest;
+}
+
 int main() {
   map<string, int> STATES = {{"WARMER", 0}, {"COLDER", 1}, {"SAME", 2}};
   int w;  // width of the building.
   int h;  // height of the building.
+
   cin >> w >> h;
   cin.ignore();
+  _h = h;
+  _w = w;
+  vector<pair<int, int>> possibilities;
+  for (int i = 0; i < _h; ++i) {
+    for (int j = 0; j < _w; ++j) {
+      possibilities.push_back({i, j});
+    }
+  }
   int n;  // maximum number of turns before game over.
   cin >> n;
   cin.ignore();
@@ -100,124 +166,36 @@ int main() {
   int y0;
   cin >> x0 >> y0;
   cin.ignore();
-  int cury = y0;
-  int curx = x0;
-  int prevy = y0;
-  int prevx = x0;
-  int xmax = w - 1;
-  int ymax = h - 1;
-  int xmin = 0;
-  int ymin = 0;
+  double cury = y0;
+  double curx = x0;
+  double prevy = y0;
+  double prevx = x0;
   // game loop
-  bool yfound = false;
-  bool xinit = false;
   while (1) {
     string bomb_dir;  // Current distance to the bomb compared to previous
                       // distance (COLDER, WARMER, SAME or UNKNOWN)
     cin >> bomb_dir;
     cin.ignore();
-
-    int hint = STATES[bomb_dir];
-    if (ymin == ymax) yfound = true;
     if (bomb_dir != "UNKNOWN") {
-      int ysum = prevy + cury;
-      bool yodd = ysum % 2 != 0;
-      double ymid = (double)(ysum) / (double)2;
-
-      cerr << "mid between " << prevy << " and " << cury << " is " << ymid
-           << endl;
-      int xsum = prevx + curx;
-      bool xodd = xsum % 2 != 0;
-      double xmid = (double)(xsum) / (double)2;
-      cerr << "xmid is " << xmid << endl;
-      cerr << "ymin " << ymin << endl;
-      cerr << "ymax " << ymax << endl;
-      cerr << "xmin " << xmin << endl;
-      cerr << "xmax " << xmax << endl;
-      // update boundaries
-      switch (hint) {
-        case 0: {  // warmer
-
-          if (yfound && xinit) {  // may not be necessary
-            if (prevx < curx) {   // take right
-              xmin = xmid;        // cases where this is decimal (equal)
-              if (xodd) xmin += 1;
-            } else {
-              xmax = xmid;  // take left
-            }
-            cerr << "xmin now " << xmin << " max now " << xmax << endl;
-          } else {
-            if (prevy < cury) {  // take bottom
-              ymin = ymid;
-              if (yodd) ymin += 1;
-            } else {
-              ymax = ymid;
-            }
-          }
-          break;
-        }
-        case 1: {                 // colder
-          if (yfound && xinit) {  // may not be necessary
-            if (prevx < curx) {   // take left
-              xmax = xmid;        // cases where this is decimal (equal)
-            } else {
-              xmin = xmid;  // take left
-              if (xodd) xmin += 1;
-            }
-          } else {
-            if (prevy < cury) {  // take bottom
-              ymax = ymid;
-            } else {
-              ymin = ymid;
-              if (yodd) ymin++;
-            }
-          }
-          break;
-        }
-        default: {  // same
-          if (!yfound) {
-            yfound = true;
-            ymin = ymid;
-            ymax = ymin;
-          } else if (xinit) {
-            xmin = xmid;
-            xmax = xmin;
-          }
-        }
-      }
-    }
-
-    cerr << "ymin is now " << ymin << endl;
-    cerr << "ymax is now " << ymax << endl;
-
-    if (yfound) {
-      xinit = true;
-      int nextx = (xmin + xmax - curx);
-      nextx = min(nextx, xmax);
-      nextx = max(xmin, nextx);
-      cury = min(cury, ymax);
-      cury = max(cury, ymin);
-      prevx = curx;
-
-      if (nextx == curx) {
-        if (nextx+1 <= xmax) {
-          nextx++;
-        } else if (nextx - 1 >= xmin) nextx--;
-
-      }
-      curx = nextx;
-      cerr << "defaulting xmin now " << xmin << " max now " << xmax << endl;
-
-      cout << nextx << " " << cury << endl;
+      possibilities =
+          updatePoss(possibilities, prevy, prevx, cury, curx, STATES[bomb_dir]);
     } else {
-      int nexty = ymin + ymax - cury;
-      nexty = max(nexty, 0);
-      nexty = min(h-1, nexty);
-      curx = min(curx, w-1);
-      curx = max(curx, 0);
+      // ny nx can be calculated as 2*mid - cur
       prevy = cury;
-      cury = nexty;
-      cout << curx << " " << nexty << endl;
+      cury = h - cury - 1;
+      prevx = curx;
+      curx = w - curx - 1;
+
+      cout << curx << " " << cury << endl;
+
+      continue;
     }
+    auto [ny, nx] = tgt(possibilities, cury, curx);
+    prevy = cury;
+    prevx = curx;
+    auto [nyi, nxi] = getClosestPoss(possibilities, ny, nx);
+    cury = nyi;
+    curx = nxi;
+    cout << nxi << " " << nyi << endl;
   }
 }

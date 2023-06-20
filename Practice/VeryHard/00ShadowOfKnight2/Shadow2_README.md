@@ -147,4 +147,15 @@ there is a flaw:  midpoint between 5 and 10 is 7.5, not 7...
 
 10
 
+
 ```
+
+- so the new algorithm works and doesn't time out but isn't eliminating enough squares quickly enough.
+- new idea
+- shrink the "box" down to a manageable threshold, X*Y
+- then use the thorough distance algorithm that worked originally
+- there is an awkward moment when transitioning from y to x or vice versa when y or x is not determined yet
+- in this case, if the last jump was colder you are jumping out of the min/max for the dimension you left
+  - that is ok as long as you are in bounds
+- there is another similar jump when you are done shrinking the remaining dimension and transitioning to the diagnoal jump algorithm
+- at this point, we initialize a map of possibilities (bounding box) and start jumping diagonally
