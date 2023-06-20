@@ -49,24 +49,27 @@ int main()
        
 
         int ymid = (py + cy) / 2;
+        
 
  cerr << "max " << ymax << " min " << ymin << " mid " << ymid << endl;
 
         if (bomb_dir == "WARMER") {
           if (py < cy) { // take buttom
-            ymin = ymid + 1;
+            ymin = ymid;
+            if ((py+cy)%2 == 1) ymin++;
           } else { // take top
-            ymax = ymid - 1;
+            ymax = ymid;
           } 
         }
 
         if (bomb_dir == "COLDER") {
           cerr << "colder case previous " << py << " now " << cy << endl;
           if (py < cy) {
-            ymax = ymid - 1;
+            ymax = ymid;
           } else {
             cerr << "moved up got colder, take bottom half" << endl; // take bottom
-            ymin = ymid + 1;
+            ymin = ymid;
+            if ((py+cy)%2 == 1) ymin++;
           } 
         }
 
@@ -75,7 +78,8 @@ int main()
           ymin = ymid;
         }
 
-        int ny = (ymax + ymin) / 2;
+        int ny = (ymin+ymax)/2;
+        if ((ymin+ymax) %2 == 1) ny++;
         py = cy;
         cy = ny;
         cout << cx << " " << cy << endl;
