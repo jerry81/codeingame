@@ -103,6 +103,7 @@ class Game {
   bool yfound = false;
   bool xinit = false;
   bool alreadyInit = false;
+  int THRESH = 1000;
 
  public:
   Game(int y0, int x0, int h, int w)
@@ -209,7 +210,7 @@ cerr << "px " << px << " and py " << py << endl;
 
   void useOneDimension(string bomb_dir) {
     int hint = STATES[bomb_dir];
-    if (yspread() < 100) yfound = true;
+
     if (bomb_dir != "UNKNOWN") {
       int ysum = prevy + cury;
       bool yodd = ysum % 2 != 0;
@@ -219,17 +220,22 @@ cerr << "px " << px << " and py " << py << endl;
       bool xodd = xsum % 2 != 0;
       double xmid = (double)(xsum) / (double)2;
       // update boundaries
+      if (yfound)                       cerr << "xmin (before) " << xmin << " max now " << xmax << endl;
       switch (hint) {
         case 0: {  // warmer
 
           if (yfound && xinit) {  // may not be necessary
+
             if (prevx < curx) {   // take right
+              cerr << "moved right, warmer" << endl;
               xmin = xmid;        // cases where this is decimal (equal)
               if (xodd) xmin += 1;
-            } else {
+            } else if (xinit) {
+              cerr << "prevx " << prevx << "curx " << curx << endl;
+              cerr << "moved left, warmer " << endl;
               xmax = xmid;  // take left
             }
-            cerr << "xmin now " << xmin << " max now " << xmax << endl;
+
           } else {
             if (prevy < cury) {  // take bottom
               ymin = ymid;
@@ -243,6 +249,7 @@ cerr << "px " << px << " and py " << py << endl;
         case 1: {                 // colder
           if (yfound && xinit) {  // may not be necessary
             if (prevx < curx) {   // take left
+              cerr << "moved right, colder " << endl;
               xmax = xmid;        // cases where this is decimal (equal)
             } else {
               xmin = xmid;  // take left
@@ -260,6 +267,7 @@ cerr << "px " << px << " and py " << py << endl;
         }
         default: {  // same
           if (!yfound) {
+            cerr << "setting yfound from default!!!" << endl;
             yfound = true;
             ymin = ymid;
             ymax = ymin;
@@ -270,6 +278,7 @@ cerr << "px " << px << " and py " << py << endl;
         }
       }
     }
+    if (yfound)                       cerr << "xmin (after) " << xmin << " max now " << xmax << endl;
 
     if (yfound) {
       xinit = true;
@@ -297,13 +306,21 @@ cerr << "px " << px << " and py " << py << endl;
       curx = max((int)curx, 0);
       prevy = cury;
       cury = nexty;
+      if (yspread() < THRESH) yfound = true;
+      if (yfound) {
+        cerr << "last call here " << endl;
+       //  cury = prevy;
+      }
+
+
       cout << curx << " " << nexty << endl;
+
     }
   }
 
   void play(string bomb_dir) {
-    bool smallEnough = (xmax - xmin) < 100;
-    smallEnough = smallEnough && (ymax - ymin) < 100;
+    bool smallEnough = (xmax - xmin) < THRESH;
+    smallEnough = smallEnough && (ymax - ymin) < THRESH;
     if (smallEnough) {
       init();
       useDists(bomb_dir);

@@ -164,3 +164,6 @@ there is a flaw:  midpoint between 5 and 10 is 7.5, not 7...
 
 - okay, so the "hashmap" method is still faster.
 - use the original data structure.
+
+
+- tricky - a diagonal jump during the transition from y jumps to x jumps pollutes the bounding box for x
