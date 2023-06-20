@@ -111,6 +111,7 @@ int main() {
   // game loop
   bool yfound = false;
   bool xinit = false;
+  bool xmoved = false;
   while (1) {
     string bomb_dir;  // Current distance to the bomb compared to previous
                       // distance (COLDER, WARMER, SAME or UNKNOWN)
@@ -142,15 +143,15 @@ int main() {
             if (prevx < curx) {   // take right
               xmin = xmid;        // cases where this is decimal (equal)
               if (xodd) xmin += 1;
-            } else {
+            } else if (prevx > curx) {
               xmax = xmid;  // take left
-            }
+            } 
             cerr << "xmin now " << xmin << " max now " << xmax << endl;
           } else {
             if (prevy < cury) {  // take bottom
               ymin = ymid;
               if (yodd) ymin += 1;
-            } else {
+            } else if (prevy > cury) {
               ymax = ymid;
             }
           }
@@ -160,7 +161,7 @@ int main() {
           if (yfound && xinit) {  // may not be necessary
             if (prevx < curx) {   // take left
               xmax = xmid;        // cases where this is decimal (equal)
-            } else {
+            } else if (prevx > curx) {
               xmin = xmid;  // take left
               if (xodd) xmin += 1;
             }
@@ -179,7 +180,7 @@ int main() {
             yfound = true;
             ymin = ymid;
             ymax = ymin;
-          } else if (xinit) {
+          } else if (xinit && xmoved) {
             xmin = xmid;
             xmax = xmin;
           }
@@ -191,7 +192,14 @@ int main() {
     cerr << "ymax is now " << ymax << endl;
 
     if (yfound) {
-      xinit = true;
+      // first center x
+      if (!xinit) {
+        xinit = true;
+        cury = ymax;
+        cout << curx << " " << cury << endl;
+        xmoved = false;
+        continue;
+      }
       int nextx = (xmin + xmax - curx);
       nextx = min(nextx, xmax);
       nextx = max(xmin, nextx);
@@ -200,14 +208,15 @@ int main() {
       prevx = curx;
 
       if (nextx == curx) {
-        if (nextx+1 <= xmax) {
-          nextx++;
-        } else if (nextx - 1 >= xmin) nextx--;
+        
+        if (nextx < xmax) {
+          nextx = xmax;
 
+        } else {
+          nextx = xmin;
+        }
       }
       curx = nextx;
-      cerr << "defaulting xmin now " << xmin << " max now " << xmax << endl;
-
       cout << nextx << " " << cury << endl;
     } else {
       int nexty = ymin + ymax - cury;
