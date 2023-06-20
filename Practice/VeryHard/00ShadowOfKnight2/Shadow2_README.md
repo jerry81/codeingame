@@ -161,3 +161,6 @@ there is a flaw:  midpoint between 5 and 10 is 7.5, not 7...
 - at this point, we initialize a map of possibilities (bounding box) and start jumping diagonally
 
 - extract both algorithms into managable functions
+
+- okay, so the "hashmap" method is still faster.
+- use the original data structure.

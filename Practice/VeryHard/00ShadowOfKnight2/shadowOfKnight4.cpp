@@ -96,10 +96,23 @@ class Game {
   double prevx;
   int h;
   int w;
+  int xmin = 0;
+  int ymin = 0;
+  int xmax;
+  int ymax;
 
  public:
   Game(int y0, int x0, int h, int w)
-      : cury(y0), curx(x0), prevy(y0), prevx(x0), h(h), w(w) {}
+      : cury(y0),
+        curx(x0),
+        prevy(y0),
+        prevx(x0),
+        h(h),
+        w(w),
+        xmax(w - 1),
+        ymax(h - 1) {
+    if (w <= 100 && h <= 100) init();
+  }
 
   void init() {
     for (int i = 0; i < h; ++i) {
@@ -183,9 +196,18 @@ class Game {
     curx = nxi;
     cout << nxi << " " << nyi << endl;
   }
+  void play(string bomb_dir) {
+    bool smallEnough = (xmax - xmin) < 100;
+    cerr << "ymax - ymin is " << ymax - ymin << endl;
+    smallEnough = smallEnough && (ymax - ymin) < 100;
+    cerr << "small enough is " << smallEnough << endl;
+    if (smallEnough) {
+      useDists(bomb_dir);
+    } else {
+      cout << "handle dat shit " << endl;
+    }
+  }
 };
-
-
 
 int main() {
   int w;  // width of the building.
@@ -202,13 +224,12 @@ int main() {
   cin.ignore();
 
   Game* g = new Game(y0, x0, h, w);
-  g->init();
   // game loop
   while (1) {
     string bomb_dir;  // Current distance to the bomb compared to previous
                       // distance (COLDER, WARMER, SAME or UNKNOWN)
     cin >> bomb_dir;
-    g->useDists(bomb_dir);
+    g->play(bomb_dir);
     cin.ignore();
   }
 }
