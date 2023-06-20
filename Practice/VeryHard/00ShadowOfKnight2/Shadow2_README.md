@@ -159,3 +159,5 @@ there is a flaw:  midpoint between 5 and 10 is 7.5, not 7...
   - that is ok as long as you are in bounds
 - there is another similar jump when you are done shrinking the remaining dimension and transitioning to the diagnoal jump algorithm
 - at this point, we initialize a map of possibilities (bounding box) and start jumping diagonally
+
+- extract both algorithms into managable functions

@@ -79,28 +79,6 @@ You found the hostages. You can defuse the bombs in time. You win!
 
 using namespace std;
 
-int _h;
-int _w;
-pair<double, double> tgt(vector<pair<int, int>> poss, double cury,
-                         double curx) {
-  double tgtx = 0;
-  double tgty = 0;
-  double totalX = 0;
-  double totalY = 0;
-  double wcount = 0;
-  for (auto [y, x] : poss) {
-    wcount++;
-    totalX += x;
-    totalY += y;
-  }
-
-  double avgx = totalX / wcount;
-  double avgy = totalY / wcount;
-  tgtx = (avgx * 2) - curx;
-  tgty = (avgy * 2) - cury;
-  return {tgty, tgtx};
-}
-
 double dist(double y1, double x1, double y2, double x2) {
   double dy = y2 - y1;
   double dx = x2 - x1;
@@ -109,76 +87,83 @@ double dist(double y1, double x1, double y2, double x2) {
   return sqrt(dy + dx);
 }
 
-vector<pair<int, int>> updatePoss(vector<pair<int, int>> poss, double py,
-                                  double px, double cy, double cx,
-                                  int state /* 0 W 1 C 2 S*/) {
-  vector<pair<int, int>> nxt;
-  for (auto [y, x] : poss) {
-    if (y == cy && cx == x) continue;
-    // if (y == py && px == x) continue;
-
-    double distToP = dist(py, px, y, x);
-    double distToC = dist(cy, cx, y, x);
-    if (state == 0 && distToC <= distToP) {
-      nxt.push_back({y, x});
-    } else if (state == 1 && distToP <= distToC) {
-      nxt.push_back({y, x});
-    } else if (state == 2 && distToP == distToC) {
-      nxt.push_back({y, x});
-    }
-  }
-  return nxt;
-}
-
-pair<int, int> getClosestPoss(vector<pair<int, int>> possibilities, double ny,
-                              double nx) {
-  pair<int, int> closest;
-  double closestDist = INT_MAX;
-  for (auto [y, x] : possibilities) {
-    double curD = dist(ny, nx, y, x);
-    if (curD < closestDist) {
-      closestDist = curD;
-      closest = {y, x};
-    }
-  }
-  return closest;
-}
-
-int main() {
+class Game {
   map<string, int> STATES = {{"WARMER", 0}, {"COLDER", 1}, {"SAME", 2}};
-  int w;  // width of the building.
-  int h;  // height of the building.
-
-  cin >> w >> h;
-  cin.ignore();
-  _h = h;
-  _w = w;
   vector<pair<int, int>> possibilities;
-  for (int i = 0; i < _h; ++i) {
-    for (int j = 0; j < _w; ++j) {
-      possibilities.push_back({i, j});
+  double cury;
+  double curx;
+  double prevy;
+  double prevx;
+  int h;
+  int w;
+
+ public:
+  Game(int y0, int x0, int h, int w)
+      : cury(y0), curx(x0), prevy(y0), prevx(x0), h(h), w(w) {}
+
+  void init() {
+    for (int i = 0; i < h; ++i) {
+      for (int j = 0; j < w; ++j) {
+        possibilities.push_back({i, j});
+      }
     }
   }
-  int n;  // maximum number of turns before game over.
-  cin >> n;
-  cin.ignore();
-  int x0;
-  int y0;
-  cin >> x0 >> y0;
-  cin.ignore();
-  double cury = y0;
-  double curx = x0;
-  double prevy = y0;
-  double prevx = x0;
-  // game loop
-  while (1) {
-    string bomb_dir;  // Current distance to the bomb compared to previous
-                      // distance (COLDER, WARMER, SAME or UNKNOWN)
-    cin >> bomb_dir;
-    cin.ignore();
+
+  void updatePoss(double py, double px, double cy, double cx,
+                  int state /* 0 W 1 C 2 S*/) {
+    vector<pair<int, int>> nxt;
+    for (auto [y, x] : possibilities) {
+      if (y == cy && cx == x) continue;
+      // if (y == py && px == x) continue;
+
+      double distToP = dist(py, px, y, x);
+      double distToC = dist(cy, cx, y, x);
+      if (state == 0 && distToC <= distToP) {
+        nxt.push_back({y, x});
+      } else if (state == 1 && distToP <= distToC) {
+        nxt.push_back({y, x});
+      } else if (state == 2 && distToP == distToC) {
+        nxt.push_back({y, x});
+      }
+    }
+    possibilities = nxt;
+  }
+
+  pair<int, int> getClosestPoss(double ny, double nx) {
+    pair<int, int> closest;
+    double closestDist = INT_MAX;
+    for (auto [y, x] : possibilities) {
+      double curD = dist(ny, nx, y, x);
+      if (curD < closestDist) {
+        closestDist = curD;
+        closest = {y, x};
+      }
+    }
+    return closest;
+  }
+
+  pair<double, double> tgt(double cury, double curx) {
+    double tgtx = 0;
+    double tgty = 0;
+    double totalX = 0;
+    double totalY = 0;
+    double wcount = 0;
+    for (auto [y, x] : possibilities) {
+      wcount++;
+      totalX += x;
+      totalY += y;
+    }
+
+    double avgx = totalX / wcount;
+    double avgy = totalY / wcount;
+    tgtx = (avgx * 2) - curx;
+    tgty = (avgy * 2) - cury;
+    return {tgty, tgtx};
+  }
+
+  void useDists(string bomb_dir) {
     if (bomb_dir != "UNKNOWN") {
-      possibilities =
-          updatePoss(possibilities, prevy, prevx, cury, curx, STATES[bomb_dir]);
+      updatePoss(prevy, prevx, cury, curx, STATES[bomb_dir]);
     } else {
       // ny nx can be calculated as 2*mid - cur
       prevy = cury;
@@ -188,14 +173,42 @@ int main() {
 
       cout << curx << " " << cury << endl;
 
-      continue;
+      return;
     }
-    auto [ny, nx] = tgt(possibilities, cury, curx);
+    auto [ny, nx] = tgt(cury, curx);
     prevy = cury;
     prevx = curx;
-    auto [nyi, nxi] = getClosestPoss(possibilities, ny, nx);
+    auto [nyi, nxi] = getClosestPoss(ny, nx);
     cury = nyi;
     curx = nxi;
     cout << nxi << " " << nyi << endl;
+  }
+};
+
+
+
+int main() {
+  int w;  // width of the building.
+  int h;  // height of the building.
+
+  cin >> w >> h;
+  cin.ignore();
+  int n;  // maximum number of turns before game over.
+  cin >> n;
+  cin.ignore();
+  int x0;
+  int y0;
+  cin >> x0 >> y0;
+  cin.ignore();
+
+  Game* g = new Game(y0, x0, h, w);
+  g->init();
+  // game loop
+  while (1) {
+    string bomb_dir;  // Current distance to the bomb compared to previous
+                      // distance (COLDER, WARMER, SAME or UNKNOWN)
+    cin >> bomb_dir;
+    g->useDists(bomb_dir);
+    cin.ignore();
   }
 }
