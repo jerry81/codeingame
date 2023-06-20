@@ -84,7 +84,7 @@ double dist(double y1, double x1, double y2, double x2) {
   double dx = x2 - x1;
   dy *= dy;
   dx *= dx;
-  return sqrt(dy + dx);
+  return dy + dx;
 }
 
 class Game {
@@ -131,15 +131,16 @@ class Game {
   void updatePoss(double py, double px, double cy, double cx,
                   int state /* 0 W 1 C 2 S*/) {
     vector<pair<int, int>> nxt;
+          cerr << "cx " << cx << " and cy " << cy << endl;
+cerr << "px " << px << " and py " << py << endl;
     for (auto [y, x] : possibilities) {
       if (y == cy && cx == x) continue;
       // if (y == py && px == x) continue;
-
       double distToP = dist(py, px, y, x);
       double distToC = dist(cy, cx, y, x);
-      if (state == 0 && distToC <= distToP) {
+      if (state == 0 && distToC < distToP) {
         nxt.push_back({y, x});
-      } else if (state == 1 && distToP <= distToC) {
+      } else if (state == 1 && distToP < distToC) {
         nxt.push_back({y, x});
       } else if (state == 2 && distToP == distToC) {
         nxt.push_back({y, x});
@@ -166,17 +167,16 @@ class Game {
     double tgty = 0;
     double totalX = 0;
     double totalY = 0;
-    double wcount = 0;
     for (auto [y, x] : possibilities) {
-      wcount++;
       totalX += x;
       totalY += y;
     }
 
-    double avgx = totalX / wcount;
-    double avgy = totalY / wcount;
+    double avgx = totalX / (double)possibilities.size();
+    double avgy = totalY / (double)possibilities.size();
     tgtx = (avgx * 2) - curx;
     tgty = (avgy * 2) - cury;
+    cerr << "returning tgt " << tgty << "," << tgtx << endl;
     return {tgty, tgtx};
   }
 
