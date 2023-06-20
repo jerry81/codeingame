@@ -100,6 +100,8 @@ class Game {
   int ymin = 0;
   int xmax;
   int ymax;
+  bool yfound = false;
+  bool xinit = false;
 
  public:
   Game(int y0, int x0, int h, int w)
@@ -115,8 +117,8 @@ class Game {
   }
 
   void init() {
-    for (int i = 0; i < h; ++i) {
-      for (int j = 0; j < w; ++j) {
+    for (int i = ymin; i <= ymax; ++i) {
+      for (int j = xmin; j <= xmax; ++j) {
         possibilities.push_back({i, j});
       }
     }
@@ -196,15 +198,112 @@ class Game {
     curx = nxi;
     cout << nxi << " " << nyi << endl;
   }
+
+  int yspread() { return ymax - ymin; }
+
+  int xspread() { return xmax - xmin; }
+
+  void useOneDimension(string bomb_dir) {
+    int hint = STATES[bomb_dir];
+    if (yspread() < 100) yfound = true;
+    if (bomb_dir != "UNKNOWN") {
+      int ysum = prevy + cury;
+      bool yodd = ysum % 2 != 0;
+      double ymid = (double)(ysum) / (double)2;
+
+      int xsum = prevx + curx;
+      bool xodd = xsum % 2 != 0;
+      double xmid = (double)(xsum) / (double)2;
+      // update boundaries
+      switch (hint) {
+        case 0: {  // warmer
+
+          if (yfound && xinit) {  // may not be necessary
+            if (prevx < curx) {   // take right
+              xmin = xmid;        // cases where this is decimal (equal)
+              if (xodd) xmin += 1;
+            } else {
+              xmax = xmid;  // take left
+            }
+            cerr << "xmin now " << xmin << " max now " << xmax << endl;
+          } else {
+            if (prevy < cury) {  // take bottom
+              ymin = ymid;
+              if (yodd) ymin += 1;
+            } else {
+              ymax = ymid;
+            }
+          }
+          break;
+        }
+        case 1: {                 // colder
+          if (yfound && xinit) {  // may not be necessary
+            if (prevx < curx) {   // take left
+              xmax = xmid;        // cases where this is decimal (equal)
+            } else {
+              xmin = xmid;  // take left
+              if (xodd) xmin += 1;
+            }
+          } else {
+            if (prevy < cury) {  // take bottom
+              ymax = ymid;
+            } else {
+              ymin = ymid;
+              if (yodd) ymin++;
+            }
+          }
+          break;
+        }
+        default: {  // same
+          if (!yfound) {
+            yfound = true;
+            ymin = ymid;
+            ymax = ymin;
+          } else if (xinit) {
+            xmin = xmid;
+            xmax = xmin;
+          }
+        }
+      }
+    }
+
+    if (yfound) {
+      xinit = true;
+      int nextx = (xmin + xmax - curx);
+      nextx = min(nextx, w-1);
+      nextx = max(0, nextx);
+      cury = min((int)cury, ymax);
+      cury = max((int)cury, ymin);
+      prevx = curx;
+
+      if (nextx == curx) {
+        if (nextx + 1 <= xmax) {
+          nextx++;
+        } else if (nextx - 1 >= xmin)
+          nextx--;
+      }
+      curx = nextx;
+
+      cout << nextx << " " << cury << endl;
+    } else {
+      int nexty = ymin + ymax - cury;
+      nexty = max(nexty, 0);
+      nexty = min(h - 1, nexty);
+      curx = min((int)curx, w - 1);
+      curx = max((int)curx, 0);
+      prevy = cury;
+      cury = nexty;
+      cout << curx << " " << nexty << endl;
+    }
+  }
+
   void play(string bomb_dir) {
     bool smallEnough = (xmax - xmin) < 100;
-    cerr << "ymax - ymin is " << ymax - ymin << endl;
     smallEnough = smallEnough && (ymax - ymin) < 100;
-    cerr << "small enough is " << smallEnough << endl;
     if (smallEnough) {
       useDists(bomb_dir);
     } else {
-      cout << "handle dat shit " << endl;
+      useOneDimension(bomb_dir);
     }
   }
 };
