@@ -168,6 +168,21 @@ there is a flaw:  midpoint between 5 and 10 is 7.5, not 7...
 
 - tricky - a diagonal jump during the transition from y jumps to x jumps pollutes the bounding box for x
 
+- rework that retarted half screen thing
+- half y until you reach what you want
+- when transitioning - keep the last y no matter what...
+- so the jump should be dy = something dx = 0, next turn dx = something dy = 0;
+
+then
+
+- after reading comments
+
+- stick to the separate dimensions, but find a way to approach edge quicker
+
+- to do so , since we cant jump past mins or maxes
+- we have to compensate in the direciton where we have space to work with.
+
+
 
 # back to the drawing board
 

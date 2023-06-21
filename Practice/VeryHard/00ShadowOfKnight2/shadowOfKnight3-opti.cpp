@@ -125,16 +125,9 @@ int main() {
       bool yodd = ysum % 2 != 0;
       double ymid = (double)(ysum) / (double)2;
 
-      cerr << "mid between " << prevy << " and " << cury << " is " << ymid
-           << endl;
       int xsum = prevx + curx;
       bool xodd = xsum % 2 != 0;
       double xmid = (double)(xsum) / (double)2;
-      cerr << "xmid is " << xmid << endl;
-      cerr << "ymin " << ymin << endl;
-      cerr << "ymax " << ymax << endl;
-      cerr << "xmin " << xmin << endl;
-      cerr << "xmax " << xmax << endl;
       // update boundaries
       switch (hint) {
         case 0: {  // warmer
@@ -145,8 +138,9 @@ int main() {
               if (xodd) xmin += 1;
             } else if (prevx > curx) {
               xmax = xmid;  // take left
-            } 
+            }
             cerr << "xmin now " << xmin << " max now " << xmax << endl;
+            }
           } else {
             if (prevy < cury) {  // take bottom
               ymin = ymid;
@@ -188,18 +182,20 @@ int main() {
       }
     }
 
-    cerr << "ymin is now " << ymin << endl;
-    cerr << "ymax is now " << ymax << endl;
 
     if (yfound) {
       xinit = true;
       int nextx = (xmin + xmax - curx);
       nextx = min(nextx, xmax);
       nextx = max(xmin, nextx);
+      nextx = min(nextx, w-1);
+      nextx = max(0, nextx);
+      cury = min(cury, h-1);
+      cury = max(cury, 0);
       prevx = curx;
 
       if (nextx == curx) {
-        
+
         if (nextx < xmax) {
           nextx = xmax;
 
@@ -208,6 +204,7 @@ int main() {
         }
       }
       curx = nextx;
+
       cout << nextx << " " << cury << endl;
     } else {
       int nexty = ymin + ymax - cury;
