@@ -58,8 +58,16 @@ AQ DH
 
 # ideas
 
-- first, are all stems 2 pixels wide?
-- are all ledger lines x pixels high
-- lets print the pixel art!
+- first, are all stems 2 pixels wide? - no
+- are all ledger lines x pixels high - no
+- lets print the pixel art! - mostly done
 
-- organize the pixels into a 2d grid
+- organize the pixels into a 2d grid - done
+
+- find ledger lines with horizontal freq (black count on rows)
+- find stems to get notes
+- check half or quarter by checking squares to left of stem for black dots
+
+- next step: freq counts
+- next step - sortable freq counts
+  - sorted, keeping info on original row/col
