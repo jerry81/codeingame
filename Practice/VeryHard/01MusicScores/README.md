@@ -80,3 +80,19 @@ AQ DH
   - first get the average of the first five.
 
 - the largest deviation should be less than 20%;
+
+- then you have 5 clusters of ledger lines
+
+- next start working with stems.
+
+- on example 11 - 18 cols have 93, 28+ have 92
+
+- the avg and finding first drop off method works.
+- next find which ranges equal what note.  map that shit out.
+- start with the min
+- min to min+4 are f
+
+- between is e
+
+- next to 9th is d
+

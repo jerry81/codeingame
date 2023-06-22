@@ -78,14 +78,28 @@ int main() {
   // for (auto [i,idx]: ledgers) {
   //   cerr << "i is " << i << " idx is " << idx << endl;
   // }
-  cerr << "rows " << endl;
-  for (auto [i,idx]: rf) {
-    cerr << i << " and idx is " << idx << ", ";
+  float sum5 = 0;
+  for (int i = 0; i < 5; ++i) {
+    sum5+=rf[i].first;
   }
-  cerr << endl;
-  cerr << "cols " << endl;
-  for (auto [i, idx]: cf) {
-    std::cerr << i << " and idx is " << idx << ", ";;
+  float avg = sum5/5.0;
+  int totalLedgers = 5;
+  float half = avg * .5;
+  for (int i = 5; i < h; ++i) {
+    if (rf[i].first < half) break;
+
+    totalLedgers=i+1;
   }
+
+  cerr << "total ledgers is " << totalLedgers << endl;
+  // cerr << "rows " << endl;
+  // for (auto [i,idx]: rf) {
+  //   cerr << i << " and idx is " << idx << ", ";
+  // }
+  // cerr << endl;
+  // cerr << "cols " << endl;
+  // for (auto [i, idx]: cf) {
+  //   std::cerr << i << " and idx is " << idx << ", ";;
+  // }
   cout << "AQ DH" << endl;
 }
