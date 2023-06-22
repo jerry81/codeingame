@@ -70,4 +70,13 @@ AQ DH
 
 - next step: freq counts
 - next step - sortable freq counts
-  - sorted, keeping info on original row/col
+  - sorted, keeping info on original row/col - done
+
+- next step - find ledger lines
+  - not certain how many rows make the ledger lines
+  - but consecutive large freqs indicate a ledger line,
+  - also the first large drop off may indicate the end of ledger lines
+  - since there are at least 5 ledger lines
+  - first get the average of the first five.
+
+- the largest deviation should be less than 20%;

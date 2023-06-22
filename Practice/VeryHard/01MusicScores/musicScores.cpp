@@ -19,6 +19,14 @@ vector<string> split(string str, string separator) {
   return ret;
 }
 
+bool customCompare(pair<int,int> a, pair<int,int> b) {
+  if (a.first > b.first) return true;
+
+  if (a.first < b.first) return false;
+
+  return (a.second < b.second);
+}
+
 int main() {
   int w;
   int h;
@@ -34,8 +42,8 @@ int main() {
   bool write = false;
   int cr = 0;
   int cc = 0;
-  vector<int> rf(h,0);
-  vector<int> cf(w,0);
+  vector<pair<int,int>> rf(h,{0,0});
+  vector<pair<int,int>> cf(w,{0,0});
   for (string s : spl) {
     if (s == "W") {
       write = false;
@@ -47,26 +55,37 @@ int main() {
       while (moveF > 0) {
         if (write) {
           grid[cr][cc] = true;
-          rf[cr]++;
-          cf[cc]++;
+          rf[cr].first++;
+
+          cf[cc].first++;
         }
+        cf[cc].second = cc;
+        rf[cr].second = cr;
         cc++;
         if (cc >= w) {
           cc = 0;
           cr++;
         }
+
         moveF--;
       }
     }
   }
-  cerr << "row freqs " << endl;
-  for (int i: rf) {
-    cerr << i << ",";
+  std::sort(rf.begin(), rf.end(), customCompare);
+  std::sort(cf.begin(), cf.end(), customCompare);
+  //vector<pair<int,int>> ledgers(rf.begin(), rf.begin()+5);
+  //cerr << "ledgers " << endl;
+  // for (auto [i,idx]: ledgers) {
+  //   cerr << "i is " << i << " idx is " << idx << endl;
+  // }
+  cerr << "rows " << endl;
+  for (auto [i,idx]: rf) {
+    cerr << i << " and idx is " << idx << ", ";
   }
   cerr << endl;
-  cerr << "col freqs " << endl;
-  for (int i: cf) {
-    cerr << i << ",";
+  cerr << "cols " << endl;
+  for (auto [i, idx]: cf) {
+    std::cerr << i << " and idx is " << idx << ", ";;
   }
   cout << "AQ DH" << endl;
 }
