@@ -27,6 +27,10 @@ bool customCompare(pair<int,int> a, pair<int,int> b) {
   return (a.second < b.second);
 }
 
+bool compare2(pair<int,int> a, pair<int,int> b) {
+  return a.second < b.second;
+}
+
 int main() {
   int w;
   int h;
@@ -91,7 +95,11 @@ int main() {
     totalLedgers=i+1;
   }
 
-  cerr << "total ledgers is " << totalLedgers << endl;
+  vector<pair<int,int>> ledgers(rf.begin(), rf.begin()+totalLedgers);
+  sort(ledgers.begin(), ledgers.end(), compare2);
+  for (auto [a,b]: ledgers) {
+    cerr << "ledger " << a << ", " << b << endl;
+  }
   // cerr << "rows " << endl;
   // for (auto [i,idx]: rf) {
   //   cerr << i << " and idx is " << idx << ", ";
