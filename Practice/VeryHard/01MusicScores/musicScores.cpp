@@ -31,6 +31,36 @@ bool compare2(pair<int, int> a, pair<int, int> b) {
   return a.second < b.second;
 }
 
+string findNote(vector<vector<int>> boundaries, int y) {
+  int tbd = 1;
+  // TODO:  "extra ledger, c"
+  if (y < boundaries[0][0]) {
+    return "G";
+  } else if (y >= boundaries[0][0] && y <= boundaries[0][1])  {
+    return "F";
+  } else if (y > boundaries[0][1] && y < boundaries[1][0]) {
+    return "E";
+  } else if (y > boundaries[1][0] && y < boundaries[1][1]) {
+    return "D";
+  } else if (y > boundaries[1][1] && y < boundaries[2][0]) {
+    return "C";
+  } else if (y > boundaries[2][0] && y < boundaries[2][1]) {
+    return "B";
+  } else if (y > boundaries[2][1] && y < boundaries[3][0]) {
+    return "A";
+  } else if (y > boundaries[3][0] && y < boundaries[3][1]) {
+    return "G";
+  } else if (y > boundaries[3][1] && y < boundaries[4][0]) {
+    return "F";
+  } else if (y > boundaries[4][0] && y < boundaries[4][1]) {
+    return "E";
+  } else if (y > boundaries[4][1] && y < tbd) {
+    return "D";
+  } else {
+    return "C";
+  }
+}
+
 int main() {
   int w;
   int h;
@@ -104,16 +134,6 @@ int main() {
   for (int i = 0; i < 5; ++i) {
     ledgerLookup[i][0] = ledgers[i * perL].second;
     ledgerLookup[i][1] = ledgerLookup[i][0] + perL - 1;
-  }
-  cerr << "ledgerLookup" << endl;
-
-  for (auto a: ledgerLookup) {
-    for (auto b: a) {
-      cerr << "min " << b[0] << " max " << b[1] << endl;
-    }
-  }
-  for (auto [a, b] : ledgers) {
-    cerr << "ledger " << a << ", " << b << endl;
   }
   // cerr << "rows " << endl;
   // for (auto [i,idx]: rf) {
