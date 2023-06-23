@@ -107,11 +107,7 @@ int main() {
   }
   std::sort(rf.begin(), rf.end(), customCompare);
   std::sort(cf.begin(), cf.end(), customCompare);
-  // vector<pair<int,int>> ledgers(rf.begin(), rf.begin()+5);
-  // cerr << "ledgers " << endl;
-  //  for (auto [i,idx]: ledgers) {
-  //    cerr << "i is " << i << " idx is " << idx << endl;
-  //  }
+
   float sum5 = 0;
   for (int i = 0; i < 5; ++i) {
     sum5 += rf[i].first;
@@ -135,14 +131,24 @@ int main() {
     ledgerLookup[i][0] = ledgers[i * perL].second;
     ledgerLookup[i][1] = ledgerLookup[i][0] + perL - 1;
   }
-  // cerr << "rows " << endl;
-  // for (auto [i,idx]: rf) {
-  //   cerr << i << " and idx is " << idx << ", ";
-  // }
-  // cerr << endl;
-  // cerr << "cols " << endl;
-  // for (auto [i, idx]: cf) {
-  //   std::cerr << i << " and idx is " << idx << ", ";;
-  // }
+
+  // start getting stems
+
+  pair<int,int> firstStem = cf[0];
+  float thresh = firstStem.first * .8;
+  int idx = 1;
+  while (cf[idx].first > thresh) {
+    ++idx;
+  }
+  vector<pair<int,int>> notes(cf.begin(), cf.begin()+idx);
+  sort(notes.begin(), notes.end(), compare2);
+
+  // find stem width
+  int col = 1;
+  while ((notes[col].second - notes[col-1].second) == 1) {
+    col++;
+  }
+  cerr << "stem width is " << col;
+
   cout << "AQ DH" << endl;
 }
