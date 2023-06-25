@@ -182,10 +182,13 @@ int main() {
       int ccol = leftCol;
       // if left longer, then take the bottom left
       bool lowerLeft = true;
-      if (cf[leftCol] < cf[rightCol]) {
+      if (cf[leftCol].first < cf[rightCol].first) {
         ccol = rightCol;
         lowerLeft = false;
-        cerr << "bean is on upper right." << endl;
+        cerr << "bean is on upper right, left was " << leftCol << " and right was " << rightCol << endl;
+        // cerr << "left freq " << cf[leftCol] << " right freq " << cf[rightCol] << endl;
+      } else {
+        cerr << "bean is on lower left " << endl; // TODO: REMOVE
       }
 
       // if right longer take the top right
