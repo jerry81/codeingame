@@ -96,3 +96,11 @@ AQ DH
 
 - next to 9th is d
 
+- next step:
+- find where a stem "points to"
+- find first non-ledger black point
+- now lets collect the "boundaries" and analyze
+  - unfortunately the 4 highest notes have redundant stems
+  - four highest notes have a note that is laid out to right of stem (top of stem)
+  - the rest of the notes have note laid out to left of stem (bottom of stem)
+- normally we would check area right or left of the stem for the note, but it doesn't work out with half notes.  no "blackness" to check

@@ -4,6 +4,7 @@
 #include <sstream>
 #include <string>
 #include <vector>
+#include <limits.h>
 
 using namespace std;
 
@@ -31,6 +32,13 @@ bool compare2(pair<int, int> a, pair<int, int> b) {
   return a.second < b.second;
 }
 
+
+bool isLine(vector<vector<int>> boundaries, int y) {
+  return (y >= boundaries[0][0] && y <= boundaries[0][1]) || (y >= boundaries[1][0] && y <= boundaries[1][1]) ||
+     (y >= boundaries[2][0] && y <= boundaries[2][1]) || (y >= boundaries[3][0] && y <= boundaries[3][1]) ||
+     (y >= boundaries[4][0] && y <= boundaries[4][1]);
+}
+
 string findNote(vector<vector<int>> boundaries, int y) {
   int tbd = 1;
   // TODO:  "extra ledger, c"
@@ -40,19 +48,19 @@ string findNote(vector<vector<int>> boundaries, int y) {
     return "F";
   } else if (y > boundaries[0][1] && y < boundaries[1][0]) {
     return "E";
-  } else if (y > boundaries[1][0] && y < boundaries[1][1]) {
+  } else if (y >= boundaries[1][0] && y <= boundaries[1][1]) {
     return "D";
   } else if (y > boundaries[1][1] && y < boundaries[2][0]) {
     return "C";
-  } else if (y > boundaries[2][0] && y < boundaries[2][1]) {
+  } else if (y >= boundaries[2][0] && y <= boundaries[2][1]) {
     return "B";
   } else if (y > boundaries[2][1] && y < boundaries[3][0]) {
     return "A";
-  } else if (y > boundaries[3][0] && y < boundaries[3][1]) {
+  } else if (y >= boundaries[3][0] && y <= boundaries[3][1]) {
     return "G";
   } else if (y > boundaries[3][1] && y < boundaries[4][0]) {
     return "F";
-  } else if (y > boundaries[4][0] && y < boundaries[4][1]) {
+  } else if (y >= boundaries[4][0] && y <= boundaries[4][1]) {
     return "E";
   } else if (y > boundaries[4][1] && y < tbd) {
     return "D";
@@ -132,6 +140,11 @@ int main() {
     ledgerLookup[i][1] = ledgerLookup[i][0] + perL - 1;
   }
 
+  for (auto vec: ledgerLookup) {
+    cerr << "ledger lookup" << endl;
+    cerr << vec[0] << " to " << vec[1] << endl;
+  }
+
   // start getting stems
 
   pair<int,int> firstStem = cf[0];
@@ -144,11 +157,26 @@ int main() {
   sort(notes.begin(), notes.end(), compare2);
 
   // find stem width
-  int col = 1;
-  while ((notes[col].second - notes[col-1].second) == 1) {
-    col++;
+  int stemWidth = 1;
+  while ((notes[stemWidth].second - notes[stemWidth-1].second) == 1) {
+    stemWidth++;
   }
-  cerr << "stem width is " << col;
+
+
+  for (int idx = 0; idx < notes.size(); ++idx) {
+    int minStem = INT_MAX;
+    int maxStem = INT_MIN;
+    auto [_,ccol] = notes[idx];
+    for (int ch = 0; ch < h; ++ch) {
+      if (grid[ch][ccol] && !isLine(ledgerLookup, ch)) {
+        minStem = min(minStem, ch);
+        maxStem = max(maxStem, ch);
+      }
+    }
+    cerr << "minStem " << minStem << endl;;
+    cerr << "maxStem " << maxStem << endl;;
+  }
+
 
   cout << "AQ DH" << endl;
 }
