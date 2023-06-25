@@ -41,30 +41,31 @@ bool isLine(vector<vector<int>> boundaries, int y) {
          (y >= boundaries[4][0] && y <= boundaries[4][1]);
 }
 
-string findNote(vector<vector<int>> boundaries, int y) {
+string findNote(vector<vector<int>> boundaries, int y, int ledgerThickness) {
   int tbd = 1;
+  cerr << "looking up y is " << y << endl;
   // TODO:  "extra ledger, c"
-  if (y < boundaries[0][0]) {
+  if (y < boundaries[0][0]-ledgerThickness) {
     return "G";
-  } else if (y >= boundaries[0][0] && y <= boundaries[0][1]) {
+  } else if (y >= boundaries[0][0]-ledgerThickness && y <= boundaries[0][1]+ledgerThickness) {
     return "F";
-  } else if (y > boundaries[0][1] && y < boundaries[1][0]) {
+  } else if (y > boundaries[0][1]+ledgerThickness && y < boundaries[1][0]-ledgerThickness) {
     return "E";
-  } else if (y >= boundaries[1][0] && y <= boundaries[1][1]) {
+  } else if (y >= boundaries[1][0]-ledgerThickness && y <= boundaries[1][1]+ledgerThickness) {
     return "D";
-  } else if (y > boundaries[1][1] && y < boundaries[2][0]) {
+  } else if (y > boundaries[1][1]+ledgerThickness && y < boundaries[2][0]-ledgerThickness) {
     return "C";
-  } else if (y >= boundaries[2][0] && y <= boundaries[2][1]) {
+  } else if (y >= boundaries[2][0]-ledgerThickness && y <= boundaries[2][1]+ledgerThickness) {
     return "B";
-  } else if (y > boundaries[2][1] && y < boundaries[3][0]) {
+  } else if (y > boundaries[2][1]+ledgerThickness && y < boundaries[3][0]-ledgerThickness) {
     return "A";
-  } else if (y >= boundaries[3][0] && y <= boundaries[3][1]) {
+  } else if (y >= boundaries[3][0]-ledgerThickness && y <= boundaries[3][1]+ledgerThickness) {
     return "G";
-  } else if (y > boundaries[3][1] && y < boundaries[4][0]) {
+  } else if (y > boundaries[3][1]+ledgerThickness && y < boundaries[4][0]-ledgerThickness) {
     return "F";
-  } else if (y >= boundaries[4][0] && y <= boundaries[4][1]) {
+  } else if (y >= boundaries[4][0]-ledgerThickness && y <= boundaries[4][1]+ledgerThickness) {
     return "E";
-  } else if (y > boundaries[4][1] && y < tbd) {
+  } else if (y > boundaries[4][1]+ledgerThickness && y < tbd) {
     return "D";
   } else {
     return "C";
@@ -134,12 +135,11 @@ int main() {
   vector<pair<int, int>> ledgers(rf.begin(), rf.begin() + totalLedgers);
 
   sort(ledgers.begin(), ledgers.end(), compare2);
-
+  int ledgerThickness = ledgers.size() / 5;
   vector<vector<int>> ledgerLookup(5, vector<int>(2));
-  int perL = ledgers.size() / 5;
   for (int i = 0; i < 5; ++i) {
-    ledgerLookup[i][0] = ledgers[i * perL].second;
-    ledgerLookup[i][1] = ledgerLookup[i][0] + perL - 1;
+    ledgerLookup[i][0] = ledgers[i * ledgerThickness].second;
+    ledgerLookup[i][1] = ledgerLookup[i][0] + ledgerThickness - 1;
   }
 
   for (auto vec : ledgerLookup) {
@@ -197,10 +197,10 @@ int main() {
           minStem = min(minStem, ch);
           maxStem = max(maxStem, ch);
         }
-        int y = lowerLeft ? maxStem : minStem;
-        string noteStr = findNote(ledgerLookup, y);
-        output += noteStr + "Q ";
       }
+    int y = lowerLeft ? maxStem : minStem;
+    string noteStr = findNote(ledgerLookup, y, ledgerThickness);
+    output += noteStr + "Q ";
     } else {
       // handle 1 pixel case
     }
