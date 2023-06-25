@@ -176,19 +176,21 @@ int main() {
     int minStem = INT_MAX;
     int maxStem = INT_MIN;
     if (stemWidth > 1) {
-      int leftCol = notes[idx * stemWidth].second;
+      auto [leftCount,leftCol] = notes[idx * stemWidth];
       // int ccol = stemStarts[idx];
-      int rightCol = leftCol + stemWidth - 1;
+      auto [rightCount, rightCol] = notes[(idx+1) * stemWidth - 1];
+
       int ccol = leftCol;
       // if left longer, then take the bottom left
       bool lowerLeft = true;
-      if (cf[leftCol].first < cf[rightCol].first) {
+      cerr << "leftcol " << leftCol << " right col is " << rightCol << endl;
+      if (leftCount < rightCount) {
         ccol = rightCol;
         lowerLeft = false;
-        cerr << "bean is on upper right, left was " << leftCol << " and right was " << rightCol << endl;
+        cerr << "bean is on upper right, left was " << leftCount << " and right was " << rightCount << endl;
         // cerr << "left freq " << cf[leftCol] << " right freq " << cf[rightCol] << endl;
       } else {
-        cerr << "bean is on lower left " << endl; // TODO: REMOVE
+        cerr << "bean is on lower left was " << leftCount << " and right was " << rightCount << endl; // TODO: REMOVE
       }
 
       // if right longer take the top right
