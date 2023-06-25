@@ -104,3 +104,10 @@ AQ DH
   - four highest notes have a note that is laid out to right of stem (top of stem)
   - the rest of the notes have note laid out to left of stem (bottom of stem)
 - normally we would check area right or left of the stem for the note, but it doesn't work out with half notes.  no "blackness" to check
+
+- trick (all cases except the 1 px) find that one of the stems extends farther.  this is the side with the "bean".
+- for 1 px case, must check diagonal from the tip
+- lets first do this and print notes with Q just to check correctness.
+
+
+- finally we must check for half notes
