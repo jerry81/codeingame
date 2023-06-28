@@ -202,9 +202,16 @@ int main() {
       }
     int y = lowerLeft ? maxStem : minStem;
     string noteStr = findNote(ledgerLookup, y, ledgerThickness);
-    output += noteStr + "Q ";
+    bool isHalf = true;
+    if (lowerLeft) {
+      isHalf = !(grid[y][ccol - 2*stemWidth]);
     } else {
-      // handle 1 pixel case
+      isHalf = !(grid[y][ccol+ 2*stemWidth]);
+    }
+    string noteType = isHalf ? "H " : "Q ";
+    output += noteStr + noteType;
+    } else {
+      // TODO: handle 1 pixel case
     }
   }
 

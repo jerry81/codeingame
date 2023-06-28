@@ -111,3 +111,9 @@ AQ DH
 
 
 - finally we must check for half notes
+  - lower left - between lines
+  - lower left - on line
+  - upper right - between lines
+  - upper right - on line
+
+- and low c
