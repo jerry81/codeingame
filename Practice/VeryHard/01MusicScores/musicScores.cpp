@@ -43,6 +43,7 @@ bool isLine(vector<vector<int>> boundaries, int y) {
 
 string findNote(vector<vector<int>> boundaries, int y, int ledgerThickness) {
   int noteThickness = boundaries[1][0] - boundaries[0][1];
+  if (ledgerThickness == 1) ledgerThickness=2;
   // TODO:  "extra ledger, c"
   if (y < (boundaries[0][0] - ledgerThickness)) {
     return "G";

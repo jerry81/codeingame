@@ -116,4 +116,15 @@ AQ DH
   - upper right - between lines
   - upper right - on line
 
-- and low c
+- and low c - done?
+
+- high e/d issues me - e, expected d
+- me c  expect b
+- me g expect f
+
+- me f expect g
+- me a expect b
+
+Found: BQ CH DH EH FQ GQ FQ BQ DH BQ AQ CH DH EH FQ GQ FQ BQ DH AQ
+Expec: BQ CH DH EH FQ GQ GQ BQ DH BQ BQ CH DH EH FQ GQ GQ BQ DH BQ
+
