@@ -45,27 +45,36 @@ string findNote(vector<vector<int>> boundaries, int y, int ledgerThickness) {
   int tbd = 1;
   cerr << "looking up y is " << y << endl;
   // TODO:  "extra ledger, c"
-  if (y < boundaries[0][0]-ledgerThickness) {
+  if (y < boundaries[0][0] - ledgerThickness) {
     return "G";
-  } else if (y >= boundaries[0][0]-ledgerThickness && y <= boundaries[0][1]+ledgerThickness) {
+  } else if (y >= boundaries[0][0] - ledgerThickness &&
+             y <= boundaries[0][1] + ledgerThickness) {
     return "F";
-  } else if (y > boundaries[0][1]+ledgerThickness && y < boundaries[1][0]-ledgerThickness) {
+  } else if (y > boundaries[0][1] + ledgerThickness &&
+             y < boundaries[1][0] - ledgerThickness) {
     return "E";
-  } else if (y >= boundaries[1][0]-ledgerThickness && y <= boundaries[1][1]+ledgerThickness) {
+  } else if (y >= boundaries[1][0] - ledgerThickness &&
+             y <= boundaries[1][1] + ledgerThickness) {
     return "D";
-  } else if (y > boundaries[1][1]+ledgerThickness && y < boundaries[2][0]-ledgerThickness) {
+  } else if (y > boundaries[1][1] + ledgerThickness &&
+             y < boundaries[2][0] - ledgerThickness) {
     return "C";
-  } else if (y >= boundaries[2][0]-ledgerThickness && y <= boundaries[2][1]+ledgerThickness) {
+  } else if (y >= boundaries[2][0] - ledgerThickness &&
+             y <= boundaries[2][1] + ledgerThickness) {
     return "B";
-  } else if (y > boundaries[2][1]+ledgerThickness && y < boundaries[3][0]-ledgerThickness) {
+  } else if (y > boundaries[2][1] + ledgerThickness &&
+             y < boundaries[3][0] - ledgerThickness) {
     return "A";
-  } else if (y >= boundaries[3][0]-ledgerThickness && y <= boundaries[3][1]+ledgerThickness) {
+  } else if (y >= boundaries[3][0] - ledgerThickness &&
+             y <= boundaries[3][1] + ledgerThickness) {
     return "G";
-  } else if (y > boundaries[3][1]+ledgerThickness && y < boundaries[4][0]-ledgerThickness) {
+  } else if (y > boundaries[3][1] + ledgerThickness &&
+             y < boundaries[4][0] - ledgerThickness) {
     return "F";
-  } else if (y >= boundaries[4][0]-ledgerThickness && y <= boundaries[4][1]+ledgerThickness) {
+  } else if (y >= boundaries[4][0] - ledgerThickness &&
+             y <= boundaries[4][1] + ledgerThickness) {
     return "E";
-  } else if (y > boundaries[4][1]+ledgerThickness && y < tbd) {
+  } else if (y > boundaries[4][1] + ledgerThickness && y < tbd) {
     return "D";
   } else {
     return "C";
@@ -176,9 +185,9 @@ int main() {
     int minStem = INT_MAX;
     int maxStem = INT_MIN;
     if (stemWidth > 1) {
-      auto [leftCount,leftCol] = notes[idx * stemWidth];
+      auto [leftCount, leftCol] = notes[idx * stemWidth];
       // int ccol = stemStarts[idx];
-      auto [rightCount, rightCol] = notes[(idx+1) * stemWidth - 1];
+      auto [rightCount, rightCol] = notes[(idx + 1) * stemWidth - 1];
 
       int ccol = leftCol;
       // if left longer, then take the bottom left
@@ -187,10 +196,13 @@ int main() {
       if (leftCount < rightCount) {
         ccol = rightCol;
         lowerLeft = false;
-        cerr << "bean is on upper right, left was " << leftCount << " and right was " << rightCount << endl;
-        // cerr << "left freq " << cf[leftCol] << " right freq " << cf[rightCol] << endl;
+        cerr << "bean is on upper right, left was " << leftCount
+             << " and right was " << rightCount << endl;
+        // cerr << "left freq " << cf[leftCol] << " right freq " << cf[rightCol]
+        // << endl;
       } else {
-        cerr << "bean is on lower left was " << leftCount << " and right was " << rightCount << endl; // TODO: REMOVE
+        cerr << "bean is on lower left was " << leftCount << " and right was "
+             << rightCount << endl;  // TODO: REMOVE
       }
 
       // if right longer take the top right
@@ -200,18 +212,39 @@ int main() {
           maxStem = max(maxStem, ch);
         }
       }
-    int y = lowerLeft ? maxStem : minStem;
-    string noteStr = findNote(ledgerLookup, y, ledgerThickness);
-    bool isHalf = true;
-    if (lowerLeft) {
-      isHalf = !(grid[y][ccol - 2*stemWidth]);
+      int y = lowerLeft ? maxStem : minStem;
+      string noteStr = findNote(ledgerLookup, y, ledgerThickness);
+      bool isHalf = true;
+      if (lowerLeft) {
+        isHalf = !(grid[y][ccol - 2 * stemWidth]);
+      } else {
+        isHalf = !(grid[y][ccol + 2 * stemWidth]);
+      }
+      string noteType = isHalf ? "H " : "Q ";
+      output += noteStr + noteType;
     } else {
-      isHalf = !(grid[y][ccol+ 2*stemWidth]);
-    }
-    string noteType = isHalf ? "H " : "Q ";
-    output += noteStr + noteType;
-    } else {
-      // TODO: handle 1 pixel case
+      // can't determine direction based on freq counts
+      // must check lower left or upper right
+      auto [count, col] = notes[idx];
+      for (int ch = 0; ch < h; ++ch) {
+        if (grid[ch][col] && !isLine(ledgerLookup, ch)) {
+          minStem = min(minStem, ch);
+          maxStem = max(maxStem, ch);
+        }
+      }
+      // check lower left
+
+      bool lowerLeft = grid[maxStem + 1][col - 1];
+      int y = lowerLeft ? maxStem : minStem;
+      string noteStr = findNote(ledgerLookup, y, ledgerThickness);
+      bool isHalf = true;
+      if (lowerLeft) {
+        isHalf = !(grid[y][col - 2 * stemWidth]);
+      } else {
+        isHalf = !(grid[y][col + 2 * stemWidth]);
+      }
+      string noteType = isHalf ? "H " : "Q ";
+      output += noteStr + noteType;
     }
   }
 
