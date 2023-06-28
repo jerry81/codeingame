@@ -151,10 +151,6 @@ int main() {
     ledgerLookup[i][1] = ledgerLookup[i][0] + ledgerThickness - 1;
   }
 
-  for (auto vec : ledgerLookup) {
-    cerr << "ledger lookup" << endl;
-    cerr << vec[0] << " to " << vec[1] << endl;
-  }
 
   // start getting stems
 
@@ -192,17 +188,9 @@ int main() {
       int ccol = leftCol;
       // if left longer, then take the bottom left
       bool lowerLeft = true;
-      cerr << "leftcol " << leftCol << " right col is " << rightCol << endl;
       if (leftCount < rightCount) {
         ccol = rightCol;
         lowerLeft = false;
-        cerr << "bean is on upper right, left was " << leftCount
-             << " and right was " << rightCount << endl;
-        // cerr << "left freq " << cf[leftCol] << " right freq " << cf[rightCol]
-        // << endl;
-      } else {
-        cerr << "bean is on lower left was " << leftCount << " and right was "
-             << rightCount << endl;  // TODO: REMOVE
       }
 
       // if right longer take the top right
