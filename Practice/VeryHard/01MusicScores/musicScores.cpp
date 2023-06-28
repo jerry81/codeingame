@@ -212,7 +212,7 @@ int main() {
           maxStem = max(maxStem, ch);
         }
       }
-      int y = lowerLeft ? maxStem - 5 : minStem + 5;
+      int y = lowerLeft ? maxStem - 8 : minStem + 8;
       string noteStr = findNote(ledgerLookup, y, ledgerThickness);
       bool isHalf = true;
       if (lowerLeft) {
