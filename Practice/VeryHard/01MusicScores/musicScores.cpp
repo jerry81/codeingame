@@ -42,39 +42,38 @@ bool isLine(vector<vector<int>> boundaries, int y) {
 }
 
 string findNote(vector<vector<int>> boundaries, int y, int ledgerThickness) {
-  int tbd = 1;
-  cerr << "looking up y is " << y << endl;
+  int noteThickness = boundaries[1][0] - boundaries[0][1];
   // TODO:  "extra ledger, c"
-  if (y < boundaries[0][0] - ledgerThickness) {
+  if (y < (boundaries[0][0] - ledgerThickness)) {
     return "G";
-  } else if (y >= boundaries[0][0] - ledgerThickness &&
-             y <= boundaries[0][1] + ledgerThickness) {
+  } else if ((y >= (boundaries[0][0] - ledgerThickness)) &&
+             (y <= (boundaries[0][1] + ledgerThickness))) {
     return "F";
-  } else if (y > boundaries[0][1] + ledgerThickness &&
-             y < boundaries[1][0] - ledgerThickness) {
+  } else if ((y > (boundaries[0][1] + ledgerThickness)) &&
+             (y < (boundaries[1][0] - ledgerThickness))) {
     return "E";
-  } else if (y >= boundaries[1][0] - ledgerThickness &&
-             y <= boundaries[1][1] + ledgerThickness) {
+  } else if ((y >= (boundaries[1][0] - ledgerThickness)) &&
+             (y <= (boundaries[1][1] + ledgerThickness))) {
     return "D";
-  } else if (y > boundaries[1][1] + ledgerThickness &&
-             y < boundaries[2][0] - ledgerThickness) {
+  } else if ((y > (boundaries[1][1] + ledgerThickness)) &&
+             (y < (boundaries[2][0] - ledgerThickness))) {
     return "C";
-  } else if (y >= boundaries[2][0] - ledgerThickness &&
-             y <= boundaries[2][1] + ledgerThickness) {
+  } else if ((y >= (boundaries[2][0] - ledgerThickness)) &&
+             (y <= (boundaries[2][1] + ledgerThickness))) {
     return "B";
-  } else if (y > boundaries[2][1] + ledgerThickness &&
-             y < boundaries[3][0] - ledgerThickness) {
+  } else if ((y > (boundaries[2][1] + ledgerThickness)) &&
+             (y < (boundaries[3][0] - ledgerThickness))) {
     return "A";
-  } else if (y >= boundaries[3][0] - ledgerThickness &&
-             y <= boundaries[3][1] + ledgerThickness) {
+  } else if ((y >= (boundaries[3][0] - ledgerThickness)) &&
+             (y <= (boundaries[3][1] + ledgerThickness))) {
     return "G";
-  } else if (y > boundaries[3][1] + ledgerThickness &&
-             y < boundaries[4][0] - ledgerThickness) {
+  } else if ((y > (boundaries[3][1] + ledgerThickness)) &&
+             (y < (boundaries[4][0] - ledgerThickness))) {
     return "F";
-  } else if (y >= boundaries[4][0] - ledgerThickness &&
-             y <= boundaries[4][1] + ledgerThickness) {
+  } else if ((y >= (boundaries[4][0] - ledgerThickness)) &&
+             (y <= (boundaries[4][1] + ledgerThickness))) {
     return "E";
-  } else if (y > boundaries[4][1] + ledgerThickness && y < tbd) {
+  } else if ((y > (boundaries[4][1] + ledgerThickness)) && (y < (boundaries[4][1]+noteThickness-ledgerThickness))) {
     return "D";
   } else {
     return "C";
