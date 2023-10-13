@@ -1,8 +1,9 @@
 #include <algorithm>
 #include <iostream>
+#include <memory>
 #include <string>
-#include <vector>
 #include <unordered_map>
+#include <vector>
 
 using namespace std;
 
@@ -11,12 +12,7 @@ using namespace std;
  * -Kill your enemy soldiers or Have more bucks than your enemy at end of game
  **/
 
-enum Direction {
-    UP = 0,
-    LEFT = 1,
-    DOWN = 2,
-    RIGHT = 3
-};
+enum Direction { UP = 0, LEFT = 1, DOWN = 2, RIGHT = 3 };
 
 struct Point {
   int x;
@@ -38,7 +34,7 @@ Direction forbiddenMove(Direction cur) {
   }
 }
 
-int manhattanDist(Point* a, Point* b) {
+int manhattanDist(Point *a, Point *b) {
   return abs(b->y - a->y) + abs(b->x - a->x);
 };
 
@@ -46,9 +42,30 @@ struct Soldier {
   Point *p;
   Direction d;
   int id;
-  Soldier(int y, int x, int dir, int id): id(id) {
+  Soldier(int y, int x, int dir, int id) : id(id) {
     d = static_cast<Direction>(dir);
-    p = new Point(y,x);
+    p = new Point(y, x);
+  }
+  bool canShoot(Point *ep) {
+    if (manhattanDist(p, ep) > 2) return false;
+
+    int dx = abs(ep->x - p->x);
+    int dy = abs(ep->y - p->y);
+    switch (d) {
+      case UP: {
+        if (ep->y > p->y) return false;
+      }
+      case DOWN: {
+        if (ep->y < p->y) return false;
+      }
+      case RIGHT: {
+        if (ep->x < p->x) return false;
+      }
+      default: {  // LEFT
+        if (ep->x > p->x) return false;
+      }
+      return true;
+    }
   }
 };
 
@@ -94,10 +111,15 @@ int main() {
                       // 2 = DOWN, 3 = RIGHT
 
       cin >> owner_id >> x >> y >> soldier_id >> level >> direction;
-      vector<shared_ptr<Soldier>> &targetContainer = (owner_id == my_id) ? mine : his;
-      targetContainer.push_back(std::make_shared<Soldier>(y, x, direction, soldier_id));
+      vector<shared_ptr<Soldier>> &targetContainer =
+          (owner_id == my_id) ? mine : his;
+      targetContainer.push_back(
+          std::make_shared<Soldier>(y, x, direction, soldier_id));
       cin.ignore();
     }
+
+    // for each soldier
+    // enemy in range?
 
     // Write an action using cout. DON'T FORGET THE "<< endl"
     // To debug: cerr << "Debug messages..." << endl;
