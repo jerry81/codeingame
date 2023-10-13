@@ -2,6 +2,7 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <unordered_map>
 
 using namespace std;
 
@@ -10,12 +11,32 @@ using namespace std;
  * -Kill your enemy soldiers or Have more bucks than your enemy at end of game
  **/
 
+enum Direction {
+    UP = 0,
+    LEFT = 1,
+    DOWN = 2,
+    RIGHT = 3
+};
+
 struct Point {
   int x;
   int y;
   Point(int y, int x) : x(x), y(y){};
   void print() { cout << "point: " << y << ", " << x << endl; }
 };
+
+Direction forbiddenMove(Direction cur) {
+  switch (cur) {
+    case UP:
+      return DOWN;
+    case LEFT:
+      return RIGHT;
+    case DOWN:
+      return UP;
+    default:
+      return LEFT;
+  }
+}
 
 int manhattanDist(Point* a, Point* b) {
   return abs(b->y - a->y) + abs(b->x - a->x);
