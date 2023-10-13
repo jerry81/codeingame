@@ -42,6 +42,15 @@ int manhattanDist(Point* a, Point* b) {
   return abs(b->y - a->y) + abs(b->x - a->x);
 };
 
+struct Soldier {
+  Point *p;
+  Direction d;
+  Soldier(int x, int y, int dir) {
+    d = static_cast<Direction>(dir);
+    p = new Point(y,x);
+  }
+};
+
 int main() {
   int my_id;  // Your unique player Id
   cin >> my_id;
