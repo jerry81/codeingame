@@ -18,7 +18,7 @@ struct Point {
   int x;
   int y;
   Point(int y, int x) : x(x), y(y){};
-  void print() { cout << "point: " << y << ", " << x << endl; }
+  void print() { cerr << "point: " << y << ", " << x << endl; }
 };
 
 Direction forbiddenMove(Direction cur) {
@@ -47,25 +47,37 @@ struct Soldier {
     p = new Point(y, x);
   }
   bool canShoot(Point *ep) {
-    if (manhattanDist(p, ep) > 2) return false;
+    int dist = manhattanDist(p, ep);
+    cerr << "dist is " << dist << " dir is " << d << endl;
+    p->print();
+    cerr << "enemy " << endl;
+    ep->print();
+    if (dist > 2) return false;
 
     int dx = abs(ep->x - p->x);
     int dy = abs(ep->y - p->y);
     switch (d) {
       case UP: {
         if (ep->y > p->y) return false;
+        break;
       }
       case DOWN: {
         if (ep->y < p->y) return false;
+        break;
       }
       case RIGHT: {
+        cerr << "yes this cae " << endl;
+        cerr << "is " << ep->x << " < " << p->x << endl;
         if (ep->x < p->x) return false;
+        cerr << "therefore breaking " << endl;
+        break;
       }
       default: {  // LEFT
         if (ep->x > p->x) return false;
+        break;
       }
-      return true;
     }
+    return true;
   }
 };
 
@@ -116,6 +128,14 @@ int main() {
       targetContainer.push_back(
           std::make_shared<Soldier>(y, x, direction, soldier_id));
       cin.ignore();
+    }
+
+    for (auto m: mine) {
+      for (auto h: his) {
+        if (m->canShoot(h->p)) {
+          cerr << "yoooo i can shoot him" << endl;
+        }
+      }
     }
 
     // for each soldier
