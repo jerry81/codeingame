@@ -48,10 +48,6 @@ struct Soldier {
   }
   bool canShoot(Point *ep) {
     int dist = manhattanDist(p, ep);
-    cerr << "dist is " << dist << " dir is " << d << endl;
-    p->print();
-    cerr << "enemy " << endl;
-    ep->print();
     if (dist > 2) return false;
 
     int dx = abs(ep->x - p->x);
@@ -66,10 +62,7 @@ struct Soldier {
         break;
       }
       case RIGHT: {
-        cerr << "yes this cae " << endl;
-        cerr << "is " << ep->x << " < " << p->x << endl;
         if (ep->x < p->x) return false;
-        cerr << "therefore breaking " << endl;
         break;
       }
       default: {  // LEFT
@@ -91,6 +84,7 @@ int main() {
 
   // game loop
   while (1) {
+  endLoop:
     int my_bucks;  // Your Money
     cin >> my_bucks;
     cin.ignore();
@@ -130,10 +124,11 @@ int main() {
       cin.ignore();
     }
 
-    for (auto m: mine) {
-      for (auto h: his) {
-        if (m->canShoot(h->p)) {
-          cerr << "yoooo i can shoot him" << endl;
+    for (auto m : mine) {
+      for (auto h : his) {
+        if (m->canShoot(h->p) && my_bucks >= 35) {
+          cout << "ATTACK " << m->id << " " << h->id << endl;
+          goto endLoop;
         }
       }
     }
