@@ -17,6 +17,19 @@ struct Point {
   void print() { cout << "point: " << y << ", " << x << endl; }
 };
 
+int manhattanDist(Point* a, Point* b) {
+  return abs(b->y - a->y) + abs(b->x - a->x);
+};
+
+void testManhattan() {
+  Point *a = new Point(1,1);
+  Point *b = new Point(2,2);
+  cout << "expect 2 " << manhattanDist(a,b);
+  Point *a = new Point(5, 1);
+  Point *b = new Point(0,0);
+  cout << "expect 6" << manhattanDist(a,b);
+}
+
 int main()
 {
   int my_id;  // Your unique player Id
@@ -25,6 +38,8 @@ int main()
   int map_size;  // the size of map MapSize*MapSize
   cin >> map_size;
   cin.ignore();
+
+  testManhattan();
 
   // game loop
   while (1) {
