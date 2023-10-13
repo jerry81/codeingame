@@ -5,7 +5,6 @@
 - if don't have enough money to attack, move to enemy territory/neutral territory, and face enemy to prepare to attack
   - move helper
 
-
 # instructions
 
 ```
