@@ -45,7 +45,8 @@ int manhattanDist(Point* a, Point* b) {
 struct Soldier {
   Point *p;
   Direction d;
-  Soldier(int x, int y, int dir) {
+  int id;
+  Soldier(int y, int x, int dir, int id): id(id) {
     d = static_cast<Direction>(dir);
     p = new Point(y,x);
   }
@@ -81,6 +82,8 @@ int main() {
     int active_soldier_count;  // Total no. of active soldier in the game
     cin >> active_soldier_count;
     cin.ignore();
+    vector<shared_ptr<Soldier>> mine;
+    vector<shared_ptr<Soldier>> his;
     for (int i = 0; i < active_soldier_count; i++) {
       int owner_id;    // owner of the soldier
       int x;           // This soldier's position x
@@ -89,7 +92,10 @@ int main() {
       int level;       // Level of the soldier ignore for first league
       int direction;  // The side where the soldier is facing 0 = UP, 1 = LEFT ,
                       // 2 = DOWN, 3 = RIGHT
+
       cin >> owner_id >> x >> y >> soldier_id >> level >> direction;
+      vector<shared_ptr<Soldier>> &targetContainer = (owner_id == my_id) ? mine : his;
+      targetContainer.push_back(std::make_shared<Soldier>(y, x, direction, soldier_id));
       cin.ignore();
     }
 
