@@ -1,8 +1,9 @@
 #include <algorithm>
 #include <iostream>
 #include <memory>
+#include <queue>
 #include <string>
-#include <unordered_map>
+#include <unordered_set>
 #include <vector>
 
 using namespace std;
@@ -13,12 +14,14 @@ using namespace std;
  **/
 
 enum Direction { UP = 0, LEFT = 1, DOWN = 2, RIGHT = 3 };
+vector<vector<int>> movements = {{-1, 0}, {0, -1}, {1, 0}, {0, 1}};
 
 struct Point {
   int x;
   int y;
   Point(int y, int x) : x(x), y(y){};
   void print() { cerr << "point: " << y << ", " << x << endl; }
+  string to_h() { return y + "," + x; }
 };
 
 Direction forbiddenMove(Direction cur) {
@@ -38,6 +41,14 @@ int manhattanDist(Point *a, Point *b) {
   return abs(b->y - a->y) + abs(b->x - a->x);
 };
 
+struct BFSNode {
+  Point *p;
+  Direction d;
+  BFSNode *startDir;
+  string to_h() { return p->to_h() + "," + to_string(d); }
+  BFSNode(Point *p, Direction d) : p(p), d(d){};
+};
+
 struct Soldier {
   Point *p;
   Direction d;
@@ -46,6 +57,40 @@ struct Soldier {
     d = static_cast<Direction>(dir);
     p = new Point(y, x);
   }
+
+  string bfs(vector<vector<int>> &grid, int &my_id, int &sz) {
+    // path to closest
+    unordered_set<string> visited;
+    BFSNode *start = new BFSNode(p, d);
+    queue<BFSNode *> neigh;
+    visited.insert(start->to_h());
+    neigh.push(start);
+    while (!neigh.empty()) {
+      BFSNode *cur = neigh.front();
+      neigh.pop();
+
+      for (int i = UP; i <= RIGHT; i++) {
+        Direction dr = static_cast<Direction>(i);
+        Direction except = forbiddenMove(dr);
+        if (except == dr) continue;
+
+        vector<int> change = movements[i];
+        int ny = change[0] + cur->p->y;
+        int nx = change[1] + cur->p->x;
+        if (ny < 0 || ny >= sz) continue;
+
+        if (nx < 0 || nx >= sz) continue;
+
+        Point *nxtP = new Point(ny, nx);
+        BFSNode *cneigh = new BFSNode(nxtP, dr);
+        cneigh->startDir = (cur->startDir == nullptr) ? cur : cur->startDir;
+        if (visited.find(cneigh->to_h()) != visited.end()) continue;
+
+        neigh.push(cneigh);
+      }
+    }
+  }
+
   bool canShoot(Point *ep) {
     int dist = manhattanDist(p, ep);
     if (dist > 2) return false;
@@ -93,12 +138,14 @@ int main() {
     cin.ignore();
     // three kinds of blocks
     // n, p, e
+    vector<vector<int>> grid(map_size, vector<int>(map_size, 0));
     for (int i = 0; i < map_size; i++) {
       for (int j = 0; j < map_size; j++) {
         int block_owner;  // The playerId of this box owned player
         int x;            // This block's position x
         int y;            // This block's position y
         cin >> block_owner >> x >> y;
+        grid[y][x] = block_owner;
         cin.ignore();
       }
     }
@@ -124,6 +171,9 @@ int main() {
       cin.ignore();
     }
 
+    // for each soldier
+    // enemy in range and enough money?  shoot
+
     for (auto m : mine) {
       for (auto h : his) {
         if (m->canShoot(h->p) && my_bucks >= 35) {
@@ -133,11 +183,10 @@ int main() {
       }
     }
 
-    // for each soldier
-    // enemy in range?
+    // move logic
 
-    // Write an action using cout. DON'T FORGET THE "<< endl"
-    // To debug: cerr << "Debug messages..." << endl;
+    // start a lookahead to find current options?
+    // bfs find shortest path to a enemy block // return first item in path
 
     // print any of actions - WAIT | MOVE <soldierId> <direction> | ATTACK
     // <soldierID> <soldierId to attack on> | LATER > UPGRADE <id> | DEGRADE
