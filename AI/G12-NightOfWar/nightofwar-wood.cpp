@@ -126,11 +126,12 @@ struct Soldier {
         break;
       }
       default: {  // RIGHT
+        cerr << "yesh im here " << endl;
         for (int dx : {1, 2}) {
           int nx = cx + dx;
           if (nx < sz) grid[cy][nx] = 2;
           int ny = cy + dx;
-          if (ny <= sz) grid[ny][cx] = 2;
+          if (ny < sz) grid[ny][cx] = 2;
           ny = cy - dx;
           if (ny >= 0) grid[ny][cx] = 2;
         }
