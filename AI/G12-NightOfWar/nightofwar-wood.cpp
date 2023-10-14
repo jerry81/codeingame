@@ -85,12 +85,63 @@ struct Soldier {
         break;
       }
       case UP: {
+        for (int dy : {-1, -2}) {
+          int ny = cy + dy;
+          if (ny >= 0) grid[ny][cx] = 2;
+          int nx = cx + dy;
+          if (nx >= 0) grid[cy][nx] = 2;
+          nx = cx - dy;
+          if (nx >= 0) grid[cy][nx] = 2;
+        }
+
+        int ny = cy - 1;
+        if (ny < 0) break;
+
+        for (int delta : {-1, 1}) {
+          int nx = cx + delta;
+
+          if (nx < sz && nx >= 0) grid[nx][ny] = 2;
+        }
         break;
       }
       case DOWN: {
+        for (int dy : {1, 2}) {
+          int ny = cy + dy;
+          if (ny < sz) grid[ny][cx] = 2;
+          int nx = cx + dy;
+          if (nx >= 0) grid[cy][nx] = 2;
+          nx = cx - dy;
+          if (nx >= 0) grid[cy][nx] = 2;
+        }
+
+        int ny = cy + 1;
+        if (ny >= sz) break;
+
+        for (int delta : {-1, 1}) {
+          int nx = cx + delta;
+
+          if (nx < sz && nx >= 0) grid[nx][ny] = 2;
+        }
         break;
       }
       default: {  // RIGHT
+        for (int dx : {1, 2}) {
+          int nx = cx + dx;
+          if (nx < sz) grid[cy][nx] = 2;
+          int ny = cy + dx;
+          if (ny >= 0) grid[ny][cx] = 2;
+          ny = cy - dx;
+          if (ny >= 0) grid[ny][cx] = 2;
+        }
+
+        int nx = cx + 1;
+        if (nx > sz) break;
+
+        for (int delta : {-1, 1}) {
+          int ny = cy + delta;
+
+          if (ny < sz && ny >= 0) grid[nx][ny] = 2;
+        }
         break;
       }
     }
