@@ -216,7 +216,6 @@ string getBestMove(vector<vector<int>> &grid, vector<shared_ptr<Soldier>> &mine,
   // phase one - get single move
   for (auto a : mine) {
     // get the 3 possible moves
-    vector<Direction> possibilities;
     Direction except = forbiddenMove(a->d);
     Point *pt = a->p;
     int cx = pt->x;
@@ -226,27 +225,38 @@ string getBestMove(vector<vector<int>> &grid, vector<shared_ptr<Soldier>> &mine,
     for (int i = UP; i <= RIGHT; ++i) {
       if (i == except) continue;
 
+
+
       switch (i) {
         case UP: {
           dy = -1;
+          dx = 0;
           break;
         }
         case LEFT: {
-          break;
           dx = -1;
+          dy = 0;
+          break;
         }
         case DOWN: {
           dy = 1;
+          dx = 0;
           break;
         }
         default: {
           dx = 1;
+          dy = 0;
           break;
         }
       }
 
+
+
       int nx = dx + cx;
       int ny = dy + cy;
+
+      cerr << "nx " << nx << endl;
+      cerr << "ny " << ny << endl;
       // rule out out of bounds
 
       if (nx < 0 || ny < 0) continue;
@@ -256,7 +266,13 @@ string getBestMove(vector<vector<int>> &grid, vector<shared_ptr<Soldier>> &mine,
 
       if (grid[ny][nx] == my_id) continue;
 
-      return "MOVE " + a->id + " " + directionNames[i];
+      if (directionNames[i] == "RIGHT") {
+        cerr << "nx " << nx << endl;
+        cerr << "ny " << ny << endl;
+        cerr << "grid value " << to_string(grid[ny][nx]) << endl;
+      }
+
+      return "MOVE " + to_string(a->id) + " " + directionNames[i];
     }
     // rule out danger squares
   }
@@ -285,7 +301,7 @@ int main() {
     int hSq = 0;
     // three kinds of blocks
     // n, p, e
-    vector<vector<int>> grid(map_size, vector<int>(map_size, 0));
+    vector<vector<int>> grid(map_size, vector<int>(map_size, -1));
     for (int i = 0; i < map_size; i++) {
       for (int j = 0; j < map_size; j++) {
         int block_owner;  // The playerId of this box owned player
