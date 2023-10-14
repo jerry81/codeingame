@@ -80,7 +80,7 @@ struct Soldier {
         for (int delta : {-1, 1}) {
           int ny = cy + delta;
 
-          if (ny < sz && ny >= 0) grid[nx][ny] = 2;
+          if (ny < sz && ny >= 0) grid[ny][nx] = 2;
         }
 
         break;
@@ -101,7 +101,7 @@ struct Soldier {
         for (int delta : {-1, 1}) {
           int nx = cx + delta;
 
-          if (nx < sz && nx >= 0) grid[nx][ny] = 2;
+          if (nx < sz && nx >= 0) grid[ny][nx] = 2;
         }
         break;
       }
@@ -121,7 +121,7 @@ struct Soldier {
         for (int delta : {-1, 1}) {
           int nx = cx + delta;
 
-          if (nx < sz && nx >= 0) grid[nx][ny] = 2;
+          if (nx < sz && nx >= 0) grid[ny][nx] = 2;
         }
         break;
       }
@@ -141,7 +141,7 @@ struct Soldier {
         for (int delta : {-1, 1}) {
           int ny = cy + delta;
 
-          if (ny < sz && ny >= 0) grid[nx][ny] = 2;
+          if (ny < sz && ny >= 0) grid[ny][nx] = 2;
         }
         break;
       }
@@ -217,6 +217,7 @@ string getBestMove(vector<vector<int>> &grid, vector<shared_ptr<Soldier>> &mine,
   for (auto a : mine) {
     // get the 3 possible moves
     Direction except = forbiddenMove(a->d);
+    cerr << "except is " << directionNames[except] << endl;
     Point *pt = a->p;
     int cx = pt->x;
     int cy = pt->y;
@@ -263,7 +264,7 @@ string getBestMove(vector<vector<int>> &grid, vector<shared_ptr<Soldier>> &mine,
 
       if (nx < 0 || ny < 0) continue;
       if (nx >= sz || ny >= sz) continue;
-
+      cerr << "grid[ny][nx] is " << grid[ny][nx] << endl;
       if (grid[ny][nx] == 2) continue;
 
       if (grid[ny][nx] == my_id) continue;
