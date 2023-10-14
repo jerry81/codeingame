@@ -22,7 +22,7 @@ struct Point {
   int y;
   Point(int y, int x) : x(x), y(y){};
   void print() { cerr << "point: " << y << ", " << x << endl; }
-  string to_h() { return y + "," + x; }
+  string to_h() { return to_string(y) + "," + to_string(x); }
 };
 
 Direction forbiddenMove(Direction cur) {
@@ -243,11 +243,13 @@ string getBestMove(vector<vector<int>> &grid, vector<shared_ptr<Soldier>> &mine,
           dx = 0;
           break;
         }
-        default: {
+        case RIGHT: {
           dx = 1;
           dy = 0;
           break;
         }
+        default:
+          continue;
       }
 
 
@@ -265,12 +267,6 @@ string getBestMove(vector<vector<int>> &grid, vector<shared_ptr<Soldier>> &mine,
       if (grid[ny][nx] == 2) continue;
 
       if (grid[ny][nx] == my_id) continue;
-
-      if (directionNames[i] == "RIGHT") {
-        cerr << "nx " << nx << endl;
-        cerr << "ny " << ny << endl;
-        cerr << "grid value " << to_string(grid[ny][nx]) << endl;
-      }
 
       return "MOVE " + to_string(a->id) + " " + directionNames[i];
     }
