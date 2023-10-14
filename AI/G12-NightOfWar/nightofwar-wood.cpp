@@ -58,6 +58,44 @@ struct Soldier {
     p = new Point(y, x);
   }
 
+  void setDanger(vector<vector<int>> &grid, int &sz) {
+    int cx = p->x;
+    int cy = p->y;
+
+    switch (d) {
+      case LEFT: {
+        for (int dx : {-1, -2}) {
+          int nx = cx + dx;
+          if (nx >= 0) grid[cy][nx] = 2;
+          int ny = cy + dx;
+          if (ny >= 0) grid[ny][cx] = 2;
+          ny = cy - dx;
+          if (ny < sz) grid[ny][cx] = 2;
+        }
+
+        int nx = cx - 1;
+        if (nx < 0) break;
+
+        for (int delta : {-1, 1}) {
+          int ny = cy + delta;
+
+          if (ny < sz && ny >= 0) grid[nx][ny] = 2;
+        }
+
+        break;
+      }
+      case UP: {
+        break;
+      }
+      case DOWN: {
+        break;
+      }
+      default: {  // RIGHT
+        break;
+      }
+    }
+  }
+
   string bfs(vector<vector<int>> &grid, int &my_id, int &sz) {
     // path to closest
     unordered_set<string> visited;
@@ -119,6 +157,8 @@ struct Soldier {
   }
 };
 
+const int DANGER = 2;
+
 int main() {
   int my_id;  // Your unique player Id
   cin >> my_id;
@@ -136,6 +176,9 @@ int main() {
     int opp_bucks;  // Opponent Money
     cin >> opp_bucks;
     cin.ignore();
+
+    int mySq = 0;
+    int hSq = 0;
     // three kinds of blocks
     // n, p, e
     vector<vector<int>> grid(map_size, vector<int>(map_size, 0));
@@ -146,14 +189,22 @@ int main() {
         int y;            // This block's position y
         cin >> block_owner >> x >> y;
         grid[y][x] = block_owner;
+        if (block_owner == my_id) {
+          mySq++;
+        } else {
+          hSq++;
+        }
         cin.ignore();
       }
     }
+    int nextMyBucks = mySq * 2 + my_bucks;
+    int nextHisBucks = hSq * 2 + opp_bucks;
     int active_soldier_count;  // Total no. of active soldier in the game
     cin >> active_soldier_count;
     cin.ignore();
     vector<shared_ptr<Soldier>> mine;
     vector<shared_ptr<Soldier>> his;
+
     for (int i = 0; i < active_soldier_count; i++) {
       int owner_id;    // owner of the soldier
       int x;           // This soldier's position x
