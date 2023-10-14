@@ -14,6 +14,7 @@ using namespace std;
  **/
 
 enum Direction { UP = 0, LEFT = 1, DOWN = 2, RIGHT = 3 };
+const string directionNames[] = {"UP", "LEFT", "DOWN", "RIGHT"};
 vector<vector<int>> movements = {{-1, 0}, {0, -1}, {1, 0}, {0, 1}};
 
 struct Point {
@@ -210,6 +211,58 @@ struct Soldier {
 
 const int DANGER = 2;
 
+string getBestMove(vector<vector<int>> &grid, vector<shared_ptr<Soldier>> &mine,
+                   vector<shared_ptr<Soldier>> &his, int &sz, int &my_id) {
+  // phase one - get single move
+  for (auto a : mine) {
+    // get the 3 possible moves
+    vector<Direction> possibilities;
+    Direction except = forbiddenMove(a->d);
+    Point *pt = a->p;
+    int cx = pt->x;
+    int cy = pt->y;
+    int dy = 0;
+    int dx = 0;
+    for (int i = UP; i <= RIGHT; ++i) {
+      if (i == except) continue;
+
+      switch (i) {
+        case UP: {
+          dy = -1;
+          break;
+        }
+        case LEFT: {
+          break;
+          dx = -1;
+        }
+        case DOWN: {
+          dy = 1;
+          break;
+        }
+        default: {
+          dx = 1;
+          break;
+        }
+      }
+
+      int nx = dx + cx;
+      int ny = dy + cy;
+      // rule out out of bounds
+
+      if (nx < 0 || ny < 0) continue;
+      if (nx >= sz || ny >= sz) continue;
+
+      if (grid[ny][nx] == 2) continue;
+
+      if (grid[ny][nx] == my_id) continue;
+
+      return "MOVE " + a->id + " " + directionNames[i];
+    }
+    // rule out danger squares
+  }
+  return "WAIT";
+}
+
 int main() {
   int my_id;  // Your unique player Id
   cin >> my_id;
@@ -276,6 +329,12 @@ int main() {
     // for each soldier
     // enemy in range and enough money?  shoot
 
+    if (nextHisBucks >= 35) {
+      for (auto h : his) {
+        h->setDanger(grid, map_size);
+      }
+    }
+
     for (auto m : mine) {
       for (auto h : his) {
         if (m->canShoot(h->p) && my_bucks >= 35) {
@@ -285,7 +344,13 @@ int main() {
       }
     }
 
+    // check immediate neighbors for best move
+    string move = getBestMove(grid, mine, his, map_size, my_id);
+
+    cout << move << endl;
+
     // move logic
+    // move in a way that puts enemy into your sights
 
     // start a lookahead to find current options?
     // bfs find shortest path to a enemy block // return first item in path
@@ -293,6 +358,6 @@ int main() {
     // print any of actions - WAIT | MOVE <soldierId> <direction> | ATTACK
     // <soldierID> <soldierId to attack on> | LATER > UPGRADE <id> | DEGRADE
     // <opponent id> | SUICIDE <id>
-    cout << "WAIT" << endl;
+    // cout << "WAIT" << endl;
   }
 }
