@@ -92,7 +92,7 @@ struct Soldier {
           int nx = cx + dy;
           if (nx >= 0) grid[cy][nx] = 2;
           nx = cx - dy;
-          if (nx >= 0) grid[cy][nx] = 2;
+          if (nx < sz) grid[cy][nx] = 2;
         }
 
         int ny = cy - 1;
@@ -110,7 +110,7 @@ struct Soldier {
           int ny = cy + dy;
           if (ny < sz) grid[ny][cx] = 2;
           int nx = cx + dy;
-          if (nx >= 0) grid[cy][nx] = 2;
+          if (nx < sz) grid[cy][nx] = 2;
           nx = cx - dy;
           if (nx >= 0) grid[cy][nx] = 2;
         }
@@ -130,13 +130,13 @@ struct Soldier {
           int nx = cx + dx;
           if (nx < sz) grid[cy][nx] = 2;
           int ny = cy + dx;
-          if (ny >= 0) grid[ny][cx] = 2;
+          if (ny <= sz) grid[ny][cx] = 2;
           ny = cy - dx;
           if (ny >= 0) grid[ny][cx] = 2;
         }
 
         int nx = cx + 1;
-        if (nx > sz) break;
+        if (nx >= sz) break;
 
         for (int delta : {-1, 1}) {
           int ny = cy + delta;
@@ -226,8 +226,6 @@ string getBestMove(vector<vector<int>> &grid, vector<shared_ptr<Soldier>> &mine,
     for (int i = UP; i <= RIGHT; ++i) {
       if (i == except) continue;
 
-
-
       switch (i) {
         case UP: {
           dy = -1;
@@ -306,16 +304,17 @@ int main() {
         int y;            // This block's position y
         cin >> block_owner >> x >> y;
         grid[y][x] = block_owner;
+
         if (block_owner == my_id) {
           mySq++;
-        } else {
+        } else if (block_owner != -1) {
           hSq++;
         }
         cin.ignore();
       }
     }
-    int nextMyBucks = mySq * 2 + my_bucks;
-    int nextHisBucks = hSq * 2 + opp_bucks;
+    int nextMyBucks = (mySq * 2) + my_bucks;
+    int nextHisBucks = (hSq * 2) + opp_bucks;
     int active_soldier_count;  // Total no. of active soldier in the game
     cin >> active_soldier_count;
     cin.ignore();
@@ -343,7 +342,9 @@ int main() {
     // enemy in range and enough money?  shoot
 
     if (nextHisBucks >= 35) {
+        cerr << "nextHisBucks is " << nextHisBucks << endl;
       for (auto h : his) {
+        cerr << "setting danger! " << endl;
         h->setDanger(grid, map_size);
       }
     }
@@ -358,6 +359,7 @@ int main() {
     }
 
     // check immediate neighbors for best move
+    cerr << "gbs " << endl;
     string move = getBestMove(grid, mine, his, map_size, my_id);
 
     cout << move << endl;
