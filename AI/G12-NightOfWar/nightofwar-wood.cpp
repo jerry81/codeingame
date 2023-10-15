@@ -8,38 +8,19 @@
 
 using namespace std;
 
-/**
- * Jrke's special
- * -Kill your enemy soldiers or Have more bucks than your enemy at end of game
- **/
-
+/* CONSTANTS */
 enum Direction { UP = 0, LEFT = 1, DOWN = 2, RIGHT = 3 };
 const string directionNames[] = {"UP", "LEFT", "DOWN", "RIGHT"};
-vector<vector<int>> movements = {{-1, 0}, {0, -1}, {1, 0}, {0, 1}};
+const vector<vector<int>> movements = {{-1, 0}, {0, -1}, {1, 0}, {0, 1}};
+const int DANGER = 2;
 
+/* STRUCTS */
 struct Point {
   int x;
   int y;
   Point(int y, int x) : x(x), y(y){};
   void print() { cerr << "point: " << y << ", " << x << endl; }
   string to_h() { return to_string(y) + "," + to_string(x); }
-};
-
-Direction forbiddenMove(Direction cur) {
-  switch (cur) {
-    case UP:
-      return DOWN;
-    case LEFT:
-      return RIGHT;
-    case DOWN:
-      return UP;
-    default:
-      return LEFT;
-  }
-}
-
-int manhattanDist(Point *a, Point *b) {
-  return abs(b->y - a->y) + abs(b->x - a->x);
 };
 
 struct BFSNode {
@@ -126,7 +107,6 @@ struct Soldier {
         break;
       }
       default: {  // RIGHT
-        cerr << "yesh im here " << endl;
         for (int dx : {1, 2}) {
           int nx = cx + dx;
           if (nx < sz) grid[cy][nx] = 2;
@@ -149,6 +129,7 @@ struct Soldier {
     }
   }
 
+  /* TODO: finish this */
   string bfs(vector<vector<int>> &grid, int &my_id, int &sz) {
     // path to closest
     unordered_set<string> visited;
@@ -182,6 +163,7 @@ struct Soldier {
     }
   }
 
+  /* TODO: update with level */
   bool canShoot(Point *ep) {
     int dist = manhattanDist(p, ep);
     if (dist > 2) return false;
@@ -210,7 +192,23 @@ struct Soldier {
   }
 };
 
-const int DANGER = 2;
+/* METHODS */
+Direction forbiddenMove(Direction cur) {
+  switch (cur) {
+    case UP:
+      return DOWN;
+    case LEFT:
+      return RIGHT;
+    case DOWN:
+      return UP;
+    default:
+      return LEFT;
+  }
+}
+
+int manhattanDist(Point *a, Point *b) {
+  return abs(b->y - a->y) + abs(b->x - a->x);
+};
 
 string getBestMove(vector<vector<int>> &grid, vector<shared_ptr<Soldier>> &mine,
                    vector<shared_ptr<Soldier>> &his, int &sz, int &my_id) {
@@ -218,7 +216,6 @@ string getBestMove(vector<vector<int>> &grid, vector<shared_ptr<Soldier>> &mine,
   for (auto a : mine) {
     // get the 3 possible moves
     Direction except = forbiddenMove(a->d);
-    cerr << "except is " << directionNames[except] << endl;
     Point *pt = a->p;
     int cx = pt->x;
     int cy = pt->y;
@@ -252,18 +249,13 @@ string getBestMove(vector<vector<int>> &grid, vector<shared_ptr<Soldier>> &mine,
           continue;
       }
 
-
-
       int nx = dx + cx;
       int ny = dy + cy;
 
-      cerr << "nx " << nx << endl;
-      cerr << "ny " << ny << endl;
       // rule out out of bounds
 
       if (nx < 0 || ny < 0) continue;
       if (nx >= sz || ny >= sz) continue;
-      cerr << "grid[ny][nx] is " << grid[ny][nx] << endl;
       if (grid[ny][nx] == 2) continue;
 
       if (grid[ny][nx] == my_id) continue;
@@ -343,9 +335,7 @@ int main() {
     // enemy in range and enough money?  shoot
 
     if (nextHisBucks >= 35) {
-        cerr << "nextHisBucks is " << nextHisBucks << endl;
       for (auto h : his) {
-        cerr << "setting danger! " << endl;
         h->setDanger(grid, map_size);
       }
     }
@@ -360,20 +350,12 @@ int main() {
     }
 
     // check immediate neighbors for best move
-    cerr << "gbs " << endl;
     string move = getBestMove(grid, mine, his, map_size, my_id);
 
     cout << move << endl;
 
-    // move logic
-    // move in a way that puts enemy into your sights
-
-    // start a lookahead to find current options?
-    // bfs find shortest path to a enemy block // return first item in path
-
     // print any of actions - WAIT | MOVE <soldierId> <direction> | ATTACK
     // <soldierID> <soldierId to attack on> | LATER > UPGRADE <id> | DEGRADE
     // <opponent id> | SUICIDE <id>
-    // cout << "WAIT" << endl;
   }
 }
