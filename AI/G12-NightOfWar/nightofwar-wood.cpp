@@ -1,3 +1,5 @@
+#include <limits.h>
+
 #include <algorithm>
 #include <iostream>
 #include <memory>
@@ -29,6 +31,23 @@ struct BFSNode {
   BFSNode *startDir;
   string to_h() { return p->to_h() + "," + to_string(d); }
   BFSNode(Point *p, Direction d) : p(p), d(d){};
+};
+
+Direction forbiddenMove(Direction cur) {
+  switch (cur) {
+    case UP:
+      return DOWN;
+    case LEFT:
+      return RIGHT;
+    case DOWN:
+      return UP;
+    default:
+      return LEFT;
+  }
+}
+
+int manhattanDist(Point *a, Point *b) {
+  return abs(b->y - a->y) + abs(b->x - a->x);
 };
 
 struct Soldier {
@@ -196,22 +215,6 @@ struct Soldier {
 };
 
 /* METHODS */
-Direction forbiddenMove(Direction cur) {
-  switch (cur) {
-    case UP:
-      return DOWN;
-    case LEFT:
-      return RIGHT;
-    case DOWN:
-      return UP;
-    default:
-      return LEFT;
-  }
-}
-
-int manhattanDist(Point *a, Point *b) {
-  return abs(b->y - a->y) + abs(b->x - a->x);
-};
 
 string getBestMove(vector<vector<int>> &grid, vector<shared_ptr<Soldier>> &mine,
                    vector<shared_ptr<Soldier>> &his, int &sz, int &my_id) {
@@ -375,9 +378,11 @@ int main() {
       }
     }
 
-    if (closestDist(mine, his) < 4) {
-      prepareForBattle(mine);
-      goto endLoop;
+    if (closestDist(mine, his) < 6) {
+      if (mine[0]->lvl < 10) {
+        prepareForBattle(mine);
+        goto endLoop;
+      }
     }
 
     // check immediate neighbors for best move
