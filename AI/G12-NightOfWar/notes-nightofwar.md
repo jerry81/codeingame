@@ -9,7 +9,7 @@
 - TODO: handle case where surrounded by own squares
 - TODO: introduce level to soldier logic
 - TODO: suicide to get a super soldier?
-
+  - makes coding easier - only calc danger to one soldier
 
 # instructions
 

@@ -35,7 +35,8 @@ struct Soldier {
   Point *p;
   Direction d;
   int id;
-  Soldier(int y, int x, int dir, int id) : id(id) {
+  int lvl;
+  Soldier(int y, int x, int dir, int id, int level) : id(id), lvl(level) {
     d = static_cast<Direction>(dir);
     p = new Point(y, x);
   }
@@ -163,8 +164,9 @@ struct Soldier {
     }
   }
 
-  /* TODO: update with level */
-  bool canShoot(Point *ep) {
+  bool canShoot(shared_ptr<Soldier> es) {
+    if (lvl < es->lvl) return false;
+    Point *ep = es->p;
     int dist = manhattanDist(p, ep);
     if (dist > 2) return false;
 
@@ -319,7 +321,7 @@ int main() {
       int x;           // This soldier's position x
       int y;           // This soldier's position y
       int soldier_id;  // The unique identifier of soldier
-      int level;       // Level of the soldier ignore for first league
+      int level;       // 1 to 10
       int direction;  // The side where the soldier is facing 0 = UP, 1 = LEFT ,
                       // 2 = DOWN, 3 = RIGHT
 
@@ -327,22 +329,21 @@ int main() {
       vector<shared_ptr<Soldier>> &targetContainer =
           (owner_id == my_id) ? mine : his;
       targetContainer.push_back(
-          std::make_shared<Soldier>(y, x, direction, soldier_id));
+          std::make_shared<Soldier>(y, x, direction, soldier_id, level));
       cin.ignore();
     }
 
     // for each soldier
     // enemy in range and enough money?  shoot
-
     if (nextHisBucks >= 35) {
       for (auto h : his) {
-        h->setDanger(grid, map_size);
+        if (h->lvl > mine[0]->lvl) h->setDanger(grid, map_size);
       }
     }
 
     for (auto m : mine) {
       for (auto h : his) {
-        if (m->canShoot(h->p) && my_bucks >= 35) {
+        if (m->canShoot(h) && my_bucks >= 35) {
           cout << "ATTACK " << m->id << " " << h->id << endl;
           goto endLoop;
         }
