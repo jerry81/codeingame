@@ -5,11 +5,13 @@
 - if don't have enough money to attack, move to enemy territory/neutral territory, and face enemy to prepare to attack
   - move helper
 
-- TODO: handle case where we want to move to where enemy soldier is
-- TODO: handle case where surrounded by own squares
+- TODO: handle case where we want to move to where enemy soldier is - treat enemy soldier square as danger square.
+- TODO: handle case where surrounded by own squares -
 - TODO: introduce level to soldier logic
 - TODO: suicide to get a super soldier?
   - makes coding easier - only calc danger to one soldier
+
+- lazy man's improvement - if enemy is within 3 blocks - sac/upgrade
 
 # instructions
 

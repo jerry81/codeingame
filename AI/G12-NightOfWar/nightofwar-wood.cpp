@@ -166,6 +166,7 @@ struct Soldier {
 
   bool canShoot(shared_ptr<Soldier> es) {
     if (lvl < es->lvl) return false;
+
     Point *ep = es->p;
     int dist = manhattanDist(p, ep);
     if (dist > 2) return false;
@@ -269,6 +270,26 @@ string getBestMove(vector<vector<int>> &grid, vector<shared_ptr<Soldier>> &mine,
   return "WAIT";
 }
 
+int closestDist(vector<shared_ptr<Soldier>> &mine,
+                vector<shared_ptr<Soldier>> &his) {
+  int mn = INT_MAX;
+  for (auto a : mine) {
+    for (auto b : his) {
+      int dist = manhattanDist(a->p, b->p);
+      mn = min(dist, mn);
+    }
+  }
+  return mn;
+}
+
+void prepareForBattle(vector<shared_ptr<Soldier>> &mine) {
+  if (mine.size() > 1) {
+    cout << "SUICIDE " << mine.back()->id << endl;
+  } else {
+    cout << "UPGRADE " << mine.back()->id << endl;
+  }
+}
+
 int main() {
   int my_id;  // Your unique player Id
   cin >> my_id;
@@ -330,6 +351,10 @@ int main() {
           (owner_id == my_id) ? mine : his;
       targetContainer.push_back(
           std::make_shared<Soldier>(y, x, direction, soldier_id, level));
+      if (owner_id != my_id) {
+        Point *tmp = his.back()->p;
+        grid[tmp->y][tmp->x] = 2;
+      }
       cin.ignore();
     }
 
@@ -348,6 +373,11 @@ int main() {
           goto endLoop;
         }
       }
+    }
+
+    if (closestDist(mine, his) < 4) {
+      prepareForBattle(mine);
+      goto endLoop;
     }
 
     // check immediate neighbors for best move
