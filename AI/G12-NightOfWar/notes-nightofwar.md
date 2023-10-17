@@ -13,6 +13,13 @@
 
 - lazy man's improvement - if enemy is within 3 blocks - sac/upgrade
 
+- so it turns out degrade is cheaper than upgrade...
+- when enemy upgrades immediately degrade
+- don't kill soldiers
+- try min/maxing
+  - decision tree - possible moves are MOVE a 3 dir/b 3dir/c3dir -> 9 possibilities ATTACK (if available) -> 0 to 9 possibilities, UPGRADE/DOWNGRADE upgrade never worth it, SUICIDE?
+
+
 # instructions
 
 ```
