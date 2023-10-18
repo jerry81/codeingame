@@ -46,4 +46,7 @@ Next game will be played on 9 tic-tac-toe boards!
 4.  back propagation
   - update "stats" of nodes based on results of simulation
 
+- repeated on a limited time frame or number of iterations
+- tree gradually grows, nodes have stats - choose child with highest "stats"
+
 ## minimax
