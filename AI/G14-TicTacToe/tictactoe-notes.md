@@ -29,6 +29,8 @@ Next game will be played on 9 tic-tac-toe boards!
 
 ## montecarlo tree search
 
+- got its name from casino, therefore expect gambling themes
+- used by deepmind's alphago!
 - make a tree
 - root node of tree is current state of game
 - leaf node - node haven't explored all possible moves yet
@@ -49,4 +51,74 @@ Next game will be played on 9 tic-tac-toe boards!
 - repeated on a limited time frame or number of iterations
 - tree gradually grows, nodes have stats - choose child with highest "stats"
 
+- in tic tac toe, the game tree is the possible moves at a turn, then the next possible moves at the next turn
+
 ## minimax
+
+## Terms
+
+- UCB1 - upper confidence bound for node Vi + 2 * sqrt(ln(N) / ni)
+  - Vi - avg reward/value  of all nodes beneath node
+  - N - number of times the parent node has been visited
+  - ni - times child node visited
+  - (very confusing)
+
+- Rollout - randomly choosing actions at each step until leaf node reached.
+```
+while true
+  if Si is leaf
+    return value(Si)
+  Ai = random(available_actions(Si))
+  Si = Simulate(Si,Ai)
+```
+
+- algorithm
+  - current node NOT leaf node then
+    - calc ucb1 and choose node that maximizes UCB
+    - recurse
+  - current node is leaf node then
+    - keep track of # of times sampled.
+    - never sampled before -> rollout
+    - sampled before -> add new state to tree for each action (expansion)
+      - rollout frmo this new node
+
+- example
+- tree, no stats
+- a
+- b c
+
+1.  selection - pick b or c (both have infinite UCB), take b
+- at b
+2.  expansion? - b not visited, skip
+3.  simulation - rollout to terminal state - get a "value", 20
+4.  back propagation - go back up tree to root(inclusive), update values for nodes (value (success) and times visited)
+
+iteration 2
+
+- a (20,1)
+- b (20,1) c (0,0)
+
+1.  selection - c has infinite UCB take c
+2.  expansion skip
+3.  Simulate -> find value 10
+4.  back prop - go up tree - root now 30?  so additive?
+
+- a (30,2)
+- b (20,1) c(10,1)
+
+iteration 3
+
+1. b higher than c
+2. expansion applies because b has been visited
+  - each possible move from here becomes node
+- a (30,2)
+- b (20,1) c(10,1)
+- d, e
+  - pick d (not visited, inf val, equal to e)
+3. simulate
+  - lets say it gets value 0
+4. back prop
+
+- a (30,3)
+- b (20,2) c(10,1)
+- d(), e
