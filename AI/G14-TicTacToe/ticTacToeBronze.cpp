@@ -14,8 +14,8 @@ struct IGame {
   TriState state = NONE;
 
   IGame() {
-    _opp.resize(9, vector<bool>(3, false));
-    _mine.resize(9, vector<bool>(3, false));
+    _opp.resize(3, vector<bool>(3, false));
+    _mine.resize(3, vector<bool>(3, false));
   }
 
   bool win(bool opp, int r, int c) {
@@ -53,6 +53,11 @@ struct IGame {
 };
 
 struct OGame {
+  vector<vector<IGame*>> board;
+
+  OGame() {
+    board.resize(3, vector<IGame*>(3, new IGame()));
+  }
 };
 
 int main() {
