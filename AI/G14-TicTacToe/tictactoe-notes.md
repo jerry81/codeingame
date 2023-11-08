@@ -122,3 +122,17 @@ iteration 3
 - a (30,3)
 - b (20,2) c(10,1)
 - d(), e
+
+
+## TODO
+
+1.  random moves - done
+  - wth, this gets me to bronze lol
+2.  bronze league updates
+  - update struct, win, and move
+3.  code to simulate a game
+  - we have vec of remaining moves we can makes - this will be shared between players
+
+## Promotion to bronze
+
+- now it is 9x9 board
