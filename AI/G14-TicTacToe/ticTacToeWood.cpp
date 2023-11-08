@@ -2,6 +2,7 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <random>
 
 using namespace std;
 
@@ -20,26 +21,25 @@ struct Game {
 
     // Horizontal win
     if (v[r][0] && v[r][1] && v[r][2]) {
-        return true;
+      return true;
     }
 
     // Vertical win
     if (v[0][c] && v[1][c] && v[2][c]) {
-        return true;
+      return true;
     }
 
     // Diagonal wins
     if ((r == c) && v[0][0] && v[1][1] && v[2][2]) {
-        return true; // Diagonal from top-left to bottom-right
+      return true;  // Diagonal from top-left to bottom-right
     }
 
     if ((r + c == 2) && v[0][2] && v[1][1] && v[2][0]) {
-        return true; // Diagonal from top-right to bottom-left
+      return true;  // Diagonal from top-right to bottom-left
     }
 
     return false;
-}
-
+  }
 
   void move(bool opp, int r, int c) {
     auto v = opp ? _opp : _mine;
@@ -49,21 +49,31 @@ struct Game {
 
 int main() {
   // game loop
+  Game *g = new Game();
+
   while (1) {
     int opponent_row;
     int opponent_col;
     cin >> opponent_row >> opponent_col;
+    g->move(true, opponent_row, opponent_col);
+
     cin.ignore();
     int valid_action_count;
     cin >> valid_action_count;
     cin.ignore();
+    vector<pair<int,int>> possmoves;
     for (int i = 0; i < valid_action_count; i++) {
       int row;
       int col;
       cin >> row >> col;
       cin.ignore();
+      possmoves.push_back({row,col});
     }
-
-    cout << "0 0" << endl;
+    random_device rd;
+    mt19937 gen(rd());
+    uniform_int_distribution<int> dist(0,valid_action_count-1);
+    // temp
+    pair<int,int> randomMove = possmoves[dist(gen)];
+    cout << randomMove.first << " " << randomMove.second << "\n";
   }
 }
