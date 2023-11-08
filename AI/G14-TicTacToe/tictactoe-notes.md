@@ -130,6 +130,14 @@ iteration 3
   - wth, this gets me to bronze lol
 2.  bronze league updates
   - update struct, win, and move
+  - new struct, OGame, IGame - done
+  - IGame basically same as before - done
+    - new state to determine whose square it is. - done
+    - IGame may update its status after each move
+  - OGame has nested IGames - done
+    - move - get a val y,x where y is 0..8 and x is 0..8 - done
+    - 0-2 -> 0 3-5 -> 1 6-8 -> 2
+    - win -> check states
 3.  code to simulate a game
   - we have vec of remaining moves we can makes - this will be shared between players
 

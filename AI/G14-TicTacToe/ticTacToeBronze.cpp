@@ -6,7 +6,7 @@
 
 using namespace std;
 
-enum TriState { NONE, OPP, ME };
+enum TriState { NONE, OPPONENT, MINE };
 struct IGame {
   vector<vector<bool>> _opp;
   vector<vector<bool>> _mine;
@@ -45,31 +45,71 @@ struct IGame {
     return false;
   }
 
-  void move(bool opp, int r, int c) {
+  TriState move(bool opp, int r, int c) {
     if (r < 0 || c < 0) return;
+
     auto v = opp ? _opp : _mine;
     v[r][c] = true;
+    if (win(opp, r, c)) state = opp ? OPPONENT : MINE;
   };
 };
 
 struct OGame {
-  vector<vector<IGame*>> board;
+  vector<vector<IGame *>> board;
 
-  OGame() {
-    board.resize(3, vector<IGame*>(3, new IGame()));
+  OGame() { board.resize(3, vector<IGame *>(3, new IGame())); }
+
+  void move(bool opp, int r, int c) {
+    if (r < 0 || c < 0) return;
+
+    int bR = r / 3;
+    int bC = c / 3;
+    int lR = r % 3;
+    int lC = c % 3;
+    // translate onto smaller board
+    IGame *ig = board[bR][bC];
+    TriState res = ig->move(opp, lR, lC);
+
+  }
+
+  bool win(bool opp, int r, int c) {
+    auto v = opp ? _opp : _mine;
+
+    // Check horizontal, vertical, and diagonal wins
+
+    // Horizontal win
+    if (v[r][0] && v[r][1] && v[r][2]) {
+      return true;
+    }
+
+    // Vertical win
+    if (v[0][c] && v[1][c] && v[2][c]) {
+      return true;
+    }
+
+    // Diagonal wins
+    if ((r == c) && v[0][0] && v[1][1] && v[2][2]) {
+      return true;  // Diagonal from top-left to bottom-right
+    }
+
+    if ((r + c == 2) && v[0][2] && v[1][1] && v[2][0]) {
+      return true;  // Diagonal from top-right to bottom-left
+    }
+
+    return false;
   }
 };
 
 int main() {
   // game loop
-  Game *g = new Game();
+  OGame *og = new OGame();
 
   while (1) {
     int opponent_row;
     int opponent_col;
     cin >> opponent_row >> opponent_col;
     cin.ignore();
-    g->move(true, opponent_row, opponent_col);
+    og->move(true, opponent_row, opponent_col);
     int valid_action_count;
     cin >> valid_action_count;
     cin.ignore();
