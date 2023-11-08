@@ -1,15 +1,19 @@
 #include <algorithm>
 #include <iostream>
+#include <random>
 #include <string>
 #include <vector>
-#include <random>
 
 using namespace std;
 
-struct Game {
+enum TriState { NONE, OPP, ME };
+struct IGame {
   vector<vector<bool>> _opp;
   vector<vector<bool>> _mine;
-  Game() {
+
+  TriState state = NONE;
+
+  IGame() {
     _opp.resize(9, vector<bool>(3, false));
     _mine.resize(9, vector<bool>(3, false));
   }
@@ -48,6 +52,9 @@ struct Game {
   };
 };
 
+struct OGame {
+};
+
 int main() {
   // game loop
   Game *g = new Game();
@@ -61,20 +68,20 @@ int main() {
     int valid_action_count;
     cin >> valid_action_count;
     cin.ignore();
-    vector<pair<int,int>> possmoves;
+    vector<pair<int, int>> possmoves;
     for (int i = 0; i < valid_action_count; i++) {
       int row;
       int col;
       cin >> row >> col;
       cin.ignore();
-      possmoves.push_back({row,col});
+      possmoves.push_back({row, col});
     }
     random_device rd;
     mt19937 gen(rd());
-    uniform_int_distribution<int> dist(0,valid_action_count-1);
+    uniform_int_distribution<int> dist(0, valid_action_count - 1);
     // temp
     int r = dist(gen);
-    pair<int,int> randomMove = possmoves[r];
+    pair<int, int> randomMove = possmoves[r];
     cout << randomMove.first << " " << randomMove.second << endl;
   }
 }
