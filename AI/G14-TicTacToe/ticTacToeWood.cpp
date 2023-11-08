@@ -42,9 +42,12 @@ struct Game {
   }
 
   void move(bool opp, int r, int c) {
+    if (r < 0 || c < 0) return;
+    cerr << "moving " << endl;
     auto v = opp ? _opp : _mine;
+    cerr << "v is read " << r << "," << c << endl;
     v[r][c] = true;
-  }
+  };
 };
 
 int main() {
@@ -55,9 +58,9 @@ int main() {
     int opponent_row;
     int opponent_col;
     cin >> opponent_row >> opponent_col;
-    g->move(true, opponent_row, opponent_col);
-
     cin.ignore();
+    g->move(true, opponent_row, opponent_col);
+    cerr << "moved " << endl;
     int valid_action_count;
     cin >> valid_action_count;
     cin.ignore();
@@ -73,7 +76,9 @@ int main() {
     mt19937 gen(rd());
     uniform_int_distribution<int> dist(0,valid_action_count-1);
     // temp
-    pair<int,int> randomMove = possmoves[dist(gen)];
-    cout << randomMove.first << " " << randomMove.second << "\n";
+    int r = dist(gen);
+    cerr << "dist(gen) is " << r << endl;
+    pair<int,int> randomMove = possmoves[r];
+    cout << randomMove.first << " " << randomMove.second << endl;
   }
 }
