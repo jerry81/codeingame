@@ -187,9 +187,7 @@ int main() {
       possmoves.push_back({row, col});
     }
     pair<int, int> move;
-    cerr << "getting winners... " << endl;
     auto winners = og->getWinningMoves(false, possmoves);
-    cerr << "winners got" << endl;
     auto blockers = og->getWinningMoves(true, possmoves);
     if (!winners.empty()) {
       move = winners.back();
