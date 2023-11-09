@@ -143,8 +143,7 @@ struct OGame {
     int lR = ppm[1].first;
     int lC = ppm[1].second;
     // translate onto smaller board
-    IGame ig = board[bR][bC];
-    TriState res = ig.move(opp, lR, lC);
+    TriState res = board[bR][bC].move(opp, lR, lC);
     if (res == OPPONENT) {
       bigMove(true, bR, bC);
       if (win(true, bR, bC)) {
