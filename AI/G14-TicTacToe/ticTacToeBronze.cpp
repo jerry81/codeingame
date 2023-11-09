@@ -120,8 +120,7 @@ struct OGame {
 
     for (auto move : possibleMoves) {
       auto a = pinPointMove(move.first, move.second);
-      IGame ig = board[a[0].first][a[0].second];
-      bool innerwin = ig.win(opp, a[1].first, a[1].second);
+      bool innerwin = board[a[0].first][a[0].second].win(opp, a[1].first, a[1].second);
       if (innerwin) {
         res.push_back(move);
         break;
