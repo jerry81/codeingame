@@ -143,8 +143,8 @@ iteration 3
     - but there is a big board win and small board win
     - small board win easy - done
     - big board win - easy done
-    - big board preview small board win?
-      - need a preview move function?
+    - big board preview small board win? - done
+      - need a preview move function? - done
 3.  code to simulate a game
   - include a timer function
   - we have vec of remaining moves we can makes - this will be shared between players

@@ -188,7 +188,12 @@ int main() {
       possmoves.push_back({row, col});
     }
     pair<int, int> move;
-    if (og->) {
+    auto winners = og->getWinningMoves(false, possmoves);
+    auto blockers = og->getWinningMoves(true, possmoves);
+    if (!winners.empty()) {
+      move = winners.back();
+    } else if (!blockers.empty()) {
+      move = blockers.back();
     } else {
       random_device rd;
       mt19937 gen(rd());
