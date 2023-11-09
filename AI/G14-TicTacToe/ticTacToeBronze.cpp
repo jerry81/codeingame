@@ -56,8 +56,21 @@ struct IGame {
 
 struct OGame {
   vector<vector<IGame *>> board;
+  vector<vector<bool>> _opp;
+  vector<vector<bool>> _mine;
 
-  OGame() { board.resize(3, vector<IGame *>(3, new IGame())); }
+  OGame() {
+    board.resize(3, vector<IGame *>(3, new IGame()));
+    _opp.resize(3, vector<bool>(3, false));
+    _mine.resize(3, vector<bool>(3, false));
+  }
+
+  void bigMove(bool opp, int r, int c) {
+    if (r < 0 || c < 0) return;
+
+    auto v = opp ? _opp : _mine;
+    v[r][c] = true;
+  }
 
   void move(bool opp, int r, int c) {
     if (r < 0 || c < 0) return;
@@ -69,7 +82,11 @@ struct OGame {
     // translate onto smaller board
     IGame *ig = board[bR][bC];
     TriState res = ig->move(opp, lR, lC);
-
+    if (res == OPPONENT) {
+      bigMove(true, bR, bC);
+    } else if (res == MINE) {
+      bigMove(false, bR, bC);
+    }
   }
 
   bool win(bool opp, int r, int c) {
