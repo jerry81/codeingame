@@ -71,6 +71,7 @@
     "functional": "cpp",
     "iterator": "cpp",
     "utility": "cpp",
-    "set": "cpp"
+    "set": "cpp",
+    "random": "cpp"
   }
 }

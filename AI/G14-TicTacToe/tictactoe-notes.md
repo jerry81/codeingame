@@ -137,10 +137,19 @@ iteration 3
   - OGame has nested IGames - done
     - move - get a val y,x where y is 0..8 and x is 0..8 - done
     - 0-2 -> 0 3-5 -> 1 6-8 -> 2
-    - win -> check states
+    - win -> check states - done
+2a.  some "smart" functions
+  - add a "winning move" checker
+    - but there is a big board win and small board win
+    - small board win easy - done
+    - big board win - easy done
+    - big board preview small board win?
+      - need a preview move function?
 3.  code to simulate a game
+  - include a timer function
   - we have vec of remaining moves we can makes - this will be shared between players
 
 ## Promotion to bronze
 
 - now it is 9x9 board
+- your move determines which board can be played on next (unless board already completed)

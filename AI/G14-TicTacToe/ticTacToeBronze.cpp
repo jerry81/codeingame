@@ -1,10 +1,15 @@
 #include <algorithm>
+#include <chrono>
 #include <iostream>
 #include <random>
 #include <string>
 #include <vector>
 
 using namespace std;
+
+const std::chrono::milliseconds firstTurnLimit(
+    1000);                                       // 1000ms for the first turn
+const std::chrono::milliseconds turnLimit(100);  // 100ms for subsequent turns
 
 enum TriState { NONE, OPPONENT, MINE };
 struct IGame {
@@ -45,8 +50,20 @@ struct IGame {
     return false;
   }
 
+  vector<pair<int, int>> getWinningMoves(bool opp,
+                                         vector<pair<int, int>> possibleMoves) {
+    vector<pair<int, int>> res;
+    for (auto move : possibleMoves) {
+      if (win(opp, move.first, move.second)) {
+        res.push_back(move);
+        break;
+      }
+    }
+    return res;
+  }
+
   TriState move(bool opp, int r, int c) {
-    if (r < 0 || c < 0) return;
+    if (r < 0 || c < 0) return NONE;
 
     auto v = opp ? _opp : _mine;
     v[r][c] = true;
@@ -74,13 +91,40 @@ struct OGame {
     v[r][c] = true;
   }
 
-  TriState move(bool opp, int r, int c) {
-    if (r < 0 || c < 0) return;
+  vector<pair<int, int>> getWinningMoves(bool opp,
+                                         vector<pair<int, int>> possibleMoves) {
+    vector<pair<int, int>> res;
+    for (auto move : possibleMoves) {
+      // win it all
+      if (win(opp, move.first, move.second)) {
+        res.push_back(move);
+        break;
+      }
+    }
 
-    int bR = r / 3;
-    int bC = c / 3;
-    int lR = r % 3;
-    int lC = c % 3;
+    for (auto move : possibleMoves) {
+      auto a = pinPointMove(move.first, move.second);
+      IGame *ig = board[a[0].first][a[0].second];
+      bool innerwin = ig->win(opp, a[1].first, a[1].second);
+      if (innerwin) {
+        res.push_back(move);
+        break;
+      }
+    }
+    return res;
+  }
+
+  vector<pair<int, int>> pinPointMove(int r, int c) {
+    return {{r / 3, c / 3}, {r % 3, c % 3}};
+  }
+
+  TriState move(bool opp, int r, int c) {
+    if (r < 0 || c < 0) return NONE;
+    auto ppm = pinPointMove(r, c);
+    int bR = ppm[0].first;
+    int bC = ppm[0].second;
+    int lR = ppm[1].first;
+    int lC = ppm[1].second;
     // translate onto smaller board
     IGame *ig = board[bR][bC];
     TriState res = ig->move(opp, lR, lC);
@@ -143,12 +187,17 @@ int main() {
       cin.ignore();
       possmoves.push_back({row, col});
     }
-    random_device rd;
-    mt19937 gen(rd());
-    uniform_int_distribution<int> dist(0, valid_action_count - 1);
-    // temp
-    int r = dist(gen);
-    pair<int, int> randomMove = possmoves[r];
-    cout << randomMove.first << " " << randomMove.second << endl;
+    pair<int, int> move;
+    if (og->) {
+    } else {
+      random_device rd;
+      mt19937 gen(rd());
+      uniform_int_distribution<int> dist(0, valid_action_count - 1);
+      // temp
+      int r = dist(gen);
+      move = possmoves[r];
+    }
+
+    cout << move.first << " " << move.second << endl;
   }
 }
