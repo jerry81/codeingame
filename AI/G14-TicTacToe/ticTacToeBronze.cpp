@@ -50,7 +50,9 @@ struct IGame {
 
     auto v = opp ? _opp : _mine;
     v[r][c] = true;
-    if (win(opp, r, c)) state = opp ? OPPONENT : MINE;
+    if (win(opp, r, c)) return opp ? OPPONENT : MINE;
+
+    return NONE;
   };
 };
 
@@ -72,7 +74,7 @@ struct OGame {
     v[r][c] = true;
   }
 
-  void move(bool opp, int r, int c) {
+  TriState move(bool opp, int r, int c) {
     if (r < 0 || c < 0) return;
 
     int bR = r / 3;
@@ -84,9 +86,12 @@ struct OGame {
     TriState res = ig->move(opp, lR, lC);
     if (res == OPPONENT) {
       bigMove(true, bR, bC);
+      if (win(true, bR, bC)) return OPPONENT;
     } else if (res == MINE) {
       bigMove(false, bR, bC);
+      if (win(false, bR, bC)) return MINE;
     }
+    return NONE;
   }
 
   bool win(bool opp, int r, int c) {
