@@ -65,12 +65,32 @@ struct IGame {
   TriState move(bool opp, int r, int c) {
     if (r < 0 || c < 0) return NONE;
 
-    auto v = opp ? _opp : _mine;
-    v[r][c] = true;
+    if (opp) {
+      _opp[r][c] = true;
+    } else {
+      _mine[r][c] = true;
+    }
     if (win(opp, r, c)) return opp ? OPPONENT : MINE;
 
+    cerr << "pr after move" << endl;
+    print();
     return NONE;
   };
+
+  void print() {
+    cerr << "opponent squares " << endl;
+    for (int i = 0; i < 3; ++i) {
+      for (int j = 0; j < 3; ++j) {
+        if (_opp[i][j]) cerr << "r: " << i << " c: " << j << endl;
+      }
+    }
+    cerr << "my squares " << endl;
+    for (int i = 0; i < 3; ++i) {
+      for (int j = 0; j < 3; ++j) {
+        if (_opp[i][j]) cerr << "r: " << i << " c: " << j << endl;
+      }
+    }
+  }
 };
 
 struct OGame {
@@ -87,8 +107,11 @@ struct OGame {
   void bigMove(bool opp, int r, int c) {
     if (r < 0 || c < 0) return;
 
-    auto v = opp ? _opp : _mine;
-    v[r][c] = true;
+    if (opp) {
+      _opp[r][c] = true;
+    } else {
+      _mine[r][c] = true;
+    }
   }
 
   vector<pair<int, int>> getWinningMoves(bool opp,
@@ -190,10 +213,15 @@ int main() {
     auto winners = og->getWinningMoves(false, possmoves);
     auto blockers = og->getWinningMoves(true, possmoves);
     if (!winners.empty()) {
+      cerr << "winner" << endl;
       move = winners.back();
+      cerr << "winners size is " << winners.size() << endl;
     } else if (!blockers.empty()) {
+      cerr << "block" << endl;
+      cerr << "block size is " << blockers.size() << endl;
       move = blockers.back();
     } else {
+      cerr << "rand" << endl;
       random_device rd;
       mt19937 gen(rd());
       uniform_int_distribution<int> dist(0, valid_action_count - 1);

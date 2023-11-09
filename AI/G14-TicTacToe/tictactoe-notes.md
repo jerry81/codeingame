@@ -145,6 +145,8 @@ iteration 3
     - big board win - easy done
     - big board preview small board win? - done
       - need a preview move function? - done
+    - tested, this doesn't work.  debug.
+      - print shit out!  print inner grid - done
 3.  code to simulate a game
   - include a timer function
   - we have vec of remaining moves we can makes - this will be shared between players
