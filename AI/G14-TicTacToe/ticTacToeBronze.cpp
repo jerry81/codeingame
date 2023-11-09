@@ -13,18 +13,18 @@ const std::chrono::milliseconds turnLimit(100);  // 100ms for subsequent turns
 
 enum TriState { NONE, OPPONENT, MINE };
 struct IGame {
-  vector<vector<bool>> _opp;
-  vector<vector<bool>> _mine;
+  vector<vector<bool>> _iopp;
+  vector<vector<bool>> _imine;
 
   TriState state = NONE;
 
   IGame() {
-    _opp.resize(3, vector<bool>(3, false));
-    _mine.resize(3, vector<bool>(3, false));
+    _iopp.resize(3, vector<bool>(3, false));
+    _imine.resize(3, vector<bool>(3, false));
   }
 
   bool win(bool opp, int r, int c) {
-    auto v = opp ? _opp : _mine;
+    auto v = opp ? _iopp : _imine;
 
     // Check horizontal, vertical, and diagonal wins
 
@@ -66,9 +66,9 @@ struct IGame {
     if (r < 0 || c < 0) return NONE;
 
     if (opp) {
-      _opp[r][c] = true;
+      _iopp[r][c] = true;
     } else {
-      _mine[r][c] = true;
+      _imine[r][c] = true;
     }
     if (win(opp, r, c)) return opp ? OPPONENT : MINE;
 
@@ -81,25 +81,25 @@ struct IGame {
     cerr << "opponent squares " << endl;
     for (int i = 0; i < 3; ++i) {
       for (int j = 0; j < 3; ++j) {
-        if (_opp[i][j]) cerr << "r: " << i << " c: " << j << endl;
+        if (_iopp[i][j]) cerr << "r: " << i << " c: " << j << endl;
       }
     }
     cerr << "my squares " << endl;
     for (int i = 0; i < 3; ++i) {
       for (int j = 0; j < 3; ++j) {
-        if (_opp[i][j]) cerr << "r: " << i << " c: " << j << endl;
+        if (_imine[i][j]) cerr << "r: " << i << " c: " << j << endl;
       }
     }
   }
 };
 
 struct OGame {
-  vector<vector<IGame *>> board;
+  vector<vector<IGame>> board;
   vector<vector<bool>> _opp;
   vector<vector<bool>> _mine;
 
   OGame() {
-    board.resize(3, vector<IGame *>(3, new IGame()));
+    board.resize(3, vector<IGame>(3, IGame()));
     _opp.resize(3, vector<bool>(3, false));
     _mine.resize(3, vector<bool>(3, false));
   }
@@ -120,8 +120,8 @@ struct OGame {
 
     for (auto move : possibleMoves) {
       auto a = pinPointMove(move.first, move.second);
-      IGame *ig = board[a[0].first][a[0].second];
-      bool innerwin = ig->win(opp, a[1].first, a[1].second);
+      IGame ig = board[a[0].first][a[0].second];
+      bool innerwin = ig.win(opp, a[1].first, a[1].second);
       if (innerwin) {
         res.push_back(move);
         break;
@@ -136,14 +136,15 @@ struct OGame {
 
   TriState move(bool opp, int r, int c) {
     if (r < 0 || c < 0) return NONE;
+
     auto ppm = pinPointMove(r, c);
     int bR = ppm[0].first;
     int bC = ppm[0].second;
     int lR = ppm[1].first;
     int lC = ppm[1].second;
     // translate onto smaller board
-    IGame *ig = board[bR][bC];
-    TriState res = ig->move(opp, lR, lC);
+    IGame ig = board[bR][bC];
+    TriState res = ig.move(opp, lR, lC);
     if (res == OPPONENT) {
       bigMove(true, bR, bC);
       if (win(true, bR, bC)) {
@@ -229,6 +230,8 @@ int main() {
       int r = dist(gen);
       move = possmoves[r];
     }
+
+    og->move(false, move.first, move.second);
 
     cout << move.first << " " << move.second << endl;
   }
