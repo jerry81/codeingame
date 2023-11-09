@@ -94,13 +94,6 @@ struct OGame {
   vector<pair<int, int>> getWinningMoves(bool opp,
                                          vector<pair<int, int>> possibleMoves) {
     vector<pair<int, int>> res;
-    for (auto move : possibleMoves) {
-      // win it all
-      if (win(opp, move.first, move.second)) {
-        res.push_back(move);
-        break;
-      }
-    }
 
     for (auto move : possibleMoves) {
       auto a = pinPointMove(move.first, move.second);
@@ -130,10 +123,16 @@ struct OGame {
     TriState res = ig->move(opp, lR, lC);
     if (res == OPPONENT) {
       bigMove(true, bR, bC);
-      if (win(true, bR, bC)) return OPPONENT;
+      if (win(true, bR, bC)) {
+        _opp[bR][bC] = true;
+        return OPPONENT;
+      }
     } else if (res == MINE) {
       bigMove(false, bR, bC);
-      if (win(false, bR, bC)) return MINE;
+      if (win(false, bR, bC)) {
+        _mine[bR][bC] = true;
+        return MINE;
+      }
     }
     return NONE;
   }
@@ -188,7 +187,9 @@ int main() {
       possmoves.push_back({row, col});
     }
     pair<int, int> move;
+    cerr << "getting winners... " << endl;
     auto winners = og->getWinningMoves(false, possmoves);
+    cerr << "winners got" << endl;
     auto blockers = og->getWinningMoves(true, possmoves);
     if (!winners.empty()) {
       move = winners.back();
