@@ -147,7 +147,13 @@ iteration 3
       - need a preview move function? - done
     - tested, this doesn't work.  debug.
       - print shit out!  print inner grid - done
+      - fixed and ranking went up - done
+      - wow did not expect silver!
 3.  code to simulate a game
+  - start with a single iteration!
+  - we see "death moves" where we make a move on one board that loses another board.
+  - how do we detect this?
+    - look ahead one move
   - include a timer function
   - we have vec of remaining moves we can makes - this will be shared between players
 
