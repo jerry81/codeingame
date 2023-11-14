@@ -24,10 +24,13 @@ struct IGame {
   }
 
   bool win(bool opp, int r, int c) {
-    auto v = opp ? _iopp : _imine;
+    auto tmp = opp ? _iopp : _imine;
+    auto v = tmp;
+    v[r][c] = true;
 
     // Check horizontal, vertical, and diagonal wins
 
+    // bug found!  the test is assuming the move was made first.
     // Horizontal win
     if (v[r][0] && v[r][1] && v[r][2]) {
       return true;
@@ -70,15 +73,14 @@ struct IGame {
     } else {
       _imine[r][c] = true;
     }
+
+    print();
     if (win(opp, r, c)) return opp ? OPPONENT : MINE;
 
-    cerr << "pr after move" << endl;
-    print();
     return NONE;
   };
 
   void print() {
-    cerr << "opponent squares " << endl;
     for (int i = 0; i < 3; ++i) {
       for (int j = 0; j < 3; ++j) {
         if (_iopp[i][j]) cerr << "r: " << i << " c: " << j << endl;
@@ -120,7 +122,8 @@ struct OGame {
 
     for (auto move : possibleMoves) {
       auto a = pinPointMove(move.first, move.second);
-      bool innerwin = board[a[0].first][a[0].second].win(opp, a[1].first, a[1].second);
+      bool innerwin =
+          board[a[0].first][a[0].second].win(opp, a[1].first, a[1].second);
       if (innerwin) {
         res.push_back(move);
         break;
@@ -212,19 +215,13 @@ int main() {
     auto winners = og->getWinningMoves(false, possmoves);
     auto blockers = og->getWinningMoves(true, possmoves);
     if (!winners.empty()) {
-      cerr << "winner" << endl;
       move = winners.back();
-      cerr << "winners size is " << winners.size() << endl;
     } else if (!blockers.empty()) {
-      cerr << "block" << endl;
-      cerr << "block size is " << blockers.size() << endl;
       move = blockers.back();
     } else {
-      cerr << "rand" << endl;
       random_device rd;
       mt19937 gen(rd());
       uniform_int_distribution<int> dist(0, valid_action_count - 1);
-      // temp
       int r = dist(gen);
       move = possmoves[r];
     }
