@@ -18,102 +18,106 @@ enum TriState { NONE, OPPONENT, MINE };
 string move_hash(pair<int, int> move) {
   auto [r, c] = move;
   return to_string(r) + "," + to_string(c);
-}
+};
+
+pair<int, int> decode_move(string s) { return {s[0] - '0', s[1] - '0'}; };
+
+pair<pair<int, int>, pair<int, int>> pinPointMove(int r, int c) {
+  return {{r / 3, c / 3}, {r % 3, c % 3}};
+};
 
 const std::unordered_map<std::string,
                          std::unordered_map<std::string, std::pair<int, int>>>
-    ALL_MOVES = {
-        {"0,0",
-         {{"0,0", {0, 0}},
-          {"0,1", {0, 1}},
-          {"0,2", {0, 2}},
-          {"1,0", {1, 0}},
-          {"1,1", {1, 1}},
-          {"1,2", {1, 2}},
-          {"2,0", {2, 0}},
-          {"2,1", {2, 1}},
-          {"2,2", {2, 2}}}},
-        {"0,1",
-         {{"0,3", {0, 3}},
-          {"0,4", {0, 4}},
-          {"0,5", {0, 5}},
-          {"1,3", {1, 3}},
-          {"1,4", {1, 4}},
-          {"1,5", {1, 5}},
-          {"2,3", {2, 3}},
-          {"2,4", {2, 4}},
-          {"2,5", {2, 5}}}},
-        {"0,2",
-         {{"0,6", {0, 6}},
-          {"0,7", {0, 7}},
-          {"0,8", {0, 8}},
-          {"1,6", {1, 6}},
-          {"1,7", {1, 7}},
-          {"1,8", {1, 8}},
-          {"2,6", {2, 6}},
-          {"2,7", {2, 7}},
-          {"2,8", {2, 8}}}},
-        {"1,0",
-         {{"3,0", {3, 0}},
-          {"3,1", {3, 1}},
-          {"3,2", {3, 2}},
-          {"4,0", {4, 0}},
-          {"4,1", {4, 1}},
-          {"4,2", {4, 2}},
-          {"5,0", {5, 0}},
-          {"5,1", {5, 1}},
-          {"5,2", {5, 2}}}},
-        {"1,1",
-         {{"3,3", {3, 3}},
-          {"3,4", {3, 4}},
-          {"3,5", {3, 5}},
-          {"4,3", {4, 3}},
-          {"4,4", {4, 4}},
-          {"4,5", {4, 5}},
-          {"5,3", {5, 3}},
-          {"5,4", {5, 4}},
-          {"5,5", {5, 5}}}},
-        {"1,2",
-         {{"3,6", {3, 6}},
-          {"3,7", {3, 7}},
-          {"3,8", {3, 8}},
-          {"4,6", {4, 6}},
-          {"4,7", {4, 7}},
-          {"4,8", {4, 8}},
-          {"5,6", {5, 6}},
-          {"5,7", {5, 7}},
-          {"5,8", {5, 8}}}},
-        {"2,0",
-         {{"6,0", {6, 0}},
-          {"6,1", {6, 1}},
-          {"6,2", {6, 2}},
-          {"7,0", {7, 0}},
-          {"7,1", {7, 1}},
-          {"7,2", {7, 2}},
-          {"8,0", {8, 0}},
-          {"8,1", {8, 1}},
-          {"8,2", {8, 2}}}},
-        {"2,1",
-         {{"6,3", {6, 3}},
-          {"6,4", {6, 4}},
-          {"6,5", {6, 5}},
-          {"7,3", {7, 3}},
-          {"7,4", {7, 4}},
-          {"7,5", {7, 5}},
-          {"8,3", {8, 3}},
-          {"8,4", {8, 4}},
-          {"8,5", {8, 5}}}},
-        {"2,2",
-         {{"6,6", {6, 6}},
-          {"6,7", {6, 7}},
-          {"6,8", {6, 8}},
-          {"7,6", {7, 6}},
-          {"7,7", {7, 7}},
-          {"7,8", {7, 8}},
-          {"8,6", {8, 6}},
-          {"8,7", {8, 7}},
-          {"8,8", {8, 8}}}},
-};
+    ALL_MOVES = {{"0,0",
+                  {{"0,0", {0, 0}},
+                   {"0,1", {0, 1}},
+                   {"0,2", {0, 2}},
+                   {"1,0", {1, 0}},
+                   {"1,1", {1, 1}},
+                   {"1,2", {1, 2}},
+                   {"2,0", {2, 0}},
+                   {"2,1", {2, 1}},
+                   {"2,2", {2, 2}}}},
+                 {"0,1",
+                  {{"0,3", {0, 3}},
+                   {"0,4", {0, 4}},
+                   {"0,5", {0, 5}},
+                   {"1,3", {1, 3}},
+                   {"1,4", {1, 4}},
+                   {"1,5", {1, 5}},
+                   {"2,3", {2, 3}},
+                   {"2,4", {2, 4}},
+                   {"2,5", {2, 5}}}},
+                 {"0,2",
+                  {{"0,6", {0, 6}},
+                   {"0,7", {0, 7}},
+                   {"0,8", {0, 8}},
+                   {"1,6", {1, 6}},
+                   {"1,7", {1, 7}},
+                   {"1,8", {1, 8}},
+                   {"2,6", {2, 6}},
+                   {"2,7", {2, 7}},
+                   {"2,8", {2, 8}}}},
+                 {"1,0",
+                  {{"3,0", {3, 0}},
+                   {"3,1", {3, 1}},
+                   {"3,2", {3, 2}},
+                   {"4,0", {4, 0}},
+                   {"4,1", {4, 1}},
+                   {"4,2", {4, 2}},
+                   {"5,0", {5, 0}},
+                   {"5,1", {5, 1}},
+                   {"5,2", {5, 2}}}},
+                 {"1,1",
+                  {{"3,3", {3, 3}},
+                   {"3,4", {3, 4}},
+                   {"3,5", {3, 5}},
+                   {"4,3", {4, 3}},
+                   {"4,4", {4, 4}},
+                   {"4,5", {4, 5}},
+                   {"5,3", {5, 3}},
+                   {"5,4", {5, 4}},
+                   {"5,5", {5, 5}}}},
+                 {"1,2",
+                  {{"3,6", {3, 6}},
+                   {"3,7", {3, 7}},
+                   {"3,8", {3, 8}},
+                   {"4,6", {4, 6}},
+                   {"4,7", {4, 7}},
+                   {"4,8", {4, 8}},
+                   {"5,6", {5, 6}},
+                   {"5,7", {5, 7}},
+                   {"5,8", {5, 8}}}},
+                 {"2,0",
+                  {{"6,0", {6, 0}},
+                   {"6,1", {6, 1}},
+                   {"6,2", {6, 2}},
+                   {"7,0", {7, 0}},
+                   {"7,1", {7, 1}},
+                   {"7,2", {7, 2}},
+                   {"8,0", {8, 0}},
+                   {"8,1", {8, 1}},
+                   {"8,2", {8, 2}}}},
+                 {"2,1",
+                  {{"6,3", {6, 3}},
+                   {"6,4", {6, 4}},
+                   {"6,5", {6, 5}},
+                   {"7,3", {7, 3}},
+                   {"7,4", {7, 4}},
+                   {"7,5", {7, 5}},
+                   {"8,3", {8, 3}},
+                   {"8,4", {8, 4}},
+                   {"8,5", {8, 5}}}},
+                 {"2,2",
+                  {{"6,6", {6, 6}},
+                   {"6,7", {6, 7}},
+                   {"6,8", {6, 8}},
+                   {"7,6", {7, 6}},
+                   {"7,7", {7, 7}},
+                   {"7,8", {7, 8}},
+                   {"8,6", {8, 6}},
+                   {"8,7", {8, 7}},
+                   {"8,8", {8, 8}}}}};
 
 struct IGame {
   vector<vector<bool>> _iopp;
@@ -203,7 +207,8 @@ struct OGame {
   vector<vector<bool>> _opp;
   vector<vector<bool>> _mine;
   bool _o_to_move = false;
-  unordered_map<string, pair<int, int>> _nextMoves = ALL_MOVES;
+  unordered_map<string, unordered_map<string, pair<int, int>>> _nextMoves =
+      ALL_MOVES;
 
   OGame() {
     board.resize(3, vector<IGame>(3, IGame()));
@@ -221,25 +226,23 @@ struct OGame {
     }
   }
 
-  unordered_map<string, pair<int, int>> getWinningMoves(
-      bool opp, unordered_map<string, pair<int, int>> possibleMoves) {
+  unordered_map<string, unordered_map<string, pair<int, int>>> getWinningMoves(
+      bool opp, unordered_map<string, unordered_map<string, pair<int, int>>>
+                    possibleMoves) {
     unordered_map<string, unordered_map<string, pair<int, int>>> res;
 
-    for (auto [k, v] : possibleMoves) {
-      auto [r, c] = v;
-      auto a = pinPointMove(r, c);
-      bool innerwin =
-          board[a[0].first][a[0].second].win(opp, a[1].first, a[1].second);
-      if (innerwin) {
-        res[k] = v;
-        break;
+    for (auto [okey, cat] : possibleMoves) {
+      auto [ro, co] = decode_move(okey);
+      for (auto [k, v] : cat) {
+        auto [r, c] = v;
+        bool innerwin = board[ro][co].win(opp, r, c);
+        if (innerwin) {
+          res[okey][k] = v;
+          break;
+        }
       }
+      return res;
     }
-    return res;
-  }
-
-  vector<pair<int, int>> pinPointMove(int r, int c) {
-    return {{r / 3, c / 3}, {r % 3, c % 3}};
   }
 
   TriState move(bool opp, int r, int c) {
@@ -252,11 +255,9 @@ struct OGame {
     string moveHashed = move_hash({r, c});
     _nextMoves.erase(moveHashed);
 
-    auto ppm = pinPointMove(r, c);
-    int bR = ppm[0].first;
-    int bC = ppm[0].second;
-    int lR = ppm[1].first;
-    int lC = ppm[1].second;
+    auto [outer, inner] = pinPointMove(r, c);
+    auto [bR, bC] = outer;
+    auto [lR, lC] = inner;
     // translate onto smaller board
     TriState res = board[bR][bC].move(opp, lR, lC);
     if (res == OPPONENT) {
@@ -316,30 +317,40 @@ int main() {
     int valid_action_count;
     cin >> valid_action_count;
     cin.ignore();
-    unordered_map<string, pair<int, int>> possmoves;
+    unordered_map<string, unordered_map<string, pair<int, int>>> possmoves;
     for (int i = 0; i < valid_action_count; i++) {
       int row;
       int col;
       cin >> row >> col;
+      auto [outer, inner] = pinPointMove(row, col);
+      auto [ro, co] = outer;
+      auto [ri, ci] = inner;
       cin.ignore();
-      string h = move_hash({row, col});
-      possmoves[h] = {row, col};
+
+      string ho = move_hash(outer);
+      string hi = move_hash(inner);
+      possmoves[ho][hi] = {row, col};
     }
     pair<int, int> move;
     auto winners = og->getWinningMoves(false, possmoves);
     auto blockers = og->getWinningMoves(true, possmoves);
     if (!winners.empty()) {
-      move = winners.begin()->second;
+      move = winners.begin()->second.begin()->second;
     } else if (!blockers.empty()) {
-      move = blockers.begin()->second;
+      move = blockers.begin()->second.begin()->second;
     } else {
       random_device rd;
       mt19937 gen(rd());
       uniform_int_distribution<int> dist(0, valid_action_count - 1);
       int r = dist(gen);
-      auto it = possmoves.begin();
-      advance(it, r);
-      move = it->second;
+      for (auto [_,v]: possmoves) {
+        for (auto [_,v2]: v) {
+          move = v2;
+          r--;
+          if (r < 1) break;
+        }
+        if (r < 1) break;
+      }
     }
 
     og->move(false, move.first, move.second);
