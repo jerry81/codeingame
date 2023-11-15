@@ -20,7 +20,7 @@ string move_hash(pair<int, int> move) {
   return to_string(r) + "," + to_string(c);
 };
 
-pair<int, int> decode_move(string s) { return {s[0] - '0', s[1] - '0'}; };
+pair<int, int> decode_move(string s) { return {s[0] - '0', s[2] - '0'}; };
 
 pair<pair<int, int>, pair<int, int>> pinPointMove(int r, int c) {
   return {{r / 3, c / 3}, {r % 3, c % 3}};
@@ -252,12 +252,13 @@ struct OGame {
     }
     _o_to_move = !opp;
 
-    string moveHashed = move_hash({r, c});
-    _nextMoves.erase(moveHashed);
 
     auto [outer, inner] = pinPointMove(r, c);
     auto [bR, bC] = outer;
     auto [lR, lC] = inner;
+    string ohash = move_hash(outer);
+    string ihash = move_hash(inner);
+    _nextMoves[ohash].erase(ihash);
     // translate onto smaller board
     TriState res = board[bR][bC].move(opp, lR, lC);
     if (res == OPPONENT) {
