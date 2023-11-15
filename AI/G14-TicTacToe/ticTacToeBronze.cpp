@@ -12,6 +12,18 @@ const std::chrono::milliseconds firstTurnLimit(
 const std::chrono::milliseconds turnLimit(100);  // 100ms for subsequent turns
 
 enum TriState { NONE, OPPONENT, MINE };
+
+const vector<pair<int, int>> ALL_MOVES = {
+    {0, 0}, {0, 1}, {0, 2}, {0, 3}, {0, 4}, {0, 5}, {0, 6}, {0, 7}, {0, 8},
+    {1, 0}, {1, 1}, {1, 2}, {1, 3}, {1, 4}, {1, 5}, {1, 6}, {1, 7}, {1, 8},
+    {2, 0}, {2, 1}, {2, 2}, {2, 3}, {2, 4}, {2, 5}, {2, 6}, {2, 7}, {2, 8},
+    {3, 0}, {3, 1}, {3, 2}, {3, 3}, {3, 4}, {3, 5}, {3, 6}, {3, 7}, {3, 8},
+    {4, 0}, {4, 1}, {4, 2}, {4, 3}, {4, 4}, {4, 5}, {4, 6}, {4, 7}, {4, 8},
+    {5, 0}, {5, 1}, {5, 2}, {5, 3}, {5, 4}, {5, 5}, {5, 6}, {5, 7}, {5, 8},
+    {6, 0}, {6, 1}, {6, 2}, {6, 3}, {6, 4}, {6, 5}, {6, 6}, {6, 7}, {6, 8},
+    {7, 0}, {7, 1}, {7, 2}, {7, 3}, {7, 4}, {7, 5}, {7, 6}, {7, 7}, {7, 8},
+    {8, 0}, {8, 1}, {8, 2}, {8, 3}, {8, 4}, {8, 5}, {8, 6}, {8, 7}, {8, 8}};
+
 struct IGame {
   vector<vector<bool>> _iopp;
   vector<vector<bool>> _imine;
@@ -99,12 +111,22 @@ struct OGame {
   vector<vector<IGame>> board;
   vector<vector<bool>> _opp;
   vector<vector<bool>> _mine;
+  bool _o_to_move = false;
+  vector<pair<int, int>> _nextMoves = ALL_MOVES;
 
   OGame() {
     board.resize(3, vector<IGame>(3, IGame()));
     _opp.resize(3, vector<bool>(3, false));
     _mine.resize(3, vector<bool>(3, false));
   }
+
+  // OGame(OGame copied) { // not necessary
+  //   board = copied.board;
+  //   _opp = copied._opp;
+  //   _mine = copied._mine;
+  //   _o_to_move = copied._o_to_move;
+  //   _nextMoves = copied.nextMoves;
+  // }
 
   void bigMove(bool opp, int r, int c) {
     if (r < 0 || c < 0) return;
@@ -137,7 +159,11 @@ struct OGame {
   }
 
   TriState move(bool opp, int r, int c) {
-    if (r < 0 || c < 0) return NONE;
+    if (r < 0 || c < 0) {
+      _o_to_move = !opp;
+      return NONE;
+    }
+    _o_to_move = !opp;
 
     auto ppm = pinPointMove(r, c);
     int bR = ppm[0].first;

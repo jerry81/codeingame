@@ -154,6 +154,7 @@ iteration 3
   - we see "death moves" where we make a move on one board that loses another board.
   - how do we detect this?
     - look ahead one move
+      - but to do this we should clone a game state for "experimentation"
   - include a timer function
   - we have vec of remaining moves we can makes - this will be shared between players
 
