@@ -155,6 +155,12 @@ iteration 3
   - how do we detect this?
     - look ahead one move
       - but to do this we should clone a game state for "experimentation"
+      - refactored ogame to include a possible moves map
+        - next the simulate (one move) logic
+          - on each move - eliminate a move from nextMoves
+          - confine moves to a particular small board if condition permits
+            - condition 1: previous move exists
+            - condtiion 2: the target board has not been won or lost yet
   - include a timer function
   - we have vec of remaining moves we can makes - this will be shared between players
 
