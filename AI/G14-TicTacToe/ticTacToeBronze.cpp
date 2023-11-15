@@ -235,6 +235,8 @@ struct OGame {
       auto [ro, co] = decode_move(okey);
       for (auto [k, v] : cat) {
         auto [r, c] = v;
+        r%=3;
+        c%=3;
         bool innerwin = board[ro][co].win(opp, r, c);
         if (innerwin) {
           res[okey][k] = v;
@@ -257,7 +259,7 @@ struct OGame {
     auto [bR, bC] = outer;
     auto [lR, lC] = inner;
     string ohash = move_hash(outer);
-    string ihash = move_hash(inner);
+    string ihash = move_hash({r,c});
     _nextMoves[ohash].erase(ihash);
     // translate onto smaller board
     TriState res = board[bR][bC].move(opp, lR, lC);
@@ -354,8 +356,10 @@ int main() {
       }
     }
 
-    og->move(false, move.first, move.second);
+    auto [mr,mc] = move;
 
-    cout << move.first << " " << move.second << endl;
+    og->move(false, mr, mc);
+
+    cout << mr << " " << mc << endl;
   }
 }
