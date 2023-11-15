@@ -160,7 +160,12 @@ iteration 3
           - on each move - eliminate a move from nextMoves
           - confine moves to a particular small board if condition permits
             - condition 1: previous move exists
-            - condtiion 2: the target board has not been won or lost yet
+            - condition 2: the target board has not been won or lost yet
+        - so i make move(true, r,c) -> this should be able to update nextMoves
+          - remove the move made (done)
+          - but also keep a okeyFilter that keeps track of which small board we are expected to play on
+          - if small board finished (inner map empty) fall back to all nextMoves
+          - else use just the inner map of possible moves
   - include a timer function
   - we have vec of remaining moves we can makes - this will be shared between players
 
