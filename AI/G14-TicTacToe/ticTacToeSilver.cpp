@@ -396,7 +396,7 @@ int main() {
         }
       }
       sort(sortedMoves.begin(), sortedMoves.end(), compareRankedMoves);
-      move = sortedMoves[0];
+      move = sortedMoves[0].move;
     }
 
     auto [mr, mc] = move;

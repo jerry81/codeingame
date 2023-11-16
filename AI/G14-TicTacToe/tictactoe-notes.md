@@ -185,7 +185,8 @@ iteration 3
 
 4.  another obvious improvement opportunity:
   - all else equal, go for center/corners and avoid sides
-  - let's do this first.
+  - let's do this first. - this works but there is a danger, we keep giving the enemy big board center moves.
+  - we should publish together with the "avoid suicide" logic
 
 ## Promotion to bronze
 
