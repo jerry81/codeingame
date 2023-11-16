@@ -166,6 +166,12 @@ iteration 3
           - but also keep a okeyFilter that keeps track of which small board we are expected to play on
           - if small board finished (inner map empty) fall back to all nextMoves
           - else use just the inner map of possible moves
+          - filter by function (shared?)
+        - implementation of simulation
+          - we are doing the game loop within a "sandbox"
+          - add lastMove class var - last move should be a bigboard key - done
+          - after move update lastMove is updated from smallboard move played
+
   - include a timer function
   - we have vec of remaining moves we can makes - this will be shared between players
 
