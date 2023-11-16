@@ -174,7 +174,11 @@ iteration 3
         - observation, the valid_action_count block in the game block where we build possibleMoves is getting redundant.
           - if we maintain this perfectly in ogame, it is unnessary.
           - check 1 - the big key is updated correctly - done
-          - check 2 - nextMoves should reduce by 1 each turn.
+          - check 2 - nextMoves should reduce by 1 each turn. - yes
+          - check 3 - ensure moves give the correct tri-state - no
+            - debug - done
+            - fixed
+          - when a small board is won or lost, we can erase the entire bigkey
 
   - include a timer function
   - we have vec of remaining moves we can makes - this will be shared between players

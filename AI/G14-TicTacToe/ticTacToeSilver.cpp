@@ -181,7 +181,6 @@ struct IGame {
       _imine[r][c] = true;
     }
 
-    print();
     if (win(opp, r, c)) return opp ? OPPONENT : MINE;
 
     return NONE;
@@ -266,16 +265,14 @@ struct OGame {
     boardKey = move_hash(inner);
     if (res == OPPONENT) {
       bigMove(true, bR, bC);
-      if (win(true, bR, bC)) {
-        _opp[bR][bC] = true;
-        return OPPONENT;
-      }
+      if (win(true, bR, bC)) _opp[bR][bC] = true;
+
+      return OPPONENT;
     } else if (res == MINE) {
       bigMove(false, bR, bC);
-      if (win(false, bR, bC)) {
-        _mine[bR][bC] = true;
-        return MINE;
-      }
+      if (win(false, bR, bC)) _mine[bR][bC] = true;
+
+      return MINE;
     }
     return NONE;
   }
@@ -329,12 +326,11 @@ int main() {
   OGame *og = new OGame();
 
   while (1) {
-    og->print();
     int opponent_row;
     int opponent_col;
     cin >> opponent_row >> opponent_col;
     cin.ignore();
-    og->move(true, opponent_row, opponent_col);
+    TriState res = og->move(true, opponent_row, opponent_col);
     int valid_action_count;
     cin >> valid_action_count;
     cin.ignore();
@@ -376,7 +372,7 @@ int main() {
 
     auto [mr, mc] = move;
 
-    og->move(false, mr, mc);
+    TriState ogmove = og->move(false, mr, mc);
 
     cout << mr << " " << mc << endl;
   }
