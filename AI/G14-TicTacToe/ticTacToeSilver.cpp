@@ -307,11 +307,20 @@ struct OGame {
     return false;
   }
 
+  int countMoves() {
+    int ret = 0;
+    for (auto [_,a]: _nextMoves) {
+      ret+=a.size();
+    }
+    return ret;
+  }
+
   void print() {
     cerr << "printing game state "
          << "\n";
     cerr << "to move is " << _o_to_move << "\n";
     cerr << "boardKey is " << boardKey << "\n";
+    cerr << "possible moves left are " << countMoves() << "\n";
   }
 };
 
@@ -320,6 +329,7 @@ int main() {
   OGame *og = new OGame();
 
   while (1) {
+    og->print();
     int opponent_row;
     int opponent_col;
     cin >> opponent_row >> opponent_col;

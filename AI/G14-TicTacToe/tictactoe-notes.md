@@ -171,6 +171,10 @@ iteration 3
           - we are doing the game loop within a "sandbox"
           - add lastMove class var - last move should be a bigboard key - done
           - after move update lastMove is updated from smallboard move played
+        - observation, the valid_action_count block in the game block where we build possibleMoves is getting redundant.
+          - if we maintain this perfectly in ogame, it is unnessary.
+          - check 1 - the big key is updated correctly - done
+          - check 2 - nextMoves should reduce by 1 each turn.
 
   - include a timer function
   - we have vec of remaining moves we can makes - this will be shared between players
