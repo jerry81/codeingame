@@ -306,11 +306,22 @@ struct OGame {
 
   int countMoves() {
     int ret = 0;
-    for (auto [_,a]: _nextMoves) {
-      ret+=a.size();
+    for (auto [_, a] : _nextMoves) {
+      ret += a.size();
     }
     return ret;
   }
+
+  bool centerMove(int r, int c) {
+    return r % 3 == 1 && c % 3 == 1;
+  }
+
+  bool cornerMove(int r, int c) {
+    int mr = r%3; int mc = c%3;
+    return !(mr==1 || mc == 1);
+  }
+
+
 
   void print() {
     cerr << "printing game state "
@@ -320,6 +331,15 @@ struct OGame {
     cerr << "possible moves left are " << countMoves() << "\n";
   }
 };
+
+struct RankedMove {
+  int rank = 0;
+  pair<int,int> move;
+};
+
+bool compareRankedMoves(const RankedMove& a, const RankedMove& b) {
+    return a.rank > b.rank;  // ">" for descending order, use "<" for ascending order
+}
 
 int main() {
   // game loop
@@ -356,18 +376,27 @@ int main() {
     } else if (!blockers.empty()) {
       move = blockers.begin()->second.begin()->second;
     } else {
-      random_device rd;
-      mt19937 gen(rd());
-      uniform_int_distribution<int> dist(0, valid_action_count - 1);
-      int r = dist(gen);
+      vector<RankedMove> sortedMoves;
+      // TODO: unrandomize - sort by best move
+      // random_device rd;
+      // mt19937 gen(rd());
+      // uniform_int_distribution<int> dist(0, valid_action_count - 1);
+      // int r = dist(gen);
       for (auto [_, v] : possmoves) {
         for (auto [_, v2] : v) {
-          move = v2;
-          r--;
-          if (r < 1) break;
+          RankedMove rm;
+          auto [r,c] = v2;
+          rm.move = v2;
+          if (og->centerMove(r,c)) {
+            rm.rank = 2;
+          } else if (og->cornerMove(r,c)) {
+            rm.rank = 1;
+          }
+          sortedMoves.push_back(rm);
         }
-        if (r < 1) break;
       }
+      sort(sortedMoves.begin(), sortedMoves.end(), compareRankedMoves);
+      move = sortedMoves[0];
     }
 
     auto [mr, mc] = move;

@@ -183,6 +183,10 @@ iteration 3
   - include a timer function
   - we have vec of remaining moves we can makes - this will be shared between players
 
+4.  another obvious improvement opportunity:
+  - all else equal, go for center/corners and avoid sides
+  - let's do this first.
+
 ## Promotion to bronze
 
 - now it is 9x9 board
