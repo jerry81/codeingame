@@ -183,8 +183,30 @@ iteration 3
             - delete the main loop thing - done
             - remove the param - done
             - apply filter inside of Ogame
-            - check 1 - should be able to finish game with no change in behavior
-              - issues with filtering moves
+            - check 1 - should be able to finish game with no change in behavior - done
+              - issues with filtering moves - done
+              - fixed
+  - now we want to simulate!
+  - first goal - exhaust all moves 2 moves and consider small boards only
+  - the simulate method will enhance the whole if else if else block in main
+  - only simulate on my moves
+  - e.g. first move -
+    - 81 moves check immediate result
+      - win gets pushed with + 1 in score
+      - blocks get pushed with +1 in score
+      - others get pushed
+      - create OGames from each move
+      - for each copied OGame (we are now playing as opponent)
+        - check immediate result
+        - immediate win subtracts score
+        - block subtracts score less
+        - others get pushed
+    - total 81*80 moves in worst case = 6480 iterations
+  - impl
+    - first replace if else block with a new function
+    - mapofmoves m = og->rankMoves(int numTurns) {}
+    - step one - keep current behavior TODO: continue writing rankMoves()
+
 
   - include a timer function
   - we have vec of remaining moves we can makes - this will be shared between players

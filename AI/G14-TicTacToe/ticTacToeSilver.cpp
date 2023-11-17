@@ -201,6 +201,16 @@ struct IGame {
   }
 };
 
+struct RankedMove {
+  int rank = 0;
+  pair<int, int> move;
+};
+
+bool compareRankedMoves(const RankedMove& a, const RankedMove& b) {
+  return a.rank >
+         b.rank;  // ">" for descending order, use "<" for ascending order
+}
+
 struct OGame {
   vector<vector<IGame>> board;
   vector<vector<bool>> _opp;
@@ -278,7 +288,7 @@ struct OGame {
       _nextMoves.erase(ohash);
 
       _nextMoves.erase(ohash);
-      if (win(true, bR, bC)) _opp[bR][bC] = true; // game would be over already
+      if (win(true, bR, bC)) _opp[bR][bC] = true;  // game would be over already
 
       return OPPONENT;
     } else if (res == MINE) {
@@ -334,6 +344,24 @@ struct OGame {
     return !(mr == 1 || mc == 1);
   }
 
+  vector<RankedMove> getRankedMoves(int turns) {
+    vector<RankedMove> sortedMoves;
+    for (auto [_, v] : getFilteredMoves()) {
+      for (auto [_, v2] : v) {
+        RankedMove rm;
+        auto [r, c] = v2;
+        rm.move = v2;
+        if (centerMove(r, c)) {
+          rm.rank = 2;
+        } else if (cornerMove(r, c)) {
+          rm.rank = 1;
+        }
+        sortedMoves.push_back(rm);
+      }
+    }
+    return sortedMoves;
+  }
+
   void print() {
     cerr << "printing game state "
          << "\n";
@@ -342,16 +370,6 @@ struct OGame {
     cerr << "possible moves left are " << countMoves() << "\n";
   }
 };
-
-struct RankedMove {
-  int rank = 0;
-  pair<int, int> move;
-};
-
-bool compareRankedMoves(const RankedMove& a, const RankedMove& b) {
-  return a.rank >
-         b.rank;  // ">" for descending order, use "<" for ascending order
-}
 
 int main() {
   // game loop
@@ -372,36 +390,36 @@ int main() {
       cin >> row >> col;
       cin.ignore();
     }
-    pair<int, int> move;
-    auto winners = og->getWinningMoves(false);
-    auto blockers = og->getWinningMoves(true);
-    if (!winners.empty()) {
-      move = winners.begin()->second.begin()->second;
-    } else if (!blockers.empty()) {
-      move = blockers.begin()->second.begin()->second;
-    } else {
-      vector<RankedMove> sortedMoves;
-      // TODO: unrandomize - sort by best move
-      // random_device rd;
-      // mt19937 gen(rd());
-      // uniform_int_distribution<int> dist(0, valid_action_count - 1);
-      // int r = dist(gen);
-      for (auto [_, v] : og->getFilteredMoves()) {
-        for (auto [_, v2] : v) {
-          RankedMove rm;
-          auto [r, c] = v2;
-          rm.move = v2;
-          if (og->centerMove(r, c)) {
-            rm.rank = 2;
-          } else if (og->cornerMove(r, c)) {
-            rm.rank = 1;
-          }
-          sortedMoves.push_back(rm);
-        }
-      }
-      sort(sortedMoves.begin(), sortedMoves.end(), compareRankedMoves);
-      move = sortedMoves[0].move;
-    }
+
+    vector<RankedMove> rankedMoves = og->getRankedMoves(1);
+    // auto winners = og->getWinningMoves(false);
+    // auto blockers = og->getWinningMoves(true);
+    // if (!winners.empty()) {
+    //   move = winners.begin()->second.begin()->second;
+    // } else if (!blockers.empty()) {
+    //   move = blockers.begin()->second.begin()->second;
+    // } else {
+    //   vector<RankedMove> sortedMoves;
+    //   // TODO: unrandomize - sort by best move
+    //   // random_device rd;
+    //   // mt19937 gen(rd());
+    //   // uniform_int_distribution<int> dist(0, valid_action_count - 1);
+    //   // int r = dist(gen);
+    //   for (auto [_, v] : og->getFilteredMoves()) {
+    //     for (auto [_, v2] : v) {
+    //       RankedMove rm;
+    //       auto [r, c] = v2;
+    //       rm.move = v2;
+    //       if (og->centerMove(r, c)) {
+    //         rm.rank = 2;
+    //       } else if (og->cornerMove(r, c)) {
+    //         rm.rank = 1;
+    //       }
+    //       sortedMoves.push_back(rm);
+    //     }
+    //   }
+    sort(rankedMoves.begin(), rankedMoves.end(), compareRankedMoves);
+    auto move = rankedMoves[0].move;
 
     auto [mr, mc] = move;
 
