@@ -178,7 +178,11 @@ iteration 3
           - check 3 - ensure moves give the correct tri-state - no
             - debug - done
             - fixed
-          - when a small board is won or lost, we can erase the entire bigkey
+          - when a small board is won or lost, we can erase the entire bigkey - done
+          - remove the redundancy
+            - delete the main loop thing - done
+            - remove the param - done
+            - apply filter inside of Ogame
 
   - include a timer function
   - we have vec of remaining moves we can makes - this will be shared between players

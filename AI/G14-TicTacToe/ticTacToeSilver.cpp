@@ -216,6 +216,17 @@ struct OGame {
     _mine.resize(3, vector<bool>(3, false));
   }
 
+  unordered_map<string, unordered_map<string, pair<int, int>>>
+  getFilteredMoves() {
+    unordered_map<string, unordered_map<string, pair<int, int>>> res;
+    if (boardKey.empty()) return _nextMoves;
+
+    if (_nextMoves.find(boardKey) == _nextMoves.end()) return _nextMoves;
+
+    res[boardKey] = _nextMoves[boardKey];
+    return res;
+  }
+
   void bigMove(bool opp, int r, int c) {
     if (r < 0 || c < 0) return;
 
@@ -227,24 +238,25 @@ struct OGame {
   }
 
   unordered_map<string, unordered_map<string, pair<int, int>>> getWinningMoves(
-      bool opp, unordered_map<string, unordered_map<string, pair<int, int>>>
-                    possibleMoves) {
+      bool opp) {
     unordered_map<string, unordered_map<string, pair<int, int>>> res;
 
-    for (auto [okey, cat] : possibleMoves) {
-      auto [ro, co] = decode_move(okey);
-      for (auto [k, v] : cat) {
-        auto [r, c] = v;
-        r %= 3;
-        c %= 3;
-        bool innerwin = board[ro][co].win(opp, r, c);
-        if (innerwin) {
-          res[okey][k] = v;
-          break;
+      for (auto [okey, cat] : getFilteredMoves()) {
+        auto [ro, co] = decode_move(okey);
+        for (auto [k, v] : cat) {
+          auto [r, c] = v;
+          r %= 3;
+          c %= 3;
+          bool innerwin = board[ro][co].win(opp, r, c);
+          if (innerwin) {
+            res[okey][k] = v;
+            break;
+          }
         }
+        return res;
       }
-      return res;
     }
+
   }
 
   TriState move(bool opp, int r, int c) {
@@ -265,12 +277,19 @@ struct OGame {
     boardKey = move_hash(inner);
     if (res == OPPONENT) {
       bigMove(true, bR, bC);
-      if (win(true, bR, bC)) _opp[bR][bC] = true;
+      if (win(true, bR, bC)) {
+        _opp[bR][bC] = true;
+        // remove the entire board from possible moves
+        _nextMoves.erase(ohash);
+      }
 
       return OPPONENT;
     } else if (res == MINE) {
       bigMove(false, bR, bC);
-      if (win(false, bR, bC)) _mine[bR][bC] = true;
+      if (win(false, bR, bC)) {
+        _mine[bR][bC] = true;
+        _nextMoves.erase(ohash);
+      }
 
       return MINE;
     }
@@ -312,16 +331,13 @@ struct OGame {
     return ret;
   }
 
-  bool centerMove(int r, int c) {
-    return r % 3 == 1 && c % 3 == 1;
-  }
+  bool centerMove(int r, int c) { return r % 3 == 1 && c % 3 == 1; }
 
   bool cornerMove(int r, int c) {
-    int mr = r%3; int mc = c%3;
-    return !(mr==1 || mc == 1);
+    int mr = r % 3;
+    int mc = c % 3;
+    return !(mr == 1 || mc == 1);
   }
-
-
 
   void print() {
     cerr << "printing game state "
@@ -334,16 +350,17 @@ struct OGame {
 
 struct RankedMove {
   int rank = 0;
-  pair<int,int> move;
+  pair<int, int> move;
 };
 
 bool compareRankedMoves(const RankedMove& a, const RankedMove& b) {
-    return a.rank > b.rank;  // ">" for descending order, use "<" for ascending order
+  return a.rank >
+         b.rank;  // ">" for descending order, use "<" for ascending order
 }
 
 int main() {
   // game loop
-  OGame *og = new OGame();
+  OGame* og = new OGame();
 
   while (1) {
     int opponent_row;
@@ -354,23 +371,15 @@ int main() {
     int valid_action_count;
     cin >> valid_action_count;
     cin.ignore();
-    unordered_map<string, unordered_map<string, pair<int, int>>> possmoves;
     for (int i = 0; i < valid_action_count; i++) {
       int row;
       int col;
       cin >> row >> col;
-      auto [outer, inner] = pinPointMove(row, col);
-      auto [ro, co] = outer;
-      auto [ri, ci] = inner;
       cin.ignore();
-
-      string ho = move_hash(outer);
-      string hi = move_hash(inner);
-      possmoves[ho][hi] = {row, col};
     }
     pair<int, int> move;
-    auto winners = og->getWinningMoves(false, possmoves);
-    auto blockers = og->getWinningMoves(true, possmoves);
+    auto winners = og->getWinningMoves(false);
+    auto blockers = og->getWinningMoves(true);
     if (!winners.empty()) {
       move = winners.begin()->second.begin()->second;
     } else if (!blockers.empty()) {
@@ -382,14 +391,14 @@ int main() {
       // mt19937 gen(rd());
       // uniform_int_distribution<int> dist(0, valid_action_count - 1);
       // int r = dist(gen);
-      for (auto [_, v] : possmoves) {
+      for (auto [_, v] : og->getFilteredMoves()) {
         for (auto [_, v2] : v) {
           RankedMove rm;
-          auto [r,c] = v2;
+          auto [r, c] = v2;
           rm.move = v2;
-          if (og->centerMove(r,c)) {
+          if (og->centerMove(r, c)) {
             rm.rank = 2;
-          } else if (og->cornerMove(r,c)) {
+          } else if (og->cornerMove(r, c)) {
             rm.rank = 1;
           }
           sortedMoves.push_back(rm);
