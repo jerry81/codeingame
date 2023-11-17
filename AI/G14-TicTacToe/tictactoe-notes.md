@@ -183,6 +183,8 @@ iteration 3
             - delete the main loop thing - done
             - remove the param - done
             - apply filter inside of Ogame
+            - check 1 - should be able to finish game with no change in behavior
+              - issues with filtering moves
 
   - include a timer function
   - we have vec of remaining moves we can makes - this will be shared between players

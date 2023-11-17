@@ -241,22 +241,20 @@ struct OGame {
       bool opp) {
     unordered_map<string, unordered_map<string, pair<int, int>>> res;
 
-      for (auto [okey, cat] : getFilteredMoves()) {
-        auto [ro, co] = decode_move(okey);
-        for (auto [k, v] : cat) {
-          auto [r, c] = v;
-          r %= 3;
-          c %= 3;
-          bool innerwin = board[ro][co].win(opp, r, c);
-          if (innerwin) {
-            res[okey][k] = v;
-            break;
-          }
+    for (auto [okey, cat] : getFilteredMoves()) {
+      auto [ro, co] = decode_move(okey);
+      for (auto [k, v] : cat) {
+        auto [r, c] = v;
+        r %= 3;
+        c %= 3;
+        bool innerwin = board[ro][co].win(opp, r, c);
+        if (innerwin) {
+          res[okey][k] = v;
+          break;
         }
-        return res;
       }
     }
-
+    return res;
   }
 
   TriState move(bool opp, int r, int c) {
@@ -277,19 +275,16 @@ struct OGame {
     boardKey = move_hash(inner);
     if (res == OPPONENT) {
       bigMove(true, bR, bC);
-      if (win(true, bR, bC)) {
-        _opp[bR][bC] = true;
-        // remove the entire board from possible moves
-        _nextMoves.erase(ohash);
-      }
+      _nextMoves.erase(ohash);
+
+      _nextMoves.erase(ohash);
+      if (win(true, bR, bC)) _opp[bR][bC] = true; // game would be over already
 
       return OPPONENT;
     } else if (res == MINE) {
       bigMove(false, bR, bC);
-      if (win(false, bR, bC)) {
-        _mine[bR][bC] = true;
-        _nextMoves.erase(ohash);
-      }
+      _nextMoves.erase(ohash);
+      if (win(false, bR, bC)) _mine[bR][bC] = true;
 
       return MINE;
     }
