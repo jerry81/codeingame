@@ -5,9 +5,12 @@
 #include <random>
 #include <string>
 #include <unordered_map>
+#include <map>
 #include <vector>
 
 using namespace std;
+
+
 
 const std::chrono::milliseconds firstTurnLimit(
     1000);                                       // 1000ms for the first turn
@@ -15,109 +18,129 @@ const std::chrono::milliseconds turnLimit(100);  // 100ms for subsequent turns
 
 enum TriState { NONE, OPPONENT, MINE };
 
-string move_hash(pair<int, int> move) {
-  auto [r, c] = move;
-  return to_string(r) + "," + to_string(c);
-};
-
-pair<int, int> decode_move(string s) { return {s[0] - '0', s[2] - '0'}; };
-
-pair<pair<int, int>, pair<int, int>> pinPointMove(int r, int c) {
+pair<pair<int, int>, pair<int, int>> pinPointMove(int r, int c) { // { bigboard loc, littleboard loc}
   return {{r / 3, c / 3}, {r % 3, c % 3}};
 };
 
-const std::unordered_map<std::string,
-                         std::unordered_map<std::string, std::pair<int, int>>>
-    ALL_MOVES = {{"0,0",
-                  {{"0,0", {0, 0}},
-                   {"0,1", {0, 1}},
-                   {"0,2", {0, 2}},
-                   {"1,0", {1, 0}},
-                   {"1,1", {1, 1}},
-                   {"1,2", {1, 2}},
-                   {"2,0", {2, 0}},
-                   {"2,1", {2, 1}},
-                   {"2,2", {2, 2}}}},
-                 {"0,1",
-                  {{"0,3", {0, 3}},
-                   {"0,4", {0, 4}},
-                   {"0,5", {0, 5}},
-                   {"1,3", {1, 3}},
-                   {"1,4", {1, 4}},
-                   {"1,5", {1, 5}},
-                   {"2,3", {2, 3}},
-                   {"2,4", {2, 4}},
-                   {"2,5", {2, 5}}}},
-                 {"0,2",
-                  {{"0,6", {0, 6}},
-                   {"0,7", {0, 7}},
-                   {"0,8", {0, 8}},
-                   {"1,6", {1, 6}},
-                   {"1,7", {1, 7}},
-                   {"1,8", {1, 8}},
-                   {"2,6", {2, 6}},
-                   {"2,7", {2, 7}},
-                   {"2,8", {2, 8}}}},
-                 {"1,0",
-                  {{"3,0", {3, 0}},
-                   {"3,1", {3, 1}},
-                   {"3,2", {3, 2}},
-                   {"4,0", {4, 0}},
-                   {"4,1", {4, 1}},
-                   {"4,2", {4, 2}},
-                   {"5,0", {5, 0}},
-                   {"5,1", {5, 1}},
-                   {"5,2", {5, 2}}}},
-                 {"1,1",
-                  {{"3,3", {3, 3}},
-                   {"3,4", {3, 4}},
-                   {"3,5", {3, 5}},
-                   {"4,3", {4, 3}},
-                   {"4,4", {4, 4}},
-                   {"4,5", {4, 5}},
-                   {"5,3", {5, 3}},
-                   {"5,4", {5, 4}},
-                   {"5,5", {5, 5}}}},
-                 {"1,2",
-                  {{"3,6", {3, 6}},
-                   {"3,7", {3, 7}},
-                   {"3,8", {3, 8}},
-                   {"4,6", {4, 6}},
-                   {"4,7", {4, 7}},
-                   {"4,8", {4, 8}},
-                   {"5,6", {5, 6}},
-                   {"5,7", {5, 7}},
-                   {"5,8", {5, 8}}}},
-                 {"2,0",
-                  {{"6,0", {6, 0}},
-                   {"6,1", {6, 1}},
-                   {"6,2", {6, 2}},
-                   {"7,0", {7, 0}},
-                   {"7,1", {7, 1}},
-                   {"7,2", {7, 2}},
-                   {"8,0", {8, 0}},
-                   {"8,1", {8, 1}},
-                   {"8,2", {8, 2}}}},
-                 {"2,1",
-                  {{"6,3", {6, 3}},
-                   {"6,4", {6, 4}},
-                   {"6,5", {6, 5}},
-                   {"7,3", {7, 3}},
-                   {"7,4", {7, 4}},
-                   {"7,5", {7, 5}},
-                   {"8,3", {8, 3}},
-                   {"8,4", {8, 4}},
-                   {"8,5", {8, 5}}}},
-                 {"2,2",
-                  {{"6,6", {6, 6}},
-                   {"6,7", {6, 7}},
-                   {"6,8", {6, 8}},
-                   {"7,6", {7, 6}},
-                   {"7,7", {7, 7}},
-                   {"7,8", {7, 8}},
-                   {"8,6", {8, 6}},
-                   {"8,7", {8, 7}},
-                   {"8,8", {8, 8}}}}};
+const std::map<std::pair<int,int>, std::map<std::pair<int,int>, std::pair<int, int>>> ALL_MOVES = {
+        {{0, 0},
+            {
+                {{0, 0}, {0, 0}},
+                {{0, 1}, {0, 1}},
+                {{0, 2}, {0, 2}},
+                {{1, 0}, {1, 0}},
+                {{1, 1}, {1, 1}},
+                {{1, 2}, {1, 2}},
+                {{2, 0}, {2, 0}},
+                {{2, 1}, {2, 1}},
+                {{2, 2}, {2, 2}}
+            }
+        },
+        {{0, 1},
+            {
+                {{0, 3}, {0, 3}},
+                {{0, 4}, {0, 4}},
+                {{0, 5}, {0, 5}},
+                {{1, 3}, {1, 3}},
+                {{1, 4}, {1, 4}},
+                {{1, 5}, {1, 5}},
+                {{2, 3}, {2, 3}},
+                {{2, 4}, {2, 4}},
+                {{2, 5}, {2, 5}}
+            }
+        },
+        {{0, 2},
+            {
+                {{0, 6}, {0, 6}},
+                {{0, 7}, {0, 7}},
+                {{0, 8}, {0, 8}},
+                {{1, 6}, {1, 6}},
+                {{1, 7}, {1, 7}},
+                {{1, 8}, {1, 8}},
+                {{2, 6}, {2, 6}},
+                {{2, 7}, {2, 7}},
+                {{2, 8}, {2, 8}}
+            }
+        },
+        {{1, 0},
+            {
+                {{3, 0}, {3, 0}},
+                {{3, 1}, {3, 1}},
+                {{3, 2}, {3, 2}},
+                {{4, 0}, {4, 0}},
+                {{4, 1}, {4, 1}},
+                {{4, 2}, {4, 2}},
+                {{5, 0}, {5, 0}},
+                {{5, 1}, {5, 1}},
+                {{5, 2}, {5, 2}}
+            }
+        },
+        {{1, 1},
+            {
+                {{3, 3}, {3, 3}},
+                {{3, 4}, {3, 4}},
+                {{3, 5}, {3, 5}},
+                {{4, 3}, {4, 3}},
+                {{4, 4}, {4, 4}},
+                {{4, 5}, {4, 5}},
+                {{5, 3}, {5, 3}},
+                {{5, 4}, {5, 4}},
+                {{5, 5}, {5, 5}}
+            }
+        },
+        {{1, 2},
+            {
+                {{3, 6}, {3, 6}},
+                {{3, 7}, {3, 7}},
+                {{3, 8}, {3, 8}},
+                {{4, 6}, {4, 6}},
+                {{4, 7}, {4, 7}},
+                {{4, 8}, {4, 8}},
+                {{5, 6}, {5, 6}},
+                {{5, 7}, {5, 7}},
+                {{5, 8}, {5, 8}}
+            }
+        },
+        {{2, 0},
+            {
+                {{6, 0}, {6, 0}},
+                {{6, 1}, {6, 1}},
+                {{6, 2}, {6, 2}},
+                {{7, 0}, {7, 0}},
+                {{7, 1}, {7, 1}},
+                {{7, 2}, {7, 2}},
+                {{8, 0}, {8, 0}},
+                {{8, 1}, {8, 1}},
+                {{8, 2}, {8, 2}}
+            }
+        },
+        {{2, 1},
+            {
+                {{6, 3}, {6, 3}},
+                {{6, 4}, {6, 4}},
+                {{6, 5}, {6, 5}},
+                {{7, 3}, {7, 3}},
+                {{7, 4}, {7, 4}},
+                {{7, 5}, {7, 5}},
+                {{8, 3}, {8, 3}},
+                {{8, 4}, {8, 4}},
+                {{8, 5}, {8, 5}}
+            }
+        },
+        {{2, 2},
+            {
+                {{6, 6}, {6, 6}},
+                {{6, 7}, {6, 7}},
+                {{6, 8}, {6, 8}},
+                {{7, 6}, {7, 6}},
+                {{7, 7}, {7, 7}},
+                {{7, 8}, {7, 8}},
+                {{8, 6}, {8, 6}},
+                {{8, 7}, {8, 7}},
+                {{8, 8}, {8, 8}}
+            }
+        }
+    };
 
 struct IGame {
   vector<vector<bool>> _iopp;
@@ -216,9 +239,9 @@ struct OGame {
   vector<vector<bool>> _opp;
   vector<vector<bool>> _mine;
   bool _o_to_move = false;
-  unordered_map<string, unordered_map<string, pair<int, int>>> _nextMoves =
+  map<pair<int,int>, map<pair<int,int>, pair<int, int>>> _nextMoves =
       ALL_MOVES;
-  string boardKey = "";  // empty means open board
+  pair<int,int> boardKey = {-1,-1};  // neg value means open board
 
   OGame() {
     board.resize(3, vector<IGame>(3, IGame()));
@@ -226,10 +249,10 @@ struct OGame {
     _mine.resize(3, vector<bool>(3, false));
   }
 
-  unordered_map<string, unordered_map<string, pair<int, int>>>
+  map<pair<int,int>, map<pair<int,int>, pair<int, int>>>
   getFilteredMoves() {
-    unordered_map<string, unordered_map<string, pair<int, int>>> res;
-    if (boardKey.empty()) return _nextMoves;
+    map<pair<int,int>, map<pair<int,int>, pair<int, int>>> res;
+    if (boardKey.first==-1) return _nextMoves;
 
     if (_nextMoves.find(boardKey) == _nextMoves.end()) return _nextMoves;
 
@@ -247,12 +270,12 @@ struct OGame {
     }
   }
 
-  unordered_map<string, unordered_map<string, pair<int, int>>> getWinningMoves(
+  map<pair<int,int>, map<pair<int,int>, pair<int, int>>> getWinningMoves(
       bool opp) {
-    unordered_map<string, unordered_map<string, pair<int, int>>> res;
+    map<pair<int,int>, map<pair<int,int>, pair<int, int>>> res;
 
     for (auto [okey, cat] : getFilteredMoves()) {
-      auto [ro, co] = decode_move(okey);
+      auto [ro, co] = okey;
       for (auto [k, v] : cat) {
         auto [r, c] = v;
         r %= 3;
@@ -277,23 +300,21 @@ struct OGame {
     auto [outer, inner] = pinPointMove(r, c);
     auto [bR, bC] = outer;
     auto [lR, lC] = inner;
-    string ohash = move_hash(outer);
-    string ihash = move_hash({r, c});
-    _nextMoves[ohash].erase(ihash);
+    _nextMoves[outer].erase({r,c});
     // translate onto smaller board
     TriState res = board[bR][bC].move(opp, lR, lC);
-    boardKey = move_hash(inner);
+    boardKey = inner;
     if (res == OPPONENT) {
       bigMove(true, bR, bC);
-      _nextMoves.erase(ohash);
+      _nextMoves.erase(outer);
 
-      _nextMoves.erase(ohash);
+      _nextMoves.erase(outer);
       if (win(true, bR, bC)) _opp[bR][bC] = true;  // game would be over already
 
       return OPPONENT;
     } else if (res == MINE) {
       bigMove(false, bR, bC);
-      _nextMoves.erase(ohash);
+      _nextMoves.erase(outer);
       if (win(false, bR, bC)) _mine[bR][bC] = true;
 
       return MINE;
@@ -366,7 +387,7 @@ struct OGame {
     cerr << "printing game state "
          << "\n";
     cerr << "to move is " << _o_to_move << "\n";
-    cerr << "boardKey is " << boardKey << "\n";
+    cerr << "boardKey is " << boardKey.first << "," << boardKey.second << "\n";
     cerr << "possible moves left are " << countMoves() << "\n";
   }
 };
