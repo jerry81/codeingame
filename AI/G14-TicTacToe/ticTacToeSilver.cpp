@@ -142,8 +142,8 @@ const std::map<std::pair<int,int>, std::map<std::pair<int,int>, std::pair<int, i
         }
     };
 
-struct IGame {
-  vector<vector<bool>> _iopp;
+struct IGame { // represents a mini board
+  vector<vector<bool>> _iopp; // 2d grid
   vector<vector<bool>> _imine;
 
   TriState state = NONE;
@@ -183,7 +183,7 @@ struct IGame {
     return false;
   }
 
-  vector<pair<int, int>> getWinningMoves(bool opp,
+  vector<pair<int, int>> getWinningMoves(bool opp, // is the opponent moving?
                                          vector<pair<int, int>> possibleMoves) {
     vector<pair<int, int>> res;
     for (auto move : possibleMoves) {
@@ -250,7 +250,7 @@ struct OGame {
   }
 
   map<pair<int,int>, map<pair<int,int>, pair<int, int>>>
-  getFilteredMoves() {
+  getFilteredMoves() { // "filter" means filter down to a single small boad
     map<pair<int,int>, map<pair<int,int>, pair<int, int>>> res;
     if (boardKey.first==-1) return _nextMoves;
 
