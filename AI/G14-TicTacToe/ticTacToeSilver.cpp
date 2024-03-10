@@ -227,6 +227,7 @@ struct OGame {
     _opp = toClone->_opp;
     _mine = toClone->_mine;
     _nextMoves = toClone->_nextMoves;
+    last_move = toClone->last_move;
   }
 
   map<pair<int,int>, set<pair<int,int>>>
@@ -234,7 +235,10 @@ struct OGame {
     map<pair<int,int>, set<pair<int,int>>> res;
     if (last_move.first==-1) return _nextMoves;
 
-    if (_nextMoves.find(last_move) == _nextMoves.end()) return _nextMoves;
+    if (_nextMoves.find(last_move) == _nextMoves.end()) {
+      cerr << "early return " << endl;
+      return _nextMoves;
+    }
 
     res[last_move] = _nextMoves[last_move];
     return res;
@@ -252,7 +256,27 @@ struct OGame {
 
   TriState randomMove(bool opp) {
      map<pair<int,int>, set<pair<int,int>>> fm = getFilteredMoves();
-     return NONE;
+     if (fm.empty()) return NONE;
+
+    random_device rd;
+    mt19937 gen(rd());
+
+    uniform_int_distribution<> dis(0, fm.size() - 1);
+    int randomIndex = dis(gen);
+
+    // Iterate to the random position in the map
+    auto it = fm.begin();
+    std::advance(it, randomIndex);
+    const auto& randomSet = it->second;
+    // cout << "key a,b is " << p.first.first << "," << p.first.second << endl;
+    std::uniform_int_distribution<> dis_set(0, randomSet.size() - 1);
+    int randomIndexSet = dis_set(gen);
+
+    // Iterate to the random position in the set
+    auto setIt = randomSet.begin();
+    std::advance(setIt, randomIndexSet);
+    cerr << "random row is " << setIt->first << " random col is " << setIt->second << endl;
+    return NONE;
   }
 
   TriState move(bool opp, int r, int c) {
@@ -366,9 +390,12 @@ int main() {
     // test clone
     OGame* cloned = new OGame(og);
     cerr << "printing cloned" << endl;
+
+    cloned->randomMove(false);
     cloned->move(false, testr,testc);
     cloned->print();
     og->move(false, mr,mc);
-     cout << mr << " " << mc << endl;
+
+    cout << mr << " " << mc << endl;
   }
 }
