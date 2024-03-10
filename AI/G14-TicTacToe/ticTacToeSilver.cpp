@@ -12,7 +12,7 @@
 using namespace std;
 
 
-enum TriState { NONE, OPPONENT, MINE };
+enum TriState { NONE, OPPONENT, MINE, DRAW };
 
 pair<pair<int, int>, pair<int, int>> pinPointMove(int r, int c) { // { bigboard loc, littleboard loc}
   return {{r / 3, c / 3}, {r % 3, c % 3}};
@@ -256,7 +256,7 @@ struct OGame {
 
   TriState randomMove(bool opp) {
      map<pair<int,int>, set<pair<int,int>>> fm = getFilteredMoves();
-     if (fm.empty()) return NONE;
+     if (fm.empty()) return DRAW;
 
     random_device rd;
     mt19937 gen(rd());
@@ -275,8 +275,7 @@ struct OGame {
     // Iterate to the random position in the set
     auto setIt = randomSet.begin();
     std::advance(setIt, randomIndexSet);
-    cerr << "random row is " << setIt->first << " random col is " << setIt->second << endl;
-    return NONE;
+    return move(opp, setIt->first, setIt->second);
   }
 
   TriState move(bool opp, int r, int c) {
@@ -356,7 +355,13 @@ struct OGame {
 };
 
 TriState simulate(OGame* start) { // always start from my move
-
+  bool opp = false;
+  while (true) {
+    auto res = start->randomMove();
+    if (res != NONE) break;
+    opp = !opp;
+  }
+  return res;
 }
 
 int main() {
@@ -391,7 +396,8 @@ int main() {
     OGame* cloned = new OGame(og);
     cerr << "printing cloned" << endl;
 
-    cloned->randomMove(false);
+    TriState ts = simulate(cloned);
+    cerr << "simulation result " << ts << endl;
     cloned->move(false, testr,testc);
     cloned->print();
     og->move(false, mr,mc);
