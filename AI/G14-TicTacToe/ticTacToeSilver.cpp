@@ -11,11 +11,6 @@
 using namespace std;
 
 
-
-const std::chrono::milliseconds firstTurnLimit(
-    1000);                                       // 1000ms for the first turn
-const std::chrono::milliseconds turnLimit(100);  // 100ms for subsequent turns
-
 enum TriState { NONE, OPPONENT, MINE };
 
 pair<pair<int, int>, pair<int, int>> pinPointMove(int r, int c) { // { bigboard loc, littleboard loc}
@@ -215,7 +210,6 @@ struct IGame { // represents a mini board
         if (_iopp[i][j]) cerr << "r: " << i << " c: " << j << endl;
       }
     }
-    cerr << "my squares " << endl;
     for (int i = 0; i < 3; ++i) {
       for (int j = 0; j < 3; ++j) {
         if (_imine[i][j]) cerr << "r: " << i << " c: " << j << endl;
@@ -241,7 +235,7 @@ struct OGame {
   bool _o_to_move = false;
   map<pair<int,int>, map<pair<int,int>, pair<int, int>>> _nextMoves =
       ALL_MOVES;
-  pair<int,int> boardKey = {-1,-1};  // neg value means open board
+  pair<int,int> last_move = {-1,-1};  // neg value means open board
 
   OGame() {
     board.resize(3, vector<IGame>(3, IGame()));
@@ -249,14 +243,21 @@ struct OGame {
     _mine.resize(3, vector<bool>(3, false));
   }
 
+  OGame(OGame* toClone) {
+    board = toClone->board; // the igames need to be cloned too
+    _opp = toClone->_opp;
+    _mine = toClone->_mine;
+    _nextMoves = toClone->_nextMoves;
+  }
+
   map<pair<int,int>, map<pair<int,int>, pair<int, int>>>
   getFilteredMoves() { // "filter" means filter down to a single small boad
     map<pair<int,int>, map<pair<int,int>, pair<int, int>>> res;
-    if (boardKey.first==-1) return _nextMoves;
+    if (last_move.first==-1) return _nextMoves;
 
-    if (_nextMoves.find(boardKey) == _nextMoves.end()) return _nextMoves;
+    if (_nextMoves.find(last_move) == _nextMoves.end()) return _nextMoves;
 
-    res[boardKey] = _nextMoves[boardKey];
+    res[last_move] = _nextMoves[last_move];
     return res;
   }
 
@@ -303,7 +304,7 @@ struct OGame {
     _nextMoves[outer].erase({r,c});
     // translate onto smaller board
     TriState res = board[bR][bC].move(opp, lR, lC);
-    boardKey = inner;
+    last_move = inner;
     if (res == OPPONENT) {
       bigMove(true, bR, bC);
       _nextMoves.erase(outer);
@@ -365,29 +366,12 @@ struct OGame {
     return !(mr == 1 || mc == 1);
   }
 
-  vector<RankedMove> getRankedMoves(int turns) {
-    vector<RankedMove> sortedMoves;
-    for (auto [_, v] : getFilteredMoves()) {
-      for (auto [_, v2] : v) {
-        RankedMove rm;
-        auto [r, c] = v2;
-        rm.move = v2;
-        if (centerMove(r, c)) {
-          rm.rank = 2;
-        } else if (cornerMove(r, c)) {
-          rm.rank = 1;
-        }
-        sortedMoves.push_back(rm);
-      }
-    }
-    return sortedMoves;
-  }
 
   void print() {
     cerr << "printing game state "
          << "\n";
     cerr << "to move is " << _o_to_move << "\n";
-    cerr << "boardKey is " << boardKey.first << "," << boardKey.second << "\n";
+    cerr << "last move is " << last_move.first << "," << last_move.second << "\n";
     cerr << "possible moves left are " << countMoves() << "\n";
   }
 };
@@ -405,47 +389,27 @@ int main() {
     int valid_action_count;
     cin >> valid_action_count;
     cin.ignore();
+    int mr;
+    int mc;
+    int testr = -1;
+    int testc = -1;
     for (int i = 0; i < valid_action_count; i++) {
       int row;
       int col;
       cin >> row >> col;
+      mr = row;
+      mc = col;
+      if (testr < 0) testr = row;
+      if (testc < 0) testc = col;
       cin.ignore();
     }
 
-    vector<RankedMove> rankedMoves = og->getRankedMoves(1);
-    // auto winners = og->getWinningMoves(false);
-    // auto blockers = og->getWinningMoves(true);
-    // if (!winners.empty()) {
-    //   move = winners.begin()->second.begin()->second;
-    // } else if (!blockers.empty()) {
-    //   move = blockers.begin()->second.begin()->second;
-    // } else {
-    //   vector<RankedMove> sortedMoves;
-    //   // TODO: unrandomize - sort by best move
-    //   // random_device rd;
-    //   // mt19937 gen(rd());
-    //   // uniform_int_distribution<int> dist(0, valid_action_count - 1);
-    //   // int r = dist(gen);
-    //   for (auto [_, v] : og->getFilteredMoves()) {
-    //     for (auto [_, v2] : v) {
-    //       RankedMove rm;
-    //       auto [r, c] = v2;
-    //       rm.move = v2;
-    //       if (og->centerMove(r, c)) {
-    //         rm.rank = 2;
-    //       } else if (og->cornerMove(r, c)) {
-    //         rm.rank = 1;
-    //       }
-    //       sortedMoves.push_back(rm);
-    //     }
-    //   }
-    sort(rankedMoves.begin(), rankedMoves.end(), compareRankedMoves);
-    auto move = rankedMoves[0].move;
-
-    auto [mr, mc] = move;
-
-    TriState ogmove = og->move(false, mr, mc);
-
-    cout << mr << " " << mc << endl;
+    // test clone
+    OGame* cloned = new OGame(og);
+    cerr << "printing cloned" << endl;
+    cloned->move(false, testr,testc);
+    cloned->print();
+    og->move(false, mr,mc);
+     cout << mr << " " << mc << endl;
   }
 }

@@ -7,4 +7,8 @@
   - an outer game and inner game class
 
 - what is needed to simulate?
-  - a way to clone the board ()
+  - a way to clone the game
+  - a way to pick a random move
+  - a way to check for win lose or draw
+
+- need the tree
