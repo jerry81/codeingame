@@ -7,6 +7,7 @@
 #include <unordered_map>
 #include <map>
 #include <vector>
+#include <set>
 
 using namespace std;
 
@@ -17,122 +18,122 @@ pair<pair<int, int>, pair<int, int>> pinPointMove(int r, int c) { // { bigboard 
   return {{r / 3, c / 3}, {r % 3, c % 3}};
 };
 
-const std::map<std::pair<int,int>, std::map<std::pair<int,int>, std::pair<int, int>>> ALL_MOVES = {
+const map<pair<int,int>, set<pair<int,int>>> ALL_MOVES = {
         {{0, 0},
             {
-                {{0, 0}, {0, 0}},
-                {{0, 1}, {0, 1}},
-                {{0, 2}, {0, 2}},
-                {{1, 0}, {1, 0}},
-                {{1, 1}, {1, 1}},
-                {{1, 2}, {1, 2}},
-                {{2, 0}, {2, 0}},
-                {{2, 1}, {2, 1}},
-                {{2, 2}, {2, 2}}
+                {0, 0},
+                {0, 1},
+                {0, 2},
+                {1, 0},
+                {1, 1},
+                {1, 2},
+                {2, 0},
+                {2, 1},
+                {2, 2}
             }
         },
         {{0, 1},
             {
-                {{0, 3}, {0, 3}},
-                {{0, 4}, {0, 4}},
-                {{0, 5}, {0, 5}},
-                {{1, 3}, {1, 3}},
-                {{1, 4}, {1, 4}},
-                {{1, 5}, {1, 5}},
-                {{2, 3}, {2, 3}},
-                {{2, 4}, {2, 4}},
-                {{2, 5}, {2, 5}}
+                {0, 3},
+                {0, 4},
+                {0, 5},
+                {1, 3},
+                {1, 4},
+                {1, 5},
+                {2, 3},
+                {2, 4},
+                {2, 5}
             }
         },
         {{0, 2},
             {
-                {{0, 6}, {0, 6}},
-                {{0, 7}, {0, 7}},
-                {{0, 8}, {0, 8}},
-                {{1, 6}, {1, 6}},
-                {{1, 7}, {1, 7}},
-                {{1, 8}, {1, 8}},
-                {{2, 6}, {2, 6}},
-                {{2, 7}, {2, 7}},
-                {{2, 8}, {2, 8}}
+                {0, 6},
+                {0, 7},
+                {0, 8},
+                {1, 6},
+                {1, 7},
+                {1, 8},
+                {2, 6},
+                {2, 7},
+                {2, 8}
             }
         },
         {{1, 0},
             {
-                {{3, 0}, {3, 0}},
-                {{3, 1}, {3, 1}},
-                {{3, 2}, {3, 2}},
-                {{4, 0}, {4, 0}},
-                {{4, 1}, {4, 1}},
-                {{4, 2}, {4, 2}},
-                {{5, 0}, {5, 0}},
-                {{5, 1}, {5, 1}},
-                {{5, 2}, {5, 2}}
+                {3, 0},
+                {3, 1},
+                {3, 2},
+                {4, 0},
+                {4, 1},
+                {4, 2},
+                {5, 0},
+                {5, 1},
+                {5, 2}
             }
         },
         {{1, 1},
             {
-                {{3, 3}, {3, 3}},
-                {{3, 4}, {3, 4}},
-                {{3, 5}, {3, 5}},
-                {{4, 3}, {4, 3}},
-                {{4, 4}, {4, 4}},
-                {{4, 5}, {4, 5}},
-                {{5, 3}, {5, 3}},
-                {{5, 4}, {5, 4}},
-                {{5, 5}, {5, 5}}
+                {3, 3},
+                {3, 4},
+                {3, 5},
+                {4, 3},
+                {4, 4},
+                {4, 5},
+                {5, 3},
+                {5, 4},
+                {5, 5}
             }
         },
         {{1, 2},
             {
-                {{3, 6}, {3, 6}},
-                {{3, 7}, {3, 7}},
-                {{3, 8}, {3, 8}},
-                {{4, 6}, {4, 6}},
-                {{4, 7}, {4, 7}},
-                {{4, 8}, {4, 8}},
-                {{5, 6}, {5, 6}},
-                {{5, 7}, {5, 7}},
-                {{5, 8}, {5, 8}}
+                {3, 6},
+                {3, 7},
+                {3, 8},
+                {4, 6},
+                {4, 7},
+                {4, 8},
+                {5, 6},
+                {5, 7},
+                {5, 8}
             }
         },
         {{2, 0},
             {
-                {{6, 0}, {6, 0}},
-                {{6, 1}, {6, 1}},
-                {{6, 2}, {6, 2}},
-                {{7, 0}, {7, 0}},
-                {{7, 1}, {7, 1}},
-                {{7, 2}, {7, 2}},
-                {{8, 0}, {8, 0}},
-                {{8, 1}, {8, 1}},
-                {{8, 2}, {8, 2}}
+                {6, 0},
+                {6, 1},
+                {6, 2},
+                {7, 0},
+                {7, 1},
+                {7, 2},
+                {8, 0},
+                {8, 1},
+                {8, 2}
             }
         },
         {{2, 1},
             {
-                {{6, 3}, {6, 3}},
-                {{6, 4}, {6, 4}},
-                {{6, 5}, {6, 5}},
-                {{7, 3}, {7, 3}},
-                {{7, 4}, {7, 4}},
-                {{7, 5}, {7, 5}},
-                {{8, 3}, {8, 3}},
-                {{8, 4}, {8, 4}},
-                {{8, 5}, {8, 5}}
+                {6, 3},
+                {6, 4},
+                {6, 5},
+                {7, 3},
+                {7, 4},
+                {7, 5},
+                {8, 3},
+                {8, 4},
+                {8, 5}
             }
         },
         {{2, 2},
             {
-                {{6, 6}, {6, 6}},
-                {{6, 7}, {6, 7}},
-                {{6, 8}, {6, 8}},
-                {{7, 6}, {7, 6}},
-                {{7, 7}, {7, 7}},
-                {{7, 8}, {7, 8}},
-                {{8, 6}, {8, 6}},
-                {{8, 7}, {8, 7}},
-                {{8, 8}, {8, 8}}
+                {6, 6},
+                {6, 7},
+                {6, 8},
+                {7, 6},
+                {7, 7},
+                {7, 8},
+                {8, 6},
+                {8, 7},
+                {8, 8}
             }
         }
     };
@@ -178,18 +179,6 @@ struct IGame { // represents a mini board
     return false;
   }
 
-  vector<pair<int, int>> getWinningMoves(bool opp, // is the opponent moving?
-                                         vector<pair<int, int>> possibleMoves) {
-    vector<pair<int, int>> res;
-    for (auto move : possibleMoves) {
-      if (win(opp, move.first, move.second)) {
-        res.push_back(move);
-        break;
-      }
-    }
-    return res;
-  }
-
   TriState move(bool opp, int r, int c) {
     if (r < 0 || c < 0) return NONE;
 
@@ -218,22 +207,12 @@ struct IGame { // represents a mini board
   }
 };
 
-struct RankedMove {
-  int rank = 0;
-  pair<int, int> move;
-};
-
-bool compareRankedMoves(const RankedMove& a, const RankedMove& b) {
-  return a.rank >
-         b.rank;  // ">" for descending order, use "<" for ascending order
-}
-
 struct OGame {
   vector<vector<IGame>> board;
   vector<vector<bool>> _opp;
   vector<vector<bool>> _mine;
   bool _o_to_move = false;
-  map<pair<int,int>, map<pair<int,int>, pair<int, int>>> _nextMoves =
+  map<pair<int,int>, set<pair<int,int>>> _nextMoves =
       ALL_MOVES;
   pair<int,int> last_move = {-1,-1};  // neg value means open board
 
@@ -250,9 +229,9 @@ struct OGame {
     _nextMoves = toClone->_nextMoves;
   }
 
-  map<pair<int,int>, map<pair<int,int>, pair<int, int>>>
+  map<pair<int,int>, set<pair<int,int>>>
   getFilteredMoves() { // "filter" means filter down to a single small boad
-    map<pair<int,int>, map<pair<int,int>, pair<int, int>>> res;
+    map<pair<int,int>, set<pair<int,int>>> res;
     if (last_move.first==-1) return _nextMoves;
 
     if (_nextMoves.find(last_move) == _nextMoves.end()) return _nextMoves;
@@ -271,24 +250,9 @@ struct OGame {
     }
   }
 
-  map<pair<int,int>, map<pair<int,int>, pair<int, int>>> getWinningMoves(
-      bool opp) {
-    map<pair<int,int>, map<pair<int,int>, pair<int, int>>> res;
-
-    for (auto [okey, cat] : getFilteredMoves()) {
-      auto [ro, co] = okey;
-      for (auto [k, v] : cat) {
-        auto [r, c] = v;
-        r %= 3;
-        c %= 3;
-        bool innerwin = board[ro][co].win(opp, r, c);
-        if (innerwin) {
-          res[okey][k] = v;
-          break;
-        }
-      }
-    }
-    return res;
+  TriState randomMove(bool opp) {
+     map<pair<int,int>, set<pair<int,int>>> fm = getFilteredMoves();
+     return NONE;
   }
 
   TriState move(bool opp, int r, int c) {
@@ -358,15 +322,6 @@ struct OGame {
     return ret;
   }
 
-  bool centerMove(int r, int c) { return r % 3 == 1 && c % 3 == 1; }
-
-  bool cornerMove(int r, int c) {
-    int mr = r % 3;
-    int mc = c % 3;
-    return !(mr == 1 || mc == 1);
-  }
-
-
   void print() {
     cerr << "printing game state "
          << "\n";
@@ -375,6 +330,10 @@ struct OGame {
     cerr << "possible moves left are " << countMoves() << "\n";
   }
 };
+
+TriState simulate(OGame* start) { // always start from my move
+
+}
 
 int main() {
   // game loop
