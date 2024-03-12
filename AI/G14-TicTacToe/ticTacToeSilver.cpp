@@ -259,7 +259,7 @@ struct OGame {
     }
   }
 
-  TriState randomMove(bool opp, mt19937& gen, pair<int,int> &move_made) {
+  TriState randomMove(bool opp, mt19937& gen) {
      map<pair<int,int>, set<pair<int,int>>> fm = getFilteredMoves();
 
      if (fm.empty()) return DRAW;
@@ -282,7 +282,6 @@ struct OGame {
     //   string s = opp ? "opp" : "i";
     //   cerr << s << " makes move " << setIt->first << "," << setIt->second << endl;
     // }
-    move_made = *setIt;
     return move(opp, setIt->first, setIt->second);
   }
 
@@ -361,20 +360,12 @@ struct OGame {
   }
 };
 
-TriState simulate(OGame* start, mt19937& gen, pair<int,int>& first_move) { // always start from my move
+TriState simulate(OGame* start, mt19937& gen) { // always start from my move
   bool opp = false;
   TriState res = NONE;
-  bool first = true;
-  pair<int,int> dummy;
   while (res == NONE) {
-
-    if (first)  {
-      res = start->randomMove(opp, gen, first_move);
-    } else {
-      res = start->randomMove(opp, gen, dummy);
-    }
+    res = start->randomMove(opp, gen);
     opp = !opp;
-    first = false;
   }
   return res;
 }
@@ -410,16 +401,13 @@ int main() {
     }
 
     // test clone
-    if (!firstturn) {
-      for (int i = 0; i < 100; ++i) {
+      for (int i = 0; i < 150; ++i) {
         OGame* cloned = new OGame(og);
-        pair<int,int> k;
-        TriState ts =  simulate(og, gen, k);
-        cerr << "pair was " << k.first << ","<<k.second << endl;
-        cerr << "result was " << ts << endl;
+        TriState ts =  simulate(cloned, gen);
+       // cerr << "result was " << ts << endl;
         delete cloned;
       }
-    }
+
     //   vector<OGame*> clonedGames;
     //   map<pair<int,int>, set<pair<int,int>>> filtered = cloned->getFilteredMoves();
     //   for (auto [_,st]:filtered) {
@@ -448,7 +436,6 @@ int main() {
     //     cerr << i << endl;
     //   }
     // }
-    firstturn = false;
 
 
    // cloned->move(false, testr,testc);
