@@ -13,6 +13,12 @@
 
 - verify one simulation -
   - verified manually.  only plays up to a won large square - further refine.
+  - changed code - i think there was a bug where the big move "win" would return the inner wins.
+  - however now, there is an infinite loop.  seems like there is no result from the simulation coming in
+    - on successful simulations, results are 1 (opponent), and 2 (me win) -
+      - first verify one of each - verify X win case
+      - skip verfy O win case (tediuous)
+      - investigate timeout case
 
 - next data struct
 - Selection - select all available moves

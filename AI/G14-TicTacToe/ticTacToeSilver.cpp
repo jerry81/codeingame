@@ -236,7 +236,6 @@ struct OGame {
     if (last_move.first==-1) return _nextMoves;
 
     if (_nextMoves.find(last_move) == _nextMoves.end()) {
-      cerr << "early return " << endl;
       return _nextMoves;
     }
 
