@@ -11,4 +11,8 @@
   - a way to pick a random move
   - a way to check for win lose or draw
 
-- need the tree
+- verify one simulation - TODO
+
+- next data struct
+- Selection - select all available moves
+- expand the move after those
