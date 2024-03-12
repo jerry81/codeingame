@@ -19,6 +19,8 @@
       - first verify one of each - verify X win case
       - skip verfy O win case (tediuous)
       - investigate timeout case
+        - seems fixed for now- shit - simulations seem to suspiciously return lots of DRAWS
+        - address the non-randomness
 
 - next data struct
 - Selection - select all available moves

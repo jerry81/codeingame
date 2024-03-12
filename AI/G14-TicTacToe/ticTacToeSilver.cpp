@@ -194,7 +194,7 @@ struct IGame { // represents a mini board
 
     filled_count+=1;
 
-    if (filled_count==9) return DRAW;
+    if (filled_count>=9) return DRAW;
 
     return NONE;
   };
@@ -259,13 +259,10 @@ struct OGame {
     }
   }
 
-  TriState randomMove(bool opp) {
+  TriState randomMove(bool opp, mt19937& gen) {
      map<pair<int,int>, set<pair<int,int>>> fm = getFilteredMoves();
 
      if (fm.empty()) return DRAW;
-
-    random_device rd;
-    mt19937 gen(rd());
 
     uniform_int_distribution<> dis(0, fm.size() - 1);
     int randomIndex = dis(gen);
@@ -281,8 +278,10 @@ struct OGame {
     // Iterate to the random position in the set
     auto setIt = randomSet.begin();
     std::advance(setIt, randomIndexSet);
-    string s = opp ? "opp" : "i";
-    cerr << s << " makes move " << setIt->first << "," << setIt->second << endl;
+    // if (!started) {
+    //   string s = opp ? "opp" : "i";
+    //   cerr << s << " makes move " << setIt->first << "," << setIt->second << endl;
+    // }
     return move(opp, setIt->first, setIt->second);
   }
 
@@ -361,11 +360,11 @@ struct OGame {
   }
 };
 
-TriState simulate(OGame* start) { // always start from my move
+TriState simulate(OGame* start, mt19937& gen) { // always start from my move
   bool opp = false;
   TriState res = NONE;
   while (res == NONE) {
-    res = start->randomMove(opp);
+    res = start->randomMove(opp, gen);
     opp = !opp;
   }
   return res;
@@ -374,7 +373,8 @@ TriState simulate(OGame* start) { // always start from my move
 int main() {
   // game loop
   OGame* og = new OGame();
-
+  random_device rd;
+  mt19937 gen(rd());
   while (1) {
     int opponent_row;
     int opponent_col;
@@ -400,13 +400,15 @@ int main() {
     }
 
     // test clone
-    OGame* cloned = new OGame(og);
-    cerr << "printing cloned" << endl;
 
-    TriState ts = simulate(cloned);
-    cerr << "simulation result " << ts << endl;
-    cloned->move(false, testr,testc);
-    cloned->print();
+    for (int i = 0; i < 100; ++i) {
+        OGame* cloned = new OGame(og);
+        TriState ts = simulate(cloned, gen);
+        // first try 5 simulations
+        cerr << "ts is " << ts << endl;
+    }
+
+   // cloned->move(false, testr,testc);
     og->move(false, mr,mc);
 
     cout << mr << " " << mc << endl;
