@@ -297,17 +297,13 @@ struct OGame {
     if (res == OPPONENT) {
       bigMove(true, bR, bC);
       _nextMoves.erase(outer);
+      if (win(true, bR, bC)) return OPPONENT;  // game would be over already
 
-      _nextMoves.erase(outer);
-      if (win(true, bR, bC)) _opp[bR][bC] = true;  // game would be over already
-
-      return OPPONENT;
     } else if (res == MINE) {
       bigMove(false, bR, bC);
       _nextMoves.erase(outer);
-      if (win(false, bR, bC)) _mine[bR][bC] = true;
+      if (win(false, bR, bC)) return MINE;
 
-      return MINE;
     }
     return NONE;
   }
