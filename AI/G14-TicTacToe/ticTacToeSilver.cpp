@@ -395,12 +395,9 @@ int main() {
       cin.ignore();
       moves.push_back({row,col});
     }
-    mr= moves[0].first;
-    mc = moves[0].second;
 
     int available_moves = moves.size();
     vector<int> moves_stats(available_moves, 0);
-    vector<int> total_moves_stats(available_moves, 0);
     // test clone
     for (int i = 0; i < 150; ++i) {
         OGame* cloned = new OGame(og);
@@ -414,10 +411,18 @@ int main() {
           moves_stats[cur_move_idx] +=1;
         }
 
-        total_moves_stats[cur_move_idx] += 1;
 
        // cerr << "result was " << ts << endl;
         delete cloned;
+    }
+
+    int mx = INT_MIN;
+    int mx_i = -1;
+    for (int i = 0; i < available_moves; ++i) {
+      if (moves_stats[i] > mx) {
+        mx_i = i;
+        mx = moves_stats[i];
+      }
     }
       // cerr << "full stats are as follows " << endl;
       // for (int i: moves_stats) {
@@ -458,6 +463,8 @@ int main() {
     // }
 
 
+    mr= moves[mx_i].first;
+    mc = moves[mx_i].second;
    // cloned->move(false, testr,testc);
     og->move(false, mr,mc);
 
