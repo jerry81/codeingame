@@ -141,7 +141,7 @@ const map<pair<int,int>, set<pair<int,int>>> ALL_MOVES = {
 struct IGame { // represents a mini board
   vector<vector<bool>> _iopp; // 2d grid
   vector<vector<bool>> _imine;
-
+  int filled_count = 0;
   TriState state = NONE;
 
   IGame() {
@@ -182,13 +182,19 @@ struct IGame { // represents a mini board
   TriState move(bool opp, int r, int c) {
     if (r < 0 || c < 0) return NONE;
 
+
     if (opp) {
       _iopp[r][c] = true;
     } else {
       _imine[r][c] = true;
     }
 
+
     if (win(opp, r, c)) return opp ? OPPONENT : MINE;
+
+    filled_count+=1;
+
+    if (filled_count==9) return DRAW;
 
     return NONE;
   };
@@ -255,6 +261,7 @@ struct OGame {
 
   TriState randomMove(bool opp) {
      map<pair<int,int>, set<pair<int,int>>> fm = getFilteredMoves();
+
      if (fm.empty()) return DRAW;
 
     random_device rd;
@@ -303,7 +310,10 @@ struct OGame {
       _nextMoves.erase(outer);
       if (win(false, bR, bC)) return MINE;
 
+    } else if (res == DRAW) {
+      _nextMoves.erase(outer);
     }
+    // is it not moving for draws?
     return NONE;
   }
 
