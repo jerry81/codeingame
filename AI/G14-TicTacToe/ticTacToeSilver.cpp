@@ -408,7 +408,6 @@ int main() {
       if (og->inner_win(false, row, col)) {
         mr = row;
         mc = col;
-        break;
       }
 
       if (og->inner_win(true,row,col)) {
