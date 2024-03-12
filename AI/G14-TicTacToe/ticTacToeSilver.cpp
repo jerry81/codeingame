@@ -387,26 +387,46 @@ int main() {
     cin.ignore();
     int mr;
     int mc;
-    int testr = -1;
-    int testc = -1;
+    vector<pair<int,int>> moves;
     for (int i = 0; i < valid_action_count; i++) {
       int row;
       int col;
       cin >> row >> col;
-      mr = row;
-      mc = col;
-      if (testr < 0) testr = row;
-      if (testc < 0) testc = col;
       cin.ignore();
+      moves.push_back({row,col});
     }
+    mr= moves[0].first;
+    mc = moves[0].second;
 
+    int available_moves = moves.size();
+    vector<int> moves_stats(available_moves, 0);
+    vector<int> total_moves_stats(available_moves, 0);
     // test clone
-      for (int i = 0; i < 150; ++i) {
+    for (int i = 0; i < 150; ++i) {
         OGame* cloned = new OGame(og);
+        int  cur_move_idx = i % available_moves;
+        pair<int,int> cur_move = moves[cur_move_idx];
+        cloned->move(false, cur_move.first, cur_move.second);
         TriState ts =  simulate(cloned, gen);
+        if (ts == 1) {
+          moves_stats[cur_move_idx] -=1;
+        } else if (ts == 2) {
+          moves_stats[cur_move_idx] +=1;
+        }
+
+        total_moves_stats[cur_move_idx] += 1;
+
        // cerr << "result was " << ts << endl;
         delete cloned;
-      }
+    }
+      // cerr << "full stats are as follows " << endl;
+      // for (int i: moves_stats) {
+      //   cerr << i << endl;
+      // }
+      // cerr << "simulations run for each " << endl;
+      // for (int i: total_moves_stats) {
+      //   cerr << i << endl;
+      // }
 
     //   vector<OGame*> clonedGames;
     //   map<pair<int,int>, set<pair<int,int>>> filtered = cloned->getFilteredMoves();
