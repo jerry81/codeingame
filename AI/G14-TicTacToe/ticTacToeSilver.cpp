@@ -382,11 +382,11 @@ int main() {
   OGame* og = new OGame();
   random_device rd;
   mt19937 gen(rd());
-  int CUR_THRESH = 150;
+  int CUR_THRESH = 100;
   bool firstturn = true;
   int turns = 0;
   while (1) {
-    CUR_THRESH+=2;
+    CUR_THRESH+=3;
     int opponent_row;
     int opponent_col;
     cin >> opponent_row >> opponent_col;
