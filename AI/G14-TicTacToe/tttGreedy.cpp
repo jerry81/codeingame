@@ -181,7 +181,7 @@ struct IGame {
       _imine[r][c] = true;
     }
 
-    print();
+   // print();
     if (win(opp, r, c)) return opp ? OPPONENT : MINE;
 
     return NONE;

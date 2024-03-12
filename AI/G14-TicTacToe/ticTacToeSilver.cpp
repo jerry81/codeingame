@@ -344,6 +344,13 @@ struct OGame {
     return false;
   }
 
+  bool inner_win(bool opp, int r, int c) {
+     auto [outer, inner] = pinPointMove(r, c);
+     auto [bR, bC] = outer;
+     auto [lR, lC] = inner;
+     return board[bR][bC].win(opp, lR, lC);
+  }
+
   int countMoves() {
     int ret = 0;
     for (auto [_, a] : _nextMoves) {
@@ -388,21 +395,38 @@ int main() {
     int valid_action_count;
     cin >> valid_action_count;
     cin.ignore();
-    int mr;
+    int mr = -1;
     int mc;
     vector<pair<int,int>> moves;
+    pair<int,int> blocker = {-1,-1};
     for (int i = 0; i < valid_action_count; i++) {
       int row;
       int col;
       cin >> row >> col;
       cin.ignore();
       moves.push_back({row,col});
+      if (og->inner_win(false, row, col)) {
+        mr = row;
+        mc = col;
+        break;
+      }
+
+      if (og->inner_win(true,row,col)) {
+        blocker = {row,col};
+      }
+
     }
 
     int available_moves = moves.size();
     vector<int> moves_stats(available_moves, 0);
-    // test clone
-    for (int i = 0; i < CUR_THRESH; ++i) {
+
+    // greedy win a small boad or block a small board
+   if  (mr < 0) {
+     if (blocker.first >= 0) {
+       mr = blocker.first;
+       mc = blocker.second;
+     } else {
+     for (int i = 0; i < CUR_THRESH; ++i) {
         OGame* cloned = new OGame(og);
         int  cur_move_idx = i % available_moves;
         pair<int,int> cur_move = moves[cur_move_idx];
@@ -418,6 +442,7 @@ int main() {
        // cerr << "result was " << ts << endl;
         delete cloned;
     }
+
 
     int mx = INT_MIN;
     int mx_i = -1;
@@ -469,6 +494,10 @@ int main() {
     mr= moves[mx_i].first;
     mc = moves[mx_i].second;
    // cloned->move(false, testr,testc);
+   }
+     }
+    // test clone
+
     og->move(false, mr,mc);
 
     cout << mr << " " << mc << endl;
