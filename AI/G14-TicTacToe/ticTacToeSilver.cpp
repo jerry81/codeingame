@@ -356,9 +356,9 @@ struct OGame {
 
 TriState simulate(OGame* start) { // always start from my move
   bool opp = false;
-  while (true) {
-    auto res = start->randomMove();
-    if (res != NONE) break;
+  TriState res = NONE;
+  while (res==NONE) {
+    res = start->randomMove(opp);
     opp = !opp;
   }
   return res;
