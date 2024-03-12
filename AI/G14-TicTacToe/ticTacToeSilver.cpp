@@ -8,6 +8,7 @@
 #include <map>
 #include <vector>
 #include <set>
+#include <climits>
 
 using namespace std;
 
@@ -360,8 +361,7 @@ struct OGame {
   }
 };
 
-TriState simulate(OGame* start, mt19937& gen) { // always start from my move
-  bool opp = false;
+TriState simulate(OGame* start, mt19937& gen, bool opp) { // always start from my move
   TriState res = NONE;
   while (res == NONE) {
     res = start->randomMove(opp, gen);
@@ -375,8 +375,11 @@ int main() {
   OGame* og = new OGame();
   random_device rd;
   mt19937 gen(rd());
+  int CUR_THRESH = 150;
   bool firstturn = true;
+  int turns = 0;
   while (1) {
+    CUR_THRESH+=2;
     int opponent_row;
     int opponent_col;
     cin >> opponent_row >> opponent_col;
@@ -399,12 +402,12 @@ int main() {
     int available_moves = moves.size();
     vector<int> moves_stats(available_moves, 0);
     // test clone
-    for (int i = 0; i < 150; ++i) {
+    for (int i = 0; i < CUR_THRESH; ++i) {
         OGame* cloned = new OGame(og);
         int  cur_move_idx = i % available_moves;
         pair<int,int> cur_move = moves[cur_move_idx];
         cloned->move(false, cur_move.first, cur_move.second);
-        TriState ts =  simulate(cloned, gen);
+        TriState ts =  simulate(cloned, gen, true);
         if (ts == 1) {
           moves_stats[cur_move_idx] -=1;
         } else if (ts == 2) {
