@@ -275,6 +275,8 @@ struct OGame {
     // Iterate to the random position in the set
     auto setIt = randomSet.begin();
     std::advance(setIt, randomIndexSet);
+    string s = opp ? "opp" : "i";
+    cerr << s << " makes move " << setIt->first << "," << setIt->second << endl;
     return move(opp, setIt->first, setIt->second);
   }
 
@@ -357,7 +359,7 @@ struct OGame {
 TriState simulate(OGame* start) { // always start from my move
   bool opp = false;
   TriState res = NONE;
-  while (res==NONE) {
+  while (res == NONE) {
     res = start->randomMove(opp);
     opp = !opp;
   }
