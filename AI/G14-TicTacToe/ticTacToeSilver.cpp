@@ -259,7 +259,7 @@ struct OGame {
     }
   }
 
-  TriState randomMove(bool opp, mt19937& gen) {
+  TriState randomMove(bool opp, mt19937& gen, pair<int,int> &move_made) {
      map<pair<int,int>, set<pair<int,int>>> fm = getFilteredMoves();
 
      if (fm.empty()) return DRAW;
@@ -282,6 +282,7 @@ struct OGame {
     //   string s = opp ? "opp" : "i";
     //   cerr << s << " makes move " << setIt->first << "," << setIt->second << endl;
     // }
+    move_made = *setIt;
     return move(opp, setIt->first, setIt->second);
   }
 
@@ -360,12 +361,20 @@ struct OGame {
   }
 };
 
-TriState simulate(OGame* start, mt19937& gen) { // always start from my move
+TriState simulate(OGame* start, mt19937& gen, pair<int,int>& first_move) { // always start from my move
   bool opp = false;
   TriState res = NONE;
+  bool first = true;
+  pair<int,int> dummy;
   while (res == NONE) {
-    res = start->randomMove(opp, gen);
+
+    if (first)  {
+      res = start->randomMove(opp, gen, first_move);
+    } else {
+      res = start->randomMove(opp, gen, dummy);
+    }
     opp = !opp;
+    first = false;
   }
   return res;
 }
@@ -375,6 +384,7 @@ int main() {
   OGame* og = new OGame();
   random_device rd;
   mt19937 gen(rd());
+  bool firstturn = true;
   while (1) {
     int opponent_row;
     int opponent_col;
@@ -400,13 +410,46 @@ int main() {
     }
 
     // test clone
-
-    for (int i = 0; i < 100; ++i) {
+    if (!firstturn) {
+      for (int i = 0; i < 100; ++i) {
         OGame* cloned = new OGame(og);
-        TriState ts = simulate(cloned, gen);
-        // first try 5 simulations
-        cerr << "ts is " << ts << endl;
+        pair<int,int> k;
+        TriState ts =  simulate(og, gen, k);
+        cerr << "pair was " << k.first << ","<<k.second << endl;
+        cerr << "result was " << ts << endl;
+        delete cloned;
+      }
     }
+    //   vector<OGame*> clonedGames;
+    //   map<pair<int,int>, set<pair<int,int>>> filtered = cloned->getFilteredMoves();
+    //   for (auto [_,st]:filtered) {
+    //     for (auto [r,c]: st) {
+    //       OGame* child = new OGame(cloned);
+    //       child->move(false, r,c); // x makes a move in the cloned game
+    //       clonedGames.push_back(child);
+    //     }
+    //   }
+    //   int children_count = clonedGames.size();
+    //   cerr << "there are " << children_count << " children" << endl;
+    //   vector<int> scores(children_count, 0);
+    //   for (int i = 0; i < 100; ++i) {
+    //     // round robin
+    //     int curIdx = i%children_count;
+
+    //     TriState ts = simulate(clonedGames[i], gen);
+    //     if (ts == OPPONENT) {
+    //       scores[i] -=1;
+    //     } else if (ts == MINE) {
+    //       scores[i] +=1;
+    //     }
+    //   }
+    //   cerr << "after 150 simulations, the following respective scores have been tallied" << endl;
+    //   for (int i: scores) {
+    //     cerr << i << endl;
+    //   }
+    // }
+    firstturn = false;
+
 
    // cloned->move(false, testr,testc);
     og->move(false, mr,mc);
