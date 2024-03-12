@@ -451,43 +451,6 @@ int main() {
         mx = moves_stats[i];
       }
     }
-      // cerr << "full stats are as follows " << endl;
-      // for (int i: moves_stats) {
-      //   cerr << i << endl;
-      // }
-      // cerr << "simulations run for each " << endl;
-      // for (int i: total_moves_stats) {
-      //   cerr << i << endl;
-      // }
-
-    //   vector<OGame*> clonedGames;
-    //   map<pair<int,int>, set<pair<int,int>>> filtered = cloned->getFilteredMoves();
-    //   for (auto [_,st]:filtered) {
-    //     for (auto [r,c]: st) {
-    //       OGame* child = new OGame(cloned);
-    //       child->move(false, r,c); // x makes a move in the cloned game
-    //       clonedGames.push_back(child);
-    //     }
-    //   }
-    //   int children_count = clonedGames.size();
-    //   cerr << "there are " << children_count << " children" << endl;
-    //   vector<int> scores(children_count, 0);
-    //   for (int i = 0; i < 100; ++i) {
-    //     // round robin
-    //     int curIdx = i%children_count;
-
-    //     TriState ts = simulate(clonedGames[i], gen);
-    //     if (ts == OPPONENT) {
-    //       scores[i] -=1;
-    //     } else if (ts == MINE) {
-    //       scores[i] +=1;
-    //     }
-    //   }
-    //   cerr << "after 150 simulations, the following respective scores have been tallied" << endl;
-    //   for (int i: scores) {
-    //     cerr << i << endl;
-    //   }
-    // }
 
 
     mr= moves[mx_i].first;
