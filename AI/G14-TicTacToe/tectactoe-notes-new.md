@@ -11,7 +11,8 @@
   - a way to pick a random move
   - a way to check for win lose or draw
 
-- verify one simulation - TODO
+- verify one simulation -
+  - verified manually.  only plays up to a won large square - further refine.
 
 - next data struct
 - Selection - select all available moves
