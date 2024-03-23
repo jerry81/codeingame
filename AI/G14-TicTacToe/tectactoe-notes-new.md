@@ -25,3 +25,15 @@
 - next data struct
 - Selection - select all available moves
 - expand the move after those
+
+
+## optimizations!!
+
+- look through the code, currently we can only run 100 simulations total with a 3 simulation increment per turn
+- IGame
+- OGame
+
+
+- right now there is a ghetto primitive MCTS where we just simplify selection to select points equally and not expand a tree (not even keeping a tree at all) - we don't back propogate because there is no nesting.
+
+- try a non-struct approach
