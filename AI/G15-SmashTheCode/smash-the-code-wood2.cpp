@@ -97,7 +97,6 @@ int main()
 
         switch (cur_color) {
           case 1: {
-            cerr << "board[11][0] is " << board[11][0] << endl;
             if (board[11][0] == '.') {
               cout << 0 << endl;
               break;
@@ -111,7 +110,10 @@ int main()
             cout << 1 << endl;
             break;
           } case 2: {
-            cerr << "board[11][0] is " << board[11][0] << endl;
+            if (board[11][0] == '1' && board[9][0] == '.') {
+              cout << 0 << endl;
+              break;
+            }
             if (board[11][0] == '1') {
               if (board[9][0] == '0') {
                 cout << 0 << endl;
