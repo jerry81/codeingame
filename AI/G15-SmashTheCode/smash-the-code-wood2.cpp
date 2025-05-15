@@ -101,12 +101,6 @@ int main()
               cout << 0 << endl;
               break;
             }
-            if (board[11][1] == '2') {
-              if (board[9][1] == '1') {
-                cout << 2 << endl;
-                break;
-              }
-            }
             cout << 1 << endl;
             break;
           } case 2: {
@@ -116,10 +110,9 @@ int main()
             }
             if (board[11][0] == '1') {
               if (board[9][0] == '0') {
-                cout << 0 << endl;
+                cout << 2 << endl;
                 break;
               }
-
             }
             cout << 1 << endl;
             break;

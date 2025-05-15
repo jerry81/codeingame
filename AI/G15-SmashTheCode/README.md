@@ -104,3 +104,5 @@ x1
 - pass wood 2 first
 - reserve 3 rows to make chains with 2 colors
 - the remaining 3 rows are reserved for the other 2 colors
+
+- TODO: use top non-empty item instead of hardcoded place
