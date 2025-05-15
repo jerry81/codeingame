@@ -5,9 +5,7 @@
 #include <random>
 #include <string>
 #include <unordered_map>
-#include <map>
 #include <vector>
-#include <set>
 #include <climits>
 
 using namespace std;
@@ -392,7 +390,30 @@ TriState simulate(OGame* start, mt19937& gen, bool opp) { // always start from m
   return res;
 }
 
+/*
+  return 0 for no result
+  return 1 for player gets square
+*/
+int new_move(int r, int c, int player, int (&board)[9][9]) {
+  if (r >= 0) {
+    board[r][c]=player;
+    // check for result
+    // find the "subgame"
+    int rstart = (r/3) * 3;
+    int cstart = (c/3) * 3;
+    int (&rw)[9] = board[r];
+    if (rw[cstart] == player && rw[cstart+1] == player && rw[cstart+2] == player) return 1;
+
+    if (board[rstart][c] == player && board[rstart+1][c] == player && board[rstart+2][c] == player) return 1;
+
+    if (board[rstart])
+  }
+  return 0;
+}
+
 int main() {
+  int new_board[9][9];
+
   // game loop
   OGame* og = new OGame();
   random_device rd;
@@ -406,6 +427,7 @@ int main() {
     int opponent_col;
     cin >> opponent_row >> opponent_col;
     cin.ignore();
+
     TriState res = og->move(true, opponent_row, opponent_col);
     int valid_action_count;
     cin >> valid_action_count;

@@ -37,3 +37,4 @@
 - right now there is a ghetto primitive MCTS where we just simplify selection to select points equally and not expand a tree (not even keeping a tree at all) - we don't back propogate because there is no nesting.
 
 - try a non-struct approach
+
