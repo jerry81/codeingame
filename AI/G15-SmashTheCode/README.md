@@ -63,4 +63,44 @@ A mighty battle for the triumph of Light begins as both Super Humans face each o
 - maximize chains
 
 - print board
-- first build function to "test" a piece at a particular column
+- first build function to "test" a piece at a particular column - done
+  - input column
+  - output board after
+
+- function to flood and remove those items, should also indicate if no items were removed
+
+- function to drop
+
+- function that uses the above two in a loop to count how many chains
+
+- how do chains happen
+```
+x1
+122
+```
+- off color sandwiched between single color
+- off color gets removed from side
+```
+1
+1
+222
+222
+1x1
+1x1
+```  <-- first col chains
+
+- start with single chains
+
+- heuristic
+- try to replicate situation 2
+- most common
+```
+21
+21
+12
+12
+```
+
+- pass wood 2 first
+- reserve 3 rows to make chains with 2 colors
+- the remaining 3 rows are reserved for the other 2 colors

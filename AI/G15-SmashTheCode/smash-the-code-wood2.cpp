@@ -67,12 +67,16 @@ int main()
             }
 
         }
+        cerr << "color is " << cur_color << endl;
         int score_1;
         cin >> score_1; cin.ignore();
         for (int i = 0; i < 12; i++) {
             string row; // One line of the map ('.' = empty, '0' = skull block, '1' to '5' = colored block)
             cin >> row; cin.ignore();
             board[i] = row;
+        }
+        for (string s: board) {
+            cerr << s << endl;
         }
         // for (int c = 0; c < 6; ++c) {
         //     cerr << "testing col " << c << endl;
@@ -93,26 +97,27 @@ int main()
 
         switch (cur_color) {
           case 1: {
-            if (board[0][0] == '.') {
+            cerr << "board[11][0] is " << board[11][0] << endl;
+            if (board[11][0] == '.') {
               cout << 0 << endl;
               break;
             }
-            if (board[0][1] == '2') {
-              if (board[2][1] == '1') {
+            if (board[11][1] == '2') {
+              if (board[9][1] == '1') {
                 cout << 2 << endl;
-                break;
-              } else {
-                cout << 1 << endl;
                 break;
               }
             }
-
+            cout << 1 << endl;
+            break;
           } case 2: {
-            if (board[0][0] == '1') {
-              if (board[2][0] == '0') {
+            cerr << "board[11][0] is " << board[11][0] << endl;
+            if (board[11][0] == '1') {
+              if (board[9][0] == '0') {
                 cout << 0 << endl;
+                break;
               }
-              break;
+
             }
             cout << 1 << endl;
             break;
