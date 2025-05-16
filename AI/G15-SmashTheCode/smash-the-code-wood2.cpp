@@ -51,12 +51,13 @@ using namespace std;
 //     return ret;
 // }
 
-int get_top(vector<string> &board, int col) {
-  int res = -1;
+vector<int> get_colors(vector<string> &board, int col) {
+  vector<int> res;
+  int prev_color = -1;
   for (int i = 0; i < 12; ++i) {
-    if (board[i][col] != '.') {
-      res = board[i][col] - '0';
-      return res;// Convert char to int
+    if (board[i][col] != prev_color && board[i][col] != '.') {
+      res.push_back(board[i][col] - '0');
+      // Convert char to int
     }
   }
   return res;
@@ -78,7 +79,6 @@ int main()
             }
 
         }
-        cerr << "color is " << cur_color << endl;
         int score_1;
         cin >> score_1; cin.ignore();
         for (int i = 0; i < 12; i++) {
@@ -104,18 +104,23 @@ int main()
             cin >> row; cin.ignore();
         }
 
+        vector<int> v = get_colors(board, 0);
+        cerr << "printing 0" << endl;
+        for (int i: v) {
+          cerr << i << endl;
+        }
+
         // rainbow colors 1 and 2 on first 3 rows
-        cerr << "top of 0 is " << get_top(board, 0) << endl;
         switch (cur_color) {
           case 1: {
-            if (board[11][0] == '.') {
+            if (get_colors(board,0)[0] == '.') {
               cout << 0 << endl;
               break;
             }
             cout << 1 << endl;
             break;
           } case 2: {
-            if (board[11][0] == '1' && board[9][0] == '.') {
+            if (get_colors(board,0)[0] == '1' && board[9][0] == '.') {
               cout << 0 << endl;
               break;
             }
