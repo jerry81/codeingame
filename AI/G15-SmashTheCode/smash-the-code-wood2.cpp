@@ -53,11 +53,11 @@ using namespace std;
 
 vector<int> get_colors(vector<string> &board, int col) {
   vector<int> res;
-  int prev_color = -1;
+  char prev_color = '.';  // Initialize with empty space
   for (int i = 0; i < 12; ++i) {
     if (board[i][col] != prev_color && board[i][col] != '.') {
-      res.push_back(board[i][col] - '0');
-      // Convert char to int
+      res.push_back(board[i][col] - '0');  // Convert char to int
+      prev_color = board[i][col];
     }
   }
   return res;
@@ -104,32 +104,35 @@ int main()
             cin >> row; cin.ignore();
         }
 
-        vector<int> v = get_colors(board, 0);
-        cerr << "printing 0" << endl;
-        for (int i: v) {
-          cerr << i << endl;
+        vector<vector<int>> board_colors;
+        for (int i = 0; i < 6; ++i) {
+            vector<int> v = get_colors(board, i);
+            board_colors.push_back(v);
         }
+
+        for (int i = 0; i < 6; ++i) {
+          cerr << "printing column colors:" << i << endl;
+          vector<int> v = board_colors[i];
+          for (int color : v) {
+              cerr << "color: " << color << endl;
+          }
+        }
+
 
         // rainbow colors 1 and 2 on first 3 rows
         switch (cur_color) {
           case 1: {
-            if (get_colors(board,0)[0] == '.') {
-              cout << 0 << endl;
-              break;
+            if (!board_colors[1].empty() && board_colors[1][0] == 2) {
+              cout << 1 << endl;
             }
-            cout << 1 << endl;
+            cout << 0 << endl;
             break;
           } case 2: {
-            if (get_colors(board,0)[0] == '1' && board[9][0] == '.') {
-              cout << 0 << endl;
+            if (board_colors.size() > 1) {
+              cout << 2 << endl;
               break;
             }
-            if (board[11][0] == '1') {
-              if (board[9][0] == '0') {
-                cout << 2 << endl;
-                break;
-              }
-            }
+
             cout << 1 << endl;
             break;
           } case 3: {
