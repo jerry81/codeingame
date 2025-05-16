@@ -51,6 +51,17 @@ using namespace std;
 //     return ret;
 // }
 
+int get_top(vector<string> &board, int col) {
+  int res = -1;
+  for (int i = 0; i < 12; ++i) {
+    if (board[i][col] != '.') {
+      res = board[i][col] - '0';
+      return res;// Convert char to int
+    }
+  }
+  return res;
+}
+
 int main()
 {
     vector<string> board(12);  // Initialize with 12 empty strings
@@ -94,7 +105,7 @@ int main()
         }
 
         // rainbow colors 1 and 2 on first 3 rows
-
+        cerr << "top of 0 is " << get_top(board, 0) << endl;
         switch (cur_color) {
           case 1: {
             if (board[11][0] == '.') {
