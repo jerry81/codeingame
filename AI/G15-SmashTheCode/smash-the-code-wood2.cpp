@@ -55,7 +55,7 @@ vector<int> get_colors(vector<string> &board, int col) {
   vector<int> res;
   char prev_color = '.';  // Initialize with empty space
   for (int i = 0; i < 12; ++i) {
-    if (board[i][col] != prev_color && board[i][col] != '.') {
+    if (board[i][col] != prev_color && board[i][col] != '.' && board[i][col] != '0') {
       res.push_back(board[i][col] - '0');  // Convert char to int
       prev_color = board[i][col];
     }
@@ -86,9 +86,9 @@ int main()
             cin >> row; cin.ignore();
             board[i] = row;
         }
-        for (string s: board) {
-            cerr << s << endl;
-        }
+        // for (string s: board) {
+        //     cerr << s << endl;
+        // }
         // for (int c = 0; c < 6; ++c) {
         //     cerr << "testing col " << c << endl;
         //     vector<string> preview = test_at(c, ca, cb, board);
@@ -110,13 +110,13 @@ int main()
             board_colors.push_back(v);
         }
 
-        for (int i = 0; i < 6; ++i) {
-          cerr << "printing column colors:" << i << endl;
-          vector<int> v = board_colors[i];
-          for (int color : v) {
-              cerr << "color: " << color << endl;
-          }
-        }
+        // for (int i = 0; i < 6; ++i) {
+        //   cerr << "printing column colors:" << i << endl;
+        //   vector<int> v = board_colors[i];
+        //   for (int color : v) {
+        //       cerr << "color: " << color << endl;
+        //   }
+        // }
 
 
         // rainbow colors 1 and 2 on first 3 rows
@@ -124,11 +124,12 @@ int main()
           case 1: {
             if (!board_colors[1].empty() && board_colors[1][0] == 2) {
               cout << 1 << endl;
+              break;
             }
             cout << 0 << endl;
             break;
           } case 2: {
-            if (board_colors.size() > 1) {
+            if (board_colors[1].size() > 1) {
               cout << 2 << endl;
               break;
             }
