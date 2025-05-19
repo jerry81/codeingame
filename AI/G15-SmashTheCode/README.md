@@ -106,3 +106,9 @@ x1
 - the remaining 3 rows are reserved for the other 2 colors
 
 - TODO: use top non-empty item instead of hardcoded place
+
+## wood 1 strat
+
+- rotate all and just give each color a col
+  - worse
+- cpu stacks alternating colors on sides to begin (wont die if skulls drop over the playable board apparently)
