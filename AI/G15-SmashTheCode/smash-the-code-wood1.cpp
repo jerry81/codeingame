@@ -180,38 +180,28 @@ int main()
         //   }
         // }
 
-        for (int i = 0; i < 6; ++i) {
-          cerr << "col " << i << "'s height is " << get_height(board, i) << endl;
-        }
-
-
-        // rainbow colors 1 and 2 on first 3 rows
-        switch (cur_color) {
-         case 1: {
-            if (!board_colors[1].empty() && board_colors[1][0] == 2) {
-              cout << "1 1" << endl;
-              break;
-            }
-            cout << "0 1" << endl;
-            break;
-          } case 2: {
-            if (board_colors[1].size() > 1) {
-              cout << "2 1" << endl;
-              break;
-            }
-
-            cout << "1 1" << endl;
-            break;
-          } case 3: {
-             cout << "2 0" << endl;
-              break;
-          } case 4: {
-             cout << "3 0" << endl;
-              break;
-          } default: {
-             cout << "4 0" << endl;
-              break;
+        // for (int i = 0; i < 6; ++i) {
+        //   cerr << "col " << i << "'s height is " << get_height(board, i) << endl;
+        // }
+        string res = "2 0";
+        vector<int> order = { 0, 5, 1, 4};
+        bool stop = false;
+        for (int i: order) {
+          if (get_height(board,i) >= 10) {
+            continue;
+          }
+          vector<int> col_colors = board_colors[i];
+          if (col_colors.back() == cur_color) {
+            continue;
+          } else {
+            cout << i << " 1" << endl;
+            stop = true;
           }
         }
+        if (!stop) {
+          cout << res << endl;
+        }
+        // rainbow colors 1 and 2 on first 3 rows
+
     }
 }
