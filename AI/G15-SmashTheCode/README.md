@@ -112,3 +112,10 @@ x1
 - rotate all and just give each color a col
   - worse
 - cpu stacks alternating colors on sides to begin (wont die if skulls drop over the playable board apparently)
+
+- stack alternating colors on row 0,5,1,4 in that order
+
+- use 2 and 3 to ff when others are stacked
+
+- so row 11 is the bottom
+- row 0 is the top

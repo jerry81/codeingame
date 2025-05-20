@@ -51,6 +51,15 @@ using namespace std;
 //     return ret;
 // }
 
+int get_height(vector<string> &board, int col) {
+  for (int i = 0; i < 12; ++i) {
+    if (board[i][col] != '.') {
+      return 12-i;
+    }
+  }
+  return 0;
+}
+
 vector<int> get_colors(vector<string> &board, int col) {
   vector<int> res;
   char prev_color = '.';  // Initialize with empty space
@@ -117,6 +126,18 @@ int main()
         //       cerr << "color: " << color << endl;
         //   }
         // }
+
+        // for (int i = 0; i < 12; ++i) {
+        //   cerr << endl;
+        //   string row = board[i];
+        //   for (char c:row) {
+        //     cerr <<c;
+        //   }
+        // }
+
+        for (int i = 0; i < 6; ++i) {
+          cerr << "col " << i << "'s height is " << get_height(board, i) << endl;
+        }
 
 
         // rainbow colors 1 and 2 on first 3 rows
