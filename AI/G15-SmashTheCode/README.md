@@ -119,3 +119,19 @@ x1
 
 - so row 11 is the bottom
 - row 0 is the top
+
+- get color count on the column
+
+- strat
+```
+first test for any column: height under 10
+0 - top color match ? next : choose 0
+repeat for 5,1,4
+
+row 2,3 look for floodfills
+  2 options
+	vertical 2 vertical 3
+else place flat
+```
+
+``` int floodfill(board, col, color) ```

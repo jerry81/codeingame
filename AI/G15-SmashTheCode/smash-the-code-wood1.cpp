@@ -51,6 +51,51 @@ using namespace std;
 //     return ret;
 // }
 
+int flood_fill(vector<string> &board, int col, char color) {
+  // place peice
+  vector<string> board_after = board;
+  queue<pair<int,int>> q;
+  for (int i = 11; i >=0; --i) {
+    if (board[i][col] == '.') {
+      if (i >= 10) {
+        return 0;
+      } else {
+        board_after[i][col] = color;
+        q.push({i,col});
+        board_after[i-1][col] = color;
+        q.push({i-1,col});
+        break;
+      }
+    }
+  }
+
+  int connected = 0;
+  while (!q.empty()) {
+    pair<int,int> cur = q.front();
+    q.pop();
+
+    int row = cur.first;
+    int col = cur.second;
+
+    // Skip if out of bounds or not the same color
+    if (row < 0 || row >= 12 || col < 0 || col >= 6 || board_after[row][col] != color) {
+      continue;
+    }
+
+    // Mark as visited and increment count
+    board_after[row][col] = 'V';
+    connected++;
+
+    // Check all 4 directions
+    q.push({row+1, col}); // down
+    q.push({row-1, col}); // up
+    q.push({row, col+1}); // right
+    q.push({row, col-1}); // left
+  }
+
+  return connected;
+}
+
 int get_height(vector<string> &board, int col) {
   for (int i = 0; i < 12; ++i) {
     if (board[i][col] != '.') {
