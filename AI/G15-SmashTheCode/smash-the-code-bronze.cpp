@@ -51,60 +51,6 @@ using namespace std;
 //     return ret;
 // }
 
-int flood_fill(vector<string> &board, int col, char color) {
-  // place peice
-  vector<string> board_after = board;
-  queue<pair<int,int>> q;
-  for (int i = 11; i >=0; --i) {
-    if (board[i][col] == '.') {
-      if (i >= 10) {
-        return 0;
-      } else {
-        board_after[i][col] = color;
-        q.push({i,col});
-        board_after[i-1][col] = color;
-        q.push({i-1,col});
-        break;
-      }
-    }
-  }
-
-  int connected = 0;
-  while (!q.empty()) {
-    pair<int,int> cur = q.front();
-    q.pop();
-
-    int row = cur.first;
-    int col = cur.second;
-
-    // Skip if out of bounds or not the same color
-    if (row < 0 || row >= 12 || col < 0 || col >= 6 || board_after[row][col] != color) {
-      continue;
-    }
-
-    // Mark as visited and increment count
-    board_after[row][col] = 'V';
-    connected++;
-
-    // Check all 4 directions
-    q.push({row+1, col}); // down
-    q.push({row-1, col}); // up
-    q.push({row, col+1}); // right
-    q.push({row, col-1}); // left
-  }
-
-  return connected;
-}
-
-int get_height(vector<string> &board, int col) {
-  for (int i = 0; i < 12; ++i) {
-    if (board[i][col] != '.') {
-      return 12-i;
-    }
-  }
-  return 0;
-}
-
 vector<int> get_colors(vector<string> &board, int col) {
   vector<int> res;
   char prev_color = '.';  // Initialize with empty space
@@ -115,6 +61,71 @@ vector<int> get_colors(vector<string> &board, int col) {
     }
   }
   return res;
+}
+
+vector<string> floodfill(vector<string> board, char col, char rot, char colorA, char colorB) {
+  pair<vector<string>,int> result = process(place_peice(board, col, rot, colorA, colorB));
+}
+
+vector<string> place_peice(vector<string> board, char col, char rot, char colorA, char colorB) {
+  vector<string> result = board;
+  int column = col - '0';  // Convert char to int
+
+  // Find the first empty position from bottom
+  int empty_row = -1;
+  for (int i = 11; i >= 0; --i) {
+    if (board[i][column] == '.') {
+      empty_row = i;
+      break;
+    }
+  }
+
+  // If no empty position found, return original board
+  if (empty_row == -1) {
+    return result;
+  }
+
+  // Place blocks based on rotation
+  switch (rot) {
+    case '0': {  // Vertical placement, colorA on top
+      if (empty_row >= 1) {
+        result[empty_row] = board[empty_row];
+        result[empty_row][column] = colorB;
+        result[empty_row-1] = board[empty_row-1];
+        result[empty_row-1][column] = colorA;
+      }
+      break;
+    }
+    case '1': {  // Horizontal placement, colorA on left
+      if (column < 5) {
+        result[empty_row] = board[empty_row];
+        result[empty_row][column] = colorA;
+        result[empty_row][column+1] = colorB;
+      }
+      break;
+    }
+    case '2': {  // Vertical placement, colorB on top
+      if (empty_row >= 1) {
+        result[empty_row] = board[empty_row];
+        result[empty_row][column] = colorA;
+        result[empty_row-1] = board[empty_row-1];
+        result[empty_row-1][column] = colorB;
+      }
+      break;
+    }
+    case '3': {  // Horizontal placement, colorA on right
+      if (column > 0) {
+        result[empty_row] = board[empty_row];
+        result[empty_row][column] = colorB;
+        result[empty_row][column-1] = colorA;
+      }
+      break;
+    }
+  }
+  return result;
+}
+
+pair<vector<string>, int> process(vector<string> board) {
 }
 
 int main()
@@ -172,40 +183,34 @@ int main()
         //   }
         // }
 
-        // for (int i = 0; i < 12; ++i) {
-        //   cerr << endl;
-        //   string row = board[i];
-        //   for (char c:row) {
-        //     cerr <<c;
-        //   }
-        // }
 
-        // for (int i = 0; i < 6; ++i) {
-        //   cerr << "col " << i << "'s height is " << get_height(board, i) << endl;
-        // }
-        string res = "2 0";
-        vector<int> order = { 0, 5, 1, 4};
-        bool stop = false;
-        cerr << "strat start" << endl;
-        for (int i: order) {
-          cerr << "checking " << i << endl;
-          if (get_height(board,i) >= 8) {
-            continue;
-          }
-          vector<int> col_colors = board_colors[i];
-          if (!col_colors.empty() && (col_colors.front() == cur_color)) {
-            continue;
-          } else {
-            cerr << "we good " << endl;
-            cout << i << " 1" << endl;
-            stop = true;
-            break;
-          }
-        }
-        if (!stop) {
-          cout << res << endl;
-        }
         // rainbow colors 1 and 2 on first 3 rows
+        switch (cur_color) {
+          case 1: {
+            if (!board_colors[1].empty() && board_colors[1][0] == 2) {
+              cout << 1 << endl;
+              break;
+            }
+            cout << 0 << endl;
+            break;
+          } case 2: {
+            if (board_colors[1].size() > 1) {
+              cout << 2 << endl;
+              break;
+            }
 
+            cout << 1 << endl;
+            break;
+          } case 3: {
+             cout << 3 << endl;
+              break;
+          } case 4: {
+             cout << 4 << endl;
+              break;
+          } default: {
+             cout << 5 << endl;
+              break;
+          }
+        }
     }
 }

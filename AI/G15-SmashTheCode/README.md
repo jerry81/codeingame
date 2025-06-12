@@ -134,4 +134,20 @@ row 2,3 look for floodfills
 else place flat
 ```
 
-``` int floodfill(board, col, color) ```
+```
+int floodfill(board, col, color) // already obsolete
+```
+
+```
+int floodfill(board, col, rot, colorA, colorB) // returns number of blocks removed
+```
+
+- helper get next board state - just place the peice
+```
+string[] place_peice(board, col, rot, colorA, colorB)
+```
+
+- helper - eliminate blocks, get next state and num of blocks eliminated
+```
+(string[], int) process(board)
+```
