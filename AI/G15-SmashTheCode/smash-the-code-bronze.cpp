@@ -58,50 +58,6 @@ struct Move {
 //     return ret;
 // }
 
-Move find_best_move_2ply(
-    const vector<string>& board,
-    int colorA1, int colorB1, // first piece
-    int colorA2, int colorB2  // second piece
-) {
-    int best_score = -1e9;
-    Move best_move = {0, 0, 0};
-
-    for (int col1 = 0; col1 < 6; ++col1) {
-        for (int rot1 = 0; rot1 < 4; ++rot1) {
-            // Simulate first move
-            auto [board1, score1] = simulate_move(board, '0' + col1, '0' + rot1, '0' + colorA1, '0' + colorB1);
-
-            // If the move is invalid (e.g., piece doesn't fit), skip
-            if (board1[0] == "x") continue;
-
-            // Now, for each possible second move
-            int best_second_score = -1e9;
-            for (int col2 = 0; col2 < 6; ++col2) {
-                for (int rot2 = 0; rot2 < 4; ++rot2) {
-                    auto [board2, score2] = simulate_move(board1, '0' + col2, '0' + rot2, '0' + colorA2, '0' + colorB2);
-
-                    // If the move is invalid, skip
-                    if (board2[0] == "x") continue;
-
-                    // You can use score2, or (score1 + score2), or any other evaluation
-                    int total_score = score1 + score2;
-                    if (total_score > best_second_score) {
-                        best_second_score = total_score;
-                    }
-                }
-            }
-
-            // If no valid second move, just use score1
-            if (best_second_score == -1e9) best_second_score = score1;
-
-            if (best_second_score > best_score) {
-                best_score = best_second_score;
-                best_move = {col1, rot1, best_score};
-            }
-        }
-    }
-    return best_move;
-}
 
 vector<int> get_colors(vector<string> &board, int col) {
   vector<int> res;
@@ -115,9 +71,6 @@ vector<int> get_colors(vector<string> &board, int col) {
   return res;
 }
 
-pair<vector<string>,int> simulate_move(vector<string> board, char col, char rot, char colorA, char colorB) {
-  return process(place_peice(board, col, rot, colorA, colorB));
-}
 
 vector<string> place_peice(vector<string> board, char col, char rot, char colorA, char colorB) {
   vector<string> result = board;
@@ -132,50 +85,42 @@ vector<string> place_peice(vector<string> board, char col, char rot, char colorA
     }
   }
 
-  // If no empty position found, return original board
+  // If no empty position found in the main column, the move is invalid
   if (empty_row == -1) {
+    result[0][0] = 'x';
     return result;
   }
 
   // Place blocks based on rotation
   switch (rot) {
     case '0': {  // Vertical placement, colorA on top
-      if (empty_row >= 1) {
-        result[empty_row] = board[empty_row];
-        result[empty_row][column] = colorB;
-        result[empty_row-1] = board[empty_row-1];
-        result[empty_row-1][column] = colorA;
-      }
+      if (empty_row < 1) { result[0][0] = 'x'; return result; }
+      result[empty_row][column] = colorB;
+      result[empty_row-1][column] = colorA;
       break;
     }
     case '1': {  // Horizontal placement, colorA on left
-      if (column < 5) {
-        result[empty_row] = board[empty_row];
-        result[empty_row][column] = colorA;
-        result[empty_row][column+1] = colorB;
-      }
+      if (column >= 5 || board[empty_row][column+1] != '.') { result[0][0] = 'x'; return result; }
+      result[empty_row][column] = colorA;
+      result[empty_row][column+1] = colorB;
       break;
     }
     case '2': {  // Vertical placement, colorB on top
-      if (empty_row >= 1) {
-        result[empty_row] = board[empty_row];
-        result[empty_row][column] = colorA;
-        result[empty_row-1] = board[empty_row-1];
-        result[empty_row-1][column] = colorB;
-      }
+      if (empty_row < 1) { result[0][0] = 'x'; return result; }
+      result[empty_row][column] = colorA;
+      result[empty_row-1][column] = colorB;
       break;
     }
     case '3': {  // Horizontal placement, colorA on right
-      if (column > 0) {
-        result[empty_row] = board[empty_row];
-        result[empty_row][column] = colorB;
-        result[empty_row][column-1] = colorA;
-      }
+      if (column <= 0 || board[empty_row][column-1] != '.') { result[0][0] = 'x'; return result; }
+      result[empty_row][column] = colorB;
+      result[empty_row][column-1] = colorA;
       break;
     }
   }
   return result;
 }
+
 
 pair<vector<string>, int> eliminate(vector<string> board) {
     int rows = 12, cols = 6;
@@ -280,6 +225,7 @@ vector<string> fall(vector<string> board) {
     return board;
 }
 
+
 pair<vector<string>, int> process(vector<string> board) {
   int total_score = 0;
   int prev_score = -1;
@@ -292,6 +238,116 @@ pair<vector<string>, int> process(vector<string> board) {
   }
   return {ret_board, total_score};
 }
+
+double evaluate_board(const vector<string>& board) {
+    double height_penalty = 0;
+    double adjacency_bonus = 0;
+    double hole_penalty = 0;
+    int column_heights[6] = {0};
+
+    // Calculate column heights and hole penalty
+    for (int c = 0; c < 6; ++c) {
+        bool block_found = false;
+        for (int r = 0; r < 12; ++r) {
+            if (board[r][c] != '.') {
+                if (!block_found) {
+                    column_heights[c] = 12 - r;
+                    block_found = true;
+                }
+            } else {
+                if (block_found) {
+                    hole_penalty++;
+                }
+            }
+        }
+        height_penalty += column_heights[c] * column_heights[c]; // Square height for a harsher penalty on tall towers
+    }
+
+    // Calculate adjacency bonus for setting up future groups
+    for (int r = 0; r < 12; ++r) {
+        for (int c = 0; c < 6; ++c) {
+            if (board[r][c] >= '1' && board[r][c] <= '5') {
+                // Check right neighbor
+                if (c + 1 < 6 && board[r][c] == board[r][c+1]) {
+                    adjacency_bonus++;
+                }
+                // Check bottom neighbor
+                if (r + 1 < 12 && board[r][c] == board[r+1][c]) {
+                    adjacency_bonus++;
+                }
+            }
+        }
+    }
+
+    // Heuristic weights - these can be tuned for better performance
+    const double W_ADJ = 5.0;
+    const double W_HEIGHT = 2.0;
+    const double W_HOLE = 10.0;
+
+    return (adjacency_bonus * W_ADJ) - (height_penalty * W_HEIGHT) - (hole_penalty * W_HOLE);
+}
+
+pair<vector<string>,int> simulate_move(vector<string> board, char col, char rot, char colorA, char colorB) {
+  return process(place_peice(board, col, rot, colorA, colorB));
+}
+
+
+Move find_best_move_2ply(
+    const vector<string>& board,
+    int colorA1, int colorB1, // first piece
+    int colorA2, int colorB2  // second piece
+) {
+    double best_eval = -1e9; // Use double for evaluation
+    Move best_move = {0, 0, 0};
+
+    for (int col1 = 0; col1 < 6; ++col1) {
+        for (int rot1 = 0; rot1 < 4; ++rot1) {
+            // Simulate first move
+            auto [board1, score1] = simulate_move(board, '0' + col1, '0' + rot1, (char)colorA1, (char)colorB1);
+
+            if (board1[0][0] == 'x') continue; // Skip invalid moves
+
+            // Now, for each possible second move
+            double best_second_eval = -1e9;
+            bool possible_second_move = false;
+            for (int col2 = 0; col2 < 6; ++col2) {
+                for (int rot2 = 0; rot2 < 4; ++rot2) {
+                    auto [board2, score2] = simulate_move(board1, '0' + col2, '0' + rot2, (char)colorA2, (char)colorB2);
+
+                    if (board2[0][0] == 'x') continue; // Skip invalid moves
+                    possible_second_move = true;
+
+                    const double W_SCORE = 20.0;
+                    double board_eval = evaluate_board(board2);
+                    double total_eval = (score1 * W_SCORE) + (score2 * W_SCORE) + board_eval;
+
+                    if (total_eval > best_second_eval) {
+                        best_second_eval = total_eval;
+                    }
+                }
+            }
+
+            double final_eval_for_move = 0;
+            if (possible_second_move) {
+                final_eval_for_move = best_second_eval;
+            } else {
+                // If no second move is possible, the first move leads to a loss. Penalize heavily.
+                // We still evaluate the board state, as some losing states are better than others.
+                const double W_SCORE = 20.0;
+                final_eval_for_move = (score1 * W_SCORE) + evaluate_board(board1) - 1e7; // Huge penalty for losing
+            }
+
+            if (final_eval_for_move > best_eval) {
+                best_eval = final_eval_for_move;
+                best_move = {col1, rot1, (int)best_eval};
+            }
+        }
+    }
+    return best_move;
+}
+
+
+
 
 int main()
 {
