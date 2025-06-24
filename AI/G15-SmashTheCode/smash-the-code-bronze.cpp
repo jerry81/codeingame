@@ -135,6 +135,7 @@ pair<vector<string>, int> eliminate(vector<string> board) {
     int dr[4] = {-1, 1, 0, 0};
     int dc[4] = {0, 0, -1, 1};
 
+    // Step 1: Find and mark colored block groups of 4+
     for (int r = 0; r < rows; ++r) {
         for (int c = 0; c < cols; ++c) {
             char color = board[r][c];
@@ -168,7 +169,24 @@ pair<vector<string>, int> eliminate(vector<string> board) {
         }
     }
 
-    // Remove marked blocks
+    // Step 2: Mark skulls adjacent to the exploding color groups
+    vector<vector<bool>> initial_to_remove = to_remove; // Copy the initially marked blocks
+    for (int r = 0; r < rows; ++r) {
+        for (int c = 0; c < cols; ++c) {
+            if (initial_to_remove[r][c]) { // Check only blocks from the original color groups
+                for (int d = 0; d < 4; ++d) {
+                    int nr = r + dr[d], nc = c + dc[d];
+                    // If a neighbor is a skull, mark it for removal
+                    if (nr >= 0 && nr < rows && nc >= 0 && nc < cols && board[nr][nc] == '0') {
+                        to_remove[nr][nc] = true;
+                    }
+                }
+            }
+        }
+    }
+
+
+    // Step 3: Remove all marked blocks (colors and skulls)
     for (int r = 0; r < rows; ++r) {
         for (int c = 0; c < cols; ++c) {
             if (to_remove[r][c]) {
@@ -177,7 +195,7 @@ pair<vector<string>, int> eliminate(vector<string> board) {
         }
     }
 
-    // Calculate Group Bonus (GB)
+    // Step 4: Calculate score (based only on colored blocks, unchanged)
     for (int sz : group_sizes) {
         if (sz == 4) GB += 0;
         else if (sz == 5) GB += 1;
@@ -239,6 +257,35 @@ pair<vector<string>, int> process(vector<string> board) {
   return {ret_board, total_score};
 }
 
+double estimate_chain_potential(const vector<string>& board) {
+    int rows = 12, cols = 6;
+    double potential = 0.0;
+    // For each cell, look for clusters of 2 or 3 same-colored blocks with adjacent empty space
+    for (int r = 0; r < rows; ++r) {
+        for (int c = 0; c < cols; ++c) {
+            char color = board[r][c];
+            if (color < '1' || color > '5') continue;
+            // Count adjacent same-color blocks
+            int same_adj = 0;
+            int empty_adj = 0;
+            int dr[4] = {-1, 1, 0, 0};
+            int dc[4] = {0, 0, -1, 1};
+            for (int d = 0; d < 4; ++d) {
+                int nr = r + dr[d], nc = c + dc[d];
+                if (nr >= 0 && nr < rows && nc >= 0 && nc < cols) {
+                    if (board[nr][nc] == color) same_adj++;
+                    if (board[nr][nc] == '.') empty_adj++;
+                }
+            }
+            // Reward for being part of a pair or triplet with empty space nearby
+            if (same_adj == 1 && empty_adj >= 1) potential += 1.0; // pair with space
+            if (same_adj == 2 && empty_adj >= 1) potential += 2.5; // triplet with space
+            if (same_adj == 3 && empty_adj >= 1) potential += 5.0; // almost a group of 4
+        }
+    }
+    return potential;
+}
+
 double evaluate_board(const vector<string>& board) {
     double height_penalty = 0;
     double adjacency_bonus = 0;
@@ -279,12 +326,15 @@ double evaluate_board(const vector<string>& board) {
         }
     }
 
+    double chain_potential = estimate_chain_potential(board);
+
     // Heuristic weights - these can be tuned for better performance
     const double W_ADJ = 5.0;
     const double W_HEIGHT = 2.0;
     const double W_HOLE = 10.0;
+    const double W_CHAIN = 15.0;
 
-    return (adjacency_bonus * W_ADJ) - (height_penalty * W_HEIGHT) - (hole_penalty * W_HOLE);
+    return (adjacency_bonus * W_ADJ) - (height_penalty * W_HEIGHT) - (hole_penalty * W_HOLE) + (chain_potential * W_CHAIN);
 }
 
 pair<vector<string>,int> simulate_move(vector<string> board, char col, char rot, char colorA, char colorB) {
@@ -302,6 +352,8 @@ Move find_best_move_2ply(
 
     for (int col1 = 0; col1 < 6; ++col1) {
         for (int rot1 = 0; rot1 < 4; ++rot1) {
+            // Skip impossible placements for horizontal pieces
+            if ((rot1 == 1 && col1 >= 5) || (rot1 == 3 && col1 <= 0)) continue;
             // Simulate first move
             auto [board1, score1] = simulate_move(board, '0' + col1, '0' + rot1, (char)colorA1, (char)colorB1);
 
@@ -312,6 +364,8 @@ Move find_best_move_2ply(
             bool possible_second_move = false;
             for (int col2 = 0; col2 < 6; ++col2) {
                 for (int rot2 = 0; rot2 < 4; ++rot2) {
+                    // Skip impossible placements for horizontal pieces
+                    if ((rot2 == 1 && col2 >= 5) || (rot2 == 3 && col2 <= 0)) continue;
                     auto [board2, score2] = simulate_move(board1, '0' + col2, '0' + rot2, (char)colorA2, (char)colorB2);
 
                     if (board2[0][0] == 'x') continue; // Skip invalid moves
