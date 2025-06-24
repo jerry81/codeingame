@@ -328,13 +328,37 @@ double evaluate_board(const vector<string>& board) {
 
     double chain_potential = estimate_chain_potential(board);
 
-    // Heuristic weights - these can be tuned for better performance
-    const double W_ADJ = 5.0;
+    // New: stack bonus for vertical and horizontal stacks
+    double stack_bonus = 0;
+    for (int c = 0; c < 6; ++c) {
+        for (int r = 0; r < 11; ++r) {
+            if (board[r][c] >= '1' && board[r][c] <= '5' &&
+                board[r+1][c] == board[r][c]) {
+                stack_bonus += 3.0; // vertical stack
+            }
+        }
+    }
+    for (int r = 0; r < 12; ++r) {
+        for (int c = 0; c < 5; ++c) {
+            if (board[r][c] >= '1' && board[r][c] <= '5' &&
+                board[r][c+1] == board[r][c]) {
+                stack_bonus += 2.0; // horizontal stack
+            }
+        }
+    }
+
+    // Heuristic weights - AGGRESSIVE grouping
+    const double W_ADJ = 10.0;
     const double W_HEIGHT = 2.0;
     const double W_HOLE = 10.0;
-    const double W_CHAIN = 15.0;
+    const double W_CHAIN = 30.0;
+    const double W_STACK = 20.0;
 
-    return (adjacency_bonus * W_ADJ) - (height_penalty * W_HEIGHT) - (hole_penalty * W_HOLE) + (chain_potential * W_CHAIN);
+    return (adjacency_bonus * W_ADJ)
+         - (height_penalty * W_HEIGHT)
+         - (hole_penalty * W_HOLE)
+         + (chain_potential * W_CHAIN)
+         + (stack_bonus * W_STACK);
 }
 
 pair<vector<string>,int> simulate_move(vector<string> board, char col, char rot, char colorA, char colorB) {
