@@ -208,7 +208,25 @@ pair<vector<string>, int> eliminate(vector<string> board) {
     return {board, score};
 }
 
-pair<vector<string>, int> fall(vector<string> board) {
+vector<string> fall(vector<string> board) {
+    int rows = 12, cols = 6;
+    for (int c = 0; c < cols; ++c) { // each column
+        int write_row = rows - 1; // start at top row
+        for (int r = rows - 1; r >= 0; --r) { // drop the block one row at a time
+            if (board[r][c] != '.') { // colored block found
+                board[write_row][c] = board[r][c]; // drop the block
+                if (write_row != r) {
+                    board[r][c] = '.';
+                }
+                --write_row;
+            }
+        }
+        // Fill the rest with '.' if any
+        for (int r = write_row; r >= 0; --r) {
+            board[r][c] = '.';
+        }
+    }
+    return board;
 }
 
 pair<vector<string>, int> process(vector<string> board) {
@@ -219,9 +237,7 @@ pair<vector<string>, int> process(vector<string> board) {
     prev_score = total_score;
     auto [v, i] = eliminate(ret_board);
     total_score += i;
-    auto [v2,i2] = fall(v);
-    total_score += i2;
-    ret_board = v2;
+    ret_board = fall(v);
   }
   return {ret_board, total_score};
 }
