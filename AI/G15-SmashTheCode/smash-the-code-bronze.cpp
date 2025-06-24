@@ -365,6 +365,13 @@ pair<vector<string>,int> simulate_move(vector<string> board, char col, char rot,
   return process(place_peice(board, col, rot, colorA, colorB));
 }
 
+void print_board_debug(const vector<string>& board, const string& label = "DEBUG BOARD") {
+    cerr << "==== " << label << " (TOP is row 0, BOTTOM is row 11) ====" << endl;
+    for (int r = 0; r < 12; ++r) {
+        cerr << "[" << r << "] " << board[r] << endl;
+    }
+    cerr << "==== END BOARD ====" << endl;
+}
 
 Move find_best_move_2ply(
     const vector<string>& board,
@@ -379,7 +386,7 @@ Move find_best_move_2ply(
             // Skip impossible placements for horizontal pieces
             if ((rot1 == 1 && col1 >= 5) || (rot1 == 3 && col1 <= 0)) continue;
             // Simulate first move
-            auto [board1, score1] = simulate_move(board, '0' + col1, '0' + rot1, (char)colorA1, (char)colorB1);
+            auto [board1, score1] = simulate_move(board, '0' + col1, '0' + rot1, '0' + colorA1, '0' + colorB1);
 
             if (board1[0][0] == 'x') continue; // Skip invalid moves
 
@@ -390,7 +397,7 @@ Move find_best_move_2ply(
                 for (int rot2 = 0; rot2 < 4; ++rot2) {
                     // Skip impossible placements for horizontal pieces
                     if ((rot2 == 1 && col2 >= 5) || (rot2 == 3 && col2 <= 0)) continue;
-                    auto [board2, score2] = simulate_move(board1, '0' + col2, '0' + rot2, (char)colorA2, (char)colorB2);
+                    auto [board2, score2] = simulate_move(board1, '0' + col2, '0' + rot2, '0' + colorA2, '0' + colorB2);
 
                     if (board2[0][0] == 'x') continue; // Skip invalid moves
                     possible_second_move = true;
@@ -456,6 +463,10 @@ int main()
             cin >> row; cin.ignore();
         }
 
+        // DEBUG: Print the board after simulating a single move (col=2, rot=0, with first piece)
+        auto [test_board, test_score] = simulate_move(board, '2', '0', '0' + my_colors[0][0], '0' + my_colors[0][1]);
+        print_board_debug(test_board, "After simulating move col=2 rot=0");
+
         // 2-ply lookahead: use the first two pieces for you
         int colorA1 = my_colors[0][0];
         int colorB1 = my_colors[0][1];
@@ -463,6 +474,6 @@ int main()
         int colorB2 = my_colors[1][1];
         Move best = find_best_move_2ply(board, colorA1, colorB1, colorA2, colorB2);
         // Output the best move (column and rotation)
-        cout << best.column << " " << best.rotation << endl;
+        cout << (best.column + 1) << " " << best.rotation << endl;
     }
 }
