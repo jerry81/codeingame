@@ -4,6 +4,7 @@
 #include <algorithm>
 #include <random>
 #include <queue>
+#include <set>
 
 using namespace std;
 
@@ -125,7 +126,104 @@ vector<string> place_peice(vector<string> board, char col, char rot, char colorA
   return result;
 }
 
+pair<vector<string>, int> eliminate(vector<string> board) {
+    int rows = 12, cols = 6;
+    vector<vector<bool>> visited(rows, vector<bool>(cols, false));
+    vector<vector<bool>> to_remove(rows, vector<bool>(cols, false));
+    vector<int> group_sizes;
+    set<int> colors_cleared;
+    int total_blocks_cleared = 0;
+    int GB = 0; // Group Bonus
+    int CB = 0; // Color Bonus
+    int CP = 0; // Chain Power (handled in process, so 0 here)
+    int dr[4] = {-1, 1, 0, 0};
+    int dc[4] = {0, 0, -1, 1};
+
+    for (int r = 0; r < rows; ++r) {
+        for (int c = 0; c < cols; ++c) {
+            char color = board[r][c];
+            if (color >= '1' && color <= '5' && !visited[r][c]) {
+                // BFS to find group
+                vector<pair<int, int>> group;
+                queue<pair<int, int>> q;
+                q.push({r, c});
+                visited[r][c] = true;
+                while (!q.empty()) {
+                    auto [cr, cc] = q.front(); q.pop();
+                    group.push_back({cr, cc});
+                    for (int d = 0; d < 4; ++d) {
+                        int nr = cr + dr[d], nc = cc + dc[d];
+                        if (nr >= 0 && nr < rows && nc >= 0 && nc < cols && !visited[nr][nc] && board[nr][nc] == color) {
+                            visited[nr][nc] = true;
+                            q.push({nr, nc});
+                        }
+                    }
+                }
+                if (group.size() >= 4) {
+                    // Mark for removal
+                    for (auto [gr, gc] : group) {
+                        to_remove[gr][gc] = true;
+                    }
+                    group_sizes.push_back(group.size());
+                    colors_cleared.insert(color - '0');
+                    total_blocks_cleared += group.size();
+                }
+            }
+        }
+    }
+
+    // Remove marked blocks
+    for (int r = 0; r < rows; ++r) {
+        for (int c = 0; c < cols; ++c) {
+            if (to_remove[r][c]) {
+                board[r][c] = '.';
+            }
+        }
+    }
+
+    // Calculate Group Bonus (GB)
+    for (int sz : group_sizes) {
+        if (sz == 4) GB += 0;
+        else if (sz == 5) GB += 1;
+        else if (sz == 6) GB += 2;
+        else if (sz == 7) GB += 3;
+        else if (sz == 8) GB += 4;
+        else if (sz == 9) GB += 5;
+        else if (sz == 10) GB += 6;
+        else if (sz >= 11) GB += 8;
+    }
+
+    // Color Bonus (CB)
+    if (colors_cleared.size() == 1) CB = 0;
+    else if (colors_cleared.size() == 2) CB = 2;
+    else if (colors_cleared.size() == 3) CB = 4;
+    else if (colors_cleared.size() == 4) CB = 8;
+    else if (colors_cleared.size() == 5) CB = 16;
+
+    int bonus = CP + CB + GB;
+    if (bonus < 1) bonus = 1;
+    if (bonus > 999) bonus = 999;
+    int score = (10 * total_blocks_cleared) * bonus;
+
+    return {board, score};
+}
+
+pair<vector<string>, int> fall(vector<string> board) {
+}
+
 pair<vector<string>, int> process(vector<string> board) {
+  int total_score = 0;
+  int prev_score = -1;
+  vector<string> ret_board = board;
+  while (total_score != prev_score) {
+    prev_score = total_score;
+    auto [v, i] = eliminate(ret_board);
+    total_score += i;
+    auto [v2,i2] = fall(v);
+    total_score += i2;
+    ret_board = v2;
+  }
+  return {ret_board, total_score};
 }
 
 int main()
