@@ -299,15 +299,14 @@ int main()
 
     // game loop
     while (1) {
-        int cur_color = 0;
+        // Read the next 8 pieces (4 for you, 4 for opponent)
+        int my_colors[8][2];
         for (int i = 0; i < 8; i++) {
             int color_a; // color of the first block
             int color_b; // color of the attached block
             cin >> color_a >> color_b; cin.ignore();
-            if (i == 0) {
-              cur_color = color_a;
-            }
-
+            my_colors[i][0] = color_a;
+            my_colors[i][1] = color_b;
         }
         int score_1;
         cin >> score_1; cin.ignore();
@@ -316,17 +315,6 @@ int main()
             cin >> row; cin.ignore();
             board[i] = row;
         }
-        // for (string s: board) {
-        //     cerr << s << endl;
-        // }
-        // for (int c = 0; c < 6; ++c) {
-        //     cerr << "testing col " << c << endl;
-        //     vector<string> preview = test_at(c, ca, cb, board);
-        //     for (const string& s : preview) {
-        //         cerr << s << endl;
-        //     }
-        // }
-
         int score_2;
         cin >> score_2; cin.ignore();
         for (int i = 0; i < 12; i++) {
@@ -334,48 +322,13 @@ int main()
             cin >> row; cin.ignore();
         }
 
-        vector<vector<int>> board_colors;
-        for (int i = 0; i < 6; ++i) {
-            vector<int> v = get_colors(board, i);
-            board_colors.push_back(v);
-        }
-
-        // for (int i = 0; i < 6; ++i) {
-        //   cerr << "printing column colors:" << i << endl;
-        //   vector<int> v = board_colors[i];
-        //   for (int color : v) {
-        //       cerr << "color: " << color << endl;
-        //   }
-        // }
-
-
-        // rainbow colors 1 and 2 on first 3 rows
-        switch (cur_color) {
-          case 1: {
-            if (!board_colors[1].empty() && board_colors[1][0] == 2) {
-              cout << 1 << endl;
-              break;
-            }
-            cout << 0 << endl;
-            break;
-          } case 2: {
-            if (board_colors[1].size() > 1) {
-              cout << 2 << endl;
-              break;
-            }
-
-            cout << 1 << endl;
-            break;
-          } case 3: {
-             cout << 3 << endl;
-              break;
-          } case 4: {
-             cout << 4 << endl;
-              break;
-          } default: {
-             cout << 5 << endl;
-              break;
-          }
-        }
+        // 2-ply lookahead: use the first two pieces for you
+        int colorA1 = my_colors[0][0];
+        int colorB1 = my_colors[0][1];
+        int colorA2 = my_colors[1][0];
+        int colorB2 = my_colors[1][1];
+        Move best = find_best_move_2ply(board, colorA1, colorB1, colorA2, colorB2);
+        // Output the best move (column and rotation)
+        cout << best.column << " " << best.rotation << endl;
     }
 }
