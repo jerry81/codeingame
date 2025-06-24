@@ -8,6 +8,12 @@
 
 using namespace std;
 
+struct Move {
+    int column;
+    int rotation;
+    int score;
+};
+
 /**
  * Auto-generated code below aims at helping you parse
  * the standard input according to the problem statement.
@@ -52,6 +58,51 @@ using namespace std;
 //     return ret;
 // }
 
+Move find_best_move_2ply(
+    const vector<string>& board,
+    int colorA1, int colorB1, // first piece
+    int colorA2, int colorB2  // second piece
+) {
+    int best_score = -1e9;
+    Move best_move = {0, 0, 0};
+
+    for (int col1 = 0; col1 < 6; ++col1) {
+        for (int rot1 = 0; rot1 < 4; ++rot1) {
+            // Simulate first move
+            auto [board1, score1] = simulate_move(board, '0' + col1, '0' + rot1, '0' + colorA1, '0' + colorB1);
+
+            // If the move is invalid (e.g., piece doesn't fit), skip
+            if (board1[0] == "x") continue;
+
+            // Now, for each possible second move
+            int best_second_score = -1e9;
+            for (int col2 = 0; col2 < 6; ++col2) {
+                for (int rot2 = 0; rot2 < 4; ++rot2) {
+                    auto [board2, score2] = simulate_move(board1, '0' + col2, '0' + rot2, '0' + colorA2, '0' + colorB2);
+
+                    // If the move is invalid, skip
+                    if (board2[0] == "x") continue;
+
+                    // You can use score2, or (score1 + score2), or any other evaluation
+                    int total_score = score1 + score2;
+                    if (total_score > best_second_score) {
+                        best_second_score = total_score;
+                    }
+                }
+            }
+
+            // If no valid second move, just use score1
+            if (best_second_score == -1e9) best_second_score = score1;
+
+            if (best_second_score > best_score) {
+                best_score = best_second_score;
+                best_move = {col1, rot1, best_score};
+            }
+        }
+    }
+    return best_move;
+}
+
 vector<int> get_colors(vector<string> &board, int col) {
   vector<int> res;
   char prev_color = '.';  // Initialize with empty space
@@ -64,8 +115,8 @@ vector<int> get_colors(vector<string> &board, int col) {
   return res;
 }
 
-vector<string> floodfill(vector<string> board, char col, char rot, char colorA, char colorB) {
-  pair<vector<string>,int> result = process(place_peice(board, col, rot, colorA, colorB));
+pair<vector<string>,int> simulate_move(vector<string> board, char col, char rot, char colorA, char colorB) {
+  return process(place_peice(board, col, rot, colorA, colorB));
 }
 
 vector<string> place_peice(vector<string> board, char col, char rot, char colorA, char colorB) {
