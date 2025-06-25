@@ -14,51 +14,6 @@ struct Move {
     int score;
 };
 
-/**
- * Auto-generated code below aims at helping you parse
- * the standard input according to the problem statement.
- **/
-
-// Function to generate a random number between min and max (inclusive)
-// int getRandomNumber(int min, int max) {
-//     // Create a random device
-//     random_device rd;
-//     // Create a Mersenne Twister random number generator
-//     mt19937 gen(rd());
-//     // Create a uniform distribution
-//     uniform_int_distribution<> distrib(min, max);
-//     // Generate and return the random number
-//     return distrib(gen);
-// }
-
-// vector<string> test_at(int column, int colora, int colorb, vector<string>& curr) {
-//     vector<string> ret = curr;  // Copy the current board
-//     bool placed = false;
-
-//     // Find the first non-empty position from bottom
-//     for (int i = 11; i >= 0; --i) {
-//         if (curr[i][column] == '.') {
-//             // If we can place both blocks
-//             if (i >= 1) {
-//                 ret[i] = curr[i];
-//                 ret[i][column] = colora + '0';  // Convert int to char
-//                 ret[i-1] = curr[i-1];
-//                 ret[i-1][column] = colorb + '0';  // Convert int to char
-//                 placed = true;
-//             }
-//             break;
-//         }
-//     }
-
-//     // If we couldn't place the blocks, mark as invalid
-//     if (!placed) {
-//         ret[0] = "x";
-//     }
-
-//     return ret;
-// }
-
-
 vector<int> get_colors(vector<string> &board, int col) {
   vector<int> res;
   char prev_color = '.';  // Initialize with empty space
@@ -93,28 +48,28 @@ vector<string> place_peice(vector<string> board, char col, char rot, char colorA
 
   // Place blocks based on rotation
   switch (rot) {
-    case '0': {  // Vertical placement, colorA on top
-      if (empty_row < 1) { result[0][0] = 'x'; return result; }
-      result[empty_row][column] = colorB;
-      result[empty_row-1][column] = colorA;
-      break;
-    }
-    case '1': {  // Horizontal placement, colorA on left
+    case '0': {  // Horizontal placement, colorA at (x), colorB at (x+1)
       if (column >= 5 || board[empty_row][column+1] != '.') { result[0][0] = 'x'; return result; }
       result[empty_row][column] = colorA;
       result[empty_row][column+1] = colorB;
       break;
     }
-    case '2': {  // Vertical placement, colorB on top
+    case '1': {  // Vertical placement, colorB on top of colorA at (x)
       if (empty_row < 1) { result[0][0] = 'x'; return result; }
       result[empty_row][column] = colorA;
       result[empty_row-1][column] = colorB;
       break;
     }
-    case '3': {  // Horizontal placement, colorA on right
+    case '2': {  // Horizontal placement, colorA at (x), colorB at (x-1)
       if (column <= 0 || board[empty_row][column-1] != '.') { result[0][0] = 'x'; return result; }
+      result[empty_row][column] = colorA;
+      result[empty_row][column-1] = colorB;
+      break;
+    }
+    case '3': {  // Vertical placement, colorA on top of colorB at (x)
+      if (empty_row < 1) { result[0][0] = 'x'; return result; }
       result[empty_row][column] = colorB;
-      result[empty_row][column-1] = colorA;
+      result[empty_row-1][column] = colorA;
       break;
     }
   }
@@ -381,8 +336,8 @@ Move find_best_move_2ply(
     double best_eval = -1e9; // Use double for evaluation
     Move best_move = {0, 0, 0};
 
-    for (int col1 = 0; col1 < 6; ++col1) {
-        for (int rot1 = 0; rot1 < 4; ++rot1) {
+    for (int col1 = 0; col1 < 6; ++col1) { // try each column
+        for (int rot1 = 0; rot1 < 4; ++rot1) { // for each rotation
             // Skip impossible placements for horizontal pieces
             if ((rot1 == 1 && col1 >= 5) || (rot1 == 3 && col1 <= 0)) continue;
             // Simulate first move
@@ -452,8 +407,10 @@ int main()
         int score_1;
         cin >> score_1; cin.ignore();
         for (int i = 0; i < 12; i++) {
+
             string row; // One line of the map ('.' = empty, '0' = skull block, '1' to '5' = colored block)
             cin >> row; cin.ignore();
+            cout << "row " << i << " is " << row << endl;
             board[i] = row;
         }
         int score_2;

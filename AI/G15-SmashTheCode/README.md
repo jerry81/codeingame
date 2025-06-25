@@ -151,3 +151,8 @@ string[] place_peice(board, col, rot, colorA, colorB)
 ```
 (string[], int) process(board)
 ```
+
+## current state 6-25-2025
+- well, did some vibe coding, had cursor write most of the functions, and the bot is working poorly
+- it's hardly performing any elims and not placing like colors together
+- let's review the code
