@@ -339,7 +339,12 @@ Move find_best_move_2ply(
     for (int col1 = 0; col1 < 6; ++col1) { // try each column
         for (int rot1 = 0; rot1 < 4; ++rot1) { // for each rotation
             // Skip impossible placements for horizontal pieces
-            if ((rot1 == 1 && col1 >= 5) || (rot1 == 3 && col1 <= 0)) continue;
+            if ((rot1 == 0 && col1 == 5) || // rotation 0: can't place at col 5
+                (rot1 == 2 && col1 == 0) || // rotation 2: can't place at col 0
+                (rot1 == 1 && col1 >= 6) || // rotation 1: all columns valid, but keep for clarity
+                (rot1 == 3 && col1 >= 6))   // rotation 3: all columns valid, but keep for clarity
+                continue;
+            if ((rot1 == 1 && col1 >= 5) || (rot1 == 3 && col1 <= 0)) continue; // existing checks
             // Simulate first move
             auto [board1, score1] = simulate_move(board, '0' + col1, '0' + rot1, '0' + colorA1, '0' + colorB1);
 
