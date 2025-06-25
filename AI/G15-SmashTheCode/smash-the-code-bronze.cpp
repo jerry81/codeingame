@@ -343,7 +343,10 @@ Move find_best_move_2ply(
             // Simulate first move
             auto [board1, score1] = simulate_move(board, '0' + col1, '0' + rot1, '0' + colorA1, '0' + colorB1);
 
-            if (board1[0][0] == 'x') continue; // Skip invalid moves
+            if (board1[0][0] == 'x') {
+                cerr << "Invalid move: col1=" << col1 << " rot1=" << rot1 << endl;
+                continue;
+            }
 
             // Now, for each possible second move
             double best_second_eval = -1e9;
@@ -407,22 +410,26 @@ int main()
         int score_1;
         cin >> score_1; cin.ignore();
         for (int i = 0; i < 12; i++) {
-
-            string row; // One line of the map ('.' = empty, '0' = skull block, '1' to '5' = colored block)
+            string row;
             cin >> row; cin.ignore();
-            cout << "row " << i << " is " << row << endl;
             board[i] = row;
         }
         int score_2;
         cin >> score_2; cin.ignore();
+
+        // Read opponent's board (12 rows)
         for (int i = 0; i < 12; i++) {
             string row;
             cin >> row; cin.ignore();
         }
+        // Debug: print the board after reading
+        for (int i = 0; i < 12; i++) {
+            cerr << "board[" << i << "] = " << board[i] << endl;
+        }
 
         // DEBUG: Print the board after simulating a single move (col=2, rot=0, with first piece)
-        auto [test_board, test_score] = simulate_move(board, '2', '0', '0' + my_colors[0][0], '0' + my_colors[0][1]);
-        print_board_debug(test_board, "After simulating move col=2 rot=0");
+       // auto [test_board, test_score] = simulate_move(board, '2', '0', '0' + my_colors[0][0], '0' + my_colors[0][1]);
+       // print_board_debug(test_board, "After simulating move col=2 rot=0");
 
         // 2-ply lookahead: use the first two pieces for you
         int colorA1 = my_colors[0][0];
@@ -430,7 +437,9 @@ int main()
         int colorA2 = my_colors[1][0];
         int colorB2 = my_colors[1][1];
         Move best = find_best_move_2ply(board, colorA1, colorB1, colorA2, colorB2);
+        // Debug: print the best move found
+        cerr << "Best move: col=" << best.column << " rot=" << best.rotation << " score=" << best.score << endl;
         // Output the best move (column and rotation)
-        cout << (best.column + 1) << " " << best.rotation << endl;
+        cout << best.column << " " << best.rotation << endl;
     }
 }
